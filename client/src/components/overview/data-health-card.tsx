@@ -232,20 +232,7 @@ export default function DataHealthCard({ platforms = [], alerts = [] }: DataHeal
           </div>
         </div>
 
-        {alerts.length > 0 && (
-          <div className="mt-6 pt-4 border-t border-border">
-            <div className="text-sm font-medium text-foreground mb-2">Active Alerts</div>
-            <div className="space-y-2">
-              {alerts.map((alert) => (
-                <Alert key={alert.id} variant={alert.type === 'error' ? 'destructive' : 'default'}>
-                  <AlertTriangle className="h-4 w-4" />
-                  <AlertTitle>{alert.title}</AlertTitle>
-                  <AlertDescription>{alert.description}</AlertDescription>
-                </Alert>
-              ))}
-            </div>
-          </div>
-        )}
+        
       </CardContent>
     </Card>
   );
