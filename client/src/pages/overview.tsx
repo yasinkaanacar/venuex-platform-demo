@@ -35,10 +35,10 @@ export default function Overview() {
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-full bg-white dark:bg-gray-900">
       <Header lastSync={overviewData?.lastSync} />
       
-      <main className="max-w-7xl mx-auto px-6 py-6">
+      <div className="max-w-7xl mx-auto px-6 py-6">
         <FilterBar filters={filters} onFiltersChange={setFilters} />
         
         {isLoading ? (
@@ -68,7 +68,7 @@ export default function Overview() {
             </div>
           </>
         )}
-      </main>
+      </div>
     </div>
   );
 }
