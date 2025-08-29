@@ -4,65 +4,54 @@ import { KPI } from '@/lib/types';
 
 interface KpiCardsProps {
   kpis?: {
-    offlineROAS: KPI;
-    storeVisits: KPI;
-    conversionRate: KPI;
-    avgOrderValue: KPI;
-    engagements: KPI;
+    o2oAttribution: KPI;
+    locationListings: KPI;
+    localInventory: KPI;
+    reviewManagement: KPI;
   };
 }
 
 export default function KpiCards({ kpis }: KpiCardsProps) {
   const cards = [
     {
-      id: 'offline-roas',
-      title: 'Offline ROAS',
+      id: 'o2o-attribution',
+      title: 'O2O Attribution',
       icon: DollarSign,
       iconColor: 'text-primary',
       iconBg: 'bg-primary/10',
-      value: kpis?.offlineROAS.value || '0x',
-      trend: kpis?.offlineROAS.trend || '0%',
-      previousValue: kpis?.offlineROAS.previousValue || '0x'
+      value: kpis?.o2oAttribution?.value || '0x',
+      trend: kpis?.o2oAttribution?.trend || '0%',
+      previousValue: kpis?.o2oAttribution?.previousValue || '0x'
     },
     {
-      id: 'store-visits',
-      title: 'Store Visits',
+      id: 'location-listings',
+      title: 'Location Listings',
       icon: MapPin,
       iconColor: 'text-blue-600',
       iconBg: 'bg-blue-100',
-      value: kpis?.storeVisits.value || '0',
-      trend: kpis?.storeVisits.trend || '0%',
-      previousValue: kpis?.storeVisits.previousValue || '0'
+      value: kpis?.locationListings?.value || '0%',
+      trend: kpis?.locationListings?.trend || '0%',
+      previousValue: kpis?.locationListings?.previousValue || '0%'
     },
     {
-      id: 'conversion-rate',
-      title: 'Visit → Purchase %',
+      id: 'local-inventory',
+      title: 'Local Inventory',
       icon: ShoppingCart,
       iconColor: 'text-green-600',
       iconBg: 'bg-green-100',
-      value: kpis?.conversionRate.value || '0%',
-      trend: kpis?.conversionRate.trend || '0%',
-      previousValue: kpis?.conversionRate.previousValue || '0%'
+      value: kpis?.localInventory?.value || '0%',
+      trend: kpis?.localInventory?.trend || '0%',
+      previousValue: kpis?.localInventory?.previousValue || '0%'
     },
     {
-      id: 'avg-order-value',
-      title: 'Avg Order Value',
+      id: 'review-management',
+      title: 'Review Management',
       icon: Receipt,
       iconColor: 'text-purple-600',
       iconBg: 'bg-purple-100',
-      value: kpis?.avgOrderValue.value || '$0',
-      trend: kpis?.avgOrderValue.trend || '0%',
-      previousValue: kpis?.avgOrderValue.previousValue || '$0'
-    },
-    {
-      id: 'engagements',
-      title: 'Engagements',
-      icon: Eye,
-      iconColor: 'text-orange-600',
-      iconBg: 'bg-orange-100',
-      value: kpis?.engagements.value || '0',
-      trend: kpis?.engagements.trend || '0%',
-      previousValue: kpis?.engagements.previousValue || '0'
+      value: kpis?.reviewManagement?.value || '0.0',
+      trend: kpis?.reviewManagement?.trend || '0%',
+      previousValue: kpis?.reviewManagement?.previousValue || '0.0'
     }
   ];
 
@@ -79,7 +68,7 @@ export default function KpiCards({ kpis }: KpiCardsProps) {
   };
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 mb-6">
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
       {cards.map((card) => {
         const TrendIcon = getTrendIcon(card.trend);
         const Icon = card.icon;

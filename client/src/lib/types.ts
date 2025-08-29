@@ -6,11 +6,10 @@ export interface KPI {
 
 export interface OverviewData {
   kpis: {
-    offlineROAS: KPI;
-    storeVisits: KPI;
-    conversionRate: KPI;
-    avgOrderValue: KPI;
-    engagements: KPI;
+    o2oAttribution: KPI;
+    locationListings: KPI;
+    localInventory: KPI;
+    reviewManagement: KPI;
   };
   platforms: any[];
   locations: any[];

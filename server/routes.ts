@@ -20,43 +20,45 @@ export async function registerRoutes(app: Express): Promise<Server> {
       
       const metrics = await storage.getMetrics({ startDate, endDate });
 
-      // Calculate aggregate KPIs
+      // Calculate aggregate KPIs for different modules
       const totalStoreVisits = metrics.reduce((sum, m) => sum + (m.storeVisits || 0), 0);
       const totalPurchases = metrics.reduce((sum, m) => sum + (m.purchases || 0), 0);
       const totalRevenue = metrics.reduce((sum, m) => sum + (m.revenue || 0), 0);
       const totalAdSpend = metrics.reduce((sum, m) => sum + (m.adSpend || 0), 0);
-      const totalEngagements = metrics.reduce((sum, m) => sum + (m.engagements || 0), 0);
       
-      const offlineROAS = totalAdSpend > 0 ? totalRevenue / totalAdSpend : 0;
-      const conversionRate = totalStoreVisits > 0 ? (totalPurchases / totalStoreVisits) * 100 : 0;
-      const avgOrderValue = totalPurchases > 0 ? totalRevenue / totalPurchases : 0;
+      // O2O Attribution (Online-to-Offline ROAS)
+      const o2oROAS = totalAdSpend > 0 ? totalRevenue / totalAdSpend : 0;
+      
+      // Location Listings (accuracy percentage)
+      const locationAccuracy = 94.2; // Mock percentage for location data accuracy
+      
+      // Local Inventory (sync percentage)
+      const inventorySync = 87.5; // Mock percentage for inventory synchronization
+      
+      // Review Management (average rating)
+      const avgRating = 4.3; // Mock average review rating
 
       res.json({
         kpis: {
-          offlineROAS: {
-            value: offlineROAS.toFixed(1) + 'x',
+          o2oAttribution: {
+            value: o2oROAS.toFixed(1) + 'x',
             trend: '+12.5%',
             previousValue: '3.7x'
           },
-          storeVisits: {
-            value: totalStoreVisits.toLocaleString(),
-            trend: '+8.2%',
-            previousValue: '22,963'
+          locationListings: {
+            value: locationAccuracy.toFixed(1) + '%',
+            trend: '+2.1%',
+            previousValue: '92.1%'
           },
-          conversionRate: {
-            value: conversionRate.toFixed(1) + '%',
-            trend: '+3.1%',
-            previousValue: '15.9%'
+          localInventory: {
+            value: inventorySync.toFixed(1) + '%',
+            trend: '+5.3%',
+            previousValue: '82.2%'
           },
-          avgOrderValue: {
-            value: '$' + avgOrderValue.toFixed(2),
-            trend: '-2.3%',
-            previousValue: '$130.47'
-          },
-          engagements: {
-            value: totalEngagements.toLocaleString(),
-            trend: '+15.7%',
-            previousValue: '77,234'
+          reviewManagement: {
+            value: avgRating.toFixed(1),
+            trend: '+0.2',
+            previousValue: '4.1'
           }
         },
         platforms,
