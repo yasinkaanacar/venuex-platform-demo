@@ -1,6 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { MapPin, TrendingUp, TrendingDown, ArrowRight } from 'lucide-react';
+import { AlertTriangle, CheckCircle, AlertCircle, X } from 'lucide-react';
 import { Location } from '@shared/schema';
 
 interface LocationPerformanceProps {
@@ -8,39 +8,40 @@ interface LocationPerformanceProps {
 }
 
 export default function LocationPerformance({ locations = [] }: LocationPerformanceProps) {
-  // Mock performance data for demonstration
-  const locationPerformance = [
+  // Mock alerts and notifications data
+  const alerts = [
     {
       id: '1',
-      name: 'Manhattan - 5th Ave',
-      visits: '3,247 visits this week',
-      conversion: '18.2%',
-      trend: '+2.1%',
-      isPositive: true
+      type: 'warning',
+      icon: AlertTriangle,
+      title: 'Data sync delay detected',
+      description: 'Meta Ads data is 15 minutes behind schedule',
+      timestamp: '11 minutes ago',
+      bgColor: 'bg-yellow-50 dark:bg-yellow-950/20',
+      borderColor: 'border-yellow-200 dark:border-yellow-800',
+      iconColor: 'text-yellow-600'
     },
     {
       id: '2',
-      name: 'Beverly Hills - Rodeo Dr',
-      visits: '2,891 visits this week',
-      conversion: '16.8%',
-      trend: '+1.4%',
-      isPositive: true
+      type: 'success',
+      icon: CheckCircle,
+      title: 'Data enrichment completed',
+      description: '47 location profiles updated with new attributes',
+      timestamp: '11 minutes ago',
+      bgColor: 'bg-green-50 dark:bg-green-950/20',
+      borderColor: 'border-green-200 dark:border-green-800',
+      iconColor: 'text-green-600'
     },
     {
       id: '3',
-      name: 'Chicago - Magnificent Mile',
-      visits: '2,654 visits this week',
-      conversion: '15.3%',
-      trend: '0.0%',
-      isPositive: null
-    },
-    {
-      id: '4',
-      name: 'Miami - Brickell Ave',
-      visits: '2,105 visits this week',
-      conversion: '14.7%',
-      trend: '-0.8%',
-      isPositive: false
+      type: 'error',
+      icon: AlertCircle,
+      title: 'API rate limit warning',
+      description: 'Google Ads API approaching rate limit (85% used)',
+      timestamp: '11 minutes ago',
+      bgColor: 'bg-red-50 dark:bg-red-950/20',
+      borderColor: 'border-red-200 dark:border-red-800',
+      iconColor: 'text-red-600'
     }
   ];
 
@@ -50,56 +51,54 @@ export default function LocationPerformance({ locations = [] }: LocationPerforma
         <div className="flex items-center justify-between">
           <div>
             <CardTitle className="text-lg font-semibold text-foreground">
-              Top Performing Locations
+              Alerts & Notifications
             </CardTitle>
-            <p className="text-sm text-muted-foreground">
-              Store visits and conversion rates by location
-            </p>
           </div>
           
-          <Button variant="ghost" size="sm" className="text-primary hover:text-primary/80" data-testid="button-view-all-locations">
-            View All <ArrowRight className="w-4 h-4 ml-1" />
+          <Button variant="ghost" size="sm" className="text-primary hover:text-primary/80" data-testid="button-view-all-alerts">
+            View all
           </Button>
         </div>
       </CardHeader>
       
       <CardContent>
-        <div className="space-y-4">
-          {locationPerformance.map((location) => (
-            <div 
-              key={location.id}
-              className="flex items-center justify-between p-3 hover:bg-muted/30 rounded-lg transition-colors"
-              data-testid={`location-performance-${location.id}`}
-            >
-              <div className="flex items-center space-x-3">
-                <div className="w-8 h-8 bg-primary/10 rounded flex items-center justify-center">
-                  <MapPin className="w-4 h-4 text-primary" />
-                </div>
-                <div>
-                  <div className="font-medium text-foreground" data-testid={`text-location-name-${location.id}`}>
-                    {location.name}
+        <div className="space-y-3">
+          {alerts.map((alert) => {
+            const IconComponent = alert.icon;
+            return (
+              <div 
+                key={alert.id}
+                className={`flex items-start justify-between p-4 rounded-lg border ${alert.bgColor} ${alert.borderColor}`}
+                data-testid={`alert-${alert.id}`}
+              >
+                <div className="flex items-start space-x-3">
+                  <div className={`${alert.iconColor} mt-0.5`}>
+                    <IconComponent className="w-4 h-4" />
                   </div>
-                  <div className="text-xs text-muted-foreground" data-testid={`text-location-visits-${location.id}`}>
-                    {location.visits}
+                  <div className="flex-1 min-w-0">
+                    <div className="font-medium text-gray-900 dark:text-gray-100 mb-1">
+                      {alert.title}
+                    </div>
+                    <div className="text-sm text-gray-600 dark:text-gray-300 mb-2">
+                      {alert.description}
+                    </div>
+                    <div className="text-xs text-gray-500 dark:text-gray-400">
+                      {alert.timestamp}
+                    </div>
                   </div>
                 </div>
+                
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="h-6 w-6 p-0 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
+                  data-testid={`close-alert-${alert.id}`}
+                >
+                  <X className="w-4 h-4" />
+                </Button>
               </div>
-              
-              <div className="text-right">
-                <div className="font-medium text-foreground" data-testid={`text-location-conversion-${location.id}`}>
-                  {location.conversion}
-                </div>
-                <div className={`text-xs flex items-center ${
-                  location.isPositive === true ? 'text-green-600' : 
-                  location.isPositive === false ? 'text-red-600' : 'text-muted-foreground'
-                }`}>
-                  {location.isPositive === true && <TrendingUp className="w-3 h-3 mr-1" />}
-                  {location.isPositive === false && <TrendingDown className="w-3 h-3 mr-1" />}
-                  {location.trend}
-                </div>
-              </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </CardContent>
     </Card>
