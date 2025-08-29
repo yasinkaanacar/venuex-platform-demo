@@ -155,6 +155,77 @@ export class MemStorage implements IStorage {
       description: "TikTok feed update delayed by 15 minutes",
       platformId: tiktokPlatform.id
     });
+
+    // Create sample metrics for the last 7 days
+    const endDate = new Date();
+    for (let i = 0; i < 7; i++) {
+      const date = new Date(endDate);
+      date.setDate(date.getDate() - i);
+      
+      // Google Ads metrics
+      await this.createMetric({
+        platformId: googlePlatform.id,
+        locationId: manhattanLocation.id,
+        campaignId: null,
+        date,
+        impressions: Math.floor(Math.random() * 5000) + 8000,
+        clicks: Math.floor(Math.random() * 500) + 400,
+        storeVisits: Math.floor(Math.random() * 200) + 150,
+        purchases: Math.floor(Math.random() * 30) + 25,
+        revenue: Math.floor(Math.random() * 3000) + 2500,
+        adSpend: Math.floor(Math.random() * 800) + 600,
+        avgOrderValue: Math.floor(Math.random() * 50) + 100,
+        engagements: Math.floor(Math.random() * 300) + 250
+      });
+
+      // Meta Ads metrics
+      await this.createMetric({
+        platformId: metaPlatform.id,
+        locationId: manhattanLocation.id,
+        campaignId: null,
+        date,
+        impressions: Math.floor(Math.random() * 4000) + 6000,
+        clicks: Math.floor(Math.random() * 400) + 300,
+        storeVisits: Math.floor(Math.random() * 180) + 120,
+        purchases: Math.floor(Math.random() * 25) + 20,
+        revenue: Math.floor(Math.random() * 2500) + 2000,
+        adSpend: Math.floor(Math.random() * 700) + 500,
+        avgOrderValue: Math.floor(Math.random() * 40) + 95,
+        engagements: Math.floor(Math.random() * 250) + 200
+      });
+
+      // TikTok Ads metrics
+      await this.createMetric({
+        platformId: tiktokPlatform.id,
+        locationId: beverlyLocation.id,
+        campaignId: null,
+        date,
+        impressions: Math.floor(Math.random() * 6000) + 4000,
+        clicks: Math.floor(Math.random() * 300) + 200,
+        storeVisits: Math.floor(Math.random() * 100) + 80,
+        purchases: Math.floor(Math.random() * 15) + 12,
+        revenue: Math.floor(Math.random() * 1500) + 1200,
+        adSpend: Math.floor(Math.random() * 400) + 300,
+        avgOrderValue: Math.floor(Math.random() * 30) + 90,
+        engagements: Math.floor(Math.random() * 400) + 300
+      });
+
+      // Apple Maps metrics
+      await this.createMetric({
+        platformId: applePlatform.id,
+        locationId: beverlyLocation.id,
+        campaignId: null,
+        date,
+        impressions: Math.floor(Math.random() * 2000) + 1500,
+        clicks: Math.floor(Math.random() * 150) + 100,
+        storeVisits: Math.floor(Math.random() * 80) + 60,
+        purchases: Math.floor(Math.random() * 10) + 8,
+        revenue: Math.floor(Math.random() * 800) + 600,
+        adSpend: Math.floor(Math.random() * 200) + 150,
+        avgOrderValue: Math.floor(Math.random() * 25) + 75,
+        engagements: Math.floor(Math.random() * 200) + 150
+      });
+    }
   }
 
   async getUser(id: string): Promise<User | undefined> {
