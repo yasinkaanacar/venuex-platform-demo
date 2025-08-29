@@ -1,5 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import funnelImage from '@assets/Screenshot 2025-08-29 at 18.31.46_1756481891401.png';
+import EnrichmentSuggestions from './enrichment-suggestions';
 
 export default function PerformanceChart() {
   return (
@@ -165,6 +166,11 @@ export default function PerformanceChart() {
               </div>
             </div>
           </div>
+        </div>
+        
+        {/* Data Enrichment Suggestions */}
+        <div className="mt-8">
+          <EnrichmentSuggestions />
         </div>
       </CardContent>
     </Card>

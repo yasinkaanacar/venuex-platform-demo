@@ -6,7 +6,6 @@ import KpiCards from '@/components/overview/kpi-cards';
 import PerformanceChart from '@/components/overview/performance-chart';
 import DataHealthCard from '@/components/overview/data-health-card';
 import LocationPerformance from '@/components/overview/location-performance';
-import EnrichmentSuggestions from '@/components/overview/enrichment-suggestions';
 import { FilterState, OverviewData } from '@/lib/types';
 import { Skeleton } from '@/components/ui/skeleton';
 
@@ -67,8 +66,6 @@ export default function Overview() {
               />
               <LocationPerformance locations={overviewData?.locations} />
             </div>
-            
-            <EnrichmentSuggestions />
           </>
         )}
       </main>
