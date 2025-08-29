@@ -25,30 +25,31 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const totalPurchases = metrics.reduce((sum, m) => sum + (m.purchases || 0), 0);
       const totalRevenue = metrics.reduce((sum, m) => sum + (m.revenue || 0), 0);
       const totalAdSpend = metrics.reduce((sum, m) => sum + (m.adSpend || 0), 0);
+      const totalEngagements = metrics.reduce((sum, m) => sum + (m.engagements || 0), 0);
       
-      // O2O Attribution (Online-to-Offline ROAS)
-      const o2oROAS = totalAdSpend > 0 ? totalRevenue / totalAdSpend : 0;
+      // Offline ROAS (Online-to-Offline ROAS)
+      const offlineROAS = totalAdSpend > 0 ? totalRevenue / totalAdSpend : 0;
       
-      // Location Listings (accuracy percentage)
-      const locationAccuracy = 94.2; // Mock percentage for location data accuracy
+      // Location Engagements (total engagement count)
+      const locationEngagements = totalEngagements;
       
       // Local Inventory (sync percentage)
       const inventorySync = 87.5; // Mock percentage for inventory synchronization
       
-      // Review Management (average rating)
+      // Average Rating
       const avgRating = 4.3; // Mock average review rating
 
       res.json({
         kpis: {
           o2oAttribution: {
-            value: o2oROAS.toFixed(1) + 'x',
+            value: offlineROAS.toFixed(1) + 'x',
             trend: '+12.5%',
             previousValue: '3.7x'
           },
           locationListings: {
-            value: locationAccuracy.toFixed(1) + '%',
-            trend: '+2.1%',
-            previousValue: '92.1%'
+            value: locationEngagements.toLocaleString(),
+            trend: '+15.7%',
+            previousValue: '18,234'
           },
           localInventory: {
             value: inventorySync.toFixed(1) + '%',

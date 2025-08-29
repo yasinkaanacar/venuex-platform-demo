@@ -14,8 +14,8 @@ interface KpiCardsProps {
 export default function KpiCards({ kpis }: KpiCardsProps) {
   const cards = [
     {
-      id: 'o2o-attribution',
-      title: 'O2O Attribution',
+      id: 'offline-roas',
+      title: 'Offline ROAS',
       icon: DollarSign,
       iconColor: 'text-primary',
       iconBg: 'bg-primary/10',
@@ -24,14 +24,14 @@ export default function KpiCards({ kpis }: KpiCardsProps) {
       previousValue: kpis?.o2oAttribution?.previousValue || '0x'
     },
     {
-      id: 'location-listings',
-      title: 'Location Listings',
+      id: 'location-engagements',
+      title: 'Location Engagements',
       icon: MapPin,
       iconColor: 'text-blue-600',
       iconBg: 'bg-blue-100',
-      value: kpis?.locationListings?.value || '0%',
+      value: kpis?.locationListings?.value || '0',
       trend: kpis?.locationListings?.trend || '0%',
-      previousValue: kpis?.locationListings?.previousValue || '0%'
+      previousValue: kpis?.locationListings?.previousValue || '0'
     },
     {
       id: 'local-inventory',
@@ -44,8 +44,8 @@ export default function KpiCards({ kpis }: KpiCardsProps) {
       previousValue: kpis?.localInventory?.previousValue || '0%'
     },
     {
-      id: 'review-management',
-      title: 'Review Management',
+      id: 'average-rating',
+      title: 'Average Rating',
       icon: Receipt,
       iconColor: 'text-purple-600',
       iconBg: 'bg-purple-100',
