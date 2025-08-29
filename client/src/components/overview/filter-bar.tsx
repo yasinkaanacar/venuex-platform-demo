@@ -35,10 +35,10 @@ export default function FilterBar({ filters, onFiltersChange }: FilterBarProps) 
   };
 
   return (
-    <div className="bg-card rounded-lg border border-border p-6 mb-6">
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+    <div className="bg-card rounded-lg border border-border p-4 mb-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-3">
         <div>
-          <label className="block text-sm font-medium text-foreground mb-2">Date Range</label>
+          <label className="block text-xs font-medium text-foreground mb-1">Date Range</label>
           <Select value={filters.dateRange} onValueChange={(value) => updateFilter('dateRange', value)}>
             <SelectTrigger data-testid="select-date-range">
               <SelectValue />
@@ -53,7 +53,7 @@ export default function FilterBar({ filters, onFiltersChange }: FilterBarProps) 
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-foreground mb-2">Platform</label>
+          <label className="block text-xs font-medium text-foreground mb-1">Platform</label>
           <Select value={filters.platform} onValueChange={(value) => updateFilter('platform', value)}>
             <SelectTrigger data-testid="select-platform">
               <SelectValue />
@@ -69,7 +69,7 @@ export default function FilterBar({ filters, onFiltersChange }: FilterBarProps) 
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-foreground mb-2">Location</label>
+          <label className="block text-xs font-medium text-foreground mb-1">Location</label>
           <Select value={filters.location} onValueChange={(value) => updateFilter('location', value)}>
             <SelectTrigger data-testid="select-location">
               <SelectValue />
@@ -85,7 +85,7 @@ export default function FilterBar({ filters, onFiltersChange }: FilterBarProps) 
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-foreground mb-2">Campaign</label>
+          <label className="block text-xs font-medium text-foreground mb-1">Campaign</label>
           <Select value={filters.campaign} onValueChange={(value) => updateFilter('campaign', value)}>
             <SelectTrigger data-testid="select-campaign">
               <SelectValue />
@@ -107,8 +107,8 @@ export default function FilterBar({ filters, onFiltersChange }: FilterBarProps) 
         </div>
       </div>
 
-      <div className="flex items-center justify-between mt-4 pt-4 border-t border-border">
-        <div className="flex items-center space-x-4">
+      <div className="flex items-center justify-between mt-3 pt-3 border-t border-border">
+        <div className="flex items-center space-x-3">
           <div className="flex items-center space-x-2">
             <Checkbox 
               id="compare"
@@ -116,13 +116,13 @@ export default function FilterBar({ filters, onFiltersChange }: FilterBarProps) 
               onCheckedChange={(checked) => updateFilter('compareMode', !!checked)}
               data-testid="checkbox-compare-mode"
             />
-            <label htmlFor="compare" className="text-sm font-medium text-foreground">
+            <label htmlFor="compare" className="text-xs font-medium text-foreground">
               Compare to previous period
             </label>
           </div>
         </div>
         
-        <div className="text-sm text-muted-foreground">
+        <div className="text-xs text-muted-foreground">
           Showing data for{' '}
           <span className="font-medium text-foreground" data-testid="text-date-range-display">
             {formatDateRange(filters.dateRange)}
