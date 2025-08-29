@@ -83,59 +83,39 @@ export default function EnrichmentSuggestions() {
     google: [
       {
         id: '1',
-        type: 'location_extension',
-        title: 'Add Missing Location Extensions',
-        description: '12 locations missing address extensions. Adding these could increase local clicks by 15-25%.',
-        impact: 'high',
-        estimatedImprovement: '+18% local engagement'
+        type: 'hours_update',
+        title: 'Add missing business hours',
+        description: '23 locations missing accurate operating hours. This can improve local search visibility by up to 15%.',
+        impact: 'medium',
+        estimatedImprovement: '+15%',
+        itemsAffected: '23 items affected',
+        timeToFix: '~2 hours to fix'
       },
       {
         id: '2',
-        type: 'hours_update',
-        title: 'Optimize Store Hour Information',
-        description: '5 locations have outdated holiday hours. Update to reduce customer confusion and missed visits.',
-        impact: 'medium',
-        estimatedImprovement: '+8% visit conversion'
+        type: 'image_optimization',
+        title: 'Optimize product images',
+        description: '127 products have low-quality or missing images. High-quality images can increase click-through rates by 30%.',
+        impact: 'high',
+        estimatedImprovement: '+30%',
+        itemsAffected: '127 items affected',
+        timeToFix: '~8 hours to fix'
       },
       {
         id: '3',
-        type: 'image_optimization',
-        title: 'Add Product Images to Shopping Ads',
-        description: '47 products missing high-quality images. Visual ads typically see 23% higher CTR.',
-        impact: 'high',
-        estimatedImprovement: '+23% ad engagement'
-      }
-    ],
-    meta: [
-      {
-        id: '4',
         type: 'location_extension',
-        title: 'Update Business Categories',
-        description: 'Optimize business categories for better local discovery on Facebook and Instagram.',
-        impact: 'medium',
-        estimatedImprovement: '+12% local reach'
-      }
-    ],
-    tiktok: [
-      {
-        id: '5',
-        type: 'image_optimization',
-        title: 'Add Video Content for Ads',
-        description: 'TikTok ads perform 40% better with native video content.',
-        impact: 'high',
-        estimatedImprovement: '+40% engagement rate'
-      }
-    ],
-    apple: [
-      {
-        id: '6',
-        type: 'hours_update',
-        title: 'Verify Holiday Hours',
-        description: 'Ensure Apple Maps has accurate holiday hours for all locations.',
+        title: 'Update location categories',
+        description: '8 locations using outdated category classifications. Updated categories improve discovery and targeting accuracy.',
         impact: 'low',
-        estimatedImprovement: '+5% customer satisfaction'
+        estimatedImprovement: '+8%',
+        itemsAffected: '8 items affected',
+        timeToFix: '~30 minutes to fix'
       }
-    ]
+    ],
+    meta: [],
+    tiktok: [],
+    apple: [],
+    yandex: []
   };
 
   const activeSuggestions = suggestionsByPlatform[activeTab as keyof typeof suggestionsByPlatform] || [];
@@ -144,40 +124,38 @@ export default function EnrichmentSuggestions() {
     <Card>
       <CardHeader>
         <div className="flex items-center justify-between">
-          <div>
-            <CardTitle className="text-lg font-semibold text-foreground">
-              Data Enrichment Suggestions
-            </CardTitle>
-            <p className="text-sm text-muted-foreground">
-              AI-powered recommendations to improve performance
-            </p>
-          </div>
+          <CardTitle className="text-lg font-semibold text-foreground">
+            Data Enrichment Suggestions
+          </CardTitle>
           
-          <Badge variant="secondary" className="bg-orange-100 text-orange-800">
-            <Lightbulb className="w-3 h-3 mr-1" />
-            8 suggestions
-          </Badge>
+          <div className="flex items-center text-sm text-muted-foreground">
+            <Lightbulb className="w-4 h-4 mr-2" />
+            AI-Powered Recommendations
+          </div>
         </div>
       </CardHeader>
       
       <CardContent>
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="grid w-full grid-cols-4" data-testid="tabs-enrichment-platforms">
-            <TabsTrigger value="google" data-testid="tab-google">
-              🟦 Google Ads
+          <TabsList className="grid w-full grid-cols-5 bg-gray-100 dark:bg-gray-800 h-12" data-testid="tabs-enrichment-platforms">
+            <TabsTrigger value="google" data-testid="tab-google" className="text-sm">
+              Google
             </TabsTrigger>
-            <TabsTrigger value="meta" data-testid="tab-meta">
-              🔷 Meta Ads
+            <TabsTrigger value="meta" data-testid="tab-meta" className="text-sm">
+              Meta
             </TabsTrigger>
-            <TabsTrigger value="tiktok" data-testid="tab-tiktok">
-              ⚫ TikTok Ads
+            <TabsTrigger value="tiktok" data-testid="tab-tiktok" className="text-sm">
+              TikTok
             </TabsTrigger>
-            <TabsTrigger value="apple" data-testid="tab-apple">
-              🔘 Apple Maps
+            <TabsTrigger value="apple" data-testid="tab-apple" className="text-sm">
+              Apple Maps
+            </TabsTrigger>
+            <TabsTrigger value="yandex" data-testid="tab-yandex" className="text-sm">
+              Yandex
             </TabsTrigger>
           </TabsList>
           
-          {['google', 'meta', 'tiktok', 'apple'].map((platform) => (
+          {['google', 'meta', 'tiktok', 'apple', 'yandex'].map((platform) => (
             <TabsContent key={platform} value={platform} className="space-y-4 mt-6">
               {suggestionsByPlatform[platform as keyof typeof suggestionsByPlatform].map((suggestion) => {
                 const IconComponent = getTypeIcon(suggestion.type);
@@ -186,37 +164,56 @@ export default function EnrichmentSuggestions() {
                 return (
                   <div 
                     key={suggestion.id}
-                    className="flex items-start space-x-4 p-4 bg-muted/50 border border-border rounded-lg"
+                    className="flex items-start space-x-4 p-4 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg"
                     data-testid={`suggestion-${suggestion.id}`}
                   >
-                    <div className={`w-8 h-8 ${iconBgClass} rounded-lg flex items-center justify-center flex-shrink-0`}>
-                      <IconComponent className="w-4 h-4 text-white" />
+                    <div className={`w-10 h-10 ${iconBgClass} rounded-full flex items-center justify-center flex-shrink-0`}>
+                      <IconComponent className="w-5 h-5 text-white" />
                     </div>
                     
                     <div className="flex-1">
-                      <div className="flex items-center justify-between mb-2">
-                        <h4 className="font-medium text-foreground">{suggestion.title}</h4>
-                        <Badge variant="outline" className={getImpactColor(suggestion.impact)}>
-                          {suggestion.impact.charAt(0).toUpperCase() + suggestion.impact.slice(1)} Impact
-                        </Badge>
-                      </div>
-                      
-                      <p className="text-sm text-muted-foreground mb-3">
-                        {suggestion.description}
-                      </p>
-                      
-                      <div className="flex items-center justify-between">
-                        <div className="text-sm text-muted-foreground">
-                          <span className="font-medium">Estimated improvement:</span> {suggestion.estimatedImprovement}
+                      <div className="flex items-start justify-between mb-2">
+                        <div className="flex-1">
+                          <div className="flex items-center gap-2 mb-1">
+                            <h4 className="font-medium text-gray-900 dark:text-white">{suggestion.title}</h4>
+                            <span className="text-sm font-semibold text-green-600">{suggestion.estimatedImprovement}</span>
+                            <Badge variant="outline" className={
+                              suggestion.impact === 'high' ? 'bg-red-50 text-red-700 border-red-200' :
+                              suggestion.impact === 'medium' ? 'bg-orange-50 text-orange-700 border-orange-200' :
+                              'bg-gray-50 text-gray-700 border-gray-200'
+                            }>
+                              {suggestion.impact.charAt(0).toUpperCase() + suggestion.impact.slice(1)}
+                            </Badge>
+                          </div>
+                          <p className="text-sm text-gray-600 dark:text-gray-300 mb-2">
+                            {suggestion.description}
+                          </p>
+                          <div className="flex items-center gap-4 text-xs text-gray-500 dark:text-gray-400">
+                            <span>{suggestion.itemsAffected}</span>
+                            <span>•</span>
+                            <span>{suggestion.timeToFix}</span>
+                          </div>
                         </div>
-                        <Button 
-                          size="sm"
-                          onClick={() => implementSuggestionMutation.mutate(suggestion.id)}
-                          disabled={implementSuggestionMutation.isPending}
-                          data-testid={`button-implement-${suggestion.id}`}
-                        >
-                          {implementSuggestionMutation.isPending ? 'Implementing...' : 'Implement'}
-                        </Button>
+                        
+                        <div className="flex items-center gap-2 ml-4">
+                          <Button 
+                            variant="outline"
+                            size="sm"
+                            className="text-gray-600 border-gray-300 hover:bg-gray-50"
+                            data-testid={`button-dismiss-${suggestion.id}`}
+                          >
+                            Dismiss
+                          </Button>
+                          <Button 
+                            size="sm"
+                            className="bg-gray-900 hover:bg-gray-800 text-white"
+                            onClick={() => implementSuggestionMutation.mutate(suggestion.id)}
+                            disabled={implementSuggestionMutation.isPending}
+                            data-testid={`button-implement-${suggestion.id}`}
+                          >
+                            {implementSuggestionMutation.isPending ? 'Applying...' : 'Apply Fix'}
+                          </Button>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -227,6 +224,18 @@ export default function EnrichmentSuggestions() {
                 <div className="text-center py-8 text-muted-foreground">
                   <Lightbulb className="w-8 h-8 mx-auto mb-2 opacity-50" />
                   <p>No suggestions available for this platform</p>
+                </div>
+              )}
+              
+              {/* Bottom Summary Section - only show for active Google tab with suggestions */}
+              {platform === 'google' && suggestionsByPlatform[platform].length > 0 && (
+                <div className="mt-6 pt-4 border-t border-gray-200 dark:border-gray-700 flex items-center justify-between">
+                  <div className="text-sm text-gray-500 dark:text-gray-400">
+                    3 suggestions shown • Potential impact: <span className="font-medium">+53.0% overall performance</span>
+                  </div>
+                  <Button variant="outline" size="sm" className="text-gray-600 border-gray-300 hover:bg-gray-50">
+                    View all suggestions
+                  </Button>
                 </div>
               )}
             </TabsContent>
