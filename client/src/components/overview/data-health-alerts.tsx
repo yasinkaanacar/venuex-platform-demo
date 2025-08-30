@@ -125,51 +125,51 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
                 
                 <div className="absolute right-[8%] top-1/2 transform translate-x-1/2 -translate-y-1/2 z-10">
                   <div className="flex flex-col gap-2">
-                    <div className="flex items-center gap-2">
-                      <div className="w-4 h-4 bg-blue-500 rounded flex items-center justify-center">
+                    <div className="flex items-start gap-2">
+                      <div className="w-4 h-4 bg-blue-500 rounded flex items-center justify-center flex-shrink-0">
                         <span className="text-xs text-white font-bold">G</span>
                       </div>
-                      <div className="flex flex-col">
-                        <span className="text-xs text-muted-foreground">Google Business Profile</span>
-                        <div className="flex items-center gap-1">
-                          <div className="w-1 h-1 bg-green-500 rounded-full"></div>
-                          <span className="text-xs text-green-600">Synced 1m ago</span>
+                      <div className="flex flex-col min-w-0">
+                        <span className="text-xs text-muted-foreground whitespace-nowrap">Google Business Profile</span>
+                        <div className="flex items-center gap-1 mt-0.5">
+                          <div className="w-1 h-1 bg-green-500 rounded-full flex-shrink-0"></div>
+                          <span className="text-xs text-green-600 whitespace-nowrap">Synced 1m ago</span>
                         </div>
                       </div>
                     </div>
-                    <div className="flex items-center gap-2">
-                      <div className="w-4 h-4 bg-blue-600 rounded flex items-center justify-center">
+                    <div className="flex items-start gap-2">
+                      <div className="w-4 h-4 bg-blue-600 rounded flex items-center justify-center flex-shrink-0">
                         <span className="text-xs text-white font-bold">f</span>
                       </div>
-                      <div className="flex flex-col">
-                        <span className="text-xs text-muted-foreground">Meta Pages</span>
-                        <div className="flex items-center gap-1">
-                          <div className="w-1 h-1 bg-green-500 rounded-full"></div>
-                          <span className="text-xs text-green-600">Synced 3m ago</span>
+                      <div className="flex flex-col min-w-0">
+                        <span className="text-xs text-muted-foreground whitespace-nowrap">Meta Pages</span>
+                        <div className="flex items-center gap-1 mt-0.5">
+                          <div className="w-1 h-1 bg-green-500 rounded-full flex-shrink-0"></div>
+                          <span className="text-xs text-green-600 whitespace-nowrap">Synced 3m ago</span>
                         </div>
                       </div>
                     </div>
-                    <div className="flex items-center gap-2">
-                      <div className="w-4 h-4 bg-gray-800 rounded flex items-center justify-center">
+                    <div className="flex items-start gap-2">
+                      <div className="w-4 h-4 bg-gray-800 rounded flex items-center justify-center flex-shrink-0">
                         <span className="text-xs text-white font-bold">🍎</span>
                       </div>
-                      <div className="flex flex-col">
-                        <span className="text-xs text-muted-foreground">Apple Business Connect</span>
-                        <div className="flex items-center gap-1">
-                          <div className="w-1 h-1 bg-green-500 rounded-full"></div>
-                          <span className="text-xs text-green-600">Synced 5m ago</span>
+                      <div className="flex flex-col min-w-0">
+                        <span className="text-xs text-muted-foreground whitespace-nowrap">Apple Business Connect</span>
+                        <div className="flex items-center gap-1 mt-0.5">
+                          <div className="w-1 h-1 bg-green-500 rounded-full flex-shrink-0"></div>
+                          <span className="text-xs text-green-600 whitespace-nowrap">Synced 5m ago</span>
                         </div>
                       </div>
                     </div>
-                    <div className="flex items-center gap-2">
-                      <div className="w-4 h-4 bg-red-500 rounded flex items-center justify-center">
+                    <div className="flex items-start gap-2">
+                      <div className="w-4 h-4 bg-red-500 rounded flex items-center justify-center flex-shrink-0">
                         <span className="text-xs text-white font-bold">Y</span>
                       </div>
-                      <div className="flex flex-col">
-                        <span className="text-xs text-muted-foreground">Yandex Business</span>
-                        <div className="flex items-center gap-1">
-                          <div className="w-1 h-1 bg-green-500 rounded-full"></div>
-                          <span className="text-xs text-green-600">Synced 4m ago</span>
+                      <div className="flex flex-col min-w-0">
+                        <span className="text-xs text-muted-foreground whitespace-nowrap">Yandex Business</span>
+                        <div className="flex items-center gap-1 mt-0.5">
+                          <div className="w-1 h-1 bg-green-500 rounded-full flex-shrink-0"></div>
+                          <span className="text-xs text-green-600 whitespace-nowrap">Synced 4m ago</span>
                         </div>
                       </div>
                     </div>
