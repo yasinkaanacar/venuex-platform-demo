@@ -8,9 +8,8 @@ export default function PerformanceChart() {
         <div className="flex items-center justify-between">
           <div>
             <CardTitle className="text-lg font-semibold text-foreground">Online-to-Offline Conversion Funnel</CardTitle>
-            <p className="text-sm text-muted-foreground">
-              Online-to-offline conversion metrics
-            </p>
+            <p className="text-sm text-muted-foreground">Conversion metrics from digital channels to physical store
+</p>
           </div>
         </div>
       </CardHeader>
