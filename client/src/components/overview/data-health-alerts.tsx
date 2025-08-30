@@ -106,6 +106,11 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
                       <Store className="w-3 h-3 sm:w-3.5 sm:h-3.5 lg:w-4 lg:h-4 text-muted-foreground" />
                     </div>
                     <span className="text-xs text-muted-foreground text-center whitespace-nowrap">Store Systems</span>
+                    <div className="flex items-center gap-1 mt-1">
+                      <div className="w-1.5 h-1.5 bg-green-500 rounded-full"></div>
+                      <span className="text-xs text-green-600">Online</span>
+                    </div>
+                    <span className="text-xs text-muted-foreground">Updated 2m ago</span>
                   </div>
                 </div>
                 
@@ -119,30 +124,54 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
                 </div>
                 
                 <div className="absolute right-[8%] top-1/2 transform translate-x-1/2 -translate-y-1/2 z-10">
-                  <div className="flex flex-col gap-1">
+                  <div className="flex flex-col gap-2">
                     <div className="flex items-center gap-2">
                       <div className="w-4 h-4 bg-blue-500 rounded flex items-center justify-center">
                         <span className="text-xs text-white font-bold">G</span>
                       </div>
-                      <span className="text-xs text-muted-foreground">Google Business Profile</span>
+                      <div className="flex flex-col">
+                        <span className="text-xs text-muted-foreground">Google Business Profile</span>
+                        <div className="flex items-center gap-1">
+                          <div className="w-1 h-1 bg-green-500 rounded-full"></div>
+                          <span className="text-xs text-green-600">Synced 1m ago</span>
+                        </div>
+                      </div>
                     </div>
                     <div className="flex items-center gap-2">
                       <div className="w-4 h-4 bg-blue-600 rounded flex items-center justify-center">
                         <span className="text-xs text-white font-bold">f</span>
                       </div>
-                      <span className="text-xs text-muted-foreground">Meta Pages</span>
+                      <div className="flex flex-col">
+                        <span className="text-xs text-muted-foreground">Meta Pages</span>
+                        <div className="flex items-center gap-1">
+                          <div className="w-1 h-1 bg-green-500 rounded-full"></div>
+                          <span className="text-xs text-green-600">Synced 3m ago</span>
+                        </div>
+                      </div>
                     </div>
                     <div className="flex items-center gap-2">
                       <div className="w-4 h-4 bg-gray-800 rounded flex items-center justify-center">
                         <span className="text-xs text-white font-bold">🍎</span>
                       </div>
-                      <span className="text-xs text-muted-foreground">Apple Business Connect</span>
+                      <div className="flex flex-col">
+                        <span className="text-xs text-muted-foreground">Apple Business Connect</span>
+                        <div className="flex items-center gap-1">
+                          <div className="w-1 h-1 bg-green-500 rounded-full"></div>
+                          <span className="text-xs text-green-600">Synced 5m ago</span>
+                        </div>
+                      </div>
                     </div>
                     <div className="flex items-center gap-2">
                       <div className="w-4 h-4 bg-red-500 rounded flex items-center justify-center">
                         <span className="text-xs text-white font-bold">Y</span>
                       </div>
-                      <span className="text-xs text-muted-foreground">Yandex Business</span>
+                      <div className="flex flex-col">
+                        <span className="text-xs text-muted-foreground">Yandex Business</span>
+                        <div className="flex items-center gap-1">
+                          <div className="w-1 h-1 bg-green-500 rounded-full"></div>
+                          <span className="text-xs text-green-600">Synced 4m ago</span>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -180,6 +209,11 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
                       <Database className="w-3 h-3 sm:w-3.5 sm:h-3.5 lg:w-4 lg:h-4 text-muted-foreground" />
                     </div>
                     <span className="text-xs text-muted-foreground text-center whitespace-nowrap">ERP Systems</span>
+                    <div className="flex items-center gap-1 mt-1">
+                      <div className="w-1.5 h-1.5 bg-red-500 rounded-full"></div>
+                      <span className="text-xs text-red-600">Error</span>
+                    </div>
+                    <span className="text-xs text-muted-foreground">Last sync 2h ago</span>
                   </div>
                 </div>
                 
@@ -193,18 +227,30 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
                 </div>
                 
                 <div className="absolute right-[8%] top-1/2 transform translate-x-1/2 -translate-y-1/2 z-10">
-                  <div className="flex flex-col gap-1">
+                  <div className="flex flex-col gap-2">
                     <div className="flex items-center gap-2">
                       <div className="w-4 h-4 bg-green-500 rounded flex items-center justify-center">
                         <span className="text-xs text-white font-bold">G</span>
                       </div>
-                      <span className="text-xs text-muted-foreground">Google Merchant Center</span>
+                      <div className="flex flex-col">
+                        <span className="text-xs text-muted-foreground">Google Merchant Center</span>
+                        <div className="flex items-center gap-1">
+                          <div className="w-1 h-1 bg-yellow-500 rounded-full"></div>
+                          <span className="text-xs text-yellow-600">Pending 15m ago</span>
+                        </div>
+                      </div>
                     </div>
                     <div className="flex items-center gap-2">
                       <div className="w-4 h-4 bg-blue-600 rounded flex items-center justify-center">
                         <span className="text-xs text-white font-bold">f</span>
                       </div>
-                      <span className="text-xs text-muted-foreground">Meta Commerce</span>
+                      <div className="flex flex-col">
+                        <span className="text-xs text-muted-foreground">Meta Commerce</span>
+                        <div className="flex items-center gap-1">
+                          <div className="w-1 h-1 bg-red-500 rounded-full"></div>
+                          <span className="text-xs text-red-600">Failed 1h ago</span>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -242,6 +288,11 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
                       <Receipt className="w-3 h-3 sm:w-3.5 sm:h-3.5 lg:w-4 lg:h-4 text-muted-foreground" />
                     </div>
                     <span className="text-xs text-muted-foreground text-center whitespace-nowrap">CRM/POS Systems</span>
+                    <div className="flex items-center gap-1 mt-1">
+                      <div className="w-1.5 h-1.5 bg-green-500 rounded-full"></div>
+                      <span className="text-xs text-green-600">Online</span>
+                    </div>
+                    <span className="text-xs text-muted-foreground">Updated 30s ago</span>
                   </div>
                 </div>
                 
@@ -255,24 +306,42 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
                 </div>
                 
                 <div className="absolute right-[8%] top-1/2 transform translate-x-1/2 -translate-y-1/2 z-10">
-                  <div className="flex flex-col gap-1">
+                  <div className="flex flex-col gap-2">
                     <div className="flex items-center gap-2">
                       <div className="w-4 h-4 bg-red-500 rounded flex items-center justify-center">
                         <span className="text-xs text-white font-bold">G</span>
                       </div>
-                      <span className="text-xs text-muted-foreground">Google Ads</span>
+                      <div className="flex flex-col">
+                        <span className="text-xs text-muted-foreground">Google Ads</span>
+                        <div className="flex items-center gap-1">
+                          <div className="w-1 h-1 bg-green-500 rounded-full"></div>
+                          <span className="text-xs text-green-600">Synced 45s ago</span>
+                        </div>
+                      </div>
                     </div>
                     <div className="flex items-center gap-2">
                       <div className="w-4 h-4 bg-blue-600 rounded flex items-center justify-center">
                         <span className="text-xs text-white font-bold">f</span>
                       </div>
-                      <span className="text-xs text-muted-foreground">Meta Ads</span>
+                      <div className="flex flex-col">
+                        <span className="text-xs text-muted-foreground">Meta Ads</span>
+                        <div className="flex items-center gap-1">
+                          <div className="w-1 h-1 bg-green-500 rounded-full"></div>
+                          <span className="text-xs text-green-600">Synced 1m ago</span>
+                        </div>
+                      </div>
                     </div>
                     <div className="flex items-center gap-2">
                       <div className="w-4 h-4 bg-black rounded flex items-center justify-center">
                         <span className="text-xs text-white font-bold">🎵</span>
                       </div>
-                      <span className="text-xs text-muted-foreground">TikTok Ads</span>
+                      <div className="flex flex-col">
+                        <span className="text-xs text-muted-foreground">TikTok Ads</span>
+                        <div className="flex items-center gap-1">
+                          <div className="w-1 h-1 bg-green-500 rounded-full"></div>
+                          <span className="text-xs text-green-600">Synced 2m ago</span>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
