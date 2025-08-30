@@ -25,7 +25,7 @@ export default function KpiCards({ kpis }: KpiCardsProps) {
     },
     {
       id: 'location-engagements',
-      title: 'Location Engagements',
+      title: 'Location Interactions',
       icon: MapPin,
       iconColor: 'text-blue-600',
       iconBg: 'bg-blue-100',
