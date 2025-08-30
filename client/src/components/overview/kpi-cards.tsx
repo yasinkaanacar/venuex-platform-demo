@@ -45,7 +45,7 @@ export default function KpiCards({ kpis }: KpiCardsProps) {
     },
     {
       id: 'average-rating',
-      title: 'Average Rating',
+      title: 'Average Star Rating',
       icon: Receipt,
       iconColor: 'text-purple-600',
       iconBg: 'bg-purple-100',
