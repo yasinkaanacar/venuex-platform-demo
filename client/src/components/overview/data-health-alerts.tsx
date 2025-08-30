@@ -97,7 +97,7 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
                   {/* Source to VenueX line - aligned with logo centers */}
                   <line x1="20%" y1="35%" x2="48%" y2="35%" stroke="url(#greenDotted)" strokeWidth="2" />
                   {/* VenueX to Platforms line - aligned with logo centers */}
-                  <line x1="52%" y1="35%" x2="80%" y2="35%" stroke="url(#greenDotted)" strokeWidth="2" />
+                  <line x1="52%" y1="50%" x2="75%" y2="50%" stroke="url(#greenDotted)" strokeWidth="2" />
                 </svg>
                 
                 <div className="absolute left-[10%] top-1/2 transform -translate-y-1/2 z-10">
@@ -118,12 +118,32 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
                   </div>
                 </div>
                 
-                <div className="absolute right-[10%] top-1/2 transform translate-x-1/2 -translate-y-1/2 z-10">
-                  <div className="flex flex-col gap-1 text-right">
-                    <div className="text-xs text-muted-foreground">Google Business Profile</div>
-                    <div className="text-xs text-muted-foreground">Meta Pages</div>
-                    <div className="text-xs text-muted-foreground">Apple Business Connect</div>
-                    <div className="text-xs text-muted-foreground">Yandex Business</div>
+                <div className="absolute right-[8%] top-1/2 transform translate-x-1/2 -translate-y-1/2 z-10">
+                  <div className="flex flex-col gap-1">
+                    <div className="flex items-center gap-2">
+                      <div className="w-4 h-4 bg-blue-500 rounded flex items-center justify-center">
+                        <span className="text-xs text-white font-bold">G</span>
+                      </div>
+                      <span className="text-xs text-muted-foreground">Google Business Profile</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <div className="w-4 h-4 bg-blue-600 rounded flex items-center justify-center">
+                        <span className="text-xs text-white font-bold">f</span>
+                      </div>
+                      <span className="text-xs text-muted-foreground">Meta Pages</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <div className="w-4 h-4 bg-gray-800 rounded flex items-center justify-center">
+                        <span className="text-xs text-white font-bold">🍎</span>
+                      </div>
+                      <span className="text-xs text-muted-foreground">Apple Business Connect</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <div className="w-4 h-4 bg-red-500 rounded flex items-center justify-center">
+                        <span className="text-xs text-white font-bold">Y</span>
+                      </div>
+                      <span className="text-xs text-muted-foreground">Yandex Business</span>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -151,7 +171,7 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
                   {/* Source to VenueX line - aligned with logo centers */}
                   <line x1="20%" y1="35%" x2="48%" y2="35%" stroke="url(#redDotted)" strokeWidth="2" />
                   {/* VenueX to Platforms line - aligned with logo centers */}
-                  <line x1="52%" y1="35%" x2="80%" y2="35%" stroke="url(#redDotted)" strokeWidth="2" />
+                  <line x1="52%" y1="50%" x2="75%" y2="50%" stroke="url(#redDotted)" strokeWidth="2" />
                 </svg>
                 
                 <div className="absolute left-[10%] top-1/2 transform -translate-y-1/2 z-10">
@@ -172,10 +192,20 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
                   </div>
                 </div>
                 
-                <div className="absolute right-[10%] top-1/2 transform translate-x-1/2 -translate-y-1/2 z-10">
-                  <div className="flex flex-col gap-1 text-right">
-                    <div className="text-xs text-muted-foreground">Google Merchant Center</div>
-                    <div className="text-xs text-muted-foreground">Meta Commerce</div>
+                <div className="absolute right-[8%] top-1/2 transform translate-x-1/2 -translate-y-1/2 z-10">
+                  <div className="flex flex-col gap-1">
+                    <div className="flex items-center gap-2">
+                      <div className="w-4 h-4 bg-green-500 rounded flex items-center justify-center">
+                        <span className="text-xs text-white font-bold">G</span>
+                      </div>
+                      <span className="text-xs text-muted-foreground">Google Merchant Center</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <div className="w-4 h-4 bg-blue-600 rounded flex items-center justify-center">
+                        <span className="text-xs text-white font-bold">f</span>
+                      </div>
+                      <span className="text-xs text-muted-foreground">Meta Commerce</span>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -203,7 +233,7 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
                   {/* Source to VenueX line - aligned with logo centers */}
                   <line x1="20%" y1="35%" x2="48%" y2="35%" stroke="url(#greenDotted2)" strokeWidth="2" />
                   {/* VenueX to Platforms line - aligned with logo centers */}
-                  <line x1="52%" y1="35%" x2="80%" y2="35%" stroke="url(#greenDotted2)" strokeWidth="2" />
+                  <line x1="52%" y1="50%" x2="75%" y2="50%" stroke="url(#greenDotted2)" strokeWidth="2" />
                 </svg>
                 
                 <div className="absolute left-[10%] top-1/2 transform -translate-y-1/2 z-10">
@@ -224,11 +254,26 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
                   </div>
                 </div>
                 
-                <div className="absolute right-[10%] top-1/2 transform translate-x-1/2 -translate-y-1/2 z-10">
-                  <div className="flex flex-col gap-1 text-right">
-                    <div className="text-xs text-muted-foreground">Google Ads</div>
-                    <div className="text-xs text-muted-foreground">Meta Ads</div>
-                    <div className="text-xs text-muted-foreground">TikTok Ads</div>
+                <div className="absolute right-[8%] top-1/2 transform translate-x-1/2 -translate-y-1/2 z-10">
+                  <div className="flex flex-col gap-1">
+                    <div className="flex items-center gap-2">
+                      <div className="w-4 h-4 bg-red-500 rounded flex items-center justify-center">
+                        <span className="text-xs text-white font-bold">G</span>
+                      </div>
+                      <span className="text-xs text-muted-foreground">Google Ads</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <div className="w-4 h-4 bg-blue-600 rounded flex items-center justify-center">
+                        <span className="text-xs text-white font-bold">f</span>
+                      </div>
+                      <span className="text-xs text-muted-foreground">Meta Ads</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <div className="w-4 h-4 bg-black rounded flex items-center justify-center">
+                        <span className="text-xs text-white font-bold">🎵</span>
+                      </div>
+                      <span className="text-xs text-muted-foreground">TikTok Ads</span>
+                    </div>
                   </div>
                 </div>
               </div>
