@@ -77,14 +77,10 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
           <div className="space-y-6 relative z-10">
             {/* Location Data Flow */}
             <div className="bg-muted/20 rounded-lg p-4">
-              <div className="flex items-start justify-between mb-4 -mt-4">
+              <div className="mb-4 -mt-4">
                 <div className="flex items-center gap-2">
                   <MapPin className="w-4 h-4 text-blue-600" />
                   <span className="font-medium text-sm">Location Data</span>
-                </div>
-                <div className="flex items-center gap-1 -mt-1">
-                  <CheckCircle className="w-3 h-3 text-green-600" />
-                  <span className="text-xs text-green-600">Active</span>
                 </div>
               </div>
               <div className="relative w-full h-20 flex items-center">
@@ -180,14 +176,10 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
 
             {/* Inventory Data Flow */}
             <div className="bg-muted/20 rounded-lg p-4">
-              <div className="flex items-center justify-between mb-3">
+              <div className="mb-3">
                 <div className="flex items-center gap-2">
                   <Package className="w-4 h-4 text-red-600" />
                   <span className="font-medium text-sm">Inventory Data</span>
-                </div>
-                <div className="flex items-center gap-1">
-                  <XCircle className="w-3 h-3 text-red-600" />
-                  <span className="text-xs text-red-600">Error</span>
                 </div>
               </div>
               <div className="relative w-full h-20 flex items-center">
@@ -259,14 +251,10 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
 
             {/* In-Store Sales Data Flow */}
             <div className="bg-muted/20 rounded-lg p-4">
-              <div className="flex items-center justify-between mb-3">
+              <div className="mb-3">
                 <div className="flex items-center gap-2">
                   <Receipt className="w-4 h-4 text-green-600" />
                   <span className="font-medium text-sm">In-Store Sales Data</span>
-                </div>
-                <div className="flex items-center gap-1">
-                  <CheckCircle className="w-3 h-3 text-green-600" />
-                  <span className="text-xs text-green-600">Active</span>
                 </div>
               </div>
               <div className="relative w-full h-20 flex items-center">
