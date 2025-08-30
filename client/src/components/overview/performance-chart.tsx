@@ -3,7 +3,7 @@ import funnelImage from '@assets/Screenshot 2025-08-29 at 18.31.46_1756481891401
 
 export default function PerformanceChart() {
   return (
-    <Card className="mb-6">
+    <Card>
       <CardHeader>
         <div className="flex items-center justify-between">
           <div>

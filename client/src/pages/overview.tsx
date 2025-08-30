@@ -57,20 +57,20 @@ export default function Overview() {
             </div>
           </div>
         ) : (
-          <>
+          <div className="space-y-8">
             <KpiCards kpis={overviewData?.kpis} />
             <PerformanceChart />
             <TopPerformingLocations />
             <DataQualityEnrichment />
             
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               <DataHealthCard 
                 platforms={overviewData?.platforms} 
                 alerts={overviewData?.alerts}
               />
               <LocationPerformance locations={overviewData?.locations} />
             </div>
-          </>
+          </div>
         )}
       </div>
     </div>
