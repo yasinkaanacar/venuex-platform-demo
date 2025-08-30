@@ -4,6 +4,8 @@ import Header from '@/components/overview/header';
 import FilterBar from '@/components/overview/filter-bar';
 import KpiCards from '@/components/overview/kpi-cards';
 import PerformanceChart from '@/components/overview/performance-chart';
+import TopPerformingLocations from '@/components/overview/top-performing-locations';
+import DataQualityEnrichment from '@/components/overview/data-quality-enrichment';
 import DataHealthCard from '@/components/overview/data-health-card';
 import LocationPerformance from '@/components/overview/location-performance';
 import { FilterState, OverviewData } from '@/lib/types';
@@ -58,6 +60,8 @@ export default function Overview() {
           <>
             <KpiCards kpis={overviewData?.kpis} />
             <PerformanceChart />
+            <TopPerformingLocations />
+            <DataQualityEnrichment />
             
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
               <DataHealthCard 
