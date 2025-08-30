@@ -68,7 +68,6 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
           </div>
         </div>
       </CardHeader>
-      
       <CardContent className="space-y-8">
         <div className="relative">
           {/* Vertical VenueX alignment guide */}
@@ -130,7 +129,8 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
                         <span className="text-xs text-white font-bold">G</span>
                       </div>
                       <div className="flex flex-col min-w-0">
-                        <span className="text-xs text-muted-foreground whitespace-nowrap">Google Business Profile</span>
+                        <span className="text-xs text-muted-foreground whitespace-nowrap">Google 
+</span>
                         <div className="flex items-center gap-1 mt-0.5">
                           <div className="w-1 h-1 bg-green-500 rounded-full flex-shrink-0"></div>
                           <span className="text-xs text-green-600 whitespace-nowrap">Synced 1m ago</span>
