@@ -35,7 +35,7 @@ export default function FilterBar({ filters, onFiltersChange }: FilterBarProps) 
   };
 
   return (
-    <div className="bg-card rounded-lg border border-border p-4 mb-6">
+    <div className="bg-card rounded-lg border-2 border-border p-4 mb-6 shadow-sm">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-3">
         <div>
           <label className="block text-xs font-medium text-foreground mb-1">Date Range</label>
@@ -107,7 +107,7 @@ export default function FilterBar({ filters, onFiltersChange }: FilterBarProps) 
         </div>
       </div>
 
-      <div className="flex items-center justify-between mt-3 pt-3 border-t border-border">
+      <div className="flex items-center justify-between mt-3 pt-3 border-t-2 border-border">
         <div className="flex items-center space-x-3">
           <div className="flex items-center space-x-2">
             <Checkbox 

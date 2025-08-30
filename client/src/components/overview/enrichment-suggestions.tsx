@@ -161,7 +161,7 @@ export default function EnrichmentSuggestions() {
               return (
                 <div 
                   key={suggestion.id}
-                  className="flex items-start space-x-4 p-4 bg-card border border-border rounded-lg"
+                  className="flex items-start space-x-4 p-4 bg-card border-2 border-border rounded-lg shadow-sm"
                   data-testid={`suggestion-${suggestion.id}`}
                 >
                   <div className={`w-10 h-10 ${iconBgClass} rounded-full flex items-center justify-center flex-shrink-0`}>
@@ -226,7 +226,7 @@ export default function EnrichmentSuggestions() {
             
             {/* Bottom Summary Section - only show for active Google tab with suggestions */}
             {platform === 'google' && suggestionsByPlatform[platform].length > 0 && (
-              <div className="mt-6 pt-4 border-t border-border flex items-center justify-between">
+              <div className="mt-6 pt-4 border-t-2 border-border flex items-center justify-between">
                 <div className="text-sm text-muted-foreground">
                   3 suggestions shown • Potential impact: <span className="font-medium">+48.0% overall performance</span>
                 </div>

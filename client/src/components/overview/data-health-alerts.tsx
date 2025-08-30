@@ -283,7 +283,7 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
         </div>
         
         {/* Alerts & Notifications Section */}
-        <div className="pt-8 border-t border-border">
+        <div className="pt-8 border-t-2 border-border">
           <div className="flex items-center justify-between mb-6">
             <h3 className="text-lg font-semibold text-foreground">
               Alerts & Notifications
@@ -300,7 +300,7 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
               return (
                 <div 
                   key={alert.id}
-                  className={`flex items-start justify-between p-4 rounded-lg border ${alert.bgColor} ${alert.borderColor}`}
+                  className={`flex items-start justify-between p-4 rounded-lg border-2 ${alert.bgColor} ${alert.borderColor} shadow-sm`}
                   data-testid={`alert-${alert.id}`}
                 >
                   <div className="flex items-start space-x-3">

@@ -54,9 +54,9 @@ export default function Sidebar() {
   const [location] = useLocation();
 
   return (
-    <div className="w-64 bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-700 flex flex-col h-screen">
+    <div className="w-64 bg-white dark:bg-gray-900 border-r-2 border-gray-300 dark:border-gray-600 flex flex-col h-screen shadow-lg">
       {/* Logo and Brand */}
-      <div className="border-b border-gray-200 dark:border-gray-700">
+      <div className="border-b-2 border-gray-300 dark:border-gray-600">
         <div className="flex items-center justify-center">
           <img 
             src={venueXLogo} 
@@ -107,7 +107,7 @@ export default function Sidebar() {
       </nav>
 
       {/* System Status */}
-      <div className="p-6 border-t border-gray-200 dark:border-gray-700">
+      <div className="p-6 border-t-2 border-gray-300 dark:border-gray-600">
         <div className="flex items-center space-x-3 p-3 bg-gray-50 dark:bg-gray-800 rounded-lg">
           <div className="w-2 h-2 bg-green-500 rounded-full"></div>
           <div className="flex-1">

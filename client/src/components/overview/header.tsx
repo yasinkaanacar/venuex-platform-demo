@@ -20,7 +20,7 @@ export default function Header({ lastSync }: HeaderProps) {
   };
 
   return (
-    <header className="bg-card border-b border-border sticky top-0 z-50">
+    <header className="bg-card border-b-2 border-border sticky top-0 z-50 shadow-sm">
       <div className="max-w-7xl mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-4">

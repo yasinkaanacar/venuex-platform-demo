@@ -12,7 +12,7 @@ export default function TopPerformingLocations() {
         <div className="overflow-x-auto">
           <table className="w-full">
             <thead>
-              <tr className="border-b border-border">
+              <tr className="border-b-2 border-border">
                 <th className="text-left py-3 px-4 text-xs font-medium text-muted-foreground uppercase tracking-wider">
                   Store Location
                 </th>
@@ -33,7 +33,7 @@ export default function TopPerformingLocations() {
                 </th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-border">
+            <tbody className="divide-y-2 divide-border">
               <tr className="hover:bg-muted/50">
                 <td className="py-4 px-4">
                   <div>
