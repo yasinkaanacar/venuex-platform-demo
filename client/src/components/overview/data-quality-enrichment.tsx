@@ -71,7 +71,8 @@ export default function DataQualityEnrichment() {
                 </div>
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-sm text-muted-foreground">Store Codes</span>
+                <span className="text-sm text-muted-foreground">Store IDs
+</span>
                 <div className="flex items-center gap-2 flex-1 ml-4">
                   <div className="flex-1 bg-border rounded-full h-2">
                     <div className="bg-blue-600 h-2 rounded-full" style={{ width: '87%' }}></div>
