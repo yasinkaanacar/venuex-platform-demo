@@ -119,31 +119,11 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
                 </div>
                 
                 <div className="absolute right-[10%] top-1/2 transform translate-x-1/2 -translate-y-1/2 z-10">
-                  <div className="flex items-center gap-1 sm:gap-1.5 lg:gap-2">
-                    <div className="flex flex-col items-center text-center">
-                      <div className="w-5 h-5 sm:w-6 sm:h-6 bg-blue-100 rounded flex items-center justify-center mb-1">
-                        <span className="text-xs">🟦</span>
-                      </div>
-                      <span className="text-xs text-muted-foreground">Google</span>
-                    </div>
-                    <div className="flex flex-col items-center text-center">
-                      <div className="w-5 h-5 sm:w-6 sm:h-6 bg-blue-100 rounded flex items-center justify-center mb-1">
-                        <span className="text-xs">🔷</span>
-                      </div>
-                      <span className="text-xs text-muted-foreground">Meta</span>
-                    </div>
-                    <div className="flex flex-col items-center text-center">
-                      <div className="w-5 h-5 sm:w-6 sm:h-6 bg-gray-100 rounded flex items-center justify-center mb-1">
-                        <span className="text-xs">🔘</span>
-                      </div>
-                      <span className="text-xs text-muted-foreground">Apple</span>
-                    </div>
-                    <div className="flex flex-col items-center text-center">
-                      <div className="w-5 h-5 sm:w-6 sm:h-6 bg-gray-100 rounded flex items-center justify-center mb-1">
-                        <span className="text-xs">🟠</span>
-                      </div>
-                      <span className="text-xs text-muted-foreground">Yandex</span>
-                    </div>
+                  <div className="flex flex-col gap-1 text-right">
+                    <div className="text-xs text-muted-foreground">Google Business Profile</div>
+                    <div className="text-xs text-muted-foreground">Meta Pages</div>
+                    <div className="text-xs text-muted-foreground">Apple Business Connect</div>
+                    <div className="text-xs text-muted-foreground">Yandex Business</div>
                   </div>
                 </div>
               </div>
@@ -193,19 +173,9 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
                 </div>
                 
                 <div className="absolute right-[10%] top-1/2 transform translate-x-1/2 -translate-y-1/2 z-10">
-                  <div className="flex items-center gap-1 sm:gap-1.5 lg:gap-2">
-                    <div className="flex flex-col items-center text-center">
-                      <div className="w-5 h-5 sm:w-6 sm:h-6 bg-blue-100 rounded flex items-center justify-center mb-1">
-                        <span className="text-xs">🟦</span>
-                      </div>
-                      <span className="text-xs text-muted-foreground">Google</span>
-                    </div>
-                    <div className="flex flex-col items-center text-center">
-                      <div className="w-5 h-5 sm:w-6 sm:h-6 bg-blue-100 rounded flex items-center justify-center mb-1">
-                        <span className="text-xs">🔷</span>
-                      </div>
-                      <span className="text-xs text-muted-foreground">Meta</span>
-                    </div>
+                  <div className="flex flex-col gap-1 text-right">
+                    <div className="text-xs text-muted-foreground">Google Merchant Center</div>
+                    <div className="text-xs text-muted-foreground">Meta Commerce</div>
                   </div>
                 </div>
               </div>
@@ -255,25 +225,10 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
                 </div>
                 
                 <div className="absolute right-[10%] top-1/2 transform translate-x-1/2 -translate-y-1/2 z-10">
-                  <div className="flex items-center gap-1 sm:gap-1.5 lg:gap-2">
-                    <div className="flex flex-col items-center text-center">
-                      <div className="w-5 h-5 sm:w-6 sm:h-6 bg-blue-100 rounded flex items-center justify-center mb-1">
-                        <span className="text-xs">🟦</span>
-                      </div>
-                      <span className="text-xs text-muted-foreground">Google</span>
-                    </div>
-                    <div className="flex flex-col items-center text-center">
-                      <div className="w-5 h-5 sm:w-6 sm:h-6 bg-blue-100 rounded flex items-center justify-center mb-1">
-                        <span className="text-xs">🔷</span>
-                      </div>
-                      <span className="text-xs text-muted-foreground">Meta</span>
-                    </div>
-                    <div className="flex flex-col items-center text-center">
-                      <div className="w-5 h-5 sm:w-6 sm:h-6 bg-gray-100 rounded flex items-center justify-center mb-1">
-                        <span className="text-xs">⚫</span>
-                      </div>
-                      <span className="text-xs text-muted-foreground">TikTok</span>
-                    </div>
+                  <div className="flex flex-col gap-1 text-right">
+                    <div className="text-xs text-muted-foreground">Google Ads</div>
+                    <div className="text-xs text-muted-foreground">Meta Ads</div>
+                    <div className="text-xs text-muted-foreground">TikTok Ads</div>
                   </div>
                 </div>
               </div>
