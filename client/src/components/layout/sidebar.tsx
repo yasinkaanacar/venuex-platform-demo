@@ -61,7 +61,7 @@ export default function Sidebar() {
           <img 
             src={venueXLogo} 
             alt="VenueX Logo" 
-            className="w-12 h-12 object-contain"
+            className="w-16 h-16 object-contain"
           />
         </div>
       </div>
