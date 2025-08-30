@@ -87,8 +87,27 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
                   <span className="text-xs text-green-600">Active</span>
                 </div>
               </div>
-              <div className="relative w-full">
-                <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 z-20">
+              <div className="relative w-full h-20">
+                <svg className="absolute inset-0 w-full h-full" style={{zIndex: 1}}>
+                  <defs>
+                    <pattern id="greenDotted" patternUnits="userSpaceOnUse" width="8" height="2">
+                      <circle cx="4" cy="1" r="1" fill="#22c55e" />
+                    </pattern>
+                  </defs>
+                  <line x1="15%" y1="50%" x2="50%" y2="50%" stroke="url(#greenDotted)" strokeWidth="2" />
+                  <line x1="50%" y1="50%" x2="85%" y2="50%" stroke="url(#greenDotted)" strokeWidth="2" />
+                </svg>
+                
+                <div className="absolute left-[15%] top-1/2 transform -translate-x-1/2 -translate-y-1/2" style={{zIndex: 10}}>
+                  <div className="flex flex-col items-center text-center">
+                    <div className="w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8 bg-muted rounded-lg flex items-center justify-center mb-1">
+                      <Store className="w-3 h-3 sm:w-3.5 sm:h-3.5 lg:w-4 lg:h-4 text-muted-foreground" />
+                    </div>
+                    <span className="text-xs text-muted-foreground text-center whitespace-nowrap">Store Systems</span>
+                  </div>
+                </div>
+                
+                <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2" style={{zIndex: 20}}>
                   <div className="flex flex-col items-center text-center">
                     <div className="w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8 bg-primary/10 rounded-lg flex items-center justify-center mb-1">
                       <span className="text-xs font-bold text-primary">VX</span>
@@ -96,43 +115,32 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
                     <span className="text-xs text-muted-foreground whitespace-nowrap">VenueX</span>
                   </div>
                 </div>
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center">
-                    <div className="flex flex-col items-center text-center mr-2 sm:mr-3 lg:mr-4">
-                      <div className="w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8 bg-muted rounded-lg flex items-center justify-center mb-1">
-                        <Store className="w-3 h-3 sm:w-3.5 sm:h-3.5 lg:w-4 lg:h-4 text-muted-foreground" />
+                
+                <div className="absolute right-[15%] top-1/2 transform translate-x-1/2 -translate-y-1/2" style={{zIndex: 10}}>
+                  <div className="flex items-center gap-1 sm:gap-1.5 lg:gap-2">
+                    <div className="flex flex-col items-center text-center">
+                      <div className="w-5 h-5 sm:w-6 sm:h-6 bg-blue-100 rounded flex items-center justify-center mb-1">
+                        <span className="text-xs">🟦</span>
                       </div>
-                      <span className="text-xs text-muted-foreground text-center whitespace-nowrap">Store Systems</span>
+                      <span className="text-xs text-muted-foreground">Google</span>
                     </div>
-                    <div className="flex-1 border-t-2 border-dotted border-green-500" style={{width: 'calc(50% - 3rem)'}}></div>
-                  </div>
-                  <div className="flex items-center">
-                    <div className="flex-1 border-t-2 border-dotted border-green-500" style={{width: 'calc(50% - 3rem)'}}></div>
-                    <div className="flex items-center gap-1 sm:gap-1.5 lg:gap-2 ml-2 sm:ml-3 lg:ml-4">
-                      <div className="flex flex-col items-center text-center">
-                        <div className="w-5 h-5 sm:w-6 sm:h-6 bg-blue-100 rounded flex items-center justify-center mb-1">
-                          <span className="text-xs">🟦</span>
-                        </div>
-                        <span className="text-xs text-muted-foreground">Google</span>
+                    <div className="flex flex-col items-center text-center">
+                      <div className="w-5 h-5 sm:w-6 sm:h-6 bg-blue-100 rounded flex items-center justify-center mb-1">
+                        <span className="text-xs">🔷</span>
                       </div>
-                      <div className="flex flex-col items-center text-center">
-                        <div className="w-5 h-5 sm:w-6 sm:h-6 bg-blue-100 rounded flex items-center justify-center mb-1">
-                          <span className="text-xs">🔷</span>
-                        </div>
-                        <span className="text-xs text-muted-foreground">Meta</span>
+                      <span className="text-xs text-muted-foreground">Meta</span>
+                    </div>
+                    <div className="flex flex-col items-center text-center">
+                      <div className="w-5 h-5 sm:w-6 sm:h-6 bg-gray-100 rounded flex items-center justify-center mb-1">
+                        <span className="text-xs">🔘</span>
                       </div>
-                      <div className="flex flex-col items-center text-center">
-                        <div className="w-5 h-5 sm:w-6 sm:h-6 bg-gray-100 rounded flex items-center justify-center mb-1">
-                          <span className="text-xs">🔘</span>
-                        </div>
-                        <span className="text-xs text-muted-foreground">Apple</span>
+                      <span className="text-xs text-muted-foreground">Apple</span>
+                    </div>
+                    <div className="flex flex-col items-center text-center">
+                      <div className="w-5 h-5 sm:w-6 sm:h-6 bg-gray-100 rounded flex items-center justify-center mb-1">
+                        <span className="text-xs">🟠</span>
                       </div>
-                      <div className="flex flex-col items-center text-center">
-                        <div className="w-5 h-5 sm:w-6 sm:h-6 bg-gray-100 rounded flex items-center justify-center mb-1">
-                          <span className="text-xs">🟠</span>
-                        </div>
-                        <span className="text-xs text-muted-foreground">Yandex</span>
-                      </div>
+                      <span className="text-xs text-muted-foreground">Yandex</span>
                     </div>
                   </div>
                 </div>
@@ -151,8 +159,27 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
                   <span className="text-xs text-red-600">Error</span>
                 </div>
               </div>
-              <div className="relative w-full">
-                <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 z-20">
+              <div className="relative w-full h-20">
+                <svg className="absolute inset-0 w-full h-full" style={{zIndex: 1}}>
+                  <defs>
+                    <pattern id="redDotted" patternUnits="userSpaceOnUse" width="8" height="2">
+                      <circle cx="4" cy="1" r="1" fill="#ef4444" />
+                    </pattern>
+                  </defs>
+                  <line x1="15%" y1="50%" x2="50%" y2="50%" stroke="url(#redDotted)" strokeWidth="2" />
+                  <line x1="50%" y1="50%" x2="85%" y2="50%" stroke="url(#redDotted)" strokeWidth="2" />
+                </svg>
+                
+                <div className="absolute left-[15%] top-1/2 transform -translate-x-1/2 -translate-y-1/2" style={{zIndex: 10}}>
+                  <div className="flex flex-col items-center text-center">
+                    <div className="w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8 bg-muted rounded-lg flex items-center justify-center mb-1">
+                      <Database className="w-3 h-3 sm:w-3.5 sm:h-3.5 lg:w-4 lg:h-4 text-muted-foreground" />
+                    </div>
+                    <span className="text-xs text-muted-foreground text-center whitespace-nowrap">ERP Systems</span>
+                  </div>
+                </div>
+                
+                <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2" style={{zIndex: 20}}>
                   <div className="flex flex-col items-center text-center">
                     <div className="w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8 bg-primary/10 rounded-lg flex items-center justify-center mb-1">
                       <span className="text-xs font-bold text-primary">VX</span>
@@ -160,31 +187,20 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
                     <span className="text-xs text-muted-foreground whitespace-nowrap">VenueX</span>
                   </div>
                 </div>
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center">
-                    <div className="flex flex-col items-center text-center mr-2 sm:mr-3 lg:mr-4">
-                      <div className="w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8 bg-muted rounded-lg flex items-center justify-center mb-1">
-                        <Database className="w-3 h-3 sm:w-3.5 sm:h-3.5 lg:w-4 lg:h-4 text-muted-foreground" />
+                
+                <div className="absolute right-[15%] top-1/2 transform translate-x-1/2 -translate-y-1/2" style={{zIndex: 10}}>
+                  <div className="flex items-center gap-1 sm:gap-1.5 lg:gap-2">
+                    <div className="flex flex-col items-center text-center">
+                      <div className="w-5 h-5 sm:w-6 sm:h-6 bg-blue-100 rounded flex items-center justify-center mb-1">
+                        <span className="text-xs">🟦</span>
                       </div>
-                      <span className="text-xs text-muted-foreground text-center whitespace-nowrap">ERP Systems</span>
+                      <span className="text-xs text-muted-foreground">Google</span>
                     </div>
-                    <div className="flex-1 border-t-2 border-dotted border-red-500" style={{width: 'calc(50% - 3rem)'}}></div>
-                  </div>
-                  <div className="flex items-center">
-                    <div className="flex-1 border-t-2 border-dotted border-red-500" style={{width: 'calc(50% - 3rem)'}}></div>
-                    <div className="flex items-center gap-1 sm:gap-1.5 lg:gap-2 ml-2 sm:ml-3 lg:ml-4">
-                      <div className="flex flex-col items-center text-center">
-                        <div className="w-5 h-5 sm:w-6 sm:h-6 bg-blue-100 rounded flex items-center justify-center mb-1">
-                          <span className="text-xs">🟦</span>
-                        </div>
-                        <span className="text-xs text-muted-foreground">Google</span>
+                    <div className="flex flex-col items-center text-center">
+                      <div className="w-5 h-5 sm:w-6 sm:h-6 bg-blue-100 rounded flex items-center justify-center mb-1">
+                        <span className="text-xs">🔷</span>
                       </div>
-                      <div className="flex flex-col items-center text-center">
-                        <div className="w-5 h-5 sm:w-6 sm:h-6 bg-blue-100 rounded flex items-center justify-center mb-1">
-                          <span className="text-xs">🔷</span>
-                        </div>
-                        <span className="text-xs text-muted-foreground">Meta</span>
-                      </div>
+                      <span className="text-xs text-muted-foreground">Meta</span>
                     </div>
                   </div>
                 </div>
@@ -203,8 +219,27 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
                   <span className="text-xs text-green-600">Active</span>
                 </div>
               </div>
-              <div className="relative w-full">
-                <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 z-20">
+              <div className="relative w-full h-20">
+                <svg className="absolute inset-0 w-full h-full" style={{zIndex: 1}}>
+                  <defs>
+                    <pattern id="greenDotted2" patternUnits="userSpaceOnUse" width="8" height="2">
+                      <circle cx="4" cy="1" r="1" fill="#22c55e" />
+                    </pattern>
+                  </defs>
+                  <line x1="15%" y1="50%" x2="50%" y2="50%" stroke="url(#greenDotted2)" strokeWidth="2" />
+                  <line x1="50%" y1="50%" x2="85%" y2="50%" stroke="url(#greenDotted2)" strokeWidth="2" />
+                </svg>
+                
+                <div className="absolute left-[15%] top-1/2 transform -translate-x-1/2 -translate-y-1/2" style={{zIndex: 10}}>
+                  <div className="flex flex-col items-center text-center">
+                    <div className="w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8 bg-muted rounded-lg flex items-center justify-center mb-1">
+                      <Receipt className="w-3 h-3 sm:w-3.5 sm:h-3.5 lg:w-4 lg:h-4 text-muted-foreground" />
+                    </div>
+                    <span className="text-xs text-muted-foreground text-center whitespace-nowrap">CRM/POS Systems</span>
+                  </div>
+                </div>
+                
+                <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2" style={{zIndex: 20}}>
                   <div className="flex flex-col items-center text-center">
                     <div className="w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8 bg-primary/10 rounded-lg flex items-center justify-center mb-1">
                       <span className="text-xs font-bold text-primary">VX</span>
@@ -212,94 +247,32 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
                     <span className="text-xs text-muted-foreground whitespace-nowrap">VenueX</span>
                   </div>
                 </div>
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center">
-                    <div className="flex flex-col items-center text-center mr-2 sm:mr-3 lg:mr-4">
-                      <div className="w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8 bg-muted rounded-lg flex items-center justify-center mb-1">
-                        <Receipt className="w-3 h-3 sm:w-3.5 sm:h-3.5 lg:w-4 lg:h-4 text-muted-foreground" />
+                
+                <div className="absolute right-[15%] top-1/2 transform translate-x-1/2 -translate-y-1/2" style={{zIndex: 10}}>
+                  <div className="flex items-center gap-1 sm:gap-1.5 lg:gap-2">
+                    <div className="flex flex-col items-center text-center">
+                      <div className="w-5 h-5 sm:w-6 sm:h-6 bg-blue-100 rounded flex items-center justify-center mb-1">
+                        <span className="text-xs">🟦</span>
                       </div>
-                      <span className="text-xs text-muted-foreground text-center whitespace-nowrap">CRM/POS Systems</span>
+                      <span className="text-xs text-muted-foreground">Google</span>
                     </div>
-                    <div className="flex-1 border-t-2 border-dotted border-green-500" style={{width: 'calc(50% - 3rem)'}}></div>
-                  </div>
-                  <div className="flex items-center">
-                    <div className="flex-1 border-t-2 border-dotted border-green-500" style={{width: 'calc(50% - 3rem)'}}></div>
-                    <div className="flex items-center gap-1 sm:gap-1.5 lg:gap-2 ml-2 sm:ml-3 lg:ml-4">
-                      <div className="flex flex-col items-center text-center">
-                        <div className="w-5 h-5 sm:w-6 sm:h-6 bg-blue-100 rounded flex items-center justify-center mb-1">
-                          <span className="text-xs">🟦</span>
-                        </div>
-                        <span className="text-xs text-muted-foreground">Google</span>
+                    <div className="flex flex-col items-center text-center">
+                      <div className="w-5 h-5 sm:w-6 sm:h-6 bg-blue-100 rounded flex items-center justify-center mb-1">
+                        <span className="text-xs">🔷</span>
                       </div>
-                      <div className="flex flex-col items-center text-center">
-                        <div className="w-5 h-5 sm:w-6 sm:h-6 bg-blue-100 rounded flex items-center justify-center mb-1">
-                          <span className="text-xs">🔷</span>
-                        </div>
-                        <span className="text-xs text-muted-foreground">Meta</span>
+                      <span className="text-xs text-muted-foreground">Meta</span>
+                    </div>
+                    <div className="flex flex-col items-center text-center">
+                      <div className="w-5 h-5 sm:w-6 sm:h-6 bg-gray-100 rounded flex items-center justify-center mb-1">
+                        <span className="text-xs">⚫</span>
                       </div>
-                      <div className="flex flex-col items-center text-center">
-                        <div className="w-5 h-5 sm:w-6 sm:h-6 bg-gray-100 rounded flex items-center justify-center mb-1">
-                          <span className="text-xs">⚫</span>
-                        </div>
-                        <span className="text-xs text-muted-foreground">TikTok</span>
-                      </div>
+                      <span className="text-xs text-muted-foreground">TikTok</span>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
 
-            {/* Customer Analytics Data Flow */}
-            <div className="bg-muted/20 rounded-lg p-4">
-              <div className="flex items-center justify-between mb-3">
-                <div className="flex items-center gap-2">
-                  <AlertCircle className="w-4 h-4 text-red-600" />
-                  <span className="font-medium text-sm">Customer Analytics Data</span>
-                </div>
-                <div className="flex items-center gap-1">
-                  <XCircle className="w-3 h-3 text-red-600" />
-                  <span className="text-xs text-red-600">Connection Failed</span>
-                </div>
-              </div>
-              <div className="relative w-full">
-                <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 z-20">
-                  <div className="flex flex-col items-center text-center">
-                    <div className="w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8 bg-primary/10 rounded-lg flex items-center justify-center mb-1">
-                      <span className="text-xs font-bold text-primary">VX</span>
-                    </div>
-                    <span className="text-xs text-muted-foreground whitespace-nowrap">VenueX</span>
-                  </div>
-                </div>
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center">
-                    <div className="flex flex-col items-center text-center mr-2 sm:mr-3 lg:mr-4">
-                      <div className="w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8 bg-muted rounded-lg flex items-center justify-center mb-1">
-                        <Database className="w-3 h-3 sm:w-3.5 sm:h-3.5 lg:w-4 lg:h-4 text-muted-foreground" />
-                      </div>
-                      <span className="text-xs text-muted-foreground text-center whitespace-nowrap">Analytics Systems</span>
-                    </div>
-                    <div className="flex-1 border-t-2 border-dotted border-red-500" style={{width: 'calc(50% - 3rem)'}}></div>
-                  </div>
-                  <div className="flex items-center">
-                    <div className="flex-1 border-t-2 border-dotted border-red-500" style={{width: 'calc(50% - 3rem)'}}></div>
-                    <div className="flex items-center gap-1 sm:gap-1.5 lg:gap-2 ml-2 sm:ml-3 lg:ml-4">
-                      <div className="flex flex-col items-center text-center">
-                        <div className="w-5 h-5 sm:w-6 sm:h-6 bg-blue-100 rounded flex items-center justify-center mb-1">
-                          <span className="text-xs">🟦</span>
-                        </div>
-                        <span className="text-xs text-muted-foreground">Google</span>
-                      </div>
-                      <div className="flex flex-col items-center text-center">
-                        <div className="w-5 h-5 sm:w-6 sm:h-6 bg-blue-100 rounded flex items-center justify-center mb-1">
-                          <span className="text-xs">🔷</span>
-                        </div>
-                        <span className="text-xs text-muted-foreground">Meta</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
         
