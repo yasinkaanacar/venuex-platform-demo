@@ -90,14 +90,14 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
                 </div>
                 <span className="text-xs text-muted-foreground">Store Systems</span>
               </div>
-              <ArrowRight className="w-4 h-4 text-muted-foreground" />
+              <div className="flex-1 mx-4 border-t-2 border-dotted border-green-500"></div>
               <div className="flex flex-col items-center text-center">
                 <div className="w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center mb-1">
                   <span className="text-xs font-bold text-primary">VX</span>
                 </div>
                 <span className="text-xs text-muted-foreground">VenueX</span>
               </div>
-              <ArrowRight className="w-4 h-4 text-muted-foreground" />
+              <div className="flex-1 mx-4 border-t-2 border-dotted border-green-500"></div>
               <div className="flex items-center gap-2">
                 <div className="flex flex-col items-center text-center">
                   <div className="w-6 h-6 bg-blue-100 rounded flex items-center justify-center mb-1">
@@ -140,14 +140,14 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
                 </div>
                 <span className="text-xs text-muted-foreground">ERP Systems</span>
               </div>
-              <ArrowRight className="w-4 h-4 text-muted-foreground" />
+              <div className="flex-1 mx-4 border-t-2 border-dotted border-yellow-500"></div>
               <div className="flex flex-col items-center text-center">
                 <div className="w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center mb-1">
                   <span className="text-xs font-bold text-primary">VX</span>
                 </div>
                 <span className="text-xs text-muted-foreground">VenueX</span>
               </div>
-              <ArrowRight className="w-4 h-4 text-muted-foreground" />
+              <div className="flex-1 mx-4 border-t-2 border-dotted border-yellow-500"></div>
               <div className="flex items-center gap-2">
                 <div className="flex flex-col items-center text-center">
                   <div className="w-6 h-6 bg-blue-100 rounded flex items-center justify-center mb-1">
@@ -190,14 +190,14 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
                 </div>
                 <span className="text-xs text-muted-foreground">POS Systems</span>
               </div>
-              <ArrowRight className="w-4 h-4 text-muted-foreground" />
+              <div className="flex-1 mx-4 border-t-2 border-dotted border-green-500"></div>
               <div className="flex flex-col items-center text-center">
                 <div className="w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center mb-1">
                   <span className="text-xs font-bold text-primary">VX</span>
                 </div>
                 <span className="text-xs text-muted-foreground">VenueX</span>
               </div>
-              <ArrowRight className="w-4 h-4 text-muted-foreground" />
+              <div className="flex-1 mx-4 border-t-2 border-dotted border-green-500"></div>
               <div className="flex items-center gap-2">
                 <div className="flex flex-col items-center text-center">
                   <div className="w-6 h-6 bg-blue-100 rounded flex items-center justify-center mb-1">
