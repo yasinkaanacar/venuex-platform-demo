@@ -94,10 +94,10 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
                       <circle cx="4" cy="1" r="1" fill="#22c55e" />
                     </pattern>
                   </defs>
-                  {/* Source to VenueX line */}
-                  <line x1="20%" y1="50%" x2="48%" y2="50%" stroke="url(#greenDotted)" strokeWidth="2" />
-                  {/* VenueX to Platforms line */}
-                  <line x1="52%" y1="50%" x2="80%" y2="50%" stroke="url(#greenDotted)" strokeWidth="2" />
+                  {/* Source to VenueX line - aligned with logo centers */}
+                  <line x1="20%" y1="35%" x2="48%" y2="35%" stroke="url(#greenDotted)" strokeWidth="2" />
+                  {/* VenueX to Platforms line - aligned with logo centers */}
+                  <line x1="52%" y1="35%" x2="80%" y2="35%" stroke="url(#greenDotted)" strokeWidth="2" />
                 </svg>
                 
                 <div className="absolute left-[10%] top-1/2 transform -translate-y-1/2" style={{zIndex: 10}}>
@@ -168,10 +168,10 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
                       <circle cx="4" cy="1" r="1" fill="#ef4444" />
                     </pattern>
                   </defs>
-                  {/* Source to VenueX line */}
-                  <line x1="20%" y1="50%" x2="48%" y2="50%" stroke="url(#redDotted)" strokeWidth="2" />
-                  {/* VenueX to Platforms line */}
-                  <line x1="52%" y1="50%" x2="80%" y2="50%" stroke="url(#redDotted)" strokeWidth="2" />
+                  {/* Source to VenueX line - aligned with logo centers */}
+                  <line x1="20%" y1="35%" x2="48%" y2="35%" stroke="url(#redDotted)" strokeWidth="2" />
+                  {/* VenueX to Platforms line - aligned with logo centers */}
+                  <line x1="52%" y1="35%" x2="80%" y2="35%" stroke="url(#redDotted)" strokeWidth="2" />
                 </svg>
                 
                 <div className="absolute left-[10%] top-1/2 transform -translate-y-1/2" style={{zIndex: 10}}>
@@ -230,10 +230,10 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
                       <circle cx="4" cy="1" r="1" fill="#22c55e" />
                     </pattern>
                   </defs>
-                  {/* Source to VenueX line */}
-                  <line x1="20%" y1="50%" x2="48%" y2="50%" stroke="url(#greenDotted2)" strokeWidth="2" />
-                  {/* VenueX to Platforms line */}
-                  <line x1="52%" y1="50%" x2="80%" y2="50%" stroke="url(#greenDotted2)" strokeWidth="2" />
+                  {/* Source to VenueX line - aligned with logo centers */}
+                  <line x1="20%" y1="35%" x2="48%" y2="35%" stroke="url(#greenDotted2)" strokeWidth="2" />
+                  {/* VenueX to Platforms line - aligned with logo centers */}
+                  <line x1="52%" y1="35%" x2="80%" y2="35%" stroke="url(#greenDotted2)" strokeWidth="2" />
                 </svg>
                 
                 <div className="absolute left-[10%] top-1/2 transform -translate-y-1/2" style={{zIndex: 10}}>
