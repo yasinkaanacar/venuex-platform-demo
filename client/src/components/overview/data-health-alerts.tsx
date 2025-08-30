@@ -88,7 +88,7 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
                 </div>
               </div>
               <div className="relative w-full h-20 flex items-center">
-                <svg className="absolute inset-0 w-full h-full" style={{zIndex: 1}}>
+                <svg className="absolute inset-0 w-full h-full z-[1]">
                   <defs>
                     <pattern id="greenDotted" patternUnits="userSpaceOnUse" width="8" height="2">
                       <circle cx="4" cy="1" r="1" fill="#22c55e" />
@@ -100,7 +100,7 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
                   <line x1="52%" y1="35%" x2="80%" y2="35%" stroke="url(#greenDotted)" strokeWidth="2" />
                 </svg>
                 
-                <div className="absolute left-[10%] top-1/2 transform -translate-y-1/2" style={{zIndex: 10}}>
+                <div className="absolute left-[10%] top-1/2 transform -translate-y-1/2 z-10">
                   <div className="flex flex-col items-center text-center">
                     <div className="w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8 bg-muted rounded-lg flex items-center justify-center mb-1">
                       <Store className="w-3 h-3 sm:w-3.5 sm:h-3.5 lg:w-4 lg:h-4 text-muted-foreground" />
@@ -109,7 +109,7 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
                   </div>
                 </div>
                 
-                <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2" style={{zIndex: 20}}>
+                <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 z-20">
                   <div className="flex flex-col items-center text-center">
                     <div className="w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8 bg-primary/10 rounded-lg flex items-center justify-center mb-1">
                       <span className="text-xs font-bold text-primary">VX</span>
@@ -118,7 +118,7 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
                   </div>
                 </div>
                 
-                <div className="absolute right-[10%] top-1/2 transform translate-x-1/2 -translate-y-1/2" style={{zIndex: 10}}>
+                <div className="absolute right-[10%] top-1/2 transform translate-x-1/2 -translate-y-1/2 z-10">
                   <div className="flex items-center gap-1 sm:gap-1.5 lg:gap-2">
                     <div className="flex flex-col items-center text-center">
                       <div className="w-5 h-5 sm:w-6 sm:h-6 bg-blue-100 rounded flex items-center justify-center mb-1">
@@ -162,7 +162,7 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
                 </div>
               </div>
               <div className="relative w-full h-20 flex items-center">
-                <svg className="absolute inset-0 w-full h-full" style={{zIndex: 1}}>
+                <svg className="absolute inset-0 w-full h-full z-[1]">
                   <defs>
                     <pattern id="redDotted" patternUnits="userSpaceOnUse" width="8" height="2">
                       <circle cx="4" cy="1" r="1" fill="#ef4444" />
@@ -174,7 +174,7 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
                   <line x1="52%" y1="35%" x2="80%" y2="35%" stroke="url(#redDotted)" strokeWidth="2" />
                 </svg>
                 
-                <div className="absolute left-[10%] top-1/2 transform -translate-y-1/2" style={{zIndex: 10}}>
+                <div className="absolute left-[10%] top-1/2 transform -translate-y-1/2 z-10">
                   <div className="flex flex-col items-center text-center">
                     <div className="w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8 bg-muted rounded-lg flex items-center justify-center mb-1">
                       <Database className="w-3 h-3 sm:w-3.5 sm:h-3.5 lg:w-4 lg:h-4 text-muted-foreground" />
@@ -183,7 +183,7 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
                   </div>
                 </div>
                 
-                <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2" style={{zIndex: 20}}>
+                <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 z-20">
                   <div className="flex flex-col items-center text-center">
                     <div className="w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8 bg-primary/10 rounded-lg flex items-center justify-center mb-1">
                       <span className="text-xs font-bold text-primary">VX</span>
@@ -192,7 +192,7 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
                   </div>
                 </div>
                 
-                <div className="absolute right-[10%] top-1/2 transform translate-x-1/2 -translate-y-1/2" style={{zIndex: 10}}>
+                <div className="absolute right-[10%] top-1/2 transform translate-x-1/2 -translate-y-1/2 z-10">
                   <div className="flex items-center gap-1 sm:gap-1.5 lg:gap-2">
                     <div className="flex flex-col items-center text-center">
                       <div className="w-5 h-5 sm:w-6 sm:h-6 bg-blue-100 rounded flex items-center justify-center mb-1">
@@ -224,7 +224,7 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
                 </div>
               </div>
               <div className="relative w-full h-20 flex items-center">
-                <svg className="absolute inset-0 w-full h-full" style={{zIndex: 1}}>
+                <svg className="absolute inset-0 w-full h-full z-[1]">
                   <defs>
                     <pattern id="greenDotted2" patternUnits="userSpaceOnUse" width="8" height="2">
                       <circle cx="4" cy="1" r="1" fill="#22c55e" />
@@ -236,7 +236,7 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
                   <line x1="52%" y1="35%" x2="80%" y2="35%" stroke="url(#greenDotted2)" strokeWidth="2" />
                 </svg>
                 
-                <div className="absolute left-[10%] top-1/2 transform -translate-y-1/2" style={{zIndex: 10}}>
+                <div className="absolute left-[10%] top-1/2 transform -translate-y-1/2 z-10">
                   <div className="flex flex-col items-center text-center">
                     <div className="w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8 bg-muted rounded-lg flex items-center justify-center mb-1">
                       <Receipt className="w-3 h-3 sm:w-3.5 sm:h-3.5 lg:w-4 lg:h-4 text-muted-foreground" />
@@ -245,7 +245,7 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
                   </div>
                 </div>
                 
-                <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2" style={{zIndex: 20}}>
+                <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 z-20">
                   <div className="flex flex-col items-center text-center">
                     <div className="w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8 bg-primary/10 rounded-lg flex items-center justify-center mb-1">
                       <span className="text-xs font-bold text-primary">VX</span>
@@ -254,7 +254,7 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
                   </div>
                 </div>
                 
-                <div className="absolute right-[10%] top-1/2 transform translate-x-1/2 -translate-y-1/2" style={{zIndex: 10}}>
+                <div className="absolute right-[10%] top-1/2 transform translate-x-1/2 -translate-y-1/2 z-10">
                   <div className="flex items-center gap-1 sm:gap-1.5 lg:gap-2">
                     <div className="flex flex-col items-center text-center">
                       <div className="w-5 h-5 sm:w-6 sm:h-6 bg-blue-100 rounded flex items-center justify-center mb-1">
