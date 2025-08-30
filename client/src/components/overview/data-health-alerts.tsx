@@ -220,27 +220,27 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
                 
                 <div className="absolute right-[8%] top-1/2 transform translate-x-1/2 -translate-y-1/2 z-10">
                   <div className="flex flex-col gap-2">
-                    <div className="flex items-center gap-2">
-                      <div className="w-4 h-4 bg-green-500 rounded flex items-center justify-center">
+                    <div className="flex items-start gap-2">
+                      <div className="w-4 h-4 bg-green-500 rounded flex items-center justify-center flex-shrink-0">
                         <span className="text-xs text-white font-bold">G</span>
                       </div>
-                      <div className="flex flex-col">
-                        <span className="text-xs text-muted-foreground">Google Merchant Center</span>
-                        <div className="flex items-center gap-1">
-                          <div className="w-1 h-1 bg-yellow-500 rounded-full"></div>
-                          <span className="text-xs text-yellow-600">Pending 15m ago</span>
+                      <div className="flex flex-col min-w-0">
+                        <span className="text-xs text-muted-foreground whitespace-nowrap">Google Merchant Center</span>
+                        <div className="flex items-center gap-1 mt-0.5">
+                          <div className="w-1 h-1 bg-yellow-500 rounded-full flex-shrink-0"></div>
+                          <span className="text-xs text-yellow-600 whitespace-nowrap">Pending 15m ago</span>
                         </div>
                       </div>
                     </div>
-                    <div className="flex items-center gap-2">
-                      <div className="w-4 h-4 bg-blue-600 rounded flex items-center justify-center">
+                    <div className="flex items-start gap-2">
+                      <div className="w-4 h-4 bg-blue-600 rounded flex items-center justify-center flex-shrink-0">
                         <span className="text-xs text-white font-bold">f</span>
                       </div>
-                      <div className="flex flex-col">
-                        <span className="text-xs text-muted-foreground">Meta Commerce</span>
-                        <div className="flex items-center gap-1">
-                          <div className="w-1 h-1 bg-red-500 rounded-full"></div>
-                          <span className="text-xs text-red-600">Failed 1h ago</span>
+                      <div className="flex flex-col min-w-0">
+                        <span className="text-xs text-muted-foreground whitespace-nowrap">Meta Commerce</span>
+                        <div className="flex items-center gap-1 mt-0.5">
+                          <div className="w-1 h-1 bg-red-500 rounded-full flex-shrink-0"></div>
+                          <span className="text-xs text-red-600 whitespace-nowrap">Failed 1h ago</span>
                         </div>
                       </div>
                     </div>
@@ -295,39 +295,39 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
                 
                 <div className="absolute right-[8%] top-1/2 transform translate-x-1/2 -translate-y-1/2 z-10">
                   <div className="flex flex-col gap-2">
-                    <div className="flex items-center gap-2">
-                      <div className="w-4 h-4 bg-red-500 rounded flex items-center justify-center">
+                    <div className="flex items-start gap-2">
+                      <div className="w-4 h-4 bg-red-500 rounded flex items-center justify-center flex-shrink-0">
                         <span className="text-xs text-white font-bold">G</span>
                       </div>
-                      <div className="flex flex-col">
-                        <span className="text-xs text-muted-foreground">Google Ads</span>
-                        <div className="flex items-center gap-1">
-                          <div className="w-1 h-1 bg-green-500 rounded-full"></div>
-                          <span className="text-xs text-green-600">Synced 45s ago</span>
+                      <div className="flex flex-col min-w-0">
+                        <span className="text-xs text-muted-foreground whitespace-nowrap">Google Ads</span>
+                        <div className="flex items-center gap-1 mt-0.5">
+                          <div className="w-1 h-1 bg-green-500 rounded-full flex-shrink-0"></div>
+                          <span className="text-xs text-green-600 whitespace-nowrap">Synced 45s ago</span>
                         </div>
                       </div>
                     </div>
-                    <div className="flex items-center gap-2">
-                      <div className="w-4 h-4 bg-blue-600 rounded flex items-center justify-center">
+                    <div className="flex items-start gap-2">
+                      <div className="w-4 h-4 bg-blue-600 rounded flex items-center justify-center flex-shrink-0">
                         <span className="text-xs text-white font-bold">f</span>
                       </div>
-                      <div className="flex flex-col">
-                        <span className="text-xs text-muted-foreground">Meta Ads</span>
-                        <div className="flex items-center gap-1">
-                          <div className="w-1 h-1 bg-green-500 rounded-full"></div>
-                          <span className="text-xs text-green-600">Synced 1m ago</span>
+                      <div className="flex flex-col min-w-0">
+                        <span className="text-xs text-muted-foreground whitespace-nowrap">Meta Ads</span>
+                        <div className="flex items-center gap-1 mt-0.5">
+                          <div className="w-1 h-1 bg-green-500 rounded-full flex-shrink-0"></div>
+                          <span className="text-xs text-green-600 whitespace-nowrap">Synced 1m ago</span>
                         </div>
                       </div>
                     </div>
-                    <div className="flex items-center gap-2">
-                      <div className="w-4 h-4 bg-black rounded flex items-center justify-center">
+                    <div className="flex items-start gap-2">
+                      <div className="w-4 h-4 bg-black rounded flex items-center justify-center flex-shrink-0">
                         <span className="text-xs text-white font-bold">🎵</span>
                       </div>
-                      <div className="flex flex-col">
-                        <span className="text-xs text-muted-foreground">TikTok Ads</span>
-                        <div className="flex items-center gap-1">
-                          <div className="w-1 h-1 bg-green-500 rounded-full"></div>
-                          <span className="text-xs text-green-600">Synced 2m ago</span>
+                      <div className="flex flex-col min-w-0">
+                        <span className="text-xs text-muted-foreground whitespace-nowrap">TikTok Ads</span>
+                        <div className="flex items-center gap-1 mt-0.5">
+                          <div className="w-1 h-1 bg-green-500 rounded-full flex-shrink-0"></div>
+                          <span className="text-xs text-green-600 whitespace-nowrap">Synced 2m ago</span>
                         </div>
                       </div>
                     </div>
