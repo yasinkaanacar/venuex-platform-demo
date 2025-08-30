@@ -92,7 +92,7 @@ export default function KpiCards({ kpis }: KpiCardsProps) {
               
               <div className="space-y-2">
                 <div className="text-2xl font-bold text-foreground" data-testid={`text-value-${card.id}`}>
-                  {card.value}
+                  {card.value}{card.id === 'average-rating' ? ' ⭐' : ''}
                 </div>
                 <div className="text-xs text-muted-foreground">
                   vs {card.previousValue} previous period
