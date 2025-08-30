@@ -7,16 +7,13 @@ export default function PerformanceChart() {
       <CardHeader>
         <div className="flex items-center justify-between">
           <div>
-            <CardTitle className="text-lg font-semibold text-foreground">
-              Customer Journey Funnel
-            </CardTitle>
+            <CardTitle className="text-lg font-semibold text-foreground">Online-to-Offline Conversion Funnel</CardTitle>
             <p className="text-sm text-muted-foreground">
               Online-to-offline conversion metrics
             </p>
           </div>
         </div>
       </CardHeader>
-      
       <CardContent>
         <div className="relative" data-testid="chart-performance">
           <img 
