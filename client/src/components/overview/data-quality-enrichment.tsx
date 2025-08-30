@@ -106,12 +106,30 @@ export default function DataQualityEnrichment() {
             <h4 className="text-sm font-medium text-foreground mb-4">Customer Data</h4>
             <div className="space-y-3">
               <div className="flex items-center justify-between">
-                <span className="text-sm text-muted-foreground">Customer IDs</span>
+                <span className="text-sm text-muted-foreground">Purchase Value</span>
                 <div className="flex items-center gap-2 flex-1 ml-4">
                   <div className="flex-1 bg-border rounded-full h-2">
-                    <div className="bg-blue-600 h-2 rounded-full" style={{ width: '100%' }}></div>
+                    <div className="bg-blue-600 h-2 rounded-full" style={{ width: '96%' }}></div>
                   </div>
-                  <span className="text-sm font-medium text-foreground w-8">100%</span>
+                  <span className="text-sm font-medium text-foreground w-8">96%</span>
+                </div>
+              </div>
+              <div className="flex items-center justify-between">
+                <span className="text-sm text-muted-foreground">Customer E-mail</span>
+                <div className="flex items-center gap-2 flex-1 ml-4">
+                  <div className="flex-1 bg-border rounded-full h-2">
+                    <div className="bg-blue-600 h-2 rounded-full" style={{ width: '85%' }}></div>
+                  </div>
+                  <span className="text-sm font-medium text-foreground w-8">85%</span>
+                </div>
+              </div>
+              <div className="flex items-center justify-between">
+                <span className="text-sm text-muted-foreground">Phone Number</span>
+                <div className="flex items-center gap-2 flex-1 ml-4">
+                  <div className="flex-1 bg-border rounded-full h-2">
+                    <div className="bg-blue-600 h-2 rounded-full" style={{ width: '78%' }}></div>
+                  </div>
+                  <span className="text-sm font-medium text-foreground w-8">78%</span>
                 </div>
               </div>
               <div className="flex items-center justify-between">
@@ -121,15 +139,6 @@ export default function DataQualityEnrichment() {
                     <div className="bg-blue-600 h-2 rounded-full" style={{ width: '100%' }}></div>
                   </div>
                   <span className="text-sm font-medium text-foreground w-8">100%</span>
-                </div>
-              </div>
-              <div className="flex items-center justify-between">
-                <span className="text-sm text-muted-foreground">Purchase Values</span>
-                <div className="flex items-center gap-2 flex-1 ml-4">
-                  <div className="flex-1 bg-border rounded-full h-2">
-                    <div className="bg-blue-600 h-2 rounded-full" style={{ width: '96%' }}></div>
-                  </div>
-                  <span className="text-sm font-medium text-foreground w-8">96%</span>
                 </div>
               </div>
             </div>
