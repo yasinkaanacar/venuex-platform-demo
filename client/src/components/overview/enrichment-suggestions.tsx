@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { MapPin, Star, Image, Lightbulb } from 'lucide-react';
+import { MapPin, Star, FileText, Lightbulb } from 'lucide-react';
 import { EnrichmentSuggestion } from '@shared/schema';
 import { apiRequest } from '@/lib/queryClient';
 import { useToast } from '@/hooks/use-toast';
@@ -58,8 +58,8 @@ export default function EnrichmentSuggestions() {
         return MapPin;
       case 'hours_update':
         return Star;
-      case 'image_optimization':
-        return Image;
+      case 'description_optimization':
+        return FileText;
       default:
         return Lightbulb;
     }
@@ -71,7 +71,7 @@ export default function EnrichmentSuggestions() {
         return 'bg-blue-600';
       case 'hours_update':
         return 'bg-green-600';
-      case 'image_optimization':
+      case 'description_optimization':
         return 'bg-purple-600';
       default:
         return 'bg-orange-600';
@@ -93,13 +93,13 @@ export default function EnrichmentSuggestions() {
       },
       {
         id: '2',
-        type: 'image_optimization',
-        title: 'Optimize product images',
-        description: '127 products have low-quality or missing images. High-quality images can increase click-through rates by 30%.',
+        type: 'description_optimization',
+        title: 'Optimize product descriptions',
+        description: '89 products have incomplete or poorly optimized descriptions. Enhanced descriptions can improve conversion rates by 25%.',
         impact: 'high',
-        estimatedImprovement: '+30%',
-        itemsAffected: '127 items affected',
-        timeToFix: '~8 hours to fix'
+        estimatedImprovement: '+25%',
+        itemsAffected: '89 items affected',
+        timeToFix: '~6 hours to fix'
       },
       {
         id: '3',
@@ -228,7 +228,7 @@ export default function EnrichmentSuggestions() {
             {platform === 'google' && suggestionsByPlatform[platform].length > 0 && (
               <div className="mt-6 pt-4 border-t border-border flex items-center justify-between">
                 <div className="text-sm text-muted-foreground">
-                  3 suggestions shown • Potential impact: <span className="font-medium">+53.0% overall performance</span>
+                  3 suggestions shown • Potential impact: <span className="font-medium">+48.0% overall performance</span>
                 </div>
                 <Button variant="outline" size="sm" className="text-muted-foreground border-border hover:bg-muted/50">
                   View all suggestions
