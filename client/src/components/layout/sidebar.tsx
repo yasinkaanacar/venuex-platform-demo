@@ -56,7 +56,7 @@ export default function Sidebar() {
   return (
     <div className="w-64 bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-700 flex flex-col h-screen">
       {/* Logo and Brand */}
-      <div className="p-6 border-b border-gray-200 dark:border-gray-700">
+      <div className="p-4 border-b border-gray-200 dark:border-gray-700">
         <div className="flex items-center justify-center">
           <img 
             src={venueXLogo} 
