@@ -1,5 +1,4 @@
 import { Store, User } from 'lucide-react';
-import venueXLogo from '@assets/vx-logo-1000x1000_1756566252817.png';
 
 interface HeaderProps {
   lastSync?: string;
@@ -25,12 +24,9 @@ export default function Header({ lastSync }: HeaderProps) {
       <div className="max-w-7xl mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-4">
-            <img 
-              src={venueXLogo} 
-              alt="VenueX Logo" 
-              className="w-10 h-10 object-contain"
-              data-testid="img-venuex-logo"
-            />
+            <div className="bg-primary text-primary-foreground rounded-lg p-2">
+              <Store className="w-6 h-6" />
+            </div>
             <div>
               <h1 className="text-xl font-bold text-foreground" data-testid="text-app-title">VenueX</h1>
               <p className="text-sm text-muted-foreground">Overview Dashboard</p>

@@ -9,6 +9,7 @@ import {
   ChevronDown
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import venueXLogo from '@assets/vx-logo-1000x1000_1756566252817.png';
 
 const navigationItems = [
   { 
@@ -57,9 +58,11 @@ export default function Sidebar() {
       {/* Logo and Brand */}
       <div className="p-6 border-b border-gray-200 dark:border-gray-700">
         <div className="flex items-center space-x-3">
-          <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
-            <BarChart3 className="w-5 h-5 text-white" />
-          </div>
+          <img 
+            src={venueXLogo} 
+            alt="VenueX Logo" 
+            className="w-8 h-8 object-contain"
+          />
           <span className="text-xl font-semibold text-gray-900 dark:text-white">VenueX</span>
         </div>
       </div>
