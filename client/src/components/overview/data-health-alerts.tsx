@@ -87,15 +87,15 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
                   <span className="text-xs text-green-600">Active</span>
                 </div>
               </div>
-              <div className="flex items-center justify-between">
-                <div className="flex flex-col items-center text-center">
+              <div className="flex items-center">
+                <div className="flex flex-col items-center text-center w-24">
                   <div className="w-8 h-8 bg-muted rounded-lg flex items-center justify-center mb-1">
                     <Store className="w-4 h-4 text-muted-foreground" />
                   </div>
                   <span className="text-xs text-muted-foreground">Store Systems</span>
                 </div>
-                <div className="flex-1 mx-4 border-t-2 border-dotted border-green-500"></div>
-                <div className="flex flex-col items-center text-center">
+                <div className="w-32 border-t-2 border-dotted border-green-500"></div>
+                <div className="flex flex-col items-center text-center w-20">
                   <div className="w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center mb-1">
                     <span className="text-xs font-bold text-primary">VX</span>
                   </div>
@@ -143,15 +143,15 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
                   <span className="text-xs text-yellow-600">Syncing</span>
                 </div>
               </div>
-              <div className="flex items-center justify-between">
-                <div className="flex flex-col items-center text-center">
+              <div className="flex items-center">
+                <div className="flex flex-col items-center text-center w-24">
                   <div className="w-8 h-8 bg-muted rounded-lg flex items-center justify-center mb-1">
                     <Database className="w-4 h-4 text-muted-foreground" />
                   </div>
                   <span className="text-xs text-muted-foreground">ERP Systems</span>
                 </div>
-                <div className="flex-1 mx-4 border-t-2 border-dotted border-yellow-500"></div>
-                <div className="flex flex-col items-center text-center">
+                <div className="w-32 border-t-2 border-dotted border-yellow-500"></div>
+                <div className="flex flex-col items-center text-center w-20">
                   <div className="w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center mb-1">
                     <span className="text-xs font-bold text-primary">VX</span>
                   </div>
@@ -187,15 +187,15 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
                   <span className="text-xs text-green-600">Active</span>
                 </div>
               </div>
-              <div className="flex items-center justify-between">
-                <div className="flex flex-col items-center text-center">
+              <div className="flex items-center">
+                <div className="flex flex-col items-center text-center w-24">
                   <div className="w-8 h-8 bg-muted rounded-lg flex items-center justify-center mb-1">
                     <Receipt className="w-4 h-4 text-muted-foreground" />
                   </div>
                   <span className="text-xs text-muted-foreground">CRM/POS Systems</span>
                 </div>
-                <div className="flex-1 mx-4 border-t-2 border-dotted border-green-500"></div>
-                <div className="flex flex-col items-center text-center">
+                <div className="w-32 border-t-2 border-dotted border-green-500"></div>
+                <div className="flex flex-col items-center text-center w-20">
                   <div className="w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center mb-1">
                     <span className="text-xs font-bold text-primary">VX</span>
                   </div>
