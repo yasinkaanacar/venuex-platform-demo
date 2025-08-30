@@ -12,7 +12,6 @@ export default function DataQualityEnrichment() {
           </div>
         </div>
       </CardHeader>
-      
       <CardContent className="space-y-8">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Location Data */}
@@ -72,7 +71,7 @@ export default function DataQualityEnrichment() {
                 </div>
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-sm text-muted-foreground">Product Images</span>
+                <span className="text-sm text-muted-foreground">Store Codes</span>
                 <div className="flex items-center gap-2 flex-1 ml-4">
                   <div className="flex-1 bg-border rounded-full h-2">
                     <div className="bg-blue-600 h-2 rounded-full" style={{ width: '87%' }}></div>
