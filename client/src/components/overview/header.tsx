@@ -30,7 +30,6 @@ export default function Header({ lastSync }: HeaderProps) {
             <div>
               <h1 className="text-xl font-bold text-foreground" data-testid="text-app-title">Overview
 </h1>
-              <p className="text-sm text-muted-foreground">Overview Dashboard</p>
             </div>
           </div>
           
