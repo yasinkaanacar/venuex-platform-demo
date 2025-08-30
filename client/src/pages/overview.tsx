@@ -6,8 +6,7 @@ import KpiCards from '@/components/overview/kpi-cards';
 import PerformanceChart from '@/components/overview/performance-chart';
 import TopPerformingLocations from '@/components/overview/top-performing-locations';
 import DataQualityEnrichment from '@/components/overview/data-quality-enrichment';
-import DataHealthCard from '@/components/overview/data-health-card';
-import LocationPerformance from '@/components/overview/location-performance';
+import DataHealthAlerts from '@/components/overview/data-health-alerts';
 import { FilterState, OverviewData } from '@/lib/types';
 import { Skeleton } from '@/components/ui/skeleton';
 
@@ -63,13 +62,11 @@ export default function Overview() {
             <TopPerformingLocations />
             <DataQualityEnrichment />
             
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              <DataHealthCard 
-                platforms={overviewData?.platforms} 
-                alerts={overviewData?.alerts}
-              />
-              <LocationPerformance locations={overviewData?.locations} />
-            </div>
+            <DataHealthAlerts 
+              platforms={overviewData?.platforms} 
+              alerts={overviewData?.alerts}
+              locations={overviewData?.locations}
+            />
           </div>
         )}
       </div>
