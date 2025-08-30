@@ -63,7 +63,6 @@ export default function Sidebar() {
             alt="VenueX Logo" 
             className="w-8 h-8 object-contain"
           />
-          <span className="text-xl font-semibold text-gray-900 dark:text-white">VenueX</span>
         </div>
       </div>
 
