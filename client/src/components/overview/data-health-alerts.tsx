@@ -71,7 +71,7 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
       
       <CardContent className="space-y-8">
         <div className="relative">
-          {/* Vertical VenueX alignment line */}
+          {/* Vertical VenueX alignment guide */}
           <div className="absolute left-1/2 top-0 bottom-0 w-px bg-primary/20 transform -translate-x-1/2 z-0"></div>
           
           <div className="space-y-6 relative z-10">
@@ -87,45 +87,53 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
                   <span className="text-xs text-green-600">Active</span>
                 </div>
               </div>
-              <div className="flex items-center">
-                <div className="flex flex-col items-center text-center w-16 sm:w-20 lg:w-24">
-                  <div className="w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8 bg-muted rounded-lg flex items-center justify-center mb-1">
-                    <Store className="w-3 h-3 sm:w-3.5 sm:h-3.5 lg:w-4 lg:h-4 text-muted-foreground" />
+              <div className="relative w-full">
+                <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 z-20">
+                  <div className="flex flex-col items-center text-center">
+                    <div className="w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8 bg-primary/10 rounded-lg flex items-center justify-center mb-1">
+                      <span className="text-xs font-bold text-primary">VX</span>
+                    </div>
+                    <span className="text-xs text-muted-foreground whitespace-nowrap">VenueX</span>
                   </div>
-                  <span className="text-xs text-muted-foreground text-center">Store Systems</span>
                 </div>
-                <div className="w-16 sm:w-24 lg:w-32 border-t-2 border-dotted border-green-500"></div>
-                <div className="flex flex-col items-center text-center w-12 sm:w-16 lg:w-20">
-                  <div className="w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8 bg-primary/10 rounded-lg flex items-center justify-center mb-1">
-                    <span className="text-xs sm:text-xs lg:text-xs font-bold text-primary">VX</span>
-                  </div>
-                  <span className="text-xs text-muted-foreground">VenueX</span>
-                </div>
-                <div className="flex-1 mx-2 sm:mx-3 lg:mx-4 border-t-2 border-dotted border-green-500"></div>
-                <div className="flex items-center gap-1 sm:gap-1.5 lg:gap-2">
-                  <div className="flex flex-col items-center text-center">
-                    <div className="w-5 h-5 sm:w-6 sm:h-6 bg-blue-100 rounded flex items-center justify-center mb-1">
-                      <span className="text-xs">🟦</span>
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center">
+                    <div className="flex flex-col items-center text-center mr-2 sm:mr-3 lg:mr-4">
+                      <div className="w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8 bg-muted rounded-lg flex items-center justify-center mb-1">
+                        <Store className="w-3 h-3 sm:w-3.5 sm:h-3.5 lg:w-4 lg:h-4 text-muted-foreground" />
+                      </div>
+                      <span className="text-xs text-muted-foreground text-center whitespace-nowrap">Store Systems</span>
                     </div>
-                    <span className="text-xs text-muted-foreground">Google</span>
+                    <div className="flex-1 border-t-2 border-dotted border-green-500" style={{width: 'calc(50% - 3rem)'}}></div>
                   </div>
-                  <div className="flex flex-col items-center text-center">
-                    <div className="w-5 h-5 sm:w-6 sm:h-6 bg-blue-100 rounded flex items-center justify-center mb-1">
-                      <span className="text-xs">🔷</span>
+                  <div className="flex items-center">
+                    <div className="flex-1 border-t-2 border-dotted border-green-500" style={{width: 'calc(50% - 3rem)'}}></div>
+                    <div className="flex items-center gap-1 sm:gap-1.5 lg:gap-2 ml-2 sm:ml-3 lg:ml-4">
+                      <div className="flex flex-col items-center text-center">
+                        <div className="w-5 h-5 sm:w-6 sm:h-6 bg-blue-100 rounded flex items-center justify-center mb-1">
+                          <span className="text-xs">🟦</span>
+                        </div>
+                        <span className="text-xs text-muted-foreground">Google</span>
+                      </div>
+                      <div className="flex flex-col items-center text-center">
+                        <div className="w-5 h-5 sm:w-6 sm:h-6 bg-blue-100 rounded flex items-center justify-center mb-1">
+                          <span className="text-xs">🔷</span>
+                        </div>
+                        <span className="text-xs text-muted-foreground">Meta</span>
+                      </div>
+                      <div className="flex flex-col items-center text-center">
+                        <div className="w-5 h-5 sm:w-6 sm:h-6 bg-gray-100 rounded flex items-center justify-center mb-1">
+                          <span className="text-xs">🔘</span>
+                        </div>
+                        <span className="text-xs text-muted-foreground">Apple</span>
+                      </div>
+                      <div className="flex flex-col items-center text-center">
+                        <div className="w-5 h-5 sm:w-6 sm:h-6 bg-gray-100 rounded flex items-center justify-center mb-1">
+                          <span className="text-xs">🟠</span>
+                        </div>
+                        <span className="text-xs text-muted-foreground">Yandex</span>
+                      </div>
                     </div>
-                    <span className="text-xs text-muted-foreground">Meta</span>
-                  </div>
-                  <div className="flex flex-col items-center text-center">
-                    <div className="w-5 h-5 sm:w-6 sm:h-6 bg-gray-100 rounded flex items-center justify-center mb-1">
-                      <span className="text-xs">🔘</span>
-                    </div>
-                    <span className="text-xs text-muted-foreground">Apple</span>
-                  </div>
-                  <div className="flex flex-col items-center text-center">
-                    <div className="w-5 h-5 sm:w-6 sm:h-6 bg-gray-100 rounded flex items-center justify-center mb-1">
-                      <span className="text-xs">🟠</span>
-                    </div>
-                    <span className="text-xs text-muted-foreground">Yandex</span>
                   </div>
                 </div>
               </div>
@@ -143,33 +151,41 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
                   <span className="text-xs text-yellow-600">Syncing</span>
                 </div>
               </div>
-              <div className="flex items-center">
-                <div className="flex flex-col items-center text-center w-16 sm:w-20 lg:w-24">
-                  <div className="w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8 bg-muted rounded-lg flex items-center justify-center mb-1">
-                    <Database className="w-3 h-3 sm:w-3.5 sm:h-3.5 lg:w-4 lg:h-4 text-muted-foreground" />
-                  </div>
-                  <span className="text-xs text-muted-foreground text-center">ERP Systems</span>
-                </div>
-                <div className="w-16 sm:w-24 lg:w-32 border-t-2 border-dotted border-yellow-500"></div>
-                <div className="flex flex-col items-center text-center w-12 sm:w-16 lg:w-20">
-                  <div className="w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8 bg-primary/10 rounded-lg flex items-center justify-center mb-1">
-                    <span className="text-xs sm:text-xs lg:text-xs font-bold text-primary">VX</span>
-                  </div>
-                  <span className="text-xs text-muted-foreground">VenueX</span>
-                </div>
-                <div className="flex-1 mx-2 sm:mx-3 lg:mx-4 border-t-2 border-dotted border-yellow-500"></div>
-                <div className="flex items-center gap-1 sm:gap-1.5 lg:gap-2">
+              <div className="relative w-full">
+                <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 z-20">
                   <div className="flex flex-col items-center text-center">
-                    <div className="w-5 h-5 sm:w-6 sm:h-6 bg-blue-100 rounded flex items-center justify-center mb-1">
-                      <span className="text-xs">🟦</span>
+                    <div className="w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8 bg-primary/10 rounded-lg flex items-center justify-center mb-1">
+                      <span className="text-xs font-bold text-primary">VX</span>
                     </div>
-                    <span className="text-xs text-muted-foreground">Google</span>
+                    <span className="text-xs text-muted-foreground whitespace-nowrap">VenueX</span>
                   </div>
-                  <div className="flex flex-col items-center text-center">
-                    <div className="w-5 h-5 sm:w-6 sm:h-6 bg-blue-100 rounded flex items-center justify-center mb-1">
-                      <span className="text-xs">🔷</span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center">
+                    <div className="flex flex-col items-center text-center mr-2 sm:mr-3 lg:mr-4">
+                      <div className="w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8 bg-muted rounded-lg flex items-center justify-center mb-1">
+                        <Database className="w-3 h-3 sm:w-3.5 sm:h-3.5 lg:w-4 lg:h-4 text-muted-foreground" />
+                      </div>
+                      <span className="text-xs text-muted-foreground text-center whitespace-nowrap">ERP Systems</span>
                     </div>
-                    <span className="text-xs text-muted-foreground">Meta</span>
+                    <div className="flex-1 border-t-2 border-dotted border-yellow-500" style={{width: 'calc(50% - 3rem)'}}></div>
+                  </div>
+                  <div className="flex items-center">
+                    <div className="flex-1 border-t-2 border-dotted border-yellow-500" style={{width: 'calc(50% - 3rem)'}}></div>
+                    <div className="flex items-center gap-1 sm:gap-1.5 lg:gap-2 ml-2 sm:ml-3 lg:ml-4">
+                      <div className="flex flex-col items-center text-center">
+                        <div className="w-5 h-5 sm:w-6 sm:h-6 bg-blue-100 rounded flex items-center justify-center mb-1">
+                          <span className="text-xs">🟦</span>
+                        </div>
+                        <span className="text-xs text-muted-foreground">Google</span>
+                      </div>
+                      <div className="flex flex-col items-center text-center">
+                        <div className="w-5 h-5 sm:w-6 sm:h-6 bg-blue-100 rounded flex items-center justify-center mb-1">
+                          <span className="text-xs">🔷</span>
+                        </div>
+                        <span className="text-xs text-muted-foreground">Meta</span>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -187,39 +203,47 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
                   <span className="text-xs text-green-600">Active</span>
                 </div>
               </div>
-              <div className="flex items-center">
-                <div className="flex flex-col items-center text-center w-16 sm:w-20 lg:w-24">
-                  <div className="w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8 bg-muted rounded-lg flex items-center justify-center mb-1">
-                    <Receipt className="w-3 h-3 sm:w-3.5 sm:h-3.5 lg:w-4 lg:h-4 text-muted-foreground" />
+              <div className="relative w-full">
+                <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 z-20">
+                  <div className="flex flex-col items-center text-center">
+                    <div className="w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8 bg-primary/10 rounded-lg flex items-center justify-center mb-1">
+                      <span className="text-xs font-bold text-primary">VX</span>
+                    </div>
+                    <span className="text-xs text-muted-foreground whitespace-nowrap">VenueX</span>
                   </div>
-                  <span className="text-xs text-muted-foreground text-center">CRM/POS Systems</span>
                 </div>
-                <div className="w-16 sm:w-24 lg:w-32 border-t-2 border-dotted border-green-500"></div>
-                <div className="flex flex-col items-center text-center w-12 sm:w-16 lg:w-20">
-                  <div className="w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8 bg-primary/10 rounded-lg flex items-center justify-center mb-1">
-                    <span className="text-xs sm:text-xs lg:text-xs font-bold text-primary">VX</span>
-                  </div>
-                  <span className="text-xs text-muted-foreground">VenueX</span>
-                </div>
-                <div className="flex-1 mx-2 sm:mx-3 lg:mx-4 border-t-2 border-dotted border-green-500"></div>
-                <div className="flex items-center gap-1 sm:gap-1.5 lg:gap-2">
-                  <div className="flex flex-col items-center text-center">
-                    <div className="w-5 h-5 sm:w-6 sm:h-6 bg-blue-100 rounded flex items-center justify-center mb-1">
-                      <span className="text-xs">🟦</span>
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center">
+                    <div className="flex flex-col items-center text-center mr-2 sm:mr-3 lg:mr-4">
+                      <div className="w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8 bg-muted rounded-lg flex items-center justify-center mb-1">
+                        <Receipt className="w-3 h-3 sm:w-3.5 sm:h-3.5 lg:w-4 lg:h-4 text-muted-foreground" />
+                      </div>
+                      <span className="text-xs text-muted-foreground text-center whitespace-nowrap">CRM/POS Systems</span>
                     </div>
-                    <span className="text-xs text-muted-foreground">Google</span>
+                    <div className="flex-1 border-t-2 border-dotted border-green-500" style={{width: 'calc(50% - 3rem)'}}></div>
                   </div>
-                  <div className="flex flex-col items-center text-center">
-                    <div className="w-5 h-5 sm:w-6 sm:h-6 bg-blue-100 rounded flex items-center justify-center mb-1">
-                      <span className="text-xs">🔷</span>
+                  <div className="flex items-center">
+                    <div className="flex-1 border-t-2 border-dotted border-green-500" style={{width: 'calc(50% - 3rem)'}}></div>
+                    <div className="flex items-center gap-1 sm:gap-1.5 lg:gap-2 ml-2 sm:ml-3 lg:ml-4">
+                      <div className="flex flex-col items-center text-center">
+                        <div className="w-5 h-5 sm:w-6 sm:h-6 bg-blue-100 rounded flex items-center justify-center mb-1">
+                          <span className="text-xs">🟦</span>
+                        </div>
+                        <span className="text-xs text-muted-foreground">Google</span>
+                      </div>
+                      <div className="flex flex-col items-center text-center">
+                        <div className="w-5 h-5 sm:w-6 sm:h-6 bg-blue-100 rounded flex items-center justify-center mb-1">
+                          <span className="text-xs">🔷</span>
+                        </div>
+                        <span className="text-xs text-muted-foreground">Meta</span>
+                      </div>
+                      <div className="flex flex-col items-center text-center">
+                        <div className="w-5 h-5 sm:w-6 sm:h-6 bg-gray-100 rounded flex items-center justify-center mb-1">
+                          <span className="text-xs">⚫</span>
+                        </div>
+                        <span className="text-xs text-muted-foreground">TikTok</span>
+                      </div>
                     </div>
-                    <span className="text-xs text-muted-foreground">Meta</span>
-                  </div>
-                  <div className="flex flex-col items-center text-center">
-                    <div className="w-5 h-5 sm:w-6 sm:h-6 bg-gray-100 rounded flex items-center justify-center mb-1">
-                      <span className="text-xs">⚫</span>
-                    </div>
-                    <span className="text-xs text-muted-foreground">TikTok</span>
                   </div>
                 </div>
               </div>
