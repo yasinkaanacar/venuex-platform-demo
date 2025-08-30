@@ -77,7 +77,7 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
           <div className="space-y-6 relative z-10">
             {/* Location Data Flow */}
             <div className="bg-muted/20 rounded-lg p-4">
-              <div className="flex items-start justify-between mb-4">
+              <div className="flex items-start justify-between mb-4 -mt-4">
                 <div className="flex items-center gap-2">
                   <MapPin className="w-4 h-4 text-blue-600" />
                   <span className="font-medium text-sm">Location Data</span>
