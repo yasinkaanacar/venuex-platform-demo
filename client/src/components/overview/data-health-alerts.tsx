@@ -138,147 +138,278 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
           </div>
         </CardHeader>
         
-        <CardContent className="space-y-6">
-          {/* Main Data Flow Layout */}
-          <div className="grid grid-cols-12 gap-6 items-center min-h-[300px]">
-            
-            {/* Left Side - Data Sources */}
-            <div className="col-span-4 space-y-4">
-              {/* Store Data Sources */}
-              <div className="bg-card border-2 border-border rounded-lg p-4">
-                <h4 className="font-semibold text-sm mb-3 text-foreground">Store data</h4>
-                <p className="text-xs text-muted-foreground mb-3">150+ ERP and POS system integrations</p>
-                <div className="grid grid-cols-3 gap-2">
-                  <div className="w-8 h-8 bg-gray-500 rounded flex items-center justify-center">
-                    <Database className="w-4 h-4 text-white" />
+        <CardContent className="space-y-8">
+        <div className="relative">
+          {/* Vertical VenueX alignment guide */}
+          <div className="absolute left-1/2 top-0 bottom-0 w-px bg-primary/20 transform -translate-x-1/2 z-0"></div>
+          
+          <div className="space-y-6 relative z-10">
+            {/* Location Data Flow */}
+            <div className="bg-muted/20 rounded-lg p-4">
+              <div className="mb-4 -mt-4">
+                <div className="flex items-center gap-2">
+                  <MapPin className="w-4 h-4 text-blue-600" />
+                  <span className="font-medium text-sm">Location Data</span>
+                </div>
+              </div>
+              <div className="relative w-full h-20 flex items-center">
+                <svg className="absolute inset-0 w-full h-full z-[1]">
+                  <defs>
+                    <pattern id="greenDotted" patternUnits="userSpaceOnUse" width="8" height="2">
+                      <circle cx="4" cy="1" r="1" fill="#22c55e" />
+                    </pattern>
+                  </defs>
+                  {/* Source to VenueX line - aligned with logo centers */}
+                  <line x1="20%" y1="35%" x2="48%" y2="35%" stroke="url(#greenDotted)" strokeWidth="2" />
+                  {/* VenueX to Platforms line - stops before platforms */}
+                  <line x1="52%" y1="50%" x2="75%" y2="50%" stroke="url(#greenDotted)" strokeWidth="2" />
+                </svg>
+                
+                <div className="absolute left-[4%] top-1/2 transform -translate-y-1/2 z-10">
+                  <div className="flex flex-col items-center text-center">
+                    <div className="w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8 bg-muted rounded-lg flex items-center justify-center mb-1">
+                      <Store className="w-3 h-3 sm:w-3.5 sm:h-3.5 lg:w-4 lg:h-4 text-muted-foreground" />
+                    </div>
+                    <span className="text-xs text-muted-foreground text-center whitespace-nowrap">Store Systems</span>
+                    <div className="flex items-center gap-1 mt-1">
+                      <div className="w-1.5 h-1.5 bg-green-500 rounded-full"></div>
+                      <span className="text-xs text-green-600">Online</span>
+                    </div>
+                    <span className="text-xs text-muted-foreground">Updated 2m ago</span>
                   </div>
-                  <div className="w-8 h-8 bg-blue-600 rounded flex items-center justify-center">
-                    <Store className="w-4 h-4 text-white" />
+                </div>
+                
+                <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 z-20">
+                  <div className="flex flex-col items-center text-center">
+                    <div className="w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8 bg-primary/10 rounded-lg flex items-center justify-center mb-1">
+                      <span className="text-xs font-bold text-primary">VX</span>
+                    </div>
+                    <span className="text-xs text-muted-foreground whitespace-nowrap">VenueX</span>
                   </div>
-                  <div className="w-8 h-8 bg-green-600 rounded flex items-center justify-center">
-                    <Receipt className="w-4 h-4 text-white" />
-                  </div>
-                  <div className="w-8 h-8 bg-orange-500 rounded flex items-center justify-center">
-                    <Package className="w-4 h-4 text-white" />
-                  </div>
-                  <div className="w-8 h-8 bg-blue-500 rounded flex items-center justify-center">
-                    <Database className="w-4 h-4 text-white" />
-                  </div>
-                  <div className="w-8 h-8 bg-purple-600 rounded flex items-center justify-center">
-                    <Store className="w-4 h-4 text-white" />
+                </div>
+                
+                <div className="absolute right-[4%] top-[45%] transform -translate-y-1/2 z-10">
+                  <div className="flex flex-col gap-2">
+                    <div className="flex items-start gap-2">
+                      <div className="w-4 h-4 bg-blue-500 rounded flex items-center justify-center flex-shrink-0">
+                        <span className="text-xs text-white font-bold">G</span>
+                      </div>
+                      <div className="flex flex-col min-w-0">
+                        <span className="text-xs text-muted-foreground whitespace-nowrap">Google Business Profile</span>
+                        <div className="flex items-center gap-1 mt-0.5">
+                          <div className="w-1 h-1 bg-green-500 rounded-full flex-shrink-0"></div>
+                          <span className="text-xs text-green-600 whitespace-nowrap">Synced 1m ago</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="flex items-start gap-2">
+                      <div className="w-4 h-4 bg-blue-600 rounded flex items-center justify-center flex-shrink-0">
+                        <span className="text-xs text-white font-bold">f</span>
+                      </div>
+                      <div className="flex flex-col min-w-0">
+                        <span className="text-xs text-muted-foreground whitespace-nowrap">Meta Pages</span>
+                        <div className="flex items-center gap-1 mt-0.5">
+                          <div className="w-1 h-1 bg-green-500 rounded-full flex-shrink-0"></div>
+                          <span className="text-xs text-green-600 whitespace-nowrap">Synced 3m ago</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="flex items-start gap-2">
+                      <div className="w-4 h-4 bg-gray-800 rounded flex items-center justify-center flex-shrink-0">
+                        <span className="text-xs text-white font-bold">🍎</span>
+                      </div>
+                      <div className="flex flex-col min-w-0">
+                        <span className="text-xs text-muted-foreground whitespace-nowrap">Apple Business Connect</span>
+                        <div className="flex items-center gap-1 mt-0.5">
+                          <div className="w-1 h-1 bg-green-500 rounded-full flex-shrink-0"></div>
+                          <span className="text-xs text-green-600 whitespace-nowrap">Synced 5m ago</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="flex items-start gap-2">
+                      <div className="w-4 h-4 bg-red-500 rounded flex items-center justify-center flex-shrink-0">
+                        <span className="text-xs text-white font-bold">Y</span>
+                      </div>
+                      <div className="flex flex-col min-w-0">
+                        <span className="text-xs text-muted-foreground whitespace-nowrap">Yandex Business</span>
+                        <div className="flex items-center gap-1 mt-0.5">
+                          <div className="w-1 h-1 bg-green-500 rounded-full flex-shrink-0"></div>
+                          <span className="text-xs text-green-600 whitespace-nowrap">Synced 4m ago</span>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
-              
-              {/* Customer Data */}
-              <div className="bg-card border-2 border-border rounded-lg p-4">
-                <h4 className="font-semibold text-sm mb-3 text-foreground">Customer data</h4>
-                <p className="text-xs text-muted-foreground mb-3">CRM systems and customer touchpoints</p>
-                <div className="grid grid-cols-3 gap-2">
-                  <div className="w-8 h-8 bg-red-500 rounded flex items-center justify-center">
-                    <span className="text-xs text-white font-bold">CRM</span>
+            </div>
+
+            {/* Inventory Data Flow */}
+            <div className="bg-muted/20 rounded-lg p-4">
+              <div className="mb-3">
+                <div className="flex items-center gap-2">
+                  <Package className="w-4 h-4 text-red-600" />
+                  <span className="font-medium text-sm">Inventory Data</span>
+                </div>
+              </div>
+              <div className="relative w-full h-20 flex items-center">
+                <svg className="absolute inset-0 w-full h-full z-[1]">
+                  <defs>
+                    <pattern id="redDotted" patternUnits="userSpaceOnUse" width="8" height="2">
+                      <circle cx="4" cy="1" r="1" fill="#ef4444" />
+                    </pattern>
+                  </defs>
+                  {/* Source to VenueX line - aligned with logo centers */}
+                  <line x1="20%" y1="35%" x2="48%" y2="35%" stroke="url(#redDotted)" strokeWidth="2" />
+                  {/* VenueX to Platforms line - stops before platforms */}
+                  <line x1="52%" y1="50%" x2="75%" y2="50%" stroke="url(#redDotted)" strokeWidth="2" />
+                </svg>
+                
+                <div className="absolute left-[4%] top-1/2 transform -translate-y-1/2 z-10">
+                  <div className="flex flex-col items-center text-center">
+                    <div className="w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8 bg-muted rounded-lg flex items-center justify-center mb-1">
+                      <Database className="w-3 h-3 sm:w-3.5 sm:h-3.5 lg:w-4 lg:h-4 text-muted-foreground" />
+                    </div>
+                    <span className="text-xs text-muted-foreground text-center whitespace-nowrap">ERP Systems</span>
+                    <div className="flex items-center gap-1 mt-1">
+                      <div className="w-1.5 h-1.5 bg-red-500 rounded-full"></div>
+                      <span className="text-xs text-red-600">Error</span>
+                    </div>
+                    <span className="text-xs text-muted-foreground">Last sync 2h ago</span>
                   </div>
-                  <div className="w-8 h-8 bg-green-500 rounded flex items-center justify-center">
-                    <span className="text-xs text-white font-bold">POS</span>
+                </div>
+                
+                <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 z-20">
+                  <div className="flex flex-col items-center text-center">
+                    <div className="w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8 bg-primary/10 rounded-lg flex items-center justify-center mb-1">
+                      <span className="text-xs font-bold text-primary">VX</span>
+                    </div>
+                    <span className="text-xs text-muted-foreground whitespace-nowrap">VenueX</span>
                   </div>
-                  <div className="w-8 h-8 bg-blue-500 rounded flex items-center justify-center">
-                    <span className="text-xs text-white font-bold">ERP</span>
+                </div>
+                
+                <div className="absolute right-[4%] top-[45%] transform -translate-y-1/2 z-10">
+                  <div className="flex flex-col gap-2">
+                    <div className="flex items-start gap-2">
+                      <div className="w-4 h-4 bg-green-500 rounded flex items-center justify-center flex-shrink-0">
+                        <span className="text-xs text-white font-bold">G</span>
+                      </div>
+                      <div className="flex flex-col min-w-0">
+                        <span className="text-xs text-muted-foreground whitespace-nowrap">Google Merchant Center</span>
+                        <div className="flex items-center gap-1 mt-0.5">
+                          <div className="w-1 h-1 bg-yellow-500 rounded-full flex-shrink-0"></div>
+                          <span className="text-xs text-yellow-600 whitespace-nowrap">Pending 15m ago</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="flex items-start gap-2">
+                      <div className="w-4 h-4 bg-blue-600 rounded flex items-center justify-center flex-shrink-0">
+                        <span className="text-xs text-white font-bold">f</span>
+                      </div>
+                      <div className="flex flex-col min-w-0">
+                        <span className="text-xs text-muted-foreground whitespace-nowrap">Meta Commerce</span>
+                        <div className="flex items-center gap-1 mt-0.5">
+                          <div className="w-1 h-1 bg-red-500 rounded-full flex-shrink-0"></div>
+                          <span className="text-xs text-red-600 whitespace-nowrap">Failed 1h ago</span>
+                          <button className="ml-1 px-1 py-0.5 bg-blue-600 text-white text-xs rounded hover:bg-blue-700" data-testid="button-connect-meta">
+                            Connect
+                          </button>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-            
-            {/* Center - VenueX Platform */}
-            <div className="col-span-4 flex justify-center">
-              <div className="bg-primary text-primary-foreground rounded-lg p-8 text-center min-w-[200px]">
-                <div className="mb-4">
-                  <div className="w-12 h-12 bg-primary-foreground/20 rounded-lg flex items-center justify-center mx-auto mb-3">
-                    <span className="text-lg font-bold">VX</span>
+
+            {/* In-Store Sales Data Flow */}
+            <div className="bg-muted/20 rounded-lg p-4">
+              <div className="mb-3">
+                <div className="flex items-center gap-2">
+                  <Receipt className="w-4 h-4 text-green-600" />
+                  <span className="font-medium text-sm">In-Store Sales Data</span>
+                </div>
+              </div>
+              <div className="relative w-full h-20 flex items-center">
+                <svg className="absolute inset-0 w-full h-full z-[1]">
+                  <defs>
+                    <pattern id="greenDotted2" patternUnits="userSpaceOnUse" width="8" height="2">
+                      <circle cx="4" cy="1" r="1" fill="#22c55e" />
+                    </pattern>
+                  </defs>
+                  {/* Source to VenueX line - aligned with logo centers */}
+                  <line x1="20%" y1="35%" x2="48%" y2="35%" stroke="url(#greenDotted2)" strokeWidth="2" />
+                  {/* VenueX to Platforms line - stops before platforms */}
+                  <line x1="52%" y1="50%" x2="75%" y2="50%" stroke="url(#greenDotted2)" strokeWidth="2" />
+                </svg>
+                
+                <div className="absolute left-[4%] top-1/2 transform -translate-y-1/2 z-10">
+                  <div className="flex flex-col items-center text-center">
+                    <div className="w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8 bg-muted rounded-lg flex items-center justify-center mb-1">
+                      <Receipt className="w-3 h-3 sm:w-3.5 sm:h-3.5 lg:w-4 lg:h-4 text-muted-foreground" />
+                    </div>
+                    <span className="text-xs text-muted-foreground text-center whitespace-nowrap">CRM/POS Systems</span>
+                    <div className="flex items-center gap-1 mt-1">
+                      <div className="w-1.5 h-1.5 bg-green-500 rounded-full"></div>
+                      <span className="text-xs text-green-600">Online</span>
+                    </div>
+                    <span className="text-xs text-muted-foreground">Updated 30s ago</span>
                   </div>
                 </div>
-                <h3 className="font-bold text-lg mb-2">VenueX</h3>
-                <p className="text-sm opacity-90">Cross-platform Data Integration</p>
+                
+                <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 z-20">
+                  <div className="flex flex-col items-center text-center">
+                    <div className="w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8 bg-primary/10 rounded-lg flex items-center justify-center mb-1">
+                      <span className="text-xs font-bold text-primary">VX</span>
+                    </div>
+                    <span className="text-xs text-muted-foreground whitespace-nowrap">VenueX</span>
+                  </div>
+                </div>
+                
+                <div className="absolute right-[4%] top-[45%] transform -translate-y-1/2 z-10">
+                  <div className="flex flex-col gap-2">
+                    <div className="flex items-start gap-2">
+                      <div className="w-4 h-4 bg-red-500 rounded flex items-center justify-center flex-shrink-0">
+                        <span className="text-xs text-white font-bold">G</span>
+                      </div>
+                      <div className="flex flex-col min-w-0">
+                        <span className="text-xs text-muted-foreground whitespace-nowrap">Google Ads</span>
+                        <div className="flex items-center gap-1 mt-0.5">
+                          <div className="w-1 h-1 bg-green-500 rounded-full flex-shrink-0"></div>
+                          <span className="text-xs text-green-600 whitespace-nowrap">Synced 45s ago</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="flex items-start gap-2">
+                      <div className="w-4 h-4 bg-blue-600 rounded flex items-center justify-center flex-shrink-0">
+                        <span className="text-xs text-white font-bold">f</span>
+                      </div>
+                      <div className="flex flex-col min-w-0">
+                        <span className="text-xs text-muted-foreground whitespace-nowrap">Meta Ads</span>
+                        <div className="flex items-center gap-1 mt-0.5">
+                          <div className="w-1 h-1 bg-green-500 rounded-full flex-shrink-0"></div>
+                          <span className="text-xs text-green-600 whitespace-nowrap">Synced 1m ago</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="flex items-start gap-2">
+                      <div className="w-4 h-4 bg-black rounded flex items-center justify-center flex-shrink-0">
+                        <span className="text-xs text-white font-bold">🎵</span>
+                      </div>
+                      <div className="flex flex-col min-w-0">
+                        <span className="text-xs text-muted-foreground whitespace-nowrap">TikTok Ads</span>
+                        <div className="flex items-center gap-1 mt-0.5">
+                          <div className="w-1 h-1 bg-green-500 rounded-full flex-shrink-0"></div>
+                          <span className="text-xs text-green-600 whitespace-nowrap">Synced 2m ago</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
-            
-            {/* Right Side - Output Channels */}
-            <div className="col-span-4 space-y-4">
-              {/* Digital Channels */}
-              <div className="bg-card border-2 border-border rounded-lg p-4">
-                <h4 className="font-semibold text-sm mb-3 text-foreground">Digital Channels</h4>
-                <div className="flex gap-2 mb-2">
-                  <div className="w-6 h-6 bg-red-500 rounded flex items-center justify-center flex-shrink-0">
-                    <span className="text-xs text-white font-bold">G</span>
-                  </div>
-                  <div className="w-6 h-6 bg-blue-600 rounded flex items-center justify-center flex-shrink-0">
-                    <span className="text-xs text-white font-bold">f</span>
-                  </div>
-                  <div className="w-6 h-6 bg-gray-800 rounded flex items-center justify-center flex-shrink-0">
-                    <span className="text-xs text-white font-bold">🍎</span>
-                  </div>
-                  <div className="w-6 h-6 bg-black rounded flex items-center justify-center flex-shrink-0">
-                    <span className="text-xs text-white font-bold">🎵</span>
-                  </div>
-                </div>
-                <div className="flex items-center gap-1">
-                  <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                  <span className="text-xs text-green-600">All platforms synced</span>
-                </div>
-              </div>
-              
-              {/* Commerce Platforms */}
-              <div className="bg-card border-2 border-border rounded-lg p-4">
-                <h4 className="font-semibold text-sm mb-3 text-foreground">Commerce Platforms</h4>
-                <div className="flex gap-2 mb-2">
-                  <div className="w-6 h-6 bg-orange-500 rounded flex items-center justify-center flex-shrink-0">
-                    <span className="text-xs text-white font-bold">S</span>
-                  </div>
-                  <div className="w-6 h-6 bg-green-600 rounded flex items-center justify-center flex-shrink-0">
-                    <span className="text-xs text-white font-bold">W</span>
-                  </div>
-                  <div className="w-6 h-6 bg-purple-600 rounded flex items-center justify-center flex-shrink-0">
-                    <span className="text-xs text-white font-bold">M</span>
-                  </div>
-                </div>
-                <div className="flex items-center gap-1">
-                  <div className="w-2 h-2 bg-yellow-500 rounded-full"></div>
-                  <span className="text-xs text-yellow-600">1 pending sync</span>
-                </div>
-              </div>
-              
-              {/* Analytics Tools */}
-              <div className="bg-card border-2 border-border rounded-lg p-4">
-                <h4 className="font-semibold text-sm mb-3 text-foreground">Analytics Tools</h4>
-                <div className="flex gap-2 mb-2">
-                  <div className="w-6 h-6 bg-blue-500 rounded flex items-center justify-center flex-shrink-0">
-                    <span className="text-xs text-white font-bold">GA</span>
-                  </div>
-                  <div className="w-6 h-6 bg-red-500 rounded flex items-center justify-center flex-shrink-0">
-                    <span className="text-xs text-white font-bold">A</span>
-                  </div>
-                </div>
-                <div className="flex items-center gap-1">
-                  <div className="w-2 h-2 bg-red-500 rounded-full"></div>
-                  <span className="text-xs text-red-600">1 connection failed</span>
-                </div>
-              </div>
-            </div>
-            
-            {/* Connection Lines */}
-            <div className="absolute inset-0 pointer-events-none">
-              <svg className="w-full h-full">
-                <defs>
-                  <pattern id="flowDots" patternUnits="userSpaceOnUse" width="10" height="4">
-                    <circle cx="5" cy="2" r="1.5" fill="#3b82f6" opacity="0.6" />
-                  </pattern>
-                </defs>
-                {/* Left to Center */}
-                <line x1="33%" y1="50%" x2="50%" y2="50%" stroke="url(#flowDots)" strokeWidth="3" />
-                {/* Center to Right */}
-                <line x1="58%" y1="50%" x2="75%" y2="50%" stroke="url(#flowDots)" strokeWidth="3" />
-              </svg>
-            </div>
+
           </div>
+        </div>
         
         {/* Alerts & Notifications Section */}
         <div className="border-t border-border pt-6">
