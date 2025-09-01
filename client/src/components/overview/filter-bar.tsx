@@ -26,36 +26,44 @@ export default function FilterBar({ filters, onFiltersChange }: FilterBarProps) 
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="All Platforms">All Platforms</SelectItem>
-              <SelectItem value="Google Ads">
+              <SelectItem value="Google">
                 <div className="flex items-center gap-2">
                   <div className="w-4 h-4 bg-red-500 rounded flex items-center justify-center">
                     <span className="text-xs text-white font-bold">G</span>
                   </div>
-                  Google Ads
+                  Google
                 </div>
               </SelectItem>
-              <SelectItem value="Meta Ads">
+              <SelectItem value="Meta">
                 <div className="flex items-center gap-2">
                   <div className="w-4 h-4 bg-blue-600 rounded flex items-center justify-center">
                     <span className="text-xs text-white font-bold">f</span>
                   </div>
-                  Meta Ads
+                  Meta
                 </div>
               </SelectItem>
-              <SelectItem value="TikTok Ads">
+              <SelectItem value="TikTok">
                 <div className="flex items-center gap-2">
                   <div className="w-4 h-4 bg-black rounded flex items-center justify-center">
                     <span className="text-xs text-white font-bold">🎵</span>
                   </div>
-                  TikTok Ads
+                  TikTok
                 </div>
               </SelectItem>
-              <SelectItem value="Apple Maps">
+              <SelectItem value="Apple">
                 <div className="flex items-center gap-2">
                   <div className="w-4 h-4 bg-gray-800 rounded flex items-center justify-center">
                     <span className="text-xs text-white font-bold">🍎</span>
                   </div>
-                  Apple Maps
+                  Apple
+                </div>
+              </SelectItem>
+              <SelectItem value="Yandex">
+                <div className="flex items-center gap-2">
+                  <div className="w-4 h-4 bg-red-500 rounded flex items-center justify-center">
+                    <span className="text-xs text-white font-bold">Y</span>
+                  </div>
+                  Yandex
                 </div>
               </SelectItem>
             </SelectContent>
