@@ -24,7 +24,7 @@ export default function Header({ lastSync }: HeaderProps) {
       <div className="max-w-7xl mx-auto px-6 h-full flex items-center">
         <div className="flex items-center justify-between w-full">
           <div className="flex items-center space-x-4">
-            <div className="bg-primary text-primary-foreground rounded-lg p-2">
+            <div className="p-2">
               <Store className="w-6 h-6" />
             </div>
             <div>
