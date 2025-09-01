@@ -1,4 +1,4 @@
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { DollarSign, MapPin, ShoppingCart, Receipt, Eye, TrendingUp, TrendingDown } from 'lucide-react';
 import { KPI } from '@/lib/types';
@@ -69,18 +69,8 @@ export default function KpiCards({ kpis }: KpiCardsProps) {
   };
 
   return (
-    <Card>
-      <CardHeader>
-        <div className="flex items-center justify-between">
-          <CardTitle className="text-lg font-semibold text-foreground">Key Performance Indicators</CardTitle>
-          <Button variant="ghost" size="sm" className="text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:hover:text-white font-medium" data-testid="button-view-all-kpis">
-            View All →
-          </Button>
-        </div>
-      </CardHeader>
-      <CardContent>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {cards.map((card) => {
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      {cards.map((card) => {
         const TrendIcon = getTrendIcon(card.trend);
         const Icon = card.icon;
         
@@ -95,26 +85,28 @@ export default function KpiCards({ kpis }: KpiCardsProps) {
                   <h3 className="text-sm font-medium text-muted-foreground">{card.title}</h3>
                 </div>
                 
+                <Button variant="ghost" size="sm" className="text-xs text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white" data-testid={`button-view-detail-${card.id}`}>
+                  View Detail
+                </Button>
+              </div>
+              
+              <div className="flex items-center justify-between mb-2">
+                <div className="text-2xl font-bold text-foreground" data-testid={`text-value-${card.id}`}>
+                  {card.value}{card.id === 'average-rating' ? ' ⭐' : ''}
+                </div>
                 <div className={`flex items-center space-x-1 text-xs ${getTrendColor(card.trend)}`}>
                   {TrendIcon && <TrendIcon className="w-3 h-3" />}
                   <span data-testid={`text-trend-${card.id}`}>{card.trend}</span>
                 </div>
               </div>
               
-              <div className="space-y-2">
-                <div className="text-2xl font-bold text-foreground" data-testid={`text-value-${card.id}`}>
-                  {card.value}{card.id === 'average-rating' ? ' ⭐' : ''}
-                </div>
-                <div className="text-xs text-muted-foreground">
-                  vs {card.previousValue} previous period
-                </div>
+              <div className="text-xs text-muted-foreground">
+                vs {card.previousValue} previous period
               </div>
             </CardContent>
           </Card>
         );
-          })}
-        </div>
-      </CardContent>
-    </Card>
+      })}
+    </div>
   );
 }
