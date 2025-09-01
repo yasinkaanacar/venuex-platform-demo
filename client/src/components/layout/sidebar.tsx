@@ -98,10 +98,15 @@ export default function Sidebar({ collapsed, onToggle }: SidebarProps) {
           </div>
         )}
         
-        {/* Toggle Button positioned between role section and navigation */}
+        {/* Toggle Button - different positioning for collapsed/expanded states */}
         <button
           onClick={onToggle}
-          className="absolute bottom-0 right-0 transform translate-x-1/2 translate-y-1/2 p-2 bg-white dark:bg-gray-900 border-2 border-gray-300 dark:border-gray-600 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors shadow-md z-10"
+          className={cn(
+            "absolute p-2 bg-white dark:bg-gray-900 border-2 border-gray-300 dark:border-gray-600 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors shadow-md z-10",
+            collapsed 
+              ? "top-2 right-0 transform translate-x-1/2" 
+              : "bottom-0 right-0 transform translate-x-1/2 translate-y-1/2"
+          )}
           data-testid="sidebar-toggle"
         >
           <Menu className="w-4 h-4 text-gray-600 dark:text-gray-300" />
