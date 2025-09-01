@@ -352,7 +352,7 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
           
           {/* Alerts & Notifications Section */}
           <div>
-            <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center justify-between mb-6 -mt-2">
               <h3 className="text-lg font-semibold text-foreground">
                 Alerts & Notifications
               </h3>
