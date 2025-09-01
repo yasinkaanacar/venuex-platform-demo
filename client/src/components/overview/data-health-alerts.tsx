@@ -81,8 +81,8 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
   // Banner mode - simplified status display
   if (bannerMode) {
     return (
-      <Card className="border border-border/30 bg-muted/20">
-        <CardContent className="py-3 px-4">
+      <div className="border-0 bg-muted/30 rounded-lg shadow-none">
+        <div className="py-3 px-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
               <CardTitle className="text-base font-semibold text-foreground">
@@ -116,8 +116,8 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
               View Details
             </Button>
           </div>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
     );
   }
 
