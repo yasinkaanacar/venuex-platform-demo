@@ -366,27 +366,27 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
               </Button>
             </div>
             
-            <div className="space-y-3">
+            <div className="space-y-4">
               {systemAlerts.map((alert) => {
                 const IconComponent = alert.icon;
                 return (
                   <div 
                     key={alert.id}
-                    className={`flex items-start justify-between p-4 rounded-lg border-2 ${alert.bgColor} ${alert.borderColor} shadow-sm`}
+                    className={`flex items-start justify-between p-5 rounded-xl border ${alert.bgColor} ${alert.borderColor} shadow-md hover:shadow-lg transition-shadow duration-200`}
                     data-testid={`alert-${alert.id}`}
                   >
-                    <div className="flex items-start space-x-3">
-                      <div className={`${alert.iconColor} mt-0.5`}>
-                        <IconComponent className="w-4 h-4" />
+                    <div className="flex items-start space-x-4">
+                      <div className={`${alert.iconColor} mt-1 p-2 rounded-lg bg-white/50 dark:bg-black/20`}>
+                        <IconComponent className="w-5 h-5" />
                       </div>
                       <div className="flex-1 min-w-0">
-                        <div className="font-medium text-foreground mb-1">
+                        <div className="font-semibold text-foreground mb-2 text-base">
                           {alert.title}
                         </div>
-                        <div className="text-sm text-muted-foreground mb-2">
+                        <div className="text-sm text-muted-foreground mb-3 leading-relaxed">
                           {alert.description}
                         </div>
-                        <div className="text-xs text-muted-foreground">
+                        <div className="text-xs text-muted-foreground font-medium">
                           {alert.timestamp}
                         </div>
                       </div>
@@ -395,10 +395,10 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
                     <Button
                       variant="ghost"
                       size="sm"
-                      className="h-6 w-6 p-0 text-muted-foreground hover:text-foreground"
+                      className="h-8 w-8 p-0 text-muted-foreground hover:text-foreground hover:bg-white/50 dark:hover:bg-black/20 rounded-lg transition-colors"
                       data-testid={`close-alert-${alert.id}`}
                     >
-                      <X className="w-4 h-4" />
+                      <X className="w-5 h-5" />
                     </Button>
                   </div>
                 );
