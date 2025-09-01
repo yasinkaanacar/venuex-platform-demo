@@ -1,10 +1,16 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
 
 export default function TopPerformingLocations() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="text-lg font-semibold text-foreground">Top Performing Store Locations</CardTitle>
+        <div className="flex items-center justify-between">
+          <CardTitle className="text-lg font-semibold text-foreground">Top Performing Store Locations</CardTitle>
+          <Button variant="ghost" size="sm" className="text-primary hover:text-primary/80" data-testid="button-view-all-locations">
+            View All →
+          </Button>
+        </div>
         <p className="text-sm text-muted-foreground">Store visits and conversions by location</p>
       </CardHeader>
       
