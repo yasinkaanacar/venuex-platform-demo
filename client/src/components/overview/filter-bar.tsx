@@ -1,7 +1,6 @@
 import { FilterState } from '@/lib/types';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Checkbox } from '@/components/ui/checkbox';
 
 
 interface FilterBarProps {
@@ -14,25 +13,7 @@ export default function FilterBar({ filters, onFiltersChange }: FilterBarProps) 
     onFiltersChange({ ...filters, [key]: value });
   };
 
-  const formatDateRange = (range: string) => {
-    const today = new Date();
-    switch (range) {
-      case 'Last 7 days':
-        const weekAgo = new Date(today);
-        weekAgo.setDate(weekAgo.getDate() - 7);
-        return `${weekAgo.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })} - ${today.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}`;
-      case 'Last 30 days':
-        const monthAgo = new Date(today);
-        monthAgo.setDate(monthAgo.getDate() - 30);
-        return `${monthAgo.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })} - ${today.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}`;
-      case 'Last 90 days':
-        const quarterAgo = new Date(today);
-        quarterAgo.setDate(quarterAgo.getDate() - 90);
-        return `${quarterAgo.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })} - ${today.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}`;
-      default:
-        return 'Custom range';
-    }
-  };
+  
 
   return (
     <div className="bg-card rounded-lg border-2 border-border p-4 mb-6 shadow-sm">
@@ -128,26 +109,6 @@ export default function FilterBar({ filters, onFiltersChange }: FilterBarProps) 
         </div>
 
         
-      </div>
-
-      <div className="flex items-center justify-between mt-3 pt-3 border-t-2 border-border">
-        <div className="flex items-center space-x-3">
-          <div className="flex items-center space-x-2">
-            <Checkbox 
-              id="compare"
-              checked={filters.compareMode}
-              onCheckedChange={(checked) => updateFilter('compareMode', !!checked)}
-              data-testid="checkbox-compare-mode"
-            />
-          </div>
-        </div>
-        
-        <div className="text-xs text-muted-foreground">
-          Showing data for{' '}
-          <span className="font-medium text-foreground" data-testid="text-date-range-display">
-            {formatDateRange(filters.dateRange)}
-          </span>
-        </div>
       </div>
     </div>
   );
