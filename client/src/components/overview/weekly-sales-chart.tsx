@@ -3,7 +3,7 @@ import { Badge } from '@/components/ui/badge';
 import { ComposedChart, Bar, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, Area, AreaChart } from 'recharts';
 import { TrendingUp, TrendingDown, DollarSign, ShoppingCart, Store } from 'lucide-react';
 
-const data = [
+const rawData = [
   {
     week: "Week 29",
     period: "Jul 14, 2025 to Jul 20, 2025",
@@ -78,6 +78,23 @@ const data = [
   }
 ];
 
+// Calculate ROAS metrics for each data point
+const data = rawData.map(item => {
+  const totalSales = item.onlineSales + item.offlineSales;
+  const onlineAdSpend = item.cost * (item.onlineSales / totalSales);
+  const offlineAdSpend = item.cost * (item.offlineSales / totalSales);
+  const onlineROAS = ((item.onlineSales / onlineAdSpend) * 100);
+  const offlineROAS = ((item.offlineSales / offlineAdSpend) * 100);
+  
+  return {
+    ...item,
+    onlineAdSpend,
+    offlineAdSpend,
+    onlineROAS: parseFloat(onlineROAS.toFixed(1)),
+    offlineROAS: parseFloat(offlineROAS.toFixed(1))
+  };
+});
+
 const CustomTooltip = ({ active, payload, label }: any) => {
   if (active && payload && payload.length) {
     const data = payload[0].payload;
@@ -128,8 +145,16 @@ const CustomTooltip = ({ active, payload, label }: any) => {
             <span className="text-sm font-bold text-green-600">${totalSales.toLocaleString()}</span>
           </div>
           <div className="flex justify-between items-center">
-            <span className="text-xs text-gray-600 dark:text-gray-400">ROAS:</span>
+            <span className="text-xs text-gray-600 dark:text-gray-400">Overall ROAS:</span>
             <span className="text-sm font-bold text-indigo-600">{roas}%</span>
+          </div>
+          <div className="flex justify-between items-center">
+            <span className="text-xs text-gray-600 dark:text-gray-400">Online ROAS:</span>
+            <span className="text-sm font-bold text-cyan-600">{data.onlineROAS}%</span>
+          </div>
+          <div className="flex justify-between items-center">
+            <span className="text-xs text-gray-600 dark:text-gray-400">Offline ROAS:</span>
+            <span className="text-sm font-bold text-teal-600">{data.offlineROAS}%</span>
           </div>
           <div className="flex justify-between items-center">
             <span className="text-xs text-gray-600 dark:text-gray-400">Online Share:</span>
@@ -161,6 +186,16 @@ const getAverageROAS = () => {
   return ((totalRevenue / totalCost) * 100).toFixed(1);
 };
 
+const getAverageOnlineROAS = () => {
+  const avgOnlineROAS = data.reduce((acc, curr) => acc + curr.onlineROAS, 0) / data.length;
+  return avgOnlineROAS.toFixed(1);
+};
+
+const getAverageOfflineROAS = () => {
+  const avgOfflineROAS = data.reduce((acc, curr) => acc + curr.offlineROAS, 0) / data.length;
+  return avgOfflineROAS.toFixed(1);
+};
+
 const getWeekOverWeekGrowth = () => {
   const lastWeek = data[data.length - 1];
   const previousWeek = data[data.length - 2];
@@ -172,6 +207,8 @@ const getWeekOverWeekGrowth = () => {
 export default function WeeklySalesChart() {
   const totalSales = getTotalSales();
   const averageROAS = getAverageROAS();
+  const averageOnlineROAS = getAverageOnlineROAS();
+  const averageOfflineROAS = getAverageOfflineROAS();
   const weekGrowth = getWeekOverWeekGrowth();
   
   return (
@@ -191,8 +228,16 @@ export default function WeeklySalesChart() {
               <p className="text-lg font-bold text-green-600">${totalSales.toLocaleString()}</p>
             </div>
             <div className="text-center">
-              <p className="text-xs text-muted-foreground">Avg ROAS</p>
+              <p className="text-xs text-muted-foreground">Overall ROAS</p>
               <p className="text-lg font-bold text-indigo-600">{averageROAS}%</p>
+            </div>
+            <div className="text-center">
+              <p className="text-xs text-muted-foreground">Online ROAS</p>
+              <p className="text-lg font-bold text-cyan-600">{averageOnlineROAS}%</p>
+            </div>
+            <div className="text-center">
+              <p className="text-xs text-muted-foreground">Offline ROAS</p>
+              <p className="text-lg font-bold text-teal-600">{averageOfflineROAS}%</p>
             </div>
             <div className="text-center">
               <p className="text-xs text-muted-foreground flex items-center gap-1">
@@ -252,6 +297,14 @@ export default function WeeklySalesChart() {
                   <stop offset="50%" stopColor="#eab308" stopOpacity={1}/>
                   <stop offset="100%" stopColor="#d97706" stopOpacity={1}/>
                 </linearGradient>
+                <linearGradient id="onlineROASGradient" x1="0" y1="0" x2="1" y2="0">
+                  <stop offset="0%" stopColor="#0891b2" stopOpacity={1}/>
+                  <stop offset="100%" stopColor="#06b6d4" stopOpacity={1}/>
+                </linearGradient>
+                <linearGradient id="offlineROASGradient" x1="0" y1="0" x2="1" y2="0">
+                  <stop offset="0%" stopColor="#0f766e" stopOpacity={1}/>
+                  <stop offset="100%" stopColor="#14b8a6" stopOpacity={1}/>
+                </linearGradient>
               </defs>
               
               <CartesianGrid 
@@ -302,6 +355,15 @@ export default function WeeklySalesChart() {
                   position: 'insideRight',
                   style: { textAnchor: 'middle', fontSize: '12px', fill: '#475569' }
                 }}
+              />
+              
+              <YAxis 
+                yAxisId="roas"
+                orientation="right"
+                tick={false}
+                axisLine={false}
+                tickLine={false}
+                domain={[0, 150]}
               />
               
               <Tooltip 
@@ -363,6 +425,50 @@ export default function WeeklySalesChart() {
                   strokeWidth: 3,
                   fill: '#ffffff',
                   filter: 'drop-shadow(0 4px 8px rgba(0,0,0,0.2))'
+                }}
+              />
+              
+              <Line 
+                yAxisId="roas"
+                type="monotone" 
+                dataKey="onlineROAS" 
+                name="Online ROAS"
+                stroke="#06b6d4"
+                strokeWidth={3}
+                strokeDasharray="5 5"
+                dot={{ 
+                  fill: '#06b6d4', 
+                  strokeWidth: 2, 
+                  r: 4,
+                  stroke: '#ffffff'
+                }}
+                activeDot={{ 
+                  r: 6, 
+                  stroke: '#06b6d4', 
+                  strokeWidth: 2,
+                  fill: '#ffffff'
+                }}
+              />
+              
+              <Line 
+                yAxisId="roas"
+                type="monotone" 
+                dataKey="offlineROAS" 
+                name="Offline ROAS"
+                stroke="#14b8a6"
+                strokeWidth={3}
+                strokeDasharray="10 5"
+                dot={{ 
+                  fill: '#14b8a6', 
+                  strokeWidth: 2, 
+                  r: 4,
+                  stroke: '#ffffff'
+                }}
+                activeDot={{ 
+                  r: 6, 
+                  stroke: '#14b8a6', 
+                  strokeWidth: 2,
+                  fill: '#ffffff'
                 }}
               />
             </ComposedChart>
