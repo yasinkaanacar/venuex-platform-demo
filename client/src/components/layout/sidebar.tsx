@@ -83,22 +83,33 @@ export default function Sidebar({ collapsed, onToggle }: SidebarProps) {
       </div>
 
       {/* Current Role Section */}
-      {!collapsed && (
-        <div className="px-6 py-4">
-          <div className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">
-            CURRENT ROLE
+      <div className="relative">
+        {!collapsed && (
+          <div className="px-6 py-4">
+            <div className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">
+              CURRENT ROLE
+            </div>
+            <div className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-800 rounded-lg">
+              <span className="text-sm font-medium text-gray-900 dark:text-white">
+                Digital Marketing Dashboard
+              </span>
+              <ChevronDown className="w-4 h-4 text-gray-500" />
+            </div>
           </div>
-          <div className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-800 rounded-lg">
-            <span className="text-sm font-medium text-gray-900 dark:text-white">
-              Digital Marketing Dashboard
-            </span>
-            <ChevronDown className="w-4 h-4 text-gray-500" />
-          </div>
-        </div>
-      )}
+        )}
+        
+        {/* Toggle Button positioned between role section and navigation */}
+        <button
+          onClick={onToggle}
+          className="absolute bottom-0 right-0 transform translate-x-1/2 translate-y-1/2 p-2 bg-white dark:bg-gray-900 border-2 border-gray-300 dark:border-gray-600 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors shadow-md z-10"
+          data-testid="sidebar-toggle"
+        >
+          <Menu className="w-4 h-4 text-gray-600 dark:text-gray-300" />
+        </button>
+      </div>
 
       {/* Navigation */}
-      <nav className={cn("flex-1 py-2 relative", collapsed ? "px-2" : "px-6")}>
+      <nav className={cn("flex-1 py-2", collapsed ? "px-2" : "px-6")}>
         <ul className="space-y-1">
           {navigationItems.map((item) => {
             const isActive = location === item.href;
@@ -124,15 +135,6 @@ export default function Sidebar({ collapsed, onToggle }: SidebarProps) {
             );
           })}
         </ul>
-        
-        {/* Toggle Button positioned on right edge, middle between sections */}
-        <button
-          onClick={onToggle}
-          className="absolute bottom-0 right-0 transform translate-x-1/2 translate-y-1/2 p-2 bg-white dark:bg-gray-900 border-2 border-gray-300 dark:border-gray-600 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors shadow-md"
-          data-testid="sidebar-toggle"
-        >
-          <Menu className="w-4 h-4 text-gray-600 dark:text-gray-300" />
-        </button>
       </nav>
 
       {/* System Status */}
