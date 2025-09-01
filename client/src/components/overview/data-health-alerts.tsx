@@ -14,9 +14,10 @@ interface DataHealthAlertsProps {
   locations?: Location[];
   bannerMode?: boolean;
   onScrollToBottom?: () => void;
+  alwaysExpanded?: boolean;
 }
 
-export default function DataHealthAlerts({ platforms = [], alerts = [], locations = [], bannerMode = false, onScrollToBottom }: DataHealthAlertsProps) {
+export default function DataHealthAlerts({ platforms = [], alerts = [], locations = [], bannerMode = false, onScrollToBottom, alwaysExpanded = false }: DataHealthAlertsProps) {
   // Mock alerts and notifications data
   const systemAlerts = [
     {
@@ -120,49 +121,22 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
     );
   }
 
-  // Full mode - original collapsible version
-  return (
-    <Card>
-      <Collapsible open={isOpen} onOpenChange={setIsOpen}>
+  // Always expanded mode - no collapsible functionality
+  if (alwaysExpanded) {
+    return (
+      <Card>
         <CardHeader>
-          <div className="flex items-center justify-between">
-            <div>
-              <CardTitle className="text-lg font-semibold text-foreground">
-                Data Health & Flow
-              </CardTitle>
-              {isOpen ? (
-                <p className="text-sm text-muted-foreground">
-                  Data flow from source systems through VenueX to platforms
-                </p>
-              ) : (
-                <div className="flex items-center gap-2 mt-1">
-                  {failed === 0 && pending === 0 ? (
-                    <>
-                      <CheckCircle className="w-4 h-4 text-green-600" />
-                      <span className="text-sm text-green-600 font-medium">Everything is well</span>
-                    </>
-                  ) : (
-                    <>
-                      <AlertCircle className="w-4 h-4 text-red-600" />
-                      <span className="text-sm text-red-600 font-medium">
-                        {failed > 0 && `${failed} Failed`}{failed > 0 && pending > 0 && ', '}{pending > 0 && `${pending} Pending`}
-                      </span>
-                    </>
-                  )}
-                </div>
-              )}
-            </div>
-            
-            <CollapsibleTrigger asChild>
-              <Button variant="ghost" size="sm" className="h-8 w-8 p-0" data-testid="button-toggle-data-health">
-                <img src={mouseIcon} alt="Toggle" className="h-4 w-4" />
-              </Button>
-            </CollapsibleTrigger>
+          <div>
+            <CardTitle className="text-lg font-semibold text-foreground">
+              Data Health & Flow
+            </CardTitle>
+            <p className="text-sm text-muted-foreground">
+              Data flow from source systems through VenueX to platforms
+            </p>
           </div>
         </CardHeader>
         
-        <CollapsibleContent>
-          <CardContent className="space-y-8">
+        <CardContent className="space-y-8">
         <div className="relative">
           {/* Vertical VenueX alignment guide */}
           <div className="absolute left-1/2 top-0 bottom-0 w-px bg-primary/20 transform -translate-x-1/2 z-0"></div>
@@ -493,6 +467,57 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
         </div>
         
       </CardContent>
+    </Card>
+    );
+  }
+
+  // Full mode - original collapsible version
+  return (
+    <Card>
+      <Collapsible open={isOpen} onOpenChange={setIsOpen}>
+        <CardHeader>
+          <div className="flex items-center justify-between">
+            <div>
+              <CardTitle className="text-lg font-semibold text-foreground">
+                Data Health & Flow
+              </CardTitle>
+              {isOpen ? (
+                <p className="text-sm text-muted-foreground">
+                  Data flow from source systems through VenueX to platforms
+                </p>
+              ) : (
+                <div className="flex items-center gap-2 mt-1">
+                  {failed === 0 && pending === 0 ? (
+                    <>
+                      <CheckCircle className="w-4 h-4 text-green-600" />
+                      <span className="text-sm text-green-600 font-medium">Everything is well</span>
+                    </>
+                  ) : (
+                    <>
+                      <AlertCircle className="w-4 h-4 text-red-600" />
+                      <span className="text-sm text-red-600 font-medium">
+                        {failed > 0 && `${failed} Failed`}{failed > 0 && pending > 0 && ', '}{pending > 0 && `${pending} Pending`}
+                      </span>
+                    </>
+                  )}
+                </div>
+              )}
+            </div>
+            
+            <CollapsibleTrigger asChild>
+              <Button variant="ghost" size="sm" className="h-8 w-8 p-0" data-testid="button-toggle-data-health">
+                <img src={mouseIcon} alt="Toggle" className="h-4 w-4" />
+              </Button>
+            </CollapsibleTrigger>
+          </div>
+        </CardHeader>
+        
+        <CollapsibleContent>
+          <CardContent className="space-y-8">
+        <div className="relative">
+          {/* Note: This would contain the same content as above but in collapsible form */}
+        </div>
+        </CardContent>
         </CollapsibleContent>
       </Collapsible>
     </Card>

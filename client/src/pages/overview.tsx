@@ -86,6 +86,7 @@ export default function Overview() {
                 alerts={overviewData?.alerts}
                 locations={overviewData?.locations}
                 bannerMode={false}
+                alwaysExpanded={true}
               />
             </div>
           </div>
