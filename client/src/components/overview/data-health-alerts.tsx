@@ -134,53 +134,53 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
                   </div>
                 </div>
                 
-                <div className="absolute left-[58%] top-[45%] transform -translate-y-1/2 z-10">
-                  <div className="flex flex-col gap-2">
-                    <div className="flex items-start gap-2">
+                <div className="absolute right-[4%] top-[45%] transform -translate-y-1/2 z-10">
+                  <div className="flex flex-col gap-2 items-end">
+                    <div className="flex items-start gap-2 flex-row-reverse">
                       <div className="w-4 h-4 bg-blue-500 rounded flex items-center justify-center flex-shrink-0">
                         <span className="text-xs text-white font-bold">G</span>
                       </div>
-                      <div className="flex flex-col min-w-0">
+                      <div className="flex flex-col min-w-0 text-right">
                         <span className="text-xs text-muted-foreground whitespace-nowrap">Google Business Profile</span>
-                        <div className="flex items-center gap-1 mt-0.5">
-                          <div className="w-1 h-1 bg-green-500 rounded-full flex-shrink-0"></div>
+                        <div className="flex items-center gap-1 mt-0.5 justify-end">
                           <span className="text-xs text-green-600 whitespace-nowrap">Synced 1m ago</span>
+                          <div className="w-1 h-1 bg-green-500 rounded-full flex-shrink-0"></div>
                         </div>
                       </div>
                     </div>
-                    <div className="flex items-start gap-2">
+                    <div className="flex items-start gap-2 flex-row-reverse">
                       <div className="w-4 h-4 bg-blue-600 rounded flex items-center justify-center flex-shrink-0">
                         <span className="text-xs text-white font-bold">f</span>
                       </div>
-                      <div className="flex flex-col min-w-0">
+                      <div className="flex flex-col min-w-0 text-right">
                         <span className="text-xs text-muted-foreground whitespace-nowrap">Meta Pages</span>
-                        <div className="flex items-center gap-1 mt-0.5">
-                          <div className="w-1 h-1 bg-green-500 rounded-full flex-shrink-0"></div>
+                        <div className="flex items-center gap-1 mt-0.5 justify-end">
                           <span className="text-xs text-green-600 whitespace-nowrap">Synced 3m ago</span>
+                          <div className="w-1 h-1 bg-green-500 rounded-full flex-shrink-0"></div>
                         </div>
                       </div>
                     </div>
-                    <div className="flex items-start gap-2">
+                    <div className="flex items-start gap-2 flex-row-reverse">
                       <div className="w-4 h-4 bg-gray-800 rounded flex items-center justify-center flex-shrink-0">
                         <span className="text-xs text-white font-bold">🍎</span>
                       </div>
-                      <div className="flex flex-col min-w-0">
+                      <div className="flex flex-col min-w-0 text-right">
                         <span className="text-xs text-muted-foreground whitespace-nowrap">Apple Business Connect</span>
-                        <div className="flex items-center gap-1 mt-0.5">
-                          <div className="w-1 h-1 bg-green-500 rounded-full flex-shrink-0"></div>
+                        <div className="flex items-center gap-1 mt-0.5 justify-end">
                           <span className="text-xs text-green-600 whitespace-nowrap">Synced 5m ago</span>
+                          <div className="w-1 h-1 bg-green-500 rounded-full flex-shrink-0"></div>
                         </div>
                       </div>
                     </div>
-                    <div className="flex items-start gap-2">
+                    <div className="flex items-start gap-2 flex-row-reverse">
                       <div className="w-4 h-4 bg-red-500 rounded flex items-center justify-center flex-shrink-0">
                         <span className="text-xs text-white font-bold">Y</span>
                       </div>
-                      <div className="flex flex-col min-w-0">
+                      <div className="flex flex-col min-w-0 text-right">
                         <span className="text-xs text-muted-foreground whitespace-nowrap">Yandex Business</span>
-                        <div className="flex items-center gap-1 mt-0.5">
-                          <div className="w-1 h-1 bg-green-500 rounded-full flex-shrink-0"></div>
+                        <div className="flex items-center gap-1 mt-0.5 justify-end">
                           <span className="text-xs text-green-600 whitespace-nowrap">Synced 4m ago</span>
+                          <div className="w-1 h-1 bg-green-500 rounded-full flex-shrink-0"></div>
                         </div>
                       </div>
                     </div>
@@ -233,29 +233,29 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
                   </div>
                 </div>
                 
-                <div className="absolute left-[58%] top-[45%] transform -translate-y-1/2 z-10">
-                  <div className="flex flex-col gap-2">
-                    <div className="flex items-start gap-2">
+                <div className="absolute right-[4%] top-[45%] transform -translate-y-1/2 z-10">
+                  <div className="flex flex-col gap-2 items-end">
+                    <div className="flex items-start gap-2 flex-row-reverse">
                       <div className="w-4 h-4 bg-green-500 rounded flex items-center justify-center flex-shrink-0">
                         <span className="text-xs text-white font-bold">G</span>
                       </div>
-                      <div className="flex flex-col min-w-0">
+                      <div className="flex flex-col min-w-0 text-right">
                         <span className="text-xs text-muted-foreground whitespace-nowrap">Google Merchant Center</span>
-                        <div className="flex items-center gap-1 mt-0.5">
-                          <div className="w-1 h-1 bg-yellow-500 rounded-full flex-shrink-0"></div>
+                        <div className="flex items-center gap-1 mt-0.5 justify-end">
                           <span className="text-xs text-yellow-600 whitespace-nowrap">Pending 15m ago</span>
+                          <div className="w-1 h-1 bg-yellow-500 rounded-full flex-shrink-0"></div>
                         </div>
                       </div>
                     </div>
-                    <div className="flex items-start gap-2">
+                    <div className="flex items-start gap-2 flex-row-reverse">
                       <div className="w-4 h-4 bg-blue-600 rounded flex items-center justify-center flex-shrink-0">
                         <span className="text-xs text-white font-bold">f</span>
                       </div>
-                      <div className="flex flex-col min-w-0">
+                      <div className="flex flex-col min-w-0 text-right">
                         <span className="text-xs text-muted-foreground whitespace-nowrap">Meta Commerce</span>
-                        <div className="flex items-center gap-1 mt-0.5">
-                          <div className="w-1 h-1 bg-red-500 rounded-full flex-shrink-0"></div>
+                        <div className="flex items-center gap-1 mt-0.5 justify-end">
                           <span className="text-xs text-red-600 whitespace-nowrap">Failed 1h ago</span>
+                          <div className="w-1 h-1 bg-red-500 rounded-full flex-shrink-0"></div>
                         </div>
                       </div>
                     </div>
@@ -308,41 +308,41 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
                   </div>
                 </div>
                 
-                <div className="absolute left-[58%] top-[45%] transform -translate-y-1/2 z-10">
-                  <div className="flex flex-col gap-2">
-                    <div className="flex items-start gap-2">
+                <div className="absolute right-[4%] top-[45%] transform -translate-y-1/2 z-10">
+                  <div className="flex flex-col gap-2 items-end">
+                    <div className="flex items-start gap-2 flex-row-reverse">
                       <div className="w-4 h-4 bg-red-500 rounded flex items-center justify-center flex-shrink-0">
                         <span className="text-xs text-white font-bold">G</span>
                       </div>
-                      <div className="flex flex-col min-w-0">
+                      <div className="flex flex-col min-w-0 text-right">
                         <span className="text-xs text-muted-foreground whitespace-nowrap">Google Ads</span>
-                        <div className="flex items-center gap-1 mt-0.5">
-                          <div className="w-1 h-1 bg-green-500 rounded-full flex-shrink-0"></div>
+                        <div className="flex items-center gap-1 mt-0.5 justify-end">
                           <span className="text-xs text-green-600 whitespace-nowrap">Synced 45s ago</span>
+                          <div className="w-1 h-1 bg-green-500 rounded-full flex-shrink-0"></div>
                         </div>
                       </div>
                     </div>
-                    <div className="flex items-start gap-2">
+                    <div className="flex items-start gap-2 flex-row-reverse">
                       <div className="w-4 h-4 bg-blue-600 rounded flex items-center justify-center flex-shrink-0">
                         <span className="text-xs text-white font-bold">f</span>
                       </div>
-                      <div className="flex flex-col min-w-0">
+                      <div className="flex flex-col min-w-0 text-right">
                         <span className="text-xs text-muted-foreground whitespace-nowrap">Meta Ads</span>
-                        <div className="flex items-center gap-1 mt-0.5">
-                          <div className="w-1 h-1 bg-green-500 rounded-full flex-shrink-0"></div>
+                        <div className="flex items-center gap-1 mt-0.5 justify-end">
                           <span className="text-xs text-green-600 whitespace-nowrap">Synced 1m ago</span>
+                          <div className="w-1 h-1 bg-green-500 rounded-full flex-shrink-0"></div>
                         </div>
                       </div>
                     </div>
-                    <div className="flex items-start gap-2">
+                    <div className="flex items-start gap-2 flex-row-reverse">
                       <div className="w-4 h-4 bg-black rounded flex items-center justify-center flex-shrink-0">
                         <span className="text-xs text-white font-bold">🎵</span>
                       </div>
-                      <div className="flex flex-col min-w-0">
+                      <div className="flex flex-col min-w-0 text-right">
                         <span className="text-xs text-muted-foreground whitespace-nowrap">TikTok Ads</span>
-                        <div className="flex items-center gap-1 mt-0.5">
-                          <div className="w-1 h-1 bg-green-500 rounded-full flex-shrink-0"></div>
+                        <div className="flex items-center gap-1 mt-0.5 justify-end">
                           <span className="text-xs text-green-600 whitespace-nowrap">Synced 2m ago</span>
+                          <div className="w-1 h-1 bg-green-500 rounded-full flex-shrink-0"></div>
                         </div>
                       </div>
                     </div>
