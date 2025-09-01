@@ -63,9 +63,16 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
               <CardTitle className="text-lg font-semibold text-foreground">
                 Data Health & Flow
               </CardTitle>
-              <p className="text-sm text-muted-foreground">
-                Data flow from source systems through VenueX to platforms
-              </p>
+              {isOpen ? (
+                <p className="text-sm text-muted-foreground">
+                  Data flow from source systems through VenueX to platforms
+                </p>
+              ) : (
+                <div className="flex items-center gap-2 mt-1">
+                  <CheckCircle className="w-4 h-4 text-green-600" />
+                  <span className="text-sm text-green-600 font-medium">Everything is well</span>
+                </div>
+              )}
             </div>
             
             <CollapsibleTrigger asChild>
