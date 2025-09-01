@@ -38,6 +38,57 @@ export default function FilterBar({ filters, onFiltersChange }: FilterBarProps) 
     <div className="bg-card rounded-lg border-2 border-border p-4 mb-6 shadow-sm">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-3">
         <div>
+          <label className="block text-xs font-medium text-foreground mb-1">Platform</label>
+          <Select value={filters.platform} onValueChange={(value) => updateFilter('platform', value)}>
+            <SelectTrigger data-testid="select-platform">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="All Platforms">
+                <div className="flex items-center gap-2">
+                  <div className="w-4 h-4 bg-gray-400 rounded flex items-center justify-center">
+                    <span className="text-xs text-white font-bold">All</span>
+                  </div>
+                  All Platforms
+                </div>
+              </SelectItem>
+              <SelectItem value="Google Ads">
+                <div className="flex items-center gap-2">
+                  <div className="w-4 h-4 bg-red-500 rounded flex items-center justify-center">
+                    <span className="text-xs text-white font-bold">G</span>
+                  </div>
+                  Google Ads
+                </div>
+              </SelectItem>
+              <SelectItem value="Meta Ads">
+                <div className="flex items-center gap-2">
+                  <div className="w-4 h-4 bg-blue-600 rounded flex items-center justify-center">
+                    <span className="text-xs text-white font-bold">f</span>
+                  </div>
+                  Meta Ads
+                </div>
+              </SelectItem>
+              <SelectItem value="TikTok Ads">
+                <div className="flex items-center gap-2">
+                  <div className="w-4 h-4 bg-black rounded flex items-center justify-center">
+                    <span className="text-xs text-white font-bold">🎵</span>
+                  </div>
+                  TikTok Ads
+                </div>
+              </SelectItem>
+              <SelectItem value="Apple Maps">
+                <div className="flex items-center gap-2">
+                  <div className="w-4 h-4 bg-gray-800 rounded flex items-center justify-center">
+                    <span className="text-xs text-white font-bold">🍎</span>
+                  </div>
+                  Apple Maps
+                </div>
+              </SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+
+        <div>
           <label className="block text-xs font-medium text-foreground mb-1">Date Range</label>
           <Select value={filters.dateRange} onValueChange={(value) => updateFilter('dateRange', value)}>
             <SelectTrigger data-testid="select-date-range">
@@ -48,22 +99,6 @@ export default function FilterBar({ filters, onFiltersChange }: FilterBarProps) 
               <SelectItem value="Last 30 days">Last 30 days</SelectItem>
               <SelectItem value="Last 90 days">Last 90 days</SelectItem>
               <SelectItem value="Custom range">Custom range</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
-
-        <div>
-          <label className="block text-xs font-medium text-foreground mb-1">Platform</label>
-          <Select value={filters.platform} onValueChange={(value) => updateFilter('platform', value)}>
-            <SelectTrigger data-testid="select-platform">
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="All Platforms">All Platforms</SelectItem>
-              <SelectItem value="Google Ads">Google Ads</SelectItem>
-              <SelectItem value="Meta Ads">Meta Ads</SelectItem>
-              <SelectItem value="TikTok Ads">TikTok Ads</SelectItem>
-              <SelectItem value="Apple Maps">Apple Maps</SelectItem>
             </SelectContent>
           </Select>
         </div>
