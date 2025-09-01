@@ -21,7 +21,6 @@ export interface OverviewData {
 export interface FilterState {
   dateRange: string;
   platform: string;
-  location: string;
   compareMode: boolean;
 }
 

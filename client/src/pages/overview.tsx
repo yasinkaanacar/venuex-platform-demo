@@ -15,7 +15,6 @@ export default function Overview() {
   const [filters, setFilters] = useState<FilterState>({
     dateRange: 'Last 7 days',
     platform: 'All Platforms',
-    location: 'All Locations',
     compareMode: false
   });
 

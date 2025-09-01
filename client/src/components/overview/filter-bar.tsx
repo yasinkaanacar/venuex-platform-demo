@@ -83,20 +83,6 @@ export default function FilterBar({ filters, onFiltersChange }: FilterBarProps) 
           </Select>
         </div>
 
-        <div>
-          <Select value={filters.location} onValueChange={(value) => updateFilter('location', value)}>
-            <SelectTrigger data-testid="select-location">
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="All Locations">All Locations</SelectItem>
-              <SelectItem value="New York - Manhattan">New York - Manhattan</SelectItem>
-              <SelectItem value="Los Angeles - Beverly Hills">Los Angeles - Beverly Hills</SelectItem>
-              <SelectItem value="Chicago - Downtown">Chicago - Downtown</SelectItem>
-              <SelectItem value="Miami - Brickell">Miami - Brickell</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
 
 
         
