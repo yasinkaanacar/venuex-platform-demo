@@ -65,7 +65,7 @@ export default function Sidebar({ collapsed, onToggle }: SidebarProps) {
       collapsed ? "w-16" : "w-64"
     )}>
       {/* Logo and Brand */}
-      <div className="border-b-2 border-gray-300 dark:border-gray-600 relative">
+      <div className="border-b-2 border-gray-300 dark:border-gray-600">
         <div className="flex items-center justify-center">
           {!collapsed && (
             <img 
@@ -80,14 +80,6 @@ export default function Sidebar({ collapsed, onToggle }: SidebarProps) {
             </div>
           )}
         </div>
-        {/* Toggle Button */}
-        <button
-          onClick={onToggle}
-          className="absolute top-4 right-4 p-1 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
-          data-testid="sidebar-toggle"
-        >
-          <Menu className="w-5 h-5 text-gray-600 dark:text-gray-300" />
-        </button>
       </div>
 
       {/* Current Role Section */}
@@ -132,6 +124,17 @@ export default function Sidebar({ collapsed, onToggle }: SidebarProps) {
             );
           })}
         </ul>
+        
+        {/* Toggle Button in Middle */}
+        <div className={cn("flex justify-center mt-4", collapsed ? "px-2" : "px-6")}>
+          <button
+            onClick={onToggle}
+            className="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+            data-testid="sidebar-toggle"
+          >
+            <Menu className="w-5 h-5 text-gray-600 dark:text-gray-300" />
+          </button>
+        </div>
       </nav>
 
       {/* System Status */}
