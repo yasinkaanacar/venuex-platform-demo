@@ -139,9 +139,6 @@ export default function FilterBar({ filters, onFiltersChange }: FilterBarProps) 
               onCheckedChange={(checked) => updateFilter('compareMode', !!checked)}
               data-testid="checkbox-compare-mode"
             />
-            <label htmlFor="compare" className="text-xs font-medium text-foreground">
-              Compare to previous period
-            </label>
           </div>
         </div>
         
