@@ -19,6 +19,13 @@ export default function Overview() {
     compareMode: false
   });
 
+  const scrollToBottom = () => {
+    const element = document.getElementById('data-health-details');
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   const { data: overviewData, isLoading, error } = useQuery<OverviewData>({
     queryKey: ['/api/overview'],
     refetchInterval: 60000, // Refetch every minute for real-time updates
@@ -45,6 +52,8 @@ export default function Overview() {
             platforms={overviewData?.platforms} 
             alerts={overviewData?.alerts}
             locations={overviewData?.locations}
+            bannerMode={true}
+            onScrollToBottom={scrollToBottom}
           />
         </div>
         
@@ -70,6 +79,15 @@ export default function Overview() {
             <TopPerformingLocations />
             <TopPerformingCampaigns />
             <DataQualityEnrichment />
+            
+            <div id="data-health-details">
+              <DataHealthAlerts 
+                platforms={overviewData?.platforms} 
+                alerts={overviewData?.alerts}
+                locations={overviewData?.locations}
+                bannerMode={false}
+              />
+            </div>
           </div>
         )}
       </div>

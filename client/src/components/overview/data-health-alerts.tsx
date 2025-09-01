@@ -5,16 +5,18 @@ import { Button } from '@/components/ui/button';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Platform, Alert as AlertType, Location } from '@shared/schema';
-import { CheckCircle, Clock, XCircle, AlertTriangle, ArrowRight, Database, Store, MapPin, Package, Receipt, AlertCircle, X, ChevronDown, ChevronUp } from 'lucide-react';
+import { CheckCircle, Clock, XCircle, AlertTriangle, ArrowRight, Database, Store, MapPin, Package, Receipt, AlertCircle, X, ChevronDown, ChevronUp, ArrowDown } from 'lucide-react';
 import mouseIcon from '@assets/image_1756736100487.png';
 
 interface DataHealthAlertsProps {
   platforms?: Platform[];
   alerts?: AlertType[];
   locations?: Location[];
+  bannerMode?: boolean;
+  onScrollToBottom?: () => void;
 }
 
-export default function DataHealthAlerts({ platforms = [], alerts = [], locations = [] }: DataHealthAlertsProps) {
+export default function DataHealthAlerts({ platforms = [], alerts = [], locations = [], bannerMode = false, onScrollToBottom }: DataHealthAlertsProps) {
   // Mock alerts and notifications data
   const systemAlerts = [
     {
@@ -75,6 +77,50 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
   
   const { failed, pending } = countStatuses();
 
+  // Banner mode - simplified status display
+  if (bannerMode) {
+    return (
+      <Card className="border border-border/30 bg-muted/20">
+        <CardContent className="py-3 px-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <CardTitle className="text-base font-semibold text-foreground">
+                Data Health & Flow
+              </CardTitle>
+              <div className="flex items-center gap-2">
+                {failed === 0 && pending === 0 ? (
+                  <>
+                    <CheckCircle className="w-4 h-4 text-green-600" />
+                    <span className="text-sm text-green-600 font-medium">Everything is well</span>
+                  </>
+                ) : (
+                  <>
+                    <AlertCircle className="w-4 h-4 text-red-600" />
+                    <span className="text-sm text-red-600 font-medium">
+                      {failed > 0 && `${failed} Failed`}{failed > 0 && pending > 0 && ', '}{pending > 0 && `${pending} Pending`}
+                    </span>
+                  </>
+                )}
+              </div>
+            </div>
+            
+            <Button 
+              variant="outline" 
+              size="sm" 
+              onClick={onScrollToBottom}
+              className="text-xs"
+              data-testid="button-scroll-to-bottom"
+            >
+              <ArrowDown className="w-3 h-3 mr-1" />
+              View Details
+            </Button>
+          </div>
+        </CardContent>
+      </Card>
+    );
+  }
+
+  // Full mode - original collapsible version
   return (
     <Card>
       <Collapsible open={isOpen} onOpenChange={setIsOpen}>
