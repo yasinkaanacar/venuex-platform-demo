@@ -85,7 +85,8 @@ export default function EnrichmentSuggestions() {
       impact: 'medium',
       estimatedImprovement: '+15%',
       itemsAffected: '23 items affected',
-      timeToFix: '~2 hours to fix'
+      timeToFix: '~2 hours to fix',
+      buttonType: 'apply'
     },
     {
       id: '2',
@@ -95,7 +96,8 @@ export default function EnrichmentSuggestions() {
       impact: 'high',
       estimatedImprovement: '+25%',
       itemsAffected: '89 items affected',
-      timeToFix: '~6 hours to fix'
+      timeToFix: '~6 hours to fix',
+      buttonType: 'info'
     },
     {
       id: '3',
@@ -105,7 +107,8 @@ export default function EnrichmentSuggestions() {
       impact: 'low',
       estimatedImprovement: '+8%',
       itemsAffected: '8 items affected',
-      timeToFix: '~30 minutes to fix'
+      timeToFix: '~30 minutes to fix',
+      buttonType: 'apply'
     }
   ];
 
@@ -162,15 +165,7 @@ export default function EnrichmentSuggestions() {
                   </div>
                   
                   <div className="flex flex-col items-end gap-2 ml-4">
-                    <div className="flex items-center gap-2">
-                      <Button 
-                        variant="outline"
-                        size="sm"
-                        className="text-muted-foreground border-border hover:bg-muted/50"
-                        data-testid={`button-dismiss-${suggestion.id}`}
-                      >
-                        Dismiss
-                      </Button>
+                    {suggestion.buttonType === 'apply' ? (
                       <Button 
                         size="sm"
                         className="bg-primary hover:bg-primary/90 text-primary-foreground"
@@ -180,16 +175,17 @@ export default function EnrichmentSuggestions() {
                       >
                         {implementSuggestionMutation.isPending ? 'Applying...' : 'Apply Fix'}
                       </Button>
-                    </div>
-                    <Button 
-                      variant="outline"
-                      size="sm"
-                      className="text-muted-foreground border-border hover:bg-muted/50"
-                      data-testid={`button-info-${suggestion.id}`}
-                    >
-                      <Info className="w-3 h-3 mr-1" />
-                      Info
-                    </Button>
+                    ) : (
+                      <Button 
+                        variant="outline"
+                        size="sm"
+                        className="text-muted-foreground border-border hover:bg-muted/50"
+                        data-testid={`button-info-${suggestion.id}`}
+                      >
+                        <Info className="w-3 h-3 mr-1" />
+                        More Information
+                      </Button>
+                    )}
                   </div>
                 </div>
               </div>
