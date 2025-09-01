@@ -6,12 +6,19 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import Sidebar from "@/components/layout/sidebar";
 import Overview from "@/pages/overview";
 import NotFound from "@/pages/not-found";
+import { useState } from "react";
 
 function Router() {
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+
+  const toggleSidebar = () => {
+    setSidebarCollapsed(!sidebarCollapsed);
+  };
+
   return (
     <div className="flex h-screen bg-gray-50 dark:bg-gray-900">
-      <Sidebar />
-      <main className="flex-1 overflow-auto">
+      <Sidebar collapsed={sidebarCollapsed} onToggle={toggleSidebar} />
+      <main className={`flex-1 overflow-auto transition-all duration-300 ${sidebarCollapsed ? 'ml-0' : ''}`}>
         <Switch>
           <Route path="/" component={Overview} />
           <Route component={NotFound} />
