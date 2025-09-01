@@ -1,8 +1,21 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { TrendingUp, TrendingDown } from 'lucide-react';
+import { TrendingUp, TrendingDown, ArrowUpDown } from 'lucide-react';
+import { useState } from 'react';
 
 export default function TopPerformingCampaigns() {
+  const [sortColumn, setSortColumn] = useState<string | null>(null);
+  const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('desc');
+
+  const handleSort = (column: string) => {
+    if (sortColumn === column) {
+      setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc');
+    } else {
+      setSortColumn(column);
+      setSortDirection('desc');
+    }
+  };
+
   return (
     <Card>
       <CardHeader>
@@ -19,32 +32,74 @@ export default function TopPerformingCampaigns() {
           <table className="w-full">
             <thead>
               <tr className="border-b-2 border-border">
-                <th className="text-left py-3 px-4 text-xs font-medium text-muted-foreground uppercase tracking-wider">
-                  Campaign
+                <th className="text-left py-3 px-4 text-xs font-medium text-muted-foreground uppercase tracking-wider border-r border-border/30">
+                  <button 
+                    onClick={() => handleSort('campaign')}
+                    className="flex items-center gap-1 hover:text-foreground transition-colors"
+                  >
+                    Campaign
+                    <ArrowUpDown className="w-3 h-3" />
+                  </button>
+                </th>
+                <th className="text-center py-3 px-4 text-xs font-medium text-muted-foreground uppercase tracking-wider border-r border-border/30">
+                  <button 
+                    onClick={() => handleSort('impressions')}
+                    className="flex items-center justify-center gap-1 hover:text-foreground transition-colors w-full"
+                  >
+                    Impressions
+                    <ArrowUpDown className="w-3 h-3" />
+                  </button>
+                </th>
+                <th className="text-center py-3 px-4 text-xs font-medium text-muted-foreground uppercase tracking-wider border-r border-border/30">
+                  <button 
+                    onClick={() => handleSort('ctv')}
+                    className="flex items-center justify-center gap-1 hover:text-foreground transition-colors w-full"
+                  >
+                    CTV (Click to Visit)
+                    <ArrowUpDown className="w-3 h-3" />
+                  </button>
+                </th>
+                <th className="text-center py-3 px-4 text-xs font-medium text-muted-foreground uppercase tracking-wider border-r border-border/30">
+                  <button 
+                    onClick={() => handleSort('spend')}
+                    className="flex items-center justify-center gap-1 hover:text-foreground transition-colors w-full"
+                  >
+                    Spend
+                    <ArrowUpDown className="w-3 h-3" />
+                  </button>
+                </th>
+                <th className="text-center py-3 px-4 text-xs font-medium text-muted-foreground uppercase tracking-wider border-r border-border/30">
+                  <button 
+                    onClick={() => handleSort('roas')}
+                    className="flex items-center justify-center gap-1 hover:text-foreground transition-colors w-full"
+                  >
+                    ROAS
+                    <ArrowUpDown className="w-3 h-3" />
+                  </button>
+                </th>
+                <th className="text-center py-3 px-4 text-xs font-medium text-muted-foreground uppercase tracking-wider border-r border-border/30">
+                  <button 
+                    onClick={() => handleSort('visits')}
+                    className="flex items-center justify-center gap-1 hover:text-foreground transition-colors w-full"
+                  >
+                    Visits
+                    <ArrowUpDown className="w-3 h-3" />
+                  </button>
                 </th>
                 <th className="text-center py-3 px-4 text-xs font-medium text-muted-foreground uppercase tracking-wider">
-                  Impressions
-                </th>
-                <th className="text-center py-3 px-4 text-xs font-medium text-muted-foreground uppercase tracking-wider">
-                  CTV (Click to Visit)
-                </th>
-                <th className="text-center py-3 px-4 text-xs font-medium text-muted-foreground uppercase tracking-wider">
-                  Spend
-                </th>
-                <th className="text-center py-3 px-4 text-xs font-medium text-muted-foreground uppercase tracking-wider">
-                  ROAS
-                </th>
-                <th className="text-center py-3 px-4 text-xs font-medium text-muted-foreground uppercase tracking-wider">
-                  Visits
-                </th>
-                <th className="text-center py-3 px-4 text-xs font-medium text-muted-foreground uppercase tracking-wider">
-                  Purchases
+                  <button 
+                    onClick={() => handleSort('purchases')}
+                    className="flex items-center justify-center gap-1 hover:text-foreground transition-colors w-full"
+                  >
+                    Purchases
+                    <ArrowUpDown className="w-3 h-3" />
+                  </button>
                 </th>
               </tr>
             </thead>
             <tbody className="divide-y-2 divide-border">
               <tr className="hover:bg-muted/50" data-testid="row-campaign-summer-sale">
-                <td className="py-4 px-4">
+                <td className="py-4 px-4 border-r border-border/30">
                   <div className="flex items-center gap-3">
                     <div className="w-6 h-6 bg-red-500 rounded flex items-center justify-center flex-shrink-0">
                       <span className="text-xs text-white font-bold">G</span>
@@ -55,15 +110,15 @@ export default function TopPerformingCampaigns() {
                     </div>
                   </div>
                 </td>
-                <td className="text-center py-4 px-4 text-foreground font-medium">142,580</td>
-                <td className="text-center py-4 px-4 text-muted-foreground">3.4%</td>
-                <td className="text-center py-4 px-4 text-foreground font-medium">$16,350</td>
-                <td className="text-center py-4 px-4 text-foreground font-medium">4.2x</td>
-                <td className="text-center py-4 px-4 text-foreground font-medium">24,387</td>
+                <td className="text-center py-4 px-4 text-foreground font-medium border-r border-border/30">142,580</td>
+                <td className="text-center py-4 px-4 text-muted-foreground border-r border-border/30">3.4%</td>
+                <td className="text-center py-4 px-4 text-foreground font-medium border-r border-border/30">$16,350</td>
+                <td className="text-center py-4 px-4 text-foreground font-medium border-r border-border/30">4.2x</td>
+                <td className="text-center py-4 px-4 text-foreground font-medium border-r border-border/30">24,387</td>
                 <td className="text-center py-4 px-4 text-foreground font-medium">1,247</td>
               </tr>
               <tr className="hover:bg-muted/50" data-testid="row-campaign-local-shopping">
-                <td className="py-4 px-4">
+                <td className="py-4 px-4 border-r border-border/30">
                   <div className="flex items-center gap-3">
                     <div className="w-6 h-6 bg-red-500 rounded flex items-center justify-center flex-shrink-0">
                       <span className="text-xs text-white font-bold">G</span>
@@ -74,15 +129,15 @@ export default function TopPerformingCampaigns() {
                     </div>
                   </div>
                 </td>
-                <td className="text-center py-4 px-4 text-foreground font-medium">118,420</td>
-                <td className="text-center py-4 px-4 text-muted-foreground">2.9%</td>
-                <td className="text-center py-4 px-4 text-foreground font-medium">$15,420</td>
-                <td className="text-center py-4 px-4 text-foreground font-medium">3.8x</td>
-                <td className="text-center py-4 px-4 text-foreground font-medium">18,652</td>
+                <td className="text-center py-4 px-4 text-foreground font-medium border-r border-border/30">118,420</td>
+                <td className="text-center py-4 px-4 text-muted-foreground border-r border-border/30">2.9%</td>
+                <td className="text-center py-4 px-4 text-foreground font-medium border-r border-border/30">$15,420</td>
+                <td className="text-center py-4 px-4 text-foreground font-medium border-r border-border/30">3.8x</td>
+                <td className="text-center py-4 px-4 text-foreground font-medium border-r border-border/30">18,652</td>
                 <td className="text-center py-4 px-4 text-foreground font-medium">923</td>
               </tr>
               <tr className="hover:bg-muted/50" data-testid="row-campaign-store-promo">
-                <td className="py-4 px-4">
+                <td className="py-4 px-4 border-r border-border/30">
                   <div className="flex items-center gap-3">
                     <div className="w-6 h-6 bg-blue-600 rounded flex items-center justify-center flex-shrink-0">
                       <span className="text-xs text-white font-bold">f</span>
@@ -93,15 +148,15 @@ export default function TopPerformingCampaigns() {
                     </div>
                   </div>
                 </td>
-                <td className="text-center py-4 px-4 text-foreground font-medium">89,670</td>
-                <td className="text-center py-4 px-4 text-muted-foreground">4.1%</td>
-                <td className="text-center py-4 px-4 text-foreground font-medium">$12,840</td>
-                <td className="text-center py-4 px-4 text-foreground font-medium">5.1x</td>
-                <td className="text-center py-4 px-4 text-foreground font-medium">16,234</td>
+                <td className="text-center py-4 px-4 text-foreground font-medium border-r border-border/30">89,670</td>
+                <td className="text-center py-4 px-4 text-muted-foreground border-r border-border/30">4.1%</td>
+                <td className="text-center py-4 px-4 text-foreground font-medium border-r border-border/30">$12,840</td>
+                <td className="text-center py-4 px-4 text-foreground font-medium border-r border-border/30">5.1x</td>
+                <td className="text-center py-4 px-4 text-foreground font-medium border-r border-border/30">16,234</td>
                 <td className="text-center py-4 px-4 text-foreground font-medium">785</td>
               </tr>
               <tr className="hover:bg-muted/50" data-testid="row-campaign-visit-drive">
-                <td className="py-4 px-4">
+                <td className="py-4 px-4 border-r border-border/30">
                   <div className="flex items-center gap-3">
                     <div className="w-6 h-6 bg-blue-600 rounded flex items-center justify-center flex-shrink-0">
                       <span className="text-xs text-white font-bold">f</span>
@@ -112,15 +167,15 @@ export default function TopPerformingCampaigns() {
                     </div>
                   </div>
                 </td>
-                <td className="text-center py-4 px-4 text-foreground font-medium">135,240</td>
-                <td className="text-center py-4 px-4 text-muted-foreground">3.7%</td>
-                <td className="text-center py-4 px-4 text-foreground font-medium">$18,960</td>
-                <td className="text-center py-4 px-4 text-foreground font-medium">3.6x</td>
-                <td className="text-center py-4 px-4 text-foreground font-medium">21,089</td>
+                <td className="text-center py-4 px-4 text-foreground font-medium border-r border-border/30">135,240</td>
+                <td className="text-center py-4 px-4 text-muted-foreground border-r border-border/30">3.7%</td>
+                <td className="text-center py-4 px-4 text-foreground font-medium border-r border-border/30">$18,960</td>
+                <td className="text-center py-4 px-4 text-foreground font-medium border-r border-border/30">3.6x</td>
+                <td className="text-center py-4 px-4 text-foreground font-medium border-r border-border/30">21,089</td>
                 <td className="text-center py-4 px-4 text-foreground font-medium">634</td>
               </tr>
               <tr className="hover:bg-muted/50" data-testid="row-campaign-gen-z">
-                <td className="py-4 px-4">
+                <td className="py-4 px-4 border-r border-border/30">
                   <div className="flex items-center gap-3">
                     <div className="w-6 h-6 bg-black rounded flex items-center justify-center flex-shrink-0">
                       <span className="text-xs text-white font-bold">🎵</span>
@@ -131,11 +186,11 @@ export default function TopPerformingCampaigns() {
                     </div>
                   </div>
                 </td>
-                <td className="text-center py-4 px-4 text-foreground font-medium">78,950</td>
-                <td className="text-center py-4 px-4 text-muted-foreground">2.8%</td>
-                <td className="text-center py-4 px-4 text-foreground font-medium">$8,920</td>
-                <td className="text-center py-4 px-4 text-foreground font-medium">2.9x</td>
-                <td className="text-center py-4 px-4 text-foreground font-medium">12,473</td>
+                <td className="text-center py-4 px-4 text-foreground font-medium border-r border-border/30">78,950</td>
+                <td className="text-center py-4 px-4 text-muted-foreground border-r border-border/30">2.8%</td>
+                <td className="text-center py-4 px-4 text-foreground font-medium border-r border-border/30">$8,920</td>
+                <td className="text-center py-4 px-4 text-foreground font-medium border-r border-border/30">2.9x</td>
+                <td className="text-center py-4 px-4 text-foreground font-medium border-r border-border/30">12,473</td>
                 <td className="text-center py-4 px-4 text-foreground font-medium">298</td>
               </tr>
             </tbody>
