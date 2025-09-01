@@ -9,7 +9,7 @@ const rawData = [
     period: "Jul 14, 2025 to Jul 20, 2025",
     onlineSales: 6200,
     offlineSales: 22000,
-    cost: 520000,
+    cost: 12500,
     conversion: 4.2,
     visitors: 145000
   },
@@ -18,7 +18,7 @@ const rawData = [
     period: "Jul 21, 2025 to Jul 27, 2025",
     onlineSales: 5800,
     offlineSales: 20500,
-    cost: 540000,
+    cost: 11800,
     conversion: 3.8,
     visitors: 138000
   },
@@ -27,7 +27,7 @@ const rawData = [
     period: "Jul 28, 2025 to Aug 3, 2025",
     onlineSales: 5400,
     offlineSales: 19000,
-    cost: 560000,
+    cost: 10900,
     conversion: 3.5,
     visitors: 132000
   },
@@ -36,7 +36,7 @@ const rawData = [
     period: "Aug 4, 2025 to Aug 10, 2025",
     onlineSales: 5000,
     offlineSales: 18000,
-    cost: 580000,
+    cost: 9200,
     conversion: 3.2,
     visitors: 128000
   },
@@ -45,7 +45,7 @@ const rawData = [
     period: "Aug 11, 2025 to Aug 17, 2025",
     onlineSales: 5000,
     offlineSales: 17000,
-    cost: 580000,
+    cost: 8800,
     conversion: 3.0,
     visitors: 125000
   },
@@ -54,7 +54,7 @@ const rawData = [
     period: "Aug 18, 2025 to Aug 24, 2025", 
     onlineSales: 4500,
     offlineSales: 11000,
-    cost: 580000,
+    cost: 7750,
     conversion: 2.1,
     visitors: 118000
   },
@@ -63,7 +63,7 @@ const rawData = [
     period: "Aug 25, 2025 to Aug 31, 2025",
     onlineSales: 3000,
     offlineSales: 1000,
-    cost: 580000,
+    cost: 6500,
     conversion: 0.8,
     visitors: 95000
   },
@@ -72,7 +72,7 @@ const rawData = [
     period: "Sep 1, 2025 to Sep 7, 2025",
     onlineSales: 4200,
     offlineSales: 8500,
-    cost: 520000,
+    cost: 8900,
     conversion: 2.4,
     visitors: 108000
   }
@@ -345,8 +345,8 @@ export default function WeeklySalesChart() {
                 yAxisId="cost"
                 orientation="right"
                 tick={{ fontSize: 11, fill: '#64748b' }}
-                domain={[400000, 620000]}
-                tickFormatter={(value) => `${value / 1000}K`}
+                domain={[5000, 15000]}
+                tickFormatter={(value) => `${(value / 1000).toFixed(1)}K`}
                 axisLine={{ stroke: '#cbd5e1', strokeWidth: 2 }}
                 tickLine={{ stroke: '#cbd5e1' }}
                 label={{ 
