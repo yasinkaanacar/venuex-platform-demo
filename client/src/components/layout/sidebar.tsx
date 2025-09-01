@@ -72,17 +72,17 @@ export default function Sidebar({ collapsed, onToggle }: SidebarProps) {
       collapsed ? "w-16" : "w-64"
     )}>
       {/* Logo and Brand */}
-      <div className="border-b-2 border-gray-300 dark:border-gray-600">
-        <div className="flex items-center justify-center">
+      <div className="border-b-2 border-gray-300 dark:border-gray-600 h-20">
+        <div className="flex items-center justify-center h-full">
           {!collapsed && (
             <img 
               src={venueXLogo} 
               alt="VenueX Logo" 
-              className="w-32 h-32 object-contain"
+              className="w-16 h-16 object-contain"
             />
           )}
           {collapsed && (
-            <div className="w-8 h-8 bg-blue-600 rounded flex items-center justify-center my-4">
+            <div className="w-8 h-8 bg-blue-600 rounded flex items-center justify-center">
               <span className="text-white font-bold text-sm">VX</span>
             </div>
           )}
