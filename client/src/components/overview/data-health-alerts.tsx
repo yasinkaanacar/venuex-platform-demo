@@ -366,13 +366,13 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
               </Button>
             </div>
             
-            <div className="space-y-6">
+            <div className="space-y-8">
               {systemAlerts.map((alert) => {
                 const IconComponent = alert.icon;
                 return (
                   <div 
                     key={alert.id}
-                    className={`flex items-start justify-between p-5 rounded-xl border ${alert.bgColor} ${alert.borderColor} shadow-md hover:shadow-lg transition-shadow duration-200`}
+                    className={`flex items-start justify-between p-6 rounded-xl border ${alert.bgColor} ${alert.borderColor} shadow-md hover:shadow-lg transition-shadow duration-200 min-h-[120px]`}
                     data-testid={`alert-${alert.id}`}
                   >
                     <div className="flex items-start space-x-4">
@@ -380,10 +380,10 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
                         <IconComponent className="w-5 h-5" />
                       </div>
                       <div className="flex-1 min-w-0">
-                        <div className="font-semibold text-foreground mb-2 text-base">
+                        <div className="font-semibold text-foreground mb-3 text-base">
                           {alert.title}
                         </div>
-                        <div className="text-sm text-muted-foreground mb-3 leading-relaxed">
+                        <div className="text-sm text-muted-foreground mb-4 leading-relaxed">
                           {alert.description}
                         </div>
                         <div className="text-xs text-muted-foreground font-medium">
