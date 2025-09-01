@@ -1,5 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { TrendingUp, TrendingDown } from 'lucide-react';
 
 export default function TopPerformingCampaigns() {
   return (
@@ -25,7 +26,7 @@ export default function TopPerformingCampaigns() {
                   Impressions
                 </th>
                 <th className="text-center py-3 px-4 text-xs font-medium text-muted-foreground uppercase tracking-wider">
-                  CTR
+                  CTV (Click to Visit)
                 </th>
                 <th className="text-center py-3 px-4 text-xs font-medium text-muted-foreground uppercase tracking-wider">
                   Spend
