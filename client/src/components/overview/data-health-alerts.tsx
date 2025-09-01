@@ -1,9 +1,11 @@
+import { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Platform, Alert as AlertType, Location } from '@shared/schema';
-import { CheckCircle, Clock, XCircle, AlertTriangle, ArrowRight, Database, Store, MapPin, Package, Receipt, AlertCircle, X } from 'lucide-react';
+import { CheckCircle, Clock, XCircle, AlertTriangle, ArrowRight, Database, Store, MapPin, Package, Receipt, AlertCircle, X, ChevronDown, ChevronUp } from 'lucide-react';
 
 interface DataHealthAlertsProps {
   platforms?: Platform[];
@@ -12,24 +14,70 @@ interface DataHealthAlertsProps {
 }
 
 export default function DataHealthAlerts({ platforms = [], alerts = [], locations = [] }: DataHealthAlertsProps) {
+  // Mock alerts and notifications data
+  const systemAlerts = [
+    {
+      id: '1',
+      type: 'warning',
+      icon: AlertTriangle,
+      title: 'Data sync delay detected',
+      description: 'Meta Ads data is 15 minutes behind schedule',
+      timestamp: '11 minutes ago',
+      bgColor: 'bg-yellow-50 dark:bg-yellow-950/20',
+      borderColor: 'border-yellow-200 dark:border-yellow-800',
+      iconColor: 'text-yellow-600'
+    },
+    {
+      id: '2',
+      type: 'success',
+      icon: CheckCircle,
+      title: 'Data enrichment completed',
+      description: '47 location profiles updated with new attributes',
+      timestamp: '11 minutes ago',
+      bgColor: 'bg-green-50 dark:bg-green-950/20',
+      borderColor: 'border-green-200 dark:border-green-800',
+      iconColor: 'text-green-600'
+    },
+    {
+      id: '3',
+      type: 'error',
+      icon: AlertCircle,
+      title: 'API rate limit warning',
+      description: 'Google Ads API approaching rate limit (85% used)',
+      timestamp: '11 minutes ago',
+      bgColor: 'bg-red-50 dark:bg-red-950/20',
+      borderColor: 'border-red-200 dark:border-red-800',
+      iconColor: 'text-red-600'
+    }
+  ];
+
+  // Initialize as expanded if there are alerts, collapsed if no alerts
+  const [isOpen, setIsOpen] = useState(systemAlerts.length > 0);
 
   return (
     <Card>
-      <CardHeader>
-        <div className="flex items-center justify-between">
-          <div>
-            <CardTitle className="text-lg font-semibold text-foreground">
-              Data Health & Flow
-            </CardTitle>
-            <p className="text-sm text-muted-foreground">
-              Data flow from source systems through VenueX to platforms
-            </p>
+      <Collapsible open={isOpen} onOpenChange={setIsOpen}>
+        <CardHeader>
+          <div className="flex items-center justify-between">
+            <div>
+              <CardTitle className="text-lg font-semibold text-foreground">
+                Data Health & Flow
+              </CardTitle>
+              <p className="text-sm text-muted-foreground">
+                Data flow from source systems through VenueX to platforms
+              </p>
+            </div>
+            
+            <CollapsibleTrigger asChild>
+              <Button variant="ghost" size="sm" className="h-8 w-8 p-0" data-testid="button-toggle-data-health">
+                {isOpen ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
+              </Button>
+            </CollapsibleTrigger>
           </div>
-          
-        </div>
-      </CardHeader>
-      
-      <CardContent className="space-y-8">
+        </CardHeader>
+        
+        <CollapsibleContent>
+          <CardContent className="space-y-8">
         <div className="relative">
           {/* Vertical VenueX alignment guide */}
           <div className="absolute left-1/2 top-0 bottom-0 w-px bg-primary/20 transform -translate-x-1/2 z-0"></div>
@@ -299,7 +347,66 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
           </div>
         </div>
         
+        {/* Alerts & Notifications Section */}
+        <div className="border-t border-border pt-6">
+          <div className="flex items-center justify-between mb-4">
+            <div>
+              <h3 className="text-lg font-semibold text-foreground">
+                Alerts & Notifications
+              </h3>
+              <p className="text-sm text-muted-foreground">
+                Recent system alerts and data notifications
+              </p>
+            </div>
+            
+            <Button variant="ghost" size="sm" className="text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:hover:text-white font-medium" data-testid="button-view-all-alerts">
+              View all
+            </Button>
+          </div>
+          
+          <div className="space-y-3">
+            {systemAlerts.map((alert) => {
+              const IconComponent = alert.icon;
+              return (
+                <div 
+                  key={alert.id}
+                  className={`flex items-start justify-between p-4 rounded-lg border-2 ${alert.bgColor} ${alert.borderColor} shadow-sm`}
+                  data-testid={`alert-${alert.id}`}
+                >
+                  <div className="flex items-start space-x-3">
+                    <div className={`${alert.iconColor} mt-0.5`}>
+                      <IconComponent className="w-4 h-4" />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <div className="font-medium text-foreground mb-1">
+                        {alert.title}
+                      </div>
+                      <div className="text-sm text-muted-foreground mb-2">
+                        {alert.description}
+                      </div>
+                      <div className="text-xs text-muted-foreground">
+                        {alert.timestamp}
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="h-6 w-6 p-0 text-muted-foreground hover:text-foreground"
+                    data-testid={`close-alert-${alert.id}`}
+                  >
+                    <X className="w-4 h-4" />
+                  </Button>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+        
       </CardContent>
+        </CollapsibleContent>
+      </Collapsible>
     </Card>
   );
 }
