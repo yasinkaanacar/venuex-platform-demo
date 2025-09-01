@@ -70,7 +70,7 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
       </CardHeader>
       
       <CardContent>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Data Health & Flow Section */}
           <div className="space-y-8">
             <div className="relative">
@@ -355,7 +355,7 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
           </div>
           
           {/* Alerts & Notifications Section */}
-          <div>
+          <div className="-mt-2">
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-lg font-semibold text-foreground">
                 Alerts & Notifications
