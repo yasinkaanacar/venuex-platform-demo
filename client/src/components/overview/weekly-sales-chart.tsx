@@ -3,97 +3,112 @@ import { Badge } from '@/components/ui/badge';
 import { ComposedChart, Bar, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, Area, AreaChart } from 'recharts';
 import { TrendingUp, TrendingDown, DollarSign, ShoppingCart, Store } from 'lucide-react';
 
-const rawData = [
+const data = [
   {
     week: "Week 29",
     period: "Jul 14, 2025 to Jul 20, 2025",
     onlineSales: 6200,
     offlineSales: 22000,
-    cost: 12500,
+    onlineAdSpend: 2800,
+    offlineAdSpend: 9700,
     conversion: 4.2,
-    visitors: 145000
+    visitors: 145000,
+    get cost() { return this.onlineAdSpend + this.offlineAdSpend; },
+    get onlineROAS() { return parseFloat(((this.onlineSales / this.onlineAdSpend) * 100).toFixed(1)); },
+    get offlineROAS() { return parseFloat(((this.offlineSales / this.offlineAdSpend) * 100).toFixed(1)); }
   },
   {
     week: "Week 30",
     period: "Jul 21, 2025 to Jul 27, 2025",
     onlineSales: 5800,
     offlineSales: 20500,
-    cost: 11800,
+    onlineAdSpend: 2600,
+    offlineAdSpend: 9200,
     conversion: 3.8,
-    visitors: 138000
+    visitors: 138000,
+    get cost() { return this.onlineAdSpend + this.offlineAdSpend; },
+    get onlineROAS() { return parseFloat(((this.onlineSales / this.onlineAdSpend) * 100).toFixed(1)); },
+    get offlineROAS() { return parseFloat(((this.offlineSales / this.offlineAdSpend) * 100).toFixed(1)); }
   },
   {
     week: "Week 31",
     period: "Jul 28, 2025 to Aug 3, 2025",
     onlineSales: 5400,
     offlineSales: 19000,
-    cost: 10900,
+    onlineAdSpend: 2400,
+    offlineAdSpend: 8500,
     conversion: 3.5,
-    visitors: 132000
+    visitors: 132000,
+    get cost() { return this.onlineAdSpend + this.offlineAdSpend; },
+    get onlineROAS() { return parseFloat(((this.onlineSales / this.onlineAdSpend) * 100).toFixed(1)); },
+    get offlineROAS() { return parseFloat(((this.offlineSales / this.offlineAdSpend) * 100).toFixed(1)); }
   },
   {
     week: "Week 32",
     period: "Aug 4, 2025 to Aug 10, 2025",
     onlineSales: 5000,
     offlineSales: 18000,
-    cost: 9200,
+    onlineAdSpend: 2200,
+    offlineAdSpend: 7000,
     conversion: 3.2,
-    visitors: 128000
+    visitors: 128000,
+    get cost() { return this.onlineAdSpend + this.offlineAdSpend; },
+    get onlineROAS() { return parseFloat(((this.onlineSales / this.onlineAdSpend) * 100).toFixed(1)); },
+    get offlineROAS() { return parseFloat(((this.offlineSales / this.offlineAdSpend) * 100).toFixed(1)); }
   },
   {
     week: "Week 33", 
     period: "Aug 11, 2025 to Aug 17, 2025",
     onlineSales: 5000,
     offlineSales: 17000,
-    cost: 8800,
+    onlineAdSpend: 2100,
+    offlineAdSpend: 6700,
     conversion: 3.0,
-    visitors: 125000
+    visitors: 125000,
+    get cost() { return this.onlineAdSpend + this.offlineAdSpend; },
+    get onlineROAS() { return parseFloat(((this.onlineSales / this.onlineAdSpend) * 100).toFixed(1)); },
+    get offlineROAS() { return parseFloat(((this.offlineSales / this.offlineAdSpend) * 100).toFixed(1)); }
   },
   {
     week: "Week 34",
     period: "Aug 18, 2025 to Aug 24, 2025", 
     onlineSales: 4500,
     offlineSales: 11000,
-    cost: 7750,
+    onlineAdSpend: 1950,
+    offlineAdSpend: 5800,
     conversion: 2.1,
-    visitors: 118000
+    visitors: 118000,
+    get cost() { return this.onlineAdSpend + this.offlineAdSpend; },
+    get onlineROAS() { return parseFloat(((this.onlineSales / this.onlineAdSpend) * 100).toFixed(1)); },
+    get offlineROAS() { return parseFloat(((this.offlineSales / this.offlineAdSpend) * 100).toFixed(1)); }
   },
   {
     week: "Week 35",
     period: "Aug 25, 2025 to Aug 31, 2025",
     onlineSales: 3000,
     offlineSales: 1000,
-    cost: 6500,
+    onlineAdSpend: 1800,
+    offlineAdSpend: 4700,
     conversion: 0.8,
-    visitors: 95000
+    visitors: 95000,
+    get cost() { return this.onlineAdSpend + this.offlineAdSpend; },
+    get onlineROAS() { return parseFloat(((this.onlineSales / this.onlineAdSpend) * 100).toFixed(1)); },
+    get offlineROAS() { return parseFloat(((this.offlineSales / this.offlineAdSpend) * 100).toFixed(1)); }
   },
   {
     week: "Week 36",
     period: "Sep 1, 2025 to Sep 7, 2025",
     onlineSales: 4200,
     offlineSales: 8500,
-    cost: 8900,
+    onlineAdSpend: 2300,
+    offlineAdSpend: 6600,
     conversion: 2.4,
-    visitors: 108000
+    visitors: 108000,
+    get cost() { return this.onlineAdSpend + this.offlineAdSpend; },
+    get onlineROAS() { return parseFloat(((this.onlineSales / this.onlineAdSpend) * 100).toFixed(1)); },
+    get offlineROAS() { return parseFloat(((this.offlineSales / this.offlineAdSpend) * 100).toFixed(1)); }
   }
 ];
-
-// Calculate ROAS metrics for each data point
-const data = rawData.map(item => {
-  const totalSales = item.onlineSales + item.offlineSales;
-  const onlineAdSpend = item.cost * (item.onlineSales / totalSales);
-  const offlineAdSpend = item.cost * (item.offlineSales / totalSales);
-  const onlineROAS = ((item.onlineSales / onlineAdSpend) * 100);
-  const offlineROAS = ((item.offlineSales / offlineAdSpend) * 100);
-  
-  return {
-    ...item,
-    onlineAdSpend,
-    offlineAdSpend,
-    onlineROAS: parseFloat(onlineROAS.toFixed(1)),
-    offlineROAS: parseFloat(offlineROAS.toFixed(1))
-  };
-});
 
 const CustomTooltip = ({ active, payload, label }: any) => {
   if (active && payload && payload.length) {
@@ -155,6 +170,14 @@ const CustomTooltip = ({ active, payload, label }: any) => {
           <div className="flex justify-between items-center">
             <span className="text-xs text-gray-600 dark:text-gray-400">Offline ROAS:</span>
             <span className="text-sm font-bold text-teal-600">{data.offlineROAS}%</span>
+          </div>
+          <div className="flex justify-between items-center">
+            <span className="text-xs text-gray-600 dark:text-gray-400">Online Ad Spend:</span>
+            <span className="text-sm font-bold text-blue-600">${data.onlineAdSpend.toLocaleString()}</span>
+          </div>
+          <div className="flex justify-between items-center">
+            <span className="text-xs text-gray-600 dark:text-gray-400">Offline Ad Spend:</span>
+            <span className="text-sm font-bold text-red-600">${data.offlineAdSpend.toLocaleString()}</span>
           </div>
           <div className="flex justify-between items-center">
             <span className="text-xs text-gray-600 dark:text-gray-400">Online Share:</span>
