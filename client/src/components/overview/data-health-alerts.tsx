@@ -51,8 +51,28 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
     }
   ];
 
-  // Initialize as expanded if there are alerts, collapsed if no alerts
-  const [isOpen, setIsOpen] = useState(systemAlerts.length > 0);
+  // Initialize as collapsed by default
+  const [isOpen, setIsOpen] = useState(false);
+
+  // Count failed and pending statuses across all platforms
+  const countStatuses = () => {
+    let failed = 0;
+    let pending = 0;
+    
+    // Check for failed/pending in each platform section
+    const statusChecks = [
+      'Failed 1h ago', 'Pending 15m ago' // Meta Commerce, Google Merchant Center
+    ];
+    
+    statusChecks.forEach(status => {
+      if (status.includes('Failed')) failed++;
+      if (status.includes('Pending')) pending++;
+    });
+    
+    return { failed, pending };
+  };
+  
+  const { failed, pending } = countStatuses();
 
   return (
     <Card>
@@ -69,8 +89,19 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
                 </p>
               ) : (
                 <div className="flex items-center gap-2 mt-1">
-                  <CheckCircle className="w-4 h-4 text-green-600" />
-                  <span className="text-sm text-green-600 font-medium">Everything is well</span>
+                  {failed === 0 && pending === 0 ? (
+                    <>
+                      <CheckCircle className="w-4 h-4 text-green-600" />
+                      <span className="text-sm text-green-600 font-medium">Everything is well</span>
+                    </>
+                  ) : (
+                    <>
+                      <AlertCircle className="w-4 h-4 text-red-600" />
+                      <span className="text-sm text-red-600 font-medium">
+                        {failed > 0 && `${failed} Failed`}{failed > 0 && pending > 0 && ', '}{pending > 0 && `${pending} Pending`}
+                      </span>
+                    </>
+                  )}
                 </div>
               )}
             </div>

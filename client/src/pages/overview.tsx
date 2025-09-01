@@ -41,6 +41,12 @@ export default function Overview() {
       <Header lastSync={overviewData?.lastSync} />
       
       <div className="max-w-7xl mx-auto px-6 py-6">
+        <DataHealthAlerts 
+          platforms={overviewData?.platforms} 
+          alerts={overviewData?.alerts}
+          locations={overviewData?.locations}
+        />
+        
         <FilterBar filters={filters} onFiltersChange={setFilters} />
         
         {isLoading ? (
@@ -63,12 +69,6 @@ export default function Overview() {
             <TopPerformingLocations />
             <TopPerformingCampaigns />
             <DataQualityEnrichment />
-            
-            <DataHealthAlerts 
-              platforms={overviewData?.platforms} 
-              alerts={overviewData?.alerts}
-              locations={overviewData?.locations}
-            />
           </div>
         )}
       </div>
