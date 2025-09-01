@@ -6,6 +6,7 @@ import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/component
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Platform, Alert as AlertType, Location } from '@shared/schema';
 import { CheckCircle, Clock, XCircle, AlertTriangle, ArrowRight, Database, Store, MapPin, Package, Receipt, AlertCircle, X, ChevronDown, ChevronUp } from 'lucide-react';
+import mouseIcon from '@assets/image_1756736100487.png';
 
 interface DataHealthAlertsProps {
   platforms?: Platform[];
@@ -108,7 +109,7 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
             
             <CollapsibleTrigger asChild>
               <Button variant="ghost" size="sm" className="h-8 w-8 p-0" data-testid="button-toggle-data-health">
-                {isOpen ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
+                <img src={mouseIcon} alt="Toggle" className="h-4 w-4" />
               </Button>
             </CollapsibleTrigger>
           </div>
