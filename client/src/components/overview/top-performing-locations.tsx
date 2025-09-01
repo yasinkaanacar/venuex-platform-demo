@@ -170,6 +170,86 @@ export default function TopPerformingLocations() {
                   </div>
                 </td>
               </tr>
+              <tr className="hover:bg-muted/50">
+                <td className="py-3 px-2">
+                  <div>
+                    <div className="font-medium text-foreground text-sm">Bursa - Nilüfer</div>
+                    <div className="text-xs text-muted-foreground">Görükle Mahallesi 45</div>
+                  </div>
+                </td>
+                <td className="text-center py-3 px-1 text-foreground font-medium text-sm">71,845</td>
+                <td className="text-center py-3 px-1 text-muted-foreground text-sm">3,927</td>
+                <td className="text-center py-3 px-1 text-muted-foreground text-sm">231</td>
+                <td className="text-center py-3 px-1 text-muted-foreground text-sm">486</td>
+                <td className="text-center py-3 px-1 text-foreground font-medium text-sm">2,198</td>
+                <td className="text-center py-3 px-1 text-foreground font-medium text-sm">
+                  <div className="flex items-center justify-center gap-1">
+                    <span>$52,340</span>
+                    <div className="flex items-center text-green-600">
+                      <TrendingUp className="w-3 h-3" />
+                      <span className="text-xs">+6%</span>
+                    </div>
+                  </div>
+                </td>
+                <td className="text-center py-3 px-1 text-foreground font-medium text-sm">
+                  <div className="flex items-center justify-center gap-1">
+                    <span>894</span>
+                    <div className="flex items-center text-red-600">
+                      <TrendingDown className="w-3 h-3" />
+                      <span className="text-xs">-1%</span>
+                    </div>
+                  </div>
+                </td>
+                <td className="text-center py-3 px-1 text-muted-foreground text-sm">
+                  <div className="flex items-center justify-center gap-1">
+                    <span>2.5x</span>
+                    <div className="flex items-center text-green-600">
+                      <TrendingUp className="w-3 h-3" />
+                      <span className="text-xs">+3%</span>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+              <tr className="hover:bg-muted/50">
+                <td className="py-3 px-2">
+                  <div>
+                    <div className="font-medium text-foreground text-sm">Antalya - Muratpaşa</div>
+                    <div className="text-xs text-muted-foreground">Lara Caddesi 112</div>
+                  </div>
+                </td>
+                <td className="text-center py-3 px-1 text-foreground font-medium text-sm">94,672</td>
+                <td className="text-center py-3 px-1 text-muted-foreground text-sm">5,183</td>
+                <td className="text-center py-3 px-1 text-muted-foreground text-sm">298</td>
+                <td className="text-center py-3 px-1 text-muted-foreground text-sm">627</td>
+                <td className="text-center py-3 px-1 text-foreground font-medium text-sm">3,124</td>
+                <td className="text-center py-3 px-1 text-foreground font-medium text-sm">
+                  <div className="flex items-center justify-center gap-1">
+                    <span>$74,890</span>
+                    <div className="flex items-center text-green-600">
+                      <TrendingUp className="w-3 h-3" />
+                      <span className="text-xs">+18%</span>
+                    </div>
+                  </div>
+                </td>
+                <td className="text-center py-3 px-1 text-foreground font-medium text-sm">
+                  <div className="flex items-center justify-center gap-1">
+                    <span>1,267</span>
+                    <div className="flex items-center text-green-600">
+                      <TrendingUp className="w-3 h-3" />
+                      <span className="text-xs">+14%</span>
+                    </div>
+                  </div>
+                </td>
+                <td className="text-center py-3 px-1 text-muted-foreground text-sm">
+                  <div className="flex items-center justify-center gap-1">
+                    <span>2.5x</span>
+                    <div className="flex items-center text-green-600">
+                      <TrendingUp className="w-3 h-3" />
+                      <span className="text-xs">+9%</span>
+                    </div>
+                  </div>
+                </td>
+              </tr>
             </tbody>
           </table>
         </div>
