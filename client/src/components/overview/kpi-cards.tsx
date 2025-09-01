@@ -77,15 +77,15 @@ export default function KpiCards({ kpis }: KpiCardsProps) {
         return (
           <Card key={card.id} className="hover:shadow-lg transition-shadow" data-testid={`card-${card.id}`}>
             <CardContent className="p-6">
-              <div className="flex items-center justify-between mb-4">
-                <div className="flex items-center space-x-2">
-                  <div className={`w-10 h-10 ${card.iconBg} rounded-lg flex items-center justify-center`}>
-                    <Icon className={`w-5 h-5 ${card.iconColor}`} />
-                  </div>
-                  <h3 className="text-sm font-medium text-muted-foreground">{card.title}</h3>
+              <div className="flex items-center space-x-2 mb-4">
+                <div className={`w-10 h-10 ${card.iconBg} rounded-lg flex items-center justify-center`}>
+                  <Icon className={`w-5 h-5 ${card.iconColor}`} />
                 </div>
-                
-                <Button variant="ghost" size="sm" className="text-xs text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white" data-testid={`button-view-detail-${card.id}`}>
+                <h3 className="text-sm font-medium text-muted-foreground">{card.title}</h3>
+              </div>
+              
+              <div className="flex justify-end mb-4">
+                <Button variant="outline" size="sm" className="text-xs text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white border border-gray-300 dark:border-gray-600" data-testid={`button-view-detail-${card.id}`}>
                   View Detail
                 </Button>
               </div>
