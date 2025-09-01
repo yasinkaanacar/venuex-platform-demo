@@ -111,7 +111,7 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
                   <line x1="52%" y1="50%" x2="65%" y2="50%" stroke="url(#greenDotted)" strokeWidth="2" />
                 </svg>
                 
-                <div className="absolute left-[10%] top-1/2 transform -translate-y-1/2 z-10">
+                <div className="absolute left-[4%] top-1/2 transform -translate-y-1/2 z-10">
                   <div className="flex flex-col items-center text-center">
                     <div className="w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8 bg-muted rounded-lg flex items-center justify-center mb-1">
                       <Store className="w-3 h-3 sm:w-3.5 sm:h-3.5 lg:w-4 lg:h-4 text-muted-foreground" />
