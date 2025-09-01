@@ -17,10 +17,10 @@ export default function FilterBar({ filters, onFiltersChange }: FilterBarProps) 
 
   return (
     <div className="sticky top-0 z-50 bg-card rounded-lg border border-border/30 p-3 mb-4 shadow-sm">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-        <div className="flex justify-start">
+      <div className="flex gap-4">
+        <div>
           <Select value={filters.platform} onValueChange={(value) => updateFilter('platform', value)}>
-            <SelectTrigger data-testid="select-platform" className="border-gray-200 dark:border-gray-700 focus:border-gray-300 dark:focus:border-gray-600 w-1/2">
+            <SelectTrigger data-testid="select-platform" className="border-gray-200 dark:border-gray-700 focus:border-gray-300 dark:focus:border-gray-600 w-40">
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
@@ -68,9 +68,9 @@ export default function FilterBar({ filters, onFiltersChange }: FilterBarProps) 
           </Select>
         </div>
 
-        <div className="flex justify-start">
+        <div>
           <Select value={filters.dateRange} onValueChange={(value) => updateFilter('dateRange', value)}>
-            <SelectTrigger data-testid="select-date-range" className="border-gray-200 dark:border-gray-700 focus:border-gray-300 dark:focus:border-gray-600 w-1/2">
+            <SelectTrigger data-testid="select-date-range" className="border-gray-200 dark:border-gray-700 focus:border-gray-300 dark:focus:border-gray-600 w-40">
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
