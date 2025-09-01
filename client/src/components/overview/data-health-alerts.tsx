@@ -108,7 +108,7 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
                   {/* Source to VenueX line - aligned with logo centers */}
                   <line x1="20%" y1="35%" x2="48%" y2="35%" stroke="url(#greenDotted)" strokeWidth="2" />
                   {/* VenueX to Platforms line - stops before platforms */}
-                  <line x1="52%" y1="50%" x2="80%" y2="50%" stroke="url(#greenDotted)" strokeWidth="2" />
+                  <line x1="52%" y1="50%" x2="75%" y2="50%" stroke="url(#greenDotted)" strokeWidth="2" />
                 </svg>
                 
                 <div className="absolute left-[4%] top-1/2 transform -translate-y-1/2 z-10">
@@ -207,7 +207,7 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
                   {/* Source to VenueX line - aligned with logo centers */}
                   <line x1="20%" y1="35%" x2="48%" y2="35%" stroke="url(#redDotted)" strokeWidth="2" />
                   {/* VenueX to Platforms line - stops before platforms */}
-                  <line x1="52%" y1="50%" x2="80%" y2="50%" stroke="url(#redDotted)" strokeWidth="2" />
+                  <line x1="52%" y1="50%" x2="75%" y2="50%" stroke="url(#redDotted)" strokeWidth="2" />
                 </svg>
                 
                 <div className="absolute left-[4%] top-1/2 transform -translate-y-1/2 z-10">
@@ -282,7 +282,7 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
                   {/* Source to VenueX line - aligned with logo centers */}
                   <line x1="20%" y1="35%" x2="48%" y2="35%" stroke="url(#greenDotted2)" strokeWidth="2" />
                   {/* VenueX to Platforms line - stops before platforms */}
-                  <line x1="52%" y1="50%" x2="80%" y2="50%" stroke="url(#greenDotted2)" strokeWidth="2" />
+                  <line x1="52%" y1="50%" x2="75%" y2="50%" stroke="url(#greenDotted2)" strokeWidth="2" />
                 </svg>
                 
                 <div className="absolute left-[4%] top-1/2 transform -translate-y-1/2 z-10">
