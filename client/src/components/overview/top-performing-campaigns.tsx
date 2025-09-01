@@ -45,9 +45,9 @@ export default function TopPerformingCampaigns() {
                     </div>
                   </div>
                 </td>
-                <td className="text-center py-4 px-4 text-foreground font-medium">16001.6</td>
-                <td className="text-center py-4 px-4 text-foreground font-medium">1437888</td>
-                <td className="text-center py-4 px-4 text-foreground font-medium">2,847</td>
+                <td className="text-center py-4 px-4 text-foreground font-medium">4.2x</td>
+                <td className="text-center py-4 px-4 text-foreground font-medium">24,387</td>
+                <td className="text-center py-4 px-4 text-foreground font-medium">1,247</td>
               </tr>
               <tr className="hover:bg-muted/50" data-testid="row-campaign-local-shopping">
                 <td className="py-4 px-4">
@@ -61,9 +61,9 @@ export default function TopPerformingCampaigns() {
                     </div>
                   </div>
                 </td>
-                <td className="text-center py-4 px-4 text-foreground font-medium">11834.5</td>
-                <td className="text-center py-4 px-4 text-foreground font-medium">865198</td>
-                <td className="text-center py-4 px-4 text-foreground font-medium">1,923</td>
+                <td className="text-center py-4 px-4 text-foreground font-medium">3.8x</td>
+                <td className="text-center py-4 px-4 text-foreground font-medium">18,652</td>
+                <td className="text-center py-4 px-4 text-foreground font-medium">923</td>
               </tr>
               <tr className="hover:bg-muted/50" data-testid="row-campaign-store-promo">
                 <td className="py-4 px-4">
@@ -77,9 +77,9 @@ export default function TopPerformingCampaigns() {
                     </div>
                   </div>
                 </td>
-                <td className="text-center py-4 px-4 text-foreground font-medium">13421.9</td>
-                <td className="text-center py-4 px-4 text-foreground font-medium">950363</td>
-                <td className="text-center py-4 px-4 text-foreground font-medium">1,685</td>
+                <td className="text-center py-4 px-4 text-foreground font-medium">5.1x</td>
+                <td className="text-center py-4 px-4 text-foreground font-medium">16,234</td>
+                <td className="text-center py-4 px-4 text-foreground font-medium">785</td>
               </tr>
               <tr className="hover:bg-muted/50" data-testid="row-campaign-visit-drive">
                 <td className="py-4 px-4">
@@ -93,9 +93,9 @@ export default function TopPerformingCampaigns() {
                     </div>
                   </div>
                 </td>
-                <td className="text-center py-4 px-4 text-foreground font-medium">13805.3</td>
-                <td className="text-center py-4 px-4 text-foreground font-medium">902542</td>
-                <td className="text-center py-4 px-4 text-foreground font-medium">1,578</td>
+                <td className="text-center py-4 px-4 text-foreground font-medium">3.6x</td>
+                <td className="text-center py-4 px-4 text-foreground font-medium">21,089</td>
+                <td className="text-center py-4 px-4 text-foreground font-medium">634</td>
               </tr>
               <tr className="hover:bg-muted/50" data-testid="row-campaign-gen-z">
                 <td className="py-4 px-4">
@@ -109,9 +109,9 @@ export default function TopPerformingCampaigns() {
                     </div>
                   </div>
                 </td>
-                <td className="text-center py-4 px-4 text-foreground font-medium">8093.4</td>
-                <td className="text-center py-4 px-4 text-foreground font-medium">272188</td>
-                <td className="text-center py-4 px-4 text-foreground font-medium">456</td>
+                <td className="text-center py-4 px-4 text-foreground font-medium">2.9x</td>
+                <td className="text-center py-4 px-4 text-foreground font-medium">12,473</td>
+                <td className="text-center py-4 px-4 text-foreground font-medium">298</td>
               </tr>
             </tbody>
           </table>
