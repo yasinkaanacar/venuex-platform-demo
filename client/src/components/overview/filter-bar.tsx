@@ -20,7 +20,7 @@ export default function FilterBar({ filters, onFiltersChange }: FilterBarProps) 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
         <div>
           <Select value={filters.platform} onValueChange={(value) => updateFilter('platform', value)}>
-            <SelectTrigger data-testid="select-platform">
+            <SelectTrigger data-testid="select-platform" className="border-gray-200 dark:border-gray-700 focus:border-gray-300 dark:focus:border-gray-600">
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
@@ -70,7 +70,7 @@ export default function FilterBar({ filters, onFiltersChange }: FilterBarProps) 
 
         <div>
           <Select value={filters.dateRange} onValueChange={(value) => updateFilter('dateRange', value)}>
-            <SelectTrigger data-testid="select-date-range">
+            <SelectTrigger data-testid="select-date-range" className="border-gray-200 dark:border-gray-700 focus:border-gray-300 dark:focus:border-gray-600">
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
