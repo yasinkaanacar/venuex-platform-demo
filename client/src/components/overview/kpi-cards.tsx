@@ -1,5 +1,6 @@
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { DollarSign, MapPin, ShoppingCart, Receipt, Eye, TrendingUp, TrendingDown, ExternalLink } from 'lucide-react';
 import { KPI } from '@/lib/types';
 
@@ -22,7 +23,15 @@ export default function KpiCards({ kpis }: KpiCardsProps) {
       iconBg: 'bg-primary/10',
       value: kpis?.o2oAttribution?.value || '0x',
       trend: kpis?.o2oAttribution?.trend || '0%',
-      previousValue: kpis?.o2oAttribution?.previousValue || '0x'
+      previousValue: kpis?.o2oAttribution?.previousValue || '0x',
+      hoverMetrics: {
+        'Revenue Generated': '$127,340',
+        'Ad Spend': '$34,520',
+        'Store Visits': '2,847',
+        'Conversion Rate': '4.2%',
+        'Average Order Value': '$44.75',
+        'Attribution Window': '7 days'
+      }
     },
     {
       id: 'location-engagements',
@@ -32,7 +41,15 @@ export default function KpiCards({ kpis }: KpiCardsProps) {
       iconBg: 'bg-blue-100',
       value: kpis?.locationListings?.value || '0',
       trend: kpis?.locationListings?.trend || '0%',
-      previousValue: kpis?.locationListings?.previousValue || '0'
+      previousValue: kpis?.locationListings?.previousValue || '0',
+      hoverMetrics: {
+        'Direction Requests': '12,340',
+        'Phone Calls': '2,847',
+        'Website Clicks': '8,921',
+        'Photo Views': '45,672',
+        'Review Interactions': '1,234',
+        'Hours Viewed': '3,456'
+      }
     },
     {
       id: 'local-inventory',
@@ -42,7 +59,15 @@ export default function KpiCards({ kpis }: KpiCardsProps) {
       iconBg: 'bg-green-100',
       value: kpis?.localInventory?.value || '0%',
       trend: kpis?.localInventory?.trend || '0%',
-      previousValue: kpis?.localInventory?.previousValue || '0%'
+      previousValue: kpis?.localInventory?.previousValue || '0%',
+      hoverMetrics: {
+        'Items in Stock': '1,847',
+        'Out of Stock': '123',
+        'Low Stock Alerts': '45',
+        'Reorder Points Set': '892',
+        'Inventory Turnover': '8.4x',
+        'Stock Accuracy': '97.2%'
+      }
     },
     {
       id: 'average-rating',
@@ -52,7 +77,15 @@ export default function KpiCards({ kpis }: KpiCardsProps) {
       iconBg: 'bg-purple-100',
       value: kpis?.reviewManagement?.value || '0.0',
       trend: kpis?.reviewManagement?.trend || '0%',
-      previousValue: kpis?.reviewManagement?.previousValue || '0.0'
+      previousValue: kpis?.reviewManagement?.previousValue || '0.0',
+      hoverMetrics: {
+        'Total Reviews': '2,847',
+        '5 Star Reviews': '1,923 (67.5%)',
+        '4 Star Reviews': '624 (21.9%)',
+        '3 Star Reviews': '189 (6.6%)',
+        'Response Rate': '94.2%',
+        'Average Response Time': '4.2 hours'
+      }
     }
   ];
 
@@ -69,44 +102,61 @@ export default function KpiCards({ kpis }: KpiCardsProps) {
   };
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-      {cards.map((card) => {
-        const TrendIcon = getTrendIcon(card.trend);
-        const Icon = card.icon;
-        
-        return (
-          <Card key={card.id} className="hover:shadow-lg transition-shadow" data-testid={`card-${card.id}`}>
-            <CardContent className="p-6">
-              <div className="flex items-center justify-between mb-4">
-                <div className="flex items-center space-x-2">
-                  <div className={`w-10 h-10 ${card.iconBg} rounded-lg flex items-center justify-center`}>
-                    <Icon className={`w-5 h-5 ${card.iconColor}`} />
-                  </div>
-                  <h3 className="text-sm font-medium text-muted-foreground">{card.title}</h3>
+    <TooltipProvider>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        {cards.map((card) => {
+          const TrendIcon = getTrendIcon(card.trend);
+          const Icon = card.icon;
+          
+          return (
+            <Tooltip key={card.id}>
+              <TooltipTrigger asChild>
+                <Card className="hover:shadow-lg transition-all duration-200 cursor-pointer hover:scale-105" data-testid={`card-${card.id}`}>
+                  <CardContent className="p-6">
+                    <div className="flex items-center justify-between mb-4">
+                      <div className="flex items-center space-x-2">
+                        <div className={`w-10 h-10 ${card.iconBg} rounded-lg flex items-center justify-center`}>
+                          <Icon className={`w-5 h-5 ${card.iconColor}`} />
+                        </div>
+                        <h3 className="text-sm font-medium text-muted-foreground">{card.title}</h3>
+                      </div>
+                      
+                      <Button variant="ghost" size="sm" className="h-6 w-6 p-0 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300" data-testid={`button-external-${card.id}`}>
+                        <ExternalLink className="w-4 h-4" />
+                      </Button>
+                    </div>
+                    
+                    <div className="flex items-center justify-between mb-2">
+                      <div className="text-2xl font-bold text-foreground" data-testid={`text-value-${card.id}`}>
+                        {card.value}{card.id === 'average-rating' ? ' ⭐' : ''}
+                      </div>
+                      <div className={`flex items-center space-x-1 text-xs ${getTrendColor(card.trend)}`}>
+                        {TrendIcon && <TrendIcon className="w-3 h-3" />}
+                        <span data-testid={`text-trend-${card.id}`}>{card.trend}</span>
+                      </div>
+                    </div>
+                    
+                    <div className="text-xs text-muted-foreground">
+                      vs {card.previousValue} previous period
+                    </div>
+                  </CardContent>
+                </Card>
+              </TooltipTrigger>
+              <TooltipContent className="w-64 p-4" side="bottom">
+                <div className="space-y-2">
+                  <h4 className="font-semibold text-sm text-foreground mb-3">{card.title} Details</h4>
+                  {Object.entries(card.hoverMetrics).map(([key, value]) => (
+                    <div key={key} className="flex justify-between items-center text-xs">
+                      <span className="text-muted-foreground">{key}:</span>
+                      <span className="font-medium text-foreground">{value}</span>
+                    </div>
+                  ))}
                 </div>
-                
-                <Button variant="ghost" size="sm" className="h-6 w-6 p-0 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300" data-testid={`button-external-${card.id}`}>
-                  <ExternalLink className="w-4 h-4" />
-                </Button>
-              </div>
-              
-              <div className="flex items-center justify-between mb-2">
-                <div className="text-2xl font-bold text-foreground" data-testid={`text-value-${card.id}`}>
-                  {card.value}{card.id === 'average-rating' ? ' ⭐' : ''}
-                </div>
-                <div className={`flex items-center space-x-1 text-xs ${getTrendColor(card.trend)}`}>
-                  {TrendIcon && <TrendIcon className="w-3 h-3" />}
-                  <span data-testid={`text-trend-${card.id}`}>{card.trend}</span>
-                </div>
-              </div>
-              
-              <div className="text-xs text-muted-foreground">
-                vs {card.previousValue} previous period
-              </div>
-            </CardContent>
-          </Card>
-        );
-      })}
-    </div>
+              </TooltipContent>
+            </Tooltip>
+          );
+        })}
+      </div>
+    </TooltipProvider>
   );
 }
