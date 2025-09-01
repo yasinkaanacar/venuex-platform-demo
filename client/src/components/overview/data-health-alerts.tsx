@@ -148,12 +148,14 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
                         </div>
                       </div>
                     </div>
-                    <div className="flex items-start gap-2">
-                      <div className="w-4 h-4 bg-blue-600 rounded flex items-center justify-center flex-shrink-0">
-                        <span className="text-xs text-white font-bold">f</span>
-                      </div>
+                    <div className="flex items-start justify-end">
                       <div className="flex flex-col min-w-0 text-right">
-                        <span className="text-xs text-muted-foreground whitespace-nowrap">Meta Pages</span>
+                        <div className="flex items-center gap-1 justify-end">
+                          <span className="text-xs text-muted-foreground whitespace-nowrap">Meta Pages</span>
+                          <div className="w-4 h-4 bg-blue-600 rounded flex items-center justify-center flex-shrink-0">
+                            <span className="text-xs text-white font-bold">f</span>
+                          </div>
+                        </div>
                         <div className="flex items-center gap-1 mt-0.5 justify-end">
                           <span className="text-xs text-green-600 whitespace-nowrap">Synced 3m ago</span>
                           <div className="w-1 h-1 bg-green-500 rounded-full flex-shrink-0"></div>
@@ -310,36 +312,42 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
                 
                 <div className="absolute right-[4%] top-[45%] transform -translate-y-1/2 z-10">
                   <div className="flex flex-col gap-2 items-end">
-                    <div className="flex items-start gap-2">
-                      <div className="w-4 h-4 bg-red-500 rounded flex items-center justify-center flex-shrink-0">
-                        <span className="text-xs text-white font-bold">G</span>
-                      </div>
+                    <div className="flex items-start justify-end">
                       <div className="flex flex-col min-w-0 text-right">
-                        <span className="text-xs text-muted-foreground whitespace-nowrap">Google Ads</span>
+                        <div className="flex items-center gap-1 justify-end">
+                          <span className="text-xs text-muted-foreground whitespace-nowrap">Google Ads</span>
+                          <div className="w-4 h-4 bg-red-500 rounded flex items-center justify-center flex-shrink-0">
+                            <span className="text-xs text-white font-bold">G</span>
+                          </div>
+                        </div>
                         <div className="flex items-center gap-1 mt-0.5 justify-end">
                           <span className="text-xs text-green-600 whitespace-nowrap">Synced 45s ago</span>
                           <div className="w-1 h-1 bg-green-500 rounded-full flex-shrink-0"></div>
                         </div>
                       </div>
                     </div>
-                    <div className="flex items-start gap-2">
-                      <div className="w-4 h-4 bg-blue-600 rounded flex items-center justify-center flex-shrink-0">
-                        <span className="text-xs text-white font-bold">f</span>
-                      </div>
+                    <div className="flex items-start justify-end">
                       <div className="flex flex-col min-w-0 text-right">
-                        <span className="text-xs text-muted-foreground whitespace-nowrap">Meta Ads</span>
+                        <div className="flex items-center gap-1 justify-end">
+                          <span className="text-xs text-muted-foreground whitespace-nowrap">Meta Ads</span>
+                          <div className="w-4 h-4 bg-blue-600 rounded flex items-center justify-center flex-shrink-0">
+                            <span className="text-xs text-white font-bold">f</span>
+                          </div>
+                        </div>
                         <div className="flex items-center gap-1 mt-0.5 justify-end">
                           <span className="text-xs text-green-600 whitespace-nowrap">Synced 1m ago</span>
                           <div className="w-1 h-1 bg-green-500 rounded-full flex-shrink-0"></div>
                         </div>
                       </div>
                     </div>
-                    <div className="flex items-start gap-2">
-                      <div className="w-4 h-4 bg-black rounded flex items-center justify-center flex-shrink-0">
-                        <span className="text-xs text-white font-bold">🎵</span>
-                      </div>
+                    <div className="flex items-start justify-end">
                       <div className="flex flex-col min-w-0 text-right">
-                        <span className="text-xs text-muted-foreground whitespace-nowrap">TikTok Ads</span>
+                        <div className="flex items-center gap-1 justify-end">
+                          <span className="text-xs text-muted-foreground whitespace-nowrap">TikTok Ads</span>
+                          <div className="w-4 h-4 bg-black rounded flex items-center justify-center flex-shrink-0">
+                            <span className="text-xs text-white font-bold">🎵</span>
+                          </div>
+                        </div>
                         <div className="flex items-center gap-1 mt-0.5 justify-end">
                           <span className="text-xs text-green-600 whitespace-nowrap">Synced 2m ago</span>
                           <div className="w-1 h-1 bg-green-500 rounded-full flex-shrink-0"></div>
