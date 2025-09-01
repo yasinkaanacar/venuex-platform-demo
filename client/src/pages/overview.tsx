@@ -4,6 +4,7 @@ import Header from '@/components/overview/header';
 import FilterBar from '@/components/overview/filter-bar';
 import KpiCards from '@/components/overview/kpi-cards';
 import PerformanceChart from '@/components/overview/performance-chart';
+import WeeklySalesChart from '@/components/overview/weekly-sales-chart';
 import TopPerformingLocations from '@/components/overview/top-performing-locations';
 import TopPerformingCampaigns from '@/components/overview/top-performing-campaigns';
 import DataQualityEnrichment from '@/components/overview/data-quality-enrichment';
@@ -61,6 +62,7 @@ export default function Overview() {
           <div className="space-y-8">
             <KpiCards kpis={overviewData?.kpis} />
             <PerformanceChart />
+            <WeeklySalesChart />
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               <TopPerformingLocations />
               <TopPerformingCampaigns />
