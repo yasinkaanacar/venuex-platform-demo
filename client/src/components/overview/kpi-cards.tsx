@@ -79,12 +79,12 @@ export default function KpiCards({ kpis }: KpiCardsProps) {
       trend: kpis?.reviewManagement?.trend || '0%',
       previousValue: kpis?.reviewManagement?.previousValue || '0.0',
       hoverMetrics: {
-        'Total Reviews': '2,847',
-        '5 Star Reviews': '1,923 (67.5%)',
-        '4 Star Reviews': '624 (21.9%)',
-        '3 Star Reviews': '189 (6.6%)',
-        'Response Rate': '94.2%',
-        'Average Response Time': '4.2 hours'
+        'Positive Sentiment': '73.2%',
+        'Neutral Sentiment': '18.7%',
+        'Negative Sentiment': '8.1%',
+        'Emotion Score': '0.84',
+        'Satisfaction Index': '87.3%',
+        'Recommendation Rate': '76.8%'
       }
     }
   ];
