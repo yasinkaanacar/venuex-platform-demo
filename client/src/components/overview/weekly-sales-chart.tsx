@@ -1,55 +1,143 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { ComposedChart, Bar, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { Badge } from '@/components/ui/badge';
+import { ComposedChart, Bar, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, Area, AreaChart } from 'recharts';
+import { TrendingUp, TrendingDown, DollarSign, ShoppingCart, Store } from 'lucide-react';
 
 const data = [
+  {
+    week: "Week 29",
+    period: "Jul 14, 2025 to Jul 20, 2025",
+    onlineSales: 6200,
+    offlineSales: 22000,
+    cost: 520000,
+    conversion: 4.2,
+    visitors: 145000
+  },
+  {
+    week: "Week 30",
+    period: "Jul 21, 2025 to Jul 27, 2025",
+    onlineSales: 5800,
+    offlineSales: 20500,
+    cost: 540000,
+    conversion: 3.8,
+    visitors: 138000
+  },
+  {
+    week: "Week 31",
+    period: "Jul 28, 2025 to Aug 3, 2025",
+    onlineSales: 5400,
+    offlineSales: 19000,
+    cost: 560000,
+    conversion: 3.5,
+    visitors: 132000
+  },
   {
     week: "Week 32",
     period: "Aug 4, 2025 to Aug 10, 2025",
     onlineSales: 5000,
     offlineSales: 18000,
-    cost: 580000
+    cost: 580000,
+    conversion: 3.2,
+    visitors: 128000
   },
   {
     week: "Week 33", 
     period: "Aug 11, 2025 to Aug 17, 2025",
     onlineSales: 5000,
     offlineSales: 17000,
-    cost: 580000
+    cost: 580000,
+    conversion: 3.0,
+    visitors: 125000
   },
   {
     week: "Week 34",
     period: "Aug 18, 2025 to Aug 24, 2025", 
     onlineSales: 4500,
     offlineSales: 11000,
-    cost: 580000
+    cost: 580000,
+    conversion: 2.1,
+    visitors: 118000
   },
   {
     week: "Week 35",
     period: "Aug 25, 2025 to Aug 31, 2025",
     onlineSales: 3000,
     offlineSales: 1000,
-    cost: 580000
+    cost: 580000,
+    conversion: 0.8,
+    visitors: 95000
+  },
+  {
+    week: "Week 36",
+    period: "Sep 1, 2025 to Sep 7, 2025",
+    onlineSales: 4200,
+    offlineSales: 8500,
+    cost: 520000,
+    conversion: 2.4,
+    visitors: 108000
   }
 ];
 
 const CustomTooltip = ({ active, payload, label }: any) => {
   if (active && payload && payload.length) {
     const data = payload[0].payload;
+    const totalSales = data.onlineSales + data.offlineSales;
+    const roas = ((totalSales / data.cost) * 100).toFixed(1);
+    const onlineShare = ((data.onlineSales / totalSales) * 100).toFixed(1);
+    
     return (
-      <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg p-3">
-        <p className="font-medium text-gray-900 dark:text-gray-100 mb-2">{data.period}</p>
-        <div className="space-y-1">
-          <div className="flex items-center gap-2">
-            <div className="w-3 h-3 bg-blue-500 rounded"></div>
-            <span className="text-sm text-gray-600 dark:text-gray-300">Online Sales: ${data.onlineSales.toLocaleString()}</span>
+      <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl shadow-2xl p-4 min-w-[280px]">
+        <div className="border-b border-gray-200 dark:border-gray-600 pb-2 mb-3">
+          <p className="font-semibold text-gray-900 dark:text-gray-100 text-sm">{data.period}</p>
+          <p className="text-xs text-gray-500 dark:text-gray-400">{data.week}</p>
+        </div>
+        
+        <div className="grid grid-cols-2 gap-3 mb-3">
+          <div className="space-y-2">
+            <div className="flex items-center gap-2">
+              <div className="w-3 h-3 bg-gradient-to-r from-blue-400 to-blue-600 rounded-full shadow-sm"></div>
+              <span className="text-xs font-medium text-gray-700 dark:text-gray-300">Online Sales</span>
+            </div>
+            <p className="text-sm font-bold text-blue-600">${data.onlineSales.toLocaleString()}</p>
+            
+            <div className="flex items-center gap-2">
+              <div className="w-3 h-3 bg-gradient-to-r from-red-400 to-red-600 rounded-full shadow-sm"></div>
+              <span className="text-xs font-medium text-gray-700 dark:text-gray-300">Offline Sales</span>
+            </div>
+            <p className="text-sm font-bold text-red-600">${data.offlineSales.toLocaleString()}</p>
           </div>
-          <div className="flex items-center gap-2">
-            <div className="w-3 h-3 bg-red-500 rounded"></div>
-            <span className="text-sm text-gray-600 dark:text-gray-300">Offline Sales: ${data.offlineSales.toLocaleString()}</span>
+          
+          <div className="space-y-2">
+            <div className="flex items-center gap-2">
+              <div className="w-3 h-3 bg-gradient-to-r from-amber-400 to-yellow-500 rounded-full shadow-sm"></div>
+              <span className="text-xs font-medium text-gray-700 dark:text-gray-300">Ad Spend</span>
+            </div>
+            <p className="text-sm font-bold text-amber-600">${data.cost.toLocaleString()}</p>
+            
+            <div className="flex items-center gap-2">
+              <div className="w-3 h-3 bg-gradient-to-r from-purple-400 to-purple-600 rounded-full shadow-sm"></div>
+              <span className="text-xs font-medium text-gray-700 dark:text-gray-300">Visitors</span>
+            </div>
+            <p className="text-sm font-bold text-purple-600">{data.visitors.toLocaleString()}</p>
           </div>
-          <div className="flex items-center gap-2">
-            <div className="w-3 h-3 bg-yellow-500 rounded"></div>
-            <span className="text-sm text-gray-600 dark:text-gray-300">Cost: ${data.cost.toLocaleString()}</span>
+        </div>
+        
+        <div className="border-t border-gray-200 dark:border-gray-600 pt-2 space-y-1">
+          <div className="flex justify-between items-center">
+            <span className="text-xs text-gray-600 dark:text-gray-400">Total Revenue:</span>
+            <span className="text-sm font-bold text-green-600">${totalSales.toLocaleString()}</span>
+          </div>
+          <div className="flex justify-between items-center">
+            <span className="text-xs text-gray-600 dark:text-gray-400">ROAS:</span>
+            <span className="text-sm font-bold text-indigo-600">{roas}%</span>
+          </div>
+          <div className="flex justify-between items-center">
+            <span className="text-xs text-gray-600 dark:text-gray-400">Online Share:</span>
+            <span className="text-sm font-bold text-blue-600">{onlineShare}%</span>
+          </div>
+          <div className="flex justify-between items-center">
+            <span className="text-xs text-gray-600 dark:text-gray-400">Conversion Rate:</span>
+            <span className="text-sm font-bold text-emerald-600">{data.conversion}%</span>
           </div>
         </div>
       </div>
@@ -58,104 +146,271 @@ const CustomTooltip = ({ active, payload, label }: any) => {
   return null;
 };
 
-const formatXAxisLabel = (value: string, index: number) => {
-  const item = data[index];
-  return `${item.period} (${item.week})`;
+const calculateTrend = (currentValue: number, previousValue: number) => {
+  const change = ((currentValue - previousValue) / previousValue) * 100;
+  return { change: change.toFixed(1), isPositive: change >= 0 };
+};
+
+const getTotalSales = () => {
+  return data.reduce((acc, curr) => acc + curr.onlineSales + curr.offlineSales, 0);
+};
+
+const getAverageROAS = () => {
+  const totalRevenue = getTotalSales();
+  const totalCost = data.reduce((acc, curr) => acc + curr.cost, 0);
+  return ((totalRevenue / totalCost) * 100).toFixed(1);
+};
+
+const getWeekOverWeekGrowth = () => {
+  const lastWeek = data[data.length - 1];
+  const previousWeek = data[data.length - 2];
+  const lastWeekTotal = lastWeek.onlineSales + lastWeek.offlineSales;
+  const previousWeekTotal = previousWeek.onlineSales + previousWeek.offlineSales;
+  return calculateTrend(lastWeekTotal, previousWeekTotal);
 };
 
 export default function WeeklySalesChart() {
+  const totalSales = getTotalSales();
+  const averageROAS = getAverageROAS();
+  const weekGrowth = getWeekOverWeekGrowth();
+  
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle className="text-lg font-semibold text-foreground">
-          Online x Offline (sales volume) - By week
-        </CardTitle>
+    <Card className="bg-gradient-to-br from-white to-gray-50/50 dark:from-gray-900 dark:to-gray-800/50 border-2 border-gray-200/50 dark:border-gray-700/50 shadow-xl">
+      <CardHeader className="pb-4">
+        <div className="flex items-center justify-between">
+          <div>
+            <CardTitle className="text-xl font-bold text-foreground bg-gradient-to-r from-gray-900 to-gray-700 dark:from-gray-100 dark:to-gray-300 bg-clip-text text-transparent">
+              Online x Offline (sales volume) - By week
+            </CardTitle>
+            <p className="text-sm text-muted-foreground mt-1">Revenue performance across digital and physical channels</p>
+          </div>
+          
+          <div className="flex items-center gap-3">
+            <div className="text-center">
+              <p className="text-xs text-muted-foreground">Total Revenue</p>
+              <p className="text-lg font-bold text-green-600">${totalSales.toLocaleString()}</p>
+            </div>
+            <div className="text-center">
+              <p className="text-xs text-muted-foreground">Avg ROAS</p>
+              <p className="text-lg font-bold text-indigo-600">{averageROAS}%</p>
+            </div>
+            <div className="text-center">
+              <p className="text-xs text-muted-foreground flex items-center gap-1">
+                Week Growth
+                {weekGrowth.isPositive ? 
+                  <TrendingUp className="w-3 h-3 text-green-500" /> : 
+                  <TrendingDown className="w-3 h-3 text-red-500" />
+                }
+              </p>
+              <p className={`text-lg font-bold ${weekGrowth.isPositive ? 'text-green-600' : 'text-red-600'}`}>
+                {weekGrowth.isPositive ? '+' : ''}{weekGrowth.change}%
+              </p>
+            </div>
+          </div>
+        </div>
+        
+        <div className="flex items-center gap-2 mt-3">
+          <Badge variant="secondary" className="flex items-center gap-1">
+            <ShoppingCart className="w-3 h-3" />
+            Online Channel
+          </Badge>
+          <Badge variant="secondary" className="flex items-center gap-1">
+            <Store className="w-3 h-3" />
+            Offline Channel
+          </Badge>
+          <Badge variant="secondary" className="flex items-center gap-1">
+            <DollarSign className="w-3 h-3" />
+            Ad Investment
+          </Badge>
+        </div>
       </CardHeader>
       
-      <CardContent>
-        <div className="h-80">
+      <CardContent className="pt-0">
+        <div className="h-96 relative">
+          <div className="absolute inset-0 bg-gradient-to-br from-blue-50/30 to-purple-50/30 dark:from-blue-950/20 dark:to-purple-950/20 rounded-lg -z-10"></div>
           <ResponsiveContainer width="100%" height="100%">
             <ComposedChart
               data={data}
               margin={{
-                top: 20,
-                right: 80,
-                bottom: 60,
-                left: 20,
+                top: 30,
+                right: 90,
+                bottom: 70,
+                left: 30,
               }}
             >
-              <CartesianGrid strokeDasharray="3 3" stroke="#e0e7ff" />
+              <defs>
+                <linearGradient id="onlineGradient" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stopColor="#3b82f6" stopOpacity={0.9}/>
+                  <stop offset="100%" stopColor="#1d4ed8" stopOpacity={0.7}/>
+                </linearGradient>
+                <linearGradient id="offlineGradient" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stopColor="#dc2626" stopOpacity={0.9}/>
+                  <stop offset="100%" stopColor="#991b1b" stopOpacity={0.7}/>
+                </linearGradient>
+                <linearGradient id="costGradient" x1="0" y1="0" x2="1" y2="0">
+                  <stop offset="0%" stopColor="#f59e0b" stopOpacity={1}/>
+                  <stop offset="50%" stopColor="#eab308" stopOpacity={1}/>
+                  <stop offset="100%" stopColor="#d97706" stopOpacity={1}/>
+                </linearGradient>
+              </defs>
+              
+              <CartesianGrid 
+                strokeDasharray="4 4" 
+                stroke="#e2e8f0" 
+                strokeOpacity={0.6}
+                vertical={false}
+              />
+              
               <XAxis 
                 dataKey="week"
-                tick={{ fontSize: 11 }}
+                tick={{ fontSize: 11, fill: '#64748b' }}
                 interval={0}
-                angle={0}
-                textAnchor="middle"
+                angle={-15}
+                textAnchor="end"
                 height={80}
-                tickFormatter={(value, index) => {
-                  const item = data[index];
-                  return `${item.period} (${item.week})`;
-                }}
+                axisLine={{ stroke: '#cbd5e1', strokeWidth: 2 }}
+                tickLine={{ stroke: '#cbd5e1' }}
               />
+              
               <YAxis 
                 yAxisId="sales"
                 orientation="left"
-                tick={{ fontSize: 12 }}
-                domain={[0, 20000]}
+                tick={{ fontSize: 11, fill: '#64748b' }}
+                domain={[0, 25000]}
                 tickFormatter={(value) => `${value / 1000}K`}
+                axisLine={{ stroke: '#cbd5e1', strokeWidth: 2 }}
+                tickLine={{ stroke: '#cbd5e1' }}
                 label={{ 
-                  value: 'Online Sales / Offline Sales', 
+                  value: 'Sales Volume (K)', 
                   angle: -90, 
                   position: 'insideLeft',
-                  style: { textAnchor: 'middle', fontSize: '12px' }
+                  style: { textAnchor: 'middle', fontSize: '12px', fill: '#475569' }
                 }}
               />
+              
               <YAxis 
                 yAxisId="cost"
                 orientation="right"
-                tick={{ fontSize: 12 }}
-                domain={[0, 600000]}
+                tick={{ fontSize: 11, fill: '#64748b' }}
+                domain={[400000, 620000]}
                 tickFormatter={(value) => `${value / 1000}K`}
+                axisLine={{ stroke: '#cbd5e1', strokeWidth: 2 }}
+                tickLine={{ stroke: '#cbd5e1' }}
                 label={{ 
-                  value: 'Cost', 
+                  value: 'Ad Spend (K)', 
                   angle: 90, 
                   position: 'insideRight',
-                  style: { textAnchor: 'middle', fontSize: '12px' }
+                  style: { textAnchor: 'middle', fontSize: '12px', fill: '#475569' }
                 }}
               />
-              <Tooltip content={<CustomTooltip />} />
+              
+              <Tooltip 
+                content={<CustomTooltip />} 
+                cursor={{ 
+                  fill: 'rgba(59, 130, 246, 0.1)', 
+                  stroke: '#3b82f6',
+                  strokeWidth: 2,
+                  strokeDasharray: '4 4'
+                }}
+              />
+              
               <Legend 
                 verticalAlign="top"
-                height={36}
+                height={50}
                 iconType="rect"
-                wrapperStyle={{ paddingBottom: '20px' }}
+                wrapperStyle={{ 
+                  paddingBottom: '25px',
+                  fontSize: '13px',
+                  fontWeight: '500'
+                }}
               />
+              
               <Bar 
                 yAxisId="sales"
                 dataKey="onlineSales" 
                 name="Online Sales"
-                fill="#3b82f6"
-                radius={[2, 2, 0, 0]}
+                fill="url(#onlineGradient)"
+                radius={[4, 4, 0, 0]}
+                maxBarSize={60}
               />
+              
               <Bar 
                 yAxisId="sales"
                 dataKey="offlineSales" 
                 name="Offline Sales"
-                fill="#dc2626"
-                radius={[2, 2, 0, 0]}
+                fill="url(#offlineGradient)"
+                radius={[4, 4, 0, 0]}
+                maxBarSize={60}
               />
+              
               <Line 
                 yAxisId="cost"
                 type="monotone" 
                 dataKey="cost" 
-                name="Cost"
-                stroke="#eab308"
-                strokeWidth={3}
-                dot={{ fill: '#eab308', strokeWidth: 2, r: 4 }}
-                activeDot={{ r: 6, stroke: '#eab308', strokeWidth: 2 }}
+                name="Ad Spend"
+                stroke="url(#costGradient)"
+                strokeWidth={4}
+                dot={{ 
+                  fill: '#f59e0b', 
+                  strokeWidth: 3, 
+                  r: 6,
+                  stroke: '#ffffff',
+                  filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.1))'
+                }}
+                activeDot={{ 
+                  r: 8, 
+                  stroke: '#f59e0b', 
+                  strokeWidth: 3,
+                  fill: '#ffffff',
+                  filter: 'drop-shadow(0 4px 8px rgba(0,0,0,0.2))'
+                }}
               />
             </ComposedChart>
           </ResponsiveContainer>
+        </div>
+        
+        <div className="mt-6 grid grid-cols-4 gap-4 pt-4 border-t border-gray-200 dark:border-gray-700">
+          <div className="text-center p-3 bg-blue-50 dark:bg-blue-950/20 rounded-lg">
+            <div className="flex items-center justify-center gap-1 mb-1">
+              <ShoppingCart className="w-4 h-4 text-blue-600" />
+              <span className="text-xs font-medium text-blue-700 dark:text-blue-300">Online Total</span>
+            </div>
+            <p className="text-lg font-bold text-blue-600">
+              ${data.reduce((acc, curr) => acc + curr.onlineSales, 0).toLocaleString()}
+            </p>
+          </div>
+          
+          <div className="text-center p-3 bg-red-50 dark:bg-red-950/20 rounded-lg">
+            <div className="flex items-center justify-center gap-1 mb-1">
+              <Store className="w-4 h-4 text-red-600" />
+              <span className="text-xs font-medium text-red-700 dark:text-red-300">Offline Total</span>
+            </div>
+            <p className="text-lg font-bold text-red-600">
+              ${data.reduce((acc, curr) => acc + curr.offlineSales, 0).toLocaleString()}
+            </p>
+          </div>
+          
+          <div className="text-center p-3 bg-amber-50 dark:bg-amber-950/20 rounded-lg">
+            <div className="flex items-center justify-center gap-1 mb-1">
+              <DollarSign className="w-4 h-4 text-amber-600" />
+              <span className="text-xs font-medium text-amber-700 dark:text-amber-300">Total Spend</span>
+            </div>
+            <p className="text-lg font-bold text-amber-600">
+              ${data.reduce((acc, curr) => acc + curr.cost, 0).toLocaleString()}
+            </p>
+          </div>
+          
+          <div className="text-center p-3 bg-green-50 dark:bg-green-950/20 rounded-lg">
+            <div className="flex items-center justify-center gap-1 mb-1">
+              <TrendingUp className="w-4 h-4 text-green-600" />
+              <span className="text-xs font-medium text-green-700 dark:text-green-300">Best Week</span>
+            </div>
+            <p className="text-sm font-bold text-green-600">
+              Week {data.reduce((max, curr) => 
+                (curr.onlineSales + curr.offlineSales) > (max.onlineSales + max.offlineSales) ? curr : max
+              ).week.split(' ')[1]}
+            </p>
+          </div>
         </div>
       </CardContent>
     </Card>
