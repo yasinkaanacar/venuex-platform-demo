@@ -81,7 +81,10 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
   // Banner mode - simplified status display
   if (bannerMode) {
     return (
-      <div className="border border-blue-200 dark:border-blue-800 bg-blue-50 dark:bg-blue-950/20 rounded-lg shadow-none">
+      <div 
+        className="border border-blue-200 dark:border-blue-800 bg-blue-50 dark:bg-blue-950/20 rounded-lg shadow-none cursor-pointer hover:bg-blue-100 dark:hover:bg-blue-950/30 transition-colors"
+        onClick={onScrollToBottom}
+      >
         <div className="py-3 px-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
@@ -108,8 +111,7 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
             <Button 
               variant="outline" 
               size="sm" 
-              onClick={onScrollToBottom}
-              className="text-xs"
+              className="text-xs pointer-events-none"
               data-testid="button-scroll-to-bottom"
             >
               <ArrowDown className="w-3 h-3 mr-1" />
