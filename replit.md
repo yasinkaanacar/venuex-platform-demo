@@ -6,6 +6,19 @@ VenueX is a B2B SaaS platform that connects in-store retail data with digital ad
 
 Preferred communication style: Simple, everyday language.
 
+# Version History
+
+## V1 State (September 1, 2025)
+**Dashboard Layout and Features:**
+- **Filter Bar**: Simplified to Platform and Date Range filters only, displayed in horizontal flex layout with soft gray borders (gray-200/gray-700)
+- **Platform Filter**: Google set as default, no "All Platforms" option
+- **Sidebar**: VenueX logo sized at 183px, aligned at 80px height with header
+- **KPI Cards**: 4 tiles with hover tooltips showing detailed module-specific metrics
+- **Data Health & Flow**: Alert-style banner with blue background/border styling, no shadow
+- **Tables**: Top Performing Locations and Campaigns with sortable headers, visual separation borders
+- **Data Enrichment**: Single button per row layout - "Apply Fix" for some rows, "More Information" for others
+- **UI Theme**: Soft border colors throughout, responsive design maintained
+
 # System Architecture
 
 ## Frontend Architecture
