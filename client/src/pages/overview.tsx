@@ -14,7 +14,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 export default function Overview() {
   const [filters, setFilters] = useState<FilterState>({
     dateRange: 'Last 7 days',
-    platform: 'All Platforms',
+    platform: 'Google',
     compareMode: false
   });
 
