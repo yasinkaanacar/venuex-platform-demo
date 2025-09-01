@@ -98,19 +98,16 @@ export default function Sidebar({ collapsed, onToggle }: SidebarProps) {
           </div>
         )}
         
-        {/* Toggle Button - different positioning for collapsed/expanded states */}
-        <button
-          onClick={onToggle}
-          className={cn(
-            "absolute p-2 bg-white dark:bg-gray-900 border-2 border-gray-300 dark:border-gray-600 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors shadow-md z-10",
-            collapsed 
-              ? "top-2 right-0 transform translate-x-1/2" 
-              : "bottom-0 right-0 transform translate-x-1/2 translate-y-1/2"
-          )}
-          data-testid="sidebar-toggle"
-        >
-          <Menu className="w-4 h-4 text-gray-600 dark:text-gray-300" />
-        </button>
+        {/* Toggle Button - only show here when expanded */}
+        {!collapsed && (
+          <button
+            onClick={onToggle}
+            className="absolute bottom-0 right-0 transform translate-x-1/2 translate-y-1/2 p-2 bg-white dark:bg-gray-900 border-2 border-gray-300 dark:border-gray-600 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors shadow-md z-10"
+            data-testid="sidebar-toggle"
+          >
+            <Menu className="w-4 h-4 text-gray-600 dark:text-gray-300" />
+          </button>
+        )}
       </div>
 
       {/* Navigation */}
@@ -139,6 +136,20 @@ export default function Sidebar({ collapsed, onToggle }: SidebarProps) {
               </li>
             );
           })}
+          
+          {/* Toggle Button - only show here when collapsed, at the end of menu */}
+          {collapsed && (
+            <li>
+              <button
+                onClick={onToggle}
+                className="w-full flex items-center justify-center px-3 py-2 rounded-lg text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+                data-testid="sidebar-toggle"
+                title="Expand sidebar"
+              >
+                <Menu className="w-5 h-5" />
+              </button>
+            </li>
+          )}
         </ul>
       </nav>
 
