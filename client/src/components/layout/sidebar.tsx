@@ -7,7 +7,8 @@ import {
   CheckCircle, 
   Bell,
   ChevronDown,
-  Menu
+  Menu,
+  ShoppingCart
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import venueXLogo from '@assets/vx-logo-1000x1000_1756566252817.png';
@@ -18,6 +19,12 @@ const navigationItems = [
     href: '/', 
     icon: BarChart3,
     active: true 
+  },
+  { 
+    name: 'Offline Conversions', 
+    href: '/offline-conversions', 
+    icon: ShoppingCart,
+    active: false 
   },
   { 
     name: 'Locations', 
