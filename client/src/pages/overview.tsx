@@ -8,6 +8,7 @@ import TopPerformingLocations from '@/components/overview/top-performing-locatio
 import TopPerformingCampaigns from '@/components/overview/top-performing-campaigns';
 import DataQualityEnrichment from '@/components/overview/data-quality-enrichment';
 import DataHealthAlerts from '@/components/overview/data-health-alerts';
+import AlertsNotifications from '@/components/overview/alerts-notifications';
 import { FilterState, OverviewData } from '@/lib/types';
 import { Skeleton } from '@/components/ui/skeleton';
 
@@ -66,11 +67,16 @@ export default function Overview() {
             </div>
             <DataQualityEnrichment />
             
-            <DataHealthAlerts 
-              platforms={overviewData?.platforms} 
-              alerts={overviewData?.alerts}
-              locations={overviewData?.locations}
-            />
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <DataHealthAlerts 
+                platforms={overviewData?.platforms} 
+                alerts={overviewData?.alerts}
+                locations={overviewData?.locations}
+              />
+              <AlertsNotifications 
+                alerts={overviewData?.alerts}
+              />
+            </div>
           </div>
         )}
       </div>

@@ -12,42 +12,6 @@ interface DataHealthAlertsProps {
 }
 
 export default function DataHealthAlerts({ platforms = [], alerts = [], locations = [] }: DataHealthAlertsProps) {
-  // Mock alerts and notifications data
-  const systemAlerts = [
-    {
-      id: '1',
-      type: 'warning',
-      icon: AlertTriangle,
-      title: 'Data sync delay detected',
-      description: 'Meta Ads data is 15 minutes behind schedule',
-      timestamp: '11 minutes ago',
-      bgColor: 'bg-yellow-50 dark:bg-yellow-950/20',
-      borderColor: 'border-yellow-200 dark:border-yellow-800',
-      iconColor: 'text-yellow-600'
-    },
-    {
-      id: '2',
-      type: 'success',
-      icon: CheckCircle,
-      title: 'Data enrichment completed',
-      description: '47 location profiles updated with new attributes',
-      timestamp: '11 minutes ago',
-      bgColor: 'bg-green-50 dark:bg-green-950/20',
-      borderColor: 'border-green-200 dark:border-green-800',
-      iconColor: 'text-green-600'
-    },
-    {
-      id: '3',
-      type: 'error',
-      icon: AlertCircle,
-      title: 'API rate limit warning',
-      description: 'Google Ads API approaching rate limit (85% used)',
-      timestamp: '11 minutes ago',
-      bgColor: 'bg-red-50 dark:bg-red-950/20',
-      borderColor: 'border-red-200 dark:border-red-800',
-      iconColor: 'text-red-600'
-    }
-  ];
 
   return (
     <Card>
@@ -62,10 +26,6 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
             </p>
           </div>
           
-          <div className="flex items-center space-x-2">
-            <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-            <span className="text-sm text-green-600 font-medium">Healthy</span>
-          </div>
         </div>
       </CardHeader>
       
@@ -339,57 +299,6 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
           </div>
         </div>
         
-        {/* Alerts & Notifications Section */}
-        <div className="pt-8 border-t-2 border-border">
-          <div className="flex items-center justify-between mb-6">
-            <h3 className="text-lg font-semibold text-foreground">
-              Alerts & Notifications
-            </h3>
-            
-            <Button variant="ghost" size="sm" className="text-primary hover:text-primary/80" data-testid="button-view-all-alerts">
-              View all
-            </Button>
-          </div>
-          
-          <div className="space-y-3">
-            {systemAlerts.map((alert) => {
-              const IconComponent = alert.icon;
-              return (
-                <div 
-                  key={alert.id}
-                  className={`flex items-start justify-between p-4 rounded-lg border-2 ${alert.bgColor} ${alert.borderColor} shadow-sm`}
-                  data-testid={`alert-${alert.id}`}
-                >
-                  <div className="flex items-start space-x-3">
-                    <div className={`${alert.iconColor} mt-0.5`}>
-                      <IconComponent className="w-4 h-4" />
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <div className="font-medium text-foreground mb-1">
-                        {alert.title}
-                      </div>
-                      <div className="text-sm text-muted-foreground mb-2">
-                        {alert.description}
-                      </div>
-                      <div className="text-xs text-muted-foreground">
-                        {alert.timestamp}
-                      </div>
-                    </div>
-                  </div>
-                  
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    className="h-6 w-6 p-0 text-muted-foreground hover:text-foreground"
-                    data-testid={`close-alert-${alert.id}`}
-                  >
-                    <X className="w-4 h-4" />
-                  </Button>
-                </div>
-              );
-            })}
-          </div>
-        </div>
       </CardContent>
     </Card>
   );
