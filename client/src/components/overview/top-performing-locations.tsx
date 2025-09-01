@@ -31,10 +31,13 @@ export default function TopPerformingLocations() {
                 <th className="text-center py-3 px-4 text-xs font-medium text-muted-foreground uppercase tracking-wider">
                   Directions
                 </th>
-                <th className="text-center py-3 px-4 text-xs font-medium text-muted-foreground uppercase tracking-wider">
+                <th className="text-center py-3 px-2 text-xs font-medium text-muted-foreground uppercase tracking-wider">
                   Sales Value
                 </th>
-                <th className="text-center py-3 px-4 text-xs font-medium text-muted-foreground uppercase tracking-wider">
+                <th className="text-center py-3 px-2 text-xs font-medium text-muted-foreground uppercase tracking-wider">
+                  Purchases
+                </th>
+                <th className="text-center py-3 px-2 text-xs font-medium text-muted-foreground uppercase tracking-wider">
                   Visit→Sale Rate
                 </th>
               </tr>
@@ -50,8 +53,9 @@ export default function TopPerformingLocations() {
                 <td className="text-center py-4 px-4 text-foreground font-medium">1,636</td>
                 <td className="text-center py-4 px-4 text-muted-foreground">276</td>
                 <td className="text-center py-4 px-4 text-muted-foreground">549</td>
-                <td className="text-center py-4 px-4 text-foreground font-medium">$68,712</td>
-                <td className="text-center py-4 px-4 text-green-600 font-medium">4.2%</td>
+                <td className="text-center py-4 px-2 text-foreground font-medium">$68,712</td>
+                <td className="text-center py-4 px-2 text-foreground font-medium">1,186</td>
+                <td className="text-center py-4 px-2 text-green-600 font-medium">4.2%</td>
               </tr>
               <tr className="hover:bg-muted/50">
                 <td className="py-4 px-4">
@@ -63,8 +67,9 @@ export default function TopPerformingLocations() {
                 <td className="text-center py-4 px-4 text-foreground font-medium">1,395</td>
                 <td className="text-center py-4 px-4 text-muted-foreground">242</td>
                 <td className="text-center py-4 px-4 text-muted-foreground">514</td>
-                <td className="text-center py-4 px-4 text-foreground font-medium">$58,590</td>
-                <td className="text-center py-4 px-4 text-green-600 font-medium">4.2%</td>
+                <td className="text-center py-4 px-2 text-foreground font-medium">$58,590</td>
+                <td className="text-center py-4 px-2 text-foreground font-medium">987</td>
+                <td className="text-center py-4 px-2 text-green-600 font-medium">4.2%</td>
               </tr>
               <tr className="hover:bg-muted/50">
                 <td className="py-4 px-4">
@@ -76,8 +81,9 @@ export default function TopPerformingLocations() {
                 <td className="text-center py-4 px-4 text-foreground font-medium">1,608</td>
                 <td className="text-center py-4 px-4 text-muted-foreground">267</td>
                 <td className="text-center py-4 px-4 text-muted-foreground">559</td>
-                <td className="text-center py-4 px-4 text-foreground font-medium">$67,536</td>
-                <td className="text-center py-4 px-4 text-green-600 font-medium">4.2%</td>
+                <td className="text-center py-4 px-2 text-foreground font-medium">$67,536</td>
+                <td className="text-center py-4 px-2 text-foreground font-medium">1,143</td>
+                <td className="text-center py-4 px-2 text-green-600 font-medium">4.2%</td>
               </tr>
             </tbody>
           </table>
