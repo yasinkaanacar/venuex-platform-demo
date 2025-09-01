@@ -1,7 +1,9 @@
+import { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { Alert as AlertType } from '@shared/schema';
-import { CheckCircle, AlertTriangle, AlertCircle, X } from 'lucide-react';
+import { CheckCircle, AlertTriangle, AlertCircle, X, ChevronDown, ChevronUp } from 'lucide-react';
 
 interface AlertsNotificationsProps {
   alerts?: AlertType[];
@@ -45,65 +47,79 @@ export default function AlertsNotifications({ alerts = [] }: AlertsNotifications
     }
   ];
 
+  // Initialize as expanded if there are alerts, collapsed if no alerts
+  const [isOpen, setIsOpen] = useState(systemAlerts.length > 0);
+
   return (
     <Card>
-      <CardHeader>
-        <div className="flex items-center justify-between">
-          <div>
-            <CardTitle className="text-lg font-semibold text-foreground">
-              Alerts & Notifications
-            </CardTitle>
-            <p className="text-sm text-muted-foreground">
-              Recent system alerts and data notifications
-            </p>
-          </div>
-          
-          <Button variant="ghost" size="sm" className="text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:hover:text-white font-medium" data-testid="button-view-all-alerts">
-            View all
-          </Button>
-        </div>
-      </CardHeader>
-      
-      <CardContent>
-        <div className="space-y-3">
-          {systemAlerts.map((alert) => {
-            const IconComponent = alert.icon;
-            return (
-              <div 
-                key={alert.id}
-                className={`flex items-start justify-between p-4 rounded-lg border-2 ${alert.bgColor} ${alert.borderColor} shadow-sm`}
-                data-testid={`alert-${alert.id}`}
-              >
-                <div className="flex items-start space-x-3">
-                  <div className={`${alert.iconColor} mt-0.5`}>
-                    <IconComponent className="w-4 h-4" />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <div className="font-medium text-foreground mb-1">
-                      {alert.title}
-                    </div>
-                    <div className="text-sm text-muted-foreground mb-2">
-                      {alert.description}
-                    </div>
-                    <div className="text-xs text-muted-foreground">
-                      {alert.timestamp}
-                    </div>
-                  </div>
-                </div>
-                
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  className="h-6 w-6 p-0 text-muted-foreground hover:text-foreground"
-                  data-testid={`close-alert-${alert.id}`}
-                >
-                  <X className="w-4 h-4" />
+      <Collapsible open={isOpen} onOpenChange={setIsOpen}>
+        <CardHeader>
+          <div className="flex items-center justify-between">
+            <div>
+              <CardTitle className="text-lg font-semibold text-foreground">
+                Alerts & Notifications
+              </CardTitle>
+              <p className="text-sm text-muted-foreground">
+                Recent system alerts and data notifications
+              </p>
+            </div>
+            
+            <div className="flex items-center gap-2">
+              <Button variant="ghost" size="sm" className="text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:hover:text-white font-medium" data-testid="button-view-all-alerts">
+                View all
+              </Button>
+              <CollapsibleTrigger asChild>
+                <Button variant="ghost" size="sm" className="h-8 w-8 p-0" data-testid="button-toggle-alerts">
+                  {isOpen ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
                 </Button>
-              </div>
-            );
-          })}
-        </div>
-      </CardContent>
+              </CollapsibleTrigger>
+            </div>
+          </div>
+        </CardHeader>
+        
+        <CollapsibleContent>
+          <CardContent>
+            <div className="space-y-3">
+              {systemAlerts.map((alert) => {
+                const IconComponent = alert.icon;
+                return (
+                  <div 
+                    key={alert.id}
+                    className={`flex items-start justify-between p-4 rounded-lg border-2 ${alert.bgColor} ${alert.borderColor} shadow-sm`}
+                    data-testid={`alert-${alert.id}`}
+                  >
+                    <div className="flex items-start space-x-3">
+                      <div className={`${alert.iconColor} mt-0.5`}>
+                        <IconComponent className="w-4 h-4" />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <div className="font-medium text-foreground mb-1">
+                          {alert.title}
+                        </div>
+                        <div className="text-sm text-muted-foreground mb-2">
+                          {alert.description}
+                        </div>
+                        <div className="text-xs text-muted-foreground">
+                          {alert.timestamp}
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="h-6 w-6 p-0 text-muted-foreground hover:text-foreground"
+                      data-testid={`close-alert-${alert.id}`}
+                    >
+                      <X className="w-4 h-4" />
+                    </Button>
+                  </div>
+                );
+              })}
+            </div>
+          </CardContent>
+        </CollapsibleContent>
+      </Collapsible>
     </Card>
   );
 }
