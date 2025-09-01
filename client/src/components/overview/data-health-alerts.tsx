@@ -52,8 +52,8 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
                   </defs>
                   {/* Source to VenueX line - aligned with logo centers */}
                   <line x1="20%" y1="35%" x2="48%" y2="35%" stroke="url(#greenDotted)" strokeWidth="2" />
-                  {/* VenueX to Platforms line - aligned with logo centers */}
-                  <line x1="52%" y1="50%" x2="75%" y2="50%" stroke="url(#greenDotted)" strokeWidth="2" />
+                  {/* VenueX to Platforms line - shorter line */}
+                  <line x1="52%" y1="50%" x2="65%" y2="50%" stroke="url(#greenDotted)" strokeWidth="2" />
                 </svg>
                 
                 <div className="absolute left-[10%] top-1/2 transform -translate-y-1/2 z-10">
@@ -79,7 +79,7 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
                   </div>
                 </div>
                 
-                <div className="absolute left-[78%] top-[45%] transform -translate-y-1/2 z-10">
+                <div className="absolute left-[68%] top-[45%] transform -translate-y-1/2 z-10">
                   <div className="flex flex-col gap-2">
                     <div className="flex items-start gap-2">
                       <div className="w-4 h-4 bg-blue-500 rounded flex items-center justify-center flex-shrink-0">
@@ -151,8 +151,8 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
                   </defs>
                   {/* Source to VenueX line - aligned with logo centers */}
                   <line x1="20%" y1="35%" x2="48%" y2="35%" stroke="url(#redDotted)" strokeWidth="2" />
-                  {/* VenueX to Platforms line - aligned with logo centers */}
-                  <line x1="52%" y1="50%" x2="75%" y2="50%" stroke="url(#redDotted)" strokeWidth="2" />
+                  {/* VenueX to Platforms line - shorter line */}
+                  <line x1="52%" y1="50%" x2="65%" y2="50%" stroke="url(#redDotted)" strokeWidth="2" />
                 </svg>
                 
                 <div className="absolute left-[10%] top-1/2 transform -translate-y-1/2 z-10">
@@ -178,7 +178,7 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
                   </div>
                 </div>
                 
-                <div className="absolute left-[78%] top-[45%] transform -translate-y-1/2 z-10">
+                <div className="absolute left-[68%] top-[45%] transform -translate-y-1/2 z-10">
                   <div className="flex flex-col gap-2">
                     <div className="flex items-start gap-2">
                       <div className="w-4 h-4 bg-green-500 rounded flex items-center justify-center flex-shrink-0">
@@ -226,8 +226,8 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
                   </defs>
                   {/* Source to VenueX line - aligned with logo centers */}
                   <line x1="20%" y1="35%" x2="48%" y2="35%" stroke="url(#greenDotted2)" strokeWidth="2" />
-                  {/* VenueX to Platforms line - aligned with logo centers */}
-                  <line x1="52%" y1="50%" x2="75%" y2="50%" stroke="url(#greenDotted2)" strokeWidth="2" />
+                  {/* VenueX to Platforms line - shorter line */}
+                  <line x1="52%" y1="50%" x2="65%" y2="50%" stroke="url(#greenDotted2)" strokeWidth="2" />
                 </svg>
                 
                 <div className="absolute left-[10%] top-1/2 transform -translate-y-1/2 z-10">
@@ -253,7 +253,7 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
                   </div>
                 </div>
                 
-                <div className="absolute left-[78%] top-[45%] transform -translate-y-1/2 z-10">
+                <div className="absolute left-[68%] top-[45%] transform -translate-y-1/2 z-10">
                   <div className="flex flex-col gap-2">
                     <div className="flex items-start gap-2">
                       <div className="w-4 h-4 bg-red-500 rounded flex items-center justify-center flex-shrink-0">
