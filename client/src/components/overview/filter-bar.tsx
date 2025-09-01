@@ -2,7 +2,7 @@ import { FilterState } from '@/lib/types';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Checkbox } from '@/components/ui/checkbox';
-import { Filter } from 'lucide-react';
+
 
 interface FilterBarProps {
   filters: FilterState;
@@ -36,7 +36,7 @@ export default function FilterBar({ filters, onFiltersChange }: FilterBarProps) 
 
   return (
     <div className="bg-card rounded-lg border-2 border-border p-4 mb-6 shadow-sm">
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-3">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
         <div>
           <label className="block text-xs font-medium text-foreground mb-1">Platform</label>
           <Select value={filters.platform} onValueChange={(value) => updateFilter('platform', value)}>
@@ -127,12 +127,7 @@ export default function FilterBar({ filters, onFiltersChange }: FilterBarProps) 
           </Select>
         </div>
 
-        <div className="flex items-end">
-          <Button className="w-full" data-testid="button-apply-filters">
-            <Filter className="w-4 h-4 mr-2" />
-            Apply Filters
-          </Button>
-        </div>
+        
       </div>
 
       <div className="flex items-center justify-between mt-3 pt-3 border-t-2 border-border">
