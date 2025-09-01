@@ -256,6 +256,9 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
                         <div className="flex items-center gap-1 mt-0.5">
                           <div className="w-1 h-1 bg-red-500 rounded-full flex-shrink-0"></div>
                           <span className="text-xs text-red-600 whitespace-nowrap">Failed 1h ago</span>
+                          <button className="ml-1 px-1 py-0.5 bg-blue-600 text-white text-xs rounded hover:bg-blue-700" data-testid="button-connect-meta">
+                            Connect
+                          </button>
                         </div>
                       </div>
                     </div>
