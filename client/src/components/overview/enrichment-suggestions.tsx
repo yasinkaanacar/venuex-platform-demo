@@ -2,7 +2,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { MapPin, Star, FileText, Lightbulb } from 'lucide-react';
+import { MapPin, Star, FileText, Lightbulb, Info } from 'lucide-react';
 import { EnrichmentSuggestion } from '@shared/schema';
 import { apiRequest } from '@/lib/queryClient';
 import { useToast } from '@/hooks/use-toast';
@@ -161,23 +161,34 @@ export default function EnrichmentSuggestions() {
                     </div>
                   </div>
                   
-                  <div className="flex items-center gap-2 ml-4">
+                  <div className="flex flex-col items-end gap-2 ml-4">
+                    <div className="flex items-center gap-2">
+                      <Button 
+                        variant="outline"
+                        size="sm"
+                        className="text-muted-foreground border-border hover:bg-muted/50"
+                        data-testid={`button-dismiss-${suggestion.id}`}
+                      >
+                        Dismiss
+                      </Button>
+                      <Button 
+                        size="sm"
+                        className="bg-primary hover:bg-primary/90 text-primary-foreground"
+                        onClick={() => implementSuggestionMutation.mutate(suggestion.id)}
+                        disabled={implementSuggestionMutation.isPending}
+                        data-testid={`button-implement-${suggestion.id}`}
+                      >
+                        {implementSuggestionMutation.isPending ? 'Applying...' : 'Apply Fix'}
+                      </Button>
+                    </div>
                     <Button 
                       variant="outline"
                       size="sm"
                       className="text-muted-foreground border-border hover:bg-muted/50"
-                      data-testid={`button-dismiss-${suggestion.id}`}
+                      data-testid={`button-info-${suggestion.id}`}
                     >
-                      Dismiss
-                    </Button>
-                    <Button 
-                      size="sm"
-                      className="bg-primary hover:bg-primary/90 text-primary-foreground"
-                      onClick={() => implementSuggestionMutation.mutate(suggestion.id)}
-                      disabled={implementSuggestionMutation.isPending}
-                      data-testid={`button-implement-${suggestion.id}`}
-                    >
-                      {implementSuggestionMutation.isPending ? 'Applying...' : 'Apply Fix'}
+                      <Info className="w-3 h-3 mr-1" />
+                      Info
                     </Button>
                   </div>
                 </div>
