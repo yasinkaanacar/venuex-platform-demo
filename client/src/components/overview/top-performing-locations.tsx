@@ -7,7 +7,7 @@ export default function TopPerformingLocations() {
       <CardHeader>
         <div className="flex items-center justify-between">
           <CardTitle className="text-lg font-semibold text-foreground">Top Performing Store Locations</CardTitle>
-          <Button variant="ghost" size="sm" className="text-primary hover:text-primary/80" data-testid="button-view-all-locations">
+          <Button variant="ghost" size="sm" className="text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:hover:text-white font-medium" data-testid="button-view-all-locations">
             View All →
           </Button>
         </div>

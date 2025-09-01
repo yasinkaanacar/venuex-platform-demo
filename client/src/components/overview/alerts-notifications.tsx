@@ -58,7 +58,7 @@ export default function AlertsNotifications({ alerts = [] }: AlertsNotifications
             </p>
           </div>
           
-          <Button variant="ghost" size="sm" className="text-primary hover:text-primary/80" data-testid="button-view-all-alerts">
+          <Button variant="ghost" size="sm" className="text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:hover:text-white font-medium" data-testid="button-view-all-alerts">
             View all
           </Button>
         </div>

@@ -230,7 +230,7 @@ export default function EnrichmentSuggestions() {
                 <div className="text-sm text-muted-foreground">
                   3 suggestions shown • Potential impact: <span className="font-medium">+48.0% overall performance</span>
                 </div>
-                <Button variant="outline" size="sm" className="text-muted-foreground border-border hover:bg-muted/50">
+                <Button variant="outline" size="sm" className="text-gray-700 dark:text-gray-200 border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-800 font-medium">
                   View all suggestions
                 </Button>
               </div>
