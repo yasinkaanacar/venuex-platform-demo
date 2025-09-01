@@ -16,7 +16,6 @@ export default function Overview() {
     dateRange: 'Last 7 days',
     platform: 'All Platforms',
     location: 'All Locations',
-    campaign: 'All Campaigns',
     compareMode: false
   });
 

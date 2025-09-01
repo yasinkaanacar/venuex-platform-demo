@@ -101,20 +101,6 @@ export default function FilterBar({ filters, onFiltersChange }: FilterBarProps) 
           </Select>
         </div>
 
-        <div>
-          <label className="block text-xs font-medium text-foreground mb-0.5">Campaign</label>
-          <Select value={filters.campaign} onValueChange={(value) => updateFilter('campaign', value)}>
-            <SelectTrigger data-testid="select-campaign">
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="All Campaigns">All Campaigns</SelectItem>
-              <SelectItem value="Holiday Collection 2024">Holiday Collection 2024</SelectItem>
-              <SelectItem value="Local Store Visits">Local Store Visits</SelectItem>
-              <SelectItem value="Product Discovery">Product Discovery</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
 
         
       </div>

@@ -22,7 +22,6 @@ export interface FilterState {
   dateRange: string;
   platform: string;
   location: string;
-  campaign: string;
   compareMode: boolean;
 }
 
