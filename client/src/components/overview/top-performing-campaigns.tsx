@@ -22,6 +22,15 @@ export default function TopPerformingCampaigns() {
                   Campaign
                 </th>
                 <th className="text-center py-3 px-4 text-xs font-medium text-muted-foreground uppercase tracking-wider">
+                  Impressions
+                </th>
+                <th className="text-center py-3 px-4 text-xs font-medium text-muted-foreground uppercase tracking-wider">
+                  CTR
+                </th>
+                <th className="text-center py-3 px-4 text-xs font-medium text-muted-foreground uppercase tracking-wider">
+                  Spend
+                </th>
+                <th className="text-center py-3 px-4 text-xs font-medium text-muted-foreground uppercase tracking-wider">
                   ROAS
                 </th>
                 <th className="text-center py-3 px-4 text-xs font-medium text-muted-foreground uppercase tracking-wider">
@@ -45,6 +54,9 @@ export default function TopPerformingCampaigns() {
                     </div>
                   </div>
                 </td>
+                <td className="text-center py-4 px-4 text-foreground font-medium">142,580</td>
+                <td className="text-center py-4 px-4 text-muted-foreground">3.4%</td>
+                <td className="text-center py-4 px-4 text-foreground font-medium">$16,350</td>
                 <td className="text-center py-4 px-4 text-foreground font-medium">4.2x</td>
                 <td className="text-center py-4 px-4 text-foreground font-medium">24,387</td>
                 <td className="text-center py-4 px-4 text-foreground font-medium">1,247</td>
@@ -61,6 +73,9 @@ export default function TopPerformingCampaigns() {
                     </div>
                   </div>
                 </td>
+                <td className="text-center py-4 px-4 text-foreground font-medium">118,420</td>
+                <td className="text-center py-4 px-4 text-muted-foreground">2.9%</td>
+                <td className="text-center py-4 px-4 text-foreground font-medium">$15,420</td>
                 <td className="text-center py-4 px-4 text-foreground font-medium">3.8x</td>
                 <td className="text-center py-4 px-4 text-foreground font-medium">18,652</td>
                 <td className="text-center py-4 px-4 text-foreground font-medium">923</td>
@@ -77,6 +92,9 @@ export default function TopPerformingCampaigns() {
                     </div>
                   </div>
                 </td>
+                <td className="text-center py-4 px-4 text-foreground font-medium">89,670</td>
+                <td className="text-center py-4 px-4 text-muted-foreground">4.1%</td>
+                <td className="text-center py-4 px-4 text-foreground font-medium">$12,840</td>
                 <td className="text-center py-4 px-4 text-foreground font-medium">5.1x</td>
                 <td className="text-center py-4 px-4 text-foreground font-medium">16,234</td>
                 <td className="text-center py-4 px-4 text-foreground font-medium">785</td>
@@ -93,6 +111,9 @@ export default function TopPerformingCampaigns() {
                     </div>
                   </div>
                 </td>
+                <td className="text-center py-4 px-4 text-foreground font-medium">135,240</td>
+                <td className="text-center py-4 px-4 text-muted-foreground">3.7%</td>
+                <td className="text-center py-4 px-4 text-foreground font-medium">$18,960</td>
                 <td className="text-center py-4 px-4 text-foreground font-medium">3.6x</td>
                 <td className="text-center py-4 px-4 text-foreground font-medium">21,089</td>
                 <td className="text-center py-4 px-4 text-foreground font-medium">634</td>
@@ -109,6 +130,9 @@ export default function TopPerformingCampaigns() {
                     </div>
                   </div>
                 </td>
+                <td className="text-center py-4 px-4 text-foreground font-medium">78,950</td>
+                <td className="text-center py-4 px-4 text-muted-foreground">2.8%</td>
+                <td className="text-center py-4 px-4 text-foreground font-medium">$8,920</td>
                 <td className="text-center py-4 px-4 text-foreground font-medium">2.9x</td>
                 <td className="text-center py-4 px-4 text-foreground font-medium">12,473</td>
                 <td className="text-center py-4 px-4 text-foreground font-medium">298</td>
