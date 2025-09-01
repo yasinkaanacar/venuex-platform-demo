@@ -1,4 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
 import EnrichmentSuggestions from './enrichment-suggestions';
 
 export default function DataQualityEnrichment() {
@@ -6,10 +7,15 @@ export default function DataQualityEnrichment() {
     <Card>
       <CardHeader>
         <div className="flex items-center justify-between">
-          <CardTitle className="text-lg font-semibold text-foreground">Data Quality Assessment</CardTitle>
-          <div className="text-sm text-muted-foreground">
-            Overall Score: <span className="text-green-600 font-semibold">97%</span>
+          <div className="flex items-center space-x-4">
+            <CardTitle className="text-lg font-semibold text-foreground">Data Quality Assessment</CardTitle>
+            <div className="text-sm text-muted-foreground">
+              Overall Score: <span className="text-green-600 font-semibold">97%</span>
+            </div>
           </div>
+          <Button variant="ghost" size="sm" className="text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:hover:text-white font-medium" data-testid="button-view-all-data-quality">
+            View All →
+          </Button>
         </div>
       </CardHeader>
       <CardContent className="space-y-8">

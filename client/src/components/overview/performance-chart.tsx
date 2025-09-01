@@ -1,4 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
 import funnelImage from '@assets/Screenshot 2025-08-29 at 18.31.46_1756481891401.png';
 
 export default function PerformanceChart() {
@@ -11,6 +12,9 @@ export default function PerformanceChart() {
             <p className="text-sm text-muted-foreground">Conversion metrics from digital channels to physical store
 </p>
           </div>
+          <Button variant="ghost" size="sm" className="text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:hover:text-white font-medium" data-testid="button-view-all-funnel">
+            View All →
+          </Button>
         </div>
       </CardHeader>
       <CardContent>
