@@ -135,7 +135,7 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
                 </div>
                 
                 <div className="absolute right-[4%] top-[45%] transform -translate-y-1/2 z-10">
-                  <div className="flex flex-col gap-2 items-end">
+                  <div className="flex flex-col gap-2">
                     <div className="flex items-start gap-2">
                       <div className="w-4 h-4 bg-blue-500 rounded flex items-center justify-center flex-shrink-0">
                         <span className="text-xs text-white font-bold">G</span>
@@ -234,7 +234,7 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
                 </div>
                 
                 <div className="absolute right-[4%] top-[45%] transform -translate-y-1/2 z-10">
-                  <div className="flex flex-col gap-2 items-end">
+                  <div className="flex flex-col gap-2">
                     <div className="flex items-start gap-2">
                       <div className="w-4 h-4 bg-green-500 rounded flex items-center justify-center flex-shrink-0">
                         <span className="text-xs text-white font-bold">G</span>
@@ -309,7 +309,7 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
                 </div>
                 
                 <div className="absolute right-[4%] top-[45%] transform -translate-y-1/2 z-10">
-                  <div className="flex flex-col gap-2 items-end">
+                  <div className="flex flex-col gap-2">
                     <div className="flex items-start gap-2">
                       <div className="w-4 h-4 bg-red-500 rounded flex items-center justify-center flex-shrink-0">
                         <span className="text-xs text-white font-bold">G</span>
