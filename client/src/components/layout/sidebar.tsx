@@ -78,7 +78,7 @@ export default function Sidebar({ collapsed, onToggle }: SidebarProps) {
             <img 
               src={venueXLogo} 
               alt="VenueX Logo" 
-              className="w-16 h-16 object-contain"
+              className="w-18 h-18 object-contain"
             />
           )}
           {collapsed && (
