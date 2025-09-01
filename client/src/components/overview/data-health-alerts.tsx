@@ -81,7 +81,7 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
   // Banner mode - simplified status display
   if (bannerMode) {
     return (
-      <div className="border-0 bg-muted/30 rounded-lg shadow-none">
+      <div className="border border-blue-200 dark:border-blue-800 bg-blue-50 dark:bg-blue-950/20 rounded-lg shadow-none">
         <div className="py-3 px-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
