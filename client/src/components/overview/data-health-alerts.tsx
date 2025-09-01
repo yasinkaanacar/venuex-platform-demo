@@ -366,7 +366,7 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
               </Button>
             </div>
             
-            <div className="space-y-4">
+            <div className="space-y-6">
               {systemAlerts.map((alert) => {
                 const IconComponent = alert.icon;
                 return (
