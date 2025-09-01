@@ -16,10 +16,9 @@ export default function FilterBar({ filters, onFiltersChange }: FilterBarProps) 
   
 
   return (
-    <div className="sticky top-0 z-50 bg-card rounded-lg border-2 border-border p-3 mb-4 shadow-sm">
+    <div className="sticky top-0 z-50 bg-card rounded-lg border border-border/30 p-3 mb-4 shadow-sm">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2">
         <div>
-          <label className="block text-xs font-medium text-foreground mb-0.5">Platform</label>
           <Select value={filters.platform} onValueChange={(value) => updateFilter('platform', value)}>
             <SelectTrigger data-testid="select-platform">
               <SelectValue />
@@ -71,7 +70,6 @@ export default function FilterBar({ filters, onFiltersChange }: FilterBarProps) 
         </div>
 
         <div>
-          <label className="block text-xs font-medium text-foreground mb-0.5">Date Range</label>
           <Select value={filters.dateRange} onValueChange={(value) => updateFilter('dateRange', value)}>
             <SelectTrigger data-testid="select-date-range">
               <SelectValue />
@@ -86,7 +84,6 @@ export default function FilterBar({ filters, onFiltersChange }: FilterBarProps) 
         </div>
 
         <div>
-          <label className="block text-xs font-medium text-foreground mb-0.5">Location</label>
           <Select value={filters.location} onValueChange={(value) => updateFilter('location', value)}>
             <SelectTrigger data-testid="select-location">
               <SelectValue />
