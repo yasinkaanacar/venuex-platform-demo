@@ -22,13 +22,13 @@ export default function TopPerformingCampaigns() {
                   Campaign
                 </th>
                 <th className="text-center py-3 px-4 text-xs font-medium text-muted-foreground uppercase tracking-wider">
-                  Spend
-                </th>
-                <th className="text-center py-3 px-4 text-xs font-medium text-muted-foreground uppercase tracking-wider">
                   ROAS
                 </th>
                 <th className="text-center py-3 px-4 text-xs font-medium text-muted-foreground uppercase tracking-wider">
                   Visits
+                </th>
+                <th className="text-center py-3 px-4 text-xs font-medium text-muted-foreground uppercase tracking-wider">
+                  Purchases
                 </th>
               </tr>
             </thead>
@@ -45,9 +45,9 @@ export default function TopPerformingCampaigns() {
                     </div>
                   </div>
                 </td>
-                <td className="text-center py-4 px-4 text-foreground font-medium">€6687</td>
                 <td className="text-center py-4 px-4 text-foreground font-medium">16001.6</td>
                 <td className="text-center py-4 px-4 text-foreground font-medium">1437888</td>
+                <td className="text-center py-4 px-4 text-foreground font-medium">2,847</td>
               </tr>
               <tr className="hover:bg-muted/50" data-testid="row-campaign-local-shopping">
                 <td className="py-4 px-4">
@@ -61,9 +61,9 @@ export default function TopPerformingCampaigns() {
                     </div>
                   </div>
                 </td>
-                <td className="text-center py-4 px-4 text-foreground font-medium">€5862</td>
                 <td className="text-center py-4 px-4 text-foreground font-medium">11834.5</td>
                 <td className="text-center py-4 px-4 text-foreground font-medium">865198</td>
+                <td className="text-center py-4 px-4 text-foreground font-medium">1,923</td>
               </tr>
               <tr className="hover:bg-muted/50" data-testid="row-campaign-store-promo">
                 <td className="py-4 px-4">
@@ -77,9 +77,9 @@ export default function TopPerformingCampaigns() {
                     </div>
                   </div>
                 </td>
-                <td className="text-center py-4 px-4 text-foreground font-medium">€5166</td>
                 <td className="text-center py-4 px-4 text-foreground font-medium">13421.9</td>
                 <td className="text-center py-4 px-4 text-foreground font-medium">950363</td>
+                <td className="text-center py-4 px-4 text-foreground font-medium">1,685</td>
               </tr>
               <tr className="hover:bg-muted/50" data-testid="row-campaign-visit-drive">
                 <td className="py-4 px-4">
@@ -93,9 +93,9 @@ export default function TopPerformingCampaigns() {
                     </div>
                   </div>
                 </td>
-                <td className="text-center py-4 px-4 text-foreground font-medium">€5052</td>
                 <td className="text-center py-4 px-4 text-foreground font-medium">13805.3</td>
                 <td className="text-center py-4 px-4 text-foreground font-medium">902542</td>
+                <td className="text-center py-4 px-4 text-foreground font-medium">1,578</td>
               </tr>
               <tr className="hover:bg-muted/50" data-testid="row-campaign-gen-z">
                 <td className="py-4 px-4">
@@ -109,9 +109,9 @@ export default function TopPerformingCampaigns() {
                     </div>
                   </div>
                 </td>
-                <td className="text-center py-4 px-4 text-foreground font-medium">€2103</td>
                 <td className="text-center py-4 px-4 text-foreground font-medium">8093.4</td>
                 <td className="text-center py-4 px-4 text-foreground font-medium">272188</td>
+                <td className="text-center py-4 px-4 text-foreground font-medium">456</td>
               </tr>
             </tbody>
           </table>
