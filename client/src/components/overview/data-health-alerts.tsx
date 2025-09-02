@@ -196,6 +196,7 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
                         <div className="w-1.5 h-1.5 bg-red-500 rounded-full"></div>
                         <span className="text-xs text-red-600">Error</span>
                       </div>
+                      <div className="text-xs text-muted-foreground mt-0.5">Last sync 2h ago</div>
                     </div>
                   </div>
                   
