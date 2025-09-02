@@ -166,33 +166,53 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
                 </defs>
                 
                 {/* Data Source to VenueX Connection Lines */}
-                {/* Inventory to VenueX - Red line for error status */}
+                {/* Inventory to VenueX - Red dashed line for error status (Last sync 2h ago) */}
                 <path 
                   d="M 300 100 Q 350 120 400 160" 
                   stroke="#ef4444" 
                   strokeWidth="3" 
                   fill="none"
                   opacity="0.7"
-                  strokeDasharray="5,5"
+                  strokeDasharray="8,4"
                 />
                 
-                {/* Store Sales to VenueX - Green line for online status */}
+                {/* Store Sales to VenueX - Green solid line for recent sync (Updated 30s ago) */}
                 <path 
-                  d="M 180 160 L 360 160" 
+                  d="M 300 160 L 360 160" 
+                  stroke="#22c55e" 
+                  strokeWidth="3" 
+                  fill="none"
+                  opacity="0.9"
+                />
+                
+                {/* Locations to VenueX - Green line with slight pulse for recent sync (Updated 2m ago) */}
+                <path 
+                  d="M 300 220 Q 350 200 400 160" 
                   stroke="#22c55e" 
                   strokeWidth="3" 
                   fill="none"
                   opacity="0.8"
+                  strokeDasharray="12,3"
                 />
                 
-                {/* Locations to VenueX - Orange line */}
-                <path 
-                  d="M 180 220 Q 280 200 400 160" 
-                  stroke="#f97316" 
-                  strokeWidth="3" 
-                  fill="none"
-                  opacity="0.7"
-                />
+                {/* Sync status indicators on lines */}
+                {/* Inventory error indicator */}
+                <circle cx="340" cy="110" r="4" fill="#ef4444" opacity="0.8">
+                  <animate attributeName="r" values="4;6;4" dur="2s" repeatCount="indefinite"/>
+                </circle>
+                <text x="345" y="108" fontSize="8" fill="#ef4444" fontWeight="bold">2h</text>
+                
+                {/* Store Sales recent sync indicator */}
+                <circle cx="330" cy="160" r="3" fill="#22c55e" opacity="1">
+                  <animate attributeName="opacity" values="1;0.5;1" dur="1s" repeatCount="indefinite"/>
+                </circle>
+                <text x="335" y="158" fontSize="8" fill="#22c55e" fontWeight="bold">30s</text>
+                
+                {/* Locations sync indicator */}
+                <circle cx="350" cy="190" r="3" fill="#22c55e" opacity="0.9">
+                  <animate attributeName="r" values="3;4;3" dur="1.5s" repeatCount="indefinite"/>
+                </circle>
+                <text x="355" y="188" fontSize="8" fill="#22c55e" fontWeight="bold">2m</text>
                 
                 {/* VenueX to Platforms - General outgoing flow */}
                 <path 
