@@ -144,9 +144,9 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
           {/* Vertical VenueX alignment guide */}
           <div className="absolute left-1/2 top-0 bottom-0 w-px bg-primary/20 transform -translate-x-1/2 z-0"></div>
           
-          <div className="relative bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-700 py-12 px-8">
+          <div className="relative bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-700 py-8 px-6">
             {/* Clean Data Flow Layout */}
-            <div className="relative w-full h-96">
+            <div className="relative w-full h-[500px]">
               
               {/* Connection Lines SVG */}
               <svg className="absolute inset-0 w-full h-full" viewBox="0 0 1000 400" preserveAspectRatio="xMidYMid meet">
@@ -230,88 +230,88 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
               </div>
 
               {/* Destination Categories - Right Side */}
-              <div className="absolute right-0 top-1/2 transform -translate-y-1/2 space-y-6">
+              <div className="absolute right-4 top-1/2 transform -translate-y-1/2 space-y-4">
                 
                 {/* Location Platforms */}
-                <div className="bg-white dark:bg-gray-800 rounded-xl p-4 shadow-sm border border-gray-100 dark:border-gray-700 w-72">
-                  <div className="text-sm font-semibold text-foreground mb-3 text-blue-600">Location Platforms</div>
-                  <div className="space-y-2">
-                    <div className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700">
-                      <div className="w-6 h-6 bg-red-500 rounded flex items-center justify-center">
+                <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-3 shadow-sm border border-gray-200 dark:border-gray-700 w-56">
+                  <div className="text-xs font-semibold text-blue-600 mb-2">Location Platforms</div>
+                  <div className="space-y-1">
+                    <div className="flex items-center gap-2 p-1.5 rounded hover:bg-gray-100 dark:hover:bg-gray-700">
+                      <div className="w-5 h-5 bg-red-500 rounded flex items-center justify-center">
                         <span className="text-xs text-white font-bold">G</span>
                       </div>
-                      <span className="text-sm text-foreground">Google Business Profile</span>
-                      <div className="ml-auto w-2 h-2 bg-green-500 rounded-full"></div>
+                      <span className="text-xs text-foreground">Google Business Profile</span>
+                      <div className="ml-auto w-1.5 h-1.5 bg-green-500 rounded-full"></div>
                     </div>
-                    <div className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700">
-                      <div className="w-6 h-6 bg-blue-600 rounded flex items-center justify-center">
+                    <div className="flex items-center gap-2 p-1.5 rounded hover:bg-gray-100 dark:hover:bg-gray-700">
+                      <div className="w-5 h-5 bg-blue-600 rounded flex items-center justify-center">
                         <span className="text-xs text-white font-bold">M</span>
                       </div>
-                      <span className="text-sm text-foreground">Meta Pages</span>
-                      <div className="ml-auto w-2 h-2 bg-green-500 rounded-full"></div>
+                      <span className="text-xs text-foreground">Meta Pages</span>
+                      <div className="ml-auto w-1.5 h-1.5 bg-green-500 rounded-full"></div>
                     </div>
-                    <div className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700">
-                      <div className="w-6 h-6 bg-gray-800 rounded flex items-center justify-center">
+                    <div className="flex items-center gap-2 p-1.5 rounded hover:bg-gray-100 dark:hover:bg-gray-700">
+                      <div className="w-5 h-5 bg-gray-800 rounded flex items-center justify-center">
                         <span className="text-xs text-white font-bold">🍎</span>
                       </div>
-                      <span className="text-sm text-foreground">Apple Business Connect</span>
-                      <div className="ml-auto w-2 h-2 bg-green-500 rounded-full"></div>
+                      <span className="text-xs text-foreground">Apple Business Connect</span>
+                      <div className="ml-auto w-1.5 h-1.5 bg-green-500 rounded-full"></div>
                     </div>
-                    <div className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700">
-                      <div className="w-6 h-6 bg-red-500 rounded flex items-center justify-center">
+                    <div className="flex items-center gap-2 p-1.5 rounded hover:bg-gray-100 dark:hover:bg-gray-700">
+                      <div className="w-5 h-5 bg-red-500 rounded flex items-center justify-center">
                         <span className="text-xs text-white font-bold">Y</span>
                       </div>
-                      <span className="text-sm text-foreground">Yandex Business</span>
-                      <div className="ml-auto w-2 h-2 bg-green-500 rounded-full"></div>
+                      <span className="text-xs text-foreground">Yandex Business</span>
+                      <div className="ml-auto w-1.5 h-1.5 bg-green-500 rounded-full"></div>
                     </div>
                   </div>
                 </div>
                 
                 {/* Merchant Platforms */}
-                <div className="bg-white dark:bg-gray-800 rounded-xl p-4 shadow-sm border border-gray-100 dark:border-gray-700 w-72">
-                  <div className="text-sm font-semibold text-foreground mb-3 text-green-600">Merchant Platforms</div>
-                  <div className="space-y-2">
-                    <div className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700">
-                      <div className="w-6 h-6 bg-red-500 rounded flex items-center justify-center">
+                <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-3 shadow-sm border border-gray-200 dark:border-gray-700 w-56">
+                  <div className="text-xs font-semibold text-green-600 mb-2">Merchant Platforms</div>
+                  <div className="space-y-1">
+                    <div className="flex items-center gap-2 p-1.5 rounded hover:bg-gray-100 dark:hover:bg-gray-700">
+                      <div className="w-5 h-5 bg-red-500 rounded flex items-center justify-center">
                         <span className="text-xs text-white font-bold">G</span>
                       </div>
-                      <span className="text-sm text-foreground">Google Merchant Center</span>
-                      <div className="ml-auto w-2 h-2 bg-green-500 rounded-full"></div>
+                      <span className="text-xs text-foreground">Google Merchant Center</span>
+                      <div className="ml-auto w-1.5 h-1.5 bg-green-500 rounded-full"></div>
                     </div>
-                    <div className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700">
-                      <div className="w-6 h-6 bg-blue-600 rounded flex items-center justify-center">
+                    <div className="flex items-center gap-2 p-1.5 rounded hover:bg-gray-100 dark:hover:bg-gray-700">
+                      <div className="w-5 h-5 bg-blue-600 rounded flex items-center justify-center">
                         <span className="text-xs text-white font-bold">M</span>
                       </div>
-                      <span className="text-sm text-foreground">Meta Commerce</span>
-                      <div className="ml-auto w-2 h-2 bg-green-500 rounded-full"></div>
+                      <span className="text-xs text-foreground">Meta Commerce</span>
+                      <div className="ml-auto w-1.5 h-1.5 bg-green-500 rounded-full"></div>
                     </div>
                   </div>
                 </div>
                 
                 {/* Ad Platforms */}
-                <div className="bg-white dark:bg-gray-800 rounded-xl p-4 shadow-sm border border-gray-100 dark:border-gray-700 w-72">
-                  <div className="text-sm font-semibold text-foreground mb-3 text-purple-600">Ad Platforms</div>
-                  <div className="space-y-2">
-                    <div className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700">
-                      <div className="w-6 h-6 bg-red-500 rounded flex items-center justify-center">
+                <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-3 shadow-sm border border-gray-200 dark:border-gray-700 w-56">
+                  <div className="text-xs font-semibold text-purple-600 mb-2">Ad Platforms</div>
+                  <div className="space-y-1">
+                    <div className="flex items-center gap-2 p-1.5 rounded hover:bg-gray-100 dark:hover:bg-gray-700">
+                      <div className="w-5 h-5 bg-red-500 rounded flex items-center justify-center">
                         <span className="text-xs text-white font-bold">G</span>
                       </div>
-                      <span className="text-sm text-foreground">Google Ads</span>
-                      <div className="ml-auto w-2 h-2 bg-green-500 rounded-full"></div>
+                      <span className="text-xs text-foreground">Google Ads</span>
+                      <div className="ml-auto w-1.5 h-1.5 bg-green-500 rounded-full"></div>
                     </div>
-                    <div className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700">
-                      <div className="w-6 h-6 bg-blue-600 rounded flex items-center justify-center">
+                    <div className="flex items-center gap-2 p-1.5 rounded hover:bg-gray-100 dark:hover:bg-gray-700">
+                      <div className="w-5 h-5 bg-blue-600 rounded flex items-center justify-center">
                         <span className="text-xs text-white font-bold">M</span>
                       </div>
-                      <span className="text-sm text-foreground">Meta Ads</span>
-                      <div className="ml-auto w-2 h-2 bg-green-500 rounded-full"></div>
+                      <span className="text-xs text-foreground">Meta Ads</span>
+                      <div className="ml-auto w-1.5 h-1.5 bg-green-500 rounded-full"></div>
                     </div>
-                    <div className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700">
-                      <div className="w-6 h-6 bg-black rounded flex items-center justify-center">
+                    <div className="flex items-center gap-2 p-1.5 rounded hover:bg-gray-100 dark:hover:bg-gray-700">
+                      <div className="w-5 h-5 bg-black rounded flex items-center justify-center">
                         <span className="text-xs text-white font-bold">🎵</span>
                       </div>
-                      <span className="text-sm text-foreground">TikTok Ads</span>
-                      <div className="ml-auto w-2 h-2 bg-green-500 rounded-full"></div>
+                      <span className="text-xs text-foreground">TikTok Ads</span>
+                      <div className="ml-auto w-1.5 h-1.5 bg-green-500 rounded-full"></div>
                     </div>
                   </div>
                 </div>
