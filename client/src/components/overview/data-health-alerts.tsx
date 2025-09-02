@@ -164,15 +164,6 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
                   </pattern>
                 </defs>
                 
-                {/* Flowing connection shape */}
-                <path 
-                  d="M 80 160 Q 200 100 400 160 Q 600 220 720 160" 
-                  stroke="url(#flowGradient)" 
-                  strokeWidth="60" 
-                  fill="none"
-                  opacity="0.6"
-                />
-                
                 {/* Data Source to VenueX Connection Lines */}
                 {/* Inventory to VenueX - Red line for error status */}
                 <path 
