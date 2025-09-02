@@ -166,6 +166,130 @@ export default function KpiCards({ kpis, filters, onFiltersChange }: KpiCardsPro
                         </div>
                       </div>
                     )}
+                    
+                    {card.id === 'location-engagements' && (
+                      <div className="mb-3">
+                        <div className="flex items-center space-x-0.5 bg-gray-50 dark:bg-gray-800/50 p-0.5 rounded-md w-fit">
+                          <button
+                            onClick={() => onFiltersChange({ ...filters, platform: 'Google' })}
+                            className={`flex items-center gap-1 px-2 py-1.5 rounded text-xs font-medium transition-all duration-200 ${
+                              filters.platform === 'Google'
+                                ? 'bg-white dark:bg-gray-700 text-foreground shadow-sm'
+                                : 'text-muted-foreground hover:text-foreground hover:bg-white/60 dark:hover:bg-gray-700/60'
+                            }`}
+                            data-testid="tab-google"
+                          >
+                            <div className="w-3 h-3 bg-red-500 rounded flex items-center justify-center">
+                              <span className="text-[10px] text-white font-bold">G</span>
+                            </div>
+                            Google
+                          </button>
+                          
+                          <button
+                            onClick={() => onFiltersChange({ ...filters, platform: 'Apple' })}
+                            className={`flex items-center gap-1 px-2 py-1.5 rounded text-xs font-medium transition-all duration-200 ${
+                              filters.platform === 'Apple'
+                                ? 'bg-white dark:bg-gray-700 text-foreground shadow-sm'
+                                : 'text-muted-foreground hover:text-foreground hover:bg-white/60 dark:hover:bg-gray-700/60'
+                            }`}
+                            data-testid="tab-apple"
+                          >
+                            <div className="w-3 h-3 bg-gray-800 rounded flex items-center justify-center">
+                              <span className="text-[9px] text-white font-bold">🍎</span>
+                            </div>
+                            Apple
+                          </button>
+                          
+                          <button
+                            onClick={() => onFiltersChange({ ...filters, platform: 'Yandex' })}
+                            className={`flex items-center gap-1 px-2 py-1.5 rounded text-xs font-medium transition-all duration-200 ${
+                              filters.platform === 'Yandex'
+                                ? 'bg-white dark:bg-gray-700 text-foreground shadow-sm'
+                                : 'text-muted-foreground hover:text-foreground hover:bg-white/60 dark:hover:bg-gray-700/60'
+                            }`}
+                            data-testid="tab-yandex"
+                          >
+                            <div className="w-3 h-3 bg-red-600 rounded flex items-center justify-center">
+                              <span className="text-[10px] text-white font-bold">Y</span>
+                            </div>
+                            Yandex
+                          </button>
+                        </div>
+                      </div>
+                    )}
+                    
+                    {card.id === 'local-inventory' && (
+                      <div className="mb-3">
+                        <div className="flex items-center space-x-0.5 bg-gray-50 dark:bg-gray-800/50 p-0.5 rounded-md w-fit">
+                          <button
+                            onClick={() => onFiltersChange({ ...filters, platform: 'Google' })}
+                            className={`flex items-center gap-1 px-2 py-1.5 rounded text-xs font-medium transition-all duration-200 ${
+                              filters.platform === 'Google'
+                                ? 'bg-white dark:bg-gray-700 text-foreground shadow-sm'
+                                : 'text-muted-foreground hover:text-foreground hover:bg-white/60 dark:hover:bg-gray-700/60'
+                            }`}
+                            data-testid="tab-google"
+                          >
+                            <div className="w-3 h-3 bg-red-500 rounded flex items-center justify-center">
+                              <span className="text-[10px] text-white font-bold">G</span>
+                            </div>
+                            Google
+                          </button>
+                          
+                          <button
+                            onClick={() => onFiltersChange({ ...filters, platform: 'Meta' })}
+                            className={`flex items-center gap-1 px-2 py-1.5 rounded text-xs font-medium transition-all duration-200 ${
+                              filters.platform === 'Meta'
+                                ? 'bg-white dark:bg-gray-700 text-foreground shadow-sm'
+                                : 'text-muted-foreground hover:text-foreground hover:bg-white/60 dark:hover:bg-gray-700/60'
+                            }`}
+                            data-testid="tab-meta"
+                          >
+                            <div className="w-3 h-3 bg-blue-600 rounded flex items-center justify-center">
+                              <span className="text-[10px] text-white font-bold">f</span>
+                            </div>
+                            Meta
+                          </button>
+                        </div>
+                      </div>
+                    )}
+                    
+                    {card.id === 'average-rating' && (
+                      <div className="mb-3">
+                        <div className="flex items-center space-x-0.5 bg-gray-50 dark:bg-gray-800/50 p-0.5 rounded-md w-fit">
+                          <button
+                            onClick={() => onFiltersChange({ ...filters, platform: 'Google' })}
+                            className={`flex items-center gap-1 px-2 py-1.5 rounded text-xs font-medium transition-all duration-200 ${
+                              filters.platform === 'Google'
+                                ? 'bg-white dark:bg-gray-700 text-foreground shadow-sm'
+                                : 'text-muted-foreground hover:text-foreground hover:bg-white/60 dark:hover:bg-gray-700/60'
+                            }`}
+                            data-testid="tab-google"
+                          >
+                            <div className="w-3 h-3 bg-red-500 rounded flex items-center justify-center">
+                              <span className="text-[10px] text-white font-bold">G</span>
+                            </div>
+                            Google
+                          </button>
+                          
+                          <button
+                            onClick={() => onFiltersChange({ ...filters, platform: 'Yandex' })}
+                            className={`flex items-center gap-1 px-2 py-1.5 rounded text-xs font-medium transition-all duration-200 ${
+                              filters.platform === 'Yandex'
+                                ? 'bg-white dark:bg-gray-700 text-foreground shadow-sm'
+                                : 'text-muted-foreground hover:text-foreground hover:bg-white/60 dark:hover:bg-gray-700/60'
+                            }`}
+                            data-testid="tab-yandex"
+                          >
+                            <div className="w-3 h-3 bg-red-600 rounded flex items-center justify-center">
+                              <span className="text-[10px] text-white font-bold">Y</span>
+                            </div>
+                            Yandex
+                          </button>
+                        </div>
+                      </div>
+                    )}
+                    
                     <div className="flex items-center justify-between mb-4">
                       <div className="flex items-center space-x-2">
                         <div className={`w-10 h-10 ${card.iconBg} rounded-lg flex items-center justify-center`}>
