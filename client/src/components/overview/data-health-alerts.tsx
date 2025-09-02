@@ -167,7 +167,7 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
                 {/* Data Source to VenueX Connection Lines */}
                 {/* Inventory to VenueX - Red line for error status */}
                 <path 
-                  d="M 180 100 Q 280 120 400 160" 
+                  d="M 260 100 Q 320 120 400 160" 
                   stroke="#ef4444" 
                   strokeWidth="3" 
                   fill="none"
