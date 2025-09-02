@@ -144,252 +144,178 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
           {/* Vertical VenueX alignment guide */}
           <div className="absolute left-1/2 top-0 bottom-0 w-px bg-primary/20 transform -translate-x-1/2 z-0"></div>
           
-          <div className="relative bg-gradient-to-r from-blue-50/50 via-transparent to-blue-50/50 dark:from-blue-950/20 dark:via-transparent dark:to-blue-950/20 rounded-xl py-8 px-4">
-            {/* Central Hub Layout */}
-            <div className="relative w-full h-80 flex items-center justify-center">
+          <div className="relative bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-700 py-12 px-8">
+            {/* Clean Data Flow Layout */}
+            <div className="relative w-full h-96">
               
-              {/* Background Flow Shape */}
-              <svg className="absolute inset-0 w-full h-full" viewBox="0 0 800 320" preserveAspectRatio="xMidYMid meet">
+              {/* Connection Lines SVG */}
+              <svg className="absolute inset-0 w-full h-full" viewBox="0 0 1000 400" preserveAspectRatio="xMidYMid meet">
                 <defs>
-                  <linearGradient id="flowGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                    <stop offset="0%" stopColor="#3b82f6" stopOpacity="0.1"/>
-                    <stop offset="50%" stopColor="#1d4ed8" stopOpacity="0.2"/>
-                    <stop offset="100%" stopColor="#3b82f6" stopOpacity="0.1"/>
-                  </linearGradient>
-                  
-                  {/* Animated dashed pattern for data flow */}
-                  <pattern id="dashPattern" patternUnits="userSpaceOnUse" width="8" height="2">
-                    <circle cx="2" cy="1" r="0.8" fill="#3b82f6" opacity="0.6">
-                      <animate attributeName="cx" values="2;6;2" dur="2s" repeatCount="indefinite"/>
-                    </circle>
-                  </pattern>
+                  <marker id="arrowhead" markerWidth="10" markerHeight="7" 
+                    refX="9" refY="3.5" orient="auto">
+                    <polygon points="0 0, 10 3.5, 0 7" fill="#e5e7eb" />
+                  </marker>
                 </defs>
                 
-                {/* Data Source to VenueX Connection Lines */}
-                {/* Inventory to VenueX - Red dashed line for error status (Last sync 2h ago) */}
-                <path 
-                  d="M 245 100 Q 320 120 360 160" 
-                  stroke="#ef4444" 
-                  strokeWidth="3" 
-                  fill="none"
-                  opacity="0.7"
-                  strokeDasharray="8,4"
-                />
+                {/* Data Sources to VenueX */}
+                <path d="M 280 120 L 460 200" stroke="#e5e7eb" strokeWidth="2" fill="none" markerEnd="url(#arrowhead)" opacity="0.6" />
+                <path d="M 280 200 L 460 200" stroke="#22c55e" strokeWidth="2" fill="none" markerEnd="url(#arrowhead)" opacity="0.8" />
+                <path d="M 280 280 L 460 200" stroke="#e5e7eb" strokeWidth="2" fill="none" markerEnd="url(#arrowhead)" opacity="0.6" />
                 
-                {/* Store Sales to VenueX - Green solid line for recent sync (Updated 30s ago) */}
-                <path 
-                  d="M 245 160 L 360 160" 
-                  stroke="#22c55e" 
-                  strokeWidth="3" 
-                  fill="none"
-                  opacity="0.9"
-                />
-                
-                {/* Locations to VenueX - Green line with slight pulse for recent sync (Updated 2m ago) */}
-                <path 
-                  d="M 245 220 Q 300 200 360 160" 
-                  stroke="#22c55e" 
-                  strokeWidth="3" 
-                  fill="none"
-                  opacity="0.8"
-                  strokeDasharray="12,3"
-                />
-                
-                {/* Sync status indicators on lines */}
-                {/* Inventory error indicator */}
-                <circle cx="300" cy="130" r="4" fill="#ef4444" opacity="0.8">
-                  <animate attributeName="r" values="4;6;4" dur="2s" repeatCount="indefinite"/>
-                </circle>
-                <text x="305" y="128" fontSize="8" fill="#ef4444" fontWeight="bold">2h</text>
-                
-                {/* Store Sales recent sync indicator */}
-                <circle cx="300" cy="160" r="3" fill="#22c55e" opacity="1">
-                  <animate attributeName="opacity" values="1;0.5;1" dur="1s" repeatCount="indefinite"/>
-                </circle>
-                <text x="305" y="158" fontSize="8" fill="#22c55e" fontWeight="bold">30s</text>
-                
-                {/* Locations sync indicator */}
-                <circle cx="300" cy="190" r="3" fill="#22c55e" opacity="0.9">
-                  <animate attributeName="r" values="3;4;3" dur="1.5s" repeatCount="indefinite"/>
-                </circle>
-                <text x="305" y="188" fontSize="8" fill="#22c55e" fontWeight="bold">2m</text>
-                
-                {/* VenueX to Platforms - General outgoing flow */}
-                <path 
-                  d="M 440 160 Q 550 140 620 160" 
-                  stroke="url(#dashPattern)" 
-                  strokeWidth="4" 
-                  fill="none"
-                  opacity="0.8"
-                />
-                
-                {/* Data flow indicators - small animated circles */}
-                <circle cx="0" cy="0" r="3" fill="#22c55e" opacity="0.8">
-                  <animateMotion dur="3s" repeatCount="indefinite">
-                    <path d="M 180 160 L 360 160"/>
-                  </animateMotion>
-                </circle>
-                
-                <circle cx="0" cy="0" r="3" fill="#f97316" opacity="0.8">
-                  <animateMotion dur="4s" repeatCount="indefinite">
-                    <path d="M 180 220 Q 280 200 400 160"/>
-                  </animateMotion>
-                </circle>
-                
-                <circle cx="0" cy="0" r="3" fill="#3b82f6" opacity="0.8">
-                  <animateMotion dur="3.5s" repeatCount="indefinite">
-                    <path d="M 440 160 Q 550 140 620 160"/>
-                  </animateMotion>
-                </circle>
+                {/* VenueX to Destination Categories */}
+                <path d="M 540 200 L 720 120" stroke="#e5e7eb" strokeWidth="2" fill="none" markerEnd="url(#arrowhead)" opacity="0.6" />
+                <path d="M 540 200 L 720 200" stroke="#e5e7eb" strokeWidth="2" fill="none" markerEnd="url(#arrowhead)" opacity="0.6" />
+                <path d="M 540 200 L 720 280" stroke="#e5e7eb" strokeWidth="2" fill="none" markerEnd="url(#arrowhead)" opacity="0.6" />
               </svg>
 
               {/* Data Sources - Left Side */}
-              <div className="absolute left-4 top-1/2 transform -translate-y-1/2 z-10">
-                <div className="space-y-4">
-                  <div className="flex items-center gap-3 bg-white dark:bg-gray-800 rounded-lg p-3 shadow-sm border border-gray-200 dark:border-gray-700">
-                    <div className="w-8 h-8 bg-purple-100 dark:bg-purple-900/50 rounded-lg flex items-center justify-center">
-                      <Package className="w-4 h-4 text-purple-600" />
+              <div className="absolute left-0 top-1/2 transform -translate-y-1/2 space-y-6">
+                <div className="bg-white dark:bg-gray-800 rounded-xl p-4 shadow-sm border border-gray-100 dark:border-gray-700 w-64">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 bg-purple-100 dark:bg-purple-900/50 rounded-lg flex items-center justify-center">
+                      <Package className="w-5 h-5 text-purple-600" />
                     </div>
-                    <div className="text-left">
-                      <div className="text-sm font-medium text-foreground">Inventory</div>
-                      <div className="flex items-center gap-1">
-                        <div className="w-1.5 h-1.5 bg-red-500 rounded-full"></div>
-                        <span className="text-xs text-red-600">Error</span>
+                    <div className="flex-1">
+                      <div className="font-medium text-foreground">Inventory</div>
+                      <div className="flex items-center gap-2 mt-1">
+                        <div className="w-2 h-2 bg-red-500 rounded-full"></div>
+                        <span className="text-xs text-red-600">Error - Last sync 2h ago</span>
                       </div>
-                      <div className="text-xs text-muted-foreground mt-0.5">Last sync 2h ago</div>
                     </div>
                   </div>
-                  
-                  <div className="flex items-center gap-3 bg-white dark:bg-gray-800 rounded-lg p-3 shadow-sm border border-gray-200 dark:border-gray-700">
-                    <div className="w-8 h-8 bg-green-100 dark:bg-green-900/50 rounded-lg flex items-center justify-center">
-                      <Receipt className="w-4 h-4 text-green-600" />
+                </div>
+                
+                <div className="bg-white dark:bg-gray-800 rounded-xl p-4 shadow-sm border border-gray-100 dark:border-gray-700 w-64">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 bg-green-100 dark:bg-green-900/50 rounded-lg flex items-center justify-center">
+                      <Receipt className="w-5 h-5 text-green-600" />
                     </div>
-                    <div className="text-left">
-                      <div className="text-sm font-medium text-foreground">Store Sales</div>
-                      <div className="flex items-center gap-1">
-                        <div className="w-1.5 h-1.5 bg-green-500 rounded-full"></div>
-                        <span className="text-xs text-green-600">Online</span>
+                    <div className="flex-1">
+                      <div className="font-medium text-foreground">Store Sales</div>
+                      <div className="flex items-center gap-2 mt-1">
+                        <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                        <span className="text-xs text-green-600">Online - Updated 30s ago</span>
                       </div>
-                      <div className="text-xs text-muted-foreground mt-0.5">Updated 30s ago</div>
                     </div>
                   </div>
-                  
-                  <div className="flex items-center gap-3 bg-white dark:bg-gray-800 rounded-lg p-3 shadow-sm border border-gray-200 dark:border-gray-700">
-                    <div className="w-8 h-8 bg-orange-100 dark:bg-orange-900/50 rounded-lg flex items-center justify-center">
-                      <MapPin className="w-4 h-4 text-orange-600" />
+                </div>
+                
+                <div className="bg-white dark:bg-gray-800 rounded-xl p-4 shadow-sm border border-gray-100 dark:border-gray-700 w-64">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 bg-blue-100 dark:bg-blue-900/50 rounded-lg flex items-center justify-center">
+                      <MapPin className="w-5 h-5 text-blue-600" />
                     </div>
-                    <div className="text-left">
-                      <div className="text-sm font-medium text-foreground">Locations</div>
-                      <div className="flex items-center gap-1">
-                        <div className="w-1.5 h-1.5 bg-green-500 rounded-full"></div>
-                        <span className="text-xs text-green-600">Online</span>
+                    <div className="flex-1">
+                      <div className="font-medium text-foreground">Locations</div>
+                      <div className="flex items-center gap-2 mt-1">
+                        <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                        <span className="text-xs text-green-600">Online - Updated 2m ago</span>
                       </div>
-                      <div className="text-xs text-muted-foreground mt-0.5">Updated 2m ago</div>
                     </div>
                   </div>
                 </div>
               </div>
 
               {/* Central VenueX Hub */}
-              <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 z-20">
-                <div className="flex flex-col items-center text-center">
-                  <div className="w-30 h-30 bg-white rounded-full flex items-center justify-center shadow-lg border-4 border-white dark:border-gray-800">
-                    <img src={vxLogo} alt="VenueX" className="w-36 h-36 object-contain" />
-                  </div>
-                  <div className="mt-2 text-sm font-medium text-foreground">Data Hub</div>
-                  <div className="text-xs text-muted-foreground">Processing all data flows</div>
-                </div>
-              </div>
-
-              {/* Platform Destinations - Right Side */}
-              <div className="absolute right-4 top-1/2 transform -translate-y-1/2 z-10">
-                <div className="space-y-3">
-                  <div className="flex items-center gap-3 bg-white dark:bg-gray-800 rounded-lg p-2.5 shadow-sm border border-gray-200 dark:border-gray-700">
-                    <div className="w-6 h-6 bg-red-500 rounded flex items-center justify-center flex-shrink-0">
-                      <span className="text-xs text-white font-bold">G</span>
+              <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-lg border-2 border-blue-200 dark:border-blue-800">
+                  <div className="flex flex-col items-center text-center">
+                    <div className="w-16 h-16 bg-white rounded-xl flex items-center justify-center shadow-sm">
+                      <img src={vxLogo} alt="VenueX" className="w-12 h-12 object-contain" />
                     </div>
-                    <div className="text-left min-w-0">
-                      <div className="text-sm font-medium text-foreground">Google</div>
-                      <div className="flex items-center gap-1">
-                        <div className="w-1 h-1 bg-green-500 rounded-full"></div>
-                        <span className="text-xs text-green-600">Connected</span>
-                      </div>
-                    </div>
-                  </div>
-                  
-                  <div className="flex items-center gap-3 bg-white dark:bg-gray-800 rounded-lg p-2.5 shadow-sm border border-gray-200 dark:border-gray-700">
-                    <div className="w-6 h-6 bg-blue-600 rounded flex items-center justify-center flex-shrink-0">
-                      <span className="text-xs text-white font-bold">f</span>
-                    </div>
-                    <div className="text-left min-w-0">
-                      <div className="text-sm font-medium text-foreground">Facebook</div>
-                      <div className="flex items-center gap-1">
-                        <div className="w-1 h-1 bg-green-500 rounded-full"></div>
-                        <span className="text-xs text-green-600">Connected</span>
-                      </div>
-                    </div>
-                  </div>
-                  
-                  <div className="flex items-center gap-3 bg-white dark:bg-gray-800 rounded-lg p-2.5 shadow-sm border border-gray-200 dark:border-gray-700">
-                    <div className="w-6 h-6 bg-gradient-to-br from-purple-500 to-pink-500 rounded flex items-center justify-center flex-shrink-0">
-                      <span className="text-xs text-white font-bold">📷</span>
-                    </div>
-                    <div className="text-left min-w-0">
-                      <div className="text-sm font-medium text-foreground">Instagram</div>
-                      <div className="flex items-center gap-1">
-                        <div className="w-1 h-1 bg-green-500 rounded-full"></div>
-                        <span className="text-xs text-green-600">Connected</span>
-                      </div>
-                    </div>
-                  </div>
-                  
-                  <div className="flex items-center gap-3 bg-white dark:bg-gray-800 rounded-lg p-2.5 shadow-sm border border-gray-200 dark:border-gray-700">
-                    <div className="w-6 h-6 bg-gray-800 rounded flex items-center justify-center flex-shrink-0">
-                      <span className="text-xs text-white font-bold">🍎</span>
-                    </div>
-                    <div className="text-left min-w-0">
-                      <div className="text-sm font-medium text-foreground">Apple</div>
-                      <div className="flex items-center gap-1">
-                        <div className="w-1 h-1 bg-green-500 rounded-full"></div>
-                        <span className="text-xs text-green-600">Connected</span>
-                      </div>
-                    </div>
-                  </div>
-                  
-                  <div className="flex items-center gap-3 bg-white dark:bg-gray-800 rounded-lg p-2.5 shadow-sm border border-gray-200 dark:border-gray-700">
-                    <div className="w-6 h-6 bg-red-500 rounded flex items-center justify-center flex-shrink-0">
-                      <span className="text-xs text-white font-bold">Y</span>
-                    </div>
-                    <div className="text-left min-w-0">
-                      <div className="text-sm font-medium text-foreground">Yandex</div>
-                      <div className="flex items-center gap-1">
-                        <div className="w-1 h-1 bg-green-500 rounded-full"></div>
-                        <span className="text-xs text-green-600">Connected</span>
-                      </div>
-                    </div>
-                  </div>
-                  
-                  <div className="flex items-center gap-3 bg-white dark:bg-gray-800 rounded-lg p-2.5 shadow-sm border border-gray-200 dark:border-gray-700">
-                    <div className="w-6 h-6 bg-black rounded flex items-center justify-center flex-shrink-0">
-                      <span className="text-xs text-white font-bold">🎵</span>
-                    </div>
-                    <div className="text-left min-w-0">
-                      <div className="text-sm font-medium text-foreground">TikTok</div>
-                      <div className="flex items-center gap-1">
-                        <div className="w-1 h-1 bg-green-500 rounded-full"></div>
-                        <span className="text-xs text-green-600">Connected</span>
-                      </div>
-                    </div>
+                    <div className="mt-3 font-semibold text-foreground">VenueX</div>
+                    <div className="text-xs text-muted-foreground">Data Processing Hub</div>
                   </div>
                 </div>
               </div>
 
-              {/* Data Flow Indicators */}
-              <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 z-10">
-                <div className="flex items-center gap-2 bg-white dark:bg-gray-800 rounded-full px-4 py-2 shadow-sm border border-gray-200 dark:border-gray-700">
-                  <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-                  <span className="text-xs text-muted-foreground">Real-time data flow active</span>
+              {/* Destination Categories - Right Side */}
+              <div className="absolute right-0 top-1/2 transform -translate-y-1/2 space-y-6">
+                
+                {/* Location Platforms */}
+                <div className="bg-white dark:bg-gray-800 rounded-xl p-4 shadow-sm border border-gray-100 dark:border-gray-700 w-72">
+                  <div className="text-sm font-semibold text-foreground mb-3 text-blue-600">Location Platforms</div>
+                  <div className="space-y-2">
+                    <div className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700">
+                      <div className="w-6 h-6 bg-red-500 rounded flex items-center justify-center">
+                        <span className="text-xs text-white font-bold">G</span>
+                      </div>
+                      <span className="text-sm text-foreground">Google Business Profile</span>
+                      <div className="ml-auto w-2 h-2 bg-green-500 rounded-full"></div>
+                    </div>
+                    <div className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700">
+                      <div className="w-6 h-6 bg-blue-600 rounded flex items-center justify-center">
+                        <span className="text-xs text-white font-bold">M</span>
+                      </div>
+                      <span className="text-sm text-foreground">Meta Pages</span>
+                      <div className="ml-auto w-2 h-2 bg-green-500 rounded-full"></div>
+                    </div>
+                    <div className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700">
+                      <div className="w-6 h-6 bg-gray-800 rounded flex items-center justify-center">
+                        <span className="text-xs text-white font-bold">🍎</span>
+                      </div>
+                      <span className="text-sm text-foreground">Apple Business Connect</span>
+                      <div className="ml-auto w-2 h-2 bg-green-500 rounded-full"></div>
+                    </div>
+                    <div className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700">
+                      <div className="w-6 h-6 bg-red-500 rounded flex items-center justify-center">
+                        <span className="text-xs text-white font-bold">Y</span>
+                      </div>
+                      <span className="text-sm text-foreground">Yandex Business</span>
+                      <div className="ml-auto w-2 h-2 bg-green-500 rounded-full"></div>
+                    </div>
+                  </div>
                 </div>
+                
+                {/* Merchant Platforms */}
+                <div className="bg-white dark:bg-gray-800 rounded-xl p-4 shadow-sm border border-gray-100 dark:border-gray-700 w-72">
+                  <div className="text-sm font-semibold text-foreground mb-3 text-green-600">Merchant Platforms</div>
+                  <div className="space-y-2">
+                    <div className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700">
+                      <div className="w-6 h-6 bg-red-500 rounded flex items-center justify-center">
+                        <span className="text-xs text-white font-bold">G</span>
+                      </div>
+                      <span className="text-sm text-foreground">Google Merchant Center</span>
+                      <div className="ml-auto w-2 h-2 bg-green-500 rounded-full"></div>
+                    </div>
+                    <div className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700">
+                      <div className="w-6 h-6 bg-blue-600 rounded flex items-center justify-center">
+                        <span className="text-xs text-white font-bold">M</span>
+                      </div>
+                      <span className="text-sm text-foreground">Meta Commerce</span>
+                      <div className="ml-auto w-2 h-2 bg-green-500 rounded-full"></div>
+                    </div>
+                  </div>
+                </div>
+                
+                {/* Ad Platforms */}
+                <div className="bg-white dark:bg-gray-800 rounded-xl p-4 shadow-sm border border-gray-100 dark:border-gray-700 w-72">
+                  <div className="text-sm font-semibold text-foreground mb-3 text-purple-600">Ad Platforms</div>
+                  <div className="space-y-2">
+                    <div className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700">
+                      <div className="w-6 h-6 bg-red-500 rounded flex items-center justify-center">
+                        <span className="text-xs text-white font-bold">G</span>
+                      </div>
+                      <span className="text-sm text-foreground">Google Ads</span>
+                      <div className="ml-auto w-2 h-2 bg-green-500 rounded-full"></div>
+                    </div>
+                    <div className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700">
+                      <div className="w-6 h-6 bg-blue-600 rounded flex items-center justify-center">
+                        <span className="text-xs text-white font-bold">M</span>
+                      </div>
+                      <span className="text-sm text-foreground">Meta Ads</span>
+                      <div className="ml-auto w-2 h-2 bg-green-500 rounded-full"></div>
+                    </div>
+                    <div className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700">
+                      <div className="w-6 h-6 bg-black rounded flex items-center justify-center">
+                        <span className="text-xs text-white font-bold">🎵</span>
+                      </div>
+                      <span className="text-sm text-foreground">TikTok Ads</span>
+                      <div className="ml-auto w-2 h-2 bg-green-500 rounded-full"></div>
+                    </div>
+                  </div>
+                </div>
+                
               </div>
             </div>
           </div>
