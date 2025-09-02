@@ -230,10 +230,10 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
               </div>
 
               {/* Destination Categories - Right Side */}
-              <div className="absolute right-4 top-1/2 transform -translate-y-1/2 space-y-4">
+              <div className="absolute right-6 top-1/2 transform -translate-y-1/2 space-y-3">
                 
                 {/* Location Platforms */}
-                <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-3 shadow-sm border border-gray-200 dark:border-gray-700 w-56">
+                <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-2.5 shadow-sm border border-gray-200 dark:border-gray-700 w-52">
                   <div className="text-xs font-semibold text-blue-600 mb-2">Location Platforms</div>
                   <div className="space-y-1">
                     <div className="flex items-center gap-2 p-1.5 rounded hover:bg-gray-100 dark:hover:bg-gray-700">
@@ -280,7 +280,7 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
                 </div>
                 
                 {/* Merchant Platforms */}
-                <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-3 shadow-sm border border-gray-200 dark:border-gray-700 w-56">
+                <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-2.5 shadow-sm border border-gray-200 dark:border-gray-700 w-52">
                   <div className="text-xs font-semibold text-green-600 mb-2">Merchant Platforms</div>
                   <div className="space-y-1">
                     <div className="flex items-center gap-2 p-1.5 rounded hover:bg-gray-100 dark:hover:bg-gray-700">
@@ -307,7 +307,7 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
                 </div>
                 
                 {/* Ad Platforms */}
-                <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-3 shadow-sm border border-gray-200 dark:border-gray-700 w-56">
+                <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-2.5 shadow-sm border border-gray-200 dark:border-gray-700 w-52">
                   <div className="text-xs font-semibold text-purple-600 mb-2">Ad Platforms</div>
                   <div className="space-y-1">
                     <div className="flex items-center gap-2 p-1.5 rounded hover:bg-gray-100 dark:hover:bg-gray-700">
