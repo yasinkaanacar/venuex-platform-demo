@@ -223,35 +223,35 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
                 
                 {/* Base connection lines - always visible */}
                 <g opacity="0.3">
-                  <path d="M 280 120 C 325 120, 415 130, 460 200" stroke="#9ca3af" strokeWidth="2" fill="none" strokeDasharray="5,5" />
+                  <path d="M 280 120 L 370 120 L 370 200 L 460 200" stroke="#9ca3af" strokeWidth="2" fill="none" strokeDasharray="5,5" />
                   <path d="M 280 200 L 460 200" stroke="#9ca3af" strokeWidth="2" fill="none" strokeDasharray="5,5" />
-                  <path d="M 280 280 C 325 280, 415 270, 460 200" stroke="#9ca3af" strokeWidth="2" fill="none" strokeDasharray="5,5" />
-                  <path d="M 540 200 C 585 200, 675 130, 720 120" stroke="#9ca3af" strokeWidth="2" fill="none" strokeDasharray="5,5" />
+                  <path d="M 280 280 L 370 280 L 370 200 L 460 200" stroke="#9ca3af" strokeWidth="2" fill="none" strokeDasharray="5,5" />
+                  <path d="M 540 200 L 630 200 L 630 120 L 720 120" stroke="#9ca3af" strokeWidth="2" fill="none" strokeDasharray="5,5" />
                   <path d="M 540 200 L 720 200" stroke="#9ca3af" strokeWidth="2" fill="none" strokeDasharray="5,5" />
-                  <path d="M 540 200 C 585 200, 675 270, 720 280" stroke="#9ca3af" strokeWidth="2" fill="none" strokeDasharray="5,5" />
+                  <path d="M 540 200 L 630 200 L 630 280 L 720 280" stroke="#9ca3af" strokeWidth="2" fill="none" strokeDasharray="5,5" />
                 </g>
                 
                 {/* Status-based colored lines */}
                 <g>
                   {/* Inventory (Error - red line) */}
-                  <path d="M 280 120 C 325 120, 415 130, 460 200" stroke="#ef4444" strokeWidth="3" fill="none" markerEnd="url(#arrow-warning)" opacity="0.8" />
+                  <path d="M 280 120 L 370 120 L 370 200 L 460 200" stroke="#ef4444" strokeWidth="3" fill="none" markerEnd="url(#arrow-warning)" opacity="0.8" />
                   {/* Store Sales (Online - green line) */}
                   <path d="M 280 200 L 460 200" stroke="#10b981" strokeWidth="3" fill="none" markerEnd="url(#arrow-success)" opacity="0.9" />
                   {/* Locations (Online - green line) */}
-                  <path d="M 280 280 C 325 280, 415 270, 460 200" stroke="#10b981" strokeWidth="3" fill="none" markerEnd="url(#arrow-success)" opacity="0.8" />
+                  <path d="M 280 280 L 370 280 L 370 200 L 460 200" stroke="#10b981" strokeWidth="3" fill="none" markerEnd="url(#arrow-success)" opacity="0.8" />
                   
                   {/* VenueX to Location Platforms (Good sync status - green) */}
-                  <path d="M 540 200 C 585 200, 675 130, 720 120" stroke="#10b981" strokeWidth="3" fill="none" markerEnd="url(#arrow-success)" opacity="0.8" />
+                  <path d="M 540 200 L 630 200 L 630 120 L 720 120" stroke="#10b981" strokeWidth="3" fill="none" markerEnd="url(#arrow-success)" opacity="0.8" />
                   {/* VenueX to Merchant Platforms (Good sync status - green) */}
                   <path d="M 540 200 L 720 200" stroke="#10b981" strokeWidth="3" fill="none" markerEnd="url(#arrow-success)" opacity="0.8" />
                   {/* VenueX to Ad Platforms (Good sync status - green) */}
-                  <path d="M 540 200 C 585 200, 675 270, 720 280" stroke="#10b981" strokeWidth="3" fill="none" markerEnd="url(#arrow-success)" opacity="0.8" />
+                  <path d="M 540 200 L 630 200 L 630 280 L 720 280" stroke="#10b981" strokeWidth="3" fill="none" markerEnd="url(#arrow-success)" opacity="0.8" />
                 </g>
                 
                 {/* Status-based animated flow overlays */}
                 <g>
                   {/* Inventory error flow - slower animation indicating issues */}
-                  <path d="M 280 120 C 325 120, 415 130, 460 200" stroke="url(#flowError)" strokeWidth="2" fill="none" opacity="0.6">
+                  <path d="M 280 120 L 370 120 L 370 200 L 460 200" stroke="url(#flowError)" strokeWidth="2" fill="none" opacity="0.6">
                     <animate attributeName="opacity" values="0.2;0.6;0.2" dur="4s" begin="0s" repeatCount="indefinite"/>
                   </path>
                   {/* Store Sales active flow - fast, healthy animation */}
@@ -259,18 +259,18 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
                     <animate attributeName="opacity" values="0.6;1;0.6" dur="1.5s" begin="0s" repeatCount="indefinite"/>
                   </path>
                   {/* Locations active flow - healthy animation */}
-                  <path d="M 280 280 C 325 280, 415 270, 460 200" stroke="url(#flowActive)" strokeWidth="2" fill="none" opacity="0.9">
+                  <path d="M 280 280 L 370 280 L 370 200 L 460 200" stroke="url(#flowActive)" strokeWidth="2" fill="none" opacity="0.9">
                     <animate attributeName="opacity" values="0.5;0.9;0.5" dur="2s" begin="0.3s" repeatCount="indefinite"/>
                   </path>
                   
                   {/* All destination flows are healthy - good sync status */}
-                  <path d="M 540 200 C 585 200, 675 130, 720 120" stroke="url(#flowActive)" strokeWidth="2" fill="none" opacity="0.8">
+                  <path d="M 540 200 L 630 200 L 630 120 L 720 120" stroke="url(#flowActive)" strokeWidth="2" fill="none" opacity="0.8">
                     <animate attributeName="opacity" values="0.4;0.8;0.4" dur="2s" begin="0.8s" repeatCount="indefinite"/>
                   </path>
                   <path d="M 540 200 L 720 200" stroke="url(#flowActive)" strokeWidth="2" fill="none" opacity="0.9">
                     <animate attributeName="opacity" values="0.5;0.9;0.5" dur="1.8s" begin="0.2s" repeatCount="indefinite"/>
                   </path>
-                  <path d="M 540 200 C 585 200, 675 270, 720 280" stroke="url(#flowActive)" strokeWidth="2" fill="none" opacity="0.8">
+                  <path d="M 540 200 L 630 200 L 630 280 L 720 280" stroke="url(#flowActive)" strokeWidth="2" fill="none" opacity="0.8">
                     <animate attributeName="opacity" values="0.4;0.8;0.4" dur="2.2s" begin="1.2s" repeatCount="indefinite"/>
                   </path>
                 </g>
