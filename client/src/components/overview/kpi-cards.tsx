@@ -117,49 +117,49 @@ export default function KpiCards({ kpis, filters, onFiltersChange }: KpiCardsPro
                 <Card className="hover:shadow-lg transition-all duration-200 cursor-pointer hover:scale-105" data-testid={`card-${card.id}`}>
                   <CardContent className="p-6">
                     {card.id === 'offline-roas' && (
-                      <div className="mb-4">
-                        <div className="flex items-center bg-gray-100 dark:bg-gray-800 p-1 rounded-lg w-full border shadow-inner">
+                      <div className="mb-4 flex justify-center">
+                        <div className="flex items-center bg-gray-100 dark:bg-gray-800 p-1 rounded-lg border shadow-inner max-w-fit">
                           <button
                             onClick={() => onFiltersChange({ ...filters, platform: 'Google' })}
-                            className={`flex items-center gap-2 px-4 py-2.5 rounded-md text-sm font-semibold transition-all duration-200 flex-1 justify-center ${
+                            className={`flex items-center gap-1.5 px-3 py-2 rounded-md text-xs font-semibold transition-all duration-200 ${
                               filters.platform === 'Google'
-                                ? 'bg-white dark:bg-gray-700 text-foreground shadow-md border border-gray-200 dark:border-gray-600 transform scale-105'
+                                ? 'bg-white dark:bg-gray-700 text-foreground shadow-md border border-gray-200 dark:border-gray-600'
                                 : 'text-gray-500 dark:text-gray-400 hover:text-foreground hover:bg-white/50 dark:hover:bg-gray-700/50'
                             }`}
                             data-testid="tab-google"
                           >
-                            <div className="w-4 h-4 bg-red-500 rounded flex items-center justify-center">
-                              <span className="text-xs text-white font-bold">G</span>
+                            <div className="w-3.5 h-3.5 bg-red-500 rounded flex items-center justify-center">
+                              <span className="text-[10px] text-white font-bold">G</span>
                             </div>
                             Google
                           </button>
                           
                           <button
                             onClick={() => onFiltersChange({ ...filters, platform: 'Meta' })}
-                            className={`flex items-center gap-2 px-4 py-2.5 rounded-md text-sm font-semibold transition-all duration-200 flex-1 justify-center ${
+                            className={`flex items-center gap-1.5 px-3 py-2 rounded-md text-xs font-semibold transition-all duration-200 ${
                               filters.platform === 'Meta'
-                                ? 'bg-white dark:bg-gray-700 text-foreground shadow-md border border-gray-200 dark:border-gray-600 transform scale-105'
+                                ? 'bg-white dark:bg-gray-700 text-foreground shadow-md border border-gray-200 dark:border-gray-600'
                                 : 'text-gray-500 dark:text-gray-400 hover:text-foreground hover:bg-white/50 dark:hover:bg-gray-700/50'
                             }`}
                             data-testid="tab-meta"
                           >
-                            <div className="w-4 h-4 bg-blue-600 rounded flex items-center justify-center">
-                              <span className="text-xs text-white font-bold">f</span>
+                            <div className="w-3.5 h-3.5 bg-blue-600 rounded flex items-center justify-center">
+                              <span className="text-[10px] text-white font-bold">f</span>
                             </div>
                             Meta
                           </button>
                           
                           <button
                             onClick={() => onFiltersChange({ ...filters, platform: 'TikTok' })}
-                            className={`flex items-center gap-2 px-4 py-2.5 rounded-md text-sm font-semibold transition-all duration-200 flex-1 justify-center ${
+                            className={`flex items-center gap-1.5 px-3 py-2 rounded-md text-xs font-semibold transition-all duration-200 ${
                               filters.platform === 'TikTok'
-                                ? 'bg-white dark:bg-gray-700 text-foreground shadow-md border border-gray-200 dark:border-gray-600 transform scale-105'
+                                ? 'bg-white dark:bg-gray-700 text-foreground shadow-md border border-gray-200 dark:border-gray-600'
                                 : 'text-gray-500 dark:text-gray-400 hover:text-foreground hover:bg-white/50 dark:hover:bg-gray-700/50'
                             }`}
                             data-testid="tab-tiktok"
                           >
-                            <div className="w-4 h-4 bg-black rounded flex items-center justify-center">
-                              <span className="text-xs text-white font-bold">🎵</span>
+                            <div className="w-3.5 h-3.5 bg-black rounded flex items-center justify-center">
+                              <span className="text-[10px] text-white font-bold">🎵</span>
                             </div>
                             TikTok
                           </button>
