@@ -230,115 +230,115 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
               </div>
 
               {/* Destination Categories - Right Side */}
-              <div className="absolute right-6 top-1/2 transform -translate-y-1/2 space-y-3">
+              <div className="absolute right-8 top-1/2 transform -translate-y-1/2 space-y-2">
                 
                 {/* Location Platforms */}
-                <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-2.5 shadow-sm border border-gray-200 dark:border-gray-700 w-52">
-                  <div className="text-xs font-semibold text-blue-600 mb-2">Location Platforms</div>
-                  <div className="space-y-1">
-                    <div className="flex items-center gap-2 p-1.5 rounded hover:bg-gray-100 dark:hover:bg-gray-700">
-                      <div className="w-5 h-5 bg-red-500 rounded flex items-center justify-center">
+                <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-2 shadow-sm border border-gray-200 dark:border-gray-700 w-44">
+                  <div className="text-xs font-semibold text-blue-600 mb-1.5">Location Platforms</div>
+                  <div className="space-y-0.5">
+                    <div className="flex items-center gap-1.5 p-1 rounded hover:bg-gray-100 dark:hover:bg-gray-700">
+                      <div className="w-4 h-4 bg-red-500 rounded flex items-center justify-center">
                         <span className="text-xs text-white font-bold">G</span>
                       </div>
-                      <div className="flex-1">
-                        <span className="text-xs text-foreground">Google Business Profile</span>
-                        <div className="text-xs text-muted-foreground">Synced 2m ago</div>
+                      <div className="flex-1 min-w-0">
+                        <div className="text-xs text-foreground truncate">Google Business</div>
+                        <div className="text-xs text-muted-foreground">2m ago</div>
                       </div>
-                      <div className="w-1.5 h-1.5 bg-green-500 rounded-full"></div>
+                      <div className="w-1.5 h-1.5 bg-green-500 rounded-full flex-shrink-0"></div>
                     </div>
-                    <div className="flex items-center gap-2 p-1.5 rounded hover:bg-gray-100 dark:hover:bg-gray-700">
-                      <div className="w-5 h-5 bg-blue-600 rounded flex items-center justify-center">
+                    <div className="flex items-center gap-1.5 p-1 rounded hover:bg-gray-100 dark:hover:bg-gray-700">
+                      <div className="w-4 h-4 bg-blue-600 rounded flex items-center justify-center">
                         <span className="text-xs text-white font-bold">M</span>
                       </div>
-                      <div className="flex-1">
-                        <span className="text-xs text-foreground">Meta Pages</span>
-                        <div className="text-xs text-muted-foreground">Synced 5m ago</div>
+                      <div className="flex-1 min-w-0">
+                        <div className="text-xs text-foreground truncate">Meta Pages</div>
+                        <div className="text-xs text-muted-foreground">5m ago</div>
                       </div>
-                      <div className="w-1.5 h-1.5 bg-green-500 rounded-full"></div>
+                      <div className="w-1.5 h-1.5 bg-green-500 rounded-full flex-shrink-0"></div>
                     </div>
-                    <div className="flex items-center gap-2 p-1.5 rounded hover:bg-gray-100 dark:hover:bg-gray-700">
-                      <div className="w-5 h-5 bg-gray-800 rounded flex items-center justify-center">
+                    <div className="flex items-center gap-1.5 p-1 rounded hover:bg-gray-100 dark:hover:bg-gray-700">
+                      <div className="w-4 h-4 bg-gray-800 rounded flex items-center justify-center">
                         <span className="text-xs text-white font-bold">🍎</span>
                       </div>
-                      <div className="flex-1">
-                        <span className="text-xs text-foreground">Apple Business Connect</span>
-                        <div className="text-xs text-muted-foreground">Synced 1h ago</div>
+                      <div className="flex-1 min-w-0">
+                        <div className="text-xs text-foreground truncate">Apple Business</div>
+                        <div className="text-xs text-muted-foreground">1h ago</div>
                       </div>
-                      <div className="w-1.5 h-1.5 bg-green-500 rounded-full"></div>
+                      <div className="w-1.5 h-1.5 bg-green-500 rounded-full flex-shrink-0"></div>
                     </div>
-                    <div className="flex items-center gap-2 p-1.5 rounded hover:bg-gray-100 dark:hover:bg-gray-700">
-                      <div className="w-5 h-5 bg-red-500 rounded flex items-center justify-center">
+                    <div className="flex items-center gap-1.5 p-1 rounded hover:bg-gray-100 dark:hover:bg-gray-700">
+                      <div className="w-4 h-4 bg-red-500 rounded flex items-center justify-center">
                         <span className="text-xs text-white font-bold">Y</span>
                       </div>
-                      <div className="flex-1">
-                        <span className="text-xs text-foreground">Yandex Business</span>
-                        <div className="text-xs text-muted-foreground">Synced 15m ago</div>
+                      <div className="flex-1 min-w-0">
+                        <div className="text-xs text-foreground truncate">Yandex Business</div>
+                        <div className="text-xs text-muted-foreground">15m ago</div>
                       </div>
-                      <div className="w-1.5 h-1.5 bg-green-500 rounded-full"></div>
+                      <div className="w-1.5 h-1.5 bg-green-500 rounded-full flex-shrink-0"></div>
                     </div>
                   </div>
                 </div>
                 
                 {/* Merchant Platforms */}
-                <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-2.5 shadow-sm border border-gray-200 dark:border-gray-700 w-52">
-                  <div className="text-xs font-semibold text-green-600 mb-2">Merchant Platforms</div>
-                  <div className="space-y-1">
-                    <div className="flex items-center gap-2 p-1.5 rounded hover:bg-gray-100 dark:hover:bg-gray-700">
-                      <div className="w-5 h-5 bg-red-500 rounded flex items-center justify-center">
+                <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-2 shadow-sm border border-gray-200 dark:border-gray-700 w-44">
+                  <div className="text-xs font-semibold text-green-600 mb-1.5">Merchant Platforms</div>
+                  <div className="space-y-0.5">
+                    <div className="flex items-center gap-1.5 p-1 rounded hover:bg-gray-100 dark:hover:bg-gray-700">
+                      <div className="w-4 h-4 bg-red-500 rounded flex items-center justify-center">
                         <span className="text-xs text-white font-bold">G</span>
                       </div>
-                      <div className="flex-1">
-                        <span className="text-xs text-foreground">Google Merchant Center</span>
-                        <div className="text-xs text-muted-foreground">Synced 30m ago</div>
+                      <div className="flex-1 min-w-0">
+                        <div className="text-xs text-foreground truncate">Google Merchant</div>
+                        <div className="text-xs text-muted-foreground">30m ago</div>
                       </div>
-                      <div className="w-1.5 h-1.5 bg-green-500 rounded-full"></div>
+                      <div className="w-1.5 h-1.5 bg-green-500 rounded-full flex-shrink-0"></div>
                     </div>
-                    <div className="flex items-center gap-2 p-1.5 rounded hover:bg-gray-100 dark:hover:bg-gray-700">
-                      <div className="w-5 h-5 bg-blue-600 rounded flex items-center justify-center">
+                    <div className="flex items-center gap-1.5 p-1 rounded hover:bg-gray-100 dark:hover:bg-gray-700">
+                      <div className="w-4 h-4 bg-blue-600 rounded flex items-center justify-center">
                         <span className="text-xs text-white font-bold">M</span>
                       </div>
-                      <div className="flex-1">
-                        <span className="text-xs text-foreground">Meta Commerce</span>
-                        <div className="text-xs text-muted-foreground">Synced 45m ago</div>
+                      <div className="flex-1 min-w-0">
+                        <div className="text-xs text-foreground truncate">Meta Commerce</div>
+                        <div className="text-xs text-muted-foreground">45m ago</div>
                       </div>
-                      <div className="w-1.5 h-1.5 bg-green-500 rounded-full"></div>
+                      <div className="w-1.5 h-1.5 bg-green-500 rounded-full flex-shrink-0"></div>
                     </div>
                   </div>
                 </div>
                 
                 {/* Ad Platforms */}
-                <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-2.5 shadow-sm border border-gray-200 dark:border-gray-700 w-52">
-                  <div className="text-xs font-semibold text-purple-600 mb-2">Ad Platforms</div>
-                  <div className="space-y-1">
-                    <div className="flex items-center gap-2 p-1.5 rounded hover:bg-gray-100 dark:hover:bg-gray-700">
-                      <div className="w-5 h-5 bg-red-500 rounded flex items-center justify-center">
+                <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-2 shadow-sm border border-gray-200 dark:border-gray-700 w-44">
+                  <div className="text-xs font-semibold text-purple-600 mb-1.5">Ad Platforms</div>
+                  <div className="space-y-0.5">
+                    <div className="flex items-center gap-1.5 p-1 rounded hover:bg-gray-100 dark:hover:bg-gray-700">
+                      <div className="w-4 h-4 bg-red-500 rounded flex items-center justify-center">
                         <span className="text-xs text-white font-bold">G</span>
                       </div>
-                      <div className="flex-1">
-                        <span className="text-xs text-foreground">Google Ads</span>
-                        <div className="text-xs text-muted-foreground">Synced 10m ago</div>
+                      <div className="flex-1 min-w-0">
+                        <div className="text-xs text-foreground truncate">Google Ads</div>
+                        <div className="text-xs text-muted-foreground">10m ago</div>
                       </div>
-                      <div className="w-1.5 h-1.5 bg-green-500 rounded-full"></div>
+                      <div className="w-1.5 h-1.5 bg-green-500 rounded-full flex-shrink-0"></div>
                     </div>
-                    <div className="flex items-center gap-2 p-1.5 rounded hover:bg-gray-100 dark:hover:bg-gray-700">
-                      <div className="w-5 h-5 bg-blue-600 rounded flex items-center justify-center">
+                    <div className="flex items-center gap-1.5 p-1 rounded hover:bg-gray-100 dark:hover:bg-gray-700">
+                      <div className="w-4 h-4 bg-blue-600 rounded flex items-center justify-center">
                         <span className="text-xs text-white font-bold">M</span>
                       </div>
-                      <div className="flex-1">
-                        <span className="text-xs text-foreground">Meta Ads</span>
-                        <div className="text-xs text-muted-foreground">Synced 3m ago</div>
+                      <div className="flex-1 min-w-0">
+                        <div className="text-xs text-foreground truncate">Meta Ads</div>
+                        <div className="text-xs text-muted-foreground">3m ago</div>
                       </div>
-                      <div className="w-1.5 h-1.5 bg-green-500 rounded-full"></div>
+                      <div className="w-1.5 h-1.5 bg-green-500 rounded-full flex-shrink-0"></div>
                     </div>
-                    <div className="flex items-center gap-2 p-1.5 rounded hover:bg-gray-100 dark:hover:bg-gray-700">
-                      <div className="w-5 h-5 bg-black rounded flex items-center justify-center">
+                    <div className="flex items-center gap-1.5 p-1 rounded hover:bg-gray-100 dark:hover:bg-gray-700">
+                      <div className="w-4 h-4 bg-black rounded flex items-center justify-center">
                         <span className="text-xs text-white font-bold">🎵</span>
                       </div>
-                      <div className="flex-1">
-                        <span className="text-xs text-foreground">TikTok Ads</span>
-                        <div className="text-xs text-muted-foreground">Synced 7m ago</div>
+                      <div className="flex-1 min-w-0">
+                        <div className="text-xs text-foreground truncate">TikTok Ads</div>
+                        <div className="text-xs text-muted-foreground">7m ago</div>
                       </div>
-                      <div className="w-1.5 h-1.5 bg-green-500 rounded-full"></div>
+                      <div className="w-1.5 h-1.5 bg-green-500 rounded-full flex-shrink-0"></div>
                     </div>
                   </div>
                 </div>
