@@ -75,7 +75,7 @@ export default function Overview() {
         ) : (
           <div className="space-y-8">
             <KpiCards kpis={overviewData?.kpis} filters={filters} onFiltersChange={setFilters} />
-            <PerformanceChart />
+            <PerformanceChart filters={filters} onFiltersChange={setFilters} />
             <TopPerformingLocations />
             <TopPerformingCampaigns />
             <DataQualityEnrichment />
