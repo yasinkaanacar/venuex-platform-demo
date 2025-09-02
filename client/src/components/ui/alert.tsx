@@ -1,59 +1,79 @@
 import * as React from "react"
-import { cva, type VariantProps } from "class-variance-authority"
+import { Alert as MuiAlert, AlertTitle as MuiAlertTitle } from "@mui/material"
+import { styled } from "@mui/material/styles"
 
-import { cn } from "@/lib/utils"
+const StyledAlert = styled(MuiAlert)(({ theme }) => ({
+  borderRadius: 8,
+  padding: theme.spacing(2),
+  fontSize: '0.875rem',
+  '& .MuiAlert-icon': {
+    marginRight: theme.spacing(1.5),
+    alignSelf: 'flex-start',
+    marginTop: 1,
+  },
+  '& .MuiAlert-message': {
+    padding: 0,
+  },
+}))
 
-const alertVariants = cva(
-  "relative w-full rounded-lg border p-4 [&>svg~*]:pl-7 [&>svg+div]:translate-y-[-3px] [&>svg]:absolute [&>svg]:left-4 [&>svg]:top-4 [&>svg]:text-foreground",
-  {
-    variants: {
-      variant: {
-        default: "bg-background text-foreground",
-        destructive:
-          "border-destructive/50 text-destructive dark:border-destructive [&>svg]:text-destructive",
-      },
-    },
-    defaultVariants: {
-      variant: "default",
-    },
+export interface AlertProps extends React.HTMLAttributes<HTMLDivElement> {
+  variant?: 'default' | 'destructive'
+}
+
+const Alert = React.forwardRef<HTMLDivElement, AlertProps>(
+  ({ className, variant = 'default', children, ...props }, ref) => {
+    const getSeverity = () => {
+      switch (variant) {
+        case 'destructive':
+          return 'error'
+        default:
+          return 'info'
+      }
+    }
+
+    const { color, ...alertProps } = props
+    return (
+      <StyledAlert
+        ref={ref}
+        severity={getSeverity()}
+        variant="outlined"
+        {...alertProps}
+      >
+        {children}
+      </StyledAlert>
+    )
   }
 )
-
-const Alert = React.forwardRef<
-  HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement> & VariantProps<typeof alertVariants>
->(({ className, variant, ...props }, ref) => (
-  <div
-    ref={ref}
-    role="alert"
-    className={cn(alertVariants({ variant }), className)}
-    {...props}
-  />
-))
 Alert.displayName = "Alert"
 
-const AlertTitle = React.forwardRef<
-  HTMLParagraphElement,
-  React.HTMLAttributes<HTMLHeadingElement>
->(({ className, ...props }, ref) => (
-  <h5
-    ref={ref}
-    className={cn("mb-1 font-medium leading-none tracking-tight", className)}
-    {...props}
-  />
-))
+const AlertTitle = React.forwardRef<HTMLHeadingElement, React.HTMLAttributes<HTMLHeadingElement>>(
+  ({ className, ...props }, ref) => (
+    <div
+      ref={ref}
+      style={{
+        marginBottom: 4,
+        fontWeight: 500,
+        fontSize: '0.875rem',
+        lineHeight: 1.4,
+      }}
+      {...props}
+    />
+  )
+)
 AlertTitle.displayName = "AlertTitle"
 
-const AlertDescription = React.forwardRef<
-  HTMLParagraphElement,
-  React.HTMLAttributes<HTMLParagraphElement>
->(({ className, ...props }, ref) => (
-  <div
-    ref={ref}
-    className={cn("text-sm [&_p]:leading-relaxed", className)}
-    {...props}
-  />
-))
+const AlertDescription = React.forwardRef<HTMLParagraphElement, React.HTMLAttributes<HTMLParagraphElement>>(
+  ({ className, ...props }, ref) => (
+    <div
+      ref={ref}
+      style={{
+        fontSize: '0.875rem',
+        lineHeight: 1.5,
+      }}
+      {...props}
+    />
+  )
+)
 AlertDescription.displayName = "AlertDescription"
 
 export { Alert, AlertTitle, AlertDescription }

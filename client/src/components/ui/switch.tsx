@@ -1,27 +1,67 @@
 import * as React from "react"
-import * as SwitchPrimitives from "@radix-ui/react-switch"
+import { Switch as MuiSwitch, SwitchProps as MuiSwitchProps } from "@mui/material"
+import { styled } from "@mui/material/styles"
 
-import { cn } from "@/lib/utils"
+const StyledSwitch = styled(MuiSwitch)(({ theme }) => ({
+  width: 44,
+  height: 24,
+  padding: 0,
+  '& .MuiSwitch-switchBase': {
+    padding: 0,
+    margin: 2,
+    transitionDuration: '300ms',
+    '&.Mui-checked': {
+      transform: 'translateX(20px)',
+      color: '#fff',
+      '& + .MuiSwitch-track': {
+        backgroundColor: theme.palette.primary.main,
+        opacity: 1,
+        border: 0,
+      },
+      '&.Mui-disabled + .MuiSwitch-track': {
+        opacity: 0.5,
+      },
+    },
+    '&.Mui-focusVisible .MuiSwitch-thumb': {
+      color: theme.palette.primary.main,
+      border: `6px solid ${theme.palette.background.paper}`,
+    },
+    '&.Mui-disabled .MuiSwitch-thumb': {
+      color: theme.palette.grey[100],
+    },
+    '&.Mui-disabled + .MuiSwitch-track': {
+      opacity: 0.3,
+    },
+  },
+  '& .MuiSwitch-thumb': {
+    boxSizing: 'border-box',
+    width: 20,
+    height: 20,
+  },
+  '& .MuiSwitch-track': {
+    borderRadius: 24 / 2,
+    backgroundColor: theme.palette.grey[400],
+    opacity: 1,
+    transition: theme.transitions.create(['background-color'], {
+      duration: 500,
+    }),
+  },
+}))
 
-const Switch = React.forwardRef<
-  React.ElementRef<typeof SwitchPrimitives.Root>,
-  React.ComponentPropsWithoutRef<typeof SwitchPrimitives.Root>
->(({ className, ...props }, ref) => (
-  <SwitchPrimitives.Root
-    className={cn(
-      "peer inline-flex h-6 w-11 shrink-0 cursor-pointer items-center rounded-full border-2 border-transparent transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-primary data-[state=unchecked]:bg-input",
-      className
-    )}
-    {...props}
-    ref={ref}
-  >
-    <SwitchPrimitives.Thumb
-      className={cn(
-        "pointer-events-none block h-5 w-5 rounded-full bg-background shadow-lg ring-0 transition-transform data-[state=checked]:translate-x-5 data-[state=unchecked]:translate-x-0"
-      )}
-    />
-  </SwitchPrimitives.Root>
-))
-Switch.displayName = SwitchPrimitives.Root.displayName
+export interface SwitchProps extends MuiSwitchProps {
+  className?: string
+}
+
+const Switch = React.forwardRef<HTMLButtonElement, SwitchProps>(
+  ({ className, ...props }, ref) => {
+    return (
+      <StyledSwitch
+        ref={ref}
+        {...props}
+      />
+    )
+  }
+)
+Switch.displayName = "Switch"
 
 export { Switch }

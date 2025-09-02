@@ -1,30 +1,42 @@
-"use client"
-
 import * as React from "react"
-import * as TooltipPrimitive from "@radix-ui/react-tooltip"
+import { Tooltip as MuiTooltip, TooltipProps as MuiTooltipProps } from "@mui/material"
+import { styled } from "@mui/material/styles"
 
-import { cn } from "@/lib/utils"
+const StyledTooltip = styled(MuiTooltip)(({ theme }) => ({
+  '& .MuiTooltip-tooltip': {
+    backgroundColor: theme.palette.grey[800],
+    color: theme.palette.common.white,
+    borderRadius: 6,
+    fontSize: '0.875rem',
+    padding: theme.spacing(1, 1.5),
+    border: `1px solid ${theme.palette.divider}`,
+  },
+  '& .MuiTooltip-arrow': {
+    color: theme.palette.grey[800],
+  },
+}))
 
-const TooltipProvider = TooltipPrimitive.Provider
+const TooltipProvider = ({ children }: { children: React.ReactNode }) => {
+  return <>{children}</>
+}
 
-const Tooltip = TooltipPrimitive.Root
+const Tooltip = ({ children, title, ...props }: MuiTooltipProps) => {
+  // Always wrap children in a span to ensure single element
+  const wrappedChildren = React.createElement('span', { style: { display: 'inline-block' } }, children)
+  
+  return (
+    <StyledTooltip title={title} {...props}>
+      {wrappedChildren}
+    </StyledTooltip>
+  )
+}
 
-const TooltipTrigger = TooltipPrimitive.Trigger
+const TooltipTrigger = ({ children }: { children: React.ReactElement }) => {
+  return children
+}
 
-const TooltipContent = React.forwardRef<
-  React.ElementRef<typeof TooltipPrimitive.Content>,
-  React.ComponentPropsWithoutRef<typeof TooltipPrimitive.Content>
->(({ className, sideOffset = 4, ...props }, ref) => (
-  <TooltipPrimitive.Content
-    ref={ref}
-    sideOffset={sideOffset}
-    className={cn(
-      "z-50 overflow-hidden rounded-md border bg-popover px-3 py-1.5 text-sm text-popover-foreground shadow-md animate-in fade-in-0 zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 origin-[--radix-tooltip-content-transform-origin]",
-      className
-    )}
-    {...props}
-  />
-))
-TooltipContent.displayName = TooltipPrimitive.Content.displayName
+const TooltipContent = ({ children }: { children: React.ReactNode }) => {
+  return <>{children}</>
+}
 
 export { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider }

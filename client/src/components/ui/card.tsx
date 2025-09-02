@@ -1,33 +1,25 @@
 import * as React from "react"
+import { Card as MuiCard, CardContent as MuiCardContent, CardHeader as MuiCardHeader, CardActions as MuiCardActions } from "@mui/material"
+import { styled } from "@mui/material/styles"
 
-import { cn } from "@/lib/utils"
+const Card = styled(MuiCard)(({ theme }) => ({
+  borderRadius: 8,
+  border: `2px solid ${theme.palette.divider}`,
+  boxShadow: theme.shadows[3],
+}))
 
-const Card = React.forwardRef<
-  HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement>
->(({ className, ...props }, ref) => (
-  <div
-    ref={ref}
-    className={cn(
-      "rounded-lg border-2 bg-card text-card-foreground shadow-md",
-      className
-    )}
-    {...props}
-  />
-))
-Card.displayName = "Card"
-
-const CardHeader = React.forwardRef<
-  HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement>
->(({ className, ...props }, ref) => (
-  <div
-    ref={ref}
-    className={cn("flex flex-col space-y-1.5 p-6", className)}
-    {...props}
-  />
-))
-CardHeader.displayName = "CardHeader"
+const CardHeader = styled(MuiCardHeader)(({ theme }) => ({
+  padding: theme.spacing(3),
+  '& .MuiCardHeader-title': {
+    fontSize: '1.125rem',
+    fontWeight: 600,
+    lineHeight: 1.4,
+  },
+  '& .MuiCardHeader-subheader': {
+    fontSize: '0.875rem',
+    color: theme.palette.text.secondary,
+  }
+}))
 
 const CardTitle = React.forwardRef<
   HTMLDivElement,
@@ -35,10 +27,11 @@ const CardTitle = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <div
     ref={ref}
-    className={cn(
-      "text-2xl font-semibold leading-none tracking-tight",
-      className
-    )}
+    style={{
+      fontSize: '1.125rem',
+      fontWeight: 600,
+      lineHeight: 1.4,
+    }}
     {...props}
   />
 ))
@@ -50,30 +43,25 @@ const CardDescription = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <div
     ref={ref}
-    className={cn("text-sm text-muted-foreground", className)}
+    style={{
+      fontSize: '0.875rem',
+      color: 'rgba(0, 0, 0, 0.6)',
+    }}
     {...props}
   />
 ))
 CardDescription.displayName = "CardDescription"
 
-const CardContent = React.forwardRef<
-  HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement>
->(({ className, ...props }, ref) => (
-  <div ref={ref} className={cn("p-6 pt-0", className)} {...props} />
-))
-CardContent.displayName = "CardContent"
+const CardContent = styled(MuiCardContent)(({ theme }) => ({
+  padding: theme.spacing(3),
+  '&:last-child': {
+    paddingBottom: theme.spacing(3),
+  }
+}))
 
-const CardFooter = React.forwardRef<
-  HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement>
->(({ className, ...props }, ref) => (
-  <div
-    ref={ref}
-    className={cn("flex items-center p-6 pt-0", className)}
-    {...props}
-  />
-))
-CardFooter.displayName = "CardFooter"
+const CardFooter = styled(MuiCardActions)(({ theme }) => ({
+  padding: theme.spacing(3),
+  paddingTop: 0,
+}))
 
 export { Card, CardHeader, CardFooter, CardTitle, CardDescription, CardContent }

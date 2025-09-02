@@ -8,6 +8,8 @@ import Overview from "@/pages/overview";
 import OfflineConversions from "@/pages/offline-conversions";
 import NotFound from "@/pages/not-found";
 import { useState } from "react";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
+import { CssBaseline } from "@mui/material";
 
 function Router() {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
@@ -30,14 +32,53 @@ function Router() {
   );
 }
 
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: '#3b82f6',
+    },
+    secondary: {
+      main: '#64748b',
+    },
+    background: {
+      default: '#f8fafc',
+      paper: '#ffffff',
+    },
+    text: {
+      primary: '#0f172a',
+      secondary: '#64748b',
+    },
+  },
+  typography: {
+    fontFamily: '"Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+    fontSize: 14,
+  },
+  shape: {
+    borderRadius: 6,
+  },
+  components: {
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          textTransform: 'none',
+          fontWeight: 500,
+        },
+      },
+    },
+  },
+});
+
 function App() {
   return (
-    <QueryClientProvider client={queryClient}>
-      <TooltipProvider>
-        <Toaster />
-        <Router />
-      </TooltipProvider>
-    </QueryClientProvider>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <QueryClientProvider client={queryClient}>
+        <TooltipProvider>
+          <Toaster />
+          <Router />
+        </TooltipProvider>
+      </QueryClientProvider>
+    </ThemeProvider>
   );
 }
 
