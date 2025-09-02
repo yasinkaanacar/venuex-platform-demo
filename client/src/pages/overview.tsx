@@ -77,7 +77,7 @@ export default function Overview() {
             <KpiCards kpis={overviewData?.kpis} filters={filters} onFiltersChange={setFilters} />
             <PerformanceChart filters={filters} onFiltersChange={setFilters} />
             <TopPerformingLocations filters={filters} onFiltersChange={setFilters} />
-            <TopPerformingCampaigns />
+            <TopPerformingCampaigns filters={filters} onFiltersChange={setFilters} />
             <DataQualityEnrichment />
             
             <div id="data-health-details">
