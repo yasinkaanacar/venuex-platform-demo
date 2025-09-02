@@ -56,8 +56,6 @@ export default function Overview() {
           />
         </div>
         
-        <FilterBar filters={filters} onFiltersChange={setFilters} />
-        
         {/* Platform Selection Tabs */}
         <div className="mb-6">
           <div className="flex items-center space-x-1 bg-gray-100 dark:bg-gray-800 p-1 rounded-lg w-fit">
@@ -107,6 +105,8 @@ export default function Overview() {
             </button>
           </div>
         </div>
+        
+        <FilterBar filters={filters} onFiltersChange={setFilters} />
         
         {isLoading ? (
           <div className="space-y-6">
