@@ -231,35 +231,47 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
                   <path d="M 540 200 L 630 200 L 630 280 L 720 280" stroke="#9ca3af" strokeWidth="2" fill="none" strokeDasharray="5,5" />
                 </g>
                 
-                {/* Solid colored lines for visibility */}
+                {/* Status-based colored lines */}
                 <g>
-                  <path d="M 280 120 L 370 120 L 370 200 L 460 200" stroke="#ef4444" strokeWidth="3" fill="none" markerEnd="url(#arrow-warning)" opacity="0.7" />
-                  <path d="M 280 200 L 460 200" stroke="#10b981" strokeWidth="3" fill="none" markerEnd="url(#arrow-success)" opacity="0.8" />
-                  <path d="M 280 280 L 370 280 L 370 200 L 460 200" stroke="#3b82f6" strokeWidth="3" fill="none" markerEnd="url(#arrow-primary)" opacity="0.7" />
-                  <path d="M 540 200 L 630 200 L 630 120 L 720 120" stroke="#10b981" strokeWidth="3" fill="none" markerEnd="url(#arrow-success)" opacity="0.6" />
-                  <path d="M 540 200 L 720 200" stroke="#10b981" strokeWidth="3" fill="none" markerEnd="url(#arrow-success)" opacity="0.7" />
-                  <path d="M 540 200 L 630 200 L 630 280 L 720 280" stroke="#10b981" strokeWidth="3" fill="none" markerEnd="url(#arrow-success)" opacity="0.6" />
+                  {/* Inventory (Error - red line) */}
+                  <path d="M 280 120 L 370 120 L 370 200 L 460 200" stroke="#ef4444" strokeWidth="3" fill="none" markerEnd="url(#arrow-warning)" opacity="0.8" />
+                  {/* Store Sales (Online - green line) */}
+                  <path d="M 280 200 L 460 200" stroke="#10b981" strokeWidth="3" fill="none" markerEnd="url(#arrow-success)" opacity="0.9" />
+                  {/* Locations (Online - green line) */}
+                  <path d="M 280 280 L 370 280 L 370 200 L 460 200" stroke="#10b981" strokeWidth="3" fill="none" markerEnd="url(#arrow-success)" opacity="0.8" />
+                  
+                  {/* VenueX to Location Platforms (Good sync status - green) */}
+                  <path d="M 540 200 L 630 200 L 630 120 L 720 120" stroke="#10b981" strokeWidth="3" fill="none" markerEnd="url(#arrow-success)" opacity="0.8" />
+                  {/* VenueX to Merchant Platforms (Good sync status - green) */}
+                  <path d="M 540 200 L 720 200" stroke="#10b981" strokeWidth="3" fill="none" markerEnd="url(#arrow-success)" opacity="0.8" />
+                  {/* VenueX to Ad Platforms (Good sync status - green) */}
+                  <path d="M 540 200 L 630 200 L 630 280 L 720 280" stroke="#10b981" strokeWidth="3" fill="none" markerEnd="url(#arrow-success)" opacity="0.8" />
                 </g>
                 
-                {/* Animated flow overlays */}
+                {/* Status-based animated flow overlays */}
                 <g>
-                  <path d="M 280 120 L 370 120 L 370 200 L 460 200" stroke="url(#flowError)" strokeWidth="2" fill="none" opacity="1">
-                    <animate attributeName="opacity" values="0.3;1;0.3" dur="3s" begin="0s" repeatCount="indefinite"/>
+                  {/* Inventory error flow - slower animation indicating issues */}
+                  <path d="M 280 120 L 370 120 L 370 200 L 460 200" stroke="url(#flowError)" strokeWidth="2" fill="none" opacity="0.6">
+                    <animate attributeName="opacity" values="0.2;0.6;0.2" dur="4s" begin="0s" repeatCount="indefinite"/>
                   </path>
+                  {/* Store Sales active flow - fast, healthy animation */}
                   <path d="M 280 200 L 460 200" stroke="url(#flowActive)" strokeWidth="2" fill="none" opacity="1">
-                    <animate attributeName="opacity" values="0.5;1;0.5" dur="2s" begin="0s" repeatCount="indefinite"/>
+                    <animate attributeName="opacity" values="0.6;1;0.6" dur="1.5s" begin="0s" repeatCount="indefinite"/>
                   </path>
-                  <path d="M 280 280 L 370 280 L 370 200 L 460 200" stroke="url(#flowWarning)" strokeWidth="2" fill="none" opacity="1">
-                    <animate attributeName="opacity" values="0.3;1;0.3" dur="2.5s" begin="0.5s" repeatCount="indefinite"/>
+                  {/* Locations active flow - healthy animation */}
+                  <path d="M 280 280 L 370 280 L 370 200 L 460 200" stroke="url(#flowActive)" strokeWidth="2" fill="none" opacity="0.9">
+                    <animate attributeName="opacity" values="0.5;0.9;0.5" dur="2s" begin="0.3s" repeatCount="indefinite"/>
                   </path>
-                  <path d="M 540 200 L 630 200 L 630 120 L 720 120" stroke="url(#flowActive)" strokeWidth="2" fill="none" opacity="1">
-                    <animate attributeName="opacity" values="0.3;1;0.3" dur="2s" begin="1s" repeatCount="indefinite"/>
+                  
+                  {/* All destination flows are healthy - good sync status */}
+                  <path d="M 540 200 L 630 200 L 630 120 L 720 120" stroke="url(#flowActive)" strokeWidth="2" fill="none" opacity="0.8">
+                    <animate attributeName="opacity" values="0.4;0.8;0.4" dur="2s" begin="0.8s" repeatCount="indefinite"/>
                   </path>
-                  <path d="M 540 200 L 720 200" stroke="url(#flowActive)" strokeWidth="2" fill="none" opacity="1">
-                    <animate attributeName="opacity" values="0.4;1;0.4" dur="2s" begin="0.3s" repeatCount="indefinite"/>
+                  <path d="M 540 200 L 720 200" stroke="url(#flowActive)" strokeWidth="2" fill="none" opacity="0.9">
+                    <animate attributeName="opacity" values="0.5;0.9;0.5" dur="1.8s" begin="0.2s" repeatCount="indefinite"/>
                   </path>
-                  <path d="M 540 200 L 630 200 L 630 280 L 720 280" stroke="url(#flowActive)" strokeWidth="2" fill="none" opacity="1">
-                    <animate attributeName="opacity" values="0.3;1;0.3" dur="2s" begin="1.5s" repeatCount="indefinite"/>
+                  <path d="M 540 200 L 630 200 L 630 280 L 720 280" stroke="url(#flowActive)" strokeWidth="2" fill="none" opacity="0.8">
+                    <animate attributeName="opacity" values="0.4;0.8;0.4" dur="2.2s" begin="1.2s" repeatCount="indefinite"/>
                   </path>
                 </g>
                 
