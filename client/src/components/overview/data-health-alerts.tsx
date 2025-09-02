@@ -293,8 +293,8 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
               {/* Central VenueX Hub */}
               <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 z-20">
                 <div className="flex flex-col items-center text-center">
-                  <div className="w-20 h-20 bg-white rounded-full flex items-center justify-center shadow-lg border-4 border-white dark:border-gray-800">
-                    <img src={vxLogo} alt="VenueX" className="w-24 h-24 object-contain" />
+                  <div className="w-30 h-30 bg-white rounded-full flex items-center justify-center shadow-lg border-4 border-white dark:border-gray-800">
+                    <img src={vxLogo} alt="VenueX" className="w-36 h-36 object-contain" />
                   </div>
                   <div className="mt-2 text-sm font-medium text-foreground">Data Hub</div>
                   <div className="text-xs text-muted-foreground">Processing all data flows</div>
