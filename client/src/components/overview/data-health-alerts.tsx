@@ -7,6 +7,7 @@ import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Platform, Alert as AlertType, Location } from '@shared/schema';
 import { CheckCircle, Clock, XCircle, AlertTriangle, ArrowRight, Database, Store, MapPin, Package, Receipt, AlertCircle, X, ChevronDown, ChevronUp, ArrowDown } from 'lucide-react';
 import mouseIcon from '@assets/image_1756736100487.png';
+import vxLogo from '@assets/vx-logo-1000x1000_1756824361260.png';
 
 interface DataHealthAlertsProps {
   platforms?: Platform[];
@@ -272,8 +273,8 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
               {/* Central VenueX Hub */}
               <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 z-20">
                 <div className="flex flex-col items-center text-center">
-                  <div className="w-20 h-20 bg-gradient-to-br from-blue-600 to-blue-800 rounded-full flex items-center justify-center shadow-lg border-4 border-white dark:border-gray-800">
-                    <span className="text-lg font-bold text-white">VenueX</span>
+                  <div className="w-20 h-20 bg-white rounded-full flex items-center justify-center shadow-lg border-4 border-white dark:border-gray-800">
+                    <img src={vxLogo} alt="VenueX" className="w-16 h-16 object-contain" />
                   </div>
                   <div className="mt-2 text-sm font-medium text-foreground">Data Hub</div>
                   <div className="text-xs text-muted-foreground">Processing all data flows</div>
