@@ -221,39 +221,45 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
                   </filter>
                 </defs>
                 
-                {/* Subtle base grid lines */}
-                <g opacity="0.1">
-                  <path d="M 280 120 Q 370 160 460 200" stroke="#d1d5db" strokeWidth="1" fill="none" strokeDasharray="2,4" />
-                  <path d="M 280 200 L 460 200" stroke="#d1d5db" strokeWidth="1" fill="none" strokeDasharray="2,4" />
-                  <path d="M 280 280 Q 370 240 460 200" stroke="#d1d5db" strokeWidth="1" fill="none" strokeDasharray="2,4" />
-                  <path d="M 540 200 Q 630 160 720 120" stroke="#d1d5db" strokeWidth="1" fill="none" strokeDasharray="2,4" />
-                  <path d="M 540 200 L 720 200" stroke="#d1d5db" strokeWidth="1" fill="none" strokeDasharray="2,4" />
-                  <path d="M 540 200 Q 630 240 720 280" stroke="#d1d5db" strokeWidth="1" fill="none" strokeDasharray="2,4" />
+                {/* Base connection lines - always visible */}
+                <g opacity="0.3">
+                  <path d="M 280 120 Q 370 160 460 200" stroke="#9ca3af" strokeWidth="2" fill="none" strokeDasharray="5,5" />
+                  <path d="M 280 200 L 460 200" stroke="#9ca3af" strokeWidth="2" fill="none" strokeDasharray="5,5" />
+                  <path d="M 280 280 Q 370 240 460 200" stroke="#9ca3af" strokeWidth="2" fill="none" strokeDasharray="5,5" />
+                  <path d="M 540 200 Q 630 160 720 120" stroke="#9ca3af" strokeWidth="2" fill="none" strokeDasharray="5,5" />
+                  <path d="M 540 200 L 720 200" stroke="#9ca3af" strokeWidth="2" fill="none" strokeDasharray="5,5" />
+                  <path d="M 540 200 Q 630 240 720 280" stroke="#9ca3af" strokeWidth="2" fill="none" strokeDasharray="5,5" />
                 </g>
                 
-                {/* Active data flows - Sources to VenueX */}
-                <g filter="url(#glow)">
-                  <path d="M 280 120 Q 370 160 460 200" stroke="url(#flowError)" strokeWidth="2.5" fill="none" markerEnd="url(#arrow-warning)" opacity="0.9">
-                    <animate attributeName="opacity" values="0.4;0.9;0.4" dur="3s" begin="0s" repeatCount="indefinite"/>
-                  </path>
-                  <path d="M 280 200 L 460 200" stroke="url(#flowActive)" strokeWidth="3" fill="none" markerEnd="url(#arrow-success)" opacity="1">
-                    <animate attributeName="opacity" values="0.7;1;0.7" dur="2s" begin="0s" repeatCount="indefinite"/>
-                  </path>
-                  <path d="M 280 280 Q 370 240 460 200" stroke="url(#flowWarning)" strokeWidth="2.5" fill="none" markerEnd="url(#arrow-primary)" opacity="0.8">
-                    <animate attributeName="opacity" values="0.4;0.8;0.4" dur="2.5s" begin="0.5s" repeatCount="indefinite"/>
-                  </path>
+                {/* Solid colored lines for visibility */}
+                <g>
+                  <path d="M 280 120 Q 370 160 460 200" stroke="#ef4444" strokeWidth="3" fill="none" markerEnd="url(#arrow-warning)" opacity="0.7" />
+                  <path d="M 280 200 L 460 200" stroke="#10b981" strokeWidth="3" fill="none" markerEnd="url(#arrow-success)" opacity="0.8" />
+                  <path d="M 280 280 Q 370 240 460 200" stroke="#3b82f6" strokeWidth="3" fill="none" markerEnd="url(#arrow-primary)" opacity="0.7" />
+                  <path d="M 540 200 Q 630 160 720 120" stroke="#10b981" strokeWidth="3" fill="none" markerEnd="url(#arrow-success)" opacity="0.6" />
+                  <path d="M 540 200 L 720 200" stroke="#10b981" strokeWidth="3" fill="none" markerEnd="url(#arrow-success)" opacity="0.7" />
+                  <path d="M 540 200 Q 630 240 720 280" stroke="#10b981" strokeWidth="3" fill="none" markerEnd="url(#arrow-success)" opacity="0.6" />
                 </g>
                 
-                {/* Active data flows - VenueX to Destinations */}
-                <g filter="url(#glow)">
-                  <path d="M 540 200 Q 630 160 720 120" stroke="url(#flowActive)" strokeWidth="2" fill="none" markerEnd="url(#arrow-success)" opacity="0.8">
-                    <animate attributeName="opacity" values="0.4;0.8;0.4" dur="2s" begin="1s" repeatCount="indefinite"/>
+                {/* Animated flow overlays */}
+                <g>
+                  <path d="M 280 120 Q 370 160 460 200" stroke="url(#flowError)" strokeWidth="2" fill="none" opacity="1">
+                    <animate attributeName="opacity" values="0.3;1;0.3" dur="3s" begin="0s" repeatCount="indefinite"/>
                   </path>
-                  <path d="M 540 200 L 720 200" stroke="url(#flowActive)" strokeWidth="2.5" fill="none" markerEnd="url(#arrow-success)" opacity="0.9">
-                    <animate attributeName="opacity" values="0.5;0.9;0.5" dur="2s" begin="0.3s" repeatCount="indefinite"/>
+                  <path d="M 280 200 L 460 200" stroke="url(#flowActive)" strokeWidth="2" fill="none" opacity="1">
+                    <animate attributeName="opacity" values="0.5;1;0.5" dur="2s" begin="0s" repeatCount="indefinite"/>
                   </path>
-                  <path d="M 540 200 Q 630 240 720 280" stroke="url(#flowActive)" strokeWidth="2" fill="none" markerEnd="url(#arrow-success)" opacity="0.8">
-                    <animate attributeName="opacity" values="0.4;0.8;0.4" dur="2s" begin="1.5s" repeatCount="indefinite"/>
+                  <path d="M 280 280 Q 370 240 460 200" stroke="url(#flowWarning)" strokeWidth="2" fill="none" opacity="1">
+                    <animate attributeName="opacity" values="0.3;1;0.3" dur="2.5s" begin="0.5s" repeatCount="indefinite"/>
+                  </path>
+                  <path d="M 540 200 Q 630 160 720 120" stroke="url(#flowActive)" strokeWidth="2" fill="none" opacity="1">
+                    <animate attributeName="opacity" values="0.3;1;0.3" dur="2s" begin="1s" repeatCount="indefinite"/>
+                  </path>
+                  <path d="M 540 200 L 720 200" stroke="url(#flowActive)" strokeWidth="2" fill="none" opacity="1">
+                    <animate attributeName="opacity" values="0.4;1;0.4" dur="2s" begin="0.3s" repeatCount="indefinite"/>
+                  </path>
+                  <path d="M 540 200 Q 630 240 720 280" stroke="url(#flowActive)" strokeWidth="2" fill="none" opacity="1">
+                    <animate attributeName="opacity" values="0.3;1;0.3" dur="2s" begin="1.5s" repeatCount="indefinite"/>
                   </path>
                 </g>
                 
