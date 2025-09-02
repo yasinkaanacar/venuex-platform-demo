@@ -153,19 +153,110 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
                 <defs>
                   <marker id="arrowhead" markerWidth="10" markerHeight="7" 
                     refX="9" refY="3.5" orient="auto">
-                    <polygon points="0 0, 10 3.5, 0 7" fill="#e5e7eb" />
+                    <polygon points="0 0, 10 3.5, 0 7" fill="#10b981" />
                   </marker>
+                  
+                  {/* Animated gradient for data flow */}
+                  <linearGradient id="flowGradient1" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stopColor="transparent" />
+                    <stop offset="30%" stopColor="#ef4444" stopOpacity="0.8" />
+                    <stop offset="70%" stopColor="transparent" />
+                    <animateTransform
+                      attributeName="gradientTransform"
+                      type="translate"
+                      values="-200,0;400,0;-200,0"
+                      dur="3s"
+                      repeatCount="indefinite"
+                    />
+                  </linearGradient>
+                  
+                  <linearGradient id="flowGradient2" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stopColor="transparent" />
+                    <stop offset="30%" stopColor="#10b981" stopOpacity="0.9" />
+                    <stop offset="70%" stopColor="transparent" />
+                    <animateTransform
+                      attributeName="gradientTransform"
+                      type="translate"
+                      values="-200,0;400,0;-200,0"
+                      dur="2.5s"
+                      repeatCount="indefinite"
+                    />
+                  </linearGradient>
+                  
+                  <linearGradient id="flowGradient3" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stopColor="transparent" />
+                    <stop offset="30%" stopColor="#3b82f6" stopOpacity="0.8" />
+                    <stop offset="70%" stopColor="transparent" />
+                    <animateTransform
+                      attributeName="gradientTransform"
+                      type="translate"
+                      values="-200,0;400,0;-200,0"
+                      dur="3.5s"
+                      repeatCount="indefinite"
+                    />
+                  </linearGradient>
                 </defs>
                 
-                {/* Data Sources to VenueX */}
-                <path d="M 280 120 L 460 200" stroke="#e5e7eb" strokeWidth="2" fill="none" markerEnd="url(#arrowhead)" opacity="0.6" />
-                <path d="M 280 200 L 460 200" stroke="#22c55e" strokeWidth="2" fill="none" markerEnd="url(#arrowhead)" opacity="0.8" />
-                <path d="M 280 280 L 460 200" stroke="#e5e7eb" strokeWidth="2" fill="none" markerEnd="url(#arrowhead)" opacity="0.6" />
+                {/* Base static lines */}
+                <g opacity="0.2">
+                  <path d="M 280 120 L 460 200" stroke="#e5e7eb" strokeWidth="1" fill="none" strokeDasharray="5,5" />
+                  <path d="M 280 200 L 460 200" stroke="#e5e7eb" strokeWidth="1" fill="none" strokeDasharray="5,5" />
+                  <path d="M 280 280 L 460 200" stroke="#e5e7eb" strokeWidth="1" fill="none" strokeDasharray="5,5" />
+                  <path d="M 540 200 L 720 120" stroke="#e5e7eb" strokeWidth="1" fill="none" strokeDasharray="5,5" />
+                  <path d="M 540 200 L 720 200" stroke="#e5e7eb" strokeWidth="1" fill="none" strokeDasharray="5,5" />
+                  <path d="M 540 200 L 720 280" stroke="#e5e7eb" strokeWidth="1" fill="none" strokeDasharray="5,5" />
+                </g>
                 
-                {/* VenueX to Destination Categories */}
-                <path d="M 540 200 L 720 120" stroke="#e5e7eb" strokeWidth="2" fill="none" markerEnd="url(#arrowhead)" opacity="0.6" />
-                <path d="M 540 200 L 720 200" stroke="#e5e7eb" strokeWidth="2" fill="none" markerEnd="url(#arrowhead)" opacity="0.6" />
-                <path d="M 540 200 L 720 280" stroke="#e5e7eb" strokeWidth="2" fill="none" markerEnd="url(#arrowhead)" opacity="0.6" />
+                {/* Animated Data Sources to VenueX */}
+                <path d="M 280 120 L 460 200" stroke="url(#flowGradient1)" strokeWidth="3" fill="none" markerEnd="url(#arrowhead)" opacity="0.8">
+                  <animate attributeName="opacity" values="0.3;0.8;0.3" dur="4s" begin="0s" repeatCount="indefinite"/>
+                </path>
+                <path d="M 280 200 L 460 200" stroke="url(#flowGradient2)" strokeWidth="3" fill="none" markerEnd="url(#arrowhead)" opacity="0.9">
+                  <animate attributeName="opacity" values="0.5;0.9;0.5" dur="3s" begin="0s" repeatCount="indefinite"/>
+                </path>
+                <path d="M 280 280 L 460 200" stroke="url(#flowGradient3)" strokeWidth="3" fill="none" markerEnd="url(#arrowhead)" opacity="0.8">
+                  <animate attributeName="opacity" values="0.3;0.8;0.3" dur="3.5s" begin="1s" repeatCount="indefinite"/>
+                </path>
+                
+                {/* Animated VenueX to Destination Categories */}
+                <path d="M 540 200 L 720 120" stroke="url(#flowGradient1)" strokeWidth="3" fill="none" markerEnd="url(#arrowhead)" opacity="0.7">
+                  <animate attributeName="opacity" values="0.2;0.7;0.2" dur="4s" begin="1.5s" repeatCount="indefinite"/>
+                </path>
+                <path d="M 540 200 L 720 200" stroke="url(#flowGradient2)" strokeWidth="3" fill="none" markerEnd="url(#arrowhead)" opacity="0.8">
+                  <animate attributeName="opacity" values="0.4;0.8;0.4" dur="3s" begin="0.5s" repeatCount="indefinite"/>
+                </path>
+                <path d="M 540 200 L 720 280" stroke="url(#flowGradient3)" strokeWidth="3" fill="none" markerEnd="url(#arrowhead)" opacity="0.7">
+                  <animate attributeName="opacity" values="0.2;0.7;0.2" dur="3.5s" begin="2s" repeatCount="indefinite"/>
+                </path>
+                
+                {/* Flowing data particles */}
+                <g>
+                  <circle r="4" fill="#ef4444" opacity="0.9">
+                    <animateMotion dur="6s" repeatCount="indefinite" begin="0s">
+                      <mpath href="#dataPath1"/>
+                    </animateMotion>
+                    <animate attributeName="opacity" values="0;0.9;0.9;0" dur="6s" begin="0s" repeatCount="indefinite"/>
+                  </circle>
+                  <circle r="4" fill="#10b981" opacity="0.9">
+                    <animateMotion dur="4s" repeatCount="indefinite" begin="1s">
+                      <mpath href="#dataPath2"/>
+                    </animateMotion>
+                    <animate attributeName="opacity" values="0;0.9;0.9;0" dur="4s" begin="1s" repeatCount="indefinite"/>
+                  </circle>
+                  <circle r="4" fill="#3b82f6" opacity="0.9">
+                    <animateMotion dur="5s" repeatCount="indefinite" begin="2s">
+                      <mpath href="#dataPath3"/>
+                    </animateMotion>
+                    <animate attributeName="opacity" values="0;0.9;0.9;0" dur="5s" begin="2s" repeatCount="indefinite"/>
+                  </circle>
+                </g>
+                
+                {/* Hidden paths for particle animation */}
+                <defs>
+                  <path id="dataPath1" d="M 280,120 L 460,200 L 720,120" fill="none"/>
+                  <path id="dataPath2" d="M 280,200 L 460,200 L 720,200" fill="none"/>
+                  <path id="dataPath3" d="M 280,280 L 460,200 L 720,280" fill="none"/>
+                </defs>
               </svg>
 
               {/* Data Sources - Left Side */}
