@@ -2,7 +2,8 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { DollarSign, MapPin, ShoppingCart, Receipt, Eye, TrendingUp, TrendingDown, ExternalLink } from 'lucide-react';
-import { KPI } from '@/lib/types';
+import { KPI, FilterState } from '@/lib/types';
+import { Dispatch, SetStateAction } from 'react';
 
 interface KpiCardsProps {
   kpis?: {
@@ -11,9 +12,11 @@ interface KpiCardsProps {
     localInventory: KPI;
     reviewManagement: KPI;
   };
+  filters: FilterState;
+  onFiltersChange: Dispatch<SetStateAction<FilterState>>;
 }
 
-export default function KpiCards({ kpis }: KpiCardsProps) {
+export default function KpiCards({ kpis, filters, onFiltersChange }: KpiCardsProps) {
   const cards = [
     {
       id: 'offline-roas',
@@ -113,6 +116,56 @@ export default function KpiCards({ kpis }: KpiCardsProps) {
               <TooltipTrigger asChild>
                 <Card className="hover:shadow-lg transition-all duration-200 cursor-pointer hover:scale-105" data-testid={`card-${card.id}`}>
                   <CardContent className="p-6">
+                    {card.id === 'offline-roas' && (
+                      <div className="mb-4">
+                        <div className="flex items-center space-x-1 bg-gray-100 dark:bg-gray-800 p-1 rounded-lg w-fit">
+                          <button
+                            onClick={() => onFiltersChange({ ...filters, platform: 'Google' })}
+                            className={`flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium transition-all duration-200 ${
+                              filters.platform === 'Google'
+                                ? 'bg-white dark:bg-gray-700 text-foreground shadow-sm'
+                                : 'text-muted-foreground hover:text-foreground hover:bg-white/50 dark:hover:bg-gray-700/50'
+                            }`}
+                            data-testid="tab-google"
+                          >
+                            <div className="w-5 h-5 bg-red-500 rounded flex items-center justify-center">
+                              <span className="text-xs text-white font-bold">G</span>
+                            </div>
+                            Google
+                          </button>
+                          
+                          <button
+                            onClick={() => onFiltersChange({ ...filters, platform: 'Meta' })}
+                            className={`flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium transition-all duration-200 ${
+                              filters.platform === 'Meta'
+                                ? 'bg-white dark:bg-gray-700 text-foreground shadow-sm'
+                                : 'text-muted-foreground hover:text-foreground hover:bg-white/50 dark:hover:bg-gray-700/50'
+                            }`}
+                            data-testid="tab-meta"
+                          >
+                            <div className="w-5 h-5 bg-blue-600 rounded flex items-center justify-center">
+                              <span className="text-xs text-white font-bold">f</span>
+                            </div>
+                            Meta
+                          </button>
+                          
+                          <button
+                            onClick={() => onFiltersChange({ ...filters, platform: 'TikTok' })}
+                            className={`flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium transition-all duration-200 ${
+                              filters.platform === 'TikTok'
+                                ? 'bg-white dark:bg-gray-700 text-foreground shadow-sm'
+                                : 'text-muted-foreground hover:text-foreground hover:bg-white/50 dark:hover:bg-gray-700/50'
+                            }`}
+                            data-testid="tab-tiktok"
+                          >
+                            <div className="w-5 h-5 bg-black rounded flex items-center justify-center">
+                              <span className="text-xs text-white font-bold">🎵</span>
+                            </div>
+                            TikTok
+                          </button>
+                        </div>
+                      </div>
+                    )}
                     <div className="flex items-center justify-between mb-4">
                       <div className="flex items-center space-x-2">
                         <div className={`w-10 h-10 ${card.iconBg} rounded-lg flex items-center justify-center`}>

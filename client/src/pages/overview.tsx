@@ -56,55 +56,6 @@ export default function Overview() {
           />
         </div>
         
-        {/* Platform Selection Tabs */}
-        <div className="mb-6">
-          <div className="flex items-center space-x-1 bg-gray-100 dark:bg-gray-800 p-1 rounded-lg w-fit">
-            <button
-              onClick={() => setFilters({ ...filters, platform: 'Google' })}
-              className={`flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium transition-all duration-200 ${
-                filters.platform === 'Google'
-                  ? 'bg-white dark:bg-gray-700 text-foreground shadow-sm'
-                  : 'text-muted-foreground hover:text-foreground hover:bg-white/50 dark:hover:bg-gray-700/50'
-              }`}
-              data-testid="tab-google"
-            >
-              <div className="w-5 h-5 bg-red-500 rounded flex items-center justify-center">
-                <span className="text-xs text-white font-bold">G</span>
-              </div>
-              Google
-            </button>
-            
-            <button
-              onClick={() => setFilters({ ...filters, platform: 'Meta' })}
-              className={`flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium transition-all duration-200 ${
-                filters.platform === 'Meta'
-                  ? 'bg-white dark:bg-gray-700 text-foreground shadow-sm'
-                  : 'text-muted-foreground hover:text-foreground hover:bg-white/50 dark:hover:bg-gray-700/50'
-              }`}
-              data-testid="tab-meta"
-            >
-              <div className="w-5 h-5 bg-blue-600 rounded flex items-center justify-center">
-                <span className="text-xs text-white font-bold">f</span>
-              </div>
-              Meta
-            </button>
-            
-            <button
-              onClick={() => setFilters({ ...filters, platform: 'TikTok' })}
-              className={`flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium transition-all duration-200 ${
-                filters.platform === 'TikTok'
-                  ? 'bg-white dark:bg-gray-700 text-foreground shadow-sm'
-                  : 'text-muted-foreground hover:text-foreground hover:bg-white/50 dark:hover:bg-gray-700/50'
-              }`}
-              data-testid="tab-tiktok"
-            >
-              <div className="w-5 h-5 bg-black rounded flex items-center justify-center">
-                <span className="text-xs text-white font-bold">🎵</span>
-              </div>
-              TikTok
-            </button>
-          </div>
-        </div>
         
         <FilterBar filters={filters} onFiltersChange={setFilters} />
         
@@ -123,7 +74,7 @@ export default function Overview() {
           </div>
         ) : (
           <div className="space-y-8">
-            <KpiCards kpis={overviewData?.kpis} />
+            <KpiCards kpis={overviewData?.kpis} filters={filters} onFiltersChange={setFilters} />
             <PerformanceChart />
             <TopPerformingLocations />
             <TopPerformingCampaigns />
