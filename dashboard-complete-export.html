@@ -1,0 +1,1436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VenueX Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            background-color: #ffffff;
+            color: #1a1a1a;
+            line-height: 1.5;
+        }
+
+        .main-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 24px;
+        }
+
+        /* Data Health Banner */
+        .health-banner {
+            border: 1px solid #bfdbfe;
+            background: #eff6ff;
+            border-radius: 8px;
+            padding: 12px 16px;
+            margin-bottom: 24px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .health-banner:hover {
+            background: #dbeafe;
+        }
+
+        .health-banner-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .health-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-right: 12px;
+        }
+
+        .health-status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .status-icon {
+            width: 16px;
+            height: 16px;
+            color: #16a34a;
+        }
+
+        .status-text {
+            font-size: 14px;
+            font-weight: 500;
+            color: #16a34a;
+        }
+
+        .view-details-btn {
+            background: white;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            padding: 4px 12px;
+            font-size: 12px;
+            color: #374151;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        /* Filter Bar */
+        .filter-bar {
+            background: white;
+            border: 1px solid rgba(229, 231, 235, 0.3);
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 16px;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+
+        .filter-controls {
+            display: flex;
+            gap: 16px;
+        }
+
+        .filter-select {
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            padding: 8px 12px;
+            width: 160px;
+            font-size: 14px;
+            background: white;
+            cursor: pointer;
+        }
+
+        /* KPI Cards */
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+
+        .kpi-card {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 24px;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+
+        .kpi-card:hover {
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            transform: scale(1.02);
+        }
+
+        .kpi-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 16px;
+        }
+
+        .kpi-title-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .kpi-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .kpi-icon.primary {
+            background: rgba(59, 130, 246, 0.1);
+            color: #3b82f6;
+        }
+
+        .kpi-icon.blue {
+            background: rgba(37, 99, 235, 0.1);
+            color: #2563eb;
+        }
+
+        .kpi-icon.green {
+            background: rgba(34, 197, 94, 0.1);
+            color: #22c55e;
+        }
+
+        .kpi-icon.purple {
+            background: rgba(147, 51, 234, 0.1);
+            color: #9333ea;
+        }
+
+        .kpi-title {
+            font-size: 14px;
+            font-weight: 500;
+            color: #6b7280;
+        }
+
+        .external-link {
+            width: 24px;
+            height: 24px;
+            color: #9ca3af;
+            cursor: pointer;
+        }
+
+        .kpi-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 8px;
+        }
+
+        .kpi-trend {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 12px;
+            color: #16a34a;
+        }
+
+        .kpi-previous {
+            font-size: 12px;
+            color: #6b7280;
+        }
+
+        /* Performance Chart */
+        .chart-card {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            margin-bottom: 32px;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+        }
+
+        .chart-header {
+            padding: 24px 24px 0 24px;
+            display: flex;
+            align-items: center;
+            justify-content: between;
+        }
+
+        .chart-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 4px;
+        }
+
+        .chart-description {
+            font-size: 14px;
+            color: #6b7280;
+        }
+
+        .view-all-btn {
+            background: transparent;
+            border: none;
+            color: #374151;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            padding: 8px 12px;
+            border-radius: 6px;
+            margin-left: auto;
+        }
+
+        .view-all-btn:hover {
+            color: #1f2937;
+            background: #f9fafb;
+        }
+
+        .chart-content {
+            padding: 24px;
+        }
+
+        .chart-image {
+            width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+        }
+
+        /* Tables */
+        .table-card {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            margin-bottom: 32px;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+        }
+
+        .table-header {
+            padding: 24px 24px 0 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .table-content {
+            padding: 24px;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .data-table thead tr {
+            border-bottom: 2px solid #e5e7eb;
+        }
+
+        .data-table th {
+            text-align: left;
+            padding: 8px 16px;
+            font-size: 12px;
+            font-weight: 500;
+            color: #6b7280;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            border-right: 1px solid rgba(229, 231, 235, 0.3);
+        }
+
+        .data-table td {
+            padding: 12px 16px;
+            border-bottom: 1px solid #f3f4f6;
+            border-right: 1px solid rgba(229, 231, 235, 0.3);
+            font-size: 14px;
+        }
+
+        .data-table tbody tr:hover {
+            background: #f9fafb;
+        }
+
+        .trend-positive {
+            color: #16a34a;
+        }
+
+        .trend-negative {
+            color: #dc2626;
+        }
+
+        /* Data Quality Section */
+        .quality-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 32px;
+            margin-bottom: 32px;
+        }
+
+        .quality-section h4 {
+            font-size: 14px;
+            font-weight: 500;
+            color: #1a1a1a;
+            margin-bottom: 16px;
+        }
+
+        .quality-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+
+        .quality-label {
+            font-size: 14px;
+            color: #6b7280;
+        }
+
+        .quality-bar-container {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-left: 16px;
+        }
+
+        .quality-bar {
+            width: 120px;
+            height: 12px;
+            background: #e5e7eb;
+            border-radius: 6px;
+            overflow: hidden;
+            border: 1px solid #d1d5db;
+        }
+
+        .quality-bar-fill {
+            height: 100%;
+            background: linear-gradient(to right, #3b82f6, #2563eb);
+            border-radius: 6px;
+            transition: width 0.3s;
+        }
+
+        .quality-percentage {
+            font-size: 14px;
+            font-weight: 500;
+            color: #1a1a1a;
+            width: 32px;
+            text-align: right;
+        }
+
+        /* Enrichment Suggestions */
+        .enrichment-card {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            margin-bottom: 32px;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+        }
+
+        .enrichment-table {
+            width: 100%;
+        }
+
+        .enrichment-table td {
+            padding: 16px;
+            border-bottom: 1px solid #f3f4f6;
+        }
+
+        .platform-logo {
+            width: 24px;
+            height: 24px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 700;
+            color: white;
+        }
+
+        .google-logo { background: #ea4335; }
+        .meta-logo { background: #1877f2; }
+        .apple-logo { background: #000000; }
+
+        .suggestion-btn {
+            background: #3b82f6;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            padding: 6px 12px;
+            font-size: 12px;
+            cursor: pointer;
+        }
+
+        .suggestion-btn.secondary {
+            background: #6b7280;
+        }
+
+        /* Data Health Details */
+        .data-health-detail {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+        }
+
+        .flow-container {
+            position: relative;
+            padding: 32px 24px;
+        }
+
+        .vertical-guide {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 1px;
+            background: rgba(59, 130, 246, 0.2);
+            transform: translateX(-50%);
+            z-index: 0;
+        }
+
+        .flow-sections {
+            position: relative;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .flow-section {
+            background: rgba(156, 163, 175, 0.1);
+            border-radius: 8px;
+            padding: 16px;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 16px;
+            margin-top: -16px;
+        }
+
+        .section-icon {
+            width: 16px;
+            height: 16px;
+        }
+
+        .location-icon { color: #2563eb; }
+        .inventory-icon { color: #dc2626; }
+        .sales-icon { color: #16a34a; }
+
+        .section-title {
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        .flow-diagram {
+            position: relative;
+            width: 100%;
+            height: 80px;
+            display: flex;
+            align-items: center;
+        }
+
+        .flow-svg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        .source-system {
+            position: absolute;
+            left: 4%;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .system-icon {
+            width: 32px;
+            height: 32px;
+            background: #f3f4f6;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 4px;
+        }
+
+        .system-name {
+            font-size: 12px;
+            color: #6b7280;
+            white-space: nowrap;
+            margin-bottom: 4px;
+        }
+
+        .status-indicator {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            margin-bottom: 2px;
+        }
+
+        .status-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+        }
+
+        .status-online { background: #22c55e; }
+        .status-error { background: #ef4444; }
+
+        .status-text {
+            font-size: 12px;
+        }
+
+        .status-online-text { color: #16a34a; }
+        .status-error-text { color: #dc2626; }
+
+        .timestamp {
+            font-size: 12px;
+            color: #6b7280;
+        }
+
+        .venuex-hub {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 20;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .venuex-icon {
+            width: 32px;
+            height: 32px;
+            background: rgba(59, 130, 246, 0.1);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 4px;
+        }
+
+        .venuex-text {
+            font-size: 12px;
+            font-weight: 700;
+            color: #2563eb;
+        }
+
+        .venuex-label {
+            font-size: 12px;
+            color: #6b7280;
+            white-space: nowrap;
+        }
+
+        .platforms {
+            position: absolute;
+            right: 4%;
+            top: 45%;
+            transform: translateY(-50%);
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .platform-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+        }
+
+        .platform-icon {
+            width: 16px;
+            height: 16px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .platform-icon span {
+            font-size: 12px;
+            font-weight: 700;
+            color: white;
+        }
+
+        .platform-details {
+            display: flex;
+            flex-direction: column;
+            min-width: 0;
+        }
+
+        .platform-name {
+            font-size: 12px;
+            color: #6b7280;
+            white-space: nowrap;
+        }
+
+        .platform-status {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            margin-top: 2px;
+        }
+
+        .platform-status-dot {
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .status-green { background: #22c55e; }
+        .status-yellow { background: #eab308; }
+        .status-red { background: #ef4444; }
+
+        .platform-status-text {
+            font-size: 12px;
+            white-space: nowrap;
+        }
+
+        .status-green-text { color: #16a34a; }
+        .status-yellow-text { color: #ca8a04; }
+        .status-red-text { color: #dc2626; }
+
+        .connect-button {
+            margin-left: 4px;
+            padding: 2px 4px;
+            background: #1d4ed8;
+            color: white;
+            font-size: 12px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        @media (max-width: 768px) {
+            .main-container {
+                padding: 16px;
+            }
+
+            .kpi-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .filter-controls {
+                flex-direction: column;
+                gap: 8px;
+            }
+
+            .filter-select {
+                width: 100%;
+            }
+
+            .quality-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <!-- Data Health Banner -->
+        <div class="health-banner">
+            <div class="health-banner-content">
+                <div style="display: flex; align-items: center;">
+                    <h2 class="health-title">Data Health & Flow</h2>
+                    <div class="health-status">
+                        <svg class="status-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                        <span class="status-text">Everything is well</span>
+                    </div>
+                </div>
+                <button class="view-details-btn">
+                    <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+                    </svg>
+                    View Details
+                </button>
+            </div>
+        </div>
+
+        <!-- Filter Bar -->
+        <div class="filter-bar">
+            <div class="filter-controls">
+                <select class="filter-select">
+                    <option value="Google">🔴 Google</option>
+                    <option value="Meta">🔵 Meta</option>
+                    <option value="TikTok">⚫ TikTok</option>
+                    <option value="Apple">🍎 Apple</option>
+                    <option value="Yandex">🔴 Yandex</option>
+                </select>
+                <select class="filter-select">
+                    <option value="Last 7 days">Last 7 days</option>
+                    <option value="Last 30 days">Last 30 days</option>
+                    <option value="Last 90 days">Last 90 days</option>
+                    <option value="Custom range">Custom range</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- KPI Cards -->
+        <div class="kpi-grid">
+            <div class="kpi-card">
+                <div class="kpi-header">
+                    <div class="kpi-title-group">
+                        <div class="kpi-icon primary">
+                            <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                        </div>
+                        <h3 class="kpi-title">Offline ROAS</h3>
+                    </div>
+                    <svg class="external-link" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                    </svg>
+                </div>
+                <div class="kpi-value">3.9x</div>
+                <div class="kpi-trend">
+                    <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 17l9.2-9.2M17 17V7H7"></path>
+                    </svg>
+                    +12.3%
+                </div>
+                <div class="kpi-previous">vs 3.5x previous period</div>
+            </div>
+
+            <div class="kpi-card">
+                <div class="kpi-header">
+                    <div class="kpi-title-group">
+                        <div class="kpi-icon blue">
+                            <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                            </svg>
+                        </div>
+                        <h3 class="kpi-title">Location Interactions</h3>
+                    </div>
+                    <svg class="external-link" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                    </svg>
+                </div>
+                <div class="kpi-value">25,234</div>
+                <div class="kpi-trend">
+                    <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 17l9.2-9.2M17 17V7H7"></path>
+                    </svg>
+                    +8.7%
+                </div>
+                <div class="kpi-previous">vs 23,147 previous period</div>
+            </div>
+
+            <div class="kpi-card">
+                <div class="kpi-header">
+                    <div class="kpi-title-group">
+                        <div class="kpi-icon green">
+                            <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-2.5 5M7 13l2.5 5M17 13v6a2 2 0 01-2 2H9a2 2 0 01-2-2v-6"></path>
+                            </svg>
+                        </div>
+                        <h3 class="kpi-title">Local Inventory</h3>
+                    </div>
+                    <svg class="external-link" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                    </svg>
+                </div>
+                <div class="kpi-value">94.2%</div>
+                <div class="kpi-trend">
+                    <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 17l9.2-9.2M17 17V7H7"></path>
+                    </svg>
+                    +2.1%
+                </div>
+                <div class="kpi-previous">vs 92.3% previous period</div>
+            </div>
+
+            <div class="kpi-card">
+                <div class="kpi-header">
+                    <div class="kpi-title-group">
+                        <div class="kpi-icon purple">
+                            <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                            </svg>
+                        </div>
+                        <h3 class="kpi-title">Average Star Rating</h3>
+                    </div>
+                    <svg class="external-link" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                    </svg>
+                </div>
+                <div class="kpi-value">4.7 ⭐</div>
+                <div class="kpi-trend">
+                    <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 17l9.2-9.2M17 17V7H7"></path>
+                    </svg>
+                    +0.2
+                </div>
+                <div class="kpi-previous">vs 4.5 previous period</div>
+            </div>
+        </div>
+
+        <!-- Performance Chart -->
+        <div class="chart-card">
+            <div class="chart-header">
+                <div>
+                    <h2 class="chart-title">Online-to-Offline Conversion Funnel</h2>
+                    <p class="chart-description">Conversion metrics from digital channels to physical store</p>
+                </div>
+                <button class="view-all-btn">View All →</button>
+            </div>
+            <div class="chart-content">
+                <div style="background: #f3f4f6; border-radius: 8px; padding: 60px; text-align: center; color: #6b7280;">
+                    <p>Customer Journey Funnel Chart</p>
+                    <p style="font-size: 12px; margin-top: 8px;">Digital Impressions → Website Visits → Store Visits → Purchases</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Top Performing Locations -->
+        <div class="table-card">
+            <div class="table-header">
+                <div>
+                    <h2 class="chart-title">Top Performing Store Locations</h2>
+                    <p class="chart-description">Store visits and conversions by location</p>
+                </div>
+                <button class="view-all-btn">View All →</button>
+            </div>
+            <div class="table-content">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Store Location</th>
+                            <th style="text-align: center;">Impressions</th>
+                            <th style="text-align: center;">Website Clicks</th>
+                            <th style="text-align: center;">Calls</th>
+                            <th style="text-align: center;">Directions</th>
+                            <th style="text-align: center;">Conversion Rate</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Downtown Seattle</strong></td>
+                            <td style="text-align: center;">847K</td>
+                            <td style="text-align: center;">12.3K</td>
+                            <td style="text-align: center;">2.1K</td>
+                            <td style="text-align: center;">8.7K</td>
+                            <td style="text-align: center;"><span class="trend-positive">4.2% ↗</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Manhattan Midtown</strong></td>
+                            <td style="text-align: center;">923K</td>
+                            <td style="text-align: center;">15.2K</td>
+                            <td style="text-align: center;">1.8K</td>
+                            <td style="text-align: center;">11.4K</td>
+                            <td style="text-align: center;"><span class="trend-positive">3.8% ↗</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Chicago Loop</strong></td>
+                            <td style="text-align: center;">756K</td>
+                            <td style="text-align: center;">9.8K</td>
+                            <td style="text-align: center;">1.5K</td>
+                            <td style="text-align: center;">7.2K</td>
+                            <td style="text-align: center;"><span class="trend-negative">3.1% ↘</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>San Francisco SOMA</strong></td>
+                            <td style="text-align: center;">654K</td>
+                            <td style="text-align: center;">11.7K</td>
+                            <td style="text-align: center;">2.3K</td>
+                            <td style="text-align: center;">6.8K</td>
+                            <td style="text-align: center;"><span class="trend-positive">5.1% ↗</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Top Performing Campaigns -->
+        <div class="table-card">
+            <div class="table-header">
+                <div>
+                    <h2 class="chart-title">Top Performing Campaigns</h2>
+                </div>
+                <button class="view-all-btn">View All →</button>
+            </div>
+            <div class="table-content">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Campaign</th>
+                            <th style="text-align: center;">Impressions</th>
+                            <th style="text-align: center;">CTV (Click to Visit)</th>
+                            <th style="text-align: center;">Spend</th>
+                            <th style="text-align: center;">ROAS</th>
+                            <th style="text-align: center;">Trend</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Spring Collection 2024</strong></td>
+                            <td style="text-align: center;">2.3M</td>
+                            <td style="text-align: center;">4.2%</td>
+                            <td style="text-align: center;">$12,340</td>
+                            <td style="text-align: center;">4.2x</td>
+                            <td style="text-align: center;"><span class="trend-positive">↗ +15.3%</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Local Store Locator</strong></td>
+                            <td style="text-align: center;">1.8M</td>
+                            <td style="text-align: center;">6.1%</td>
+                            <td style="text-align: center;">$8,920</td>
+                            <td style="text-align: center;">3.8x</td>
+                            <td style="text-align: center;"><span class="trend-positive">↗ +8.7%</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Holiday Promotions</strong></td>
+                            <td style="text-align: center;">3.1M</td>
+                            <td style="text-align: center;">3.4%</td>
+                            <td style="text-align: center;">$18,750</td>
+                            <td style="text-align: center;">2.9x</td>
+                            <td style="text-align: center;"><span class="trend-negative">↘ -5.2%</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Data Quality Assessment -->
+        <div class="table-card">
+            <div class="table-header">
+                <div style="display: flex; align-items: center; gap: 16px;">
+                    <h2 class="chart-title">Data Quality Assessment</h2>
+                    <div style="font-size: 14px; color: #6b7280;">
+                        Overall Score: <span style="color: #16a34a; font-weight: 600;">97%</span>
+                    </div>
+                </div>
+                <button class="view-all-btn">View All →</button>
+            </div>
+            <div class="table-content">
+                <div class="quality-grid">
+                    <div class="quality-section">
+                        <h4>Location Data</h4>
+                        <div class="quality-item">
+                            <span class="quality-label">Business Names</span>
+                            <div class="quality-bar-container">
+                                <div class="quality-bar">
+                                    <div class="quality-bar-fill" style="width: 100%;"></div>
+                                </div>
+                                <span class="quality-percentage">100%</span>
+                            </div>
+                        </div>
+                        <div class="quality-item">
+                            <span class="quality-label">Addresses</span>
+                            <div class="quality-bar-container">
+                                <div class="quality-bar">
+                                    <div class="quality-bar-fill" style="width: 98%;"></div>
+                                </div>
+                                <span class="quality-percentage">98%</span>
+                            </div>
+                        </div>
+                        <div class="quality-item">
+                            <span class="quality-label">Phone Numbers</span>
+                            <div class="quality-bar-container">
+                                <div class="quality-bar">
+                                    <div class="quality-bar-fill" style="width: 94%;"></div>
+                                </div>
+                                <span class="quality-percentage">94%</span>
+                            </div>
+                        </div>
+                        <div class="quality-item">
+                            <span class="quality-label">Opening Hours</span>
+                            <div class="quality-bar-container">
+                                <div class="quality-bar">
+                                    <div class="quality-bar-fill" style="width: 96%;"></div>
+                                </div>
+                                <span class="quality-percentage">96%</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="quality-section">
+                        <h4>Inventory Data</h4>
+                        <div class="quality-item">
+                            <span class="quality-label">Product Names</span>
+                            <div class="quality-bar-container">
+                                <div class="quality-bar">
+                                    <div class="quality-bar-fill" style="width: 99%;"></div>
+                                </div>
+                                <span class="quality-percentage">99%</span>
+                            </div>
+                        </div>
+                        <div class="quality-item">
+                            <span class="quality-label">Prices</span>
+                            <div class="quality-bar-container">
+                                <div class="quality-bar">
+                                    <div class="quality-bar-fill" style="width: 97%;"></div>
+                                </div>
+                                <span class="quality-percentage">97%</span>
+                            </div>
+                        </div>
+                        <div class="quality-item">
+                            <span class="quality-label">Stock Levels</span>
+                            <div class="quality-bar-container">
+                                <div class="quality-bar">
+                                    <div class="quality-bar-fill" style="width: 92%;"></div>
+                                </div>
+                                <span class="quality-percentage">92%</span>
+                            </div>
+                        </div>
+                        <div class="quality-item">
+                            <span class="quality-label">Categories</span>
+                            <div class="quality-bar-container">
+                                <div class="quality-bar">
+                                    <div class="quality-bar-fill" style="width: 95%;"></div>
+                                </div>
+                                <span class="quality-percentage">95%</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="quality-section">
+                        <h4>Customer Data</h4>
+                        <div class="quality-item">
+                            <span class="quality-label">Email Addresses</span>
+                            <div class="quality-bar-container">
+                                <div class="quality-bar">
+                                    <div class="quality-bar-fill" style="width: 98%;"></div>
+                                </div>
+                                <span class="quality-percentage">98%</span>
+                            </div>
+                        </div>
+                        <div class="quality-item">
+                            <span class="quality-label">Phone Numbers</span>
+                            <div class="quality-bar-container">
+                                <div class="quality-bar">
+                                    <div class="quality-bar-fill" style="width: 89%;"></div>
+                                </div>
+                                <span class="quality-percentage">89%</span>
+                            </div>
+                        </div>
+                        <div class="quality-item">
+                            <span class="quality-label">Purchase History</span>
+                            <div class="quality-bar-container">
+                                <div class="quality-bar">
+                                    <div class="quality-bar-fill" style="width: 94%;"></div>
+                                </div>
+                                <span class="quality-percentage">94%</span>
+                            </div>
+                        </div>
+                        <div class="quality-item">
+                            <span class="quality-label">Preferences</span>
+                            <div class="quality-bar-container">
+                                <div class="quality-bar">
+                                    <div class="quality-bar-fill" style="width: 87%;"></div>
+                                </div>
+                                <span class="quality-percentage">87%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Enrichment Suggestions -->
+                <div style="border-top: 1px solid #e5e7eb; padding-top: 32px; margin-top: 32px;">
+                    <h4 style="font-size: 18px; font-weight: 600; margin-bottom: 16px;">Data Enrichment Suggestions</h4>
+                    <table class="enrichment-table">
+                        <tbody>
+                            <tr>
+                                <td style="width: 60px;">
+                                    <div class="platform-logo google-logo">G</div>
+                                </td>
+                                <td>
+                                    <div style="font-weight: 500; margin-bottom: 4px;">Google Business Profile</div>
+                                    <div style="font-size: 14px; color: #6b7280;">Add missing business categories to improve local search visibility</div>
+                                </td>
+                                <td style="text-align: right; width: 120px;">
+                                    <button class="suggestion-btn">Apply Fix</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="platform-logo meta-logo">f</div>
+                                </td>
+                                <td>
+                                    <div style="font-weight: 500; margin-bottom: 4px;">Meta Business Manager</div>
+                                    <div style="font-size: 14px; color: #6b7280;">Update store hours for 3 locations to match current schedule</div>
+                                </td>
+                                <td style="text-align: right;">
+                                    <button class="suggestion-btn secondary">More Information</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="platform-logo apple-logo">🍎</div>
+                                </td>
+                                <td>
+                                    <div style="font-weight: 500; margin-bottom: 4px;">Apple Maps Connect</div>
+                                    <div style="font-size: 14px; color: #6b7280;">Complete business verification for enhanced listing features</div>
+                                </td>
+                                <td style="text-align: right;">
+                                    <button class="suggestion-btn">Apply Fix</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Data Health & Flow Details -->
+        <div class="data-health-detail">
+            <div style="padding: 24px 24px 0 24px;">
+                <h2 class="chart-title">Data Health & Flow</h2>
+                <p class="chart-description">Data flow from source systems through VenueX to platforms</p>
+            </div>
+            
+            <div class="flow-container">
+                <div class="vertical-guide"></div>
+                
+                <div class="flow-sections">
+                    <!-- Location Data Flow -->
+                    <div class="flow-section">
+                        <div class="section-header">
+                            <svg class="section-icon location-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                                <circle cx="12" cy="10" r="3"/>
+                            </svg>
+                            <span class="section-title">Location Data</span>
+                        </div>
+                        
+                        <div class="flow-diagram">
+                            <svg class="flow-svg">
+                                <defs>
+                                    <pattern id="greenDotted" patternUnits="userSpaceOnUse" width="8" height="2">
+                                        <circle cx="4" cy="1" r="1" fill="#22c55e" />
+                                    </pattern>
+                                </defs>
+                                <line x1="20%" y1="35%" x2="48%" y2="35%" stroke="url(#greenDotted)" stroke-width="2" />
+                                <line x1="52%" y1="50%" x2="75%" y2="50%" stroke="url(#greenDotted)" stroke-width="2" />
+                            </svg>
+                            
+                            <div class="source-system">
+                                <div class="system-icon">
+                                    <svg width="16" height="16" fill="#6b7280" viewBox="0 0 24 24">
+                                        <path d="M3 21h18M5 21V7l8-4v18M19 21V11l-6-4"/>
+                                    </svg>
+                                </div>
+                                <div class="system-name">Store Systems</div>
+                                <div class="status-indicator">
+                                    <div class="status-dot status-online"></div>
+                                    <span class="status-text status-online-text">Online</span>
+                                </div>
+                                <div class="timestamp">Updated 2m ago</div>
+                            </div>
+                            
+                            <div class="venuex-hub">
+                                <div class="venuex-icon">
+                                    <span class="venuex-text">VX</span>
+                                </div>
+                                <div class="venuex-label">VenueX</div>
+                            </div>
+                            
+                            <div class="platforms">
+                                <div class="platform-item">
+                                    <div class="platform-icon" style="background: #3b82f6;">
+                                        <span>G</span>
+                                    </div>
+                                    <div class="platform-details">
+                                        <div class="platform-name">Google Business Profile</div>
+                                        <div class="platform-status">
+                                            <div class="platform-status-dot status-green"></div>
+                                            <span class="platform-status-text status-green-text">Synced 1m ago</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="platform-item">
+                                    <div class="platform-icon" style="background: #1d4ed8;">
+                                        <span>f</span>
+                                    </div>
+                                    <div class="platform-details">
+                                        <div class="platform-name">Meta Pages</div>
+                                        <div class="platform-status">
+                                            <div class="platform-status-dot status-green"></div>
+                                            <span class="platform-status-text status-green-text">Synced 3m ago</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="platform-item">
+                                    <div class="platform-icon" style="background: #374151;">
+                                        <span>🍎</span>
+                                    </div>
+                                    <div class="platform-details">
+                                        <div class="platform-name">Apple Business Connect</div>
+                                        <div class="platform-status">
+                                            <div class="platform-status-dot status-green"></div>
+                                            <span class="platform-status-text status-green-text">Synced 5m ago</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="platform-item">
+                                    <div class="platform-icon" style="background: #ef4444;">
+                                        <span>Y</span>
+                                    </div>
+                                    <div class="platform-details">
+                                        <div class="platform-name">Yandex Business</div>
+                                        <div class="platform-status">
+                                            <div class="platform-status-dot status-green"></div>
+                                            <span class="platform-status-text status-green-text">Synced 4m ago</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Inventory Data Flow -->
+                    <div class="flow-section">
+                        <div class="section-header">
+                            <svg class="section-icon inventory-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M16.5 9.4L7.55 4.24"/>
+                                <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+                                <polyline points="3.29,7 12,12 20.71,7"/>
+                                <line x1="12" y1="22" x2="12" y2="12"/>
+                            </svg>
+                            <span class="section-title">Inventory Data</span>
+                        </div>
+                        
+                        <div class="flow-diagram">
+                            <svg class="flow-svg">
+                                <defs>
+                                    <pattern id="redDotted" patternUnits="userSpaceOnUse" width="8" height="2">
+                                        <circle cx="4" cy="1" r="1" fill="#ef4444" />
+                                    </pattern>
+                                </defs>
+                                <line x1="20%" y1="35%" x2="48%" y2="35%" stroke="url(#redDotted)" stroke-width="2" />
+                                <line x1="52%" y1="50%" x2="75%" y2="50%" stroke="url(#redDotted)" stroke-width="2" />
+                            </svg>
+                            
+                            <div class="source-system">
+                                <div class="system-icon">
+                                    <svg width="16" height="16" fill="#6b7280" viewBox="0 0 24 24">
+                                        <ellipse cx="12" cy="5" rx="9" ry="3"/>
+                                        <path d="M3 5v14a9 3 0 0 0 18 0V5"/>
+                                        <path d="M3 12a9 3 0 0 0 18 0"/>
+                                    </svg>
+                                </div>
+                                <div class="system-name">ERP Systems</div>
+                                <div class="status-indicator">
+                                    <div class="status-dot status-error"></div>
+                                    <span class="status-text status-error-text">Error</span>
+                                </div>
+                                <div class="timestamp">Last sync 2h ago</div>
+                            </div>
+                            
+                            <div class="venuex-hub">
+                                <div class="venuex-icon">
+                                    <span class="venuex-text">VX</span>
+                                </div>
+                                <div class="venuex-label">VenueX</div>
+                            </div>
+                            
+                            <div class="platforms">
+                                <div class="platform-item">
+                                    <div class="platform-icon" style="background: #22c55e;">
+                                        <span>G</span>
+                                    </div>
+                                    <div class="platform-details">
+                                        <div class="platform-name">Google Merchant Center</div>
+                                        <div class="platform-status">
+                                            <div class="platform-status-dot status-yellow"></div>
+                                            <span class="platform-status-text status-yellow-text">Pending 15m ago</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="platform-item">
+                                    <div class="platform-icon" style="background: #1d4ed8;">
+                                        <span>f</span>
+                                    </div>
+                                    <div class="platform-details">
+                                        <div class="platform-name">Meta Commerce</div>
+                                        <div class="platform-status">
+                                            <div class="platform-status-dot status-red"></div>
+                                            <span class="platform-status-text status-red-text">Failed 1h ago</span>
+                                            <button class="connect-button">Connect</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- In-Store Sales Data Flow -->
+                    <div class="flow-section">
+                        <div class="section-header">
+                            <svg class="section-icon sales-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M4 2v20l2-1 2 1 2-1 2 1 2-1 2 1 2-1 2 1V2l-2 1-2-1-2 1-2-1-2 1-2-1-2 1-2-1Z"/>
+                                <path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8"/>
+                                <path d="M12 18V6"/>
+                            </svg>
+                            <span class="section-title">In-Store Sales Data</span>
+                        </div>
+                        
+                        <div class="flow-diagram">
+                            <svg class="flow-svg">
+                                <defs>
+                                    <pattern id="greenDotted2" patternUnits="userSpaceOnUse" width="8" height="2">
+                                        <circle cx="4" cy="1" r="1" fill="#22c55e" />
+                                    </pattern>
+                                </defs>
+                                <line x1="20%" y1="35%" x2="48%" y2="35%" stroke="url(#greenDotted2)" stroke-width="2" />
+                                <line x1="52%" y1="50%" x2="75%" y2="50%" stroke="url(#greenDotted2)" stroke-width="2" />
+                            </svg>
+                            
+                            <div class="source-system">
+                                <div class="system-icon">
+                                    <svg width="16" height="16" fill="#6b7280" viewBox="0 0 24 24">
+                                        <path d="M4 2v20l2-1 2 1 2-1 2 1 2-1 2 1 2-1 2 1V2l-2 1-2-1-2 1-2-1-2 1-2-1-2 1-2-1Z"/>
+                                        <path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8"/>
+                                        <path d="M12 18V6"/>
+                                    </svg>
+                                </div>
+                                <div class="system-name">CRM/POS Systems</div>
+                                <div class="status-indicator">
+                                    <div class="status-dot status-online"></div>
+                                    <span class="status-text status-online-text">Online</span>
+                                </div>
+                                <div class="timestamp">Updated 30s ago</div>
+                            </div>
+                            
+                            <div class="venuex-hub">
+                                <div class="venuex-icon">
+                                    <span class="venuex-text">VX</span>
+                                </div>
+                                <div class="venuex-label">VenueX</div>
+                            </div>
+                            
+                            <div class="platforms">
+                                <div class="platform-item">
+                                    <div class="platform-icon" style="background: #ef4444;">
+                                        <span>G</span>
+                                    </div>
+                                    <div class="platform-details">
+                                        <div class="platform-name">Google Ads</div>
+                                        <div class="platform-status">
+                                            <div class="platform-status-dot status-green"></div>
+                                            <span class="platform-status-text status-green-text">Synced 45s ago</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="platform-item">
+                                    <div class="platform-icon" style="background: #1d4ed8;">
+                                        <span>f</span>
+                                    </div>
+                                    <div class="platform-details">
+                                        <div class="platform-name">Meta Ads</div>
+                                        <div class="platform-status">
+                                            <div class="platform-status-dot status-green"></div>
+                                            <span class="platform-status-text status-green-text">Synced 1m ago</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="platform-item">
+                                    <div class="platform-icon" style="background: #000000;">
+                                        <span>🎵</span>
+                                    </div>
+                                    <div class="platform-details">
+                                        <div class="platform-name">TikTok Ads</div>
+                                        <div class="platform-status">
+                                            <div class="platform-status-dot status-green"></div>
+                                            <span class="platform-status-text status-green-text">Synced 2m ago</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
