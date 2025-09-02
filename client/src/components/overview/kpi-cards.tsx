@@ -2,6 +2,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { DollarSign, MapPin, ShoppingCart, Receipt, Eye, TrendingUp, TrendingDown, ExternalLink } from 'lucide-react';
+import { SiTiktok } from 'react-icons/si';
 import { KPI, FilterState } from '@/lib/types';
 import { Dispatch, SetStateAction } from 'react';
 
@@ -159,7 +160,7 @@ export default function KpiCards({ kpis, filters, onFiltersChange }: KpiCardsPro
                             data-testid="tab-tiktok"
                           >
                             <div className="w-3.5 h-3.5 bg-black rounded flex items-center justify-center">
-                              <span className="text-[10px] text-white font-bold">🎵</span>
+                              <SiTiktok className="w-2.5 h-2.5 text-white" />
                             </div>
                             TikTok
                           </button>

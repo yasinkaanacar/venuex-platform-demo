@@ -2,6 +2,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { FilterState } from '@/lib/types';
 import { Dispatch, SetStateAction } from 'react';
+import { SiTiktok } from 'react-icons/si';
 import funnelImage from '@assets/Screenshot 2025-08-29 at 18.31.46_1756481891401.png';
 
 interface PerformanceChartProps {
@@ -67,7 +68,7 @@ export default function PerformanceChart({ filters, onFiltersChange }: Performan
               data-testid="tab-tiktok"
             >
               <div className="w-3 h-3 bg-black rounded flex items-center justify-center">
-                <span className="text-[9px] text-white font-bold">🎵</span>
+                <SiTiktok className="w-2 h-2 text-white" />
               </div>
               TikTok
             </button>

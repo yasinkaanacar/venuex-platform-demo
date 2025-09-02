@@ -1,6 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { TrendingUp, TrendingDown, ArrowUpDown } from 'lucide-react';
+import { SiTiktok } from 'react-icons/si';
 import { FilterState } from '@/lib/types';
 import { Dispatch, SetStateAction, useState } from 'react';
 
@@ -77,7 +78,7 @@ export default function TopPerformingLocations({ filters, onFiltersChange }: Top
               data-testid="tab-tiktok"
             >
               <div className="w-3 h-3 bg-black rounded flex items-center justify-center">
-                <span className="text-[9px] text-white font-bold">🎵</span>
+                <SiTiktok className="w-2 h-2 text-white" />
               </div>
               TikTok
             </button>

@@ -1,6 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { TrendingUp, TrendingDown, ArrowUpDown } from 'lucide-react';
+import { SiTiktok } from 'react-icons/si';
 import { FilterState } from '@/lib/types';
 import { Dispatch, SetStateAction, useState } from 'react';
 
@@ -76,7 +77,7 @@ export default function TopPerformingCampaigns({ filters, onFiltersChange }: Top
               data-testid="tab-tiktok"
             >
               <div className="w-3 h-3 bg-black rounded flex items-center justify-center">
-                <span className="text-[9px] text-white font-bold">🎵</span>
+                <SiTiktok className="w-2 h-2 text-white" />
               </div>
               TikTok
             </button>
@@ -233,7 +234,7 @@ export default function TopPerformingCampaigns({ filters, onFiltersChange }: Top
                 <td className="py-4 px-4 border-r border-border/30">
                   <div className="flex items-center gap-3">
                     <div className="w-6 h-6 bg-black rounded flex items-center justify-center flex-shrink-0">
-                      <span className="text-xs text-white font-bold">🎵</span>
+                      <SiTiktok className="w-3.5 h-3.5 text-white" />
                     </div>
                     <div>
                       <div className="font-medium text-foreground">Gen Z Store Discovery</div>
