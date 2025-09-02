@@ -240,29 +240,41 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
                       <div className="w-5 h-5 bg-red-500 rounded flex items-center justify-center">
                         <span className="text-xs text-white font-bold">G</span>
                       </div>
-                      <span className="text-xs text-foreground">Google Business Profile</span>
-                      <div className="ml-auto w-1.5 h-1.5 bg-green-500 rounded-full"></div>
+                      <div className="flex-1">
+                        <span className="text-xs text-foreground">Google Business Profile</span>
+                        <div className="text-xs text-muted-foreground">Synced 2m ago</div>
+                      </div>
+                      <div className="w-1.5 h-1.5 bg-green-500 rounded-full"></div>
                     </div>
                     <div className="flex items-center gap-2 p-1.5 rounded hover:bg-gray-100 dark:hover:bg-gray-700">
                       <div className="w-5 h-5 bg-blue-600 rounded flex items-center justify-center">
                         <span className="text-xs text-white font-bold">M</span>
                       </div>
-                      <span className="text-xs text-foreground">Meta Pages</span>
-                      <div className="ml-auto w-1.5 h-1.5 bg-green-500 rounded-full"></div>
+                      <div className="flex-1">
+                        <span className="text-xs text-foreground">Meta Pages</span>
+                        <div className="text-xs text-muted-foreground">Synced 5m ago</div>
+                      </div>
+                      <div className="w-1.5 h-1.5 bg-green-500 rounded-full"></div>
                     </div>
                     <div className="flex items-center gap-2 p-1.5 rounded hover:bg-gray-100 dark:hover:bg-gray-700">
                       <div className="w-5 h-5 bg-gray-800 rounded flex items-center justify-center">
                         <span className="text-xs text-white font-bold">🍎</span>
                       </div>
-                      <span className="text-xs text-foreground">Apple Business Connect</span>
-                      <div className="ml-auto w-1.5 h-1.5 bg-green-500 rounded-full"></div>
+                      <div className="flex-1">
+                        <span className="text-xs text-foreground">Apple Business Connect</span>
+                        <div className="text-xs text-muted-foreground">Synced 1h ago</div>
+                      </div>
+                      <div className="w-1.5 h-1.5 bg-green-500 rounded-full"></div>
                     </div>
                     <div className="flex items-center gap-2 p-1.5 rounded hover:bg-gray-100 dark:hover:bg-gray-700">
                       <div className="w-5 h-5 bg-red-500 rounded flex items-center justify-center">
                         <span className="text-xs text-white font-bold">Y</span>
                       </div>
-                      <span className="text-xs text-foreground">Yandex Business</span>
-                      <div className="ml-auto w-1.5 h-1.5 bg-green-500 rounded-full"></div>
+                      <div className="flex-1">
+                        <span className="text-xs text-foreground">Yandex Business</span>
+                        <div className="text-xs text-muted-foreground">Synced 15m ago</div>
+                      </div>
+                      <div className="w-1.5 h-1.5 bg-green-500 rounded-full"></div>
                     </div>
                   </div>
                 </div>
@@ -275,15 +287,21 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
                       <div className="w-5 h-5 bg-red-500 rounded flex items-center justify-center">
                         <span className="text-xs text-white font-bold">G</span>
                       </div>
-                      <span className="text-xs text-foreground">Google Merchant Center</span>
-                      <div className="ml-auto w-1.5 h-1.5 bg-green-500 rounded-full"></div>
+                      <div className="flex-1">
+                        <span className="text-xs text-foreground">Google Merchant Center</span>
+                        <div className="text-xs text-muted-foreground">Synced 30m ago</div>
+                      </div>
+                      <div className="w-1.5 h-1.5 bg-green-500 rounded-full"></div>
                     </div>
                     <div className="flex items-center gap-2 p-1.5 rounded hover:bg-gray-100 dark:hover:bg-gray-700">
                       <div className="w-5 h-5 bg-blue-600 rounded flex items-center justify-center">
                         <span className="text-xs text-white font-bold">M</span>
                       </div>
-                      <span className="text-xs text-foreground">Meta Commerce</span>
-                      <div className="ml-auto w-1.5 h-1.5 bg-green-500 rounded-full"></div>
+                      <div className="flex-1">
+                        <span className="text-xs text-foreground">Meta Commerce</span>
+                        <div className="text-xs text-muted-foreground">Synced 45m ago</div>
+                      </div>
+                      <div className="w-1.5 h-1.5 bg-green-500 rounded-full"></div>
                     </div>
                   </div>
                 </div>
@@ -296,22 +314,31 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
                       <div className="w-5 h-5 bg-red-500 rounded flex items-center justify-center">
                         <span className="text-xs text-white font-bold">G</span>
                       </div>
-                      <span className="text-xs text-foreground">Google Ads</span>
-                      <div className="ml-auto w-1.5 h-1.5 bg-green-500 rounded-full"></div>
+                      <div className="flex-1">
+                        <span className="text-xs text-foreground">Google Ads</span>
+                        <div className="text-xs text-muted-foreground">Synced 10m ago</div>
+                      </div>
+                      <div className="w-1.5 h-1.5 bg-green-500 rounded-full"></div>
                     </div>
                     <div className="flex items-center gap-2 p-1.5 rounded hover:bg-gray-100 dark:hover:bg-gray-700">
                       <div className="w-5 h-5 bg-blue-600 rounded flex items-center justify-center">
                         <span className="text-xs text-white font-bold">M</span>
                       </div>
-                      <span className="text-xs text-foreground">Meta Ads</span>
-                      <div className="ml-auto w-1.5 h-1.5 bg-green-500 rounded-full"></div>
+                      <div className="flex-1">
+                        <span className="text-xs text-foreground">Meta Ads</span>
+                        <div className="text-xs text-muted-foreground">Synced 3m ago</div>
+                      </div>
+                      <div className="w-1.5 h-1.5 bg-green-500 rounded-full"></div>
                     </div>
                     <div className="flex items-center gap-2 p-1.5 rounded hover:bg-gray-100 dark:hover:bg-gray-700">
                       <div className="w-5 h-5 bg-black rounded flex items-center justify-center">
                         <span className="text-xs text-white font-bold">🎵</span>
                       </div>
-                      <span className="text-xs text-foreground">TikTok Ads</span>
-                      <div className="ml-auto w-1.5 h-1.5 bg-green-500 rounded-full"></div>
+                      <div className="flex-1">
+                        <span className="text-xs text-foreground">TikTok Ads</span>
+                        <div className="text-xs text-muted-foreground">Synced 7m ago</div>
+                      </div>
+                      <div className="w-1.5 h-1.5 bg-green-500 rounded-full"></div>
                     </div>
                   </div>
                 </div>
