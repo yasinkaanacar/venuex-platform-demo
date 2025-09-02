@@ -155,6 +155,13 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
                     <stop offset="50%" stopColor="#1d4ed8" stopOpacity="0.2"/>
                     <stop offset="100%" stopColor="#3b82f6" stopOpacity="0.1"/>
                   </linearGradient>
+                  
+                  {/* Animated dashed pattern for data flow */}
+                  <pattern id="dashPattern" patternUnits="userSpaceOnUse" width="8" height="2">
+                    <circle cx="2" cy="1" r="0.8" fill="#3b82f6" opacity="0.6">
+                      <animate attributeName="cx" values="2;6;2" dur="2s" repeatCount="indefinite"/>
+                    </circle>
+                  </pattern>
                 </defs>
                 
                 {/* Flowing connection shape */}
@@ -166,21 +173,62 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
                   opacity="0.6"
                 />
                 
-                {/* Additional flow lines */}
+                {/* Data Source to VenueX Connection Lines */}
+                {/* Inventory to VenueX - Red line for error status */}
                 <path 
-                  d="M 80 120 Q 200 80 400 160 Q 600 240 720 200" 
-                  stroke="#3b82f6" 
-                  strokeWidth="2" 
+                  d="M 180 100 Q 280 120 400 160" 
+                  stroke="#ef4444" 
+                  strokeWidth="3" 
                   fill="none"
-                  opacity="0.3"
+                  opacity="0.7"
+                  strokeDasharray="5,5"
                 />
+                
+                {/* Store Sales to VenueX - Green line for online status */}
                 <path 
-                  d="M 80 200 Q 200 120 400 160 Q 600 200 720 120" 
-                  stroke="#3b82f6" 
-                  strokeWidth="2" 
+                  d="M 180 160 L 360 160" 
+                  stroke="#22c55e" 
+                  strokeWidth="3" 
                   fill="none"
-                  opacity="0.3"
+                  opacity="0.8"
                 />
+                
+                {/* Locations to VenueX - Orange line */}
+                <path 
+                  d="M 180 220 Q 280 200 400 160" 
+                  stroke="#f97316" 
+                  strokeWidth="3" 
+                  fill="none"
+                  opacity="0.7"
+                />
+                
+                {/* VenueX to Platforms - General outgoing flow */}
+                <path 
+                  d="M 440 160 Q 550 140 620 160" 
+                  stroke="url(#dashPattern)" 
+                  strokeWidth="4" 
+                  fill="none"
+                  opacity="0.8"
+                />
+                
+                {/* Data flow indicators - small animated circles */}
+                <circle cx="0" cy="0" r="3" fill="#22c55e" opacity="0.8">
+                  <animateMotion dur="3s" repeatCount="indefinite">
+                    <path d="M 180 160 L 360 160"/>
+                  </animateMotion>
+                </circle>
+                
+                <circle cx="0" cy="0" r="3" fill="#f97316" opacity="0.8">
+                  <animateMotion dur="4s" repeatCount="indefinite">
+                    <path d="M 180 220 Q 280 200 400 160"/>
+                  </animateMotion>
+                </circle>
+                
+                <circle cx="0" cy="0" r="3" fill="#3b82f6" opacity="0.8">
+                  <animateMotion dur="3.5s" repeatCount="indefinite">
+                    <path d="M 440 160 Q 550 140 620 160"/>
+                  </animateMotion>
+                </circle>
               </svg>
 
               {/* Data Sources - Left Side */}
