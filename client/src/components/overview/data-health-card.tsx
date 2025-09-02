@@ -3,6 +3,7 @@ import { Badge } from '@/components/ui/badge';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Platform, Alert as AlertType } from '@shared/schema';
 import { CheckCircle, Clock, XCircle, AlertTriangle, ArrowRight, Database, Store, MapPin, Package, Receipt } from 'lucide-react';
+import { SiTiktok } from 'react-icons/si';
 
 interface DataHealthCardProps {
   platforms?: Platform[];
@@ -43,7 +44,7 @@ export default function DataHealthCard({ platforms = [], alerts = [] }: DataHeal
       case 'meta ads':
         return '🔷'; // Meta blue placeholder
       case 'tiktok ads':
-        return '⚫'; // TikTok black placeholder
+        return <SiTiktok className="w-3 h-3 text-white" />; // TikTok proper logo
       case 'apple maps':
         return '🔘'; // Apple gray placeholder
       default:
@@ -174,8 +175,8 @@ export default function DataHealthCard({ platforms = [], alerts = [] }: DataHeal
                   <span className="text-xs text-muted-foreground">Meta</span>
                 </div>
                 <div className="flex flex-col items-center text-center">
-                  <div className="w-6 h-6 bg-gray-100 rounded flex items-center justify-center mb-1">
-                    <span className="text-xs">⚫</span>
+                  <div className="w-6 h-6 bg-black rounded flex items-center justify-center mb-1">
+                    <SiTiktok className="w-3 h-3 text-white" />
                   </div>
                   <span className="text-xs text-muted-foreground">TikTok</span>
                 </div>
