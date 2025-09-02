@@ -210,6 +210,7 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
                         <div className="w-1.5 h-1.5 bg-green-500 rounded-full"></div>
                         <span className="text-xs text-green-600">Online</span>
                       </div>
+                      <div className="text-xs text-muted-foreground mt-0.5">Updated 30s ago</div>
                     </div>
                   </div>
                   
@@ -223,6 +224,7 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
                         <div className="w-1.5 h-1.5 bg-green-500 rounded-full"></div>
                         <span className="text-xs text-green-600">Online</span>
                       </div>
+                      <div className="text-xs text-muted-foreground mt-0.5">Updated 2m ago</div>
                     </div>
                   </div>
                 </div>
