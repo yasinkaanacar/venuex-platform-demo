@@ -22,6 +22,7 @@
             max-width: 1400px;
             margin: 0 auto;
             padding: 24px;
+            background: #ffffff;
         }
 
         /* Data Health Banner */
@@ -33,6 +34,7 @@
             margin-bottom: 24px;
             cursor: pointer;
             transition: background-color 0.2s;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
         }
 
         .health-banner:hover {
@@ -74,13 +76,14 @@
             background: white;
             border: 1px solid #d1d5db;
             border-radius: 6px;
-            padding: 4px 12px;
+            padding: 6px 12px;
             font-size: 12px;
             color: #374151;
             cursor: pointer;
             display: flex;
             align-items: center;
             gap: 4px;
+            pointer-events: none;
         }
 
         /* Filter Bar */
@@ -109,12 +112,69 @@
             font-size: 14px;
             background: white;
             cursor: pointer;
+            position: relative;
+        }
+
+        .filter-select:focus {
+            border-color: #9ca3af;
+            outline: none;
+        }
+
+        /* Cards */
+        .card {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+            margin-bottom: 32px;
+        }
+
+        .card-header {
+            padding: 24px 24px 0 24px;
+        }
+
+        .card-content {
+            padding: 24px;
+        }
+
+        .card-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 4px;
+        }
+
+        .card-description {
+            font-size: 14px;
+            color: #6b7280;
+        }
+
+        .card-header-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .view-all-btn {
+            background: transparent;
+            border: none;
+            color: #374151;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            padding: 8px 12px;
+            border-radius: 6px;
+        }
+
+        .view-all-btn:hover {
+            color: #1f2937;
+            background: #f9fafb;
         }
 
         /* KPI Cards */
         .kpi-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            grid-template-columns: repeat(4, 1fr);
             gap: 24px;
             margin-bottom: 32px;
         }
@@ -131,7 +191,7 @@
 
         .kpi-card:hover {
             box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-            transform: scale(1.02);
+            transform: scale(1.05);
         }
 
         .kpi-header {
@@ -189,11 +249,17 @@
             cursor: pointer;
         }
 
+        .kpi-metrics {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+
         .kpi-value {
             font-size: 24px;
             font-weight: 700;
             color: #1a1a1a;
-            margin-bottom: 8px;
         }
 
         .kpi-trend {
@@ -209,61 +275,6 @@
             color: #6b7280;
         }
 
-        /* Performance Chart */
-        .chart-card {
-            background: white;
-            border: 1px solid #e5e7eb;
-            border-radius: 8px;
-            margin-bottom: 32px;
-            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
-        }
-
-        .chart-header {
-            padding: 24px 24px 0 24px;
-            display: flex;
-            align-items: center;
-            justify-content: between;
-        }
-
-        .chart-title {
-            font-size: 18px;
-            font-weight: 600;
-            color: #1a1a1a;
-            margin-bottom: 4px;
-        }
-
-        .chart-description {
-            font-size: 14px;
-            color: #6b7280;
-        }
-
-        .view-all-btn {
-            background: transparent;
-            border: none;
-            color: #374151;
-            font-size: 14px;
-            font-weight: 500;
-            cursor: pointer;
-            padding: 8px 12px;
-            border-radius: 6px;
-            margin-left: auto;
-        }
-
-        .view-all-btn:hover {
-            color: #1f2937;
-            background: #f9fafb;
-        }
-
-        .chart-content {
-            padding: 24px;
-        }
-
-        .chart-image {
-            width: 100%;
-            border-radius: 8px;
-            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
-        }
-
         /* Tables */
         .table-card {
             background: white;
@@ -271,17 +282,6 @@
             border-radius: 8px;
             margin-bottom: 32px;
             box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
-        }
-
-        .table-header {
-            padding: 24px 24px 0 24px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .table-content {
-            padding: 24px;
         }
 
         .data-table {
@@ -304,6 +304,33 @@
             border-right: 1px solid rgba(229, 231, 235, 0.3);
         }
 
+        .data-table th button {
+            background: none;
+            border: none;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            color: inherit;
+            cursor: pointer;
+            font-size: inherit;
+            font-weight: inherit;
+            text-transform: inherit;
+            letter-spacing: inherit;
+        }
+
+        .data-table th button:hover {
+            color: #1a1a1a;
+        }
+
+        .data-table th.center {
+            text-align: center;
+        }
+
+        .data-table th.center button {
+            justify-content: center;
+            width: 100%;
+        }
+
         .data-table td {
             padding: 12px 16px;
             border-bottom: 1px solid #f3f4f6;
@@ -311,22 +338,109 @@
             font-size: 14px;
         }
 
-        .data-table tbody tr:hover {
-            background: #f9fafb;
+        .data-table tbody tr {
+            border-bottom: 2px solid #e5e7eb;
         }
 
-        .trend-positive {
+        .data-table tbody tr:hover {
+            background: rgba(249, 250, 251, 0.5);
+        }
+
+        .location-cell {
+            padding: 12px 8px;
+        }
+
+        .location-name {
+            font-weight: 500;
+            color: #1a1a1a;
+            font-size: 14px;
+            margin-bottom: 2px;
+        }
+
+        .location-address {
+            font-size: 12px;
+            color: #6b7280;
+        }
+
+        .campaign-cell {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .campaign-icon {
+            width: 24px;
+            height: 24px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 700;
+            color: white;
+            flex-shrink: 0;
+        }
+
+        .campaign-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .campaign-name {
+            font-weight: 500;
+            color: #1a1a1a;
+            margin-bottom: 2px;
+        }
+
+        .campaign-platform {
+            font-size: 14px;
+            color: #6b7280;
+        }
+
+        .value-with-trend {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+        }
+
+        .trend-indicator {
+            display: flex;
+            align-items: center;
             color: #16a34a;
         }
 
-        .trend-negative {
+        .trend-indicator.negative {
             color: #dc2626;
         }
 
-        /* Data Quality Section */
+        .trend-indicator svg {
+            width: 12px;
+            height: 12px;
+            margin-right: 2px;
+        }
+
+        .trend-text {
+            font-size: 12px;
+        }
+
+        .data-table .font-medium {
+            font-weight: 500;
+            color: #1a1a1a;
+        }
+
+        .data-table .text-muted {
+            color: #6b7280;
+        }
+
+        .center {
+            text-align: center;
+        }
+
+        /* Quality Assessment */
         .quality-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(3, 1fr);
             gap: 32px;
             margin-bottom: 32px;
         }
@@ -364,6 +478,7 @@
             border-radius: 6px;
             overflow: hidden;
             border: 1px solid #d1d5db;
+            box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
         }
 
         .quality-bar-fill {
@@ -371,6 +486,7 @@
             background: linear-gradient(to right, #3b82f6, #2563eb);
             border-radius: 6px;
             transition: width 0.3s;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
         }
 
         .quality-percentage {
@@ -381,55 +497,203 @@
             text-align: right;
         }
 
-        /* Enrichment Suggestions */
-        .enrichment-card {
+        /* Data Enrichment Suggestions */
+        .enrichment-suggestions {
+            border-top: 2px solid #e5e7eb;
+            padding-top: 32px;
+            margin-top: 32px;
+        }
+
+        .enrichment-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 24px;
+        }
+
+        .enrichment-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1a1a1a;
+        }
+
+        .ai-label {
+            display: flex;
+            align-items: center;
+            font-size: 14px;
+            color: #6b7280;
+        }
+
+        .suggestion-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            padding: 16px;
             background: white;
-            border: 1px solid #e5e7eb;
+            border: 2px solid #e5e7eb;
             border-radius: 8px;
-            margin-bottom: 32px;
+            margin-bottom: 16px;
             box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
         }
 
-        .enrichment-table {
-            width: 100%;
-        }
-
-        .enrichment-table td {
-            padding: 16px;
-            border-bottom: 1px solid #f3f4f6;
-        }
-
-        .platform-logo {
-            width: 24px;
-            height: 24px;
-            border-radius: 4px;
+        .suggestion-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 12px;
-            font-weight: 700;
-            color: white;
+            flex-shrink: 0;
         }
 
-        .google-logo { background: #ea4335; }
-        .meta-logo { background: #1877f2; }
-        .apple-logo { background: #000000; }
+        .suggestion-icon.hours {
+            background: #16a34a;
+        }
+
+        .suggestion-icon.description {
+            background: #9333ea;
+        }
+
+        .suggestion-icon.location {
+            background: #2563eb;
+        }
+
+        .suggestion-content {
+            flex: 1;
+        }
+
+        .suggestion-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+
+        .suggestion-title-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 4px;
+        }
+
+        .suggestion-title {
+            font-weight: 500;
+            color: #1a1a1a;
+        }
+
+        .improvement-badge {
+            font-size: 14px;
+            font-weight: 600;
+            color: #16a34a;
+        }
+
+        .impact-badge {
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 500;
+            border: 1px solid;
+        }
+
+        .impact-high {
+            background: #fef2f2;
+            color: #991b1b;
+            border-color: #fecaca;
+        }
+
+        .impact-medium {
+            background: #fff7ed;
+            color: #c2410c;
+            border-color: #fed7aa;
+        }
+
+        .impact-low {
+            background: #f9fafb;
+            color: #374151;
+            border-color: #d1d5db;
+        }
+
+        .suggestion-description {
+            font-size: 14px;
+            color: #6b7280;
+            margin-bottom: 8px;
+        }
+
+        .suggestion-meta {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            font-size: 12px;
+            color: #6b7280;
+        }
+
+        .suggestion-actions {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 8px;
+            margin-left: 16px;
+        }
 
         .suggestion-btn {
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            border: 1px solid;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .suggestion-btn.primary {
             background: #3b82f6;
             color: white;
-            border: none;
-            border-radius: 6px;
-            padding: 6px 12px;
-            font-size: 12px;
-            cursor: pointer;
+            border-color: #3b82f6;
+        }
+
+        .suggestion-btn.primary:hover {
+            background: #2563eb;
+            border-color: #2563eb;
         }
 
         .suggestion-btn.secondary {
-            background: #6b7280;
+            background: white;
+            color: #6b7280;
+            border-color: #e5e7eb;
         }
 
-        /* Data Health Details */
+        .suggestion-btn.secondary:hover {
+            background: rgba(249, 250, 251, 0.5);
+        }
+
+        .enrichment-summary {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 24px;
+            padding-top: 16px;
+            border-top: 2px solid #e5e7eb;
+        }
+
+        .enrichment-summary-text {
+            font-size: 14px;
+            color: #6b7280;
+        }
+
+        .enrichment-summary-text .font-medium {
+            font-weight: 500;
+        }
+
+        /* Chart placeholder */
+        .chart-placeholder {
+            background: #f3f4f6;
+            border-radius: 8px;
+            padding: 60px;
+            text-align: center;
+            color: #6b7280;
+        }
+
+        /* Data Health Flow Details */
         .data-health-detail {
             background: white;
             border: 1px solid #e5e7eb;
@@ -682,6 +946,16 @@
             cursor: pointer;
         }
 
+        @media (max-width: 1024px) {
+            .kpi-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .quality-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
         @media (max-width: 768px) {
             .main-container {
                 padding: 16px;
@@ -702,6 +976,15 @@
 
             .quality-grid {
                 grid-template-columns: 1fr;
+            }
+
+            .data-table {
+                font-size: 12px;
+            }
+
+            .data-table td,
+            .data-table th {
+                padding: 8px 4px;
             }
         }
     </style>
@@ -764,12 +1047,14 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
                     </svg>
                 </div>
-                <div class="kpi-value">3.9x</div>
-                <div class="kpi-trend">
-                    <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 17l9.2-9.2M17 17V7H7"></path>
-                    </svg>
-                    +12.3%
+                <div class="kpi-metrics">
+                    <div class="kpi-value">4.0x</div>
+                    <div class="kpi-trend">
+                        <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 17l9.2-9.2M17 17V7H7"></path>
+                        </svg>
+                        +12.8%
+                    </div>
                 </div>
                 <div class="kpi-previous">vs 3.5x previous period</div>
             </div>
@@ -789,12 +1074,14 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
                     </svg>
                 </div>
-                <div class="kpi-value">25,234</div>
-                <div class="kpi-trend">
-                    <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 17l9.2-9.2M17 17V7H7"></path>
-                    </svg>
-                    +8.7%
+                <div class="kpi-metrics">
+                    <div class="kpi-value">25,234</div>
+                    <div class="kpi-trend">
+                        <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 17l9.2-9.2M17 17V7H7"></path>
+                        </svg>
+                        +8.7%
+                    </div>
                 </div>
                 <div class="kpi-previous">vs 23,147 previous period</div>
             </div>
@@ -813,12 +1100,14 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
                     </svg>
                 </div>
-                <div class="kpi-value">94.2%</div>
-                <div class="kpi-trend">
-                    <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 17l9.2-9.2M17 17V7H7"></path>
-                    </svg>
-                    +2.1%
+                <div class="kpi-metrics">
+                    <div class="kpi-value">94.2%</div>
+                    <div class="kpi-trend">
+                        <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 17l9.2-9.2M17 17V7H7"></path>
+                        </svg>
+                        +2.1%
+                    </div>
                 </div>
                 <div class="kpi-previous">vs 92.3% previous period</div>
             </div>
@@ -837,87 +1126,215 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
                     </svg>
                 </div>
-                <div class="kpi-value">4.7 ⭐</div>
-                <div class="kpi-trend">
-                    <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 17l9.2-9.2M17 17V7H7"></path>
-                    </svg>
-                    +0.2
+                <div class="kpi-metrics">
+                    <div class="kpi-value">4.7 ⭐</div>
+                    <div class="kpi-trend">
+                        <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 17l9.2-9.2M17 17V7H7"></path>
+                        </svg>
+                        +0.2
+                    </div>
                 </div>
                 <div class="kpi-previous">vs 4.5 previous period</div>
             </div>
         </div>
 
         <!-- Performance Chart -->
-        <div class="chart-card">
-            <div class="chart-header">
-                <div>
-                    <h2 class="chart-title">Online-to-Offline Conversion Funnel</h2>
-                    <p class="chart-description">Conversion metrics from digital channels to physical store</p>
+        <div class="card">
+            <div class="card-header">
+                <div class="card-header-row">
+                    <div>
+                        <h2 class="card-title">Online-to-Offline Conversion Funnel</h2>
+                        <p class="card-description">Conversion metrics from digital channels to physical store</p>
+                    </div>
+                    <button class="view-all-btn">View All →</button>
                 </div>
-                <button class="view-all-btn">View All →</button>
             </div>
-            <div class="chart-content">
-                <div style="background: #f3f4f6; border-radius: 8px; padding: 60px; text-align: center; color: #6b7280;">
-                    <p>Customer Journey Funnel Chart</p>
-                    <p style="font-size: 12px; margin-top: 8px;">Digital Impressions → Website Visits → Store Visits → Purchases</p>
+            <div class="card-content">
+                <div class="chart-placeholder">
+                    <p style="font-size: 16px; margin-bottom: 8px;">Customer Journey Funnel Chart</p>
+                    <p style="font-size: 12px;">Digital Impressions → Website Visits → Store Visits → Purchases</p>
                 </div>
             </div>
         </div>
 
         <!-- Top Performing Locations -->
         <div class="table-card">
-            <div class="table-header">
-                <div>
-                    <h2 class="chart-title">Top Performing Store Locations</h2>
-                    <p class="chart-description">Store visits and conversions by location</p>
+            <div class="card-header">
+                <div class="card-header-row">
+                    <div>
+                        <h2 class="card-title">Top Performing Store Locations</h2>
+                        <p class="card-description">Store visits and conversions by location</p>
+                    </div>
+                    <button class="view-all-btn">View All →</button>
                 </div>
-                <button class="view-all-btn">View All →</button>
             </div>
-            <div class="table-content">
+            <div class="card-content">
                 <table class="data-table">
                     <thead>
                         <tr>
-                            <th>Store Location</th>
-                            <th style="text-align: center;">Impressions</th>
-                            <th style="text-align: center;">Website Clicks</th>
-                            <th style="text-align: center;">Calls</th>
-                            <th style="text-align: center;">Directions</th>
-                            <th style="text-align: center;">Conversion Rate</th>
+                            <th>
+                                <button>
+                                    Store Location
+                                    <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l4-4 4 4m0 6l-4 4-4-4"></path>
+                                    </svg>
+                                </button>
+                            </th>
+                            <th class="center">
+                                <button>
+                                    Impressions
+                                    <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l4-4 4 4m0 6l-4 4-4-4"></path>
+                                    </svg>
+                                </button>
+                            </th>
+                            <th class="center">
+                                <button>
+                                    Website Clicks
+                                    <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l4-4 4 4m0 6l-4 4-4-4"></path>
+                                    </svg>
+                                </button>
+                            </th>
+                            <th class="center">
+                                <button>
+                                    Calls
+                                    <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l4-4 4 4m0 6l-4 4-4-4"></path>
+                                    </svg>
+                                </button>
+                            </th>
+                            <th class="center">
+                                <button>
+                                    Directions
+                                    <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l4-4 4 4m0 6l-4 4-4-4"></path>
+                                    </svg>
+                                </button>
+                            </th>
+                            <th class="center">
+                                <button>
+                                    Visits
+                                    <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l4-4 4 4m0 6l-4 4-4-4"></path>
+                                    </svg>
+                                </button>
+                            </th>
+                            <th class="center">
+                                <button>
+                                    Sales Value
+                                    <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l4-4 4 4m0 6l-4 4-4-4"></path>
+                                    </svg>
+                                </button>
+                            </th>
+                            <th class="center">
+                                <button>
+                                    Purchases
+                                    <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l4-4 4 4m0 6l-4 4-4-4"></path>
+                                    </svg>
+                                </button>
+                            </th>
+                            <th class="center">
+                                <button>
+                                    Visit/Purchases
+                                    <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l4-4 4 4m0 6l-4 4-4-4"></path>
+                                    </svg>
+                                </button>
+                            </th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td><strong>Downtown Seattle</strong></td>
-                            <td style="text-align: center;">847K</td>
-                            <td style="text-align: center;">12.3K</td>
-                            <td style="text-align: center;">2.1K</td>
-                            <td style="text-align: center;">8.7K</td>
-                            <td style="text-align: center;"><span class="trend-positive">4.2% ↗</span></td>
+                            <td class="location-cell">
+                                <div class="location-name">Istanbul - Beyoğlu</div>
+                                <div class="location-address">İstiklal Caddesi 125</div>
+                            </td>
+                            <td class="center font-medium">89,420</td>
+                            <td class="center text-muted">4,821</td>
+                            <td class="center text-muted">276</td>
+                            <td class="center text-muted">549</td>
+                            <td class="center font-medium">2,845</td>
+                            <td class="center">
+                                <div class="value-with-trend">
+                                    <span class="font-medium">$68,712</span>
+                                    <div class="trend-indicator">
+                                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 17l9.2-9.2M17 17V7H7"></path>
+                                        </svg>
+                                        <span class="trend-text">+12%</span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="center">
+                                <div class="value-with-trend">
+                                    <span class="font-medium">1,186</span>
+                                    <div class="trend-indicator">
+                                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 17l9.2-9.2M17 17V7H7"></path>
+                                        </svg>
+                                        <span class="trend-text">+8%</span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="center">
+                                <div class="value-with-trend">
+                                    <span class="text-muted">2.4x</span>
+                                    <div class="trend-indicator">
+                                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 17l9.2-9.2M17 17V7H7"></path>
+                                        </svg>
+                                        <span class="trend-text">+5%</span>
+                                    </div>
+                                </div>
+                            </td>
                         </tr>
                         <tr>
-                            <td><strong>Manhattan Midtown</strong></td>
-                            <td style="text-align: center;">923K</td>
-                            <td style="text-align: center;">15.2K</td>
-                            <td style="text-align: center;">1.8K</td>
-                            <td style="text-align: center;">11.4K</td>
-                            <td style="text-align: center;"><span class="trend-positive">3.8% ↗</span></td>
-                        </tr>
-                        <tr>
-                            <td><strong>Chicago Loop</strong></td>
-                            <td style="text-align: center;">756K</td>
-                            <td style="text-align: center;">9.8K</td>
-                            <td style="text-align: center;">1.5K</td>
-                            <td style="text-align: center;">7.2K</td>
-                            <td style="text-align: center;"><span class="trend-negative">3.1% ↘</span></td>
-                        </tr>
-                        <tr>
-                            <td><strong>San Francisco SOMA</strong></td>
-                            <td style="text-align: center;">654K</td>
-                            <td style="text-align: center;">11.7K</td>
-                            <td style="text-align: center;">2.3K</td>
-                            <td style="text-align: center;">6.8K</td>
-                            <td style="text-align: center;"><span class="trend-positive">5.1% ↗</span></td>
+                            <td class="location-cell">
+                                <div class="location-name">Ankara - Çankaya</div>
+                                <div class="location-address">Tunalı Hilmi Caddesi 89</div>
+                            </td>
+                            <td class="center font-medium">76,230</td>
+                            <td class="center text-muted">4,103</td>
+                            <td class="center text-muted">242</td>
+                            <td class="center text-muted">514</td>
+                            <td class="center font-medium">2,371</td>
+                            <td class="center">
+                                <div class="value-with-trend">
+                                    <span class="font-medium">$58,590</span>
+                                    <div class="trend-indicator negative">
+                                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 7l-9.2 9.2M7 7v10h10"></path>
+                                        </svg>
+                                        <span class="trend-text">-3%</span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="center">
+                                <div class="value-with-trend">
+                                    <span class="font-medium">987</span>
+                                    <div class="trend-indicator">
+                                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 17l9.2-9.2M17 17V7H7"></path>
+                                        </svg>
+                                        <span class="trend-text">+2%</span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="center">
+                                <div class="value-with-trend">
+                                    <span class="text-muted">2.4x</span>
+                                    <div class="trend-indicator">
+                                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 17l9.2-9.2M17 17V7H7"></path>
+                                        </svg>
+                                        <span class="trend-text">+7%</span>
+                                    </div>
+                                </div>
+                            </td>
                         </tr>
                     </tbody>
                 </table>
@@ -926,48 +1343,127 @@
 
         <!-- Top Performing Campaigns -->
         <div class="table-card">
-            <div class="table-header">
-                <div>
-                    <h2 class="chart-title">Top Performing Campaigns</h2>
+            <div class="card-header">
+                <div class="card-header-row">
+                    <div>
+                        <h2 class="card-title">Top Performing Campaigns</h2>
+                    </div>
+                    <button class="view-all-btn">View All →</button>
                 </div>
-                <button class="view-all-btn">View All →</button>
             </div>
-            <div class="table-content">
+            <div class="card-content">
                 <table class="data-table">
                     <thead>
                         <tr>
-                            <th>Campaign</th>
-                            <th style="text-align: center;">Impressions</th>
-                            <th style="text-align: center;">CTV (Click to Visit)</th>
-                            <th style="text-align: center;">Spend</th>
-                            <th style="text-align: center;">ROAS</th>
-                            <th style="text-align: center;">Trend</th>
+                            <th>
+                                <button>
+                                    Campaign
+                                    <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l4-4 4 4m0 6l-4 4-4-4"></path>
+                                    </svg>
+                                </button>
+                            </th>
+                            <th class="center">
+                                <button>
+                                    Impressions
+                                    <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l4-4 4 4m0 6l-4 4-4-4"></path>
+                                    </svg>
+                                </button>
+                            </th>
+                            <th class="center">
+                                <button>
+                                    CTV (Click to Visit)
+                                    <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l4-4 4 4m0 6l-4 4-4-4"></path>
+                                    </svg>
+                                </button>
+                            </th>
+                            <th class="center">
+                                <button>
+                                    Spend
+                                    <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l4-4 4 4m0 6l-4 4-4-4"></path>
+                                    </svg>
+                                </button>
+                            </th>
+                            <th class="center">
+                                <button>
+                                    ROAS
+                                    <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l4-4 4 4m0 6l-4 4-4-4"></path>
+                                    </svg>
+                                </button>
+                            </th>
+                            <th class="center">
+                                <button>
+                                    Visits
+                                    <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l4-4 4 4m0 6l-4 4-4-4"></path>
+                                    </svg>
+                                </button>
+                            </th>
+                            <th class="center">
+                                <button>
+                                    Purchases
+                                    <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l4-4 4 4m0 6l-4 4-4-4"></path>
+                                    </svg>
+                                </button>
+                            </th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td><strong>Spring Collection 2024</strong></td>
-                            <td style="text-align: center;">2.3M</td>
-                            <td style="text-align: center;">4.2%</td>
-                            <td style="text-align: center;">$12,340</td>
-                            <td style="text-align: center;">4.2x</td>
-                            <td style="text-align: center;"><span class="trend-positive">↗ +15.3%</span></td>
+                            <td>
+                                <div class="campaign-cell">
+                                    <div class="campaign-icon" style="background: #ea4335;">G</div>
+                                    <div class="campaign-info">
+                                        <div class="campaign-name">Summer Sale 2024</div>
+                                        <div class="campaign-platform">google-ads</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="center font-medium">142,580</td>
+                            <td class="center text-muted">3.4%</td>
+                            <td class="center font-medium">$16,350</td>
+                            <td class="center font-medium">4.2x</td>
+                            <td class="center font-medium">24,387</td>
+                            <td class="center font-medium">1,247</td>
                         </tr>
                         <tr>
-                            <td><strong>Local Store Locator</strong></td>
-                            <td style="text-align: center;">1.8M</td>
-                            <td style="text-align: center;">6.1%</td>
-                            <td style="text-align: center;">$8,920</td>
-                            <td style="text-align: center;">3.8x</td>
-                            <td style="text-align: center;"><span class="trend-positive">↗ +8.7%</span></td>
+                            <td>
+                                <div class="campaign-cell">
+                                    <div class="campaign-icon" style="background: #ea4335;">G</div>
+                                    <div class="campaign-info">
+                                        <div class="campaign-name">Local Shopping Campaign</div>
+                                        <div class="campaign-platform">google-ads</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="center font-medium">118,420</td>
+                            <td class="center text-muted">2.9%</td>
+                            <td class="center font-medium">$15,420</td>
+                            <td class="center font-medium">3.8x</td>
+                            <td class="center font-medium">18,652</td>
+                            <td class="center font-medium">923</td>
                         </tr>
                         <tr>
-                            <td><strong>Holiday Promotions</strong></td>
-                            <td style="text-align: center;">3.1M</td>
-                            <td style="text-align: center;">3.4%</td>
-                            <td style="text-align: center;">$18,750</td>
-                            <td style="text-align: center;">2.9x</td>
-                            <td style="text-align: center;"><span class="trend-negative">↘ -5.2%</span></td>
+                            <td>
+                                <div class="campaign-cell">
+                                    <div class="campaign-icon" style="background: #1877f2;">f</div>
+                                    <div class="campaign-info">
+                                        <div class="campaign-name">Local Store Promo</div>
+                                        <div class="campaign-platform">meta-ads</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="center font-medium">89,670</td>
+                            <td class="center text-muted">4.1%</td>
+                            <td class="center font-medium">$12,840</td>
+                            <td class="center font-medium">5.1x</td>
+                            <td class="center font-medium">16,234</td>
+                            <td class="center font-medium">785</td>
                         </tr>
                     </tbody>
                 </table>
@@ -975,17 +1471,19 @@
         </div>
 
         <!-- Data Quality Assessment -->
-        <div class="table-card">
-            <div class="table-header">
-                <div style="display: flex; align-items: center; gap: 16px;">
-                    <h2 class="chart-title">Data Quality Assessment</h2>
-                    <div style="font-size: 14px; color: #6b7280;">
-                        Overall Score: <span style="color: #16a34a; font-weight: 600;">97%</span>
+        <div class="card">
+            <div class="card-header">
+                <div class="card-header-row">
+                    <div style="display: flex; align-items: center; gap: 16px;">
+                        <h2 class="card-title">Data Quality Assessment</h2>
+                        <div style="font-size: 14px; color: #6b7280;">
+                            Overall Score: <span style="color: #16a34a; font-weight: 600;">97%</span>
+                        </div>
                     </div>
+                    <button class="view-all-btn">View All →</button>
                 </div>
-                <button class="view-all-btn">View All →</button>
             </div>
-            <div class="table-content">
+            <div class="card-content">
                 <div class="quality-grid">
                     <div class="quality-section">
                         <h4>Location Data</h4>
@@ -1108,58 +1606,125 @@
                     </div>
                 </div>
 
-                <!-- Enrichment Suggestions -->
-                <div style="border-top: 1px solid #e5e7eb; padding-top: 32px; margin-top: 32px;">
-                    <h4 style="font-size: 18px; font-weight: 600; margin-bottom: 16px;">Data Enrichment Suggestions</h4>
-                    <table class="enrichment-table">
-                        <tbody>
-                            <tr>
-                                <td style="width: 60px;">
-                                    <div class="platform-logo google-logo">G</div>
-                                </td>
-                                <td>
-                                    <div style="font-weight: 500; margin-bottom: 4px;">Google Business Profile</div>
-                                    <div style="font-size: 14px; color: #6b7280;">Add missing business categories to improve local search visibility</div>
-                                </td>
-                                <td style="text-align: right; width: 120px;">
-                                    <button class="suggestion-btn">Apply Fix</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="platform-logo meta-logo">f</div>
-                                </td>
-                                <td>
-                                    <div style="font-weight: 500; margin-bottom: 4px;">Meta Business Manager</div>
-                                    <div style="font-size: 14px; color: #6b7280;">Update store hours for 3 locations to match current schedule</div>
-                                </td>
-                                <td style="text-align: right;">
-                                    <button class="suggestion-btn secondary">More Information</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="platform-logo apple-logo">🍎</div>
-                                </td>
-                                <td>
-                                    <div style="font-weight: 500; margin-bottom: 4px;">Apple Maps Connect</div>
-                                    <div style="font-size: 14px; color: #6b7280;">Complete business verification for enhanced listing features</div>
-                                </td>
-                                <td style="text-align: right;">
-                                    <button class="suggestion-btn">Apply Fix</button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                <!-- Data Enrichment Suggestions -->
+                <div class="enrichment-suggestions">
+                    <div class="enrichment-header">
+                        <h3 class="enrichment-title">Data Enrichment Suggestions</h3>
+                        <div class="ai-label">
+                            <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="margin-right: 8px;">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+                            </svg>
+                            AI-Powered Recommendations
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 24px;">
+                        <div class="suggestion-item">
+                            <div class="suggestion-icon hours">
+                                <svg width="20" height="20" fill="white" viewBox="0 0 24 24">
+                                    <path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/>
+                                </svg>
+                            </div>
+                            <div class="suggestion-content">
+                                <div class="suggestion-header">
+                                    <div style="flex: 1;">
+                                        <div class="suggestion-title-row">
+                                            <h4 class="suggestion-title">Add missing business hours</h4>
+                                            <span class="improvement-badge">+15%</span>
+                                            <div class="impact-badge impact-medium">Medium</div>
+                                        </div>
+                                        <p class="suggestion-description">23 locations missing accurate operating hours. This can improve local search visibility by up to 15%.</p>
+                                        <div class="suggestion-meta">
+                                            <span>23 items affected</span>
+                                            <span>•</span>
+                                            <span>~2 hours to fix</span>
+                                        </div>
+                                    </div>
+                                    <div class="suggestion-actions">
+                                        <button class="suggestion-btn primary">Apply Fix</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="suggestion-item">
+                            <div class="suggestion-icon description">
+                                <svg width="20" height="20" fill="white" viewBox="0 0 24 24">
+                                    <path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z"/>
+                                </svg>
+                            </div>
+                            <div class="suggestion-content">
+                                <div class="suggestion-header">
+                                    <div style="flex: 1;">
+                                        <div class="suggestion-title-row">
+                                            <h4 class="suggestion-title">Optimize product descriptions</h4>
+                                            <span class="improvement-badge">+25%</span>
+                                            <div class="impact-badge impact-high">High</div>
+                                        </div>
+                                        <p class="suggestion-description">89 products have incomplete or poorly optimized descriptions. Enhanced descriptions can improve conversion rates by 25%.</p>
+                                        <div class="suggestion-meta">
+                                            <span>89 items affected</span>
+                                            <span>•</span>
+                                            <span>~6 hours to fix</span>
+                                        </div>
+                                    </div>
+                                    <div class="suggestion-actions">
+                                        <button class="suggestion-btn secondary">
+                                            <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="margin-right: 4px;">
+                                                <circle cx="12" cy="12" r="10"></circle>
+                                                <path d="m9,12 2,2 4,-4"></path>
+                                            </svg>
+                                            More Information
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="suggestion-item">
+                            <div class="suggestion-icon location">
+                                <svg width="20" height="20" fill="white" viewBox="0 0 24 24">
+                                    <path d="M12,11.5A2.5,2.5 0 0,1 9.5,9A2.5,2.5 0 0,1 12,6.5A2.5,2.5 0 0,1 14.5,9A2.5,2.5 0 0,1 12,11.5M12,2A7,7 0 0,0 5,9C5,14.25 12,22 12,22C12,22 19,14.25 19,9A7,7 0 0,0 12,2Z"/>
+                                </svg>
+                            </div>
+                            <div class="suggestion-content">
+                                <div class="suggestion-header">
+                                    <div style="flex: 1;">
+                                        <div class="suggestion-title-row">
+                                            <h4 class="suggestion-title">Update location categories</h4>
+                                            <span class="improvement-badge">+8%</span>
+                                            <div class="impact-badge impact-low">Low</div>
+                                        </div>
+                                        <p class="suggestion-description">8 locations using outdated category classifications. Updated categories improve discovery and targeting accuracy.</p>
+                                        <div class="suggestion-meta">
+                                            <span>8 items affected</span>
+                                            <span>•</span>
+                                            <span>~30 minutes to fix</span>
+                                        </div>
+                                    </div>
+                                    <div class="suggestion-actions">
+                                        <button class="suggestion-btn primary">Apply Fix</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="enrichment-summary">
+                        <div class="enrichment-summary-text">
+                            3 suggestions shown • Potential impact: <span class="font-medium">+48.0% overall performance</span>
+                        </div>
+                        <button class="view-all-btn">View all suggestions</button>
+                    </div>
                 </div>
             </div>
         </div>
 
         <!-- Data Health & Flow Details -->
         <div class="data-health-detail">
-            <div style="padding: 24px 24px 0 24px;">
-                <h2 class="chart-title">Data Health & Flow</h2>
-                <p class="chart-description">Data flow from source systems through VenueX to platforms</p>
+            <div class="card-header">
+                <h2 class="card-title">Data Health & Flow</h2>
+                <p class="card-description">Data flow from source systems through VenueX to platforms</p>
             </div>
             
             <div class="flow-container">
