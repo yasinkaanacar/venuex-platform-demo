@@ -168,7 +168,7 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
                 {/* Data Source to VenueX Connection Lines */}
                 {/* Inventory to VenueX - Red dashed line for error status (Last sync 2h ago) */}
                 <path 
-                  d="M 300 100 Q 350 120 400 160" 
+                  d="M 245 100 Q 320 120 360 160" 
                   stroke="#ef4444" 
                   strokeWidth="3" 
                   fill="none"
@@ -178,7 +178,7 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
                 
                 {/* Store Sales to VenueX - Green solid line for recent sync (Updated 30s ago) */}
                 <path 
-                  d="M 300 160 L 360 160" 
+                  d="M 245 160 L 360 160" 
                   stroke="#22c55e" 
                   strokeWidth="3" 
                   fill="none"
@@ -187,7 +187,7 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
                 
                 {/* Locations to VenueX - Green line with slight pulse for recent sync (Updated 2m ago) */}
                 <path 
-                  d="M 300 220 Q 350 200 400 160" 
+                  d="M 245 220 Q 300 200 360 160" 
                   stroke="#22c55e" 
                   strokeWidth="3" 
                   fill="none"
@@ -197,22 +197,22 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
                 
                 {/* Sync status indicators on lines */}
                 {/* Inventory error indicator */}
-                <circle cx="340" cy="110" r="4" fill="#ef4444" opacity="0.8">
+                <circle cx="300" cy="130" r="4" fill="#ef4444" opacity="0.8">
                   <animate attributeName="r" values="4;6;4" dur="2s" repeatCount="indefinite"/>
                 </circle>
-                <text x="345" y="108" fontSize="8" fill="#ef4444" fontWeight="bold">2h</text>
+                <text x="305" y="128" fontSize="8" fill="#ef4444" fontWeight="bold">2h</text>
                 
                 {/* Store Sales recent sync indicator */}
-                <circle cx="330" cy="160" r="3" fill="#22c55e" opacity="1">
+                <circle cx="300" cy="160" r="3" fill="#22c55e" opacity="1">
                   <animate attributeName="opacity" values="1;0.5;1" dur="1s" repeatCount="indefinite"/>
                 </circle>
-                <text x="335" y="158" fontSize="8" fill="#22c55e" fontWeight="bold">30s</text>
+                <text x="305" y="158" fontSize="8" fill="#22c55e" fontWeight="bold">30s</text>
                 
                 {/* Locations sync indicator */}
-                <circle cx="350" cy="190" r="3" fill="#22c55e" opacity="0.9">
+                <circle cx="300" cy="190" r="3" fill="#22c55e" opacity="0.9">
                   <animate attributeName="r" values="3;4;3" dur="1.5s" repeatCount="indefinite"/>
                 </circle>
-                <text x="355" y="188" fontSize="8" fill="#22c55e" fontWeight="bold">2m</text>
+                <text x="305" y="188" fontSize="8" fill="#22c55e" fontWeight="bold">2m</text>
                 
                 {/* VenueX to Platforms - General outgoing flow */}
                 <path 
@@ -294,7 +294,7 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
               <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 z-20">
                 <div className="flex flex-col items-center text-center">
                   <div className="w-20 h-20 bg-white rounded-full flex items-center justify-center shadow-lg border-4 border-white dark:border-gray-800">
-                    <img src={vxLogo} alt="VenueX" className="w-16 h-16 object-contain" />
+                    <img src={vxLogo} alt="VenueX" className="w-24 h-24 object-contain" />
                   </div>
                   <div className="mt-2 text-sm font-medium text-foreground">Data Hub</div>
                   <div className="text-xs text-muted-foreground">Processing all data flows</div>
