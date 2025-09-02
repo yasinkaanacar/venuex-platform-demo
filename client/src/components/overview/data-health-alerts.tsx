@@ -187,19 +187,6 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
               <div className="absolute left-4 top-1/2 transform -translate-y-1/2 z-10">
                 <div className="space-y-4">
                   <div className="flex items-center gap-3 bg-white dark:bg-gray-800 rounded-lg p-3 shadow-sm border border-gray-200 dark:border-gray-700">
-                    <div className="w-8 h-8 bg-blue-100 dark:bg-blue-900/50 rounded-lg flex items-center justify-center">
-                      <Store className="w-4 h-4 text-blue-600" />
-                    </div>
-                    <div className="text-left">
-                      <div className="text-sm font-medium text-foreground">Business Catalog</div>
-                      <div className="flex items-center gap-1">
-                        <div className="w-1.5 h-1.5 bg-green-500 rounded-full"></div>
-                        <span className="text-xs text-green-600">Online</span>
-                      </div>
-                    </div>
-                  </div>
-                  
-                  <div className="flex items-center gap-3 bg-white dark:bg-gray-800 rounded-lg p-3 shadow-sm border border-gray-200 dark:border-gray-700">
                     <div className="w-8 h-8 bg-purple-100 dark:bg-purple-900/50 rounded-lg flex items-center justify-center">
                       <Package className="w-4 h-4 text-purple-600" />
                     </div>
