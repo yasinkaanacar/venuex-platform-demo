@@ -13,18 +13,15 @@ interface PerformanceChartProps {
 export default function PerformanceChart({ filters, onFiltersChange }: PerformanceChartProps) {
   return (
     <Card>
-      <CardHeader>
-        <div className="flex items-center justify-between">
-          <div>
-            <CardTitle className="text-lg font-semibold text-foreground">Online-to-Offline Conversion Funnel</CardTitle>
-            <p className="text-sm text-muted-foreground">Conversion metrics from digital channels to physical store
-</p>
-          </div>
+      <CardHeader
+        title="Online-to-Offline Conversion Funnel"
+        subheader="Conversion metrics from digital channels to physical store"
+        action={
           <Button variant="ghost" size="sm" className="text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:hover:text-white font-medium" data-testid="button-view-all-funnel">
             View All →
           </Button>
-        </div>
-      </CardHeader>
+        }
+      />
       <CardContent>
         <div className="mb-4">
           <div className="flex items-center space-x-0.5 bg-gray-50 dark:bg-gray-800/50 p-0.5 rounded-md w-fit">
