@@ -1,6 +1,6 @@
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
+import { Tooltip } from '@/components/ui/tooltip';
 import { DollarSign, MapPin, ShoppingCart, Receipt, Eye, TrendingUp, TrendingDown, ExternalLink } from 'lucide-react';
 import { SiTiktok } from 'react-icons/si';
 import { KPI, FilterState } from '@/lib/types';
@@ -106,15 +106,31 @@ export default function KpiCards({ kpis, filters, onFiltersChange }: KpiCardsPro
   };
 
   return (
-    <TooltipProvider>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {cards.map((card) => {
           const TrendIcon = getTrendIcon(card.trend);
           const Icon = card.icon;
           
           return (
-            <Tooltip key={card.id}>
-              <TooltipTrigger asChild>
+            <Tooltip 
+              key={card.id} 
+              title={
+                <div>
+                  <div style={{ fontWeight: 600, fontSize: '14px', marginBottom: '12px', color: '#0f172a' }}>
+                    {card.title} Details
+                  </div>
+                  {Object.entries(card.hoverMetrics).map(([key, value]) => (
+                    <div key={key} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px', fontSize: '12px' }}>
+                      <span style={{ color: '#64748b' }}>{key}:</span>
+                      <span style={{ fontWeight: 500, marginLeft: '16px', color: '#0f172a' }}>{value}</span>
+                    </div>
+                  ))}
+                </div>
+              }
+              placement="bottom"
+              arrow
+            >
+              <div>
                 <Card className="hover:shadow-lg transition-all duration-200 cursor-pointer hover:scale-105" data-testid={`card-${card.id}`}>
                   <CardContent className="p-6">
                     {card.id === 'offline-roas' && (
@@ -319,22 +335,10 @@ export default function KpiCards({ kpis, filters, onFiltersChange }: KpiCardsPro
                     </div>
                   </CardContent>
                 </Card>
-              </TooltipTrigger>
-              <TooltipContent className="w-64 p-4" side="bottom">
-                <div className="space-y-2">
-                  <h4 className="font-semibold text-sm text-foreground mb-3">{card.title} Details</h4>
-                  {Object.entries(card.hoverMetrics).map(([key, value]) => (
-                    <div key={key} className="flex justify-between items-center text-xs">
-                      <span className="text-muted-foreground">{key}:</span>
-                      <span className="font-medium text-foreground">{value}</span>
-                    </div>
-                  ))}
-                </div>
-              </TooltipContent>
+              </div>
             </Tooltip>
           );
         })}
-      </div>
-    </TooltipProvider>
+    </div>
   );
 }
