@@ -115,7 +115,7 @@ export default function KpiCards({ kpis, filters, onFiltersChange }: KpiCardsPro
           <Tooltip 
             key={card.id} 
             title={
-              <div className="bg-[#f6f6f6]">
+              <div>
                 <div style={{ fontWeight: 'bold', fontSize: '16px', marginBottom: '12px', color: '#000000' }}>
                   {card.title} Details
                 </div>
