@@ -1,5 +1,4 @@
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
+// UI components removed - using plain HTML elements
 import { FilterState } from '@/lib/types';
 import { Dispatch, SetStateAction, useState } from 'react';
 import { SiTiktok } from 'react-icons/si';
@@ -15,18 +14,17 @@ export default function PerformanceChart({ filters, onFiltersChange }: Performan
   const [performanceChartPlatform, setPerformanceChartPlatform] = useState<string>('Google');
 
   return (
-    <Card className="bg-[#fcfcfc]">
-      <CardHeader
-        className="bg-[#f9fafb]"
-        title="Online-to-Offline Conversion Funnel"
-        subheader="Conversion metrics from digital channels to physical store"
-        action={
-          <Button variant="ghost" size="sm" className="text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:hover:text-white font-medium" data-testid="button-view-all-funnel">
-            View All →
-          </Button>
-        }
-      />
-      <CardContent className="bg-[#f9fafb]">
+    <div className="bg-[#fcfcfc] rounded-lg border border-gray-200">
+      <div className="bg-[#f9fafb] p-6 flex justify-between items-center border-b border-gray-200">
+        <div>
+          <h3 className="text-lg font-semibold text-foreground">Online-to-Offline Conversion Funnel</h3>
+          <p className="text-sm text-muted-foreground">Conversion metrics from digital channels to physical store</p>
+        </div>
+        <button className="text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:hover:text-white font-medium bg-transparent border-none cursor-pointer" data-testid="button-view-all-funnel">
+          View All →
+        </button>
+      </div>
+      <div className="bg-[#f9fafb] p-6">
         <div className="mb-4 flex justify-center">
           <div className="flex items-center dark:bg-gray-800 p-1 rounded-lg border shadow-inner w-fit bg-[#ffffff]">
             <button

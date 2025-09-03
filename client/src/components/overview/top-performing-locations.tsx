@@ -1,5 +1,4 @@
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
+// UI components removed - using plain HTML elements
 import { TrendingUp, TrendingDown, ArrowUpDown } from 'lucide-react';
 import { SiTiktok } from 'react-icons/si';
 import { FilterState } from '@/lib/types';

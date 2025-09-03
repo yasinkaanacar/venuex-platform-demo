@@ -1,6 +1,4 @@
-import { Card, CardContent } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Tooltip } from '@/components/ui/tooltip';
+// UI components removed - using plain HTML elements
 import { DollarSign, MapPin, ShoppingCart, Receipt, Eye, TrendingUp, TrendingDown, ExternalLink } from 'lucide-react';
 import { SiTiktok } from 'react-icons/si';
 import { KPI, FilterState } from '@/lib/types';
@@ -118,28 +116,7 @@ export default function KpiCards({ kpis, filters, onFiltersChange }: KpiCardsPro
         const Icon = card.icon;
         
         return (
-          <Tooltip 
-            key={card.id} 
-            title={
-              <div className="bg-[#f9fafb]">
-                <div
-                  style={{ fontWeight: 'bold', fontSize: '16px', marginBottom: '12px', color: '#000000' }}
-                  className="bg-[#f9fafb]">
-                  {card.title} Details
-                </div>
-                {Object.entries(card.hoverMetrics).map(([key, value]) => (
-                  <div key={key} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '6px', fontSize: '14px' }}>
-                    <span style={{ color: '#000000' }}>{key}:</span>
-                    <span style={{ fontWeight: '500', marginLeft: '16px', color: '#000000' }}>{value}</span>
-                  </div>
-                ))}
-              </div>
-            }
-            placement="bottom"
-            arrow
-          >
-            <div>
-              <Card className="bg-[#f9fafb] shadow-none hover:shadow-sm transition-all duration-200 cursor-pointer hover:scale-105" data-testid={`card-${card.id}`}>
+        <div key={card.id} className="bg-[#f9fafb] shadow-none hover:shadow-sm transition-all duration-200 cursor-pointer hover:scale-105 rounded-lg border border-gray-200" data-testid={`card-${card.id}`}>
                 {/* Platform tabs at the top */}
                 {card.id === 'offline-roas' && (
                   <div className="p-3 pb-0 flex justify-center bg-[#f9fafb]">
@@ -315,38 +292,36 @@ export default function KpiCards({ kpis, filters, onFiltersChange }: KpiCardsPro
                   </div>
                 )}
 
-                <CardContent className="p-6 pt-3 bg-[#f9fafb]">
-                  
-                  <div className="flex items-center justify-between mb-4">
-                    <div className="flex items-center space-x-2">
-                      <div className={`w-10 h-10 ${card.iconBg} rounded-lg flex items-center justify-center`}>
-                        <Icon className={`w-5 h-5 ${card.iconColor}`} />
-                      </div>
-                      <h3 className="text-sm font-medium text-muted-foreground">{card.title}</h3>
-                    </div>
-                    
-                    <Button variant="ghost" size="sm" className="h-6 w-6 p-0 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300" data-testid={`button-external-${card.id}`}>
-                      <ExternalLink className="w-4 h-4" />
-                    </Button>
-                  </div>
-                  
-                  <div className="flex items-center justify-between mb-2">
-                    <div className="text-2xl font-bold text-foreground" data-testid={`text-value-${card.id}`}>
-                      {card.value}{card.id === 'average-rating' ? ' ⭐' : ''}
-                    </div>
-                    <div className={`flex items-center space-x-1 text-xs ${getTrendColor(card.trend)}`}>
-                      {TrendIcon && <TrendIcon className="w-3 h-3" />}
-                      <span data-testid={`text-trend-${card.id}`}>{card.trend}</span>
-                    </div>
-                  </div>
-                  
-                  <div className="text-xs text-muted-foreground">
-                    vs {card.previousValue} previous period
-                  </div>
-                </CardContent>
-              </Card>
+          <div className="p-6 pt-3 bg-[#f9fafb]">
+            
+            <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center space-x-2">
+                <div className={`w-10 h-10 ${card.iconBg} rounded-lg flex items-center justify-center`}>
+                  <Icon className={`w-5 h-5 ${card.iconColor}`} />
+                </div>
+                <h3 className="text-sm font-medium text-muted-foreground">{card.title}</h3>
+              </div>
+              
+              <button className="h-6 w-6 p-0 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 bg-transparent border-none cursor-pointer" data-testid={`button-external-${card.id}`}>
+                <ExternalLink className="w-4 h-4" />
+              </button>
             </div>
-          </Tooltip>
+            
+            <div className="flex items-center justify-between mb-2">
+              <div className="text-2xl font-bold text-foreground" data-testid={`text-value-${card.id}`}>
+                {card.value}{card.id === 'average-rating' ? ' ⭐' : ''}
+              </div>
+              <div className={`flex items-center space-x-1 text-xs ${getTrendColor(card.trend)}`}>
+                {TrendIcon && <TrendIcon className="w-3 h-3" />}
+                <span data-testid={`text-trend-${card.id}`}>{card.trend}</span>
+              </div>
+            </div>
+            
+            <div className="text-xs text-muted-foreground">
+              vs {card.previousValue} previous period
+            </div>
+          </div>
+        </div>
         );
       })}
     </div>
