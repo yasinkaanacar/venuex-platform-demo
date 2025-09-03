@@ -19,7 +19,7 @@ export default function DataQualityEnrichment() {
           </Button>
         }
       />
-      <CardContent className="space-y-8">
+      <CardContent className="space-y-8 bg-[#f3f4f6]">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Location Data */}
           <div>
