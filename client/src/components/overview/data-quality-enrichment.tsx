@@ -4,7 +4,7 @@ import EnrichmentSuggestions from './enrichment-suggestions';
 
 export default function DataQualityEnrichment() {
   return (
-    <Card>
+    <Card className="bg-[#fcfcfc]">
       <CardHeader
         className="bg-[#f3f4f6]"
         title="Data Quality Assessment"
