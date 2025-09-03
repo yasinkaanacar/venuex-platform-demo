@@ -481,9 +481,9 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
               </p>
             </div>
             
-            <Button variant="ghost" size="sm" className="text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:hover:text-white font-medium" data-testid="button-view-all-alerts">
-              View all
-            </Button>
+            <button className="text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:hover:text-white font-medium bg-transparent border-none cursor-pointer" data-testid="button-view-all-alerts">
+              View All →
+            </button>
           </div>
           
           <div className="space-y-3">
