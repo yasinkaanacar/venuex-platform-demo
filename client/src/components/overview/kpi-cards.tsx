@@ -299,7 +299,7 @@ export default function KpiCards({ kpis, filters, onFiltersChange }: KpiCardsPro
                 <div className={`w-10 h-10 ${card.iconBg} rounded-lg flex items-center justify-center`}>
                   <Icon className={`w-5 h-5 ${card.iconColor}`} />
                 </div>
-                <h3 className="text-sm font-medium text-muted-foreground">{card.title}</h3>
+                <h3 className="text-sm font-medium text-muted-foreground whitespace-nowrap">{card.title}</h3>
               </div>
             </div>
             
