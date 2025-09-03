@@ -128,14 +128,15 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
   // Always expanded mode - no collapsible functionality
   if (alwaysExpanded) {
     return (
-      <Card>
-        <CardHeader
-          className="bg-[#f9fafb]"
-          title="Data Health & Flow"
-          subheader="Data flow from source systems through VenueX to platforms"
-        />
+      <div className="bg-[#fcfcfc] rounded-lg border border-gray-200 overflow-hidden">
+        <div className="bg-[#f9fafb] p-6 flex justify-between items-center border-b border-gray-200">
+          <div>
+            <h3 className="text-lg font-semibold text-foreground">Data Health & Flow</h3>
+            <p className="text-sm text-muted-foreground">Data flow from source systems through VenueX to platforms</p>
+          </div>
+        </div>
         
-        <CardContent className="space-y-8 bg-[#f9fafb]">
+        <div className="bg-[#f9fafb] p-6 space-y-8">
         <div className="relative">
           {/* Vertical VenueX alignment guide */}
           <div className="absolute left-1/2 top-0 bottom-0 w-px bg-primary/20 transform -translate-x-1/2 z-0"></div>
@@ -525,8 +526,8 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
           </div>
         </div>
         
-      </CardContent>
-    </Card>
+      </div>
+    </div>
     );
   }
 

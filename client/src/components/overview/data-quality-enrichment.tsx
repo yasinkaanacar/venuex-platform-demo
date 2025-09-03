@@ -1,25 +1,20 @@
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
 import EnrichmentSuggestions from './enrichment-suggestions';
 
 export default function DataQualityEnrichment() {
   return (
-    <Card className="bg-[#fcfcfc]">
-      <CardHeader
-        className="bg-[#f9fafb]"
-        title="Data Quality Assessment"
-        subheader={
-          <span className="text-sm text-muted-foreground">
+    <div className="bg-[#fcfcfc] rounded-lg border border-gray-200 overflow-hidden">
+      <div className="bg-[#f9fafb] p-6 flex justify-between items-center border-b border-gray-200">
+        <div>
+          <h3 className="text-lg font-semibold text-foreground">Data Quality Assessment</h3>
+          <p className="text-sm text-muted-foreground">
             Overall Score: <span className="text-green-600 font-semibold">97%</span>
-          </span>
-        }
-        action={
-          <Button variant="ghost" size="sm" className="text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:hover:text-white font-medium" data-testid="button-view-all-data-quality">
-            View All →
-          </Button>
-        }
-      />
-      <CardContent className="space-y-8 bg-[#f9fafb]">
+          </p>
+        </div>
+        <button className="text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:hover:text-white font-medium bg-transparent border-none cursor-pointer" data-testid="button-view-all-data-quality">
+          View All →
+        </button>
+      </div>
+      <div className="bg-[#f9fafb] p-6 space-y-8">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Location Data */}
           <div>
@@ -155,7 +150,7 @@ export default function DataQualityEnrichment() {
         <div className="pt-8 border-t border-border">
           <EnrichmentSuggestions />
         </div>
-      </CardContent>
-    </Card>
+      </div>
+    </div>
   );
 }
