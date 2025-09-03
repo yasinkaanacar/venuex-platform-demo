@@ -39,14 +39,14 @@
   --font-serif: 'Poppins', sans-serif;
   --font-mono: Menlo, monospace;
   --radius: 0.8rem;
-  --shadow-2xs: 0px 1px 2px 0px rgba(0, 0, 0, 0.02);
-  --shadow-xs: 0px 1px 3px 0px rgba(0, 0, 0, 0.04);
-  --shadow-sm: 0px 1px 2px 0px rgba(0, 0, 0, 0.03), 0px 1px 3px 0px rgba(0, 0, 0, 0.05);
-  --shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.04), 0px 1px 6px 0px rgba(0, 0, 0, 0.07);
-  --shadow-md: 0px 4px 6px -1px rgba(0, 0, 0, 0.05), 0px 2px 4px -1px rgba(0, 0, 0, 0.03);
-  --shadow-lg: 0px 10px 15px -3px rgba(0, 0, 0, 0.06), 0px 4px 6px -2px rgba(0, 0, 0, 0.04);
-  --shadow-xl: 0px 20px 25px -5px rgba(0, 0, 0, 0.08), 0px 10px 10px -5px rgba(0, 0, 0, 0.02);
-  --shadow-2xl: 0px 25px 50px -12px rgba(0, 0, 0, 0.12);
+  --shadow-2xs: 0px 1px 2px 0px rgba(0, 0, 0, 0.01);
+  --shadow-xs: 0px 1px 3px 0px rgba(0, 0, 0, 0.015);
+  --shadow-sm: 0px 1px 2px 0px rgba(0, 0, 0, 0.01), 0px 1px 3px 0px rgba(0, 0, 0, 0.02);
+  --shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.015), 0px 1px 6px 0px rgba(0, 0, 0, 0.025);
+  --shadow-md: 0px 4px 6px -1px rgba(0, 0, 0, 0.02), 0px 2px 4px -1px rgba(0, 0, 0, 0.015);
+  --shadow-lg: 0px 10px 15px -3px rgba(0, 0, 0, 0.025), 0px 4px 6px -2px rgba(0, 0, 0, 0.02);
+  --shadow-xl: 0px 20px 25px -5px rgba(0, 0, 0, 0.03), 0px 10px 10px -5px rgba(0, 0, 0, 0.01);
+  --shadow-2xl: 0px 25px 50px -12px rgba(0, 0, 0, 0.04);
   --tracking-normal: 0em;
   --spacing: 0.25rem;
 }
@@ -88,14 +88,14 @@
   --font-serif: Georgia, serif;
   --font-mono: Menlo, monospace;
   --radius: 1.3rem;
-  --shadow-2xs: 0px 1px 2px 0px rgba(255, 255, 255, 0.08);
-  --shadow-xs: 0px 1px 3px 0px rgba(255, 255, 255, 0.12);
-  --shadow-sm: 0px 1px 2px 0px rgba(255, 255, 255, 0.06), 0px 1px 3px 0px rgba(255, 255, 255, 0.10);
-  --shadow: 0px 2px 4px 0px rgba(255, 255, 255, 0.08), 0px 1px 6px 0px rgba(255, 255, 255, 0.14);
-  --shadow-md: 0px 4px 6px -1px rgba(255, 255, 255, 0.10), 0px 2px 4px -1px rgba(255, 255, 255, 0.06);
-  --shadow-lg: 0px 10px 15px -3px rgba(255, 255, 255, 0.12), 0px 4px 6px -2px rgba(255, 255, 255, 0.08);
-  --shadow-xl: 0px 20px 25px -5px rgba(255, 255, 255, 0.16), 0px 10px 10px -5px rgba(255, 255, 255, 0.04);
-  --shadow-2xl: 0px 25px 50px -12px rgba(255, 255, 255, 0.24);
+  --shadow-2xs: 0px 1px 2px 0px rgba(255, 255, 255, 0.03);
+  --shadow-xs: 0px 1px 3px 0px rgba(255, 255, 255, 0.04);
+  --shadow-sm: 0px 1px 2px 0px rgba(255, 255, 255, 0.025), 0px 1px 3px 0px rgba(255, 255, 255, 0.035);
+  --shadow: 0px 2px 4px 0px rgba(255, 255, 255, 0.03), 0px 1px 6px 0px rgba(255, 255, 255, 0.05);
+  --shadow-md: 0px 4px 6px -1px rgba(255, 255, 255, 0.04), 0px 2px 4px -1px rgba(255, 255, 255, 0.025);
+  --shadow-lg: 0px 10px 15px -3px rgba(255, 255, 255, 0.05), 0px 4px 6px -2px rgba(255, 255, 255, 0.035);
+  --shadow-xl: 0px 20px 25px -5px rgba(255, 255, 255, 0.06), 0px 10px 10px -5px rgba(255, 255, 255, 0.02);
+  --shadow-2xl: 0px 25px 50px -12px rgba(255, 255, 255, 0.08);
   --spacing: 0.25rem;
   --tracking-normal: 0em;
 }
