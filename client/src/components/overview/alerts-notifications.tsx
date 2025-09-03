@@ -65,9 +65,9 @@ export default function AlertsNotifications({ alerts = [] }: AlertsNotifications
             </div>
             
             <div className="flex items-center gap-2">
-              <Button variant="ghost" size="sm" className="text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:hover:text-white font-medium" data-testid="button-view-all-alerts">
-                View all
-              </Button>
+              <button className="text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:hover:text-white font-medium bg-transparent border-none cursor-pointer" data-testid="button-view-all-alerts">
+                View All →
+              </button>
               <CollapsibleTrigger asChild>
                 <Button variant="ghost" size="sm" className="h-8 w-8 p-0" data-testid="button-toggle-alerts">
                   {isOpen ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
