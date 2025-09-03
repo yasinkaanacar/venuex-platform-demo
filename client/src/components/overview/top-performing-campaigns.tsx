@@ -26,7 +26,7 @@ export default function TopPerformingCampaigns({ filters, onFiltersChange }: Top
   return (
     <Card className="bg-[#fcfcfc]">
       <CardHeader
-        className="bg-[#f3f4f6]"
+        className="bg-[#f9fafb]"
         title="Top Performing Campaigns"
         subheader="Spend, Roas, Visits, Purchase by campaign"
         action={
