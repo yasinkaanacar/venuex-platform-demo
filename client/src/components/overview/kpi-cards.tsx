@@ -116,13 +116,13 @@ export default function KpiCards({ kpis, filters, onFiltersChange }: KpiCardsPro
               key={card.id} 
               title={
                 <div>
-                  <div style={{ fontWeight: 600, fontSize: '14px', marginBottom: '12px', color: '#0f172a' }}>
+                  <div style={{ fontWeight: 'bold', fontSize: '16px', marginBottom: '12px', color: '#000000' }}>
                     {card.title} Details
                   </div>
                   {Object.entries(card.hoverMetrics).map(([key, value]) => (
-                    <div key={key} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px', fontSize: '12px' }}>
-                      <span style={{ color: '#64748b' }}>{key}:</span>
-                      <span style={{ fontWeight: 500, marginLeft: '16px', color: '#0f172a' }}>{value}</span>
+                    <div key={key} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '6px', fontSize: '14px' }}>
+                      <span style={{ color: '#000000' }}>{key}:</span>
+                      <span style={{ fontWeight: '500', marginLeft: '16px', color: '#000000' }}>{value}</span>
                     </div>
                   ))}
                 </div>
