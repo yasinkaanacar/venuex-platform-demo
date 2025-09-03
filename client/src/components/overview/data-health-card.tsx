@@ -68,19 +68,10 @@ export default function DataHealthCard({ platforms = [], alerts = [] }: DataHeal
 
   return (
     <Card>
-      <CardHeader>
-        <div className="flex items-center justify-between">
-          <div>
-            <CardTitle className="text-lg font-semibold text-foreground">
-              Data Health & Flow
-            </CardTitle>
-            <p className="text-sm text-muted-foreground">
-              Data flow from source systems through VenueX to platforms
-            </p>
-          </div>
-          
-        </div>
-      </CardHeader>
+      <CardHeader
+        title="Data Health & Flow"
+        subheader="Data flow from source systems through VenueX to platforms"
+      />
       
       <CardContent>
         <div className="space-y-6">

@@ -25,15 +25,15 @@ export default function TopPerformingLocations({ filters, onFiltersChange }: Top
 
   return (
     <Card>
-      <CardHeader>
-        <div className="flex items-center justify-between">
-          <CardTitle className="text-lg font-semibold text-foreground">Top Performing Store Locations</CardTitle>
+      <CardHeader
+        title="Top Performing Store Locations"
+        subheader="Store visits and conversions by location"
+        action={
           <Button variant="ghost" size="sm" className="text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:hover:text-white font-medium" data-testid="button-view-all-locations">
             View All →
           </Button>
-        </div>
-        <p className="text-sm text-muted-foreground">Store visits and conversions by location</p>
-      </CardHeader>
+        }
+      />
       
       <CardContent>
         <div className="mb-4">

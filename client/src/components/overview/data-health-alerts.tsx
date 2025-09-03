@@ -129,16 +129,10 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
   if (alwaysExpanded) {
     return (
       <Card>
-        <CardHeader>
-          <div>
-            <CardTitle className="text-lg font-semibold text-foreground">
-              Data Health & Flow
-            </CardTitle>
-            <p className="text-sm text-muted-foreground">
-              Data flow from source systems through VenueX to platforms
-            </p>
-          </div>
-        </CardHeader>
+        <CardHeader
+          title="Data Health & Flow"
+          subheader="Data flow from source systems through VenueX to platforms"
+        />
         
         <CardContent className="space-y-8">
         <div className="relative">
@@ -539,18 +533,13 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
   return (
     <Card>
       <Collapsible open={isOpen} onOpenChange={setIsOpen}>
-        <CardHeader>
-          <div className="flex items-center justify-between">
-            <div>
-              <CardTitle className="text-lg font-semibold text-foreground">
-                Data Health & Flow
-              </CardTitle>
-              {isOpen ? (
-                <p className="text-sm text-muted-foreground">
-                  Data flow from source systems through VenueX to platforms
-                </p>
-              ) : (
-                <div className="flex items-center gap-2 mt-1">
+        <CardHeader
+          title="Data Health & Flow"
+          subheader={isOpen ? "Data flow from source systems through VenueX to platforms" : undefined}
+          action={
+            <div className="flex items-center gap-2">
+              {!isOpen && (
+                <div className="flex items-center gap-2">
                   {failed === 0 && pending === 0 ? (
                     <>
                       <CheckCircle className="w-4 h-4 text-green-600" />
@@ -566,15 +555,14 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
                   )}
                 </div>
               )}
+              <CollapsibleTrigger>
+                <Button variant="ghost" size="sm" className="h-8 w-8 p-0" data-testid="button-toggle-data-health">
+                  <img src={mouseIcon} alt="Toggle" className="h-4 w-4" />
+                </Button>
+              </CollapsibleTrigger>
             </div>
-            
-            <CollapsibleTrigger asChild>
-              <Button variant="ghost" size="sm" className="h-8 w-8 p-0" data-testid="button-toggle-data-health">
-                <img src={mouseIcon} alt="Toggle" className="h-4 w-4" />
-              </Button>
-            </CollapsibleTrigger>
-          </div>
-        </CardHeader>
+          }
+        />
         
         <CollapsibleContent>
           <CardContent className="space-y-8">

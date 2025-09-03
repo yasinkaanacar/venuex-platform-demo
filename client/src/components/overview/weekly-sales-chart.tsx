@@ -236,15 +236,10 @@ export default function WeeklySalesChart() {
   
   return (
     <Card className="bg-gradient-to-br from-white to-gray-50/50 dark:from-gray-900 dark:to-gray-800/50 border-2 border-gray-200/50 dark:border-gray-700/50 shadow-xl">
-      <CardHeader className="pb-4">
-        <div className="flex items-center justify-between">
-          <div>
-            <CardTitle className="text-xl font-bold text-foreground bg-gradient-to-r from-gray-900 to-gray-700 dark:from-gray-100 dark:to-gray-300 bg-clip-text text-transparent">
-              Online x Offline (sales volume) - By week
-            </CardTitle>
-            <p className="text-sm text-muted-foreground mt-1">Revenue performance across digital and physical channels</p>
-          </div>
-          
+      <CardHeader
+        title="Online x Offline (sales volume) - By week"
+        subheader="Revenue performance across digital and physical channels"
+        action={
           <div className="flex items-center gap-3">
             <div className="text-center">
               <p className="text-xs text-muted-foreground">Total Revenue</p>
@@ -275,23 +270,22 @@ export default function WeeklySalesChart() {
               </p>
             </div>
           </div>
-        </div>
-        
-        <div className="flex items-center gap-2 mt-3">
-          <Badge variant="secondary" className="flex items-center gap-1">
-            <ShoppingCart className="w-3 h-3" />
-            Online Channel
-          </Badge>
-          <Badge variant="secondary" className="flex items-center gap-1">
-            <Store className="w-3 h-3" />
-            Offline Channel
-          </Badge>
-          <Badge variant="secondary" className="flex items-center gap-1">
-            <DollarSign className="w-3 h-3" />
-            Ad Investment
-          </Badge>
-        </div>
-      </CardHeader>
+        }
+      />
+      <div className="flex items-center gap-2 px-6 pb-4">
+        <Badge variant="secondary" className="flex items-center gap-1">
+          <ShoppingCart className="w-3 h-3" />
+          Online Channel
+        </Badge>
+        <Badge variant="secondary" className="flex items-center gap-1">
+          <Store className="w-3 h-3" />
+          Offline Channel
+        </Badge>
+        <Badge variant="secondary" className="flex items-center gap-1">
+          <DollarSign className="w-3 h-3" />
+          Ad Investment
+        </Badge>
+      </div>
       
       <CardContent className="pt-0">
         <div className="h-96 relative">
