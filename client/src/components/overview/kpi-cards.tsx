@@ -170,7 +170,7 @@ export default function KpiCards({ kpis, filters, onFiltersChange }: KpiCardsPro
                 )}
                 
                 {card.id === 'location-engagements' && (
-                  <div className="p-3 pb-0 flex justify-center bg-[#f9fafb]">
+                  <div className="p-3 pb-0 flex justify-center bg-[#f9fafb] rounded-t-lg">
                     <div className="flex items-center dark:bg-gray-800 p-1 rounded-lg border shadow-inner w-fit bg-[#ffffff]">
                       <button
                         onClick={() => setLocationEngagementsPlatform('Google')}
@@ -221,7 +221,7 @@ export default function KpiCards({ kpis, filters, onFiltersChange }: KpiCardsPro
                 )}
                 
                 {card.id === 'local-inventory' && (
-                  <div className="p-3 pb-0 flex justify-center bg-[#f9fafb]">
+                  <div className="p-3 pb-0 flex justify-center bg-[#f9fafb] rounded-t-lg">
                     <div className="flex items-center dark:bg-gray-800 p-1 rounded-lg border shadow-inner w-fit bg-[#ffffff]">
                       <button
                         onClick={() => setLocalInventoryPlatform('Google')}
@@ -257,7 +257,7 @@ export default function KpiCards({ kpis, filters, onFiltersChange }: KpiCardsPro
                 )}
                 
                 {card.id === 'average-rating' && (
-                  <div className="p-3 pb-0 flex justify-center bg-[#f9fafb]">
+                  <div className="p-3 pb-0 flex justify-center bg-[#f9fafb] rounded-t-lg">
                     <div className="flex items-center dark:bg-gray-800 p-1 rounded-lg border shadow-inner w-fit bg-[#ffffff]">
                       <button
                         onClick={() => setAverageRatingPlatform('Google')}
