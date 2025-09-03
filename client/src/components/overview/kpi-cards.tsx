@@ -272,7 +272,7 @@ export default function KpiCards({ kpis, filters, onFiltersChange }: KpiCardsPro
                 )}
                 
                 {card.id === 'average-rating' && (
-                  <div className="p-3 pb-0 flex justify-center">
+                  <div className="p-3 pb-0 flex justify-center bg-[#f9fafb]">
                     <div className="flex items-center bg-gray-100 dark:bg-gray-800 p-1 rounded-lg border shadow-inner w-fit">
                       <button
                         onClick={() => onFiltersChange({ ...filters, platform: 'Google' })}
