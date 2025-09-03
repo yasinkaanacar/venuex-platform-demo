@@ -1,4 +1,5 @@
 import { Store, User, Check } from 'lucide-react';
+import { Tooltip } from '@mui/material';
 
 interface HeaderProps {
   lastSync?: string;
@@ -37,15 +38,19 @@ export default function Header({ lastSync }: HeaderProps) {
             <div className="flex flex-col items-center">
               <div className="flex items-center">
                 {/* Step 1 - Completed */}
-                <div className="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center">
-                  <Check className="w-4 h-4 text-white" />
-                </div>
+                <Tooltip title="İşletme Profili" arrow>
+                  <div className="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center">
+                    <Check className="w-4 h-4 text-white" />
+                  </div>
+                </Tooltip>
                 <div className="w-8 h-0.5 bg-gray-300"></div>
                 
                 {/* Step 2 - Completed */}
-                <div className="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center">
-                  <Check className="w-4 h-4 text-white" />
-                </div>
+                <Tooltip title="Satışlar ve Offline Conversion" arrow>
+                  <div className="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center">
+                    <Check className="w-4 h-4 text-white" />
+                  </div>
+                </Tooltip>
                 <div className="w-8 h-0.5 bg-gray-300"></div>
                 
                 {/* Step 3 - Pending */}
