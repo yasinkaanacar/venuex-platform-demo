@@ -67,10 +67,7 @@ export default function Sidebar({ collapsed, onToggle }: SidebarProps) {
   const [location] = useLocation();
 
   return (
-    <div className={cn(
-      "bg-white dark:bg-gray-900 border-r-2 border-gray-300 dark:border-gray-600 flex flex-col h-screen shadow-lg transition-all duration-300",
-      collapsed ? "w-16" : "w-64"
-    )}>
+    <div className="dark:bg-gray-900 border-r-2 border-gray-300 dark:border-gray-600 flex flex-col h-screen shadow-lg transition-all duration-300 w-64 bg-[#f9fafb]">
       {/* Logo and Brand */}
       <div className="border-b-2 border-gray-300 dark:border-gray-600 h-20">
         <div className="flex items-center justify-center h-full">
@@ -88,7 +85,6 @@ export default function Sidebar({ collapsed, onToggle }: SidebarProps) {
           )}
         </div>
       </div>
-
       {/* Current Role Section */}
       <div className="relative">
         {!collapsed && (
@@ -116,7 +112,6 @@ export default function Sidebar({ collapsed, onToggle }: SidebarProps) {
           </button>
         )}
       </div>
-
       {/* Navigation */}
       <nav className={cn("flex-1 py-2", collapsed ? "px-2" : "px-6")}>
         <ul className="space-y-1">
@@ -159,7 +154,6 @@ export default function Sidebar({ collapsed, onToggle }: SidebarProps) {
           )}
         </ul>
       </nav>
-
       {/* System Status */}
       <div className={cn("border-t-2 border-gray-300 dark:border-gray-600", collapsed ? "p-2" : "p-6")}>
         {collapsed ? (
