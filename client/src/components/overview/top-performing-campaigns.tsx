@@ -27,6 +27,7 @@ export default function TopPerformingCampaigns({ filters, onFiltersChange }: Top
     <Card>
       <CardHeader
         title="Top Performing Campaigns"
+        subheader="Spend, Roas, Visits, Purchase by campaign"
         action={
           <Button variant="ghost" size="sm" className="text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:hover:text-white font-medium" data-testid="button-view-all-campaigns">
             View All →
