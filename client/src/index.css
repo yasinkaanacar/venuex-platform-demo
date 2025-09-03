@@ -109,3 +109,48 @@
     @apply font-sans antialiased bg-background text-foreground;
   }
 }
+
+/* Custom styling for date range select to match KPI cards */
+[data-testid="select-date-range"] {
+  background-color: #f9fafb !important;
+}
+
+/* Radix UI Select Content styling */
+[data-radix-select-content] {
+  background-color: #f9fafb !important;
+}
+
+[data-radix-select-item] {
+  background-color: #f9fafb !important;
+}
+
+[data-radix-select-item]:hover {
+  background-color: #f0f1f2 !important;
+}
+
+/* Alternative selectors for better coverage */
+.select-trigger {
+  background-color: #f9fafb !important;
+}
+
+.select-content {
+  background-color: #f9fafb !important;
+}
+
+/* Custom styling for date range select */
+[data-testid="select-date-range"] {
+  background-color: #f9fafb !important;
+}
+
+/* Radix Select components styling */
+[data-radix-select-content] {
+  background-color: #f9fafb !important;
+}
+
+[data-radix-select-item] {
+  background-color: #f9fafb !important;
+}
+
+[data-radix-select-item]:hover {
+  background-color: #f0f1f2 !important;
+}

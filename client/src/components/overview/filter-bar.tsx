@@ -19,10 +19,14 @@ export default function FilterBar({ filters, onFiltersChange }: FilterBarProps) 
     <div className="flex justify-end mb-4">
       <div className="w-fit">
         <Select value={filters.dateRange} onValueChange={(value) => updateFilter('dateRange', value)}>
-          <SelectTrigger data-testid="select-date-range" className="border-gray-200 dark:border-gray-700 focus:border-gray-300 dark:focus:border-gray-600 w-40 bg-[#f9fafb]">
+          <SelectTrigger 
+            data-testid="select-date-range" 
+            className="border-gray-200 dark:border-gray-700 focus:border-gray-300 dark:focus:border-gray-600 w-40" 
+            style={{ backgroundColor: '#f9fafb' }}
+          >
             <SelectValue />
           </SelectTrigger>
-          <SelectContent className="bg-[#f9fafb]">
+          <SelectContent>
             <SelectItem value="Last 7 days">Last 7 days</SelectItem>
             <SelectItem value="Last 30 days">Last 30 days</SelectItem>
             <SelectItem value="Last 90 days">Last 90 days</SelectItem>
