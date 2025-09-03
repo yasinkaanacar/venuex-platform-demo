@@ -116,7 +116,9 @@ export default function KpiCards({ kpis, filters, onFiltersChange }: KpiCardsPro
             key={card.id} 
             title={
               <div>
-                <div style={{ fontWeight: 'bold', fontSize: '16px', marginBottom: '12px', color: '#000000' }}>
+                <div
+                  style={{ fontWeight: 'bold', fontSize: '16px', marginBottom: '12px', color: '#000000' }}
+                  className="bg-[#f9fafb]">
                   {card.title} Details
                 </div>
                 {Object.entries(card.hoverMetrics).map(([key, value]) => (
