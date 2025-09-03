@@ -34,7 +34,8 @@ export default function Header({ lastSync }: HeaderProps) {
           </div>
           
           <div className="flex items-center space-x-8">
-            <div className="flex items-center">
+            <div className="flex flex-col items-center">
+              <div className="flex items-center">
                 {/* Step 1 - Completed */}
                 <div className="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center">
                   <Check className="w-4 h-4 text-white" />
@@ -54,7 +55,8 @@ export default function Header({ lastSync }: HeaderProps) {
                 {/* Step 4 - Pending */}
                 <div className="w-6 h-6 border-2 border-gray-400 bg-white rounded-full"></div>
               </div>
-              <div className="text-xs text-gray-500 mt-1 text-center">VenueX Kurulum Durumu</div>
+              <div className="text-xs text-gray-500 mt-1">VenueX Kurulum Durumu</div>
+            </div>
               <div className="w-4"></div>
             
             <div className="flex items-center space-x-2">
