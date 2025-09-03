@@ -54,6 +54,7 @@ export default function Header({ lastSync }: HeaderProps) {
                 {/* Step 4 - Pending */}
                 <div className="w-6 h-6 border-2 border-gray-400 bg-white rounded-full"></div>
               </div>
+              <div className="w-4"></div>
             
             <div className="flex items-center space-x-2">
               <div className="w-8 h-8 bg-muted rounded-full flex items-center justify-center">
