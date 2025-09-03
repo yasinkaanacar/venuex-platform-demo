@@ -34,12 +34,7 @@ export default function Header({ lastSync }: HeaderProps) {
           </div>
           
           <div className="flex items-center space-x-4">
-            <div className="flex flex-col items-center space-y-2">
-              <div className="bg-white rounded-lg px-3 py-1 border border-gray-200 shadow-sm relative">
-                <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-white" style={{filter: 'drop-shadow(0 2px 1px rgba(0,0,0,0.05))'}}></div>
-                <span className="text-sm font-medium text-gray-800">Satışlar Entegrasyonu Aktif</span>
-              </div>
-              <div className="flex items-center space-x-2">
+            <div className="flex items-center space-x-2">
                 {/* Step 1 - Completed */}
                 <div className="w-6 h-6 bg-black rounded-full flex items-center justify-center">
                   <Check className="w-4 h-4 text-white" />
@@ -59,7 +54,6 @@ export default function Header({ lastSync }: HeaderProps) {
                 {/* Step 4 - Pending */}
                 <div className="w-6 h-6 border-2 border-gray-400 bg-white rounded-full"></div>
               </div>
-            </div>
             
             <div className="flex items-center space-x-2">
               <div className="w-8 h-8 bg-muted rounded-full flex items-center justify-center">
