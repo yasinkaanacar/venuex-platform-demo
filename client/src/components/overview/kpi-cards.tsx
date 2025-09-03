@@ -79,7 +79,7 @@ export default function KpiCards({ kpis, filters, onFiltersChange }: KpiCardsPro
     },
     {
       id: 'average-rating',
-      title: 'Average Star Rating',
+      title: 'Average Rating',
       icon: Receipt,
       iconColor: 'text-purple-600',
       iconBg: 'bg-purple-100',
