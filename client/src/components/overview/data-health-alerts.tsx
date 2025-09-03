@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { Card, CardContent, CardHeader, Typography } from '@mui/material';
-import { Badge } from '@/components/ui/badge';
+import { Chip } from '@mui/material';
 import { Button } from '@mui/material';
 import { Accordion, AccordionSummary, AccordionDetails } from '@mui/material';
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { Alert, AlertTitle } from '@mui/material';
 import { Platform, Alert as AlertType, Location } from '@shared/schema';
 import { CheckCircle, Clock, XCircle, AlertTriangle, ArrowRight, Database, Store, MapPin, Package, Receipt, AlertCircle, X, ChevronDown, ChevronUp, ArrowDown } from 'lucide-react';
 import { SiGoogle, SiMeta, SiTiktok, SiApple } from 'react-icons/si';

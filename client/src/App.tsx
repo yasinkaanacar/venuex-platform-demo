@@ -1,8 +1,6 @@
 import { Switch, Route } from "wouter";
 import { queryClient } from "./lib/queryClient";
 import { QueryClientProvider } from "@tanstack/react-query";
-import { Toaster } from "@/components/ui/toaster";
-import { TooltipProvider } from "@/components/ui/tooltip";
 import Sidebar from "@/components/layout/sidebar";
 import Overview from "@/pages/overview";
 import OfflineConversions from "@/pages/offline-conversions";
@@ -10,6 +8,7 @@ import NotFound from "@/pages/not-found";
 import { useState } from "react";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { CssBaseline } from "@mui/material";
+import { SnackbarProvider } from 'notistack';
 
 function Router() {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
@@ -73,10 +72,9 @@ function App() {
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <QueryClientProvider client={queryClient}>
-        <TooltipProvider>
-          <Toaster />
+        <SnackbarProvider maxSnack={3}>
           <Router />
-        </TooltipProvider>
+        </SnackbarProvider>
       </QueryClientProvider>
     </ThemeProvider>
   );

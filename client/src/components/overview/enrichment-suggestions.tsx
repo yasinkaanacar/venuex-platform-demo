@@ -1,7 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { Card, CardContent, CardHeader, Typography } from '@mui/material';
 import { Button } from '@mui/material';
-import { Badge } from '@/components/ui/badge';
+import { Chip } from '@mui/material';
 import { MapPin, Star, FileText, Lightbulb, Info } from 'lucide-react';
 import { EnrichmentSuggestion } from '@shared/schema';
 import { apiRequest } from '@/lib/queryClient';
@@ -146,13 +146,11 @@ export default function EnrichmentSuggestions() {
                     <div className="flex items-center gap-2 mb-1">
                       <h4 className="font-medium text-foreground">{suggestion.title}</h4>
                       <span className="text-sm font-semibold text-green-600">{suggestion.estimatedImprovement}</span>
-                      <Badge variant="outline" className={
-                        suggestion.impact === 'high' ? 'bg-red-50 text-red-700 border-red-200' :
-                        suggestion.impact === 'medium' ? 'bg-orange-50 text-orange-700 border-orange-200' :
-                        'bg-gray-50 text-gray-700 border-gray-200'
-                      }>
-                        {suggestion.impact.charAt(0).toUpperCase() + suggestion.impact.slice(1)}
-                      </Badge>
+                      <Chip variant="outlined" size="small" label={suggestion.impact.charAt(0).toUpperCase() + suggestion.impact.slice(1)} sx={{
+                        backgroundColor: suggestion.impact === 'high' ? '#fef2f2' : suggestion.impact === 'medium' ? '#fff7ed' : '#f9fafb',
+                        color: suggestion.impact === 'high' ? '#b91c1c' : suggestion.impact === 'medium' ? '#c2410c' : '#374151',
+                        border: `1px solid ${suggestion.impact === 'high' ? '#fecaca' : suggestion.impact === 'medium' ? '#fed7aa' : '#e5e7eb'}`
+                      }} />
                     </div>
                     <p className="text-sm text-muted-foreground mb-2">
                       {suggestion.description}

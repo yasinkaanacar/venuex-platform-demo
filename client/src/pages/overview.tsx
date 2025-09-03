@@ -9,7 +9,7 @@ import TopPerformingCampaigns from '@/components/overview/top-performing-campaig
 import DataQualityEnrichment from '@/components/overview/data-quality-enrichment';
 import DataHealthAlerts from '@/components/overview/data-health-alerts';
 import { FilterState, OverviewData } from '@/lib/types';
-import { Skeleton } from '@/components/ui/skeleton';
+import { Skeleton } from '@mui/material';
 
 export default function Overview() {
   const [filters, setFilters] = useState<FilterState>({
@@ -63,13 +63,13 @@ export default function Overview() {
           <div className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               {Array.from({ length: 4 }).map((_, i) => (
-                <Skeleton key={i} className="h-32 rounded-lg" data-testid={`skeleton-kpi-${i}`} />
+                <Skeleton key={i} variant="rectangular" height={128} sx={{ borderRadius: 2 }} data-testid={`skeleton-kpi-${i}`} />
               ))}
             </div>
-            <Skeleton className="h-96 rounded-lg" data-testid="skeleton-chart" />
+            <Skeleton variant="rectangular" height={384} sx={{ borderRadius: 2 }} data-testid="skeleton-chart" />
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              <Skeleton className="h-80 rounded-lg" data-testid="skeleton-data-health" />
-              <Skeleton className="h-80 rounded-lg" data-testid="skeleton-locations" />
+              <Skeleton variant="rectangular" height={320} sx={{ borderRadius: 2 }} data-testid="skeleton-data-health" />
+              <Skeleton variant="rectangular" height={320} sx={{ borderRadius: 2 }} data-testid="skeleton-locations" />
             </div>
           </div>
         ) : (

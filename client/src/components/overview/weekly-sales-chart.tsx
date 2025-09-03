@@ -1,5 +1,5 @@
 import { Card, CardContent, CardHeader, Typography } from '@mui/material';
-import { Badge } from '@/components/ui/badge';
+import { Chip } from '@mui/material';
 import { ComposedChart, Bar, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, Area, AreaChart } from 'recharts';
 import { TrendingUp, TrendingDown, DollarSign, ShoppingCart, Store } from 'lucide-react';
 
@@ -273,18 +273,24 @@ export default function WeeklySalesChart() {
         }
       />
       <div className="flex items-center gap-2 px-6 pb-4">
-        <Badge variant="secondary" className="flex items-center gap-1">
-          <ShoppingCart className="w-3 h-3" />
-          Online Channel
-        </Badge>
-        <Badge variant="secondary" className="flex items-center gap-1">
-          <Store className="w-3 h-3" />
-          Offline Channel
-        </Badge>
-        <Badge variant="secondary" className="flex items-center gap-1">
-          <DollarSign className="w-3 h-3" />
-          Ad Investment
-        </Badge>
+        <Chip 
+          icon={<ShoppingCart className="w-3 h-3" />}
+          label="Online Channel"
+          size="small"
+          variant="outlined"
+        />
+        <Chip 
+          icon={<Store className="w-3 h-3" />}
+          label="Offline Channel"
+          size="small"
+          variant="outlined"
+        />
+        <Chip 
+          icon={<DollarSign className="w-3 h-3" />}
+          label="Ad Investment"
+          size="small"
+          variant="outlined"
+        />
       </div>
       
       <CardContent className="pt-0">

@@ -1,6 +1,6 @@
 import { Card, CardContent, CardHeader, Typography } from '@mui/material';
-import { Badge } from '@/components/ui/badge';
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { Chip } from '@mui/material';
+import { Alert, AlertTitle } from '@mui/material';
 import { Platform, Alert as AlertType } from '@shared/schema';
 import { CheckCircle, Clock, XCircle, AlertTriangle, ArrowRight, Database, Store, MapPin, Package, Receipt } from 'lucide-react';
 import { SiGoogle, SiMeta, SiTiktok, SiApple } from 'react-icons/si';
