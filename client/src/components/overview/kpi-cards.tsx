@@ -181,8 +181,8 @@ export default function KpiCards({ kpis, filters, onFiltersChange }: KpiCardsPro
                         }`}
                         data-testid="tab-google"
                       >
-                        <div className="w-3.5 h-3.5 bg-red-500 rounded flex items-center justify-center">
-                          <span className="text-[10px] text-white font-bold">G</span>
+                        <div className="w-3.5 h-3.5 bg-white rounded flex items-center justify-center border">
+                          <SiGoogle className="w-2.5 h-2.5 text-blue-600" />
                         </div>
                         Google
                       </button>
@@ -232,8 +232,8 @@ export default function KpiCards({ kpis, filters, onFiltersChange }: KpiCardsPro
                         }`}
                         data-testid="tab-google"
                       >
-                        <div className="w-3.5 h-3.5 bg-red-500 rounded flex items-center justify-center">
-                          <span className="text-[10px] text-white font-bold">G</span>
+                        <div className="w-3.5 h-3.5 bg-white rounded flex items-center justify-center border">
+                          <SiGoogle className="w-2.5 h-2.5 text-blue-600" />
                         </div>
                         Google
                       </button>
@@ -268,8 +268,8 @@ export default function KpiCards({ kpis, filters, onFiltersChange }: KpiCardsPro
                         }`}
                         data-testid="tab-google"
                       >
-                        <div className="w-3.5 h-3.5 bg-red-500 rounded flex items-center justify-center">
-                          <span className="text-[10px] text-white font-bold">G</span>
+                        <div className="w-3.5 h-3.5 bg-white rounded flex items-center justify-center border">
+                          <SiGoogle className="w-2.5 h-2.5 text-blue-600" />
                         </div>
                         Google
                       </button>

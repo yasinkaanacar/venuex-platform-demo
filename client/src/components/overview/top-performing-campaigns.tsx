@@ -158,8 +158,8 @@ export default function TopPerformingCampaigns({ filters, onFiltersChange }: Top
               <tr className="hover:bg-muted/50" data-testid="row-campaign-summer-sale">
                 <td className="py-4 px-4 border-r border-border/30">
                   <div className="flex items-center gap-3">
-                    <div className="w-6 h-6 bg-red-500 rounded flex items-center justify-center flex-shrink-0">
-                      <span className="text-xs text-white font-bold">G</span>
+                    <div className="w-6 h-6 bg-white rounded flex items-center justify-center flex-shrink-0 border">
+                      <SiGoogle className="w-3 h-3 text-blue-600" />
                     </div>
                     <div>
                       <div className="font-medium text-foreground">Summer Sale 2024</div>
@@ -177,8 +177,8 @@ export default function TopPerformingCampaigns({ filters, onFiltersChange }: Top
               <tr className="hover:bg-muted/50" data-testid="row-campaign-local-shopping">
                 <td className="py-4 px-4 border-r border-border/30">
                   <div className="flex items-center gap-3">
-                    <div className="w-6 h-6 bg-red-500 rounded flex items-center justify-center flex-shrink-0">
-                      <span className="text-xs text-white font-bold">G</span>
+                    <div className="w-6 h-6 bg-white rounded flex items-center justify-center flex-shrink-0 border">
+                      <SiGoogle className="w-3 h-3 text-blue-600" />
                     </div>
                     <div>
                       <div className="font-medium text-foreground">Local Shopping Campaign</div>
