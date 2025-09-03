@@ -131,7 +131,7 @@ export default function KpiCards({ kpis, filters, onFiltersChange }: KpiCardsPro
             arrow
           >
             <div>
-              <Card className="hover:shadow-lg transition-all duration-200 cursor-pointer hover:scale-105" data-testid={`card-${card.id}`}>
+              <Card className="bg-[#f9fafb] hover:shadow-lg transition-all duration-200 cursor-pointer hover:scale-105" data-testid={`card-${card.id}`}>
                 {/* Platform tabs at the top */}
                 {card.id === 'offline-roas' && (
                   <div className="p-3 pb-0 flex justify-center">
