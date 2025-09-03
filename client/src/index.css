@@ -115,42 +115,43 @@
   background-color: #f9fafb !important;
 }
 
-/* Radix UI Select Content styling */
+/* More specific Radix UI Select targeting */
+button[data-testid="select-date-range"] {
+  background-color: #f9fafb !important;
+  background: #f9fafb !important;
+}
+
+/* Target all possible Select trigger elements */
+[role="combobox"][data-testid="select-date-range"] {
+  background-color: #f9fafb !important;
+  background: #f9fafb !important;
+}
+
+/* Radix Select Content and Items */
 [data-radix-select-content] {
   background-color: #f9fafb !important;
+  background: #f9fafb !important;
 }
 
 [data-radix-select-item] {
   background-color: #f9fafb !important;
+  background: #f9fafb !important;
 }
 
-[data-radix-select-item]:hover {
+[data-radix-select-item]:hover,
+[data-radix-select-item][data-highlighted] {
   background-color: #f0f1f2 !important;
+  background: #f0f1f2 !important;
 }
 
-/* Alternative selectors for better coverage */
-.select-trigger {
+/* Universal override for any select related elements */
+*[data-testid="select-date-range"] * {
   background-color: #f9fafb !important;
 }
 
-.select-content {
+/* Target by class names that might be generated */
+.select-trigger,
+.select-content,
+[class*="select"] {
   background-color: #f9fafb !important;
-}
-
-/* Custom styling for date range select */
-[data-testid="select-date-range"] {
-  background-color: #f9fafb !important;
-}
-
-/* Radix Select components styling */
-[data-radix-select-content] {
-  background-color: #f9fafb !important;
-}
-
-[data-radix-select-item] {
-  background-color: #f9fafb !important;
-}
-
-[data-radix-select-item]:hover {
-  background-color: #f0f1f2 !important;
 }
