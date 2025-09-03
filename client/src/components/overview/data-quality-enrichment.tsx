@@ -5,19 +5,19 @@ import EnrichmentSuggestions from './enrichment-suggestions';
 export default function DataQualityEnrichment() {
   return (
     <Card>
-      <CardHeader>
-        <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-4">
-            <CardTitle className="text-lg font-semibold text-foreground">Data Quality Assessment</CardTitle>
-            <div className="text-sm text-muted-foreground">
-              Overall Score: <span className="text-green-600 font-semibold">97%</span>
-            </div>
-          </div>
+      <CardHeader
+        title="Data Quality Assessment"
+        subheader={
+          <span className="text-sm text-muted-foreground">
+            Overall Score: <span className="text-green-600 font-semibold">97%</span>
+          </span>
+        }
+        action={
           <Button variant="ghost" size="sm" className="text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:hover:text-white font-medium" data-testid="button-view-all-data-quality">
             View All →
           </Button>
-        </div>
-      </CardHeader>
+        }
+      />
       <CardContent className="space-y-8">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Location Data */}
