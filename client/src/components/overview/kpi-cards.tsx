@@ -132,180 +132,182 @@ export default function KpiCards({ kpis, filters, onFiltersChange }: KpiCardsPro
           >
             <div>
               <Card className="hover:shadow-lg transition-all duration-200 cursor-pointer hover:scale-105" data-testid={`card-${card.id}`}>
-                <CardContent className="p-6">
-                  {card.id === 'offline-roas' && (
-                    <div className="mb-4 flex justify-center">
-                      <div className="flex items-center bg-gray-100 dark:bg-gray-800 p-1 rounded-lg border shadow-inner max-w-fit">
-                        <button
-                          onClick={() => onFiltersChange({ ...filters, platform: 'Google' })}
-                          className={`flex items-center gap-1.5 px-3 py-2 rounded-md text-xs font-semibold transition-all duration-200 ${
-                            filters.platform === 'Google'
-                              ? 'bg-white dark:bg-gray-700 text-foreground shadow-md border border-gray-200 dark:border-gray-600'
-                              : 'text-gray-500 dark:text-gray-400 hover:text-foreground hover:bg-white/50 dark:hover:bg-gray-700/50'
-                          }`}
-                          data-testid="tab-google"
-                        >
-                          <div className="w-3.5 h-3.5 bg-red-500 rounded flex items-center justify-center">
-                            <span className="text-[10px] text-white font-bold">G</span>
-                          </div>
-                          Google
-                        </button>
-                        
-                        <button
-                          onClick={() => onFiltersChange({ ...filters, platform: 'Meta' })}
-                          className={`flex items-center gap-1.5 px-3 py-2 rounded-md text-xs font-semibold transition-all duration-200 ${
-                            filters.platform === 'Meta'
-                              ? 'bg-white dark:bg-gray-700 text-foreground shadow-md border border-gray-200 dark:border-gray-600'
-                              : 'text-gray-500 dark:text-gray-400 hover:text-foreground hover:bg-white/50 dark:hover:bg-gray-700/50'
-                          }`}
-                          data-testid="tab-meta"
-                        >
-                          <div className="w-3.5 h-3.5 bg-blue-600 rounded flex items-center justify-center">
-                            <span className="text-[10px] text-white font-bold">f</span>
-                          </div>
-                          Meta
-                        </button>
-                        
-                        <button
-                          onClick={() => onFiltersChange({ ...filters, platform: 'TikTok' })}
-                          className={`flex items-center gap-1.5 px-3 py-2 rounded-md text-xs font-semibold transition-all duration-200 ${
-                            filters.platform === 'TikTok'
-                              ? 'bg-white dark:bg-gray-700 text-foreground shadow-md border border-gray-200 dark:border-gray-600'
-                              : 'text-gray-500 dark:text-gray-400 hover:text-foreground hover:bg-white/50 dark:hover:bg-gray-700/50'
-                          }`}
-                          data-testid="tab-tiktok"
-                        >
-                          <div className="w-3.5 h-3.5 bg-black rounded flex items-center justify-center">
-                            <SiTiktok className="w-2.5 h-2.5 text-white" />
-                          </div>
-                          TikTok
-                        </button>
-                      </div>
+                {/* Platform tabs at the top */}
+                {card.id === 'offline-roas' && (
+                  <div className="p-3 pb-0">
+                    <div className="flex items-center bg-gray-100 dark:bg-gray-800 p-1 rounded-lg border shadow-inner w-fit">
+                      <button
+                        onClick={() => onFiltersChange({ ...filters, platform: 'Google' })}
+                        className={`flex items-center gap-1.5 px-3 py-2 rounded-md text-xs font-semibold transition-all duration-200 ${
+                          filters.platform === 'Google'
+                            ? 'bg-white dark:bg-gray-700 text-foreground shadow-md border border-gray-200 dark:border-gray-600'
+                            : 'text-gray-500 dark:text-gray-400 hover:text-foreground hover:bg-white/50 dark:hover:bg-gray-700/50'
+                        }`}
+                        data-testid="tab-google"
+                      >
+                        <div className="w-3.5 h-3.5 bg-red-500 rounded flex items-center justify-center">
+                          <span className="text-[10px] text-white font-bold">G</span>
+                        </div>
+                        Google
+                      </button>
+                      
+                      <button
+                        onClick={() => onFiltersChange({ ...filters, platform: 'Meta' })}
+                        className={`flex items-center gap-1.5 px-3 py-2 rounded-md text-xs font-semibold transition-all duration-200 ${
+                          filters.platform === 'Meta'
+                            ? 'bg-white dark:bg-gray-700 text-foreground shadow-md border border-gray-200 dark:border-gray-600'
+                            : 'text-gray-500 dark:text-gray-400 hover:text-foreground hover:bg-white/50 dark:hover:bg-gray-700/50'
+                        }`}
+                        data-testid="tab-meta"
+                      >
+                        <div className="w-3.5 h-3.5 bg-blue-600 rounded flex items-center justify-center">
+                          <span className="text-[10px] text-white font-bold">f</span>
+                        </div>
+                        Meta
+                      </button>
+                      
+                      <button
+                        onClick={() => onFiltersChange({ ...filters, platform: 'TikTok' })}
+                        className={`flex items-center gap-1.5 px-3 py-2 rounded-md text-xs font-semibold transition-all duration-200 ${
+                          filters.platform === 'TikTok'
+                            ? 'bg-white dark:bg-gray-700 text-foreground shadow-md border border-gray-200 dark:border-gray-600'
+                            : 'text-gray-500 dark:text-gray-400 hover:text-foreground hover:bg-white/50 dark:hover:bg-gray-700/50'
+                        }`}
+                        data-testid="tab-tiktok"
+                      >
+                        <div className="w-3.5 h-3.5 bg-black rounded flex items-center justify-center">
+                          <SiTiktok className="w-2.5 h-2.5 text-white" />
+                        </div>
+                        TikTok
+                      </button>
                     </div>
-                  )}
-                  
-                  {card.id === 'location-engagements' && (
-                    <div className="mb-4 flex justify-center">
-                      <div className="flex items-center bg-gray-100 dark:bg-gray-800 p-1 rounded-lg border shadow-inner max-w-fit">
-                        <button
-                          onClick={() => onFiltersChange({ ...filters, platform: 'Google' })}
-                          className={`flex items-center gap-1.5 px-3 py-2 rounded-md text-xs font-semibold transition-all duration-200 ${
-                            filters.platform === 'Google'
-                              ? 'bg-white dark:bg-gray-700 text-foreground shadow-md border border-gray-200 dark:border-gray-600'
-                              : 'text-gray-500 dark:text-gray-400 hover:text-foreground hover:bg-white/50 dark:hover:bg-gray-700/50'
-                          }`}
-                          data-testid="tab-google"
-                        >
-                          <div className="w-3.5 h-3.5 bg-red-500 rounded flex items-center justify-center">
-                            <span className="text-[10px] text-white font-bold">G</span>
-                          </div>
-                          Google
-                        </button>
-                        
-                        <button
-                          onClick={() => onFiltersChange({ ...filters, platform: 'Apple' })}
-                          className={`flex items-center gap-1.5 px-3 py-2 rounded-md text-xs font-semibold transition-all duration-200 ${
-                            filters.platform === 'Apple'
-                              ? 'bg-white dark:bg-gray-700 text-foreground shadow-md border border-gray-200 dark:border-gray-600'
-                              : 'text-gray-500 dark:text-gray-400 hover:text-foreground hover:bg-white/50 dark:hover:bg-gray-700/50'
-                          }`}
-                          data-testid="tab-apple"
-                        >
-                          <div className="w-3.5 h-3.5 bg-gray-800 rounded flex items-center justify-center">
-                            <span className="text-[10px] text-white font-bold">🍎</span>
-                          </div>
-                          Apple
-                        </button>
-                        
-                        <button
-                          onClick={() => onFiltersChange({ ...filters, platform: 'Yandex' })}
-                          className={`flex items-center gap-1.5 px-3 py-2 rounded-md text-xs font-semibold transition-all duration-200 ${
-                            filters.platform === 'Yandex'
-                              ? 'bg-white dark:bg-gray-700 text-foreground shadow-md border border-gray-200 dark:border-gray-600'
-                              : 'text-gray-500 dark:text-gray-400 hover:text-foreground hover:bg-white/50 dark:hover:bg-gray-700/50'
-                          }`}
-                          data-testid="tab-yandex"
-                        >
-                          <div className="w-3.5 h-3.5 bg-red-600 rounded flex items-center justify-center">
-                            <span className="text-[10px] text-white font-bold">Y</span>
-                          </div>
-                          Yandex
-                        </button>
-                      </div>
+                  </div>
+                )}
+                
+                {card.id === 'location-engagements' && (
+                  <div className="p-3 pb-0">
+                    <div className="flex items-center bg-gray-100 dark:bg-gray-800 p-1 rounded-lg border shadow-inner w-fit">
+                      <button
+                        onClick={() => onFiltersChange({ ...filters, platform: 'Google' })}
+                        className={`flex items-center gap-1.5 px-3 py-2 rounded-md text-xs font-semibold transition-all duration-200 ${
+                          filters.platform === 'Google'
+                            ? 'bg-white dark:bg-gray-700 text-foreground shadow-md border border-gray-200 dark:border-gray-600'
+                            : 'text-gray-500 dark:text-gray-400 hover:text-foreground hover:bg-white/50 dark:hover:bg-gray-700/50'
+                        }`}
+                        data-testid="tab-google"
+                      >
+                        <div className="w-3.5 h-3.5 bg-red-500 rounded flex items-center justify-center">
+                          <span className="text-[10px] text-white font-bold">G</span>
+                        </div>
+                        Google
+                      </button>
+                      
+                      <button
+                        onClick={() => onFiltersChange({ ...filters, platform: 'Apple' })}
+                        className={`flex items-center gap-1.5 px-3 py-2 rounded-md text-xs font-semibold transition-all duration-200 ${
+                          filters.platform === 'Apple'
+                            ? 'bg-white dark:bg-gray-700 text-foreground shadow-md border border-gray-200 dark:border-gray-600'
+                            : 'text-gray-500 dark:text-gray-400 hover:text-foreground hover:bg-white/50 dark:hover:bg-gray-700/50'
+                        }`}
+                        data-testid="tab-apple"
+                      >
+                        <div className="w-3.5 h-3.5 bg-gray-800 rounded flex items-center justify-center">
+                          <span className="text-[10px] text-white font-bold">🍎</span>
+                        </div>
+                        Apple
+                      </button>
+                      
+                      <button
+                        onClick={() => onFiltersChange({ ...filters, platform: 'Yandex' })}
+                        className={`flex items-center gap-1.5 px-3 py-2 rounded-md text-xs font-semibold transition-all duration-200 ${
+                          filters.platform === 'Yandex'
+                            ? 'bg-white dark:bg-gray-700 text-foreground shadow-md border border-gray-200 dark:border-gray-600'
+                            : 'text-gray-500 dark:text-gray-400 hover:text-foreground hover:bg-white/50 dark:hover:bg-gray-700/50'
+                        }`}
+                        data-testid="tab-yandex"
+                      >
+                        <div className="w-3.5 h-3.5 bg-red-600 rounded flex items-center justify-center">
+                          <span className="text-[10px] text-white font-bold">Y</span>
+                        </div>
+                        Yandex
+                      </button>
                     </div>
-                  )}
-                  
-                  {card.id === 'local-inventory' && (
-                    <div className="mb-4 flex justify-center">
-                      <div className="flex items-center bg-gray-100 dark:bg-gray-800 p-1 rounded-lg border shadow-inner max-w-fit">
-                        <button
-                          onClick={() => onFiltersChange({ ...filters, platform: 'Google' })}
-                          className={`flex items-center gap-1.5 px-4 py-2 rounded-md text-xs font-semibold transition-all duration-200 flex-1 justify-center ${
-                            filters.platform === 'Google'
-                              ? 'bg-white dark:bg-gray-700 text-foreground shadow-md border border-gray-200 dark:border-gray-600'
-                              : 'text-gray-500 dark:text-gray-400 hover:text-foreground hover:bg-white/50 dark:hover:bg-gray-700/50'
-                          }`}
-                          data-testid="tab-google"
-                        >
-                          <div className="w-3.5 h-3.5 bg-red-500 rounded flex items-center justify-center">
-                            <span className="text-[10px] text-white font-bold">G</span>
-                          </div>
-                          Google
-                        </button>
-                        
-                        <button
-                          onClick={() => onFiltersChange({ ...filters, platform: 'Meta' })}
-                          className={`flex items-center gap-1.5 px-4 py-2 rounded-md text-xs font-semibold transition-all duration-200 flex-1 justify-center ${
-                            filters.platform === 'Meta'
-                              ? 'bg-white dark:bg-gray-700 text-foreground shadow-md border border-gray-200 dark:border-gray-600'
-                              : 'text-gray-500 dark:text-gray-400 hover:text-foreground hover:bg-white/50 dark:hover:bg-gray-700/50'
-                          }`}
-                          data-testid="tab-meta"
-                        >
-                          <div className="w-3.5 h-3.5 bg-blue-600 rounded flex items-center justify-center">
-                            <span className="text-[10px] text-white font-bold">f</span>
-                          </div>
-                          Meta
-                        </button>
-                      </div>
+                  </div>
+                )}
+                
+                {card.id === 'local-inventory' && (
+                  <div className="p-3 pb-0">
+                    <div className="flex items-center bg-gray-100 dark:bg-gray-800 p-1 rounded-lg border shadow-inner w-fit">
+                      <button
+                        onClick={() => onFiltersChange({ ...filters, platform: 'Google' })}
+                        className={`flex items-center gap-1.5 px-4 py-2 rounded-md text-xs font-semibold transition-all duration-200 flex-1 justify-center ${
+                          filters.platform === 'Google'
+                            ? 'bg-white dark:bg-gray-700 text-foreground shadow-md border border-gray-200 dark:border-gray-600'
+                            : 'text-gray-500 dark:text-gray-400 hover:text-foreground hover:bg-white/50 dark:hover:bg-gray-700/50'
+                        }`}
+                        data-testid="tab-google"
+                      >
+                        <div className="w-3.5 h-3.5 bg-red-500 rounded flex items-center justify-center">
+                          <span className="text-[10px] text-white font-bold">G</span>
+                        </div>
+                        Google
+                      </button>
+                      
+                      <button
+                        onClick={() => onFiltersChange({ ...filters, platform: 'Meta' })}
+                        className={`flex items-center gap-1.5 px-4 py-2 rounded-md text-xs font-semibold transition-all duration-200 flex-1 justify-center ${
+                          filters.platform === 'Meta'
+                            ? 'bg-white dark:bg-gray-700 text-foreground shadow-md border border-gray-200 dark:border-gray-600'
+                            : 'text-gray-500 dark:text-gray-400 hover:text-foreground hover:bg-white/50 dark:hover:bg-gray-700/50'
+                        }`}
+                        data-testid="tab-meta"
+                      >
+                        <div className="w-3.5 h-3.5 bg-blue-600 rounded flex items-center justify-center">
+                          <span className="text-[10px] text-white font-bold">f</span>
+                        </div>
+                        Meta
+                      </button>
                     </div>
-                  )}
-                  
-                  {card.id === 'average-rating' && (
-                    <div className="mb-4 flex justify-center">
-                      <div className="flex items-center bg-gray-100 dark:bg-gray-800 p-1 rounded-lg border shadow-inner max-w-fit">
-                        <button
-                          onClick={() => onFiltersChange({ ...filters, platform: 'Google' })}
-                          className={`flex items-center gap-1.5 px-4 py-2 rounded-md text-xs font-semibold transition-all duration-200 flex-1 justify-center ${
-                            filters.platform === 'Google'
-                              ? 'bg-white dark:bg-gray-700 text-foreground shadow-md border border-gray-200 dark:border-gray-600'
-                              : 'text-gray-500 dark:text-gray-400 hover:text-foreground hover:bg-white/50 dark:hover:bg-gray-700/50'
-                          }`}
-                          data-testid="tab-google"
-                        >
-                          <div className="w-3.5 h-3.5 bg-red-500 rounded flex items-center justify-center">
-                            <span className="text-[10px] text-white font-bold">G</span>
-                          </div>
-                          Google
-                        </button>
-                        
-                        <button
-                          onClick={() => onFiltersChange({ ...filters, platform: 'Yandex' })}
-                          className={`flex items-center gap-1.5 px-4 py-2 rounded-md text-xs font-semibold transition-all duration-200 flex-1 justify-center ${
-                            filters.platform === 'Yandex'
-                              ? 'bg-white dark:bg-gray-700 text-foreground shadow-md border border-gray-200 dark:border-gray-600'
-                              : 'text-gray-500 dark:text-gray-400 hover:text-foreground hover:bg-white/50 dark:hover:bg-gray-700/50'
-                          }`}
-                          data-testid="tab-yandex"
-                        >
-                          <div className="w-3.5 h-3.5 bg-red-600 rounded flex items-center justify-center">
-                            <span className="text-[10px] text-white font-bold">Y</span>
-                          </div>
-                          Yandex
-                        </button>
-                      </div>
+                  </div>
+                )}
+                
+                {card.id === 'average-rating' && (
+                  <div className="p-3 pb-0">
+                    <div className="flex items-center bg-gray-100 dark:bg-gray-800 p-1 rounded-lg border shadow-inner w-fit">
+                      <button
+                        onClick={() => onFiltersChange({ ...filters, platform: 'Google' })}
+                        className={`flex items-center gap-1.5 px-4 py-2 rounded-md text-xs font-semibold transition-all duration-200 flex-1 justify-center ${
+                          filters.platform === 'Google'
+                            ? 'bg-white dark:bg-gray-700 text-foreground shadow-md border border-gray-200 dark:border-gray-600'
+                            : 'text-gray-500 dark:text-gray-400 hover:text-foreground hover:bg-white/50 dark:hover:bg-gray-700/50'
+                        }`}
+                        data-testid="tab-google"
+                      >
+                        <div className="w-3.5 h-3.5 bg-red-500 rounded flex items-center justify-center">
+                          <span className="text-[10px] text-white font-bold">G</span>
+                        </div>
+                        Google
+                      </button>
+                      
+                      <button
+                        onClick={() => onFiltersChange({ ...filters, platform: 'Yandex' })}
+                        className={`flex items-center gap-1.5 px-4 py-2 rounded-md text-xs font-semibold transition-all duration-200 flex-1 justify-center ${
+                          filters.platform === 'Yandex'
+                            ? 'bg-white dark:bg-gray-700 text-foreground shadow-md border border-gray-200 dark:border-gray-600'
+                            : 'text-gray-500 dark:text-gray-400 hover:text-foreground hover:bg-white/50 dark:hover:bg-gray-700/50'
+                        }`}
+                        data-testid="tab-yandex"
+                      >
+                        <div className="w-3.5 h-3.5 bg-red-600 rounded flex items-center justify-center">
+                          <span className="text-[10px] text-white font-bold">Y</span>
+                        </div>
+                        Yandex
+                      </button>
                     </div>
-                  )}
+                  </div>
+                )}
+
+                <CardContent className="p-6 pt-3">
                   
                   <div className="flex items-center justify-between mb-4">
                     <div className="flex items-center space-x-2">
