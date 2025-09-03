@@ -14,7 +14,7 @@ export default function PerformanceChart({ filters, onFiltersChange }: Performan
   const [performanceChartPlatform, setPerformanceChartPlatform] = useState<string>('Google');
 
   return (
-    <div className="bg-[#fcfcfc] rounded-lg border border-gray-200">
+    <div className="bg-[#fcfcfc] rounded-lg border border-gray-200 overflow-hidden">
       <div className="bg-[#f9fafb] p-6 flex justify-between items-center border-b border-gray-200">
         <div>
           <h3 className="text-lg font-semibold text-foreground">Online-to-Offline Conversion Funnel</h3>
@@ -24,7 +24,7 @@ export default function PerformanceChart({ filters, onFiltersChange }: Performan
           View All →
         </button>
       </div>
-      <div className="bg-[#f9fafb] p-6 overflow-hidden">
+      <div className="bg-[#f9fafb] p-6">
         <div className="mb-4 flex justify-center">
           <div className="flex items-center dark:bg-gray-800 p-1 rounded-lg border shadow-inner w-fit bg-[#ffffff]">
             <button
