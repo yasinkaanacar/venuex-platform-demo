@@ -6,6 +6,7 @@ export default function DataQualityEnrichment() {
   return (
     <Card>
       <CardHeader
+        className="bg-[#f3f4f6]"
         title="Data Quality Assessment"
         subheader={
           <span className="text-sm text-muted-foreground">
