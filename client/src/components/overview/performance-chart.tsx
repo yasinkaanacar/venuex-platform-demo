@@ -25,7 +25,7 @@ export default function PerformanceChart({ filters, onFiltersChange }: Performan
       />
       <CardContent className="bg-[#f9fafb]">
         <div className="mb-4 flex justify-center">
-          <div className="flex items-center bg-gray-100 dark:bg-gray-800 p-1 rounded-lg border shadow-inner w-fit">
+          <div className="flex items-center dark:bg-gray-800 p-1 rounded-lg border shadow-inner w-fit bg-[#ffffff]">
             <button
               onClick={() => onFiltersChange({ ...filters, platform: 'Google' })}
               className={`flex items-center gap-1.5 px-3 py-2 rounded-md text-xs font-semibold transition-all duration-200 ${
