@@ -36,6 +36,7 @@ export default function Header({ lastSync }: HeaderProps) {
           
           <div className="flex items-center space-x-8">
             <div className="flex flex-col items-center">
+              <div className="text-xs text-gray-500 mb-2">VenueX Kurulum</div>
               <div className="flex items-center">
                 {/* Step 1 - Completed */}
                 <Tooltip title="İşletme Profili" arrow componentsProps={{ tooltip: { sx: { fontSize: '14px' } } }}>
@@ -64,7 +65,6 @@ export default function Header({ lastSync }: HeaderProps) {
                   <div className="w-6 h-6 border-2 border-gray-400 bg-white rounded-full"></div>
                 </Tooltip>
               </div>
-              <div className="text-xs text-gray-500 mt-2">VenueX Kurulum</div>
             </div>
               <div className="w-4"></div>
             
