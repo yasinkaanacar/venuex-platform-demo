@@ -2,19 +2,23 @@ import * as React from "react"
 import { Tooltip as MuiTooltip, TooltipProps as MuiTooltipProps } from "@mui/material"
 import { styled } from "@mui/material/styles"
 
-const StyledTooltip = styled(MuiTooltip)(({ theme }) => ({
+const StyledTooltip = styled(MuiTooltip)(() => ({
   '& .MuiTooltip-tooltip': {
-    backgroundColor: '#ffffff',
-    color: '#000000',
-    borderRadius: 8,
+    backgroundColor: '#ffffff !important',
+    color: '#000000 !important',
+    borderRadius: '8px',
     fontSize: '14px',
     padding: '16px',
     border: '1px solid #d1d5db',
     boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
-    maxWidth: 280,
+    maxWidth: '280px',
   },
   '& .MuiTooltip-arrow': {
-    color: '#ffffff',
+    color: '#ffffff !important',
+    '&::before': {
+      backgroundColor: '#ffffff !important',
+      border: '1px solid #d1d5db',
+    }
   },
 }))
 
