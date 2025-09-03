@@ -19,6 +19,15 @@ Preferred communication style: Simple, everyday language.
 - **Data Enrichment**: Single button per row layout - "Apply Fix" for some rows, "More Information" for others
 - **UI Theme**: Soft border colors throughout, responsive design maintained
 
+## V2 State (September 3, 2025)
+**Architecture Migration - Frontend Mock Data:**
+- **Data Layer**: Migrated from database-backed to frontend mock data service
+- **Query Client**: Updated to use mock data functions instead of backend API calls
+- **Backend Simplification**: Removed database connections, simplified API routes to compatibility stubs
+- **React Query Integration**: Maintained full React Query functionality with simulated network delays
+- **Platform Independence**: Each component maintains independent platform state for consistent UX
+- **Mock Data Service**: Comprehensive service with realistic analytics data, KPIs, locations, campaigns, and enrichment suggestions
+
 # System Architecture
 
 ## Frontend Architecture
