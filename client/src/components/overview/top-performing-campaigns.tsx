@@ -25,7 +25,7 @@ export default function TopPerformingCampaigns({ filters, onFiltersChange }: Top
   };
 
   return (
-    <div className="bg-[#fcfcfc] rounded-lg border border-gray-200">
+    <div className="bg-[#fcfcfc] rounded-lg border border-gray-200 overflow-hidden">
       <div className="bg-[#f9fafb] p-6 flex justify-between items-center border-b border-gray-200">
         <div>
           <h3 className="text-lg font-semibold text-foreground">Top Performing Campaigns</h3>
