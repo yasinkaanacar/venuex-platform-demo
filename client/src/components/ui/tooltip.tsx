@@ -11,6 +11,9 @@ const StyledTooltip = styled(MuiTooltip)(({ theme }) => ({
     padding: '16px',
     boxShadow: theme.shadows[3],
     maxWidth: '280px',
+    '& > *': {
+      backgroundColor: '#ffffff !important',
+    }
   },
   '& .MuiTooltip-arrow': {
     color: '#ffffff !important',
