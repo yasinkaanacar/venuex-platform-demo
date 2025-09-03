@@ -123,7 +123,7 @@ export default function KpiCards({ kpis, filters, onFiltersChange }: KpiCardsPro
                     <div className="flex items-center dark:bg-gray-800 p-1 rounded-lg border shadow-inner w-fit bg-[#ffffff]">
                       <button
                         onClick={() => setOfflineRoasPlatform('Google')}
-                        className={`flex items-center gap-1.5 px-3 py-2 rounded-md text-xs font-semibold transition-all duration-200 ${
+                        className={`flex items-center gap-1.5 px-2 2xl:px-3 py-2 rounded-md text-xs font-semibold transition-all duration-200 ${
                           offlineRoasPlatform === 'Google'
                             ? 'bg-white dark:bg-gray-700 text-foreground shadow-md border border-gray-200 dark:border-gray-600'
                             : 'text-gray-500 dark:text-gray-400 hover:text-foreground hover:bg-white/50 dark:hover:bg-gray-700/50'
@@ -133,12 +133,12 @@ export default function KpiCards({ kpis, filters, onFiltersChange }: KpiCardsPro
                         <div className="w-3.5 h-3.5 bg-[#EA4335] rounded flex items-center justify-center">
                           <SiGoogle className="w-2.5 h-2.5 text-white" />
                         </div>
-                        Google
+                        <span className="hidden 2xl:inline">Google</span>
                       </button>
                       
                       <button
                         onClick={() => setOfflineRoasPlatform('Meta')}
-                        className={`flex items-center gap-1.5 px-3 py-2 rounded-md text-xs font-semibold transition-all duration-200 ${
+                        className={`flex items-center gap-1.5 px-2 2xl:px-3 py-2 rounded-md text-xs font-semibold transition-all duration-200 ${
                           offlineRoasPlatform === 'Meta'
                             ? 'bg-white dark:bg-gray-700 text-foreground shadow-md border border-gray-200 dark:border-gray-600'
                             : 'text-gray-500 dark:text-gray-400 hover:text-foreground hover:bg-white/50 dark:hover:bg-gray-700/50'
@@ -148,12 +148,12 @@ export default function KpiCards({ kpis, filters, onFiltersChange }: KpiCardsPro
                         <div className="w-3.5 h-3.5 bg-[#1877F2] rounded flex items-center justify-center">
                           <SiMeta className="w-2.5 h-2.5 text-white" />
                         </div>
-                        Meta
+                        <span className="hidden 2xl:inline">Meta</span>
                       </button>
                       
                       <button
                         onClick={() => setOfflineRoasPlatform('TikTok')}
-                        className={`flex items-center gap-1.5 px-3 py-2 rounded-md text-xs font-semibold transition-all duration-200 ${
+                        className={`flex items-center gap-1.5 px-2 2xl:px-3 py-2 rounded-md text-xs font-semibold transition-all duration-200 ${
                           offlineRoasPlatform === 'TikTok'
                             ? 'bg-white dark:bg-gray-700 text-foreground shadow-md border border-gray-200 dark:border-gray-600'
                             : 'text-gray-500 dark:text-gray-400 hover:text-foreground hover:bg-white/50 dark:hover:bg-gray-700/50'
@@ -163,7 +163,7 @@ export default function KpiCards({ kpis, filters, onFiltersChange }: KpiCardsPro
                         <div className="w-3.5 h-3.5 bg-black rounded flex items-center justify-center">
                           <SiTiktok className="w-2.5 h-2.5 text-white" />
                         </div>
-                        TikTok
+                        <span className="hidden 2xl:inline">TikTok</span>
                       </button>
                     </div>
                   </div>
@@ -174,7 +174,7 @@ export default function KpiCards({ kpis, filters, onFiltersChange }: KpiCardsPro
                     <div className="flex items-center dark:bg-gray-800 p-1 rounded-lg border shadow-inner w-fit bg-[#ffffff]">
                       <button
                         onClick={() => setLocationEngagementsPlatform('Google')}
-                        className={`flex items-center gap-1.5 px-3 py-2 rounded-md text-xs font-semibold transition-all duration-200 ${
+                        className={`flex items-center gap-1.5 px-2 2xl:px-3 py-2 rounded-md text-xs font-semibold transition-all duration-200 ${
                           locationEngagementsPlatform === 'Google'
                             ? 'bg-white dark:bg-gray-700 text-foreground shadow-md border border-gray-200 dark:border-gray-600'
                             : 'text-gray-500 dark:text-gray-400 hover:text-foreground hover:bg-white/50 dark:hover:bg-gray-700/50'
@@ -184,12 +184,12 @@ export default function KpiCards({ kpis, filters, onFiltersChange }: KpiCardsPro
                         <div className="w-3.5 h-3.5 bg-[#EA4335] rounded flex items-center justify-center">
                           <SiGoogle className="w-2.5 h-2.5 text-white" />
                         </div>
-                        Google
+                        <span className="hidden 2xl:inline">Google</span>
                       </button>
                       
                       <button
                         onClick={() => setLocationEngagementsPlatform('Apple')}
-                        className={`flex items-center gap-1.5 px-3 py-2 rounded-md text-xs font-semibold transition-all duration-200 ${
+                        className={`flex items-center gap-1.5 px-2 2xl:px-3 py-2 rounded-md text-xs font-semibold transition-all duration-200 ${
                           locationEngagementsPlatform === 'Apple'
                             ? 'bg-white dark:bg-gray-700 text-foreground shadow-md border border-gray-200 dark:border-gray-600'
                             : 'text-gray-500 dark:text-gray-400 hover:text-foreground hover:bg-white/50 dark:hover:bg-gray-700/50'
@@ -199,12 +199,12 @@ export default function KpiCards({ kpis, filters, onFiltersChange }: KpiCardsPro
                         <div className="w-3.5 h-3.5 bg-black rounded flex items-center justify-center">
                           <SiApple className="w-2.5 h-2.5 text-white" />
                         </div>
-                        Apple
+                        <span className="hidden 2xl:inline">Apple</span>
                       </button>
                       
                       <button
                         onClick={() => setLocationEngagementsPlatform('Yandex')}
-                        className={`flex items-center gap-1.5 px-3 py-2 rounded-md text-xs font-semibold transition-all duration-200 ${
+                        className={`flex items-center gap-1.5 px-2 2xl:px-3 py-2 rounded-md text-xs font-semibold transition-all duration-200 ${
                           locationEngagementsPlatform === 'Yandex'
                             ? 'bg-white dark:bg-gray-700 text-foreground shadow-md border border-gray-200 dark:border-gray-600'
                             : 'text-gray-500 dark:text-gray-400 hover:text-foreground hover:bg-white/50 dark:hover:bg-gray-700/50'
@@ -214,7 +214,7 @@ export default function KpiCards({ kpis, filters, onFiltersChange }: KpiCardsPro
                         <div className="w-3.5 h-3.5 bg-red-600 rounded flex items-center justify-center">
                           <span className="text-[10px] text-white font-bold">Y</span>
                         </div>
-                        Yandex
+                        <span className="hidden 2xl:inline">Yandex</span>
                       </button>
                     </div>
                   </div>
@@ -225,7 +225,7 @@ export default function KpiCards({ kpis, filters, onFiltersChange }: KpiCardsPro
                     <div className="flex items-center dark:bg-gray-800 p-1 rounded-lg border shadow-inner w-fit bg-[#ffffff]">
                       <button
                         onClick={() => setLocalInventoryPlatform('Google')}
-                        className={`flex items-center gap-1.5 px-4 py-2 rounded-md text-xs font-semibold transition-all duration-200 flex-1 justify-center ${
+                        className={`flex items-center gap-1.5 px-2 2xl:px-4 py-2 rounded-md text-xs font-semibold transition-all duration-200 flex-1 justify-center ${
                           localInventoryPlatform === 'Google'
                             ? 'bg-white dark:bg-gray-700 text-foreground shadow-md border border-gray-200 dark:border-gray-600'
                             : 'text-gray-500 dark:text-gray-400 hover:text-foreground hover:bg-white/50 dark:hover:bg-gray-700/50'
@@ -235,22 +235,22 @@ export default function KpiCards({ kpis, filters, onFiltersChange }: KpiCardsPro
                         <div className="w-3.5 h-3.5 bg-[#EA4335] rounded flex items-center justify-center">
                           <SiGoogle className="w-2.5 h-2.5 text-white" />
                         </div>
-                        Google
+                        <span className="hidden 2xl:inline">Google</span>
                       </button>
                       
                       <button
                         onClick={() => setLocalInventoryPlatform('Meta')}
-                        className={`flex items-center gap-1.5 px-4 py-2 rounded-md text-xs font-semibold transition-all duration-200 flex-1 justify-center ${
+                        className={`flex items-center gap-1.5 px-2 2xl:px-4 py-2 rounded-md text-xs font-semibold transition-all duration-200 flex-1 justify-center ${
                           localInventoryPlatform === 'Meta'
                             ? 'bg-white dark:bg-gray-700 text-foreground shadow-md border border-gray-200 dark:border-gray-600'
                             : 'text-gray-500 dark:text-gray-400 hover:text-foreground hover:bg-white/50 dark:hover:bg-gray-700/50'
                         }`}
                         data-testid="tab-meta"
                       >
-                        <div className="w-3.5 h-3.5 bg-blue-600 rounded flex items-center justify-center">
-                          <span className="text-[10px] text-white font-bold">f</span>
+                        <div className="w-3.5 h-3.5 bg-[#1877F2] rounded flex items-center justify-center">
+                          <SiMeta className="w-2.5 h-2.5 text-white" />
                         </div>
-                        Meta
+                        <span className="hidden 2xl:inline">Meta</span>
                       </button>
                     </div>
                   </div>
@@ -261,7 +261,7 @@ export default function KpiCards({ kpis, filters, onFiltersChange }: KpiCardsPro
                     <div className="flex items-center dark:bg-gray-800 p-1 rounded-lg border shadow-inner w-fit bg-[#ffffff]">
                       <button
                         onClick={() => setAverageRatingPlatform('Google')}
-                        className={`flex items-center gap-1.5 px-4 py-2 rounded-md text-xs font-semibold transition-all duration-200 flex-1 justify-center ${
+                        className={`flex items-center gap-1.5 px-2 2xl:px-4 py-2 rounded-md text-xs font-semibold transition-all duration-200 flex-1 justify-center ${
                           averageRatingPlatform === 'Google'
                             ? 'bg-white dark:bg-gray-700 text-foreground shadow-md border border-gray-200 dark:border-gray-600'
                             : 'text-gray-500 dark:text-gray-400 hover:text-foreground hover:bg-white/50 dark:hover:bg-gray-700/50'
@@ -271,12 +271,12 @@ export default function KpiCards({ kpis, filters, onFiltersChange }: KpiCardsPro
                         <div className="w-3.5 h-3.5 bg-[#EA4335] rounded flex items-center justify-center">
                           <SiGoogle className="w-2.5 h-2.5 text-white" />
                         </div>
-                        Google
+                        <span className="hidden 2xl:inline">Google</span>
                       </button>
                       
                       <button
                         onClick={() => setAverageRatingPlatform('Yandex')}
-                        className={`flex items-center gap-1.5 px-4 py-2 rounded-md text-xs font-semibold transition-all duration-200 flex-1 justify-center ${
+                        className={`flex items-center gap-1.5 px-2 2xl:px-4 py-2 rounded-md text-xs font-semibold transition-all duration-200 flex-1 justify-center ${
                           averageRatingPlatform === 'Yandex'
                             ? 'bg-white dark:bg-gray-700 text-foreground shadow-md border border-gray-200 dark:border-gray-600'
                             : 'text-gray-500 dark:text-gray-400 hover:text-foreground hover:bg-white/50 dark:hover:bg-gray-700/50'
@@ -286,7 +286,7 @@ export default function KpiCards({ kpis, filters, onFiltersChange }: KpiCardsPro
                         <div className="w-3.5 h-3.5 bg-red-600 rounded flex items-center justify-center">
                           <span className="text-[10px] text-white font-bold">Y</span>
                         </div>
-                        Yandex
+                        <span className="hidden 2xl:inline">Yandex</span>
                       </button>
                     </div>
                   </div>
