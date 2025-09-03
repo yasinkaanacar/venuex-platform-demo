@@ -24,7 +24,7 @@ export default function PerformanceChart({ filters, onFiltersChange }: Performan
           View All →
         </button>
       </div>
-      <div className="bg-[#f9fafb] p-6">
+      <div className="bg-[#f9fafb] p-6 overflow-hidden">
         <div className="mb-4 flex justify-center">
           <div className="flex items-center dark:bg-gray-800 p-1 rounded-lg border shadow-inner w-fit bg-[#ffffff]">
             <button
