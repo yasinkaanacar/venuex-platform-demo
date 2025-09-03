@@ -80,7 +80,7 @@ export default function PerformanceChart({ filters, onFiltersChange }: Performan
             className="w-full rounded-lg shadow-sm"
           />
         </div>
-      </CardContent>
-    </Card>
+      </div>
+    </div>
   );
 }

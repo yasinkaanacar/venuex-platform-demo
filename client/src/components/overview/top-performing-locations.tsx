@@ -25,18 +25,17 @@ export default function TopPerformingLocations({ filters, onFiltersChange }: Top
   };
 
   return (
-    <Card className="bg-[#fcfcfc]">
-      <CardHeader
-        className="bg-[#f9fafb]"
-        title="Top Performing Store Locations"
-        subheader="Store visits and conversions by location"
-        action={
-          <Button variant="ghost" size="sm" className="text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:hover:text-white font-medium" data-testid="button-view-all-locations">
-            View All →
-          </Button>
-        }
-      />
-      <CardContent className="bg-[#f9fafb]">
+    <div className="bg-[#fcfcfc] rounded-lg border border-gray-200">
+      <div className="bg-[#f9fafb] p-6 flex justify-between items-center border-b border-gray-200">
+        <div>
+          <h3 className="text-lg font-semibold text-foreground">Top Performing Store Locations</h3>
+          <p className="text-sm text-muted-foreground">Store visits and conversions by location</p>
+        </div>
+        <button className="text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:hover:text-white font-medium bg-transparent border-none cursor-pointer" data-testid="button-view-all-locations">
+          View All →
+        </button>
+      </div>
+      <div className="bg-[#f9fafb] p-6">
         <div className="mb-4 flex justify-center">
           <div className="flex items-center dark:bg-gray-800 p-1 rounded-lg border shadow-inner w-fit bg-[#ffffff]">
             <button
@@ -407,7 +406,7 @@ export default function TopPerformingLocations({ filters, onFiltersChange }: Top
             </tbody>
           </table>
         </div>
-      </CardContent>
-    </Card>
+      </div>
+    </div>
   );
 }
