@@ -130,7 +130,7 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
     return (
       <Card>
         <CardHeader
-          className="bg-[#f3f4f6]"
+          className="bg-[#f9fafb]"
           title="Data Health & Flow"
           subheader="Data flow from source systems through VenueX to platforms"
         />
