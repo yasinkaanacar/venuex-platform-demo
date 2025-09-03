@@ -22,7 +22,7 @@ export default function FilterBar({ filters, onFiltersChange }: FilterBarProps) 
           <SelectTrigger data-testid="select-date-range" className="border-gray-200 dark:border-gray-700 focus:border-gray-300 dark:focus:border-gray-600 w-40 bg-[#f9fafb]">
             <SelectValue />
           </SelectTrigger>
-          <SelectContent>
+          <SelectContent className="bg-[#f9fafb]">
             <SelectItem value="Last 7 days">Last 7 days</SelectItem>
             <SelectItem value="Last 30 days">Last 30 days</SelectItem>
             <SelectItem value="Last 90 days">Last 90 days</SelectItem>
