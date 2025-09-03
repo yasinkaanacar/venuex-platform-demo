@@ -54,11 +54,15 @@ export default function Header({ lastSync }: HeaderProps) {
                 <div className="w-8 h-0.5 bg-gray-300"></div>
                 
                 {/* Step 3 - Pending */}
-                <div className="w-6 h-6 border-2 border-gray-400 bg-white rounded-full"></div>
+                <Tooltip title="İşletme Profili" arrow componentsProps={{ tooltip: { sx: { fontSize: '14px' } } }}>
+                  <div className="w-6 h-6 border-2 border-gray-400 bg-white rounded-full"></div>
+                </Tooltip>
                 <div className="w-8 h-0.5 bg-gray-300"></div>
                 
                 {/* Step 4 - Pending */}
-                <div className="w-6 h-6 border-2 border-gray-400 bg-white rounded-full"></div>
+                <Tooltip title="Satışlar ve Offline Conversion" arrow componentsProps={{ tooltip: { sx: { fontSize: '14px' } } }}>
+                  <div className="w-6 h-6 border-2 border-gray-400 bg-white rounded-full"></div>
+                </Tooltip>
               </div>
               <div className="text-xs text-gray-500 mt-2">VenueX Kurulum</div>
             </div>
