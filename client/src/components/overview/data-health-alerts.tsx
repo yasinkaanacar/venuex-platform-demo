@@ -358,8 +358,8 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
                   <div className="text-xs font-semibold text-blue-600 mb-1.5">Location Platforms</div>
                   <div className="space-y-0.5">
                     <div className="flex items-center gap-1.5 p-1 rounded hover:bg-gray-100 dark:hover:bg-gray-700">
-                      <div className="w-4 h-4 bg-white rounded flex items-center justify-center border">
-                        <SiGoogle className="w-2.5 h-2.5 text-blue-600" />
+                      <div className="w-4 h-4 bg-[#EA4335] rounded flex items-center justify-center">
+                        <SiGoogle className="w-2.5 h-2.5 text-white" />
                       </div>
                       <div className="flex-1">
                         <div className="text-xs text-foreground">Google Business Profile</div>
@@ -378,8 +378,8 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
                       <div className="w-1.5 h-1.5 bg-green-500 rounded-full flex-shrink-0"></div>
                     </div>
                     <div className="flex items-center gap-1.5 p-1 rounded hover:bg-gray-100 dark:hover:bg-gray-700">
-                      <div className="w-4 h-4 bg-white rounded flex items-center justify-center border">
-                        <SiApple className="w-2.5 h-2.5 text-gray-700" />
+                      <div className="w-4 h-4 bg-black rounded flex items-center justify-center">
+                        <SiApple className="w-2.5 h-2.5 text-white" />
                       </div>
                       <div className="flex-1">
                         <div className="text-xs text-foreground">Apple Business Connect</div>
@@ -405,8 +405,8 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
                   <div className="text-xs font-semibold text-green-600 mb-1.5">Merchant Platforms</div>
                   <div className="space-y-0.5">
                     <div className="flex items-center gap-1.5 p-1 rounded hover:bg-gray-100 dark:hover:bg-gray-700">
-                      <div className="w-4 h-4 bg-white rounded flex items-center justify-center border">
-                        <SiGoogle className="w-2.5 h-2.5 text-blue-600" />
+                      <div className="w-4 h-4 bg-[#EA4335] rounded flex items-center justify-center">
+                        <SiGoogle className="w-2.5 h-2.5 text-white" />
                       </div>
                       <div className="flex-1">
                         <div className="text-xs text-foreground">Google Merchant Center</div>
@@ -432,8 +432,8 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
                   <div className="text-xs font-semibold text-purple-600 mb-1.5">Ad Platforms</div>
                   <div className="space-y-0.5">
                     <div className="flex items-center gap-1.5 p-1 rounded hover:bg-gray-100 dark:hover:bg-gray-700">
-                      <div className="w-4 h-4 bg-white rounded flex items-center justify-center border">
-                        <SiGoogle className="w-2.5 h-2.5 text-blue-600" />
+                      <div className="w-4 h-4 bg-[#EA4335] rounded flex items-center justify-center">
+                        <SiGoogle className="w-2.5 h-2.5 text-white" />
                       </div>
                       <div className="flex-1">
                         <div className="text-xs text-foreground">Google Ads</div>

@@ -36,8 +36,8 @@ export default function PerformanceChart({ filters, onFiltersChange }: Performan
               }`}
               data-testid="tab-google"
             >
-              <div className="w-3.5 h-3.5 bg-white rounded flex items-center justify-center border">
-                <SiGoogle className="w-2.5 h-2.5 text-blue-600" />
+              <div className="w-3.5 h-3.5 bg-[#EA4335] rounded flex items-center justify-center">
+                <SiGoogle className="w-2.5 h-2.5 text-white" />
               </div>
               Google
             </button>
@@ -51,8 +51,8 @@ export default function PerformanceChart({ filters, onFiltersChange }: Performan
               }`}
               data-testid="tab-meta"
             >
-              <div className="w-3.5 h-3.5 bg-white rounded flex items-center justify-center border">
-                <SiMeta className="w-2.5 h-2.5 text-blue-500" />
+              <div className="w-3.5 h-3.5 bg-[#1877F2] rounded flex items-center justify-center">
+                <SiMeta className="w-2.5 h-2.5 text-white" />
               </div>
               Meta
             </button>
@@ -66,8 +66,8 @@ export default function PerformanceChart({ filters, onFiltersChange }: Performan
               }`}
               data-testid="tab-tiktok"
             >
-              <div className="w-3.5 h-3.5 bg-white rounded flex items-center justify-center border">
-                <SiTiktok className="w-2.5 h-2.5 text-black" />
+              <div className="w-3.5 h-3.5 bg-black rounded flex items-center justify-center">
+                <SiTiktok className="w-2.5 h-2.5 text-white" />
               </div>
               TikTok
             </button>

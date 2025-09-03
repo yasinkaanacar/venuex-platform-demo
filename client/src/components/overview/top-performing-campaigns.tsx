@@ -47,8 +47,8 @@ export default function TopPerformingCampaigns({ filters, onFiltersChange }: Top
               }`}
               data-testid="tab-google"
             >
-              <div className="w-3.5 h-3.5 bg-white rounded flex items-center justify-center border">
-                <SiGoogle className="w-2.5 h-2.5 text-blue-600" />
+              <div className="w-3.5 h-3.5 bg-[#EA4335] rounded flex items-center justify-center">
+                <SiGoogle className="w-2.5 h-2.5 text-white" />
               </div>
               Google
             </button>
@@ -62,8 +62,8 @@ export default function TopPerformingCampaigns({ filters, onFiltersChange }: Top
               }`}
               data-testid="tab-meta"
             >
-              <div className="w-3.5 h-3.5 bg-white rounded flex items-center justify-center border">
-                <SiMeta className="w-2.5 h-2.5 text-blue-500" />
+              <div className="w-3.5 h-3.5 bg-[#1877F2] rounded flex items-center justify-center">
+                <SiMeta className="w-2.5 h-2.5 text-white" />
               </div>
               Meta
             </button>
@@ -77,8 +77,8 @@ export default function TopPerformingCampaigns({ filters, onFiltersChange }: Top
               }`}
               data-testid="tab-tiktok"
             >
-              <div className="w-3.5 h-3.5 bg-white rounded flex items-center justify-center border">
-                <SiTiktok className="w-2.5 h-2.5 text-black" />
+              <div className="w-3.5 h-3.5 bg-black rounded flex items-center justify-center">
+                <SiTiktok className="w-2.5 h-2.5 text-white" />
               </div>
               TikTok
             </button>
@@ -158,8 +158,8 @@ export default function TopPerformingCampaigns({ filters, onFiltersChange }: Top
               <tr className="hover:bg-muted/50" data-testid="row-campaign-summer-sale">
                 <td className="py-4 px-4 border-r border-border/30">
                   <div className="flex items-center gap-3">
-                    <div className="w-6 h-6 bg-white rounded flex items-center justify-center flex-shrink-0 border">
-                      <SiGoogle className="w-3 h-3 text-blue-600" />
+                    <div className="w-6 h-6 bg-[#EA4335] rounded flex items-center justify-center flex-shrink-0">
+                      <SiGoogle className="w-3 h-3 text-white" />
                     </div>
                     <div>
                       <div className="font-medium text-foreground">Summer Sale 2024</div>
@@ -177,8 +177,8 @@ export default function TopPerformingCampaigns({ filters, onFiltersChange }: Top
               <tr className="hover:bg-muted/50" data-testid="row-campaign-local-shopping">
                 <td className="py-4 px-4 border-r border-border/30">
                   <div className="flex items-center gap-3">
-                    <div className="w-6 h-6 bg-white rounded flex items-center justify-center flex-shrink-0 border">
-                      <SiGoogle className="w-3 h-3 text-blue-600" />
+                    <div className="w-6 h-6 bg-[#EA4335] rounded flex items-center justify-center flex-shrink-0">
+                      <SiGoogle className="w-3 h-3 text-white" />
                     </div>
                     <div>
                       <div className="font-medium text-foreground">Local Shopping Campaign</div>
