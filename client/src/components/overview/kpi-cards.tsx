@@ -134,7 +134,7 @@ export default function KpiCards({ kpis, filters, onFiltersChange }: KpiCardsPro
               <Card className="bg-[#f9fafb] hover:shadow-lg transition-all duration-200 cursor-pointer hover:scale-105" data-testid={`card-${card.id}`}>
                 {/* Platform tabs at the top */}
                 {card.id === 'offline-roas' && (
-                  <div className="p-3 pb-0 flex justify-center">
+                  <div className="p-3 pb-0 flex justify-center bg-[#f9fafb]">
                     <div className="flex items-center bg-gray-100 dark:bg-gray-800 p-1 rounded-lg border shadow-inner w-fit">
                       <button
                         onClick={() => onFiltersChange({ ...filters, platform: 'Google' })}
@@ -307,7 +307,7 @@ export default function KpiCards({ kpis, filters, onFiltersChange }: KpiCardsPro
                   </div>
                 )}
 
-                <CardContent className="p-6 pt-3">
+                <CardContent className="bg-[#f9fafb] p-6 pt-3">
                   
                   <div className="flex items-center justify-between mb-4">
                     <div className="flex items-center space-x-2">
