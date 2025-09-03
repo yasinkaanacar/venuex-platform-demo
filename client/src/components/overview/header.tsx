@@ -33,7 +33,7 @@ export default function Header({ lastSync }: HeaderProps) {
             </div>
           </div>
           
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center space-x-8">
             <div className="flex items-center space-x-2">
                 {/* Step 1 - Completed */}
                 <div className="w-6 h-6 bg-black rounded-full flex items-center justify-center">
