@@ -38,7 +38,7 @@ export default function Header({ lastSync }: HeaderProps) {
             <div className="flex flex-col items-center">
               <div className="flex items-center">
                 {/* Step 1 - Completed */}
-                <Tooltip title="İşletme Profili" arrow>
+                <Tooltip title="İşletme Profili" arrow componentsProps={{ tooltip: { sx: { fontSize: '14px' } } }}>
                   <div className="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center">
                     <Check className="w-4 h-4 text-white" />
                   </div>
@@ -46,7 +46,7 @@ export default function Header({ lastSync }: HeaderProps) {
                 <div className="w-8 h-0.5 bg-gray-300"></div>
                 
                 {/* Step 2 - Completed */}
-                <Tooltip title="Satışlar ve Offline Conversion" arrow>
+                <Tooltip title="Satışlar ve Offline Conversion" arrow componentsProps={{ tooltip: { sx: { fontSize: '14px' } } }}>
                   <div className="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center">
                     <Check className="w-4 h-4 text-white" />
                   </div>
