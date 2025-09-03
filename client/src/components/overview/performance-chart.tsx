@@ -1,7 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { FilterState } from '@/lib/types';
-import { Dispatch, SetStateAction } from 'react';
+import { Dispatch, SetStateAction, useState } from 'react';
 import { SiTiktok } from 'react-icons/si';
 import funnelImage from '@assets/Screenshot 2025-08-29 at 18.31.46_1756481891401.png';
 
@@ -11,6 +11,9 @@ interface PerformanceChartProps {
 }
 
 export default function PerformanceChart({ filters, onFiltersChange }: PerformanceChartProps) {
+  // Individual platform state for this component to work independently
+  const [performanceChartPlatform, setPerformanceChartPlatform] = useState<string>('Google');
+
   return (
     <Card className="bg-[#fcfcfc]">
       <CardHeader
@@ -27,9 +30,9 @@ export default function PerformanceChart({ filters, onFiltersChange }: Performan
         <div className="mb-4 flex justify-center">
           <div className="flex items-center dark:bg-gray-800 p-1 rounded-lg border shadow-inner w-fit bg-[#ffffff]">
             <button
-              onClick={() => onFiltersChange({ ...filters, platform: 'Google' })}
+              onClick={() => setPerformanceChartPlatform('Google')}
               className={`flex items-center gap-1.5 px-3 py-2 rounded-md text-xs font-semibold transition-all duration-200 ${
-                filters.platform === 'Google'
+                performanceChartPlatform === 'Google'
                   ? 'bg-white dark:bg-gray-700 text-foreground shadow-md border border-gray-200 dark:border-gray-600'
                   : 'text-gray-500 dark:text-gray-400 hover:text-foreground hover:bg-white/50 dark:hover:bg-gray-700/50'
               }`}
@@ -42,9 +45,9 @@ export default function PerformanceChart({ filters, onFiltersChange }: Performan
             </button>
             
             <button
-              onClick={() => onFiltersChange({ ...filters, platform: 'Meta' })}
+              onClick={() => setPerformanceChartPlatform('Meta')}
               className={`flex items-center gap-1.5 px-3 py-2 rounded-md text-xs font-semibold transition-all duration-200 ${
-                filters.platform === 'Meta'
+                performanceChartPlatform === 'Meta'
                   ? 'bg-white dark:bg-gray-700 text-foreground shadow-md border border-gray-200 dark:border-gray-600'
                   : 'text-gray-500 dark:text-gray-400 hover:text-foreground hover:bg-white/50 dark:hover:bg-gray-700/50'
               }`}
@@ -57,9 +60,9 @@ export default function PerformanceChart({ filters, onFiltersChange }: Performan
             </button>
             
             <button
-              onClick={() => onFiltersChange({ ...filters, platform: 'TikTok' })}
+              onClick={() => setPerformanceChartPlatform('TikTok')}
               className={`flex items-center gap-1.5 px-3 py-2 rounded-md text-xs font-semibold transition-all duration-200 ${
-                filters.platform === 'TikTok'
+                performanceChartPlatform === 'TikTok'
                   ? 'bg-white dark:bg-gray-700 text-foreground shadow-md border border-gray-200 dark:border-gray-600'
                   : 'text-gray-500 dark:text-gray-400 hover:text-foreground hover:bg-white/50 dark:hover:bg-gray-700/50'
               }`}

@@ -13,6 +13,8 @@ interface TopPerformingLocationsProps {
 export default function TopPerformingLocations({ filters, onFiltersChange }: TopPerformingLocationsProps) {
   const [sortColumn, setSortColumn] = useState<string | null>(null);
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('desc');
+  // Individual platform state for this component to work independently
+  const [topLocationsePlatform, setTopLocationsPlatform] = useState<string>('Google');
 
   const handleSort = (column: string) => {
     if (sortColumn === column) {
@@ -39,9 +41,9 @@ export default function TopPerformingLocations({ filters, onFiltersChange }: Top
         <div className="mb-4 flex justify-center">
           <div className="flex items-center dark:bg-gray-800 p-1 rounded-lg border shadow-inner w-fit bg-[#ffffff]">
             <button
-              onClick={() => onFiltersChange({ ...filters, platform: 'Google' })}
+              onClick={() => setTopLocationsPlatform('Google')}
               className={`flex items-center gap-1.5 px-3 py-2 rounded-md text-xs font-semibold transition-all duration-200 ${
-                filters.platform === 'Google'
+                topLocationsePlatform === 'Google'
                   ? 'bg-white dark:bg-gray-700 text-foreground shadow-md border border-gray-200 dark:border-gray-600'
                   : 'text-gray-500 dark:text-gray-400 hover:text-foreground hover:bg-white/50 dark:hover:bg-gray-700/50'
               }`}
@@ -54,9 +56,9 @@ export default function TopPerformingLocations({ filters, onFiltersChange }: Top
             </button>
             
             <button
-              onClick={() => onFiltersChange({ ...filters, platform: 'Meta' })}
+              onClick={() => setTopLocationsPlatform('Meta')}
               className={`flex items-center gap-1.5 px-3 py-2 rounded-md text-xs font-semibold transition-all duration-200 ${
-                filters.platform === 'Meta'
+                topLocationsePlatform === 'Meta'
                   ? 'bg-white dark:bg-gray-700 text-foreground shadow-md border border-gray-200 dark:border-gray-600'
                   : 'text-gray-500 dark:text-gray-400 hover:text-foreground hover:bg-white/50 dark:hover:bg-gray-700/50'
               }`}
@@ -69,9 +71,9 @@ export default function TopPerformingLocations({ filters, onFiltersChange }: Top
             </button>
             
             <button
-              onClick={() => onFiltersChange({ ...filters, platform: 'TikTok' })}
+              onClick={() => setTopLocationsPlatform('TikTok')}
               className={`flex items-center gap-1.5 px-3 py-2 rounded-md text-xs font-semibold transition-all duration-200 ${
-                filters.platform === 'TikTok'
+                topLocationsePlatform === 'TikTok'
                   ? 'bg-white dark:bg-gray-700 text-foreground shadow-md border border-gray-200 dark:border-gray-600'
                   : 'text-gray-500 dark:text-gray-400 hover:text-foreground hover:bg-white/50 dark:hover:bg-gray-700/50'
               }`}
@@ -84,9 +86,9 @@ export default function TopPerformingLocations({ filters, onFiltersChange }: Top
             </button>
             
             <button
-              onClick={() => onFiltersChange({ ...filters, platform: 'Apple' })}
+              onClick={() => setTopLocationsPlatform('Apple')}
               className={`flex items-center gap-1.5 px-3 py-2 rounded-md text-xs font-semibold transition-all duration-200 ${
-                filters.platform === 'Apple'
+                topLocationsePlatform === 'Apple'
                   ? 'bg-white dark:bg-gray-700 text-foreground shadow-md border border-gray-200 dark:border-gray-600'
                   : 'text-gray-500 dark:text-gray-400 hover:text-foreground hover:bg-white/50 dark:hover:bg-gray-700/50'
               }`}
@@ -99,9 +101,9 @@ export default function TopPerformingLocations({ filters, onFiltersChange }: Top
             </button>
             
             <button
-              onClick={() => onFiltersChange({ ...filters, platform: 'Yandex' })}
+              onClick={() => setTopLocationsPlatform('Yandex')}
               className={`flex items-center gap-1.5 px-3 py-2 rounded-md text-xs font-semibold transition-all duration-200 ${
-                filters.platform === 'Yandex'
+                topLocationsePlatform === 'Yandex'
                   ? 'bg-white dark:bg-gray-700 text-foreground shadow-md border border-gray-200 dark:border-gray-600'
                   : 'text-gray-500 dark:text-gray-400 hover:text-foreground hover:bg-white/50 dark:hover:bg-gray-700/50'
               }`}
