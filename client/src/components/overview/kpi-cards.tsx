@@ -123,7 +123,7 @@ export default function KpiCards({ kpis, filters, onFiltersChange }: KpiCardsPro
                     <div className="flex items-center dark:bg-gray-800 p-1 rounded-lg border shadow-inner w-full bg-[#ffffff]">
                       <button
                         onClick={() => setOfflineRoasPlatform('Google')}
-                        className={`flex items-center gap-1.5 px-2 2xl:px-3 py-2 rounded-md text-xs font-semibold transition-all duration-200 ${
+                        className={`flex items-center gap-1.5 px-2 2xl:px-3 py-2 rounded-md text-xs font-semibold transition-all duration-200 flex-1 justify-center ${
                           offlineRoasPlatform === 'Google'
                             ? 'bg-white dark:bg-gray-700 text-foreground shadow-md border border-gray-200 dark:border-gray-600'
                             : 'text-gray-500 dark:text-gray-400 hover:text-foreground hover:bg-white/50 dark:hover:bg-gray-700/50'
@@ -138,7 +138,7 @@ export default function KpiCards({ kpis, filters, onFiltersChange }: KpiCardsPro
                       
                       <button
                         onClick={() => setOfflineRoasPlatform('Meta')}
-                        className={`flex items-center gap-1.5 px-2 2xl:px-3 py-2 rounded-md text-xs font-semibold transition-all duration-200 ${
+                        className={`flex items-center gap-1.5 px-2 2xl:px-3 py-2 rounded-md text-xs font-semibold transition-all duration-200 flex-1 justify-center ${
                           offlineRoasPlatform === 'Meta'
                             ? 'bg-white dark:bg-gray-700 text-foreground shadow-md border border-gray-200 dark:border-gray-600'
                             : 'text-gray-500 dark:text-gray-400 hover:text-foreground hover:bg-white/50 dark:hover:bg-gray-700/50'
@@ -153,7 +153,7 @@ export default function KpiCards({ kpis, filters, onFiltersChange }: KpiCardsPro
                       
                       <button
                         onClick={() => setOfflineRoasPlatform('TikTok')}
-                        className={`flex items-center gap-1.5 px-2 2xl:px-3 py-2 rounded-md text-xs font-semibold transition-all duration-200 ${
+                        className={`flex items-center gap-1.5 px-2 2xl:px-3 py-2 rounded-md text-xs font-semibold transition-all duration-200 flex-1 justify-center ${
                           offlineRoasPlatform === 'TikTok'
                             ? 'bg-white dark:bg-gray-700 text-foreground shadow-md border border-gray-200 dark:border-gray-600'
                             : 'text-gray-500 dark:text-gray-400 hover:text-foreground hover:bg-white/50 dark:hover:bg-gray-700/50'
@@ -174,7 +174,7 @@ export default function KpiCards({ kpis, filters, onFiltersChange }: KpiCardsPro
                     <div className="flex items-center dark:bg-gray-800 p-1 rounded-lg border shadow-inner w-full bg-[#ffffff]">
                       <button
                         onClick={() => setLocationEngagementsPlatform('Google')}
-                        className={`flex items-center gap-1.5 px-2 2xl:px-3 py-2 rounded-md text-xs font-semibold transition-all duration-200 ${
+                        className={`flex items-center gap-1.5 px-2 2xl:px-3 py-2 rounded-md text-xs font-semibold transition-all duration-200 flex-1 justify-center ${
                           locationEngagementsPlatform === 'Google'
                             ? 'bg-white dark:bg-gray-700 text-foreground shadow-md border border-gray-200 dark:border-gray-600'
                             : 'text-gray-500 dark:text-gray-400 hover:text-foreground hover:bg-white/50 dark:hover:bg-gray-700/50'
@@ -189,7 +189,7 @@ export default function KpiCards({ kpis, filters, onFiltersChange }: KpiCardsPro
                       
                       <button
                         onClick={() => setLocationEngagementsPlatform('Apple')}
-                        className={`flex items-center gap-1.5 px-2 2xl:px-3 py-2 rounded-md text-xs font-semibold transition-all duration-200 ${
+                        className={`flex items-center gap-1.5 px-2 2xl:px-3 py-2 rounded-md text-xs font-semibold transition-all duration-200 flex-1 justify-center ${
                           locationEngagementsPlatform === 'Apple'
                             ? 'bg-white dark:bg-gray-700 text-foreground shadow-md border border-gray-200 dark:border-gray-600'
                             : 'text-gray-500 dark:text-gray-400 hover:text-foreground hover:bg-white/50 dark:hover:bg-gray-700/50'
@@ -204,7 +204,7 @@ export default function KpiCards({ kpis, filters, onFiltersChange }: KpiCardsPro
                       
                       <button
                         onClick={() => setLocationEngagementsPlatform('Yandex')}
-                        className={`flex items-center gap-1.5 px-2 2xl:px-3 py-2 rounded-md text-xs font-semibold transition-all duration-200 ${
+                        className={`flex items-center gap-1.5 px-2 2xl:px-3 py-2 rounded-md text-xs font-semibold transition-all duration-200 flex-1 justify-center ${
                           locationEngagementsPlatform === 'Yandex'
                             ? 'bg-white dark:bg-gray-700 text-foreground shadow-md border border-gray-200 dark:border-gray-600'
                             : 'text-gray-500 dark:text-gray-400 hover:text-foreground hover:bg-white/50 dark:hover:bg-gray-700/50'
