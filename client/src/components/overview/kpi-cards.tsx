@@ -1,5 +1,5 @@
 // UI components removed - using plain HTML elements
-import { DollarSign, MapPin, ShoppingCart, Receipt, Eye, TrendingUp, TrendingDown, ExternalLink } from 'lucide-react';
+import { DollarSign, MapPin, ShoppingCart, Receipt, Eye, TrendingUp, TrendingDown } from 'lucide-react';
 import { SiGoogle, SiMeta, SiTiktok, SiApple } from 'react-icons/si';
 import { KPI, FilterState } from '@/lib/types';
 import { Dispatch, SetStateAction, useState } from 'react';
@@ -301,10 +301,6 @@ export default function KpiCards({ kpis, filters, onFiltersChange }: KpiCardsPro
                 </div>
                 <h3 className="text-sm font-medium text-muted-foreground">{card.title}</h3>
               </div>
-              
-              <button className="h-6 w-6 p-0 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 bg-transparent border-none cursor-pointer" data-testid={`button-external-${card.id}`}>
-                <ExternalLink className="w-4 h-4" />
-              </button>
             </div>
             
             <div className="flex items-center justify-between mb-2">
