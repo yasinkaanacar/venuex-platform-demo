@@ -4,19 +4,19 @@ import { styled } from "@mui/material/styles"
 
 const StyledTooltip = styled(MuiTooltip)(({ theme }) => ({
   '& .MuiTooltip-tooltip': {
-    backgroundColor: theme.palette.background.paper,
-    color: theme.palette.text.primary,
+    backgroundColor: '#ffffff',
+    color: '#0f172a',
     borderRadius: 8,
     fontSize: '0.875rem',
     padding: theme.spacing(2),
-    border: `2px solid ${theme.palette.divider}`,
-    boxShadow: theme.shadows[3],
+    border: '1px solid #e2e8f0',
+    boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
     maxWidth: 280,
   },
   '& .MuiTooltip-arrow': {
-    color: theme.palette.background.paper,
+    color: '#ffffff',
     '&::before': {
-      border: `2px solid ${theme.palette.divider}`,
+      border: '1px solid #e2e8f0',
     }
   },
 }))
