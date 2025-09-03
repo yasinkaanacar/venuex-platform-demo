@@ -12,7 +12,7 @@ interface PerformanceChartProps {
 
 export default function PerformanceChart({ filters, onFiltersChange }: PerformanceChartProps) {
   return (
-    <Card className="bg-card">
+    <Card className="bg-[#fcfcfc]">
       <CardHeader
         title="Online-to-Offline Conversion Funnel"
         subheader="Conversion metrics from digital channels to physical store"
