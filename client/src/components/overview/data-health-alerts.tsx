@@ -135,7 +135,7 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
           subheader="Data flow from source systems through VenueX to platforms"
         />
         
-        <CardContent className="space-y-8">
+        <CardContent className="space-y-8 bg-[#f3f4f6]">
         <div className="relative">
           {/* Vertical VenueX alignment guide */}
           <div className="absolute left-1/2 top-0 bottom-0 w-px bg-primary/20 transform -translate-x-1/2 z-0"></div>
