@@ -42,9 +42,8 @@ export default function Overview() {
   }
 
   return (
-    <div className="min-h-full bg-white dark:bg-gray-900">
+    <div className="min-h-full dark:bg-gray-900 bg-[#f6f6f6]">
       <Header lastSync={overviewData?.lastSync} />
-      
       <div className="max-w-7xl mx-auto px-6 py-6">
         <div className="mb-6">
           <DataHealthAlerts 
