@@ -1,6 +1,6 @@
 // UI components removed - using plain HTML elements
 import { TrendingUp, TrendingDown, ArrowUpDown } from 'lucide-react';
-import { SiTiktok } from 'react-icons/si';
+import { SiGoogle, SiMeta, SiTiktok } from 'react-icons/si';
 import { FilterState } from '@/lib/types';
 import { Dispatch, SetStateAction, useState } from 'react';
 
@@ -47,8 +47,8 @@ export default function TopPerformingCampaigns({ filters, onFiltersChange }: Top
               }`}
               data-testid="tab-google"
             >
-              <div className="w-3.5 h-3.5 bg-red-500 rounded flex items-center justify-center">
-                <span className="text-[10px] text-white font-bold">G</span>
+              <div className="w-3.5 h-3.5 bg-white rounded flex items-center justify-center border">
+                <SiGoogle className="w-2.5 h-2.5 text-blue-600" />
               </div>
               Google
             </button>
@@ -62,8 +62,8 @@ export default function TopPerformingCampaigns({ filters, onFiltersChange }: Top
               }`}
               data-testid="tab-meta"
             >
-              <div className="w-3.5 h-3.5 bg-blue-600 rounded flex items-center justify-center">
-                <span className="text-[10px] text-white font-bold">f</span>
+              <div className="w-3.5 h-3.5 bg-white rounded flex items-center justify-center border">
+                <SiMeta className="w-2.5 h-2.5 text-blue-500" />
               </div>
               Meta
             </button>
@@ -77,8 +77,8 @@ export default function TopPerformingCampaigns({ filters, onFiltersChange }: Top
               }`}
               data-testid="tab-tiktok"
             >
-              <div className="w-3.5 h-3.5 bg-black rounded flex items-center justify-center">
-                <SiTiktok className="w-2.5 h-2.5 text-white" />
+              <div className="w-3.5 h-3.5 bg-white rounded flex items-center justify-center border">
+                <SiTiktok className="w-2.5 h-2.5 text-black" />
               </div>
               TikTok
             </button>

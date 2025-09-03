@@ -1,7 +1,7 @@
 // UI components removed - using plain HTML elements
 import { FilterState } from '@/lib/types';
 import { Dispatch, SetStateAction, useState } from 'react';
-import { SiTiktok } from 'react-icons/si';
+import { SiGoogle, SiMeta, SiTiktok } from 'react-icons/si';
 import funnelImage from '@assets/Screenshot 2025-08-29 at 18.31.46_1756481891401.png';
 
 interface PerformanceChartProps {
@@ -36,8 +36,8 @@ export default function PerformanceChart({ filters, onFiltersChange }: Performan
               }`}
               data-testid="tab-google"
             >
-              <div className="w-3.5 h-3.5 bg-red-500 rounded flex items-center justify-center">
-                <span className="text-[10px] text-white font-bold">G</span>
+              <div className="w-3.5 h-3.5 bg-white rounded flex items-center justify-center border">
+                <SiGoogle className="w-2.5 h-2.5 text-blue-600" />
               </div>
               Google
             </button>
@@ -51,8 +51,8 @@ export default function PerformanceChart({ filters, onFiltersChange }: Performan
               }`}
               data-testid="tab-meta"
             >
-              <div className="w-3.5 h-3.5 bg-blue-600 rounded flex items-center justify-center">
-                <span className="text-[10px] text-white font-bold">f</span>
+              <div className="w-3.5 h-3.5 bg-white rounded flex items-center justify-center border">
+                <SiMeta className="w-2.5 h-2.5 text-blue-500" />
               </div>
               Meta
             </button>
@@ -66,8 +66,8 @@ export default function PerformanceChart({ filters, onFiltersChange }: Performan
               }`}
               data-testid="tab-tiktok"
             >
-              <div className="w-3.5 h-3.5 bg-black rounded flex items-center justify-center">
-                <SiTiktok className="w-2.5 h-2.5 text-white" />
+              <div className="w-3.5 h-3.5 bg-white rounded flex items-center justify-center border">
+                <SiTiktok className="w-2.5 h-2.5 text-black" />
               </div>
               TikTok
             </button>
