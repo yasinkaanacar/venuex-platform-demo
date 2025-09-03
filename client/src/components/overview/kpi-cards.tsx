@@ -237,7 +237,7 @@ export default function KpiCards({ kpis, filters, onFiltersChange }: KpiCardsPro
                 
                 {card.id === 'local-inventory' && (
                   <div className="p-3 pb-0 flex justify-center bg-[#f9fafb]">
-                    <div className="flex items-center bg-gray-100 dark:bg-gray-800 p-1 rounded-lg border shadow-inner w-fit">
+                    <div className="flex items-center dark:bg-gray-800 p-1 rounded-lg border shadow-inner w-fit bg-[#ffffff]">
                       <button
                         onClick={() => onFiltersChange({ ...filters, platform: 'Google' })}
                         className={`flex items-center gap-1.5 px-4 py-2 rounded-md text-xs font-semibold transition-all duration-200 flex-1 justify-center ${
