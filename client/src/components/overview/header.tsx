@@ -55,7 +55,7 @@ export default function Header({ lastSync }: HeaderProps) {
                 {/* Step 4 - Pending */}
                 <div className="w-6 h-6 border-2 border-gray-400 bg-white rounded-full"></div>
               </div>
-              <div className="text-xs text-gray-500 mt-2">VenueX Kurulum Durumu</div>
+              <div className="text-xs text-gray-500 mt-2">VenueX Kurulum</div>
             </div>
               <div className="w-4"></div>
             
