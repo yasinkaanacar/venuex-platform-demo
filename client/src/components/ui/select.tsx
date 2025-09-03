@@ -45,10 +45,28 @@ const Select = ({ children, onValueChange, ...props }: SelectProps) => {
     }
   }
 
+  // Extract MenuItem children from nested structure
+  const extractMenuItems = (children: React.ReactNode): React.ReactNode => {
+    return React.Children.map(children, (child) => {
+      if (React.isValidElement(child)) {
+        if (child.type === SelectContent) {
+          return extractMenuItems(child.props.children)
+        }
+        return child
+      }
+      return child
+    })
+  }
+
   return (
     <StyledFormControl size="small" fullWidth>
-      <StyledSelect {...props} onChange={handleChange}>
-        {children}
+      <StyledSelect 
+        {...props} 
+        onChange={handleChange}
+        displayEmpty
+        renderValue={(selected) => (selected as string) || props.placeholder || ''}
+      >
+        {extractMenuItems(children)}
       </StyledSelect>
     </StyledFormControl>
   )
