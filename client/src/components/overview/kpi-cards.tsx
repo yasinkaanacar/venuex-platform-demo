@@ -119,7 +119,7 @@ export default function KpiCards({ kpis, filters, onFiltersChange }: KpiCardsPro
         <div key={card.id} className="bg-[#f9fafb] shadow-none hover:shadow-sm transition-all duration-200 cursor-pointer hover:scale-105 rounded-lg border border-gray-200" data-testid={`card-${card.id}`}>
                 {/* Platform tabs at the top */}
                 {card.id === 'offline-roas' && (
-                  <div className="p-3 pb-0 flex justify-center bg-[#f9fafb]">
+                  <div className="p-3 pb-0 flex justify-center bg-[#f9fafb] rounded-t-lg">
                     <div className="flex items-center dark:bg-gray-800 p-1 rounded-lg border shadow-inner w-fit bg-[#ffffff]">
                       <button
                         onClick={() => setOfflineRoasPlatform('Google')}
@@ -292,7 +292,7 @@ export default function KpiCards({ kpis, filters, onFiltersChange }: KpiCardsPro
                   </div>
                 )}
 
-          <div className="p-6 pt-3 bg-[#f9fafb]">
+          <div className="p-6 pt-3 bg-[#f9fafb] rounded-b-lg">
             
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center space-x-2">
