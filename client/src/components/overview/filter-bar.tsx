@@ -20,7 +20,7 @@ export default function FilterBar({ filters, onFiltersChange }: FilterBarProps) 
           value={filters.dateRange} 
           onChange={(e) => updateFilter('dateRange', e.target.value)}
           data-testid="select-date-range"
-          className="border border-gray-200 dark:border-gray-700 focus:border-gray-300 dark:focus:border-gray-600 w-40 px-3 py-2 rounded-md text-sm"
+          className="border border-gray-200 dark:border-gray-700 focus:border-gray-300 dark:focus:border-gray-600 w-40 pl-3 pr-8 py-2 rounded-md text-sm"
           style={{ backgroundColor: '#f9fafb' }}
         >
           <option value="Last 7 days">Last 7 days</option>
