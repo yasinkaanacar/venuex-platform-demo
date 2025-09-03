@@ -3,7 +3,7 @@ import { Badge } from '@/components/ui/badge';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Platform, Alert as AlertType } from '@shared/schema';
 import { CheckCircle, Clock, XCircle, AlertTriangle, ArrowRight, Database, Store, MapPin, Package, Receipt } from 'lucide-react';
-import { SiTiktok } from 'react-icons/si';
+import { SiGoogle, SiMeta, SiTiktok, SiApple } from 'react-icons/si';
 
 interface DataHealthCardProps {
   platforms?: Platform[];
@@ -40,13 +40,13 @@ export default function DataHealthCard({ platforms = [], alerts = [] }: DataHeal
   const getPlatformIcon = (name: string) => {
     switch (name.toLowerCase()) {
       case 'google ads':
-        return '🟦'; // Google blue placeholder
+        return <SiGoogle className="w-3 h-3 text-blue-600" />; // Google proper logo
       case 'meta ads':
-        return '🔷'; // Meta blue placeholder
+        return <SiMeta className="w-3 h-3 text-blue-500" />; // Meta proper logo
       case 'tiktok ads':
-        return <SiTiktok className="w-3 h-3 text-white" />; // TikTok proper logo
+        return <SiTiktok className="w-3 h-3 text-black" />; // TikTok proper logo
       case 'apple maps':
-        return '🔘'; // Apple gray placeholder
+        return <SiApple className="w-3 h-3 text-gray-700" />; // Apple proper logo
       default:
         return '📊';
     }

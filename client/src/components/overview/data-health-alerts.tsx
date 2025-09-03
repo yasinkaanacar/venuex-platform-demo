@@ -6,7 +6,7 @@ import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/component
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Platform, Alert as AlertType, Location } from '@shared/schema';
 import { CheckCircle, Clock, XCircle, AlertTriangle, ArrowRight, Database, Store, MapPin, Package, Receipt, AlertCircle, X, ChevronDown, ChevronUp, ArrowDown } from 'lucide-react';
-import { SiTiktok } from 'react-icons/si';
+import { SiGoogle, SiMeta, SiTiktok, SiApple } from 'react-icons/si';
 import mouseIcon from '@assets/image_1756736100487.png';
 import vxLogo from '@assets/vx-logo-1000x1000_1756824361260.png';
 
@@ -378,8 +378,8 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
                       <div className="w-1.5 h-1.5 bg-green-500 rounded-full flex-shrink-0"></div>
                     </div>
                     <div className="flex items-center gap-1.5 p-1 rounded hover:bg-gray-100 dark:hover:bg-gray-700">
-                      <div className="w-4 h-4 bg-gray-800 rounded flex items-center justify-center">
-                        <span className="text-xs text-white font-bold">🍎</span>
+                      <div className="w-4 h-4 bg-white rounded flex items-center justify-center border">
+                        <SiApple className="w-2.5 h-2.5 text-gray-700" />
                       </div>
                       <div className="flex-1">
                         <div className="text-xs text-foreground">Apple Business Connect</div>
