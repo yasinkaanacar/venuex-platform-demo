@@ -26,7 +26,7 @@ export default function TopPerformingLocations({ filters, onFiltersChange }: Top
   return (
     <Card className="bg-[#fcfcfc]">
       <CardHeader
-        className="bg-[#f3f4f6]"
+        className="bg-[#f9fafb]"
         title="Top Performing Store Locations"
         subheader="Store visits and conversions by location"
         action={
