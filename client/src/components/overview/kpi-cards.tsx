@@ -120,7 +120,7 @@ export default function KpiCards({ kpis, filters, onFiltersChange }: KpiCardsPro
                 {/* Platform tabs at the top */}
                 {card.id === 'offline-roas' && (
                   <div className="p-3 pb-0 flex justify-center bg-[#f9fafb] rounded-t-lg">
-                    <div className="flex items-center dark:bg-gray-800 p-1 rounded-lg border shadow-inner w-fit bg-[#ffffff]">
+                    <div className="flex items-center dark:bg-gray-800 p-1 rounded-lg border shadow-inner w-full bg-[#ffffff]">
                       <button
                         onClick={() => setOfflineRoasPlatform('Google')}
                         className={`flex items-center gap-1.5 px-2 2xl:px-3 py-2 rounded-md text-xs font-semibold transition-all duration-200 ${
@@ -171,7 +171,7 @@ export default function KpiCards({ kpis, filters, onFiltersChange }: KpiCardsPro
                 
                 {card.id === 'location-engagements' && (
                   <div className="p-3 pb-0 flex justify-center bg-[#f9fafb] rounded-t-lg">
-                    <div className="flex items-center dark:bg-gray-800 p-1 rounded-lg border shadow-inner w-fit bg-[#ffffff]">
+                    <div className="flex items-center dark:bg-gray-800 p-1 rounded-lg border shadow-inner w-full bg-[#ffffff]">
                       <button
                         onClick={() => setLocationEngagementsPlatform('Google')}
                         className={`flex items-center gap-1.5 px-2 2xl:px-3 py-2 rounded-md text-xs font-semibold transition-all duration-200 ${
@@ -222,7 +222,7 @@ export default function KpiCards({ kpis, filters, onFiltersChange }: KpiCardsPro
                 
                 {card.id === 'local-inventory' && (
                   <div className="p-3 pb-0 flex justify-center bg-[#f9fafb] rounded-t-lg">
-                    <div className="flex items-center dark:bg-gray-800 p-1 rounded-lg border shadow-inner w-fit bg-[#ffffff]">
+                    <div className="flex items-center dark:bg-gray-800 p-1 rounded-lg border shadow-inner w-full bg-[#ffffff]">
                       <button
                         onClick={() => setLocalInventoryPlatform('Google')}
                         className={`flex items-center gap-1.5 px-2 2xl:px-4 py-2 rounded-md text-xs font-semibold transition-all duration-200 flex-1 justify-center ${
@@ -258,7 +258,7 @@ export default function KpiCards({ kpis, filters, onFiltersChange }: KpiCardsPro
                 
                 {card.id === 'average-rating' && (
                   <div className="p-3 pb-0 flex justify-center bg-[#f9fafb] rounded-t-lg">
-                    <div className="flex items-center dark:bg-gray-800 p-1 rounded-lg border shadow-inner w-fit bg-[#ffffff]">
+                    <div className="flex items-center dark:bg-gray-800 p-1 rounded-lg border shadow-inner w-full bg-[#ffffff]">
                       <button
                         onClick={() => setAverageRatingPlatform('Google')}
                         className={`flex items-center gap-1.5 px-2 2xl:px-4 py-2 rounded-md text-xs font-semibold transition-all duration-200 flex-1 justify-center ${
