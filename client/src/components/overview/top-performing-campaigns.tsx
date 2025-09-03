@@ -36,7 +36,7 @@ export default function TopPerformingCampaigns({ filters, onFiltersChange }: Top
         }
       />
       
-      <CardContent>
+      <CardContent className="bg-[#f3f4f6]">
         <div className="mb-4 flex justify-center">
           <div className="flex items-center bg-gray-100 dark:bg-gray-800 p-1 rounded-lg border shadow-inner w-fit">
             <button
