@@ -23,9 +23,9 @@ export default function FilterBar({ filters, onFiltersChange }: FilterBarProps) 
           className="border border-gray-200 dark:border-gray-700 focus:border-gray-300 dark:focus:border-gray-600 w-40 pl-3 pr-10 py-2 rounded-md text-sm appearance-none bg-no-repeat bg-right"
           style={{ 
             backgroundColor: '#f9fafb',
-            backgroundImage: 'url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIiIGhlaWdodD0iOCIgdmlld0JveD0iMCAwIDEyIDgiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxwYXRoIGQ9Ik02IDZMNCA0TDggNEw2IDZaIiBmaWxsPSIjNjY2NjY2Ii8+Cjwvc3ZnPg==")',
+            backgroundImage: 'url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHZpZXdCb3g9IjAgMCAxNiAxNiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0ibTQgNiA0IDQgNC00IiBzdHJva2U9IiM2NjY2NjYiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+Cjwvc3ZnPg==")',
             backgroundPosition: 'right 8px center',
-            backgroundSize: '12px 8px'
+            backgroundSize: '16px 16px'
           }}
         >
           <option value="Last 7 days">Last 7 days</option>
