@@ -1,4 +1,4 @@
-import { Store, User } from 'lucide-react';
+import { Store, User, Check } from 'lucide-react';
 
 interface HeaderProps {
   lastSync?: string;
@@ -34,11 +34,31 @@ export default function Header({ lastSync }: HeaderProps) {
           </div>
           
           <div className="flex items-center space-x-4">
-            <div className="flex items-center space-x-2 text-sm text-muted-foreground">
-              <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-              <span data-testid="text-last-sync">
-                Last sync: {formatSyncTime(lastSync)}
-              </span>
+            <div className="flex flex-col items-center space-y-2">
+              <div className="bg-white rounded-lg px-3 py-1 border border-gray-200 shadow-sm relative">
+                <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-white" style={{filter: 'drop-shadow(0 2px 1px rgba(0,0,0,0.05))'}}></div>
+                <span className="text-sm font-medium text-gray-800">Satışlar Entegrasyonu Aktif</span>
+              </div>
+              <div className="flex items-center space-x-2">
+                {/* Step 1 - Completed */}
+                <div className="w-6 h-6 bg-black rounded-full flex items-center justify-center">
+                  <Check className="w-4 h-4 text-white" />
+                </div>
+                <div className="w-8 h-0.5 bg-gray-300"></div>
+                
+                {/* Step 2 - Completed */}
+                <div className="w-6 h-6 bg-black rounded-full flex items-center justify-center">
+                  <Check className="w-4 h-4 text-white" />
+                </div>
+                <div className="w-8 h-0.5 bg-gray-300"></div>
+                
+                {/* Step 3 - Pending */}
+                <div className="w-6 h-6 border-2 border-gray-400 bg-white rounded-full"></div>
+                <div className="w-8 h-0.5 bg-gray-300"></div>
+                
+                {/* Step 4 - Pending */}
+                <div className="w-6 h-6 border-2 border-gray-400 bg-white rounded-full"></div>
+              </div>
             </div>
             
             <div className="flex items-center space-x-2">
