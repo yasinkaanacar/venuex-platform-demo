@@ -4,7 +4,7 @@ import { Tooltip } from '@/components/ui/tooltip';
 import { DollarSign, MapPin, ShoppingCart, Receipt, Eye, TrendingUp, TrendingDown, ExternalLink } from 'lucide-react';
 import { SiTiktok } from 'react-icons/si';
 import { KPI, FilterState } from '@/lib/types';
-import { Dispatch, SetStateAction } from 'react';
+import { Dispatch, SetStateAction, useState } from 'react';
 
 interface KpiCardsProps {
   kpis?: {
@@ -18,6 +18,12 @@ interface KpiCardsProps {
 }
 
 export default function KpiCards({ kpis, filters, onFiltersChange }: KpiCardsProps) {
+  // Individual platform states for each card to work independently
+  const [offlineRoasPlatform, setOfflineRoasPlatform] = useState<string>('Google');
+  const [locationEngagementsPlatform, setLocationEngagementsPlatform] = useState<string>('Google');
+  const [localInventoryPlatform, setLocalInventoryPlatform] = useState<string>('Google');
+  const [averageRatingPlatform, setAverageRatingPlatform] = useState<string>('Google');
+
   const cards = [
     {
       id: 'offline-roas',
@@ -139,9 +145,9 @@ export default function KpiCards({ kpis, filters, onFiltersChange }: KpiCardsPro
                   <div className="p-3 pb-0 flex justify-center bg-[#f9fafb]">
                     <div className="flex items-center dark:bg-gray-800 p-1 rounded-lg border shadow-inner w-fit bg-[#ffffff]">
                       <button
-                        onClick={() => onFiltersChange({ ...filters, platform: 'Google' })}
+                        onClick={() => setOfflineRoasPlatform('Google')}
                         className={`flex items-center gap-1.5 px-3 py-2 rounded-md text-xs font-semibold transition-all duration-200 ${
-                          filters.platform === 'Google'
+                          offlineRoasPlatform === 'Google'
                             ? 'bg-white dark:bg-gray-700 text-foreground shadow-md border border-gray-200 dark:border-gray-600'
                             : 'text-gray-500 dark:text-gray-400 hover:text-foreground hover:bg-white/50 dark:hover:bg-gray-700/50'
                         }`}
@@ -154,9 +160,9 @@ export default function KpiCards({ kpis, filters, onFiltersChange }: KpiCardsPro
                       </button>
                       
                       <button
-                        onClick={() => onFiltersChange({ ...filters, platform: 'Meta' })}
+                        onClick={() => setOfflineRoasPlatform('Meta')}
                         className={`flex items-center gap-1.5 px-3 py-2 rounded-md text-xs font-semibold transition-all duration-200 ${
-                          filters.platform === 'Meta'
+                          offlineRoasPlatform === 'Meta'
                             ? 'bg-white dark:bg-gray-700 text-foreground shadow-md border border-gray-200 dark:border-gray-600'
                             : 'text-gray-500 dark:text-gray-400 hover:text-foreground hover:bg-white/50 dark:hover:bg-gray-700/50'
                         }`}
@@ -169,9 +175,9 @@ export default function KpiCards({ kpis, filters, onFiltersChange }: KpiCardsPro
                       </button>
                       
                       <button
-                        onClick={() => onFiltersChange({ ...filters, platform: 'TikTok' })}
+                        onClick={() => setOfflineRoasPlatform('TikTok')}
                         className={`flex items-center gap-1.5 px-3 py-2 rounded-md text-xs font-semibold transition-all duration-200 ${
-                          filters.platform === 'TikTok'
+                          offlineRoasPlatform === 'TikTok'
                             ? 'bg-white dark:bg-gray-700 text-foreground shadow-md border border-gray-200 dark:border-gray-600'
                             : 'text-gray-500 dark:text-gray-400 hover:text-foreground hover:bg-white/50 dark:hover:bg-gray-700/50'
                         }`}
@@ -190,9 +196,9 @@ export default function KpiCards({ kpis, filters, onFiltersChange }: KpiCardsPro
                   <div className="p-3 pb-0 flex justify-center bg-[#f9fafb]">
                     <div className="flex items-center dark:bg-gray-800 p-1 rounded-lg border shadow-inner w-fit bg-[#ffffff]">
                       <button
-                        onClick={() => onFiltersChange({ ...filters, platform: 'Google' })}
+                        onClick={() => setLocationEngagementsPlatform('Google')}
                         className={`flex items-center gap-1.5 px-3 py-2 rounded-md text-xs font-semibold transition-all duration-200 ${
-                          filters.platform === 'Google'
+                          locationEngagementsPlatform === 'Google'
                             ? 'bg-white dark:bg-gray-700 text-foreground shadow-md border border-gray-200 dark:border-gray-600'
                             : 'text-gray-500 dark:text-gray-400 hover:text-foreground hover:bg-white/50 dark:hover:bg-gray-700/50'
                         }`}
@@ -205,9 +211,9 @@ export default function KpiCards({ kpis, filters, onFiltersChange }: KpiCardsPro
                       </button>
                       
                       <button
-                        onClick={() => onFiltersChange({ ...filters, platform: 'Apple' })}
+                        onClick={() => setLocationEngagementsPlatform('Apple')}
                         className={`flex items-center gap-1.5 px-3 py-2 rounded-md text-xs font-semibold transition-all duration-200 ${
-                          filters.platform === 'Apple'
+                          locationEngagementsPlatform === 'Apple'
                             ? 'bg-white dark:bg-gray-700 text-foreground shadow-md border border-gray-200 dark:border-gray-600'
                             : 'text-gray-500 dark:text-gray-400 hover:text-foreground hover:bg-white/50 dark:hover:bg-gray-700/50'
                         }`}
@@ -220,9 +226,9 @@ export default function KpiCards({ kpis, filters, onFiltersChange }: KpiCardsPro
                       </button>
                       
                       <button
-                        onClick={() => onFiltersChange({ ...filters, platform: 'Yandex' })}
+                        onClick={() => setLocationEngagementsPlatform('Yandex')}
                         className={`flex items-center gap-1.5 px-3 py-2 rounded-md text-xs font-semibold transition-all duration-200 ${
-                          filters.platform === 'Yandex'
+                          locationEngagementsPlatform === 'Yandex'
                             ? 'bg-white dark:bg-gray-700 text-foreground shadow-md border border-gray-200 dark:border-gray-600'
                             : 'text-gray-500 dark:text-gray-400 hover:text-foreground hover:bg-white/50 dark:hover:bg-gray-700/50'
                         }`}
@@ -241,9 +247,9 @@ export default function KpiCards({ kpis, filters, onFiltersChange }: KpiCardsPro
                   <div className="p-3 pb-0 flex justify-center bg-[#f9fafb]">
                     <div className="flex items-center dark:bg-gray-800 p-1 rounded-lg border shadow-inner w-fit bg-[#ffffff]">
                       <button
-                        onClick={() => onFiltersChange({ ...filters, platform: 'Google' })}
+                        onClick={() => setLocalInventoryPlatform('Google')}
                         className={`flex items-center gap-1.5 px-4 py-2 rounded-md text-xs font-semibold transition-all duration-200 flex-1 justify-center ${
-                          filters.platform === 'Google'
+                          localInventoryPlatform === 'Google'
                             ? 'bg-white dark:bg-gray-700 text-foreground shadow-md border border-gray-200 dark:border-gray-600'
                             : 'text-gray-500 dark:text-gray-400 hover:text-foreground hover:bg-white/50 dark:hover:bg-gray-700/50'
                         }`}
@@ -256,9 +262,9 @@ export default function KpiCards({ kpis, filters, onFiltersChange }: KpiCardsPro
                       </button>
                       
                       <button
-                        onClick={() => onFiltersChange({ ...filters, platform: 'Meta' })}
+                        onClick={() => setLocalInventoryPlatform('Meta')}
                         className={`flex items-center gap-1.5 px-4 py-2 rounded-md text-xs font-semibold transition-all duration-200 flex-1 justify-center ${
-                          filters.platform === 'Meta'
+                          localInventoryPlatform === 'Meta'
                             ? 'bg-white dark:bg-gray-700 text-foreground shadow-md border border-gray-200 dark:border-gray-600'
                             : 'text-gray-500 dark:text-gray-400 hover:text-foreground hover:bg-white/50 dark:hover:bg-gray-700/50'
                         }`}
@@ -277,9 +283,9 @@ export default function KpiCards({ kpis, filters, onFiltersChange }: KpiCardsPro
                   <div className="p-3 pb-0 flex justify-center bg-[#f9fafb]">
                     <div className="flex items-center dark:bg-gray-800 p-1 rounded-lg border shadow-inner w-fit bg-[#ffffff]">
                       <button
-                        onClick={() => onFiltersChange({ ...filters, platform: 'Google' })}
+                        onClick={() => setAverageRatingPlatform('Google')}
                         className={`flex items-center gap-1.5 px-4 py-2 rounded-md text-xs font-semibold transition-all duration-200 flex-1 justify-center ${
-                          filters.platform === 'Google'
+                          averageRatingPlatform === 'Google'
                             ? 'bg-white dark:bg-gray-700 text-foreground shadow-md border border-gray-200 dark:border-gray-600'
                             : 'text-gray-500 dark:text-gray-400 hover:text-foreground hover:bg-white/50 dark:hover:bg-gray-700/50'
                         }`}
@@ -292,9 +298,9 @@ export default function KpiCards({ kpis, filters, onFiltersChange }: KpiCardsPro
                       </button>
                       
                       <button
-                        onClick={() => onFiltersChange({ ...filters, platform: 'Yandex' })}
+                        onClick={() => setAverageRatingPlatform('Yandex')}
                         className={`flex items-center gap-1.5 px-4 py-2 rounded-md text-xs font-semibold transition-all duration-200 flex-1 justify-center ${
-                          filters.platform === 'Yandex'
+                          averageRatingPlatform === 'Yandex'
                             ? 'bg-white dark:bg-gray-700 text-foreground shadow-md border border-gray-200 dark:border-gray-600'
                             : 'text-gray-500 dark:text-gray-400 hover:text-foreground hover:bg-white/50 dark:hover:bg-gray-700/50'
                         }`}
@@ -309,7 +315,7 @@ export default function KpiCards({ kpis, filters, onFiltersChange }: KpiCardsPro
                   </div>
                 )}
 
-                <CardContent className="bg-[#f9fafb] p-6 pt-3">
+                <CardContent className="p-6 pt-3 bg-[#f9fafb]">
                   
                   <div className="flex items-center justify-between mb-4">
                     <div className="flex items-center space-x-2">
