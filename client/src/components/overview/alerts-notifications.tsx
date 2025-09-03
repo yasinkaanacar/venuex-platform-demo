@@ -1,9 +1,9 @@
 import { useState } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
+import { Card, CardContent, CardHeader, Typography } from '@mui/material';
+import { Button } from '@mui/material';
+import { Accordion, AccordionSummary, AccordionDetails } from '@mui/material';
 import { Alert as AlertType } from '@shared/schema';
-import { CheckCircle, AlertTriangle, AlertCircle, X, ChevronDown, ChevronUp } from 'lucide-react';
+import { CheckCircle, AlertTriangle, AlertCircle, X, ChevronDown, ChevronUp, ExpandMore } from 'lucide-react';
 
 interface AlertsNotificationsProps {
   alerts?: AlertType[];
@@ -51,14 +51,14 @@ export default function AlertsNotifications({ alerts = [] }: AlertsNotifications
   const [isOpen, setIsOpen] = useState(systemAlerts.length > 0);
 
   return (
-    <Card>
-      <Collapsible open={isOpen} onOpenChange={setIsOpen}>
+    <Card sx={{ mb: 2 }}>
+      <Accordion expanded={isOpen} onChange={() => setIsOpen(!isOpen)}>
         <CardHeader>
           <div className="flex items-center justify-between">
             <div>
-              <CardTitle className="text-lg font-semibold text-foreground">
+              <Typography variant="h6" component="h2">
                 Alerts & Notifications
-              </CardTitle>
+              </Typography>
               <p className="text-sm text-muted-foreground">
                 Recent system alerts and data notifications
               </p>
@@ -68,16 +68,20 @@ export default function AlertsNotifications({ alerts = [] }: AlertsNotifications
               <button className="text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:hover:text-white font-medium bg-transparent border-none cursor-pointer" data-testid="button-view-all-alerts">
                 View All →
               </button>
-              <CollapsibleTrigger asChild>
-                <Button variant="ghost" size="sm" className="h-8 w-8 p-0" data-testid="button-toggle-alerts">
-                  {isOpen ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
-                </Button>
-              </CollapsibleTrigger>
+              <Button 
+                variant="text" 
+                size="small" 
+                onClick={() => setIsOpen(!isOpen)}
+                sx={{ minWidth: 32, width: 32, height: 32, p: 0 }}
+                data-testid="button-toggle-alerts"
+              >
+                {isOpen ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
+              </Button>
             </div>
           </div>
         </CardHeader>
         
-        <CollapsibleContent>
+        <AccordionDetails>
           <CardContent>
             <div className="space-y-3">
               {systemAlerts.map((alert) => {
@@ -118,8 +122,8 @@ export default function AlertsNotifications({ alerts = [] }: AlertsNotifications
               })}
             </div>
           </CardContent>
-        </CollapsibleContent>
-      </Collapsible>
+        </AccordionDetails>
+      </Accordion>
     </Card>
   );
 }

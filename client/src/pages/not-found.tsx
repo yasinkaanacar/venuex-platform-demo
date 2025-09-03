@@ -1,11 +1,11 @@
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent } from '@mui/material';
 import { AlertCircle } from "lucide-react";
 
 export default function NotFound() {
   return (
     <div className="min-h-screen w-full flex items-center justify-center bg-gray-50">
-      <Card className="w-full max-w-md mx-4">
-        <CardContent className="pt-6">
+      <Card sx={{ width: '100%', maxWidth: 400, mx: 2 }}>
+        <CardContent sx={{ pt: 3 }}>
           <div className="flex mb-4 gap-2">
             <AlertCircle className="h-8 w-8 text-red-500" />
             <h1 className="text-2xl font-bold text-gray-900">404 Page Not Found</h1>

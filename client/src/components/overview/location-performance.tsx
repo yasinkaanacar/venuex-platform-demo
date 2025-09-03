@@ -1,5 +1,5 @@
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, Typography } from '@mui/material';
+import { Button } from '@mui/material';
 import { AlertTriangle, CheckCircle, AlertCircle, X } from 'lucide-react';
 import { Location } from '@shared/schema';
 
@@ -46,13 +46,13 @@ export default function LocationPerformance({ locations = [] }: LocationPerforma
   ];
 
   return (
-    <Card>
+    <Card sx={{ mb: 2 }}>
       <CardHeader>
         <div className="flex items-center justify-between">
           <div>
-            <CardTitle className="text-lg font-semibold text-foreground">
+            <Typography variant="h6" component="h2">
               Alerts & Notifications
-            </CardTitle>
+            </Typography>
           </div>
           
           <Button variant="ghost" size="sm" className="text-primary hover:text-primary/80" data-testid="button-view-all-alerts">

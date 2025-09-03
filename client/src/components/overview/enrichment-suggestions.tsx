@@ -1,6 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, Typography } from '@mui/material';
+import { Button } from '@mui/material';
 import { Badge } from '@/components/ui/badge';
 import { MapPin, Star, FileText, Lightbulb, Info } from 'lucide-react';
 import { EnrichmentSuggestion } from '@shared/schema';
@@ -167,7 +167,7 @@ export default function EnrichmentSuggestions() {
                   <div className="flex flex-col items-end gap-2 ml-4">
                     {suggestion.buttonType === 'apply' ? (
                       <Button 
-                        size="sm"
+                        size="small"
                         className="bg-primary hover:bg-primary/90 text-primary-foreground"
                         onClick={() => implementSuggestionMutation.mutate(suggestion.id)}
                         disabled={implementSuggestionMutation.isPending}
@@ -177,8 +177,8 @@ export default function EnrichmentSuggestions() {
                       </Button>
                     ) : (
                       <Button 
-                        variant="outline"
-                        size="sm"
+                        variant="outlined"
+                        size="small"
                         className="text-muted-foreground border-border hover:bg-muted/50"
                         data-testid={`button-info-${suggestion.id}`}
                       >
@@ -198,7 +198,7 @@ export default function EnrichmentSuggestions() {
           <div className="text-sm text-muted-foreground">
             3 suggestions shown • Potential impact: <span className="font-medium">+48.0% overall performance</span>
           </div>
-          <Button variant="outline" size="sm" className="text-gray-700 dark:text-gray-200 border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-800 font-medium">
+          <Button variant="outlined" size="small" className="text-gray-700 dark:text-gray-200 border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-800 font-medium">
             View all suggestions
           </Button>
         </div>

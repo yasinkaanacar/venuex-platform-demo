@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, Typography } from '@mui/material';
 import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
+import { Button } from '@mui/material';
+import { Accordion, AccordionSummary, AccordionDetails } from '@mui/material';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Platform, Alert as AlertType, Location } from '@shared/schema';
 import { CheckCircle, Clock, XCircle, AlertTriangle, ArrowRight, Database, Store, MapPin, Package, Receipt, AlertCircle, X, ChevronDown, ChevronUp, ArrowDown } from 'lucide-react';
@@ -90,9 +90,9 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
         <div className="py-3 px-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <CardTitle className="text-base font-semibold text-foreground">
+              <Typography variant="h6" component="h2">
                 Data Health & Flow
-              </CardTitle>
+              </Typography>
               <div className="flex items-center gap-2">
                 {failed === 0 && pending === 0 ? (
                   <>
@@ -533,8 +533,8 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
 
   // Full mode - original collapsible version
   return (
-    <Card>
-      <Collapsible open={isOpen} onOpenChange={setIsOpen}>
+    <Card sx={{ mb: 2 }}>
+      <Accordion expanded={isOpen} onChange={() => setIsOpen(!isOpen)}>
         <CardHeader
           title="Data Health & Flow"
           subheader={isOpen ? "Data flow from source systems through VenueX to platforms" : undefined}
@@ -557,23 +557,23 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
                   )}
                 </div>
               )}
-              <CollapsibleTrigger>
+              <AccordionSummary expandIcon={<ChevronDown />}>
                 <Button variant="ghost" size="sm" className="h-8 w-8 p-0" data-testid="button-toggle-data-health">
                   <img src={mouseIcon} alt="Toggle" className="h-4 w-4" />
                 </Button>
-              </CollapsibleTrigger>
+              </AccordionSummary>
             </div>
           }
         />
         
-        <CollapsibleContent>
-          <CardContent className="space-y-8">
+        <AccordionDetails>
+          <CardContent sx={{ '& > *': { mb: 2 } }}>
         <div className="relative">
           {/* Note: This would contain the same content as above but in collapsible form */}
         </div>
         </CardContent>
-        </CollapsibleContent>
-      </Collapsible>
+        </AccordionDetails>
+      </Accordion>
     </Card>
   );
 }

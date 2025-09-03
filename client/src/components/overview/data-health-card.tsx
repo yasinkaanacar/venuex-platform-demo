@@ -1,4 +1,4 @@
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, Typography } from '@mui/material';
 import { Badge } from '@/components/ui/badge';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Platform, Alert as AlertType } from '@shared/schema';
@@ -67,7 +67,7 @@ export default function DataHealthCard({ platforms = [], alerts = [] }: DataHeal
   };
 
   return (
-    <Card>
+    <Card sx={{ mb: 2 }}>
       <CardHeader
         title="Data Health & Flow"
         subheader="Data flow from source systems through VenueX to platforms"
