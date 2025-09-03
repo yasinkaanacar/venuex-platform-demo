@@ -16,7 +16,7 @@ export default function FilterBar({ filters, onFiltersChange }: FilterBarProps) 
   
 
   return (
-    <div className="sticky top-0 z-50 bg-card rounded-lg border border-border/30 p-3 mb-4 shadow-sm">
+    <div className="sticky top-0 z-50 rounded-lg border border-border/30 p-3 mb-4 shadow-sm bg-[#f9fafb]">
       <div className="flex gap-4">
         <div>
           <Select value={filters.dateRange} onValueChange={(value) => updateFilter('dateRange', value)}>
