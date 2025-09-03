@@ -9,7 +9,6 @@ const StyledTooltip = styled(MuiTooltip)(({ theme }) => ({
     borderRadius: '8px',
     fontSize: '14px',
     padding: '16px',
-    border: `2px solid ${theme.palette.divider} !important`,
     boxShadow: theme.shadows[3],
     maxWidth: '280px',
   },
@@ -17,7 +16,6 @@ const StyledTooltip = styled(MuiTooltip)(({ theme }) => ({
     color: '#ffffff !important',
     '&::before': {
       backgroundColor: '#ffffff !important',
-      border: `2px solid ${theme.palette.divider} !important`,
     }
   },
 }))
