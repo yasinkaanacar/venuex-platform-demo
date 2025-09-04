@@ -111,8 +111,8 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
             </div>
             
             <Button 
-              variant="outline" 
-              size="sm" 
+              variant="outlined" 
+              size="small" 
               className="text-xs pointer-events-none"
               data-testid="button-scroll-to-bottom"
             >
@@ -492,7 +492,7 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
               return (
                 <div 
                   key={alert.id}
-                  className={`flex items-start justify-between p-4 rounded-lg border-2 ${alert.bgColor} ${alert.borderColor} shadow-sm`}
+                  className={`flex items-start p-4 rounded-lg border-2 ${alert.bgColor} ${alert.borderColor} shadow-sm`}
                   data-testid={`alert-${alert.id}`}
                 >
                   <div className="flex items-start space-x-3">
@@ -511,15 +511,6 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
                       </div>
                     </div>
                   </div>
-                  
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    className="h-6 w-6 p-0 text-muted-foreground hover:text-foreground"
-                    data-testid={`close-alert-${alert.id}`}
-                  >
-                    <X className="w-4 h-4" />
-                  </Button>
                 </div>
               );
             })}
@@ -558,7 +549,7 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
                 </div>
               )}
               <AccordionSummary expandIcon={<ChevronDown />}>
-                <Button variant="ghost" size="sm" className="h-8 w-8 p-0" data-testid="button-toggle-data-health">
+                <Button variant="text" size="small" className="h-8 w-8 p-0" data-testid="button-toggle-data-health">
                   <img src={mouseIcon} alt="Toggle" className="h-4 w-4" />
                 </Button>
               </AccordionSummary>
