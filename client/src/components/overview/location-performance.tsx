@@ -1,6 +1,6 @@
 import { Card, CardContent, CardHeader, Typography } from '@mui/material';
 import { Button } from '@mui/material';
-import { AlertTriangle, CheckCircle, AlertCircle, X } from 'lucide-react';
+import { AlertTriangle, CheckCircle, AlertCircle } from 'lucide-react';
 import { Location } from '@shared/schema';
 
 interface LocationPerformanceProps {
@@ -68,7 +68,7 @@ export default function LocationPerformance({ locations = [] }: LocationPerforma
             return (
               <div 
                 key={alert.id}
-                className={`flex items-start justify-between p-4 rounded-lg border ${alert.bgColor} ${alert.borderColor}`}
+                className={`flex items-start p-4 rounded-lg border ${alert.bgColor} ${alert.borderColor}`}
                 data-testid={`alert-${alert.id}`}
               >
                 <div className="flex items-start space-x-3">
@@ -87,15 +87,6 @@ export default function LocationPerformance({ locations = [] }: LocationPerforma
                     </div>
                   </div>
                 </div>
-                
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  className="h-6 w-6 p-0 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
-                  data-testid={`close-alert-${alert.id}`}
-                >
-                  <X className="w-4 h-4" />
-                </Button>
               </div>
             );
           })}
