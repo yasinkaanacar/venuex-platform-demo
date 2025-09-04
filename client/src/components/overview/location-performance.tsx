@@ -55,7 +55,7 @@ export default function LocationPerformance({ locations = [] }: LocationPerforma
             </Typography>
           </div>
           
-          <Button variant="ghost" size="sm" className="text-primary hover:text-primary/80" data-testid="button-view-all-alerts">
+          <Button variant="text" size="small" className="text-primary hover:text-primary/80" data-testid="button-view-all-alerts">
             View all
           </Button>
         </div>
