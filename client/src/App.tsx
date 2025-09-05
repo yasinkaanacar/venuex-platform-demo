@@ -4,6 +4,7 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import Sidebar from "@/components/layout/sidebar";
 import Overview from "@/pages/overview";
 import OfflineConversions from "@/pages/offline-conversions";
+import Locations from "@/pages/locations";
 import NotFound from "@/pages/not-found";
 import { useState } from "react";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
@@ -24,6 +25,7 @@ function Router() {
         <Switch>
           <Route path="/" component={Overview} />
           <Route path="/offline-conversions" component={OfflineConversions} />
+          <Route path="/locations" component={Locations} />
           <Route component={NotFound} />
         </Switch>
       </main>
