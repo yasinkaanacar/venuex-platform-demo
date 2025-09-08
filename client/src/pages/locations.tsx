@@ -4,18 +4,17 @@ import { FilterBar } from "@/components/locations/FilterBar";
 import { IssuesSection } from "@/components/locations/IssuesSection";
 import { LocationsTable } from "@/components/locations/LocationsTable";
 import { BusinessProfileSection } from "@/components/locations/BusinessProfileSection";
+import { FieldManagementDialog } from "@/components/locations/FieldManagementDialog";
 
 export default function LocationsPage() {
   // State management
   const [selectedLocationId, setSelectedLocationId] = useState<string | null>(null);
+  const [fieldManagementOpen, setFieldManagementOpen] = useState(false);
 
   // Event handlers
   const handleManageFields = () => {
     console.log('Manage fields clicked');
-    showToast({
-      type: 'success',
-      title: 'Field management dialog opened'
-    });
+    setFieldManagementOpen(true);
   };
 
   const handleAddNewLocation = () => {
@@ -105,6 +104,12 @@ export default function LocationsPage() {
         </div>
         <BusinessProfileSection />
       </div>
+
+      {/* Field Management Dialog */}
+      <FieldManagementDialog 
+        isOpen={fieldManagementOpen}
+        onClose={() => setFieldManagementOpen(false)}
+      />
     </div>
   );
 }
