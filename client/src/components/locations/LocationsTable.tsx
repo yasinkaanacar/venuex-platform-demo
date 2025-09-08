@@ -108,21 +108,42 @@ const mockLocationData: LocationData[] = [
   }
 ];
 
+interface FilterState {
+  search: string;
+  city: string;
+  businessStatus: string;
+  platformStatus: string;
+}
+
 interface LocationsTableProps {
   onRowClick: (id: string) => void;
   onEdit: (id: string) => void;
+  filters: FilterState;
 }
 
-export function LocationsTable({ onRowClick, onEdit }: LocationsTableProps) {
+export function LocationsTable({ onRowClick, onEdit, filters }: LocationsTableProps) {
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
-  const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
 
-  const filteredData = mockLocationData.filter(location =>
-    location.locationName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    location.storeCode.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  const filteredData = mockLocationData.filter(location => {
+    // Search filter
+    const searchMatch = !filters.search || 
+      location.locationName.toLowerCase().includes(filters.search.toLowerCase()) ||
+      location.storeCode.toLowerCase().includes(filters.search.toLowerCase());
+    
+    // Business status filter
+    const businessStatusMatch = !filters.businessStatus || location.businessStatus === filters.businessStatus;
+    
+    // Platform status filter  
+    const platformStatusMatch = !filters.platformStatus || location.platformStatus === filters.platformStatus;
+    
+    // City filter (extract city from location name)
+    const locationCity = location.locationName.split(' - ')[0] || location.locationName.split(' ')[0];
+    const cityMatch = !filters.city || locationCity.toLowerCase().includes(filters.city.toLowerCase());
+    
+    return searchMatch && businessStatusMatch && platformStatusMatch && cityMatch;
+  });
 
   const totalPages = Math.ceil(filteredData.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
@@ -185,16 +206,6 @@ export function LocationsTable({ onRowClick, onEdit }: LocationsTableProps) {
             ({filteredData.length}) locations
           </div>
           <div className="flex items-center space-x-4">
-            <div className="relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
-              <Input
-                placeholder="Search by store name, store code or address..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-10 w-80"
-                data-testid="search-locations"
-              />
-            </div>
             <Button variant="outline" size="sm">
               Export
             </Button>

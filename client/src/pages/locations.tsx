@@ -6,10 +6,23 @@ import { LocationsTable } from "@/components/locations/LocationsTable";
 import { BusinessProfileSection } from "@/components/locations/BusinessProfileSection";
 import { FieldManagementDialog } from "@/components/locations/FieldManagementDialog";
 
+interface FilterState {
+  search: string;
+  city: string;
+  businessStatus: string;
+  platformStatus: string;
+}
+
 export default function LocationsPage() {
   // State management
   const [selectedLocationId, setSelectedLocationId] = useState<string | null>(null);
   const [fieldManagementOpen, setFieldManagementOpen] = useState(false);
+  const [filters, setFilters] = useState<FilterState>({
+    search: "",
+    city: "",
+    businessStatus: "",
+    platformStatus: ""
+  });
 
   // Event handlers
   const handleManageFields = () => {
@@ -69,6 +82,8 @@ export default function LocationsPage() {
         onManageFields={handleManageFields}
         onAddNewLocation={handleAddNewLocation}
         onUploadLocations={handleUploadLocations}
+        filters={filters}
+        onFiltersChange={setFilters}
       />
 
       {/* Main Content */}
@@ -93,6 +108,7 @@ export default function LocationsPage() {
           <LocationsTable 
             onRowClick={handleRowClick}
             onEdit={handleEdit}
+            filters={filters}
           />
         </div>
 
