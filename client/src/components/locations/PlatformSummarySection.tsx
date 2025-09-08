@@ -95,7 +95,121 @@ export function PlatformSummarySection() {
       );
     }
 
-    // Default layout for other platforms
+    if (activePlatform === 2) { // Meta Business
+      return (
+        <div className="p-8 bg-gray-50">
+          <div className="flex items-start justify-between mb-8">
+            {/* Left side - Main count */}
+            <div>
+              <div className="text-7xl font-bold text-gray-900 mb-2">127</div>
+              <div className="text-lg text-gray-600">Lokasyon</div>
+            </div>
+
+            {/* Middle - Status grid */}
+            <div className="flex-1 mx-12">
+              <div className="grid grid-cols-3 gap-x-8 gap-y-4">
+                <StatusItem count={3} label="Beklemede" icon />
+                <StatusItem count={2} label="Reddedilmiş" icon />
+                <StatusItem count={1} label="İncelenmede" icon />
+                <StatusItem count={2} label="Yinelenmış" icon />
+                <StatusItem count={0} label="Geçici Kapalı" icon />
+                <StatusItem count={1} label="Güncelleme Gerekli" icon />
+              </div>
+            </div>
+          </div>
+
+          {/* Page Engagement Section */}
+          <div className="pt-6 border-t border-gray-200">
+            <div className="mb-4">
+              <h4 className="text-sm text-gray-500 mb-1">Page Engagement</h4>
+              <div className="text-xs text-gray-400">Son 30 Gün</div>
+            </div>
+            
+            <div className="grid grid-cols-4 gap-8">
+              <EngagementMetric 
+                value={312} 
+                label="Page Views" 
+                icon={<Eye className="w-5 h-5 text-blue-500" />}
+              />
+              <EngagementMetric 
+                value={87} 
+                label="Phone Calls" 
+                icon={<Phone className="w-5 h-5 text-green-500" />}
+              />
+              <EngagementMetric 
+                value={34} 
+                label="Get Directions" 
+                icon={<Navigation className="w-5 h-5 text-purple-500" />}
+              />
+              <EngagementMetric 
+                value={29} 
+                label="Website Clicks" 
+                icon={<MousePointer className="w-5 h-5 text-orange-500" />}
+              />
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    if (activePlatform === 3) { // Apple Business Connect
+      return (
+        <div className="p-8 bg-gray-50">
+          <div className="flex items-start justify-between mb-8">
+            {/* Left side - Main count */}
+            <div>
+              <div className="text-7xl font-bold text-gray-900 mb-2">98</div>
+              <div className="text-lg text-gray-600">Lokasyon</div>
+            </div>
+
+            {/* Middle - Status grid */}
+            <div className="flex-1 mx-12">
+              <div className="grid grid-cols-3 gap-x-8 gap-y-4">
+                <StatusItem count={2} label="Doğrulama Bekliyor" icon />
+                <StatusItem count={1} label="Güncellenmeyi Bekliyor" icon />
+                <StatusItem count={0} label="Hata" icon />
+                <StatusItem count={1} label="Yinelenmış" icon />
+                <StatusItem count={0} label="Kapalı" icon />
+                <StatusItem count={1} label="Bilgi Eksik" icon />
+              </div>
+            </div>
+          </div>
+
+          {/* Business Connect Engagement Section */}
+          <div className="pt-6 border-t border-gray-200">
+            <div className="mb-4">
+              <h4 className="text-sm text-gray-500 mb-1">Maps Engagement</h4>
+              <div className="text-xs text-gray-400">Son 30 Gün</div>
+            </div>
+            
+            <div className="grid grid-cols-4 gap-8">
+              <EngagementMetric 
+                value={256} 
+                label="Maps Views" 
+                icon={<Eye className="w-5 h-5 text-blue-500" />}
+              />
+              <EngagementMetric 
+                value={72} 
+                label="Phone Calls" 
+                icon={<Phone className="w-5 h-5 text-green-500" />}
+              />
+              <EngagementMetric 
+                value={45} 
+                label="Directions Requests" 
+                icon={<Navigation className="w-5 h-5 text-purple-500" />}
+              />
+              <EngagementMetric 
+                value={18} 
+                label="Website Visits" 
+                icon={<MousePointer className="w-5 h-5 text-orange-500" />}
+              />
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    // Default layout for VenueX (index 0)
     return (
       <div className="p-8 bg-gray-50">
         <div className="flex items-start justify-between">
