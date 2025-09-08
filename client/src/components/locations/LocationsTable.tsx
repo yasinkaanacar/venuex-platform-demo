@@ -181,9 +181,9 @@ export function LocationsTable({ onRowClick, onEdit }: LocationsTableProps) {
     <Card className="mx-6 mb-6">
       <CardHeader className="pb-4">
         <div className="flex items-center justify-between">
-          <CardTitle className="text-lg font-semibold text-gray-900 dark:text-white">
-            Locations ({filteredData.length})
-          </CardTitle>
+          <div className="text-sm text-gray-500">
+            ({filteredData.length}) locations
+          </div>
           <div className="flex items-center space-x-4">
             <div className="relative">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />

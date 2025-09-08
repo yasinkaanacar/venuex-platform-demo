@@ -35,9 +35,7 @@ export function BusinessProfileSection() {
     <Card className="mx-6 mb-6">
       <CardHeader className="pb-4">
         <div className="flex items-center justify-between">
-          <CardTitle className="text-lg font-semibold text-gray-900 dark:text-white">
-            Business Profile Interactions
-          </CardTitle>
+          <div></div>
           <div className="text-sm text-gray-500">
             August 2024
           </div>

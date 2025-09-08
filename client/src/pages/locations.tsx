@@ -77,11 +77,21 @@ export default function LocationsPage() {
       <div className="pb-6">
         {/* Issues & Suggestions Section */}
         <div className="py-6">
+          <div className="mx-6 mb-4">
+            <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
+              Issues & Suggestions
+            </h2>
+          </div>
           <IssuesSection onTakeAction={handleTakeAction} />
         </div>
 
         {/* Locations Table Section */}
         <div className="mb-6">
+          <div className="mx-6 mb-4">
+            <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
+              Locations
+            </h2>
+          </div>
           <LocationsTable 
             onRowClick={handleRowClick}
             onEdit={handleEdit}
@@ -89,6 +99,11 @@ export default function LocationsPage() {
         </div>
 
         {/* Business Profile Section */}
+        <div className="mx-6 mb-4">
+          <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
+            Business Profile Interactions
+          </h2>
+        </div>
         <BusinessProfileSection />
       </div>
     </div>
