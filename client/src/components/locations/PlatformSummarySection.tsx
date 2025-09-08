@@ -6,8 +6,7 @@ const platforms = [
   "VenueX",
   "Google Business Profile", 
   "Meta Business",
-  "Apple Business Connect",
-  "Tiktok Business"
+  "Apple Business Connect"
 ];
 
 const StatusItem = ({ count, label, icon }: { count: number; label: string; icon?: boolean }) => (
