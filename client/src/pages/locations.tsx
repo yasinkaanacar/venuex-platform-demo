@@ -6,6 +6,7 @@ import { LocationsTable } from "@/components/locations/LocationsTable";
 import { BusinessProfileSection } from "@/components/locations/BusinessProfileSection";
 import { FieldManagementDialog } from "@/components/locations/FieldManagementDialog";
 import DataQualityEnrichment from "@/components/overview/data-quality-enrichment";
+import DataHealthAlerts from "@/components/overview/data-health-alerts";
 
 interface FilterState {
   search: string;
@@ -91,6 +92,13 @@ export default function LocationsPage() {
 
       {/* Main Content */}
       <div className="pb-6">
+        {/* Data Health & Flow Banner */}
+        <div className="px-6 py-4">
+          <DataHealthAlerts 
+            bannerMode={true}
+          />
+        </div>
+
         {/* Issues & Suggestions Section */}
         <div className="py-6">
           <div className="mx-6 mb-4">
@@ -126,6 +134,19 @@ export default function LocationsPage() {
         {/* Data Quality Assessment & Data Enrichment Suggestions */}
         <div className="mx-6 mt-8">
           <DataQualityEnrichment />
+        </div>
+
+        {/* Alerts & Notifications (Expanded) */}
+        <div className="mx-6 mt-8">
+          <div className="mb-4">
+            <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
+              Alerts & Notifications
+            </h2>
+          </div>
+          <DataHealthAlerts 
+            bannerMode={false}
+            alwaysExpanded={true}
+          />
         </div>
       </div>
 
