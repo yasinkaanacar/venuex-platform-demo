@@ -290,8 +290,8 @@ export function PlatformSummarySection() {
         <div className="mt-8 pt-6 border-t border-gray-200">
           <div className="flex items-center justify-between p-4 bg-white rounded-lg border border-gray-200">
             <div className="flex items-center">
-              <span className="text-gray-900 font-medium">Lokasyonlar</span>
-              <span className="text-gray-500 ml-1">(130)</span>
+              <span className="text-gray-900 font-medium">Locations</span>
+              <span className="text-gray-500 ml-1">(131)</span>
             </div>
             <Button size="sm" className="rounded-full w-8 h-8 p-0">
               <ChevronRight className="w-4 h-4" />
