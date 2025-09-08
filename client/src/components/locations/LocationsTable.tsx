@@ -276,7 +276,7 @@ export function LocationsTable({ onRowClick, onEdit, filters }: LocationsTablePr
         </div>
       </div>
       
-      <CardContent className="p-0">
+      <CardContent className="bg-[#f9fafb] p-0">
         <div className="overflow-hidden">
           <Table>
             <TableHeader>
