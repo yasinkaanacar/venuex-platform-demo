@@ -65,7 +65,7 @@ export function BusinessProfileSection() {
           </Button>
         </div>
       </CardHeader>
-      <CardContent>
+      <CardContent className="bg-[#f9fafb]">
         {/* Tabs */}
         <div className="flex space-x-1 mb-6 bg-gray-100 dark:bg-gray-800 rounded-lg p-1">
           {tabs.map((tab, index) => (
