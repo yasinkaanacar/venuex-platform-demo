@@ -1,130 +1,179 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useState } from "react";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { LineChart, Line, XAxis, YAxis, ResponsiveContainer, PieChart, Pie, Cell } from "recharts";
+import { TrendingUp, Calendar, Info } from 'lucide-react';
 
 const chartData = [
-  { name: 'Jan', desktop: 186, mobile: 80 },
-  { name: 'Feb', desktop: 205, mobile: 120 },
-  { name: 'Mar', desktop: 207, mobile: 110 },
-  { name: 'Apr', desktop: 175, mobile: 150 },
-  { name: 'May', desktop: 209, mobile: 170 },
-  { name: 'Jun', desktop: 214, mobile: 180 },
+  { name: 'Aug 25', current: 2000, previous: 1950 },
+  { name: '03 Aug', current: 1850, previous: 2100 },
+  { name: '05 Aug', current: 1900, previous: 2000 },
+  { name: '07 Aug', current: 2400, previous: 1800 },
+  { name: '09 Aug', current: 1950, previous: 2050 },
+  { name: '11 Aug', current: 1800, previous: 2100 },
+  { name: '14 Aug', current: 2100, previous: 1900 },
+  { name: '16 Aug', current: 2250, previous: 2200 },
+  { name: '18 Aug', current: 1900, previous: 2050 },
+  { name: '20 Aug', current: 1850, previous: 1950 },
+  { name: '22 Aug', current: 1950, previous: 1900 },
+  { name: '24 Aug', current: 2000, previous: 1850 },
+  { name: '26 Aug', current: 1950, previous: 1800 },
+  { name: '28 Aug', current: 1900, previous: 1950 },
+  { name: '30 Aug', current: 2400, previous: 1750 },
 ];
 
-const pieData = [
-  { name: 'Desktop', value: 60.4, color: '#3b82f6' },
-  { name: 'Mobile', value: 39.6, color: '#ef4444' }
+const platformData = [
+  { name: 'Search mobile', value: 58.7, color: '#f59e0b', count: '1,009,909' },
+  { name: 'Search web', value: 25.4, color: '#3b82f6', count: '437,131' },
+  { name: 'Maps mobile', value: 15.3, color: '#06b6d4', count: '262,691' },
+  { name: 'Maps Desktop', value: 0.5, color: '#8b5cf6', count: '9,285' }
 ];
 
-const profileData = [
-  { platform: 'Desktop', value: 249.4, percentage: 60.4 },
-  { platform: 'Search visit', value: 166.532, percentage: 40.3 },
-  { platform: 'Maps mobile', value: 94.637, percentage: 22.9 },
-  { platform: 'Maps Desktop', value: 5.329, percentage: 1.3 }
+const searchTerms = [
+  { term: 'boyner', count: '920,816' },
+  { term: 'calvin klein', count: '16,075' },
+  { term: 'avm', count: '11,985' },
+  { term: 'boyner mağazaları', count: '10,335' },
+  { term: 'boyner outlet', count: '10,049' },
+  { term: 'tommy hilfiger', count: '9,373' }
 ];
 
-const totalSearches = [
-  { type: 'Searches', count: '2,863.2M', change: '+8.2%', isPositive: true },
-  { type: 'Views', count: '404.4M', change: '+5.4%', isPositive: true },
-  { type: 'Clicks', count: '6.945', change: '-0.6%', isPositive: false },
-  { type: 'Calls', count: '4.446', change: '-0.9%', isPositive: false }
+const tabs = [
+  { label: 'Total', value: '62006', active: true },
+  { label: 'Calls Made', value: '23499', active: false },
+  { label: 'Website Clicks', value: '3875', active: false },
+  { label: 'Direction Requests', value: '34632', active: false }
 ];
 
 export function BusinessProfileSection() {
+  const [activeTab, setActiveTab] = useState(0);
+
   return (
     <Card className="mx-6 mb-6">
       <CardHeader className="pb-4">
         <div className="flex items-center justify-between">
-          <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
-            Business Profile Interactions
-          </h2>
-          <div className="text-sm text-gray-500">
-            August 2024
+          <div className="flex items-center space-x-2">
+            <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
+              Business Profile Interactions
+            </h2>
+            <Info className="w-4 h-4 text-gray-400" />
           </div>
+          <Button variant="outline" size="sm" className="flex items-center space-x-2">
+            <Calendar className="w-4 h-4" />
+            <span>August 2025</span>
+          </Button>
         </div>
       </CardHeader>
       <CardContent>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-          {/* Line Chart */}
-          <div className="space-y-4">
-            <div className="flex items-center space-x-4 text-sm">
-              <div className="flex items-center space-x-2">
-                <div className="w-3 h-3 bg-blue-500 rounded"></div>
-                <span>Desktop (60%)</span>
+        {/* Tabs */}
+        <div className="flex space-x-1 mb-6 bg-gray-100 dark:bg-gray-800 rounded-lg p-1">
+          {tabs.map((tab, index) => (
+            <button
+              key={index}
+              onClick={() => setActiveTab(index)}
+              className={`flex-1 px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+                activeTab === index
+                  ? 'bg-white dark:bg-gray-700 text-blue-600 dark:text-blue-400 shadow-sm'
+                  : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
+              }`}
+            >
+              <div className="text-center">
+                <div className="font-medium">{tab.label}</div>
+                <div className="text-xs text-gray-500">({tab.value})</div>
               </div>
-              <div className="flex items-center space-x-2">
-                <div className="w-3 h-3 bg-red-500 rounded"></div>
-                <span>Mobile (40%)</span>
-              </div>
-            </div>
-            <div className="h-64">
-              <ResponsiveContainer width="100%" height="100%">
-                <LineChart data={chartData}>
-                  <XAxis dataKey="name" />
-                  <YAxis />
-                  <Line 
-                    type="monotone" 
-                    dataKey="desktop" 
-                    stroke="#3b82f6" 
-                    strokeWidth={2}
-                    dot={false}
-                  />
-                  <Line 
-                    type="monotone" 
-                    dataKey="mobile" 
-                    stroke="#ef4444" 
-                    strokeWidth={2}
-                    dot={false}
-                  />
-                </LineChart>
-              </ResponsiveContainer>
-            </div>
-          </div>
+            </button>
+          ))}
+        </div>
 
-          {/* Stats Grid */}
-          <div className="space-y-4">
-            <div className="grid grid-cols-2 gap-4">
-              {totalSearches.map((stat, index) => (
-                <div key={index} className="text-center">
-                  <div className="text-2xl font-bold text-gray-900 dark:text-white">
-                    {stat.count}
-                  </div>
-                  <div className="flex items-center justify-center space-x-1 mt-1">
-                    <span className="text-sm text-gray-600 dark:text-gray-400">
-                      {stat.type}
-                    </span>
-                    <Badge 
-                      variant={stat.isPositive ? "default" : "destructive"}
-                      className="text-xs"
-                    >
-                      {stat.change}
-                    </Badge>
-                  </div>
-                </div>
-              ))}
+        {/* Main Metrics */}
+        <div className="mb-6">
+          <div className="flex items-baseline space-x-4 mb-2">
+            <div className="flex items-center space-x-2">
+              <div className="w-3 h-3 bg-blue-500 rounded-full"></div>
+              <span className="text-2xl font-bold text-gray-900 dark:text-white">62,006</span>
+              <span className="text-sm text-gray-600 dark:text-gray-400">Current</span>
             </div>
+            <div className="flex items-center space-x-2">
+              <div className="w-3 h-3 bg-gray-400 rounded-full"></div>
+              <span className="text-lg text-gray-600 dark:text-gray-400">63,615</span>
+              <span className="text-sm text-gray-600 dark:text-gray-400">Previous</span>
+            </div>
+            <Badge variant="destructive" className="bg-red-100 text-red-800 hover:bg-red-100">
+              -2.5%
+            </Badge>
+          </div>
+          <div className="text-sm text-gray-500 mb-4">
+            July 2025 vs August 2025
           </div>
         </div>
 
-        {/* Profile Views Section */}
-        <div className="border-t pt-6">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            {/* Pie Chart */}
-            <div className="space-y-4">
-              <h4 className="font-medium text-gray-900 dark:text-white">Profile views - 166.4K</h4>
+        {/* Chart */}
+        <div className="h-64 mb-8">
+          <ResponsiveContainer width="100%" height="100%">
+            <LineChart data={chartData}>
+              <XAxis 
+                dataKey="name" 
+                axisLine={false}
+                tickLine={false}
+                className="text-xs text-gray-500"
+              />
+              <YAxis 
+                axisLine={false}
+                tickLine={false}
+                className="text-xs text-gray-500"
+              />
+              <Line 
+                type="monotone" 
+                dataKey="current" 
+                stroke="#3b82f6" 
+                strokeWidth={2}
+                dot={false}
+              />
+              <Line 
+                type="monotone" 
+                dataKey="previous" 
+                stroke="#9ca3af" 
+                strokeWidth={2}
+                dot={false}
+              />
+            </LineChart>
+          </ResponsiveContainer>
+        </div>
+
+        {/* Bottom Sections */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          {/* Profile Views */}
+          <div className="space-y-4">
+            <div className="flex items-center justify-between">
+              <h4 className="font-medium text-gray-900 dark:text-white">Profile views</h4>
+              <div className="flex items-center space-x-2">
+                <span className="text-lg font-semibold">1,716,216</span>
+                <Badge className="bg-green-100 text-green-800 hover:bg-green-100">
+                  <TrendingUp className="w-3 h-3 mr-1" />
+                  +82.4%
+                </Badge>
+              </div>
+            </div>
+            <div className="text-sm text-gray-600 dark:text-gray-400 mb-4">
+              July 2025 vs August 2025
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {/* Pie Chart */}
               <div className="flex items-center justify-center">
-                <div className="w-48 h-48">
+                <div className="w-32 h-32">
                   <ResponsiveContainer width="100%" height="100%">
                     <PieChart>
                       <Pie
-                        data={pieData}
+                        data={platformData}
                         cx="50%"
                         cy="50%"
-                        innerRadius={40}
-                        outerRadius={80}
+                        innerRadius={25}
+                        outerRadius={60}
                         dataKey="value"
                       >
-                        {pieData.map((entry, index) => (
+                        {platformData.map((entry, index) => (
                           <Cell key={`cell-${index}`} fill={entry.color} />
                         ))}
                       </Pie>
@@ -132,42 +181,68 @@ export function BusinessProfileSection() {
                   </ResponsiveContainer>
                 </div>
               </div>
-              <div className="text-sm text-center space-y-1">
-                {pieData.map((entry, index) => (
-                  <div key={index} className="flex items-center justify-center space-x-2">
-                    <div className={`w-3 h-3 rounded`} style={{ backgroundColor: entry.color }}></div>
-                    <span>{entry.name}</span>
-                    <span className="font-medium">{entry.value}%</span>
+
+              {/* Platform Breakdown */}
+              <div className="space-y-2">
+                <h5 className="text-sm font-medium text-gray-900 dark:text-white mb-3">
+                  Platform and device breakdown that people used to find your profile
+                </h5>
+                {platformData.map((item, index) => (
+                  <div key={index} className="flex items-center justify-between text-sm">
+                    <div className="flex items-center space-x-2">
+                      <div className="w-3 h-3 rounded-full" style={{ backgroundColor: item.color }}></div>
+                      <span className="text-gray-600 dark:text-gray-400">{item.name}</span>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <span className="font-medium text-gray-900 dark:text-white">{item.count}</span>
+                      <span className="text-gray-500">{item.value}%</span>
+                    </div>
                   </div>
                 ))}
               </div>
             </div>
+          </div>
 
-            {/* Platform Breakdown */}
+          {/* Total Searches */}
+          <div className="space-y-4">
+            <div className="flex items-center justify-between">
+              <h4 className="font-medium text-gray-900 dark:text-white">Total searches</h4>
+              <div className="flex items-center space-x-2">
+                <span className="text-lg font-semibold">1,230,916</span>
+                <Badge className="bg-green-100 text-green-800 hover:bg-green-100">
+                  <TrendingUp className="w-3 h-3 mr-1" />
+                  +88.4%
+                </Badge>
+              </div>
+            </div>
+            <div className="text-sm text-gray-600 dark:text-gray-400 mb-4">
+              July 2025 vs August 2025
+            </div>
+            
             <div className="space-y-4">
-              <h4 className="font-medium text-gray-900 dark:text-white">
-                Platform usage breakdown that people used to find your profile.
-              </h4>
+              <h5 className="text-sm font-medium text-gray-900 dark:text-white">
+                Search terms breakdown that showed your Business Profile in the search results
+              </h5>
+              
               <div className="space-y-3">
-                {profileData.map((item, index) => (
+                {searchTerms.map((item, index) => (
                   <div key={index} className="flex items-center justify-between py-2">
-                    <div className="flex items-center space-x-2">
-                      <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
-                      <span className="text-sm text-gray-600 dark:text-gray-400">
-                        {item.platform}
+                    <div className="flex items-center space-x-3">
+                      <span className="w-6 h-6 bg-gray-100 dark:bg-gray-700 rounded-full flex items-center justify-center text-xs font-medium">
+                        {index + 1}
                       </span>
+                      <span className="text-sm text-gray-900 dark:text-white">{item.term}</span>
                     </div>
-                    <div className="text-right">
-                      <div className="text-sm font-medium text-gray-900 dark:text-white">
-                        {item.value}K
-                      </div>
-                      <div className="text-xs text-gray-500">
-                        {item.percentage}%
-                      </div>
-                    </div>
+                    <span className="text-sm font-medium text-gray-900 dark:text-white">
+                      {item.count}
+                    </span>
                   </div>
                 ))}
               </div>
+              
+              <Button variant="outline" className="w-full mt-4">
+                See More
+              </Button>
             </div>
           </div>
         </div>
