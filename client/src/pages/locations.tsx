@@ -5,6 +5,7 @@ import { FilterBar } from "@/components/locations/FilterBar";
 import { LocationsTable } from "@/components/locations/LocationsTable";
 import { BusinessProfileSection } from "@/components/locations/BusinessProfileSection";
 import { FieldManagementDialog } from "@/components/locations/FieldManagementDialog";
+import { PlatformSummarySection } from "@/components/locations/PlatformSummarySection";
 import DataQualityEnrichment from "@/components/overview/data-quality-enrichment";
 import DataHealthAlerts from "@/components/overview/data-health-alerts";
 
@@ -93,7 +94,8 @@ export default function LocationsPage() {
           />
         </div>
 
-        
+        {/* Platform Summary Section */}
+        <PlatformSummarySection />
 
         {/* Locations Table Section */}
         <div className="mb-6">
