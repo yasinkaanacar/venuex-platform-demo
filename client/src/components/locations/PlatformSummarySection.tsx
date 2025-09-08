@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { ChevronRight, Info, Phone, Navigation, Eye, MousePointer } from "lucide-react";
-import { LocationsTable } from "./LocationsTable";
 
 const platforms = [
   "VenueX",
@@ -31,13 +30,7 @@ const EngagementMetric = ({ value, label, icon }: { value: number; label: string
   </div>
 );
 
-interface PlatformSummarySectionProps {
-  onRowClick?: (id: string) => void;
-  onEdit?: (id: string) => void;
-  filters?: any;
-}
-
-export function PlatformSummarySection({ onRowClick, onEdit, filters }: PlatformSummarySectionProps) {
+export function PlatformSummarySection() {
   const [activePlatform, setActivePlatform] = useState(0);
 
   // Get current date and time
@@ -274,15 +267,36 @@ export function PlatformSummarySection({ onRowClick, onEdit, filters }: Platform
       );
     }
 
-    // Default layout for VenueX (index 0) - Full LocationsTable
+    // Default layout for VenueX (index 0)
     return (
-      <div className="p-0 bg-white">
-        <div className="mx-[-1px] mb-[-1px]">
-          <LocationsTable 
-            onRowClick={onRowClick || (() => {})}
-            onEdit={onEdit || (() => {})}
-            filters={filters || {}}
-          />
+      <div className="p-8 bg-gray-50">
+        <div className="flex items-start justify-between">
+          {/* Left side - Main count */}
+          <div>
+            <div className="text-7xl font-bold text-gray-900 mb-2">130</div>
+            <div className="text-lg text-gray-600">Lokasyon</div>
+          </div>
+
+          {/* Right side - Last update */}
+          <div className="text-right">
+            <div className="text-sm text-gray-600 mb-1">Son Güncelleme Tarihi:</div>
+            <div className="text-lg font-medium text-gray-900">
+              {formattedDate} {formattedTime}
+            </div>
+          </div>
+        </div>
+
+        {/* Bottom section */}
+        <div className="mt-8 pt-6 border-t border-gray-200">
+          <div className="flex items-center justify-between p-4 bg-white rounded-lg border border-gray-200">
+            <div className="flex items-center">
+              <span className="text-gray-900 font-medium">Lokasyonlar</span>
+              <span className="text-gray-500 ml-1">(130)</span>
+            </div>
+            <Button size="sm" className="rounded-full w-8 h-8 p-0">
+              <ChevronRight className="w-4 h-4" />
+            </Button>
+          </div>
         </div>
       </div>
     );
