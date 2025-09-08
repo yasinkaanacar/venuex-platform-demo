@@ -124,9 +124,7 @@ export function FilterBar({
             {/* Store Set Filter */}
             <Select value={filters.storeSet} onValueChange={(value) => handleFilterChange('storeSet', value)}>
               <SelectTrigger className="w-[140px]" data-testid="filter-store-set">
-                <SelectValue placeholder="Store Set">
-                  {filters.storeSet || "Store Set"}
-                </SelectValue>
+                <SelectValue placeholder="Store Set" />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="">All Sets</SelectItem>
@@ -141,9 +139,7 @@ export function FilterBar({
             {/* City Filter */}
             <Select value={filters.city} onValueChange={(value) => handleFilterChange('city', value)}>
               <SelectTrigger className="w-[120px]" data-testid="filter-city">
-                <SelectValue placeholder="City">
-                  {filters.city || "City"}
-                </SelectValue>
+                <SelectValue placeholder="City" />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="">All Cities</SelectItem>
@@ -158,9 +154,7 @@ export function FilterBar({
             {/* Business Status Filter */}
             <Select value={filters.businessStatus} onValueChange={(value) => handleFilterChange('businessStatus', value)}>
               <SelectTrigger className="w-[120px]" data-testid="filter-business-status">
-                <SelectValue placeholder="Status">
-                  {filters.businessStatus || "Status"}
-                </SelectValue>
+                <SelectValue placeholder="Status" />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="">All Statuses</SelectItem>
@@ -175,9 +169,7 @@ export function FilterBar({
             {/* Platform Status Filter */}
             <Select value={filters.platformStatus} onValueChange={(value) => handleFilterChange('platformStatus', value)}>
               <SelectTrigger className="w-[120px]" data-testid="filter-platform-status">
-                <SelectValue placeholder="Platform">
-                  {filters.platformStatus || "Platform"}
-                </SelectValue>
+                <SelectValue placeholder="Platform" />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="">All Platforms</SelectItem>
@@ -204,37 +196,60 @@ export function FilterBar({
             )}
           </div>
 
-          {/* Active Filters Display (compact) */}
-          {activeFiltersCount > 0 && (
-            <div className="flex items-center gap-1">
+        </div>
+
+        {/* Active Filters Tags - Second Line */}
+        {activeFiltersCount > 0 && (
+          <div className="px-6 pb-3 pt-0">
+            <div className="flex items-center gap-2 flex-wrap">
               {filters.search && (
-                <Badge variant="secondary" className="cursor-pointer text-xs" onClick={() => handleFilterChange('search', '')}>
+                <Badge 
+                  variant="secondary" 
+                  className="cursor-pointer bg-blue-50 hover:bg-blue-100 text-blue-800 border border-blue-200" 
+                  onClick={() => handleFilterChange('search', '')}
+                >
                   "{filters.search}" ×
                 </Badge>
               )}
               {filters.storeSet && (
-                <Badge variant="secondary" className="cursor-pointer text-xs" onClick={() => handleFilterChange('storeSet', '')}>
+                <Badge 
+                  variant="secondary" 
+                  className="cursor-pointer bg-blue-50 hover:bg-blue-100 text-blue-800 border border-blue-200" 
+                  onClick={() => handleFilterChange('storeSet', '')}
+                >
                   {filters.storeSet} ×
                 </Badge>
               )}
               {filters.city && (
-                <Badge variant="secondary" className="cursor-pointer text-xs" onClick={() => handleFilterChange('city', '')}>
+                <Badge 
+                  variant="secondary" 
+                  className="cursor-pointer bg-blue-50 hover:bg-blue-100 text-blue-800 border border-blue-200" 
+                  onClick={() => handleFilterChange('city', '')}
+                >
                   {filters.city} ×
                 </Badge>
               )}
               {filters.businessStatus && (
-                <Badge variant="secondary" className="cursor-pointer text-xs" onClick={() => handleFilterChange('businessStatus', '')}>
+                <Badge 
+                  variant="secondary" 
+                  className="cursor-pointer bg-blue-50 hover:bg-blue-100 text-blue-800 border border-blue-200" 
+                  onClick={() => handleFilterChange('businessStatus', '')}
+                >
                   {filters.businessStatus} ×
                 </Badge>
               )}
               {filters.platformStatus && (
-                <Badge variant="secondary" className="cursor-pointer text-xs" onClick={() => handleFilterChange('platformStatus', '')}>
+                <Badge 
+                  variant="secondary" 
+                  className="cursor-pointer bg-blue-50 hover:bg-blue-100 text-blue-800 border border-blue-200" 
+                  onClick={() => handleFilterChange('platformStatus', '')}
+                >
                   {filters.platformStatus} ×
                 </Badge>
               )}
             </div>
-          )}
-        </div>
+          </div>
+        )}
       </div>
     </div>
   );
