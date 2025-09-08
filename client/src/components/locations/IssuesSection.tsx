@@ -60,51 +60,42 @@ interface IssuesSectionProps {
 
 export function IssuesSection({ onTakeAction }: IssuesSectionProps) {
   return (
-    <Card className="mx-6 mb-6">
-      <CardHeader className="pb-4">
-        <div className="flex items-center justify-between">
-          <div className="text-sm text-gray-500">
-            Affected Stores
-          </div>
-        </div>
-      </CardHeader>
-      <CardContent>
-        <div className="space-y-3">
-          {mockIssues.map((issue) => (
-            <div 
-              key={issue.id} 
-              className="flex items-center justify-between py-3 border-b border-gray-100 dark:border-gray-700 last:border-b-0"
-            >
-              <div className="flex items-center space-x-4 flex-1">
-                <div className="flex-1">
-                  <h4 className="text-sm font-medium text-gray-900 dark:text-white">
-                    {issue.title}
-                  </h4>
-                </div>
-                <div className="text-center min-w-[80px]">
-                  <Badge 
-                    variant="secondary" 
-                    className="bg-orange-100 text-orange-800 dark:bg-orange-900/20 dark:text-orange-400"
-                  >
-                    {issue.count} Record{issue.count !== 1 ? 's' : ''}
-                  </Badge>
-                </div>
+    <div className="py-6">
+      <div className="space-y-3">
+        {mockIssues.map((issue) => (
+          <div 
+            key={issue.id} 
+            className="flex items-center justify-between py-3 border-b border-gray-100 dark:border-gray-700 last:border-b-0"
+          >
+            <div className="flex items-center space-x-4 flex-1">
+              <div className="flex-1">
+                <h4 className="text-sm font-medium text-gray-900 dark:text-white">
+                  {issue.title}
+                </h4>
               </div>
-              <div className="ml-4">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => onTakeAction(issue.id)}
-                  className="text-blue-600 border-blue-200 hover:bg-blue-50"
-                  data-testid={`take-action-${issue.id}`}
+              <div className="text-center min-w-[80px]">
+                <Badge 
+                  variant="secondary" 
+                  className="bg-orange-100 text-orange-800 dark:bg-orange-900/20 dark:text-orange-400"
                 >
-                  Take Action
-                </Button>
+                  {issue.count} Record{issue.count !== 1 ? 's' : ''}
+                </Badge>
               </div>
             </div>
-          ))}
-        </div>
-      </CardContent>
-    </Card>
+            <div className="ml-4">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => onTakeAction(issue.id)}
+                className="text-blue-600 border-blue-200 hover:bg-blue-50"
+                data-testid={`take-action-${issue.id}`}
+              >
+                Take Action
+              </Button>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
   );
 }
