@@ -59,9 +59,91 @@ export default function DataQualityEnrichment() {
             </div>
           </div>
 
-          
+          {/* Inventory Data */}
+          <div>
+            <h4 className="text-sm font-medium text-foreground mb-4">Inventory Data</h4>
+            <div className="space-y-3">
+              <div className="flex items-center justify-between">
+                <span className="text-sm text-muted-foreground">Product Names</span>
+                <div className="flex items-center gap-2 ml-4">
+                  <div className="w-20 sm:w-24 lg:w-32 xl:w-40 bg-gray-200 dark:bg-gray-700 rounded-full h-3 shadow-inner border border-gray-300 dark:border-gray-600">
+                    <div className="bg-gradient-to-r from-green-500 to-green-600 h-3 rounded-full shadow-sm transition-all duration-300" style={{ width: '95%' }}></div>
+                  </div>
+                  <span className="text-sm font-medium text-foreground w-8">95%</span>
+                </div>
+              </div>
+              <div className="flex items-center justify-between">
+                <span className="text-sm text-muted-foreground">SKU Numbers</span>
+                <div className="flex items-center gap-2 ml-4">
+                  <div className="w-20 sm:w-24 lg:w-32 xl:w-40 bg-gray-200 dark:bg-gray-700 rounded-full h-3 shadow-inner border border-gray-300 dark:border-gray-600">
+                    <div className="bg-gradient-to-r from-green-500 to-green-600 h-3 rounded-full shadow-sm transition-all duration-300" style={{ width: '92%' }}></div>
+                  </div>
+                  <span className="text-sm font-medium text-foreground w-8">92%</span>
+                </div>
+              </div>
+              <div className="flex items-center justify-between">
+                <span className="text-sm text-muted-foreground">Pricing Info</span>
+                <div className="flex items-center gap-2 ml-4">
+                  <div className="w-20 sm:w-24 lg:w-32 xl:w-40 bg-gray-200 dark:bg-gray-700 rounded-full h-3 shadow-inner border border-gray-300 dark:border-gray-600">
+                    <div className="bg-gradient-to-r from-yellow-500 to-yellow-600 h-3 rounded-full shadow-sm transition-all duration-300" style={{ width: '87%' }}></div>
+                  </div>
+                  <span className="text-sm font-medium text-foreground w-8">87%</span>
+                </div>
+              </div>
+              <div className="flex items-center justify-between">
+                <span className="text-sm text-muted-foreground">Stock Levels</span>
+                <div className="flex items-center gap-2 ml-4">
+                  <div className="w-20 sm:w-24 lg:w-32 xl:w-40 bg-gray-200 dark:bg-gray-700 rounded-full h-3 shadow-inner border border-gray-300 dark:border-gray-600">
+                    <div className="bg-gradient-to-r from-red-500 to-red-600 h-3 rounded-full shadow-sm transition-all duration-300" style={{ width: '73%' }}></div>
+                  </div>
+                  <span className="text-sm font-medium text-foreground w-8">73%</span>
+                </div>
+              </div>
+            </div>
+          </div>
 
-          
+          {/* Store Sales Data */}
+          <div>
+            <h4 className="text-sm font-medium text-foreground mb-4">Store Sales Data</h4>
+            <div className="space-y-3">
+              <div className="flex items-center justify-between">
+                <span className="text-sm text-muted-foreground">Transaction IDs</span>
+                <div className="flex items-center gap-2 ml-4">
+                  <div className="w-20 sm:w-24 lg:w-32 xl:w-40 bg-gray-200 dark:bg-gray-700 rounded-full h-3 shadow-inner border border-gray-300 dark:border-gray-600">
+                    <div className="bg-gradient-to-r from-blue-500 to-blue-600 h-3 rounded-full shadow-sm transition-all duration-300" style={{ width: '99%' }}></div>
+                  </div>
+                  <span className="text-sm font-medium text-foreground w-8">99%</span>
+                </div>
+              </div>
+              <div className="flex items-center justify-between">
+                <span className="text-sm text-muted-foreground">Customer Data</span>
+                <div className="flex items-center gap-2 ml-4">
+                  <div className="w-20 sm:w-24 lg:w-32 xl:w-40 bg-gray-200 dark:bg-gray-700 rounded-full h-3 shadow-inner border border-gray-300 dark:border-gray-600">
+                    <div className="bg-gradient-to-r from-green-500 to-green-600 h-3 rounded-full shadow-sm transition-all duration-300" style={{ width: '91%' }}></div>
+                  </div>
+                  <span className="text-sm font-medium text-foreground w-8">91%</span>
+                </div>
+              </div>
+              <div className="flex items-center justify-between">
+                <span className="text-sm text-muted-foreground">Payment Methods</span>
+                <div className="flex items-center gap-2 ml-4">
+                  <div className="w-20 sm:w-24 lg:w-32 xl:w-40 bg-gray-200 dark:bg-gray-700 rounded-full h-3 shadow-inner border border-gray-300 dark:border-gray-600">
+                    <div className="bg-gradient-to-r from-green-500 to-green-600 h-3 rounded-full shadow-sm transition-all duration-300" style={{ width: '96%' }}></div>
+                  </div>
+                  <span className="text-sm font-medium text-foreground w-8">96%</span>
+                </div>
+              </div>
+              <div className="flex items-center justify-between">
+                <span className="text-sm text-muted-foreground">Revenue Totals</span>
+                <div className="flex items-center gap-2 ml-4">
+                  <div className="w-20 sm:w-24 lg:w-32 xl:w-40 bg-gray-200 dark:bg-gray-700 rounded-full h-3 shadow-inner border border-gray-300 dark:border-gray-600">
+                    <div className="bg-gradient-to-r from-yellow-500 to-yellow-600 h-3 rounded-full shadow-sm transition-all duration-300" style={{ width: '88%' }}></div>
+                  </div>
+                  <span className="text-sm font-medium text-foreground w-8">88%</span>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
         
         {/* Data Enrichment Suggestions */}
