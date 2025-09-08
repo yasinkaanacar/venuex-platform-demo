@@ -89,9 +89,8 @@ export default function LocationsPage() {
         filters={filters}
         onFiltersChange={setFilters}
       />
-
       {/* Main Content */}
-      <div className="pb-6">
+      <div className="pb-6 bg-[#ffffff]">
         {/* Data Health & Flow Banner */}
         <div className="px-6 py-4">
           <DataHealthAlerts 
@@ -149,7 +148,6 @@ export default function LocationsPage() {
           />
         </div>
       </div>
-
       {/* Field Management Dialog */}
       <FieldManagementDialog 
         isOpen={fieldManagementOpen}
