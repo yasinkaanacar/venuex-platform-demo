@@ -95,11 +95,6 @@ export default function LocationsPage() {
 
         {/* Locations Table Section */}
         <div className="mb-6">
-          <div className="mx-6 mb-4">
-            <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
-              Locations
-            </h2>
-          </div>
           <LocationsTable 
             onRowClick={handleRowClick}
             onEdit={handleEdit}
