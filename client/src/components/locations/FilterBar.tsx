@@ -122,9 +122,11 @@ export function FilterBar({
             </div>
 
             {/* Store Set Filter */}
-            <Select value={filters.storeSet} onValueChange={(value) => handleFilterChange('storeSet', value)}>
+            <Select value={filters.storeSet || ""} onValueChange={(value) => handleFilterChange('storeSet', value)}>
               <SelectTrigger className="w-[140px]" data-testid="filter-store-set">
-                <SelectValue placeholder="Store Set" />
+                <div className="flex items-center justify-between w-full">
+                  <span>{filters.storeSet || "Store Set"}</span>
+                </div>
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="">All Sets</SelectItem>
@@ -137,9 +139,11 @@ export function FilterBar({
             </Select>
 
             {/* City Filter */}
-            <Select value={filters.city} onValueChange={(value) => handleFilterChange('city', value)}>
+            <Select value={filters.city || ""} onValueChange={(value) => handleFilterChange('city', value)}>
               <SelectTrigger className="w-[120px]" data-testid="filter-city">
-                <SelectValue placeholder="City" />
+                <div className="flex items-center justify-between w-full">
+                  <span>{filters.city || "City"}</span>
+                </div>
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="">All Cities</SelectItem>
@@ -152,9 +156,11 @@ export function FilterBar({
             </Select>
 
             {/* Business Status Filter */}
-            <Select value={filters.businessStatus} onValueChange={(value) => handleFilterChange('businessStatus', value)}>
+            <Select value={filters.businessStatus || ""} onValueChange={(value) => handleFilterChange('businessStatus', value)}>
               <SelectTrigger className="w-[120px]" data-testid="filter-business-status">
-                <SelectValue placeholder="Status" />
+                <div className="flex items-center justify-between w-full">
+                  <span>{filters.businessStatus || "Status"}</span>
+                </div>
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="">All Statuses</SelectItem>
@@ -167,9 +173,11 @@ export function FilterBar({
             </Select>
 
             {/* Platform Status Filter */}
-            <Select value={filters.platformStatus} onValueChange={(value) => handleFilterChange('platformStatus', value)}>
+            <Select value={filters.platformStatus || ""} onValueChange={(value) => handleFilterChange('platformStatus', value)}>
               <SelectTrigger className="w-[120px]" data-testid="filter-platform-status">
-                <SelectValue placeholder="Platform" />
+                <div className="flex items-center justify-between w-full">
+                  <span>{filters.platformStatus || "Platform"}</span>
+                </div>
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="">All Platforms</SelectItem>
