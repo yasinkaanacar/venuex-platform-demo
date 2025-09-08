@@ -17,9 +17,10 @@ interface DataHealthAlertsProps {
   bannerMode?: boolean;
   onScrollToBottom?: () => void;
   alwaysExpanded?: boolean;
+  locationsPageMode?: boolean;
 }
 
-export default function DataHealthAlerts({ platforms = [], alerts = [], locations = [], bannerMode = false, onScrollToBottom, alwaysExpanded = false }: DataHealthAlertsProps) {
+export default function DataHealthAlerts({ platforms = [], alerts = [], locations = [], bannerMode = false, onScrollToBottom, alwaysExpanded = false, locationsPageMode = false }: DataHealthAlertsProps) {
   // Mock alerts and notifications data
   const systemAlerts = [
     {
@@ -291,50 +292,69 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
 
               {/* Data Sources - Left Side */}
               <div className="absolute left-0 top-1/2 transform -translate-y-1/2 space-y-6">
-                <div className="bg-white dark:bg-gray-800 rounded-xl p-4 shadow-sm border border-gray-100 dark:border-gray-700 w-64">
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 bg-purple-100 dark:bg-purple-900/50 rounded-lg flex items-center justify-center">
-                      <Package className="w-5 h-5 text-purple-600" />
-                    </div>
-                    <div className="flex-1">
-                      <div className="font-medium text-foreground">Inventory</div>
-                      <div className="flex items-center gap-2 mt-1">
-                        <div className="w-2 h-2 bg-red-500 rounded-full"></div>
-                        <span className="text-xs text-red-600">Error - Last sync 2h ago</span>
+                {locationsPageMode ? (
+                  <div className="bg-white dark:bg-gray-800 rounded-xl p-4 shadow-sm border border-gray-100 dark:border-gray-700 w-64">
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 bg-blue-100 dark:bg-blue-900/50 rounded-lg flex items-center justify-center">
+                        <MapPin className="w-5 h-5 text-blue-600" />
+                      </div>
+                      <div className="flex-1">
+                        <div className="font-medium text-foreground">Locations</div>
+                        <div className="flex items-center gap-2 mt-1">
+                          <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                          <span className="text-xs text-green-600">Online - Updated 2m ago</span>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-                
-                <div className="bg-white dark:bg-gray-800 rounded-xl p-4 shadow-sm border border-gray-100 dark:border-gray-700 w-64">
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 bg-green-100 dark:bg-green-900/50 rounded-lg flex items-center justify-center">
-                      <Receipt className="w-5 h-5 text-green-600" />
-                    </div>
-                    <div className="flex-1">
-                      <div className="font-medium text-foreground">Store Sales</div>
-                      <div className="flex items-center gap-2 mt-1">
-                        <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                        <span className="text-xs text-green-600">Online - Updated 30s ago</span>
+                ) : (
+                  <>
+                    <div className="bg-white dark:bg-gray-800 rounded-xl p-4 shadow-sm border border-gray-100 dark:border-gray-700 w-64">
+                      <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 bg-purple-100 dark:bg-purple-900/50 rounded-lg flex items-center justify-center">
+                          <Package className="w-5 h-5 text-purple-600" />
+                        </div>
+                        <div className="flex-1">
+                          <div className="font-medium text-foreground">Inventory</div>
+                          <div className="flex items-center gap-2 mt-1">
+                            <div className="w-2 h-2 bg-red-500 rounded-full"></div>
+                            <span className="text-xs text-red-600">Error - Last sync 2h ago</span>
+                          </div>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </div>
-                
-                <div className="bg-white dark:bg-gray-800 rounded-xl p-4 shadow-sm border border-gray-100 dark:border-gray-700 w-64">
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 bg-blue-100 dark:bg-blue-900/50 rounded-lg flex items-center justify-center">
-                      <MapPin className="w-5 h-5 text-blue-600" />
-                    </div>
-                    <div className="flex-1">
-                      <div className="font-medium text-foreground">Locations</div>
-                      <div className="flex items-center gap-2 mt-1">
-                        <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                        <span className="text-xs text-green-600">Online - Updated 2m ago</span>
+                    
+                    <div className="bg-white dark:bg-gray-800 rounded-xl p-4 shadow-sm border border-gray-100 dark:border-gray-700 w-64">
+                      <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 bg-green-100 dark:bg-green-900/50 rounded-lg flex items-center justify-center">
+                          <Receipt className="w-5 h-5 text-green-600" />
+                        </div>
+                        <div className="flex-1">
+                          <div className="font-medium text-foreground">Store Sales</div>
+                          <div className="flex items-center gap-2 mt-1">
+                            <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                            <span className="text-xs text-green-600">Online - Updated 30s ago</span>
+                          </div>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </div>
+                    
+                    <div className="bg-white dark:bg-gray-800 rounded-xl p-4 shadow-sm border border-gray-100 dark:border-gray-700 w-64">
+                      <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 bg-blue-100 dark:bg-blue-900/50 rounded-lg flex items-center justify-center">
+                          <MapPin className="w-5 h-5 text-blue-600" />
+                        </div>
+                        <div className="flex-1">
+                          <div className="font-medium text-foreground">Locations</div>
+                          <div className="flex items-center gap-2 mt-1">
+                            <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                            <span className="text-xs text-green-600">Online - Updated 2m ago</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </>
+                )}
               </div>
 
               {/* Central VenueX Hub */}
@@ -352,118 +372,167 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
 
               {/* Destination Categories - Right Side */}
               <div className="absolute right-8 top-1/2 transform -translate-y-1/2 space-y-2">
-                
-                {/* Location Platforms */}
-                <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-2.5 shadow-sm border border-gray-200 dark:border-gray-700 w-56">
-                  <div className="text-xs font-semibold text-blue-600 mb-1.5">Location Platforms</div>
-                  <div className="space-y-0.5">
-                    <div className="flex items-center gap-1.5 p-1 rounded hover:bg-gray-100 dark:hover:bg-gray-700">
-                      <div className="w-4 h-4 bg-[#EA4335] rounded flex items-center justify-center">
-                        <SiGoogle className="w-2.5 h-2.5 text-white" />
+                {locationsPageMode ? (
+                  /* Location Platforms Only */
+                  <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-2.5 shadow-sm border border-gray-200 dark:border-gray-700 w-56">
+                    <div className="text-xs font-semibold text-blue-600 mb-1.5">Location Platforms</div>
+                    <div className="space-y-0.5">
+                      <div className="flex items-center gap-1.5 p-1 rounded hover:bg-gray-100 dark:hover:bg-gray-700">
+                        <div className="w-4 h-4 bg-[#EA4335] rounded flex items-center justify-center">
+                          <SiGoogle className="w-2.5 h-2.5 text-white" />
+                        </div>
+                        <div className="flex-1">
+                          <div className="text-xs text-foreground">Google Business Profile</div>
+                          <div className="text-xs text-muted-foreground">Synced 2m ago</div>
+                        </div>
+                        <div className="w-1.5 h-1.5 bg-green-500 rounded-full flex-shrink-0"></div>
                       </div>
-                      <div className="flex-1">
-                        <div className="text-xs text-foreground">Google Business Profile</div>
-                        <div className="text-xs text-muted-foreground">Synced 2m ago</div>
+                      <div className="flex items-center gap-1.5 p-1 rounded hover:bg-gray-100 dark:hover:bg-gray-700">
+                        <div className="w-4 h-4 bg-blue-600 rounded flex items-center justify-center">
+                          <span className="text-xs text-white font-bold">M</span>
+                        </div>
+                        <div className="flex-1">
+                          <div className="text-xs text-foreground">Meta Pages</div>
+                          <div className="text-xs text-muted-foreground">Synced 5m ago</div>
+                        </div>
+                        <div className="w-1.5 h-1.5 bg-green-500 rounded-full flex-shrink-0"></div>
                       </div>
-                      <div className="w-1.5 h-1.5 bg-green-500 rounded-full flex-shrink-0"></div>
-                    </div>
-                    <div className="flex items-center gap-1.5 p-1 rounded hover:bg-gray-100 dark:hover:bg-gray-700">
-                      <div className="w-4 h-4 bg-blue-600 rounded flex items-center justify-center">
-                        <span className="text-xs text-white font-bold">M</span>
+                      <div className="flex items-center gap-1.5 p-1 rounded hover:bg-gray-100 dark:hover:bg-gray-700">
+                        <div className="w-4 h-4 bg-black rounded flex items-center justify-center">
+                          <SiApple className="w-2.5 h-2.5 text-white" />
+                        </div>
+                        <div className="flex-1">
+                          <div className="text-xs text-foreground">Apple Business Connect</div>
+                          <div className="text-xs text-muted-foreground">Synced 1h ago</div>
+                        </div>
+                        <div className="w-1.5 h-1.5 bg-green-500 rounded-full flex-shrink-0"></div>
                       </div>
-                      <div className="flex-1">
-                        <div className="text-xs text-foreground">Meta Pages</div>
-                        <div className="text-xs text-muted-foreground">Synced 5m ago</div>
+                      <div className="flex items-center gap-1.5 p-1 rounded hover:bg-gray-100 dark:hover:bg-gray-700">
+                        <div className="w-4 h-4 bg-red-500 rounded flex items-center justify-center">
+                          <span className="text-xs text-white font-bold">Y</span>
+                        </div>
+                        <div className="flex-1">
+                          <div className="text-xs text-foreground">Yandex Business</div>
+                          <div className="text-xs text-muted-foreground">Synced 15m ago</div>
+                        </div>
+                        <div className="w-1.5 h-1.5 bg-green-500 rounded-full flex-shrink-0"></div>
                       </div>
-                      <div className="w-1.5 h-1.5 bg-green-500 rounded-full flex-shrink-0"></div>
-                    </div>
-                    <div className="flex items-center gap-1.5 p-1 rounded hover:bg-gray-100 dark:hover:bg-gray-700">
-                      <div className="w-4 h-4 bg-black rounded flex items-center justify-center">
-                        <SiApple className="w-2.5 h-2.5 text-white" />
-                      </div>
-                      <div className="flex-1">
-                        <div className="text-xs text-foreground">Apple Business Connect</div>
-                        <div className="text-xs text-muted-foreground">Synced 1h ago</div>
-                      </div>
-                      <div className="w-1.5 h-1.5 bg-green-500 rounded-full flex-shrink-0"></div>
-                    </div>
-                    <div className="flex items-center gap-1.5 p-1 rounded hover:bg-gray-100 dark:hover:bg-gray-700">
-                      <div className="w-4 h-4 bg-red-500 rounded flex items-center justify-center">
-                        <span className="text-xs text-white font-bold">Y</span>
-                      </div>
-                      <div className="flex-1">
-                        <div className="text-xs text-foreground">Yandex Business</div>
-                        <div className="text-xs text-muted-foreground">Synced 15m ago</div>
-                      </div>
-                      <div className="w-1.5 h-1.5 bg-green-500 rounded-full flex-shrink-0"></div>
-                    </div>
-                  </div>
-                </div>
-                
-                {/* Merchant Platforms */}
-                <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-2.5 shadow-sm border border-gray-200 dark:border-gray-700 w-56">
-                  <div className="text-xs font-semibold text-green-600 mb-1.5">Merchant Platforms</div>
-                  <div className="space-y-0.5">
-                    <div className="flex items-center gap-1.5 p-1 rounded hover:bg-gray-100 dark:hover:bg-gray-700">
-                      <div className="w-4 h-4 bg-[#EA4335] rounded flex items-center justify-center">
-                        <SiGoogle className="w-2.5 h-2.5 text-white" />
-                      </div>
-                      <div className="flex-1">
-                        <div className="text-xs text-foreground">Google Merchant Center</div>
-                        <div className="text-xs text-muted-foreground">Synced 30m ago</div>
-                      </div>
-                      <div className="w-1.5 h-1.5 bg-green-500 rounded-full flex-shrink-0"></div>
-                    </div>
-                    <div className="flex items-center gap-1.5 p-1 rounded hover:bg-gray-100 dark:hover:bg-gray-700">
-                      <div className="w-4 h-4 bg-blue-600 rounded flex items-center justify-center">
-                        <span className="text-xs text-white font-bold">M</span>
-                      </div>
-                      <div className="flex-1">
-                        <div className="text-xs text-foreground">Meta Commerce</div>
-                        <div className="text-xs text-muted-foreground">Synced 45m ago</div>
-                      </div>
-                      <div className="w-1.5 h-1.5 bg-green-500 rounded-full flex-shrink-0"></div>
                     </div>
                   </div>
-                </div>
-                
-                {/* Ad Platforms */}
-                <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-2.5 shadow-sm border border-gray-200 dark:border-gray-700 w-56">
-                  <div className="text-xs font-semibold text-purple-600 mb-1.5">Ad Platforms</div>
-                  <div className="space-y-0.5">
-                    <div className="flex items-center gap-1.5 p-1 rounded hover:bg-gray-100 dark:hover:bg-gray-700">
-                      <div className="w-4 h-4 bg-[#EA4335] rounded flex items-center justify-center">
-                        <SiGoogle className="w-2.5 h-2.5 text-white" />
+                ) : (
+                  <>
+                    {/* Location Platforms */}
+                    <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-2.5 shadow-sm border border-gray-200 dark:border-gray-700 w-56">
+                      <div className="text-xs font-semibold text-blue-600 mb-1.5">Location Platforms</div>
+                      <div className="space-y-0.5">
+                        <div className="flex items-center gap-1.5 p-1 rounded hover:bg-gray-100 dark:hover:bg-gray-700">
+                          <div className="w-4 h-4 bg-[#EA4335] rounded flex items-center justify-center">
+                            <SiGoogle className="w-2.5 h-2.5 text-white" />
+                          </div>
+                          <div className="flex-1">
+                            <div className="text-xs text-foreground">Google Business Profile</div>
+                            <div className="text-xs text-muted-foreground">Synced 2m ago</div>
+                          </div>
+                          <div className="w-1.5 h-1.5 bg-green-500 rounded-full flex-shrink-0"></div>
+                        </div>
+                        <div className="flex items-center gap-1.5 p-1 rounded hover:bg-gray-100 dark:hover:bg-gray-700">
+                          <div className="w-4 h-4 bg-blue-600 rounded flex items-center justify-center">
+                            <span className="text-xs text-white font-bold">M</span>
+                          </div>
+                          <div className="flex-1">
+                            <div className="text-xs text-foreground">Meta Pages</div>
+                            <div className="text-xs text-muted-foreground">Synced 5m ago</div>
+                          </div>
+                          <div className="w-1.5 h-1.5 bg-green-500 rounded-full flex-shrink-0"></div>
+                        </div>
+                        <div className="flex items-center gap-1.5 p-1 rounded hover:bg-gray-100 dark:hover:bg-gray-700">
+                          <div className="w-4 h-4 bg-black rounded flex items-center justify-center">
+                            <SiApple className="w-2.5 h-2.5 text-white" />
+                          </div>
+                          <div className="flex-1">
+                            <div className="text-xs text-foreground">Apple Business Connect</div>
+                            <div className="text-xs text-muted-foreground">Synced 1h ago</div>
+                          </div>
+                          <div className="w-1.5 h-1.5 bg-green-500 rounded-full flex-shrink-0"></div>
+                        </div>
+                        <div className="flex items-center gap-1.5 p-1 rounded hover:bg-gray-100 dark:hover:bg-gray-700">
+                          <div className="w-4 h-4 bg-red-500 rounded flex items-center justify-center">
+                            <span className="text-xs text-white font-bold">Y</span>
+                          </div>
+                          <div className="flex-1">
+                            <div className="text-xs text-foreground">Yandex Business</div>
+                            <div className="text-xs text-muted-foreground">Synced 15m ago</div>
+                          </div>
+                          <div className="w-1.5 h-1.5 bg-green-500 rounded-full flex-shrink-0"></div>
+                        </div>
                       </div>
-                      <div className="flex-1">
-                        <div className="text-xs text-foreground">Google Ads</div>
-                        <div className="text-xs text-muted-foreground">Synced 10m ago</div>
-                      </div>
-                      <div className="w-1.5 h-1.5 bg-green-500 rounded-full flex-shrink-0"></div>
                     </div>
-                    <div className="flex items-center gap-1.5 p-1 rounded hover:bg-gray-100 dark:hover:bg-gray-700">
-                      <div className="w-4 h-4 bg-blue-600 rounded flex items-center justify-center">
-                        <span className="text-xs text-white font-bold">M</span>
+                    
+                    {/* Merchant Platforms */}
+                    <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-2.5 shadow-sm border border-gray-200 dark:border-gray-700 w-56">
+                      <div className="text-xs font-semibold text-green-600 mb-1.5">Merchant Platforms</div>
+                      <div className="space-y-0.5">
+                        <div className="flex items-center gap-1.5 p-1 rounded hover:bg-gray-100 dark:hover:bg-gray-700">
+                          <div className="w-4 h-4 bg-[#EA4335] rounded flex items-center justify-center">
+                            <SiGoogle className="w-2.5 h-2.5 text-white" />
+                          </div>
+                          <div className="flex-1">
+                            <div className="text-xs text-foreground">Google Merchant Center</div>
+                            <div className="text-xs text-muted-foreground">Synced 30m ago</div>
+                          </div>
+                          <div className="w-1.5 h-1.5 bg-green-500 rounded-full flex-shrink-0"></div>
+                        </div>
+                        <div className="flex items-center gap-1.5 p-1 rounded hover:bg-gray-100 dark:hover:bg-gray-700">
+                          <div className="w-4 h-4 bg-blue-600 rounded flex items-center justify-center">
+                            <span className="text-xs text-white font-bold">M</span>
+                          </div>
+                          <div className="flex-1">
+                            <div className="text-xs text-foreground">Meta Commerce</div>
+                            <div className="text-xs text-muted-foreground">Synced 45m ago</div>
+                          </div>
+                          <div className="w-1.5 h-1.5 bg-green-500 rounded-full flex-shrink-0"></div>
+                        </div>
                       </div>
-                      <div className="flex-1">
-                        <div className="text-xs text-foreground">Meta Ads</div>
-                        <div className="text-xs text-muted-foreground">Synced 3m ago</div>
-                      </div>
-                      <div className="w-1.5 h-1.5 bg-green-500 rounded-full flex-shrink-0"></div>
                     </div>
-                    <div className="flex items-center gap-1.5 p-1 rounded hover:bg-gray-100 dark:hover:bg-gray-700">
-                      <div className="w-4 h-4 bg-black rounded flex items-center justify-center">
-                        <SiTiktok className="w-2.5 h-2.5 text-white" />
+                    
+                    {/* Ad Platforms */}
+                    <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-2.5 shadow-sm border border-gray-200 dark:border-gray-700 w-56">
+                      <div className="text-xs font-semibold text-purple-600 mb-1.5">Ad Platforms</div>
+                      <div className="space-y-0.5">
+                        <div className="flex items-center gap-1.5 p-1 rounded hover:bg-gray-100 dark:hover:bg-gray-700">
+                          <div className="w-4 h-4 bg-[#EA4335] rounded flex items-center justify-center">
+                            <SiGoogle className="w-2.5 h-2.5 text-white" />
+                          </div>
+                          <div className="flex-1">
+                            <div className="text-xs text-foreground">Google Ads</div>
+                            <div className="text-xs text-muted-foreground">Synced 10m ago</div>
+                          </div>
+                          <div className="w-1.5 h-1.5 bg-green-500 rounded-full flex-shrink-0"></div>
+                        </div>
+                        <div className="flex items-center gap-1.5 p-1 rounded hover:bg-gray-100 dark:hover:bg-gray-700">
+                          <div className="w-4 h-4 bg-blue-600 rounded flex items-center justify-center">
+                            <span className="text-xs text-white font-bold">M</span>
+                          </div>
+                          <div className="flex-1">
+                            <div className="text-xs text-foreground">Meta Ads</div>
+                            <div className="text-xs text-muted-foreground">Synced 3m ago</div>
+                          </div>
+                          <div className="w-1.5 h-1.5 bg-green-500 rounded-full flex-shrink-0"></div>
+                        </div>
+                        <div className="flex items-center gap-1.5 p-1 rounded hover:bg-gray-100 dark:hover:bg-gray-700">
+                          <div className="w-4 h-4 bg-black rounded flex items-center justify-center">
+                            <SiTiktok className="w-2.5 h-2.5 text-white" />
+                          </div>
+                          <div className="flex-1">
+                            <div className="text-xs text-foreground">TikTok Ads</div>
+                            <div className="text-xs text-muted-foreground">Synced 7m ago</div>
+                          </div>
+                          <div className="w-1.5 h-1.5 bg-green-500 rounded-full flex-shrink-0"></div>
+                        </div>
                       </div>
-                      <div className="flex-1">
-                        <div className="text-xs text-foreground">TikTok Ads</div>
-                        <div className="text-xs text-muted-foreground">Synced 7m ago</div>
-                      </div>
-                      <div className="w-1.5 h-1.5 bg-green-500 rounded-full flex-shrink-0"></div>
                     </div>
-                  </div>
-                </div>
-                
+                  </>
+                )}
               </div>
             </div>
           </div>

@@ -91,6 +91,7 @@ export default function LocationsPage() {
         <div className="px-6 py-4">
           <DataHealthAlerts 
             bannerMode={true}
+            locationsPageMode={true}
           />
         </div>
 
@@ -119,6 +120,7 @@ export default function LocationsPage() {
           <DataHealthAlerts 
             bannerMode={false}
             alwaysExpanded={true}
+            locationsPageMode={true}
           />
         </div>
       </div>
