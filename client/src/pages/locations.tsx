@@ -2,7 +2,6 @@ import { useState } from "react";
 import { showToast } from "@/lib/toast";
 import { FilterBar } from "@/components/locations/FilterBar";
 
-import { LocationsTable } from "@/components/locations/LocationsTable";
 import { BusinessProfileSection } from "@/components/locations/BusinessProfileSection";
 import { FieldManagementDialog } from "@/components/locations/FieldManagementDialog";
 import { PlatformSummarySection } from "@/components/locations/PlatformSummarySection";
@@ -96,16 +95,11 @@ export default function LocationsPage() {
         </div>
 
         {/* Platform Summary Section */}
-        <PlatformSummarySection />
-
-        {/* Locations Table Section */}
-        <div className="mb-6">
-          <LocationsTable 
-            onRowClick={handleRowClick}
-            onEdit={handleEdit}
-            filters={filters}
-          />
-        </div>
+        <PlatformSummarySection 
+          onRowClick={handleRowClick}
+          onEdit={handleEdit}
+          filters={filters}
+        />
 
         {/* Business Profile Section */}
         <BusinessProfileSection />
