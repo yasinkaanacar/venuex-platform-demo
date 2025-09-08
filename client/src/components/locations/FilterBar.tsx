@@ -124,7 +124,9 @@ export function FilterBar({
             {/* Store Set Filter */}
             <Select value={filters.storeSet} onValueChange={(value) => handleFilterChange('storeSet', value)}>
               <SelectTrigger className="w-[140px]" data-testid="filter-store-set">
-                <SelectValue placeholder="Store Set" />
+                <SelectValue placeholder="Store Set">
+                  {filters.storeSet || "Store Set"}
+                </SelectValue>
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="">All Sets</SelectItem>
@@ -139,7 +141,9 @@ export function FilterBar({
             {/* City Filter */}
             <Select value={filters.city} onValueChange={(value) => handleFilterChange('city', value)}>
               <SelectTrigger className="w-[120px]" data-testid="filter-city">
-                <SelectValue placeholder="City" />
+                <SelectValue placeholder="City">
+                  {filters.city || "City"}
+                </SelectValue>
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="">All Cities</SelectItem>
@@ -154,7 +158,9 @@ export function FilterBar({
             {/* Business Status Filter */}
             <Select value={filters.businessStatus} onValueChange={(value) => handleFilterChange('businessStatus', value)}>
               <SelectTrigger className="w-[120px]" data-testid="filter-business-status">
-                <SelectValue placeholder="Status" />
+                <SelectValue placeholder="Status">
+                  {filters.businessStatus || "Status"}
+                </SelectValue>
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="">All Statuses</SelectItem>
@@ -169,7 +175,9 @@ export function FilterBar({
             {/* Platform Status Filter */}
             <Select value={filters.platformStatus} onValueChange={(value) => handleFilterChange('platformStatus', value)}>
               <SelectTrigger className="w-[120px]" data-testid="filter-platform-status">
-                <SelectValue placeholder="Platform" />
+                <SelectValue placeholder="Platform">
+                  {filters.platformStatus || "Platform"}
+                </SelectValue>
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="">All Platforms</SelectItem>
