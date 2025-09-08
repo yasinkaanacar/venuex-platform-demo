@@ -215,7 +215,7 @@ export function LocationsTable({ onRowClick, onEdit, filters }: LocationsTablePr
         
         <div className="flex items-center space-x-4">
           <div className="flex items-center space-x-2">
-            <span className="text-sm text-gray-600">Rows per page:</span>
+            <span className="text-sm text-gray-600 whitespace-nowrap">Rows per page:</span>
             <Select value={rowsPerPage.toString()} onValueChange={(value) => setRowsPerPage(Number(value))}>
               <SelectTrigger className="w-16 h-8">
                 <SelectValue />
@@ -434,7 +434,7 @@ export function LocationsTable({ onRowClick, onEdit, filters }: LocationsTablePr
           
           <div className="flex items-center space-x-4">
             <div className="flex items-center space-x-2">
-              <span className="text-sm text-gray-600">Rows per page:</span>
+              <span className="text-sm text-gray-600 whitespace-nowrap">Rows per page:</span>
               <Select value={rowsPerPage.toString()} onValueChange={(value) => setRowsPerPage(Number(value))}>
                 <SelectTrigger className="w-16 h-8">
                   <SelectValue />
