@@ -79,7 +79,7 @@ export function FilterBar({
               data-testid="btn-manage-fields"
             >
               <Settings className="w-4 h-4 mr-2" />
-              Manage Fields
+              Manage Posts
             </Button>
             
             <Button
