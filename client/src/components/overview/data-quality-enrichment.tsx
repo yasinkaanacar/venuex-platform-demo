@@ -59,48 +59,7 @@ export default function DataQualityEnrichment() {
             </div>
           </div>
 
-          {/* Inventory Data */}
-          <div>
-            <h4 className="text-sm font-medium text-foreground mb-4">Inventory Data</h4>
-            <div className="space-y-3">
-              <div className="flex items-center justify-between">
-                <span className="text-sm text-muted-foreground">Product Names</span>
-                <div className="flex items-center gap-2 ml-4">
-                  <div className="w-20 sm:w-24 lg:w-32 xl:w-40 bg-gray-200 dark:bg-gray-700 rounded-full h-3 shadow-inner border border-gray-300 dark:border-gray-600">
-                    <div className="bg-gradient-to-r from-blue-500 to-blue-600 h-3 rounded-full shadow-sm transition-all duration-300" style={{ width: '99%' }}></div>
-                  </div>
-                  <span className="text-sm font-medium text-foreground w-8">99%</span>
-                </div>
-              </div>
-              <div className="flex items-center justify-between">
-                <span className="text-sm text-muted-foreground">Store IDs</span>
-                <div className="flex items-center gap-2 ml-4">
-                  <div className="w-20 sm:w-24 lg:w-32 xl:w-40 bg-gray-200 dark:bg-gray-700 rounded-full h-3 shadow-inner border border-gray-300 dark:border-gray-600">
-                    <div className="bg-gradient-to-r from-blue-500 to-blue-600 h-3 rounded-full shadow-sm transition-all duration-300" style={{ width: '87%' }}></div>
-                  </div>
-                  <span className="text-sm font-medium text-foreground w-8">87%</span>
-                </div>
-              </div>
-              <div className="flex items-center justify-between">
-                <span className="text-sm text-muted-foreground">Availability</span>
-                <div className="flex items-center gap-2 ml-4">
-                  <div className="w-20 sm:w-24 lg:w-32 xl:w-40 bg-gray-200 dark:bg-gray-700 rounded-full h-3 shadow-inner border border-gray-300 dark:border-gray-600">
-                    <div className="bg-gradient-to-r from-blue-500 to-blue-600 h-3 rounded-full shadow-sm transition-all duration-300" style={{ width: '95%' }}></div>
-                  </div>
-                  <span className="text-sm font-medium text-foreground w-8">95%</span>
-                </div>
-              </div>
-              <div className="flex items-center justify-between">
-                <span className="text-sm text-muted-foreground">Pricing</span>
-                <div className="flex items-center gap-2 ml-4">
-                  <div className="w-20 sm:w-24 lg:w-32 xl:w-40 bg-gray-200 dark:bg-gray-700 rounded-full h-3 shadow-inner border border-gray-300 dark:border-gray-600">
-                    <div className="bg-gradient-to-r from-blue-500 to-blue-600 h-3 rounded-full shadow-sm transition-all duration-300" style={{ width: '100%' }}></div>
-                  </div>
-                  <span className="text-sm font-medium text-foreground w-8">100%</span>
-                </div>
-              </div>
-            </div>
-          </div>
+          
 
           {/* Customer Data */}
           <div>
