@@ -53,7 +53,6 @@ export function PlatformSummarySection() {
             <div className="flex-1 mx-12">
               <div className="grid grid-cols-3 gap-x-8 gap-y-4">
                 <StatusItem count={5} label="Doğrulanmamış" icon />
-                <StatusItem count={0} label="Askıya Alınmış" icon />
                 
                 <StatusItem count={4} label="Yinelenmış" icon />
                 <StatusItem count={1} label="Kalıcı Olarak Kapalı" icon />
