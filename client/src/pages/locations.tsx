@@ -137,11 +137,6 @@ export default function LocationsPage() {
 
         {/* Alerts & Notifications (Expanded) */}
         <div className="mx-6 mt-8">
-          <div className="mb-4">
-            <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
-              Alerts & Notifications
-            </h2>
-          </div>
           <DataHealthAlerts 
             bannerMode={false}
             alwaysExpanded={true}
