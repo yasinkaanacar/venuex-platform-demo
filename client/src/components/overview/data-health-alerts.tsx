@@ -221,6 +221,8 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
                 
                 {/* Base connection lines - always visible */}
                 <g opacity="0.3">
+                  <path d="M 280 115 L 350 115 Q 375 115 375 140 L 375 175 Q 375 195 395 195 L 460 195" stroke="#9ca3af" strokeWidth="2" fill="none" strokeDasharray="5,5" />
+                  <path d="M 280 200 L 460 200" stroke="#9ca3af" strokeWidth="2" fill="none" strokeDasharray="5,5" />
                   <path d="M 280 285 L 350 285 Q 375 285 375 260 L 375 225 Q 375 205 395 205 L 460 205" stroke="#9ca3af" strokeWidth="2" fill="none" strokeDasharray="5,5" />
                   <path d="M 540 195 L 605 195 Q 625 195 625 175 L 625 140 Q 625 120 645 120 L 720 120" stroke="#9ca3af" strokeWidth="2" fill="none" strokeDasharray="5,5" />
                   <path d="M 540 200 L 720 200" stroke="#9ca3af" strokeWidth="2" fill="none" strokeDasharray="5,5" />
@@ -229,6 +231,10 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
                 
                 {/* Status-based colored lines */}
                 <g>
+                  {/* Inventory (Error - red line) */}
+                  <path d="M 280 115 L 350 115 Q 375 115 375 140 L 375 175 Q 375 195 395 195 L 460 195" stroke="#ef4444" strokeWidth="3" fill="none" markerEnd="url(#arrow-warning)" opacity="0.8" />
+                  {/* Store Sales (Online - green line) */}
+                  <path d="M 280 200 L 460 200" stroke="#10b981" strokeWidth="3" fill="none" markerEnd="url(#arrow-success)" opacity="0.9" />
                   {/* Locations (Online - green line) */}
                   <path d="M 280 285 L 350 285 Q 375 285 375 260 L 375 225 Q 375 205 395 205 L 460 205" stroke="#10b981" strokeWidth="3" fill="none" markerEnd="url(#arrow-success)" opacity="0.8" />
                   
@@ -242,6 +248,14 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
                 
                 {/* Status-based animated flow overlays */}
                 <g>
+                  {/* Inventory error flow - slower animation indicating issues */}
+                  <path d="M 280 115 L 350 115 Q 375 115 375 140 L 375 175 Q 375 195 395 195 L 460 195" stroke="url(#flowError)" strokeWidth="2" fill="none" opacity="0.6">
+                    <animate attributeName="opacity" values="0.2;0.6;0.2" dur="4s" begin="0s" repeatCount="indefinite"/>
+                  </path>
+                  {/* Store Sales active flow - fast, healthy animation */}
+                  <path d="M 280 200 L 460 200" stroke="url(#flowActive)" strokeWidth="2" fill="none" opacity="1">
+                    <animate attributeName="opacity" values="0.6;1;0.6" dur="1.5s" begin="0s" repeatCount="indefinite"/>
+                  </path>
                   {/* Locations active flow - healthy animation */}
                   <path d="M 280 285 L 350 285 Q 375 285 375 260 L 375 225 Q 375 205 395 205 L 460 205" stroke="url(#flowActive)" strokeWidth="2" fill="none" opacity="0.9">
                     <animate attributeName="opacity" values="0.5;0.9;0.5" dur="2s" begin="0.3s" repeatCount="indefinite"/>
