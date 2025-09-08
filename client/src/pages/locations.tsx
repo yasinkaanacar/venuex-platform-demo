@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { showToast } from "@/lib/toast";
 import { FilterBar } from "@/components/locations/FilterBar";
-import { IssuesSection } from "@/components/locations/IssuesSection";
+
 import { LocationsTable } from "@/components/locations/LocationsTable";
 import { BusinessProfileSection } from "@/components/locations/BusinessProfileSection";
 import { FieldManagementDialog } from "@/components/locations/FieldManagementDialog";
@@ -52,14 +52,7 @@ export default function LocationsPage() {
     });
   };
 
-  const handleTakeAction = (issueId: string) => {
-    console.log('Take action clicked for issue:', issueId);
-    showToast({
-      type: 'info',
-      title: 'Taking Action',
-      description: `Addressing ${issueId} issues`
-    });
-  };
+  
 
   const handleRowClick = (id: string) => {
     console.log('Location row clicked:', id);
@@ -98,15 +91,7 @@ export default function LocationsPage() {
           />
         </div>
 
-        {/* Issues & Suggestions Section */}
-        <div className="py-6">
-          <div className="mx-6 mb-4">
-            <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
-              Issues & Suggestions
-            </h2>
-          </div>
-          <IssuesSection onTakeAction={handleTakeAction} />
-        </div>
+        
 
         {/* Locations Table Section */}
         <div className="mb-6">
