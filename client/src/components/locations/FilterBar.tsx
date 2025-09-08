@@ -16,6 +16,7 @@ interface FilterState {
   businessStatus: string;
   platformStatus: string;
   storeSet: string;
+  missingPOI: string;
 }
 
 interface FilterBarProps {
@@ -51,7 +52,8 @@ export function FilterBar({
       city: "",
       businessStatus: "",
       platformStatus: "",
-      storeSet: ""
+      storeSet: "",
+      missingPOI: ""
     });
   };
 
@@ -105,159 +107,87 @@ export function FilterBar({
       </div>
 
       {/* Single Line Filters */}
-      <div className="px-6 py-3">
-        <div className="flex items-center justify-between gap-4">
-          {/* Left side - Search and Filters */}
-          <div className="flex items-center gap-3 flex-1">
-            {/* Search */}
-            <div className="relative flex-1 max-w-[300px]">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
-              <Input
-                placeholder="Search locations..."
-                value={filters.search}
-                onChange={(e) => handleFilterChange('search', e.target.value)}
-                className="pl-10"
-                data-testid="filter-search"
-              />
-            </div>
-
-            {/* Store Set Filter */}
-            <Select value={filters.storeSet || ""} onValueChange={(value) => handleFilterChange('storeSet', value)}>
-              <SelectTrigger className="w-[140px]" data-testid="filter-store-set">
-                <div className="flex items-center justify-between w-full">
-                  <span>{filters.storeSet || "Store Set"}</span>
-                </div>
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="">All Sets</SelectItem>
-                {storeSets.map((set) => (
-                  <SelectItem key={set} value={set}>
-                    {set}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-
-            {/* City Filter */}
-            <Select value={filters.city || ""} onValueChange={(value) => handleFilterChange('city', value)}>
-              <SelectTrigger className="w-[120px]" data-testid="filter-city">
-                <div className="flex items-center justify-between w-full">
-                  <span>{filters.city || "City"}</span>
-                </div>
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="">All Cities</SelectItem>
-                {cities.map((city) => (
-                  <SelectItem key={city} value={city}>
-                    {city}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-
-            {/* Business Status Filter */}
-            <Select value={filters.businessStatus || ""} onValueChange={(value) => handleFilterChange('businessStatus', value)}>
-              <SelectTrigger className="w-[120px]" data-testid="filter-business-status">
-                <div className="flex items-center justify-between w-full">
-                  <span>{filters.businessStatus || "Status"}</span>
-                </div>
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="">All Statuses</SelectItem>
-                {businessStatuses.map((status) => (
-                  <SelectItem key={status} value={status}>
-                    {status}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-
-            {/* Platform Status Filter */}
-            <Select value={filters.platformStatus || ""} onValueChange={(value) => handleFilterChange('platformStatus', value)}>
-              <SelectTrigger className="w-[120px]" data-testid="filter-platform-status">
-                <div className="flex items-center justify-between w-full">
-                  <span>{filters.platformStatus || "Platform"}</span>
-                </div>
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="">All Platforms</SelectItem>
-                {platformStatuses.map((status) => (
-                  <SelectItem key={status} value={status}>
-                    {status}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-
-            {/* Clear Filters */}
-            {activeFiltersCount > 0 && (
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={clearAllFilters}
-                className="text-gray-500 hover:text-gray-700 whitespace-nowrap"
-                data-testid="clear-filters"
-              >
-                <X className="w-4 h-4 mr-1" />
-                Clear ({activeFiltersCount})
-              </Button>
-            )}
+      <div className="px-6 py-4">
+        <div className="flex items-center gap-4">
+          {/* Search */}
+          <div className="relative flex-1 max-w-[400px]">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
+            <Input
+              placeholder="Search by store code, store name or address"
+              value={filters.search}
+              onChange={(e) => handleFilterChange('search', e.target.value)}
+              className="pl-10"
+              data-testid="filter-search"
+            />
           </div>
 
+          {/* Business Status Filter */}
+          <Select value={filters.businessStatus || "All"} onValueChange={(value) => handleFilterChange('businessStatus', value === "All" ? "" : value)}>
+            <SelectTrigger className="w-[150px]" data-testid="filter-business-status">
+              <div className="flex flex-col items-start w-full">
+                <div className="text-xs text-gray-500">Business Status</div>
+                <div className="text-sm">{filters.businessStatus || "All"}</div>
+              </div>
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="All">All</SelectItem>
+              {businessStatuses.map((status) => (
+                <SelectItem key={status} value={status}>
+                  {status}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+
+          {/* Platform Status Filter */}
+          <Select value={filters.platformStatus || "All"} onValueChange={(value) => handleFilterChange('platformStatus', value === "All" ? "" : value)}>
+            <SelectTrigger className="w-[150px]" data-testid="filter-platform-status">
+              <div className="flex flex-col items-start w-full">
+                <div className="text-xs text-gray-500">Platform Status</div>
+                <div className="text-sm">{filters.platformStatus || "All"}</div>
+              </div>
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="All">All</SelectItem>
+              {platformStatuses.map((status) => (
+                <SelectItem key={status} value={status}>
+                  {status}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+
+          {/* Store Set Filter */}
+          <Select value={filters.storeSet || ""} onValueChange={(value) => handleFilterChange('storeSet', value)}>
+            <SelectTrigger className="w-[150px]" data-testid="filter-store-set">
+              <div className="flex items-center justify-between w-full">
+                <span className="text-sm text-gray-500">{filters.storeSet || "Select a store set"}</span>
+              </div>
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="">Select a store set</SelectItem>
+              {storeSets.map((set) => (
+                <SelectItem key={set} value={set}>
+                  {set}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+
+          {/* Missing POI Filter */}
+          <Select value={filters.missingPOI || ""} onValueChange={(value) => handleFilterChange('missingPOI', value)}>
+            <SelectTrigger className="w-[120px]" data-testid="filter-missing-poi">
+              <div className="flex items-center justify-between w-full">
+                <span className="text-sm text-gray-500">{filters.missingPOI || "Missing POI"}</span>
+              </div>
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="">Missing POI</SelectItem>
+              <SelectItem value="Yes">Yes</SelectItem>
+              <SelectItem value="No">No</SelectItem>
+            </SelectContent>
+          </Select>
         </div>
-
-        {/* Active Filters Tags - Second Line */}
-        {activeFiltersCount > 0 && (
-          <div className="px-6 pb-3 pt-0">
-            <div className="flex items-center gap-2 flex-wrap">
-              {filters.search && (
-                <Badge 
-                  variant="secondary" 
-                  className="cursor-pointer bg-blue-50 hover:bg-blue-100 text-blue-800 border border-blue-200" 
-                  onClick={() => handleFilterChange('search', '')}
-                >
-                  "{filters.search}" ×
-                </Badge>
-              )}
-              {filters.storeSet && (
-                <Badge 
-                  variant="secondary" 
-                  className="cursor-pointer bg-blue-50 hover:bg-blue-100 text-blue-800 border border-blue-200" 
-                  onClick={() => handleFilterChange('storeSet', '')}
-                >
-                  {filters.storeSet} ×
-                </Badge>
-              )}
-              {filters.city && (
-                <Badge 
-                  variant="secondary" 
-                  className="cursor-pointer bg-blue-50 hover:bg-blue-100 text-blue-800 border border-blue-200" 
-                  onClick={() => handleFilterChange('city', '')}
-                >
-                  {filters.city} ×
-                </Badge>
-              )}
-              {filters.businessStatus && (
-                <Badge 
-                  variant="secondary" 
-                  className="cursor-pointer bg-blue-50 hover:bg-blue-100 text-blue-800 border border-blue-200" 
-                  onClick={() => handleFilterChange('businessStatus', '')}
-                >
-                  {filters.businessStatus} ×
-                </Badge>
-              )}
-              {filters.platformStatus && (
-                <Badge 
-                  variant="secondary" 
-                  className="cursor-pointer bg-blue-50 hover:bg-blue-100 text-blue-800 border border-blue-200" 
-                  onClick={() => handleFilterChange('platformStatus', '')}
-                >
-                  {filters.platformStatus} ×
-                </Badge>
-              )}
-            </div>
-          </div>
-        )}
       </div>
     </div>
   );
