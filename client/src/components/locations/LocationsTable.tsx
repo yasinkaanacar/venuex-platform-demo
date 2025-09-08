@@ -185,7 +185,12 @@ export function LocationsTable({ onRowClick, onEdit, filters }: LocationsTablePr
 
   return (
     <Card className="mx-6 mb-6">
-      {/* Header */}
+      {/* Title Header */}
+      <div className="bg-[#f9fafb] p-6 flex justify-between items-center border-b border-gray-200">
+        <h3 className="text-lg font-semibold text-foreground">Locations (131)</h3>
+      </div>
+      
+      {/* Actions Header */}
       <div className="bg-[#f9fafb] p-6 flex justify-between items-center border-b border-gray-200">
         <div className="flex items-center space-x-4">
           <DropdownMenu>
