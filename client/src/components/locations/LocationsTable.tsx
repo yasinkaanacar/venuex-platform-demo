@@ -286,7 +286,7 @@ export function LocationsTable({ onRowClick, onEdit, filters }: LocationsTablePr
           <Table>
             <TableHeader>
               <TableRow className="bg-slate-700 hover:bg-slate-700">
-                <TableHead className="w-12 text-white">
+                <TableHead className="w-12 text-[#1a1a1a]">
                   <Checkbox
                     checked={isAllSelected}
                     indeterminate={isIndeterminate}
@@ -294,21 +294,21 @@ export function LocationsTable({ onRowClick, onEdit, filters }: LocationsTablePr
                     data-testid="select-all-locations"
                   />
                 </TableHead>
-                <TableHead className="text-white font-medium">
+                <TableHead className="text-[#1a1a1a] font-medium">
                   <div className="flex items-center space-x-1">
                     <span>Store Code</span>
                     <ChevronDown className="w-3 h-3" />
                   </div>
                 </TableHead>
-                <TableHead className="text-white font-medium">Location Name</TableHead>
-                <TableHead className="text-white font-medium">Business Status</TableHead>
-                <TableHead className="text-white font-medium">
+                <TableHead className="text-[#1a1a1a] font-medium">Location Name</TableHead>
+                <TableHead className="text-[#1a1a1a] font-medium">Business Status</TableHead>
+                <TableHead className="text-[#1a1a1a] font-medium">
                   <div className="flex items-center space-x-1">
                     <span>POI</span>
                     <Info className="w-3 h-3" />
                   </div>
                 </TableHead>
-                <TableHead className="text-white font-medium">Platform Status</TableHead>
+                <TableHead className="text-[#1a1a1a] font-medium">Platform Status</TableHead>
                 <TableHead className="w-20"></TableHead>
               </TableRow>
             </TableHeader>
