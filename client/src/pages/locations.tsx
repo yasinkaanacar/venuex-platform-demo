@@ -13,9 +13,8 @@ export default function LocationsPage() {
   const handleManageFields = () => {
     console.log('Manage fields clicked');
     showToast({
-      type: 'info',
-      title: 'Manage Fields',
-      description: 'Opening field management dialog'
+      type: 'success',
+      title: 'Field management dialog opened'
     });
   };
 
