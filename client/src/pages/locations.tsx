@@ -5,6 +5,7 @@ import { IssuesSection } from "@/components/locations/IssuesSection";
 import { LocationsTable } from "@/components/locations/LocationsTable";
 import { BusinessProfileSection } from "@/components/locations/BusinessProfileSection";
 import { FieldManagementDialog } from "@/components/locations/FieldManagementDialog";
+import DataQualityEnrichment from "@/components/overview/data-quality-enrichment";
 
 interface FilterState {
   search: string;
@@ -121,6 +122,11 @@ export default function LocationsPage() {
           </h2>
         </div>
         <BusinessProfileSection />
+
+        {/* Data Quality Assessment & Data Enrichment Suggestions */}
+        <div className="mx-6 mt-8">
+          <DataQualityEnrichment />
+        </div>
       </div>
 
       {/* Field Management Dialog */}
