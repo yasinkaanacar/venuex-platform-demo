@@ -113,6 +113,7 @@ interface FilterState {
   city: string;
   businessStatus: string;
   platformStatus: string;
+  storeSet: string;
 }
 
 interface LocationsTableProps {
@@ -142,7 +143,10 @@ export function LocationsTable({ onRowClick, onEdit, filters }: LocationsTablePr
     const locationCity = location.locationName.split(' - ')[0] || location.locationName.split(' ')[0];
     const cityMatch = !filters.city || locationCity.toLowerCase().includes(filters.city.toLowerCase());
     
-    return searchMatch && businessStatusMatch && platformStatusMatch && cityMatch;
+    // Store Set filter (based on store code prefix)
+    const storeSetMatch = !filters.storeSet || location.storeCode.startsWith(filters.storeSet);
+    
+    return searchMatch && businessStatusMatch && platformStatusMatch && cityMatch && storeSetMatch;
   });
 
   const totalPages = Math.ceil(filteredData.length / itemsPerPage);

@@ -15,6 +15,7 @@ interface FilterState {
   city: string;
   businessStatus: string;
   platformStatus: string;
+  storeSet: string;
 }
 
 interface FilterBarProps {
@@ -35,6 +36,7 @@ export function FilterBar({
   const cities = ["Istanbul", "Ankara", "İzmir", "Bursa", "Antalya", "Gaziantep"];
   const businessStatuses = ["Open", "Closed", "Temporarily Closed"];
   const platformStatuses = ["Optimal Waiting", "Needs Attention", "Connected"];
+  const storeSets = ["SMR", "Premium", "Express", "Standard", "Regional"];
 
   const handleFilterChange = (key: keyof FilterState, value: string) => {
     onFiltersChange({
@@ -48,7 +50,8 @@ export function FilterBar({
       search: "",
       city: "",
       businessStatus: "",
-      platformStatus: ""
+      platformStatus: "",
+      storeSet: ""
     });
   };
 
@@ -116,13 +119,25 @@ export function FilterBar({
             />
           </div>
 
+          {/* Store Set Filter */}
+          <Select value={filters.storeSet} onValueChange={(value) => handleFilterChange('storeSet', value)}>
+            <SelectTrigger className="w-[120px]" data-testid="filter-store-set">
+              <SelectValue placeholder="Store Set" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="">All Sets</SelectItem>
+              {storeSets.map((set) => (
+                <SelectItem key={set} value={set}>
+                  {set}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+
           {/* City Filter */}
           <Select value={filters.city} onValueChange={(value) => handleFilterChange('city', value)}>
-            <SelectTrigger className="w-[150px]" data-testid="filter-city">
-              <div className="flex items-center gap-2">
-                <Filter className="w-4 h-4" />
-                <SelectValue placeholder="City" />
-              </div>
+            <SelectTrigger className="w-[100px]" data-testid="filter-city">
+              <SelectValue placeholder="City" />
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="">All Cities</SelectItem>
@@ -136,11 +151,8 @@ export function FilterBar({
 
           {/* Business Status Filter */}
           <Select value={filters.businessStatus} onValueChange={(value) => handleFilterChange('businessStatus', value)}>
-            <SelectTrigger className="w-[160px]" data-testid="filter-business-status">
-              <div className="flex items-center gap-2">
-                <Filter className="w-4 h-4" />
-                <SelectValue placeholder="Business Status" />
-              </div>
+            <SelectTrigger className="w-[110px]" data-testid="filter-business-status">
+              <SelectValue placeholder="Status" />
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="">All Statuses</SelectItem>
@@ -154,11 +166,8 @@ export function FilterBar({
 
           {/* Platform Status Filter */}
           <Select value={filters.platformStatus} onValueChange={(value) => handleFilterChange('platformStatus', value)}>
-            <SelectTrigger className="w-[160px]" data-testid="filter-platform-status">
-              <div className="flex items-center gap-2">
-                <Filter className="w-4 h-4" />
-                <SelectValue placeholder="Platform Status" />
-              </div>
+            <SelectTrigger className="w-[110px]" data-testid="filter-platform-status">
+              <SelectValue placeholder="Platform" />
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="">All Platforms</SelectItem>
@@ -207,6 +216,11 @@ export function FilterBar({
             {filters.platformStatus && (
               <Badge variant="secondary" className="cursor-pointer" onClick={() => handleFilterChange('platformStatus', '')}>
                 Platform: {filters.platformStatus} ×
+              </Badge>
+            )}
+            {filters.storeSet && (
+              <Badge variant="secondary" className="cursor-pointer" onClick={() => handleFilterChange('storeSet', '')}>
+                Store Set: {filters.storeSet} ×
               </Badge>
             )}
           </div>

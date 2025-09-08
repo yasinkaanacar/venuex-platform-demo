@@ -11,6 +11,7 @@ interface FilterState {
   city: string;
   businessStatus: string;
   platformStatus: string;
+  storeSet: string;
 }
 
 export default function LocationsPage() {
@@ -21,7 +22,8 @@ export default function LocationsPage() {
     search: "",
     city: "",
     businessStatus: "",
-    platformStatus: ""
+    platformStatus: "",
+    storeSet: ""
   });
 
   // Event handlers
