@@ -289,12 +289,8 @@ export function PlatformSummarySection({
 
           {/* Right side - Last update */}
           <div className="text-right">
-            <div className="text-lg font-medium text-gray-900 mb-4">
-              {formattedDate} {formattedTime}
-            </div>
-            
             {/* Action Buttons */}
-            <div className="flex flex-col space-y-2">
+            <div className="flex flex-col space-y-2"></div>
               <Button
                 variant="outline"
                 size="sm"
