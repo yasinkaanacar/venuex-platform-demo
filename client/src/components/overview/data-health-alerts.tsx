@@ -199,7 +199,7 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
           
           <div className="relative bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-700 py-8 px-6">
             {/* Clean Data Flow Layout */}
-            <div className="relative w-full h-[500px]">
+            <div className="relative w-full h-[350px]">
               
               {/* Connection Lines SVG */}
               <svg className="absolute inset-0 w-full h-full" viewBox="0 0 1000 400" preserveAspectRatio="xMidYMid meet">
