@@ -33,7 +33,7 @@ export function BusinessMetricsSection() {
           {/* Index Section - 1/3 */}
           <div className="flex flex-col items-center text-center">
             <GaugeChart percentage={25} />
-            <h3 className="text-lg font-semibold text-gray-900 mb-2">Geojet Index</h3>
+            <h3 className="text-lg font-semibold text-gray-900 mb-2">Data Quality Index</h3>
             <p className="text-sm text-gray-600 text-center leading-relaxed mb-6">
               Tips will appear here on how to improve your online map presence and company performance
             </p>
