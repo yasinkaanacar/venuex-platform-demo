@@ -1,6 +1,12 @@
 import EnrichmentSuggestions from './enrichment-suggestions';
 
-export default function DataQualityEnrichment() {
+type DataQualityContext = 'dashboard' | 'locations';
+
+interface DataQualityEnrichmentProps {
+  context?: DataQualityContext;
+}
+
+export default function DataQualityEnrichment({ context = 'dashboard' }: DataQualityEnrichmentProps) {
   return (
     <div className="bg-[#fcfcfc] rounded-lg border border-gray-200 overflow-hidden">
       <div className="bg-[#f9fafb] p-6 flex justify-between items-center border-b border-gray-200">
@@ -148,7 +154,7 @@ export default function DataQualityEnrichment() {
         
         {/* Data Enrichment Suggestions */}
         <div className="pt-8 border-t border-border">
-          <EnrichmentSuggestions />
+          <EnrichmentSuggestions context={context} />
         </div>
       </div>
     </div>

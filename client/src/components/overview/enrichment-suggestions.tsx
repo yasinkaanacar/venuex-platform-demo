@@ -7,7 +7,13 @@ import { EnrichmentSuggestion } from '@shared/schema';
 import { apiRequest } from '@/lib/queryClient';
 import { useToast } from '@/hooks/use-toast';
 
-export default function EnrichmentSuggestions() {
+type DataQualityContext = 'dashboard' | 'locations';
+
+interface EnrichmentSuggestionsProps {
+  context?: DataQualityContext;
+}
+
+export default function EnrichmentSuggestions({ context = 'dashboard' }: EnrichmentSuggestionsProps) {
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
@@ -75,8 +81,8 @@ export default function EnrichmentSuggestions() {
     }
   };
 
-  // Mock suggestions for demonstration
-  const allSuggestions = [
+  // Dashboard-specific suggestions
+  const dashboardSuggestions = [
     {
       id: '1',
       type: 'hours_update',
@@ -111,6 +117,46 @@ export default function EnrichmentSuggestions() {
       buttonType: 'apply'
     }
   ];
+
+  // Locations-specific suggestions
+  const locationsSuggestions = [
+    {
+      id: '4',
+      type: 'location_extension',
+      title: 'Update store hours for 15 locations',
+      description: '15 locations have outdated or missing business hours. This affects local search performance and customer experience.',
+      impact: 'high',
+      estimatedImprovement: '+22%',
+      itemsAffected: '15 locations affected',
+      timeToFix: '~1 hour to fix',
+      buttonType: 'apply'
+    },
+    {
+      id: '5',
+      type: 'hours_update',
+      title: 'Add missing phone numbers',
+      description: '7 locations are missing phone numbers. This reduces customer contact opportunities and local SEO effectiveness.',
+      impact: 'medium',
+      estimatedImprovement: '+12%',
+      itemsAffected: '7 locations affected',
+      timeToFix: '~45 minutes to fix',
+      buttonType: 'apply'
+    },
+    {
+      id: '6',
+      type: 'description_optimization',
+      title: 'Optimize location descriptions',
+      description: '32 locations have generic or incomplete descriptions. Enhanced descriptions improve discovery and customer engagement.',
+      impact: 'medium',
+      estimatedImprovement: '+18%',
+      itemsAffected: '32 locations affected',
+      timeToFix: '~3 hours to fix',
+      buttonType: 'info'
+    }
+  ];
+
+  // Select suggestions based on context
+  const allSuggestions = context === 'locations' ? locationsSuggestions : dashboardSuggestions;
 
   return (
     <div>
@@ -194,7 +240,11 @@ export default function EnrichmentSuggestions() {
         {/* Bottom Summary Section */}
         <div className="mt-6 pt-4 border-t-2 border-border flex items-center justify-between">
           <div className="text-sm text-muted-foreground">
-            3 suggestions shown • Potential impact: <span className="font-medium">+48.0% overall performance</span>
+            {context === 'locations' ? (
+              <>3 suggestions shown • Potential impact: <span className="font-medium">+52.0% overall performance</span></>
+            ) : (
+              <>3 suggestions shown • Potential impact: <span className="font-medium">+48.0% overall performance</span></>
+            )}
           </div>
           <Button variant="outlined" size="small" className="text-gray-700 dark:text-gray-200 border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-800 font-medium">
             View all suggestions
