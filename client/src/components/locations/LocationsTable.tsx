@@ -237,9 +237,8 @@ export function LocationsTable({ onRowClick, onEdit, filters, onManageFields, on
     <Card className="mx-6 mb-6">
       {/* Title Header */}
       <div className="bg-[#f9fafb] p-6 flex justify-between items-center border-b border-gray-200">
-        <h3 className="text-lg font-semibold text-foreground">Locations (131)</h3>
+        <h3 className="text-lg font-semibold text-foreground">Locations & Performance</h3>
       </div>
-      
       {/* Filter Bar */}
       <FilterBar
         onManageFields={onManageFields}
@@ -248,7 +247,6 @@ export function LocationsTable({ onRowClick, onEdit, filters, onManageFields, on
         filters={filters}
         onFiltersChange={onFiltersChange}
       />
-      
       {/* Actions Header */}
       <div className="bg-[#f9fafb] p-6 flex justify-between items-center border-b border-gray-200">
         <div className="flex items-center space-x-4">
@@ -339,7 +337,6 @@ export function LocationsTable({ onRowClick, onEdit, filters, onManageFields, on
           </div>
         </div>
       </div>
-      
       <CardContent className="bg-[#f9fafb] p-0">
         <div className="overflow-hidden">
           <Table>
