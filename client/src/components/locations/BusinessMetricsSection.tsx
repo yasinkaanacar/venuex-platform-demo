@@ -27,7 +27,7 @@ const GaugeChart = ({ percentage }: { percentage: number }) => {
 
 export function BusinessMetricsSection() {
   return (
-    <Card className="mx-6 mb-6">
+    <Card className="w-full">
       <CardContent className="p-6">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Index Section - 1/3 */}
