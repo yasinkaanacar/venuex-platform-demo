@@ -177,7 +177,7 @@ export default function LocationsDataHealthAlerts({
 
             <div className="relative bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-700 py-8 px-6">
               {/* Clean Data Flow Layout */}
-              <div className="relative w-full h-[500px]">
+              <div className="relative w-full h-[200px]">
                 {/* Connection Lines SVG */}
                 <svg
                   className="absolute inset-0 w-full h-full"
@@ -342,28 +342,28 @@ export default function LocationsDataHealthAlerts({
                     />
                     {/* Fork lines from VenueX to each platform */}
                     <path
-                      d="M 500 200 Q 580 200 580 120 L 720 120"
+                      d="M 500 200 Q 580 200 580 100 L 720 100"
                       stroke="#9ca3af"
                       strokeWidth="2"
                       fill="none"
                       strokeDasharray="5,5"
                     />
                     <path
-                      d="M 500 200 Q 580 200 580 170 L 720 170"
+                      d="M 500 200 Q 580 200 580 185 L 720 185"
                       stroke="#9ca3af"
                       strokeWidth="2"
                       fill="none"
                       strokeDasharray="5,5"
                     />
                     <path
-                      d="M 500 200 Q 580 200 580 230 L 720 230"
+                      d="M 500 200 Q 580 200 580 270 L 720 270"
                       stroke="#9ca3af"
                       strokeWidth="2"
                       fill="none"
                       strokeDasharray="5,5"
                     />
                     <path
-                      d="M 500 200 Q 580 200 580 280 L 720 280"
+                      d="M 500 200 Q 580 200 580 355 L 720 355"
                       stroke="#9ca3af"
                       strokeWidth="2"
                       fill="none"
@@ -375,7 +375,7 @@ export default function LocationsDataHealthAlerts({
                   <g>
                     {/* Straight line from Locations to VenueX (Online - green line) */}
                     <path
-                      d="M 200 200 L 500 200"
+                      d="M -80 200 L 500 200"
                       stroke="#10b981"
                       strokeWidth="3"
                       fill="none"
@@ -385,7 +385,7 @@ export default function LocationsDataHealthAlerts({
 
                     {/* Fork lines from VenueX to each platform (Good sync status - green) */}
                     <path
-                      d="M 500 200 Q 580 200 580 120 L 720 120"
+                      d="M 500 200 Q 580 200 580 100 L 1200 100"
                       stroke="#10b981"
                       strokeWidth="3"
                       fill="none"
@@ -393,7 +393,7 @@ export default function LocationsDataHealthAlerts({
                       opacity="0.8"
                     />
                     <path
-                      d="M 500 200 Q 580 200 580 170 L 720 170"
+                      d="M 500 200 Q 580 200 580 185 L 1200 185"
                       stroke="#10b981"
                       strokeWidth="3"
                       fill="none"
@@ -401,7 +401,7 @@ export default function LocationsDataHealthAlerts({
                       opacity="0.8"
                     />
                     <path
-                      d="M 500 200 Q 580 200 580 230 L 720 230"
+                      d="M 500 200 Q 580 200 580 270 L 1200 270"
                       stroke="#10b981"
                       strokeWidth="3"
                       fill="none"
@@ -409,7 +409,7 @@ export default function LocationsDataHealthAlerts({
                       opacity="0.8"
                     />
                     <path
-                      d="M 500 200 Q 580 200 580 280 L 720 280"
+                      d="M 500 200 Q 580 200 580 355 L 1200 355"
                       stroke="#10b981"
                       strokeWidth="3"
                       fill="none"
@@ -1024,7 +1024,7 @@ export default function LocationsDataHealthAlerts({
 
             <div className="relative bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-700 py-8 px-6">
               {/* Clean Data Flow Layout */}
-              <div className="relative w-full h-[500px]">
+              <div className="relative w-full h-[200px]">
                 {/* Connection Lines SVG */}
                 <svg
                   className="absolute inset-0 w-full h-full"
