@@ -117,18 +117,14 @@ export function PlatformSummarySection({
               <div className="text-lg text-gray-600">Lokasyon</div>
             </div>
 
-            {/* 1/3 - First pair */}
+            {/* 1/3 - Published */}
             <div className="space-y-4 text-center">
-              <StatusItem count={3} label="Beklemede" icon />
-              <StatusItem count={2} label="Reddedilmiş" icon />
-              <StatusItem count={1} label="İncelenmede" icon />
+              <StatusItem count={122} label="Published" icon />
             </div>
 
-            {/* 1/3 - Second pair */}
+            {/* 1/3 - Rejected */}
             <div className="space-y-4 text-center">
-              <StatusItem count={2} label="Yinelenmış" icon />
-              <StatusItem count={0} label="Geçici Kapalı" icon />
-              <StatusItem count={1} label="Güncelleme Gerekli" icon />
+              <StatusItem count={5} label="Rejected" icon />
             </div>
           </div>
 
@@ -176,17 +172,14 @@ export function PlatformSummarySection({
               <div className="text-lg text-gray-600">Lokasyon</div>
             </div>
 
-            {/* 1/3 - First pair */}
+            {/* 1/3 - Published */}
             <div className="space-y-4 text-center">
-              <StatusItem count={2} label="Doğrulama Bekliyor" icon />
-              <StatusItem count={0} label="Hata" icon />
+              <StatusItem count={95} label="Published" icon />
             </div>
 
-            {/* 1/3 - Second pair */}
+            {/* 1/3 - Rejected */}
             <div className="space-y-4 text-center">
-              <StatusItem count={1} label="Yinelenmış" icon />
-              <StatusItem count={0} label="Kapalı" icon />
-              <StatusItem count={1} label="Bilgi Eksik" icon />
+              <StatusItem count={3} label="Rejected" icon />
             </div>
           </div>
 
@@ -234,18 +227,14 @@ export function PlatformSummarySection({
               <div className="text-lg text-gray-600">Lokasyon</div>
             </div>
 
-            {/* 1/3 - First pair */}
+            {/* 1/3 - Published */}
             <div className="space-y-4 text-center">
-              <StatusItem count={4} label="Moderasyonda" icon />
-              <StatusItem count={1} label="Reddedildi" icon />
-              <StatusItem count={2} label="Eksik Bilgi" icon />
+              <StatusItem count={86} label="Published" icon />
             </div>
 
-            {/* 1/3 - Second pair */}
+            {/* 1/3 - Rejected */}
             <div className="space-y-4 text-center">
-              <StatusItem count={3} label="Yinelenmış" icon />
-              <StatusItem count={0} label="Askıda" icon />
-              <StatusItem count={1} label="Güncelleme Bekliyor" icon />
+              <StatusItem count={3} label="Rejected" icon />
             </div>
           </div>
 
