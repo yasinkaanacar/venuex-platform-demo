@@ -31,19 +31,19 @@ export function BusinessMetricsSection() {
       <CardContent className="p-6">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Index Section - 1/3 */}
-          <div className="flex flex-col items-center text-center">
+          <div className="flex flex-col items-center text-center h-full">
             <GaugeChart percentage={25} />
             <h3 className="text-lg font-semibold text-gray-900 mb-2">Data Quality Index</h3>
             <p className="text-sm text-gray-600 text-center leading-relaxed mb-6">
               Tips will appear here on how to improve your online map presence and company performance
             </p>
-            <Button variant="outline" className="w-full text-blue-600 hover:text-blue-700">
+            <Button variant="outline" className="w-full text-blue-600 hover:text-blue-700 mt-auto">
               View details
             </Button>
           </div>
 
           {/* Store Status Section - 1/3 */}
-          <div className="flex flex-col">
+          <div className="flex flex-col h-full">
             <h3 className="text-lg font-semibold text-gray-900 mb-4 text-center">Store Status</h3>
             <div className="space-y-4 mb-6">
               <div className="flex items-center justify-between">
@@ -68,13 +68,13 @@ export function BusinessMetricsSection() {
                 <span className="text-2xl font-bold text-gray-900">0</span>
               </div>
             </div>
-            <Button variant="outline" className="w-full text-blue-600 hover:text-blue-700">
+            <Button variant="outline" className="w-full text-blue-600 hover:text-blue-700 mt-auto">
               View details
             </Button>
           </div>
 
           {/* Performance Section - 1/3 */}
-          <div className="flex flex-col">
+          <div className="flex flex-col h-full">
             <h3 className="text-lg font-semibold text-gray-900 mb-4 text-center">Performance</h3>
             <div className="space-y-4 mb-6">
               <div className="text-center">
@@ -86,7 +86,7 @@ export function BusinessMetricsSection() {
                 <div className="text-sm text-gray-600">Total Views</div>
               </div>
             </div>
-            <Button variant="outline" className="w-full text-blue-600 hover:text-blue-700">
+            <Button variant="outline" className="w-full text-blue-600 hover:text-blue-700 mt-auto">
               View details
             </Button>
           </div>
