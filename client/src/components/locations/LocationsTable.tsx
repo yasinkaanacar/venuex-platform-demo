@@ -7,6 +7,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Edit, Eye, MoreHorizontal, ChevronDown, Info, Download, Facebook, Instagram, CheckCircle, AlertTriangle } from "lucide-react";
+import { FilterBar } from "@/components/locations/FilterBar";
 
 // Updated mock data to match screenshot
 const mockLocationData = [
