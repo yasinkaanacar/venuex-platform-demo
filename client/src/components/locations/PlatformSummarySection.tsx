@@ -280,48 +280,53 @@ export function PlatformSummarySection({
     // Default layout for VenueX (index 0)
     return (
       <div className="p-8 bg-gray-50">
-        <div className="flex items-start justify-between">
-          {/* Left side - Main count */}
-          <div>
+        <div className="grid grid-cols-4 gap-4 items-center">
+          {/* 1/4 - Location count */}
+          <div className="text-center">
             <div className="text-7xl font-bold text-gray-900 mb-2">130</div>
             <div className="text-lg text-gray-600">Lokasyon</div>
           </div>
 
-          {/* Right side - Last update */}
-          <div className="text-right">
-            {/* Action Buttons */}
-            <div className="flex flex-col space-y-2">
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={onManageFields}
-                className="text-blue-600 border-blue-200 hover:bg-blue-50"
-                data-testid="btn-manage-fields"
-              >
-                <Settings className="w-4 h-4 mr-2" />
-                Manage Posts
-              </Button>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={onAddNewLocation}
-                className="text-blue-600 border-blue-200 hover:bg-blue-50"
-                data-testid="btn-add-new-location"
-              >
-                <Plus className="w-4 h-4 mr-2" />
-                Add New Location
-              </Button>
-              <Button
-                variant="default"
-                size="sm"
-                onClick={onUploadLocations}
-                className="bg-blue-600 hover:bg-blue-700 text-white"
-                data-testid="btn-upload-locations"
-              >
-                <Upload className="w-4 h-4 mr-2" />
-                Upload Locations
-              </Button>
-            </div>
+          {/* 1/4 - Manage Posts */}
+          <div className="flex justify-center">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={onManageFields}
+              className="text-blue-600 border-blue-200 hover:bg-blue-50 w-full"
+              data-testid="btn-manage-fields"
+            >
+              <Settings className="w-4 h-4 mr-2" />
+              Manage Posts
+            </Button>
+          </div>
+
+          {/* 1/4 - Add New Location */}
+          <div className="flex justify-center">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={onAddNewLocation}
+              className="text-blue-600 border-blue-200 hover:bg-blue-50 w-full"
+              data-testid="btn-add-new-location"
+            >
+              <Plus className="w-4 h-4 mr-2" />
+              Add New Location
+            </Button>
+          </div>
+
+          {/* 1/4 - Upload Locations */}
+          <div className="flex justify-center">
+            <Button
+              variant="default"
+              size="sm"
+              onClick={onUploadLocations}
+              className="bg-blue-600 hover:bg-blue-700 text-white w-full"
+              data-testid="btn-upload-locations"
+            >
+              <Upload className="w-4 h-4 mr-2" />
+              Upload Locations
+            </Button>
           </div>
         </div>
 
