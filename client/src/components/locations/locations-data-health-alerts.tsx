@@ -221,59 +221,63 @@ export default function LocationsDataHealthAlerts({ platforms = [], alerts = [],
                 
                 {/* Base connection lines - always visible */}
                 <g opacity="0.3">
-                  <path d="M 280 285 L 350 285 Q 375 285 375 260 L 375 225 Q 375 205 395 205 L 460 205" stroke="#9ca3af" strokeWidth="2" fill="none" strokeDasharray="5,5" />
-                  <path d="M 540 195 L 605 195 Q 625 195 625 175 L 625 140 Q 625 120 645 120 L 720 120" stroke="#9ca3af" strokeWidth="2" fill="none" strokeDasharray="5,5" />
-                  <path d="M 540 200 L 720 200" stroke="#9ca3af" strokeWidth="2" fill="none" strokeDasharray="5,5" />
-                  <path d="M 540 205 L 605 205 Q 625 205 625 225 L 625 260 Q 625 280 645 280 L 720 280" stroke="#9ca3af" strokeWidth="2" fill="none" strokeDasharray="5,5" />
+                  {/* Straight line from Locations to VenueX */}
+                  <path d="M 280 285 L 500 200" stroke="#9ca3af" strokeWidth="2" fill="none" strokeDasharray="5,5" />
+                  {/* Fork lines from VenueX to each platform */}
+                  <path d="M 500 200 Q 580 200 580 120 L 720 120" stroke="#9ca3af" strokeWidth="2" fill="none" strokeDasharray="5,5" />
+                  <path d="M 500 200 Q 580 200 580 170 L 720 170" stroke="#9ca3af" strokeWidth="2" fill="none" strokeDasharray="5,5" />
+                  <path d="M 500 200 Q 580 200 580 230 L 720 230" stroke="#9ca3af" strokeWidth="2" fill="none" strokeDasharray="5,5" />
+                  <path d="M 500 200 Q 580 200 580 280 L 720 280" stroke="#9ca3af" strokeWidth="2" fill="none" strokeDasharray="5,5" />
                 </g>
                 
                 {/* Status-based colored lines */}
                 <g>
-                  {/* Locations (Online - green line) */}
-                  <path d="M 280 285 L 350 285 Q 375 285 375 260 L 375 225 Q 375 205 395 205 L 460 205" stroke="#10b981" strokeWidth="3" fill="none" markerEnd="url(#arrow-success)" opacity="0.8" />
+                  {/* Straight line from Locations to VenueX (Online - green line) */}
+                  <path d="M 280 285 L 500 200" stroke="#10b981" strokeWidth="3" fill="none" markerEnd="url(#arrow-success)" opacity="0.8" />
                   
-                  {/* VenueX to Location Platforms (Good sync status - green) */}
-                  <path d="M 540 195 L 605 195 Q 625 195 625 175 L 625 140 Q 625 120 645 120 L 720 120" stroke="#10b981" strokeWidth="3" fill="none" markerEnd="url(#arrow-success)" opacity="0.8" />
-                  {/* VenueX to Merchant Platforms (Good sync status - green) */}
-                  <path d="M 540 200 L 720 200" stroke="#10b981" strokeWidth="3" fill="none" markerEnd="url(#arrow-success)" opacity="0.8" />
-                  {/* VenueX to Ad Platforms (Good sync status - green) */}
-                  <path d="M 540 205 L 605 205 Q 625 205 625 225 L 625 260 Q 625 280 645 280 L 720 280" stroke="#10b981" strokeWidth="3" fill="none" markerEnd="url(#arrow-success)" opacity="0.8" />
+                  {/* Fork lines from VenueX to each platform (Good sync status - green) */}
+                  <path d="M 500 200 Q 580 200 580 120 L 720 120" stroke="#10b981" strokeWidth="3" fill="none" markerEnd="url(#arrow-success)" opacity="0.8" />
+                  <path d="M 500 200 Q 580 200 580 170 L 720 170" stroke="#10b981" strokeWidth="3" fill="none" markerEnd="url(#arrow-success)" opacity="0.8" />
+                  <path d="M 500 200 Q 580 200 580 230 L 720 230" stroke="#10b981" strokeWidth="3" fill="none" markerEnd="url(#arrow-success)" opacity="0.8" />
+                  <path d="M 500 200 Q 580 200 580 280 L 720 280" stroke="#10b981" strokeWidth="3" fill="none" markerEnd="url(#arrow-success)" opacity="0.8" />
                 </g>
                 
                 {/* Status-based animated flow overlays */}
                 <g>
-                  {/* Locations active flow - healthy animation */}
-                  <path d="M 280 285 L 350 285 Q 375 285 375 260 L 375 225 Q 375 205 395 205 L 460 205" stroke="url(#flowActive)" strokeWidth="2" fill="none" opacity="0.9">
+                  {/* Locations to VenueX active flow - healthy animation */}
+                  <path d="M 280 285 L 500 200" stroke="url(#flowActive)" strokeWidth="2" fill="none" opacity="0.9">
                     <animate attributeName="opacity" values="0.5;0.9;0.5" dur="2s" begin="0.3s" repeatCount="indefinite"/>
                   </path>
                   
-                  {/* All destination flows are healthy - good sync status */}
-                  <path d="M 540 195 L 605 195 Q 625 195 625 175 L 625 140 Q 625 120 645 120 L 720 120" stroke="url(#flowActive)" strokeWidth="2" fill="none" opacity="0.8">
+                  {/* VenueX to platforms flows are healthy - good sync status */}
+                  <path d="M 500 200 Q 580 200 580 120 L 720 120" stroke="url(#flowActive)" strokeWidth="2" fill="none" opacity="0.8">
                     <animate attributeName="opacity" values="0.4;0.8;0.4" dur="2s" begin="0.8s" repeatCount="indefinite"/>
                   </path>
-                  <path d="M 540 200 L 720 200" stroke="url(#flowActive)" strokeWidth="2" fill="none" opacity="0.9">
+                  <path d="M 500 200 Q 580 200 580 170 L 720 170" stroke="url(#flowActive)" strokeWidth="2" fill="none" opacity="0.9">
                     <animate attributeName="opacity" values="0.5;0.9;0.5" dur="1.8s" begin="0.2s" repeatCount="indefinite"/>
                   </path>
-                  <path d="M 540 205 L 605 205 Q 625 205 625 225 L 625 260 Q 625 280 645 280 L 720 280" stroke="url(#flowActive)" strokeWidth="2" fill="none" opacity="0.8">
+                  <path d="M 500 200 Q 580 200 580 230 L 720 230" stroke="url(#flowActive)" strokeWidth="2" fill="none" opacity="0.8">
                     <animate attributeName="opacity" values="0.4;0.8;0.4" dur="2.2s" begin="1.2s" repeatCount="indefinite"/>
+                  </path>
+                  <path d="M 500 200 Q 580 200 580 280 L 720 280" stroke="url(#flowActive)" strokeWidth="2" fill="none" opacity="0.8">
+                    <animate attributeName="opacity" values="0.4;0.8;0.4" dur="2.4s" begin="1.5s" repeatCount="indefinite"/>
                   </path>
                 </g>
                 
                 {/* Data pulse indicators */}
                 <g>
-                  <circle cx="375" cy="200" r="3" fill="#10b981" opacity="0.8">
+                  <circle cx="390" cy="242" r="3" fill="#10b981" opacity="0.8">
                     <animate attributeName="r" values="2;5;2" dur="2s" begin="0s" repeatCount="indefinite"/>
                     <animate attributeName="opacity" values="0.8;0.3;0.8" dur="2s" begin="0s" repeatCount="indefinite"/>
                   </circle>
-                  <circle cx="625" cy="200" r="3" fill="#10b981" opacity="0.8">
+                  <circle cx="580" cy="200" r="3" fill="#10b981" opacity="0.8">
                     <animate attributeName="r" values="2;5;2" dur="2s" begin="1s" repeatCount="indefinite"/>
                     <animate attributeName="opacity" values="0.8;0.3;0.8" dur="2s" begin="1s" repeatCount="indefinite"/>
                   </circle>
                 </g>
                 
                 {/* Connection nodes */}
-                <circle cx="460" cy="200" r="4" fill="#3b82f6" opacity="0.9" stroke="#ffffff" strokeWidth="2"/>
-                <circle cx="540" cy="200" r="4" fill="#3b82f6" opacity="0.9" stroke="#ffffff" strokeWidth="2"/>
+                <circle cx="500" cy="200" r="4" fill="#3b82f6" opacity="0.9" stroke="#ffffff" strokeWidth="2"/>
               </svg>
 
               {/* Data Sources - Left Side */}
@@ -703,59 +707,63 @@ export default function LocationsDataHealthAlerts({ platforms = [], alerts = [],
                 
                 {/* Base connection lines - always visible */}
                 <g opacity="0.3">
-                  <path d="M 280 285 L 350 285 Q 375 285 375 260 L 375 225 Q 375 205 395 205 L 460 205" stroke="#9ca3af" strokeWidth="2" fill="none" strokeDasharray="5,5" />
-                  <path d="M 540 195 L 605 195 Q 625 195 625 175 L 625 140 Q 625 120 645 120 L 720 120" stroke="#9ca3af" strokeWidth="2" fill="none" strokeDasharray="5,5" />
-                  <path d="M 540 200 L 720 200" stroke="#9ca3af" strokeWidth="2" fill="none" strokeDasharray="5,5" />
-                  <path d="M 540 205 L 605 205 Q 625 205 625 225 L 625 260 Q 625 280 645 280 L 720 280" stroke="#9ca3af" strokeWidth="2" fill="none" strokeDasharray="5,5" />
+                  {/* Straight line from Locations to VenueX */}
+                  <path d="M 280 285 L 500 200" stroke="#9ca3af" strokeWidth="2" fill="none" strokeDasharray="5,5" />
+                  {/* Fork lines from VenueX to each platform */}
+                  <path d="M 500 200 Q 580 200 580 120 L 720 120" stroke="#9ca3af" strokeWidth="2" fill="none" strokeDasharray="5,5" />
+                  <path d="M 500 200 Q 580 200 580 170 L 720 170" stroke="#9ca3af" strokeWidth="2" fill="none" strokeDasharray="5,5" />
+                  <path d="M 500 200 Q 580 200 580 230 L 720 230" stroke="#9ca3af" strokeWidth="2" fill="none" strokeDasharray="5,5" />
+                  <path d="M 500 200 Q 580 200 580 280 L 720 280" stroke="#9ca3af" strokeWidth="2" fill="none" strokeDasharray="5,5" />
                 </g>
                 
                 {/* Status-based colored lines */}
                 <g>
-                  {/* Locations (Online - green line) */}
-                  <path d="M 280 285 L 350 285 Q 375 285 375 260 L 375 225 Q 375 205 395 205 L 460 205" stroke="#10b981" strokeWidth="3" fill="none" markerEnd="url(#arrow-success)" opacity="0.8" />
+                  {/* Straight line from Locations to VenueX (Online - green line) */}
+                  <path d="M 280 285 L 500 200" stroke="#10b981" strokeWidth="3" fill="none" markerEnd="url(#arrow-success)" opacity="0.8" />
                   
-                  {/* VenueX to Location Platforms (Good sync status - green) */}
-                  <path d="M 540 195 L 605 195 Q 625 195 625 175 L 625 140 Q 625 120 645 120 L 720 120" stroke="#10b981" strokeWidth="3" fill="none" markerEnd="url(#arrow-success)" opacity="0.8" />
-                  {/* VenueX to Merchant Platforms (Good sync status - green) */}
-                  <path d="M 540 200 L 720 200" stroke="#10b981" strokeWidth="3" fill="none" markerEnd="url(#arrow-success)" opacity="0.8" />
-                  {/* VenueX to Ad Platforms (Good sync status - green) */}
-                  <path d="M 540 205 L 605 205 Q 625 205 625 225 L 625 260 Q 625 280 645 280 L 720 280" stroke="#10b981" strokeWidth="3" fill="none" markerEnd="url(#arrow-success)" opacity="0.8" />
+                  {/* Fork lines from VenueX to each platform (Good sync status - green) */}
+                  <path d="M 500 200 Q 580 200 580 120 L 720 120" stroke="#10b981" strokeWidth="3" fill="none" markerEnd="url(#arrow-success)" opacity="0.8" />
+                  <path d="M 500 200 Q 580 200 580 170 L 720 170" stroke="#10b981" strokeWidth="3" fill="none" markerEnd="url(#arrow-success)" opacity="0.8" />
+                  <path d="M 500 200 Q 580 200 580 230 L 720 230" stroke="#10b981" strokeWidth="3" fill="none" markerEnd="url(#arrow-success)" opacity="0.8" />
+                  <path d="M 500 200 Q 580 200 580 280 L 720 280" stroke="#10b981" strokeWidth="3" fill="none" markerEnd="url(#arrow-success)" opacity="0.8" />
                 </g>
                 
                 {/* Status-based animated flow overlays */}
                 <g>
-                  {/* Locations active flow - healthy animation */}
-                  <path d="M 280 285 L 350 285 Q 375 285 375 260 L 375 225 Q 375 205 395 205 L 460 205" stroke="url(#flowActive)" strokeWidth="2" fill="none" opacity="0.9">
+                  {/* Locations to VenueX active flow - healthy animation */}
+                  <path d="M 280 285 L 500 200" stroke="url(#flowActive)" strokeWidth="2" fill="none" opacity="0.9">
                     <animate attributeName="opacity" values="0.5;0.9;0.5" dur="2s" begin="0.3s" repeatCount="indefinite"/>
                   </path>
                   
-                  {/* All destination flows are healthy - good sync status */}
-                  <path d="M 540 195 L 605 195 Q 625 195 625 175 L 625 140 Q 625 120 645 120 L 720 120" stroke="url(#flowActive)" strokeWidth="2" fill="none" opacity="0.8">
+                  {/* VenueX to platforms flows are healthy - good sync status */}
+                  <path d="M 500 200 Q 580 200 580 120 L 720 120" stroke="url(#flowActive)" strokeWidth="2" fill="none" opacity="0.8">
                     <animate attributeName="opacity" values="0.4;0.8;0.4" dur="2s" begin="0.8s" repeatCount="indefinite"/>
                   </path>
-                  <path d="M 540 200 L 720 200" stroke="url(#flowActive)" strokeWidth="2" fill="none" opacity="0.9">
+                  <path d="M 500 200 Q 580 200 580 170 L 720 170" stroke="url(#flowActive)" strokeWidth="2" fill="none" opacity="0.9">
                     <animate attributeName="opacity" values="0.5;0.9;0.5" dur="1.8s" begin="0.2s" repeatCount="indefinite"/>
                   </path>
-                  <path d="M 540 205 L 605 205 Q 625 205 625 225 L 625 260 Q 625 280 645 280 L 720 280" stroke="url(#flowActive)" strokeWidth="2" fill="none" opacity="0.8">
+                  <path d="M 500 200 Q 580 200 580 230 L 720 230" stroke="url(#flowActive)" strokeWidth="2" fill="none" opacity="0.8">
                     <animate attributeName="opacity" values="0.4;0.8;0.4" dur="2.2s" begin="1.2s" repeatCount="indefinite"/>
+                  </path>
+                  <path d="M 500 200 Q 580 200 580 280 L 720 280" stroke="url(#flowActive)" strokeWidth="2" fill="none" opacity="0.8">
+                    <animate attributeName="opacity" values="0.4;0.8;0.4" dur="2.4s" begin="1.5s" repeatCount="indefinite"/>
                   </path>
                 </g>
                 
                 {/* Data pulse indicators */}
                 <g>
-                  <circle cx="375" cy="200" r="3" fill="#10b981" opacity="0.8">
+                  <circle cx="390" cy="242" r="3" fill="#10b981" opacity="0.8">
                     <animate attributeName="r" values="2;5;2" dur="2s" begin="0s" repeatCount="indefinite"/>
                     <animate attributeName="opacity" values="0.8;0.3;0.8" dur="2s" begin="0s" repeatCount="indefinite"/>
                   </circle>
-                  <circle cx="625" cy="200" r="3" fill="#10b981" opacity="0.8">
+                  <circle cx="580" cy="200" r="3" fill="#10b981" opacity="0.8">
                     <animate attributeName="r" values="2;5;2" dur="2s" begin="1s" repeatCount="indefinite"/>
                     <animate attributeName="opacity" values="0.8;0.3;0.8" dur="2s" begin="1s" repeatCount="indefinite"/>
                   </circle>
                 </g>
                 
                 {/* Connection nodes */}
-                <circle cx="460" cy="200" r="4" fill="#3b82f6" opacity="0.9" stroke="#ffffff" strokeWidth="2"/>
-                <circle cx="540" cy="200" r="4" fill="#3b82f6" opacity="0.9" stroke="#ffffff" strokeWidth="2"/>
+                <circle cx="500" cy="200" r="4" fill="#3b82f6" opacity="0.9" stroke="#ffffff" strokeWidth="2"/>
               </svg>
 
               {/* Data Sources - Left Side */}
