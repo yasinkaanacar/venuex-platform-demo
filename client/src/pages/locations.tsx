@@ -5,7 +5,7 @@ import { LocationsTable } from "@/components/locations/LocationsTable";
 import { FieldManagementDialog } from "@/components/locations/FieldManagementDialog";
 import { PlatformSummarySection } from "@/components/locations/PlatformSummarySection";
 import DataQualityEnrichment from "@/components/overview/data-quality-enrichment";
-import DataHealthAlerts from "@/components/overview/data-health-alerts";
+import LocationsDataHealthAlerts from "@/components/locations/locations-data-health-alerts";
 import { Store, User, Check } from 'lucide-react';
 import { Tooltip } from '@mui/material';
 
@@ -141,7 +141,7 @@ export default function LocationsPage() {
       <div className="pb-6 bg-[#ffffff]">
         {/* Data Health & Flow Banner */}
         <div className="px-6 py-4">
-          <DataHealthAlerts 
+          <LocationsDataHealthAlerts 
             bannerMode={true}
             locationsPageMode={true}
           />
@@ -175,7 +175,7 @@ export default function LocationsPage() {
 
         {/* Alerts & Notifications (Expanded) */}
         <div className="mx-6 mt-8">
-          <DataHealthAlerts 
+          <LocationsDataHealthAlerts 
             bannerMode={false}
             alwaysExpanded={true}
             locationsPageMode={true}
