@@ -235,7 +235,7 @@ export function LocationsTable({ onRowClick, onEdit, filters, onManageFields, on
   };
 
   return (
-    <Card className="mx-6 mb-6">
+    <Card className="mx-6 mb-6 shadow-none border-gray-200 dark:border-gray-700">
       {/* First Div - Locations Table */}
       <div>
         {/* Title Header */}
