@@ -1,7 +1,9 @@
 import { useState } from "react";
 import { showToast } from "@/lib/toast";
+import { FilterBar } from "@/components/locations/FilterBar";
 
 import { LocationsTable } from "@/components/locations/LocationsTable";
+import { BusinessProfileSection } from "@/components/locations/BusinessProfileSection";
 import { FieldManagementDialog } from "@/components/locations/FieldManagementDialog";
 import { PlatformSummarySection } from "@/components/locations/PlatformSummarySection";
 import DataQualityEnrichment from "@/components/overview/data-quality-enrichment";
@@ -75,6 +77,14 @@ export default function LocationsPage() {
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+      {/* Filter Bar */}
+      <FilterBar
+        onManageFields={handleManageFields}
+        onAddNewLocation={handleAddNewLocation}
+        onUploadLocations={handleUploadLocations}
+        filters={filters}
+        onFiltersChange={setFilters}
+      />
       {/* Main Content */}
       <div className="pb-6 bg-[#ffffff]">
         {/* Data Health & Flow Banner */}
@@ -85,14 +95,8 @@ export default function LocationsPage() {
           />
         </div>
 
-        {/* Platform Summary Section with Filters and Business Profile */}
-        <PlatformSummarySection 
-          filters={filters}
-          onFiltersChange={setFilters}
-          onManageFields={handleManageFields}
-          onAddNewLocation={handleAddNewLocation}
-          onUploadLocations={handleUploadLocations}
-        />
+        {/* Platform Summary Section */}
+        <PlatformSummarySection />
 
         {/* Locations Table Section */}
         <div className="mb-6">
@@ -102,6 +106,9 @@ export default function LocationsPage() {
             filters={filters}
           />
         </div>
+
+        {/* Business Profile Section */}
+        <BusinessProfileSection />
 
         {/* Data Quality Assessment & Data Enrichment Suggestions */}
         <div className="mx-6 mt-8">
