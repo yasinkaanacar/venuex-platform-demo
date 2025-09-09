@@ -402,27 +402,66 @@ export default function DataHealthAlerts({
                       fill="none"
                       strokeDasharray="5,5"
                     />
-                    <path
-                      d="M 540 195 L 605 195 Q 625 195 625 175 L 625 140 Q 625 120 645 120 L 720 120"
-                      stroke="#9ca3af"
-                      strokeWidth="2"
-                      fill="none"
-                      strokeDasharray="5,5"
-                    />
-                    <path
-                      d="M 540 200 L 720 200"
-                      stroke="#9ca3af"
-                      strokeWidth="2"
-                      fill="none"
-                      strokeDasharray="5,5"
-                    />
-                    <path
-                      d="M 540 205 L 605 205 Q 625 205 625 225 L 625 260 Q 625 280 645 280 L 720 280"
-                      stroke="#9ca3af"
-                      strokeWidth="2"
-                      fill="none"
-                      strokeDasharray="5,5"
-                    />
+                    {context === 'locations' ? (
+                      <>
+                        {/* From VenueX to Google Business Profile */}
+                        <path
+                          d="M 540 200 L 580 200 Q 600 200 600 180 L 600 160 Q 600 140 620 140 L 720 140"
+                          stroke="#9ca3af"
+                          strokeWidth="2"
+                          fill="none"
+                          strokeDasharray="5,5"
+                        />
+                        {/* From VenueX to Meta Pages */}
+                        <path
+                          d="M 540 200 L 580 200 Q 600 200 600 185 L 600 170 Q 600 155 620 155 L 720 155"
+                          stroke="#9ca3af"
+                          strokeWidth="2"
+                          fill="none"
+                          strokeDasharray="5,5"
+                        />
+                        {/* From VenueX to Apple Business Connect */}
+                        <path
+                          d="M 540 200 L 580 200 Q 600 200 600 215 L 600 230 Q 600 245 620 245 L 720 245"
+                          stroke="#9ca3af"
+                          strokeWidth="2"
+                          fill="none"
+                          strokeDasharray="5,5"
+                        />
+                        {/* From VenueX to Yandex Business */}
+                        <path
+                          d="M 540 200 L 580 200 Q 600 200 600 220 L 600 240 Q 600 260 620 260 L 720 260"
+                          stroke="#9ca3af"
+                          strokeWidth="2"
+                          fill="none"
+                          strokeDasharray="5,5"
+                        />
+                      </>
+                    ) : (
+                      <>
+                        <path
+                          d="M 540 195 L 605 195 Q 625 195 625 175 L 625 140 Q 625 120 645 120 L 720 120"
+                          stroke="#9ca3af"
+                          strokeWidth="2"
+                          fill="none"
+                          strokeDasharray="5,5"
+                        />
+                        <path
+                          d="M 540 200 L 720 200"
+                          stroke="#9ca3af"
+                          strokeWidth="2"
+                          fill="none"
+                          strokeDasharray="5,5"
+                        />
+                        <path
+                          d="M 540 205 L 605 205 Q 625 205 625 225 L 625 260 Q 625 280 645 280 L 720 280"
+                          stroke="#9ca3af"
+                          strokeWidth="2"
+                          fill="none"
+                          strokeDasharray="5,5"
+                        />
+                      </>
+                    )}
                   </g>
 
                   {/* Status-based colored lines */}
