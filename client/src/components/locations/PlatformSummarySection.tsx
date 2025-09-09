@@ -53,21 +53,23 @@ export function PlatformSummarySection({
     if (activePlatform === 1) { // Google Business Profile
       return (
         <div className="p-8 bg-gray-50">
-          <div className="flex items-start justify-between mb-8">
-            {/* Left side - Main count */}
-            <div>
+          <div className="grid grid-cols-3 gap-8 items-center mb-8">
+            {/* 1/3 - Location count */}
+            <div className="text-center">
               <div className="text-7xl font-bold text-gray-900 mb-2">131</div>
               <div className="text-lg text-gray-600">Lokasyon</div>
             </div>
 
-            {/* Middle - Status grid */}
-            <div className="flex-1 mx-12">
-              <div className="grid grid-cols-2 gap-x-8 gap-y-4">
-                <StatusItem count={120} label="Verified" icon />
-                <StatusItem count={6} label="Unverified" icon />
-                <StatusItem count={4} label="Duplicated" icon />
-                <StatusItem count={1} label="Suspended" icon />
-              </div>
+            {/* 1/3 - Verified/Unverified */}
+            <div className="space-y-4">
+              <StatusItem count={120} label="Verified" icon />
+              <StatusItem count={6} label="Unverified" icon />
+            </div>
+
+            {/* 1/3 - Duplicated/Suspended */}
+            <div className="space-y-4">
+              <StatusItem count={4} label="Duplicated" icon />
+              <StatusItem count={1} label="Suspended" icon />
             </div>
           </div>
 
