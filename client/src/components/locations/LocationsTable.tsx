@@ -109,15 +109,20 @@ interface FilterState {
   businessStatus: string;
   platformStatus: string;
   storeSet: string;
+  missingPOI: string;
 }
 
 interface LocationsTableProps {
   onRowClick: (id: string) => void;
   onEdit: (id: string) => void;
   filters: FilterState;
+  onManageFields: () => void;
+  onAddNewLocation: () => void;
+  onUploadLocations: () => void;
+  onFiltersChange: (filters: FilterState) => void;
 }
 
-export function LocationsTable({ onRowClick, onEdit, filters }: LocationsTableProps) {
+export function LocationsTable({ onRowClick, onEdit, filters, onManageFields, onAddNewLocation, onUploadLocations, onFiltersChange }: LocationsTableProps) {
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
