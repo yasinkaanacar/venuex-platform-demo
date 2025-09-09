@@ -110,23 +110,25 @@ export function PlatformSummarySection({
     if (activePlatform === 2) { // Meta Business
       return (
         <div className="p-8 bg-gray-50">
-          <div className="flex items-start justify-between mb-8">
-            {/* Left side - Main count */}
-            <div>
+          <div className="grid grid-cols-3 gap-8 items-center mb-8">
+            {/* 1/3 - Location count */}
+            <div className="text-center">
               <div className="text-7xl font-bold text-gray-900 mb-2">127</div>
               <div className="text-lg text-gray-600">Lokasyon</div>
             </div>
 
-            {/* Middle - Status grid */}
-            <div className="flex-1 mx-12">
-              <div className="grid grid-cols-3 gap-x-8 gap-y-4">
-                <StatusItem count={3} label="Beklemede" icon />
-                <StatusItem count={2} label="Reddedilmiş" icon />
-                <StatusItem count={1} label="İncelenmede" icon />
-                <StatusItem count={2} label="Yinelenmış" icon />
-                <StatusItem count={0} label="Geçici Kapalı" icon />
-                <StatusItem count={1} label="Güncelleme Gerekli" icon />
-              </div>
+            {/* 1/3 - First pair */}
+            <div className="space-y-4 text-center">
+              <StatusItem count={3} label="Beklemede" icon />
+              <StatusItem count={2} label="Reddedilmiş" icon />
+              <StatusItem count={1} label="İncelenmede" icon />
+            </div>
+
+            {/* 1/3 - Second pair */}
+            <div className="space-y-4 text-center">
+              <StatusItem count={2} label="Yinelenmış" icon />
+              <StatusItem count={0} label="Geçici Kapalı" icon />
+              <StatusItem count={1} label="Güncelleme Gerekli" icon />
             </div>
           </div>
 
@@ -167,23 +169,25 @@ export function PlatformSummarySection({
     if (activePlatform === 3) { // Apple Business Connect
       return (
         <div className="p-8 bg-gray-50">
-          <div className="flex items-start justify-between mb-8">
-            {/* Left side - Main count */}
-            <div>
+          <div className="grid grid-cols-3 gap-8 items-center mb-8">
+            {/* 1/3 - Location count */}
+            <div className="text-center">
               <div className="text-7xl font-bold text-gray-900 mb-2">98</div>
               <div className="text-lg text-gray-600">Lokasyon</div>
             </div>
 
-            {/* Middle - Status grid */}
-            <div className="flex-1 mx-12">
-              <div className="grid grid-cols-3 gap-x-8 gap-y-4">
-                <StatusItem count={2} label="Doğrulama Bekliyor" icon />
-                <StatusItem count={1} label="Güncellenmeyi Bekliyor" icon />
-                <StatusItem count={0} label="Hata" icon />
-                <StatusItem count={1} label="Yinelenmış" icon />
-                <StatusItem count={0} label="Kapalı" icon />
-                <StatusItem count={1} label="Bilgi Eksik" icon />
-              </div>
+            {/* 1/3 - First pair */}
+            <div className="space-y-4 text-center">
+              <StatusItem count={2} label="Doğrulama Bekliyor" icon />
+              <StatusItem count={1} label="Güncellenmeyi Bekliyor" icon />
+              <StatusItem count={0} label="Hata" icon />
+            </div>
+
+            {/* 1/3 - Second pair */}
+            <div className="space-y-4 text-center">
+              <StatusItem count={1} label="Yinelenmış" icon />
+              <StatusItem count={0} label="Kapalı" icon />
+              <StatusItem count={1} label="Bilgi Eksik" icon />
             </div>
           </div>
 
@@ -224,23 +228,25 @@ export function PlatformSummarySection({
     if (activePlatform === 4) { // Yandex Maps
       return (
         <div className="p-8 bg-gray-50">
-          <div className="flex items-start justify-between mb-8">
-            {/* Left side - Main count */}
-            <div>
+          <div className="grid grid-cols-3 gap-8 items-center mb-8">
+            {/* 1/3 - Location count */}
+            <div className="text-center">
               <div className="text-7xl font-bold text-gray-900 mb-2">89</div>
               <div className="text-lg text-gray-600">Lokasyon</div>
             </div>
 
-            {/* Middle - Status grid */}
-            <div className="flex-1 mx-12">
-              <div className="grid grid-cols-3 gap-x-8 gap-y-4">
-                <StatusItem count={4} label="Moderasyonda" icon />
-                <StatusItem count={1} label="Reddedildi" icon />
-                <StatusItem count={2} label="Eksik Bilgi" icon />
-                <StatusItem count={3} label="Yinelenmış" icon />
-                <StatusItem count={0} label="Askıda" icon />
-                <StatusItem count={1} label="Güncelleme Bekliyor" icon />
-              </div>
+            {/* 1/3 - First pair */}
+            <div className="space-y-4 text-center">
+              <StatusItem count={4} label="Moderasyonda" icon />
+              <StatusItem count={1} label="Reddedildi" icon />
+              <StatusItem count={2} label="Eksik Bilgi" icon />
+            </div>
+
+            {/* 1/3 - Second pair */}
+            <div className="space-y-4 text-center">
+              <StatusItem count={3} label="Yinelenmış" icon />
+              <StatusItem count={0} label="Askıda" icon />
+              <StatusItem count={1} label="Güncelleme Bekliyor" icon />
             </div>
           </div>
 
