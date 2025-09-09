@@ -10,6 +10,8 @@ import { SiGoogle, SiMeta, SiTiktok, SiApple } from 'react-icons/si';
 import mouseIcon from '@assets/image_1756736100487.png';
 import vxLogo from '@assets/vx-logo-1000x1000_1756824361260.png';
 
+type DataHealthContext = 'dashboard' | 'locations';
+
 interface DataHealthAlertsProps {
   platforms?: Platform[];
   alerts?: AlertType[];
@@ -18,11 +20,12 @@ interface DataHealthAlertsProps {
   onScrollToBottom?: () => void;
   alwaysExpanded?: boolean;
   locationsPageMode?: boolean;
+  context?: DataHealthContext;
 }
 
-export default function DataHealthAlerts({ platforms = [], alerts = [], locations = [], bannerMode = false, onScrollToBottom, alwaysExpanded = false, locationsPageMode = false }: DataHealthAlertsProps) {
-  // Mock alerts and notifications data
-  const systemAlerts = [
+export default function DataHealthAlerts({ platforms = [], alerts = [], locations = [], bannerMode = false, onScrollToBottom, alwaysExpanded = false, locationsPageMode = false, context = 'dashboard' }: DataHealthAlertsProps) {
+  // Dashboard-specific alerts
+  const dashboardAlerts = [
     {
       id: '1',
       type: 'warning',
@@ -58,6 +61,46 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
     }
   ];
 
+  // Locations-specific alerts
+  const locationsAlerts = [
+    {
+      id: '4',
+      type: 'warning',
+      icon: AlertTriangle,
+      title: 'Location verification pending',
+      description: '8 locations require manual verification on Google Business Profile',
+      timestamp: '23 minutes ago',
+      bgColor: 'bg-yellow-50 dark:bg-yellow-950/20',
+      borderColor: 'border-yellow-200 dark:border-yellow-800',
+      iconColor: 'text-yellow-600'
+    },
+    {
+      id: '5',
+      type: 'success',
+      icon: CheckCircle,
+      title: 'Location data sync completed',
+      description: '124 locations successfully synced across all platforms',
+      timestamp: '5 minutes ago',
+      bgColor: 'bg-green-50 dark:bg-green-950/20',
+      borderColor: 'border-green-200 dark:border-green-800',
+      iconColor: 'text-green-600'
+    },
+    {
+      id: '6',
+      type: 'error',
+      icon: AlertCircle,
+      title: 'Business hours update failed',
+      description: '3 locations failed to update business hours on Meta Pages',
+      timestamp: '18 minutes ago',
+      bgColor: 'bg-red-50 dark:bg-red-950/20',
+      borderColor: 'border-red-200 dark:border-red-800',
+      iconColor: 'text-red-600'
+    }
+  ];
+
+  // Select alerts based on context
+  const systemAlerts = context === 'locations' ? locationsAlerts : dashboardAlerts;
+
   // Initialize as collapsed by default
   const [isOpen, setIsOpen] = useState(false);
 
@@ -66,15 +109,27 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
     let failed = 0;
     let pending = 0;
     
-    // Check for failed/pending in each platform section
-    const statusChecks = [
-      'Failed 1h ago', 'Pending 15m ago' // Meta Commerce, Google Merchant Center
-    ];
-    
-    statusChecks.forEach(status => {
-      if (status.includes('Failed')) failed++;
-      if (status.includes('Pending')) pending++;
-    });
+    if (context === 'locations') {
+      // Location-specific status checks
+      const statusChecks = [
+        'Failed 18m ago', 'Pending 23m ago' // Business hours update failed, Location verification pending
+      ];
+      
+      statusChecks.forEach(status => {
+        if (status.includes('Failed')) failed++;
+        if (status.includes('Pending')) pending++;
+      });
+    } else {
+      // Dashboard-specific status checks
+      const statusChecks = [
+        'Failed 1h ago', 'Pending 15m ago' // Meta Commerce, Google Merchant Center
+      ];
+      
+      statusChecks.forEach(status => {
+        if (status.includes('Failed')) failed++;
+        if (status.includes('Pending')) pending++;
+      });
+    }
     
     return { failed, pending };
   };
