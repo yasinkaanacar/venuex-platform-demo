@@ -346,17 +346,12 @@ export function PlatformSummarySection({
           <button
             key={index}
             onClick={() => setActivePlatform(index)}
-            className={`flex-1 px-4 py-3 text-sm font-medium transition-colors border-r border-gray-200 last:border-r-0 ${
-              activePlatform === index
-                ? 'bg-gray-100 text-gray-900'
-                : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
-            }`}
+            className="flex-1 px-4 py-3 text-sm font-medium transition-colors border-r border-gray-200 last:border-r-0 text-gray-900 bg-[#f9fafb]"
           >
             {platform}
           </button>
         ))}
       </div>
-
       {/* Dynamic Content */}
       {renderContent()}
     </div>
