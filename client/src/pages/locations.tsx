@@ -148,7 +148,11 @@ export default function LocationsPage() {
         </div>
 
         {/* Platform Summary Section */}
-        <PlatformSummarySection />
+        <PlatformSummarySection 
+          onManageFields={handleManageFields}
+          onAddNewLocation={handleAddNewLocation}
+          onUploadLocations={handleUploadLocations}
+        />
 
         {/* Locations Table Section */}
         <div className="mb-6">

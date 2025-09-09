@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { ChevronRight, Info, Phone, Navigation, Eye, MousePointer } from "lucide-react";
+import { ChevronRight, Info, Phone, Navigation, Eye, MousePointer, Plus, Upload, Settings } from "lucide-react";
 import { BusinessMetricsSection } from "@/components/locations/BusinessMetricsSection";
 
 const platforms = [
@@ -31,7 +31,17 @@ const EngagementMetric = ({ value, label, icon }: { value: number; label: string
   </div>
 );
 
-export function PlatformSummarySection() {
+interface PlatformSummarySectionProps {
+  onManageFields?: () => void;
+  onAddNewLocation?: () => void;
+  onUploadLocations?: () => void;
+}
+
+export function PlatformSummarySection({ 
+  onManageFields, 
+  onAddNewLocation, 
+  onUploadLocations 
+}: PlatformSummarySectionProps = {}) {
   const [activePlatform, setActivePlatform] = useState(0);
 
   // Get current date and time
@@ -279,9 +289,42 @@ export function PlatformSummarySection() {
 
           {/* Right side - Last update */}
           <div className="text-right">
-            <div className="text-sm text-gray-600 mb-1">Son Güncelleme Tarihi:</div>
-            <div className="text-lg font-medium text-gray-900">
+            <div className="text-lg font-medium text-gray-900 mb-4">
               {formattedDate} {formattedTime}
+            </div>
+            
+            {/* Action Buttons */}
+            <div className="flex flex-col space-y-2">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={onManageFields}
+                className="text-blue-600 border-blue-200 hover:bg-blue-50"
+                data-testid="btn-manage-fields"
+              >
+                <Settings className="w-4 h-4 mr-2" />
+                Manage Posts
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={onAddNewLocation}
+                className="text-blue-600 border-blue-200 hover:bg-blue-50"
+                data-testid="btn-add-new-location"
+              >
+                <Plus className="w-4 h-4 mr-2" />
+                Add New Location
+              </Button>
+              <Button
+                variant="default"
+                size="sm"
+                onClick={onUploadLocations}
+                className="bg-blue-600 hover:bg-blue-700 text-white"
+                data-testid="btn-upload-locations"
+              >
+                <Upload className="w-4 h-4 mr-2" />
+                Upload Locations
+              </Button>
             </div>
           </div>
         </div>
