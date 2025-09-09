@@ -4,7 +4,6 @@ import { showToast } from "@/lib/toast";
 import { LocationsTable } from "@/components/locations/LocationsTable";
 import { FieldManagementDialog } from "@/components/locations/FieldManagementDialog";
 import { PlatformSummarySection } from "@/components/locations/PlatformSummarySection";
-import { BusinessMetricsSection } from "@/components/locations/BusinessMetricsSection";
 import DataQualityEnrichment from "@/components/overview/data-quality-enrichment";
 import DataHealthAlerts from "@/components/overview/data-health-alerts";
 import { Store, User, Check } from 'lucide-react';
@@ -150,9 +149,6 @@ export default function LocationsPage() {
 
         {/* Platform Summary Section */}
         <PlatformSummarySection />
-
-        {/* Business Metrics Section */}
-        <BusinessMetricsSection />
 
         {/* Locations Table Section */}
         <div className="mb-6">
