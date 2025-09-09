@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { ChevronRight, Info, Phone, Navigation, Eye, MousePointer } from "lucide-react";
+import { BusinessMetricsSection } from "@/components/locations/BusinessMetricsSection";
 
 const platforms = [
   "VenueX",
@@ -285,38 +286,9 @@ export function PlatformSummarySection() {
           </div>
         </div>
 
-        {/* Locations Card */}
+        {/* Business Metrics Card */}
         <div className="mt-8 pt-6 border-t border-gray-200">
-          <div className="bg-white rounded-lg border border-gray-200 p-6">
-            <div className="flex items-center justify-between mb-4">
-              <h4 className="text-lg font-semibold text-gray-900">Locations Overview</h4>
-              <Button size="sm" className="rounded-full w-8 h-8 p-0">
-                <ChevronRight className="w-4 h-4" />
-              </Button>
-            </div>
-            
-            <div className="grid grid-cols-3 gap-4">
-              <div className="text-center p-4 bg-gray-50 rounded-lg">
-                <div className="text-2xl font-bold text-green-600 mb-1">125</div>
-                <div className="text-sm text-gray-600">Aktif</div>
-              </div>
-              <div className="text-center p-4 bg-gray-50 rounded-lg">
-                <div className="text-2xl font-bold text-yellow-600 mb-1">3</div>
-                <div className="text-sm text-gray-600">Beklemede</div>
-              </div>
-              <div className="text-center p-4 bg-gray-50 rounded-lg">
-                <div className="text-2xl font-bold text-red-600 mb-1">2</div>
-                <div className="text-sm text-gray-600">Sorunlu</div>
-              </div>
-            </div>
-            
-            <div className="mt-4 pt-4 border-t border-gray-100">
-              <div className="flex items-center justify-between text-sm">
-                <span className="text-gray-600">Son Senkronizasyon:</span>
-                <span className="text-gray-900 font-medium">{formattedDate} {formattedTime}</span>
-              </div>
-            </div>
-          </div>
+          <BusinessMetricsSection />
         </div>
       </div>
     );
