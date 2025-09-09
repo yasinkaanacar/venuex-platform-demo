@@ -179,7 +179,6 @@ export function PlatformSummarySection({
             {/* 1/3 - First pair */}
             <div className="space-y-4 text-center">
               <StatusItem count={2} label="Doğrulama Bekliyor" icon />
-              <StatusItem count={1} label="Güncellenmeyi Bekliyor" icon />
               <StatusItem count={0} label="Hata" icon />
             </div>
 
