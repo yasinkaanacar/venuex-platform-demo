@@ -61,13 +61,13 @@ export function PlatformSummarySection({
             </div>
 
             {/* 1/3 - Verified/Unverified */}
-            <div className="space-y-4">
+            <div className="space-y-4 text-center">
               <StatusItem count={120} label="Verified" icon />
               <StatusItem count={6} label="Unverified" icon />
             </div>
 
             {/* 1/3 - Duplicated/Suspended */}
-            <div className="space-y-4">
+            <div className="space-y-4 text-center">
               <StatusItem count={4} label="Duplicated" icon />
               <StatusItem count={1} label="Suspended" icon />
             </div>
