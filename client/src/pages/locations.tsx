@@ -95,6 +95,10 @@ export default function LocationsPage() {
             onRowClick={handleRowClick}
             onEdit={handleEdit}
             filters={filters}
+            onManageFields={handleManageFields}
+            onAddNewLocation={handleAddNewLocation}
+            onUploadLocations={handleUploadLocations}
+            onFiltersChange={setFilters}
           />
         </div>
 
