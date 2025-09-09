@@ -87,8 +87,9 @@ const StarRating = ({ rating }: { rating: number }) => {
 
 export function BusinessMetricsSection() {
   return (
-    <div className="mx-6 mb-6">
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+    <Card className="mx-6 mb-6">
+      <CardContent className="p-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
         {/* Geojet Index */}
         <Card className="p-6 text-center">
           <CardContent className="p-0">
@@ -193,7 +194,8 @@ export function BusinessMetricsSection() {
             </div>
           </CardContent>
         </Card>
-      </div>
-    </div>
+        </div>
+      </CardContent>
+    </Card>
   );
 }
