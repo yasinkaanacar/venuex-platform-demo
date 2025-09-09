@@ -252,16 +252,6 @@ export function LocationsTable({ onRowClick, onEdit, filters, onManageFields, on
         
         {/* Business Profile Interactions Section */}
         <div className="border-t border-gray-200">
-          <div className="bg-[#f9fafb] p-6 flex justify-between items-center border-b border-gray-200">
-            <div className="flex items-center space-x-2">
-              <h3 className="text-lg font-semibold text-foreground">Business Profile Interactions</h3>
-              <Info className="w-4 h-4 text-gray-400" />
-            </div>
-            <button className="text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:hover:text-white font-medium bg-transparent border-none cursor-pointer flex items-center space-x-2">
-              <Calendar className="w-4 h-4" />
-              <span>August 2025</span>
-            </button>
-          </div>
           <div className="bg-[#f9fafb] p-6">
               {/* Tabs */}
               <div className="flex space-x-1 mb-6 bg-gray-100 dark:bg-gray-800 rounded-lg p-1">
