@@ -144,7 +144,6 @@ export default function LocationsPage() {
           <DataHealthAlerts 
             bannerMode={true}
             locationsPageMode={true}
-            context="locations"
           />
         </div>
 
@@ -180,7 +179,6 @@ export default function LocationsPage() {
             bannerMode={false}
             alwaysExpanded={true}
             locationsPageMode={true}
-            context="locations"
           />
         </div>
       </div>

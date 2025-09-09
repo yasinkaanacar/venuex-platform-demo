@@ -53,7 +53,6 @@ export default function Overview() {
             locations={overviewData?.locations}
             bannerMode={true}
             onScrollToBottom={scrollToBottom}
-            context="dashboard"
           />
         </div>
         
@@ -88,7 +87,6 @@ export default function Overview() {
                 locations={overviewData?.locations}
                 bannerMode={false}
                 alwaysExpanded={true}
-                context="dashboard"
               />
             </div>
           </div>
