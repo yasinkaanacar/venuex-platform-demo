@@ -2,7 +2,6 @@ import { useState } from "react";
 import { showToast } from "@/lib/toast";
 
 import { LocationsTable } from "@/components/locations/LocationsTable";
-import { BusinessProfileSection } from "@/components/locations/BusinessProfileSection";
 import { FieldManagementDialog } from "@/components/locations/FieldManagementDialog";
 import { PlatformSummarySection } from "@/components/locations/PlatformSummarySection";
 import DataQualityEnrichment from "@/components/overview/data-quality-enrichment";
@@ -102,8 +101,6 @@ export default function LocationsPage() {
           />
         </div>
 
-        {/* Business Profile Section */}
-        <BusinessProfileSection />
 
         {/* Data Quality Assessment & Data Enrichment Suggestions */}
         <div className="mx-6 mt-8">
