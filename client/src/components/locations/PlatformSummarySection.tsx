@@ -41,7 +41,7 @@ export function PlatformSummarySection({
   onManageFields, 
   onAddNewLocation, 
   onUploadLocations 
-}: PlatformSummarySectionProps = {}) {
+}: PlatformSummarySectionProps) {
   const [activePlatform, setActivePlatform] = useState(0);
 
   // Get current date and time
@@ -290,7 +290,7 @@ export function PlatformSummarySection({
           {/* Right side - Last update */}
           <div className="text-right">
             {/* Action Buttons */}
-            <div className="flex flex-col space-y-2"></div>
+            <div className="flex flex-col space-y-2">
               <Button
                 variant="outline"
                 size="sm"
