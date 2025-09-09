@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { showToast } from "@/lib/toast";
-import { FilterBar } from "@/components/locations/FilterBar";
 
 import { LocationsTable } from "@/components/locations/LocationsTable";
 import { BusinessProfileSection } from "@/components/locations/BusinessProfileSection";
@@ -77,14 +76,6 @@ export default function LocationsPage() {
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
-      {/* Filter Bar */}
-      <FilterBar
-        onManageFields={handleManageFields}
-        onAddNewLocation={handleAddNewLocation}
-        onUploadLocations={handleUploadLocations}
-        filters={filters}
-        onFiltersChange={setFilters}
-      />
       {/* Main Content */}
       <div className="pb-6 bg-[#ffffff]">
         {/* Data Health & Flow Banner */}
