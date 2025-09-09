@@ -78,7 +78,7 @@ export default function Overview() {
             <PerformanceChart filters={filters} onFiltersChange={setFilters} />
             <TopPerformingLocations filters={filters} onFiltersChange={setFilters} />
             <TopPerformingCampaigns filters={filters} onFiltersChange={setFilters} />
-            <DataQualityEnrichment />
+            <DataQualityEnrichment context="dashboard" />
             
             <div id="data-health-details">
               <DataHealthAlerts 

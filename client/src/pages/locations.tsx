@@ -170,7 +170,7 @@ export default function LocationsPage() {
 
         {/* Data Quality Assessment & Data Enrichment Suggestions */}
         <div className="mx-6 mt-8">
-          <DataQualityEnrichment />
+          <DataQualityEnrichment context="locations" />
         </div>
 
         {/* Alerts & Notifications (Expanded) */}
