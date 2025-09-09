@@ -52,8 +52,8 @@ export function PlatformSummarySection({
   const renderContent = () => {
     if (activePlatform === 1) { // Google Business Profile
       return (
-        <div className="p-8 bg-gray-50">
-          <div className="grid grid-cols-3 gap-8 items-center mb-8">
+        <div className="p-6 bg-gray-50">
+          <div className="grid grid-cols-3 gap-6 items-center mb-6">
             {/* 1/3 - Location count */}
             <div className="text-center">
               <div className="text-7xl font-bold text-gray-900 mb-2">131</div>
@@ -80,7 +80,7 @@ export function PlatformSummarySection({
               <div className="text-xs text-gray-400">Son 30 Gün</div>
             </div>
             
-            <div className="grid grid-cols-4 gap-8">
+            <div className="grid grid-cols-4 gap-6">
               <EngagementMetric 
                 value={423} 
                 label="Profile Views" 
@@ -109,8 +109,8 @@ export function PlatformSummarySection({
 
     if (activePlatform === 2) { // Meta Business
       return (
-        <div className="p-8 bg-gray-50">
-          <div className="grid grid-cols-3 gap-8 items-center mb-8">
+        <div className="p-6 bg-gray-50">
+          <div className="grid grid-cols-3 gap-6 items-center mb-6">
             {/* 1/3 - Location count */}
             <div className="text-center">
               <div className="text-7xl font-bold text-gray-900 mb-2">127</div>
@@ -135,7 +135,7 @@ export function PlatformSummarySection({
               <div className="text-xs text-gray-400">Son 30 Gün</div>
             </div>
             
-            <div className="grid grid-cols-4 gap-8">
+            <div className="grid grid-cols-4 gap-6">
               <EngagementMetric 
                 value={312} 
                 label="Page Views" 
@@ -164,8 +164,8 @@ export function PlatformSummarySection({
 
     if (activePlatform === 3) { // Apple Business Connect
       return (
-        <div className="p-8 bg-gray-50">
-          <div className="grid grid-cols-3 gap-8 items-center mb-8">
+        <div className="p-6 bg-gray-50">
+          <div className="grid grid-cols-3 gap-6 items-center mb-6">
             {/* 1/3 - Location count */}
             <div className="text-center">
               <div className="text-7xl font-bold text-gray-900 mb-2">98</div>
@@ -190,7 +190,7 @@ export function PlatformSummarySection({
               <div className="text-xs text-gray-400">Son 30 Gün</div>
             </div>
             
-            <div className="grid grid-cols-4 gap-8">
+            <div className="grid grid-cols-4 gap-6">
               <EngagementMetric 
                 value={256} 
                 label="Maps Views" 
@@ -219,8 +219,8 @@ export function PlatformSummarySection({
 
     if (activePlatform === 4) { // Yandex Maps
       return (
-        <div className="p-8 bg-gray-50">
-          <div className="grid grid-cols-3 gap-8 items-center mb-8">
+        <div className="p-6 bg-gray-50">
+          <div className="grid grid-cols-3 gap-6 items-center mb-6">
             {/* 1/3 - Location count */}
             <div className="text-center">
               <div className="text-7xl font-bold text-gray-900 mb-2">89</div>
@@ -245,7 +245,7 @@ export function PlatformSummarySection({
               <div className="text-xs text-gray-400">Son 30 Gün</div>
             </div>
             
-            <div className="grid grid-cols-4 gap-8">
+            <div className="grid grid-cols-4 gap-6">
               <EngagementMetric 
                 value={189} 
                 label="Profile Views" 
@@ -326,7 +326,7 @@ export function PlatformSummarySection({
         </div>
 
         {/* Business Metrics Card */}
-        <div className="mt-8 pt-6 border-t border-gray-200">
+        <div className="mt-6 pt-4 border-t border-gray-200">
           <BusinessMetricsSection />
         </div>
       </div>
@@ -334,7 +334,7 @@ export function PlatformSummarySection({
   };
 
   return (
-    <div className="mx-6 mb-6 bg-white rounded-lg border border-gray-200 overflow-hidden">
+    <div className="mx-4 mb-4 bg-white rounded-lg border border-gray-200 overflow-hidden">
       {/* Platform Tabs */}
       <div className="flex border-b border-gray-200">
         {platforms.map((platform, index) => (
