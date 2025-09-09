@@ -276,7 +276,7 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
                 
                 {/* Base connection lines - always visible */}
                 <g opacity="0.3">
-                  <path d="M 280 285 L 350 285 Q 375 285 375 260 L 375 225 Q 375 205 395 205 L 460 205" stroke="#9ca3af" strokeWidth="2" fill="none" strokeDasharray="5,5" />
+                  <path d={context === 'locations' ? "M 280 285 L 460 200" : "M 280 285 L 350 285 Q 375 285 375 260 L 375 225 Q 375 205 395 205 L 460 205"} stroke="#9ca3af" strokeWidth="2" fill="none" strokeDasharray="5,5" />
                   <path d="M 540 195 L 605 195 Q 625 195 625 175 L 625 140 Q 625 120 645 120 L 720 120" stroke="#9ca3af" strokeWidth="2" fill="none" strokeDasharray="5,5" />
                   <path d="M 540 200 L 720 200" stroke="#9ca3af" strokeWidth="2" fill="none" strokeDasharray="5,5" />
                   <path d="M 540 205 L 605 205 Q 625 205 625 225 L 625 260 Q 625 280 645 280 L 720 280" stroke="#9ca3af" strokeWidth="2" fill="none" strokeDasharray="5,5" />
@@ -285,7 +285,7 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
                 {/* Status-based colored lines */}
                 <g>
                   {/* Locations (Online - green line) */}
-                  <path d="M 280 285 L 350 285 Q 375 285 375 260 L 375 225 Q 375 205 395 205 L 460 205" stroke="#10b981" strokeWidth="3" fill="none" markerEnd="url(#arrow-success)" opacity="0.8" />
+                  <path d={context === 'locations' ? "M 280 285 L 460 200" : "M 280 285 L 350 285 Q 375 285 375 260 L 375 225 Q 375 205 395 205 L 460 205"} stroke="#10b981" strokeWidth="3" fill="none" markerEnd="url(#arrow-success)" opacity="0.8" />
                   
                   {/* VenueX to Location Platforms (Good sync status - green) */}
                   <path d="M 540 195 L 605 195 Q 625 195 625 175 L 625 140 Q 625 120 645 120 L 720 120" stroke="#10b981" strokeWidth="3" fill="none" markerEnd="url(#arrow-success)" opacity="0.8" />
@@ -298,7 +298,7 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
                 {/* Status-based animated flow overlays */}
                 <g>
                   {/* Locations active flow - healthy animation */}
-                  <path d="M 280 285 L 350 285 Q 375 285 375 260 L 375 225 Q 375 205 395 205 L 460 205" stroke="url(#flowActive)" strokeWidth="2" fill="none" opacity="0.9">
+                  <path d={context === 'locations' ? "M 280 285 L 460 200" : "M 280 285 L 350 285 Q 375 285 375 260 L 375 225 Q 375 205 395 205 L 460 205"} stroke="url(#flowActive)" strokeWidth="2" fill="none" opacity="0.9">
                     <animate attributeName="opacity" values="0.5;0.9;0.5" dur="2s" begin="0.3s" repeatCount="indefinite"/>
                   </path>
                   
