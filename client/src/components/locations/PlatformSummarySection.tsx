@@ -274,12 +274,12 @@ export function PlatformSummarySection({
 
     // Default layout for VenueX (index 0)
     return (
-      <div className="p-8 bg-gray-50">
+      <div className="p-4 bg-gray-50">
         <div className="grid grid-cols-4 gap-4 items-center">
           {/* 1/4 - Location count */}
           <div className="text-center">
-            <div className="text-7xl font-bold text-gray-900 mb-2">130</div>
-            <div className="text-lg text-gray-600">Lokasyon</div>
+            <div className="text-5xl font-bold text-gray-900 mb-1">130</div>
+            <div className="text-base text-gray-600">Lokasyon</div>
           </div>
 
           {/* 1/4 - Manage Posts */}
@@ -326,7 +326,7 @@ export function PlatformSummarySection({
         </div>
 
         {/* Business Metrics Card */}
-        <div className="mt-6 pt-4 border-t border-gray-200">
+        <div className="mt-3 pt-2 border-t border-gray-200">
           <BusinessMetricsSection />
         </div>
       </div>
