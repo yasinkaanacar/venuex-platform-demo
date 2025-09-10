@@ -31,13 +31,15 @@ export function BusinessMetricsSection() {
       <CardContent className="p-6">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-stretch">
           {/* Index Section - 1/3 */}
-          <div className="flex flex-col items-center text-center h-full">
-            <GaugeChart percentage={25} />
-            <h3 className="text-lg font-semibold text-gray-900 mb-2">Data Quality Index</h3>
-            <p className="text-sm text-gray-600 text-center leading-relaxed mb-6">
-              Tips will appear here on how to improve your online map presence and company performance
-            </p>
-            <Button variant="outline" className="w-full text-blue-600 hover:text-blue-700 mt-auto">
+          <div className="flex flex-col items-center text-center h-full justify-between">
+            <div className="flex flex-col items-center">
+              <GaugeChart percentage={25} />
+              <h3 className="text-lg font-semibold text-gray-900 mb-2">Data Quality Index</h3>
+              <p className="text-sm text-gray-600 text-center leading-relaxed mb-6">
+                Tips will appear here on how to improve your online map presence and company performance
+              </p>
+            </div>
+            <Button variant="outline" className="w-full text-blue-600 hover:text-blue-700">
               View details
             </Button>
           </div>
