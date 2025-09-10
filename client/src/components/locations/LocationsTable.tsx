@@ -240,7 +240,7 @@ export function LocationsTable({ onRowClick, onEdit, filters, onManageFields, on
       <div>
         {/* Title Header */}
         <div className="bg-[#f9fafb] py-2 px-6 flex justify-between items-center border-b border-gray-200">
-          <h3 className="text-lg font-semibold text-foreground">Locations & Performance</h3>
+          <h3 className="text-lg font-semibold text-foreground">Performance</h3>
           <Button
             variant="ghost"
             size="sm"
@@ -470,235 +470,235 @@ export function LocationsTable({ onRowClick, onEdit, filters, onManageFields, on
 
             
             
-            <CardContent className="bg-[#f9fafb] p-6">
-              <Card className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
-                <CardContent className="p-0">
-                  
-                  
-                  <div className="overflow-hidden">
-                    <Table>
-                      <TableHeader>
-                        <TableRow className="bg-slate-700 hover:bg-slate-700">
-                          <TableHead className="w-12 text-[#1a1a1a]">
+            <Card className="mx-6 mb-6 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
+              <CardContent className="p-0">
+                {/* Locations List Header */}
+                <div className="bg-[#f9fafb] py-2 pl-6 flex justify-between items-center border-b border-gray-200">
+                  <h3 className="text-lg font-semibold text-foreground">Locations List</h3>
+                </div>
+                
+                <div className="overflow-hidden">
+                  <Table>
+                    <TableHeader>
+                      <TableRow className="bg-slate-700 hover:bg-slate-700">
+                        <TableHead className="w-12 text-[#1a1a1a]">
+                          <Checkbox
+                            checked={isAllSelected}
+                            indeterminate={isIndeterminate}
+                            onChange={handleSelectAll}
+                            data-testid="select-all-locations"
+                          />
+                        </TableHead>
+                        <TableHead className="text-[#1a1a1a] font-medium">
+                          <div className="flex items-center space-x-1">
+                            <span>Store Code</span>
+                            <ChevronDown className="w-3 h-3" />
+                          </div>
+                        </TableHead>
+                        <TableHead className="text-[#1a1a1a] font-medium">Location Name</TableHead>
+                        <TableHead className="text-[#1a1a1a] font-medium">Business Status</TableHead>
+                        <TableHead className="text-[#1a1a1a] font-medium">
+                          <div className="flex items-center space-x-1">
+                            <span>POI</span>
+                            <Info className="w-3 h-3" />
+                          </div>
+                        </TableHead>
+                        <TableHead className="text-[#1a1a1a] font-medium">Platform Status</TableHead>
+                        <TableHead className="w-20"></TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {paginatedData.map((location) => (
+                        <TableRow
+                          key={location.id}
+                          className="hover:bg-gray-50 dark:hover:bg-gray-800 border-b"
+                          data-testid={`location-row-${location.id}`}
+                        >
+                          <TableCell onClick={(e) => e.stopPropagation()}>
                             <Checkbox
-                              checked={isAllSelected}
-                              indeterminate={isIndeterminate}
-                              onChange={handleSelectAll}
-                              data-testid="select-all-locations"
+                              checked={selectedIds.has(location.id)}
+                              onChange={(event) => handleSelectRow(location.id, event)}
+                              data-testid={`select-location-${location.id}`}
                             />
-                          </TableHead>
-                          <TableHead className="text-[#1a1a1a] font-medium">
-                            <div className="flex items-center space-x-1">
-                              <span>Store Code</span>
-                              <ChevronDown className="w-3 h-3" />
+                          </TableCell>
+                          <TableCell className="font-medium text-blue-600">
+                            {location.storeCode}
+                          </TableCell>
+                          <TableCell>
+                            <div>
+                              <div className="font-medium text-gray-900">{location.locationName}</div>
+                              <div className="text-sm text-gray-500">
+                                {location.locationName.includes('Eskişehir') ? 'Eskişehir\nTepetaş' : 
+                                 location.locationName.includes('Denizli') ? 'Denizli\nCamlik' :
+                                 location.locationName.includes('Çanakkale') ? 'Çanakkale\nMerkez' :
+                                 location.locationName.includes('Adapazarı Agora') ? 'Sakarya\nSerdivan' :
+                                 location.locationName.includes('Diyarbakır') ? 'Diyarbakır\nYenişehir' :
+                                 location.locationName.includes('Van') ? 'Van\nMerkez' :
+                                 location.locationName.includes('Adapazarı Serdivan') ? 'Sakarya\nSerdivan' :
+                                 location.locationName.includes('Antalya') ? 'Antalya\nAlanya' :
+                                 location.locationName.includes('Şanlıurfa') ? 'Şanlıurfa\nMerkez' :
+                                 location.locationName.includes('Tekirdağ') ? 'Tekirdağ\nCorlu' : 'Location Details'}
+                              </div>
                             </div>
-                          </TableHead>
-                          <TableHead className="text-[#1a1a1a] font-medium">Location Name</TableHead>
-                          <TableHead className="text-[#1a1a1a] font-medium">Business Status</TableHead>
-                          <TableHead className="text-[#1a1a1a] font-medium">
+                          </TableCell>
+                          <TableCell>
+                            <Badge className="bg-blue-600 hover:bg-blue-600 text-white">
+                              {location.businessStatus}
+                            </Badge>
+                          </TableCell>
+                          <TableCell>
                             <div className="flex items-center space-x-1">
-                              <span>POI</span>
-                              <Info className="w-3 h-3" />
+                              <CheckCircle className="w-4 h-4 text-green-500" />
+                              <span className="text-green-600 text-sm">{location.poiStatus}</span>
                             </div>
-                          </TableHead>
-                          <TableHead className="text-[#1a1a1a] font-medium">Platform Status</TableHead>
-                          <TableHead className="w-20"></TableHead>
+                          </TableCell>
+                          <TableCell>
+                            <div className="flex items-center space-x-2">
+                              <div className="flex items-center space-x-1">
+                                {location.platforms.slice(0, 4).map((platform, index) => (
+                                  <div key={index}>
+                                    {getPlatformIcon(platform)}
+                                  </div>
+                                ))}
+                              </div>
+                              <AlertTriangle className="w-4 h-4 text-orange-500" />
+                            </div>
+                          </TableCell>
+                          <TableCell>
+                            <div className="flex items-center space-x-1">
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                onClick={() => onEdit(location.id)}
+                                className="h-8 w-8 p-0"
+                              >
+                                <Edit className="h-4 w-4" />
+                              </Button>
+                              <DropdownMenu>
+                                <DropdownMenuTrigger asChild>
+                                  <Button
+                                    variant="ghost"
+                                    size="sm"
+                                    className="h-8 w-8 p-0"
+                                    data-testid={`actions-menu-${location.id}`}
+                                  >
+                                    <MoreHorizontal className="h-4 w-4" />
+                                  </Button>
+                                </DropdownMenuTrigger>
+                                <DropdownMenuContent align="end">
+                                  <DropdownMenuItem onClick={() => onRowClick(location.id)}>
+                                    <Eye className="mr-2 h-4 w-4" />
+                                    View Details
+                                  </DropdownMenuItem>
+                                  <DropdownMenuItem onClick={() => onEdit(location.id)}>
+                                    <Edit className="mr-2 h-4 w-4" />
+                                    Edit
+                                  </DropdownMenuItem>
+                                </DropdownMenuContent>
+                              </DropdownMenu>
+                            </div>
+                          </TableCell>
                         </TableRow>
-                      </TableHeader>
-                      <TableBody>
-                        {paginatedData.map((location) => (
-                          <TableRow
-                            key={location.id}
-                            className="hover:bg-gray-50 dark:hover:bg-gray-800 border-b"
-                            data-testid={`location-row-${location.id}`}
-                          >
-                            <TableCell onClick={(e) => e.stopPropagation()}>
-                              <Checkbox
-                                checked={selectedIds.has(location.id)}
-                                onChange={(event) => handleSelectRow(location.id, event)}
-                                data-testid={`select-location-${location.id}`}
-                              />
-                            </TableCell>
-                            <TableCell className="font-medium text-blue-600">
-                              {location.storeCode}
-                            </TableCell>
-                            <TableCell>
-                              <div>
-                                <div className="font-medium text-gray-900">{location.locationName}</div>
-                                <div className="text-sm text-gray-500">
-                                  {location.locationName.includes('Eskişehir') ? 'Eskişehir\nTepetaş' : 
-                                   location.locationName.includes('Denizli') ? 'Denizli\nCamlik' :
-                                   location.locationName.includes('Çanakkale') ? 'Çanakkale\nMerkez' :
-                                   location.locationName.includes('Adapazarı Agora') ? 'Sakarya\nSerdivan' :
-                                   location.locationName.includes('Diyarbakır') ? 'Diyarbakır\nYenişehir' :
-                                   location.locationName.includes('Van') ? 'Van\nMerkez' :
-                                   location.locationName.includes('Adapazarı Serdivan') ? 'Sakarya\nSerdivan' :
-                                   location.locationName.includes('Antalya') ? 'Antalya\nAlanya' :
-                                   location.locationName.includes('Şanlıurfa') ? 'Şanlıurfa\nMerkez' :
-                                   location.locationName.includes('Tekirdağ') ? 'Tekirdağ\nCorlu' : 'Location Details'}
-                                </div>
-                              </div>
-                            </TableCell>
-                            <TableCell>
-                              <Badge className="bg-blue-600 hover:bg-blue-600 text-white">
-                                {location.businessStatus}
-                              </Badge>
-                            </TableCell>
-                            <TableCell>
-                              <div className="flex items-center space-x-1">
-                                <CheckCircle className="w-4 h-4 text-green-500" />
-                                <span className="text-green-600 text-sm">{location.poiStatus}</span>
-                              </div>
-                            </TableCell>
-                            <TableCell>
-                              <div className="flex items-center space-x-2">
-                                <div className="flex items-center space-x-1">
-                                  {location.platforms.slice(0, 4).map((platform, index) => (
-                                    <div key={index}>
-                                      {getPlatformIcon(platform)}
-                                    </div>
-                                  ))}
-                                </div>
-                                <AlertTriangle className="w-4 h-4 text-orange-500" />
-                              </div>
-                            </TableCell>
-                            <TableCell>
-                              <div className="flex items-center space-x-1">
-                                <Button
-                                  variant="ghost"
-                                  size="sm"
-                                  onClick={() => onEdit(location.id)}
-                                  className="h-8 w-8 p-0"
-                                >
-                                  <Edit className="h-4 w-4" />
-                                </Button>
-                                <DropdownMenu>
-                                  <DropdownMenuTrigger asChild>
-                                    <Button
-                                      variant="ghost"
-                                      size="sm"
-                                      className="h-8 w-8 p-0"
-                                      data-testid={`actions-menu-${location.id}`}
-                                    >
-                                      <MoreHorizontal className="h-4 w-4" />
-                                    </Button>
-                                  </DropdownMenuTrigger>
-                                  <DropdownMenuContent align="end">
-                                    <DropdownMenuItem onClick={() => onRowClick(location.id)}>
-                                      <Eye className="mr-2 h-4 w-4" />
-                                      View Details
-                                    </DropdownMenuItem>
-                                    <DropdownMenuItem onClick={() => onEdit(location.id)}>
-                                      <Edit className="mr-2 h-4 w-4" />
-                                      Edit
-                                    </DropdownMenuItem>
-                                  </DropdownMenuContent>
-                                </DropdownMenu>
-                              </div>
-                            </TableCell>
-                          </TableRow>
-                        ))}
-                      </TableBody>
-                    </Table>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </div>
+                
+                {/* Bottom Pagination */}
+                <div className="flex items-center justify-between p-4 border-t">
+                  <div className="flex items-center space-x-4">
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <Button variant="outline" size="sm" className="flex items-center space-x-2">
+                          <span>Bulk Actions</span>
+                          <ChevronDown className="w-4 h-4" />
+                        </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent>
+                        <DropdownMenuItem>Export Selected</DropdownMenuItem>
+                        <DropdownMenuItem>Delete Selected</DropdownMenuItem>
+                        <DropdownMenuItem>Update Status</DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                    
+                    <Button variant="outline" size="sm" className="flex items-center space-x-2">
+                      <Download className="w-4 h-4" />
+                      <span>Export</span>
+                    </Button>
                   </div>
                   
-                  {/* Bottom Pagination */}
-                  <div className="flex items-center justify-between p-4 border-t">
-                    <div className="flex items-center space-x-4">
-                      <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                          <Button variant="outline" size="sm" className="flex items-center space-x-2">
-                            <span>Bulk Actions</span>
-                            <ChevronDown className="w-4 h-4" />
-                          </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent>
-                          <DropdownMenuItem>Export Selected</DropdownMenuItem>
-                          <DropdownMenuItem>Delete Selected</DropdownMenuItem>
-                          <DropdownMenuItem>Update Status</DropdownMenuItem>
-                        </DropdownMenuContent>
-                      </DropdownMenu>
-                      
-                      <Button variant="outline" size="sm" className="flex items-center space-x-2">
-                        <Download className="w-4 h-4" />
-                        <span>Export</span>
-                      </Button>
+                  <div className="flex items-center space-x-4">
+                    <div className="flex items-center space-x-2">
+                      <span className="text-sm text-gray-600 whitespace-nowrap">Rows per page:</span>
+                      <Select value={rowsPerPage.toString()} onValueChange={(value) => setRowsPerPage(Number(value))}>
+                        <SelectTrigger className="w-16 h-8">
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="5">5</SelectItem>
+                          <SelectItem value="10">10</SelectItem>
+                          <SelectItem value="25">25</SelectItem>
+                          <SelectItem value="50">50</SelectItem>
+                        </SelectContent>
+                      </Select>
                     </div>
                     
-                    <div className="flex items-center space-x-4">
-                      <div className="flex items-center space-x-2">
-                        <span className="text-sm text-gray-600 whitespace-nowrap">Rows per page:</span>
-                        <Select value={rowsPerPage.toString()} onValueChange={(value) => setRowsPerPage(Number(value))}>
-                          <SelectTrigger className="w-16 h-8">
-                            <SelectValue />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="5">5</SelectItem>
-                            <SelectItem value="10">10</SelectItem>
-                            <SelectItem value="25">25</SelectItem>
-                            <SelectItem value="50">50</SelectItem>
-                          </SelectContent>
-                        </Select>
-                      </div>
+                    {/* Pagination */}
+                    <div className="flex items-center space-x-1">
+                      <Button 
+                        variant="ghost" 
+                        size="sm" 
+                        onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
+                        disabled={currentPage === 1}
+                      >
+                        ‹
+                      </Button>
                       
-                      {/* Pagination */}
-                      <div className="flex items-center space-x-1">
-                        <Button 
-                          variant="ghost" 
-                          size="sm" 
-                          onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
-                          disabled={currentPage === 1}
-                        >
-                          ‹
-                        </Button>
-                        
-                        {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
-                          const page = i + 1;
-                          return (
-                            <Button
-                              key={page}
-                              variant={currentPage === page ? "default" : "ghost"}
-                              size="sm"
-                              onClick={() => setCurrentPage(page)}
-                              className="w-8 h-8 p-0"
-                            >
-                              {page}
-                            </Button>
-                          );
-                        })}
-                        
-                        {totalPages > 5 && (
-                          <>
-                            <span className="text-sm text-gray-500">...</span>
-                            <Button
-                              variant="ghost"
-                              size="sm"
-                              onClick={() => setCurrentPage(14)}
-                              className="w-8 h-8 p-0"
-                            >
-                              14
-                            </Button>
-                          </>
-                        )}
-                        
-                        <Button 
-                          variant="ghost" 
-                          size="sm" 
-                          onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}
-                          disabled={currentPage === totalPages}
-                        >
-                          ›
-                        </Button>
-                      </div>
+                      {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
+                        const page = i + 1;
+                        return (
+                          <Button
+                            key={page}
+                            variant={currentPage === page ? "default" : "ghost"}
+                            size="sm"
+                            onClick={() => setCurrentPage(page)}
+                            className="w-8 h-8 p-0"
+                          >
+                            {page}
+                          </Button>
+                        );
+                      })}
+                      
+                      {totalPages > 5 && (
+                        <>
+                          <span className="text-sm text-gray-500">...</span>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => setCurrentPage(14)}
+                            className="w-8 h-8 p-0"
+                          >
+                            14
+                          </Button>
+                        </>
+                      )}
+                      
+                      <Button 
+                        variant="ghost" 
+                        size="sm" 
+                        onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}
+                        disabled={currentPage === totalPages}
+                      >
+                        ›
+                      </Button>
                     </div>
                   </div>
-                </CardContent>
-              </Card>
-            </CardContent>
+                </div>
+              </CardContent>
+            </Card>
           </>
         )}
       </div>
-
     </Card>
   );
 }
