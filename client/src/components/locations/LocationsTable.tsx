@@ -424,7 +424,7 @@ export function LocationsTable({ onRowClick, onEdit, filters, onManageFields, on
             </div>
 
             
-            
+            <div></div>
             <LocationDataTable
               data={filteredData}
               onRowClick={onRowClick}
@@ -433,7 +433,7 @@ export function LocationsTable({ onRowClick, onEdit, filters, onManageFields, on
           </>
         )}
       </div>
-
+    </div>
     </Card>
   );
 }
