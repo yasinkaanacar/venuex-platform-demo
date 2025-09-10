@@ -239,7 +239,7 @@ export function LocationsTable({ onRowClick, onEdit, filters, onManageFields, on
       {/* First Div - Locations Table */}
       <div>
         {/* Title Header */}
-        <div className="bg-[#f9fafb] p-6 flex justify-between items-center border-b border-gray-200">
+        <div className="bg-[#f9fafb] py-2 px-6 flex justify-between items-center border-b border-gray-200">
           <h3 className="text-lg font-semibold text-foreground">Locations & Performance</h3>
           <Button
             variant="ghost"
