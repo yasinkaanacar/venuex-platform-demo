@@ -162,6 +162,10 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
                     refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
                     <polygon points="0,0 0,6 8,3" fill="#f59e0b" />
                   </marker>
+                  <marker id="arrow-error" markerWidth="8" markerHeight="6" 
+                    refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+                    <polygon points="0,0 0,6 8,3" fill="#ef4444" />
+                  </marker>
                   
                   {/* Smooth animated gradients for data flow */}
                   <linearGradient id="flowActive" x1="0%" y1="0%" x2="100%" y2="0%">
@@ -221,6 +225,11 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
                 
                 {/* Base connection lines - always visible */}
                 <g opacity="0.3">
+                  {/* Inventory to VenueX */}
+                  <path d="M 280 165 L 350 165 Q 375 165 375 180 L 375 195 Q 375 205 395 205 L 460 205" stroke="#9ca3af" strokeWidth="2" fill="none" strokeDasharray="5,5" />
+                  {/* Store Sales to VenueX */}
+                  <path d="M 280 225 L 350 225 Q 375 225 375 215 L 375 205 Q 375 205 395 205 L 460 205" stroke="#9ca3af" strokeWidth="2" fill="none" strokeDasharray="5,5" />
+                  {/* Locations to VenueX */}
                   <path d="M 280 285 L 350 285 Q 375 285 375 260 L 375 225 Q 375 205 395 205 L 460 205" stroke="#9ca3af" strokeWidth="2" fill="none" strokeDasharray="5,5" />
                   <path d="M 540 195 L 605 195 Q 625 195 625 175 L 625 140 Q 625 120 645 120 L 720 120" stroke="#9ca3af" strokeWidth="2" fill="none" strokeDasharray="5,5" />
                   <path d="M 540 200 L 720 200" stroke="#9ca3af" strokeWidth="2" fill="none" strokeDasharray="5,5" />
@@ -229,6 +238,10 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
                 
                 {/* Status-based colored lines */}
                 <g>
+                  {/* Inventory (Error - red line) */}
+                  <path d="M 280 165 L 350 165 Q 375 165 375 180 L 375 195 Q 375 205 395 205 L 460 205" stroke="#ef4444" strokeWidth="3" fill="none" markerEnd="url(#arrow-error)" opacity="0.8" />
+                  {/* Store Sales (Online - green line) */}
+                  <path d="M 280 225 L 350 225 Q 375 225 375 215 L 375 205 Q 375 205 395 205 L 460 205" stroke="#10b981" strokeWidth="3" fill="none" markerEnd="url(#arrow-success)" opacity="0.8" />
                   {/* Locations (Online - green line) */}
                   <path d="M 280 285 L 350 285 Q 375 285 375 260 L 375 225 Q 375 205 395 205 L 460 205" stroke="#10b981" strokeWidth="3" fill="none" markerEnd="url(#arrow-success)" opacity="0.8" />
                   
@@ -242,6 +255,14 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
                 
                 {/* Status-based animated flow overlays */}
                 <g>
+                  {/* Inventory error flow - error animation */}
+                  <path d="M 280 165 L 350 165 Q 375 165 375 180 L 375 195 Q 375 205 395 205 L 460 205" stroke="url(#flowError)" strokeWidth="2" fill="none" opacity="0.7">
+                    <animate attributeName="opacity" values="0.3;0.7;0.3" dur="3s" begin="0.1s" repeatCount="indefinite"/>
+                  </path>
+                  {/* Store Sales active flow - healthy animation */}
+                  <path d="M 280 225 L 350 225 Q 375 225 375 215 L 375 205 Q 375 205 395 205 L 460 205" stroke="url(#flowActive)" strokeWidth="2" fill="none" opacity="0.8">
+                    <animate attributeName="opacity" values="0.4;0.8;0.4" dur="2s" begin="0.5s" repeatCount="indefinite"/>
+                  </path>
                   {/* Locations active flow - healthy animation */}
                   <path d="M 280 285 L 350 285 Q 375 285 375 260 L 375 225 Q 375 205 395 205 L 460 205" stroke="url(#flowActive)" strokeWidth="2" fill="none" opacity="0.9">
                     <animate attributeName="opacity" values="0.5;0.9;0.5" dur="2s" begin="0.3s" repeatCount="indefinite"/>
