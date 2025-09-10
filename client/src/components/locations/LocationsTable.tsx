@@ -263,6 +263,11 @@ export function LocationsTable({ onRowClick, onEdit, filters, onManageFields, on
             
             {/* Business Profile Interactions Section - First Part */}
             <div className="border-t border-gray-200">
+              {/* Business Profile Interactions Header */}
+              <div className="bg-[#f9fafb] py-2 px-6 flex justify-between items-center border-b border-gray-200">
+                <h3 className="text-lg font-semibold text-foreground">Business Profile Interactions</h3>
+              </div>
+              
               <div className="bg-[#f9fafb] p-6">
                   {/* Tabs */}
                   <div className="flex space-x-1 mb-6 bg-gray-100 dark:bg-gray-800 rounded-lg p-1">
