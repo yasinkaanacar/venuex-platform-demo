@@ -190,256 +190,256 @@ export function LocationsTable({ onRowClick, onEdit, filters, onManageFields, on
 
 
   return (
-    <Card className="mx-6 mb-6 shadow-none border-gray-200 dark:border-gray-700">
-      {/* First Div - Locations Table */}
-      <div>
-        {/* Title Header */}
-        <div className="bg-[#f9fafb] py-2 px-6 flex justify-between items-center border-b border-gray-200">
-          <h3 className="text-lg font-semibold text-foreground">Locations & Performance</h3>
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={() => setIsExpanded(!isExpanded)}
-            className="h-8 w-8 p-0"
-          >
-            {isExpanded ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
-          </Button>
-        </div>
-        {isExpanded && (
-          <>
-            {/* Filter Bar */}
-            <FilterBar
-              onManageFields={onManageFields}
-              onAddNewLocation={onAddNewLocation}
-              onUploadLocations={onUploadLocations}
-              filters={filters}
-              onFiltersChange={onFiltersChange}
-            />
-            
-            {/* Business Profile Interactions Section - First Part */}
-            <div className="border-t border-gray-200">
-              {/* Business Profile Interactions Header */}
-              <div className="bg-[#f9fafb] py-2 px-6 flex justify-between items-center border-b border-gray-200">
-                <h3 className="text-lg font-semibold text-foreground">Business Profile Interactions</h3>
-              </div>
+    <>
+      <Card className="mx-6 mb-6 shadow-none border-gray-200 dark:border-gray-700">
+        {/* First Div - Locations Table */}
+        <div>
+          {/* Title Header */}
+          <div className="bg-[#f9fafb] py-2 px-6 flex justify-between items-center border-b border-gray-200">
+            <h3 className="text-lg font-semibold text-foreground">Locations & Performance</h3>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => setIsExpanded(!isExpanded)}
+              className="h-8 w-8 p-0"
+            >
+              {isExpanded ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
+            </Button>
+          </div>
+          {isExpanded && (
+            <>
+              {/* Filter Bar */}
+              <FilterBar
+                onManageFields={onManageFields}
+                onAddNewLocation={onAddNewLocation}
+                onUploadLocations={onUploadLocations}
+                filters={filters}
+                onFiltersChange={onFiltersChange}
+              />
               
-              <div className="bg-[#f9fafb] p-6">
-                <Card className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
-                  <CardContent className="p-6">
-                    {/* Tabs */}
-                    <div className="flex space-x-1 mb-6 bg-gray-100 dark:bg-gray-800 rounded-lg p-1">
-                      {tabs.map((tab, index) => (
-                        <button
-                          key={index}
-                          onClick={() => setActiveTab(index)}
-                          className={`flex-1 px-4 py-2 rounded-md text-sm font-medium transition-colors ${
-                            activeTab === index
-                              ? 'bg-white dark:bg-gray-700 text-blue-600 dark:text-blue-400 shadow-sm'
-                              : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
-                          }`}
-                        >
-                          <div className="text-center">
-                            <div className="font-medium">{tab.label}</div>
-                            <div className="text-xs text-gray-500">({tab.value})</div>
-                          </div>
-                        </button>
-                      ))}
-                    </div>
-
-                    {/* Main Metrics */}
-                    <div className="mb-6">
-                      <div className="flex items-baseline space-x-4 mb-2">
-                        <div className="flex items-center space-x-2">
-                          <div className="w-3 h-3 bg-blue-500 rounded-full"></div>
-                          <span className="text-2xl font-bold text-gray-900 dark:text-white">62,006</span>
-                          <span className="text-sm text-gray-600 dark:text-gray-400">Current</span>
-                        </div>
-                        <div className="flex items-center space-x-2">
-                          <div className="w-3 h-3 bg-gray-400 rounded-full"></div>
-                          <span className="text-lg text-gray-600 dark:text-gray-400">63,615</span>
-                          <span className="text-sm text-gray-600 dark:text-gray-400">Previous</span>
-                        </div>
-                        <Badge variant="destructive" className="bg-red-100 text-red-800 hover:bg-red-100">
-                          -2.5%
-                        </Badge>
-                      </div>
-                      <div className="text-sm text-gray-500 mb-4">
-                        July 2025 vs August 2025
-                      </div>
-                    </div>
-
-                    {/* Chart */}
-                    <div className="h-64">
-                      <ResponsiveContainer width="100%" height="100%">
-                        <LineChart data={chartData}>
-                          <XAxis 
-                            dataKey="name" 
-                            axisLine={false}
-                            tickLine={false}
-                            className="text-xs text-gray-500"
-                          />
-                          <YAxis 
-                            axisLine={false}
-                            tickLine={false}
-                            className="text-xs text-gray-500"
-                          />
-                          <Line 
-                            type="monotone" 
-                            dataKey="current" 
-                            stroke="#3b82f6" 
-                            strokeWidth={2}
-                            dot={false}
-                          />
-                          <Line 
-                            type="monotone" 
-                            dataKey="previous" 
-                            stroke="#9ca3af" 
-                            strokeWidth={2}
-                            dot={false}
-                          />
-                        </LineChart>
-                      </ResponsiveContainer>
-                    </div>
-                  </CardContent>
-                </Card>
-              </div>
-            </div>
-
-            {/* Profile Views and Total Searches Section - Second Part */}
-            <div className="border-t border-gray-200">
-              <div className="bg-[#f9fafb] p-6">
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                  {/* Profile Views */}
+              {/* Business Profile Interactions Section - First Part */}
+              <div className="border-t border-gray-200">
+                {/* Business Profile Interactions Header */}
+                <div className="bg-[#f9fafb] py-2 px-6 flex justify-between items-center border-b border-gray-200">
+                  <h3 className="text-lg font-semibold text-foreground">Business Profile Interactions</h3>
+                </div>
+                
+                <div className="bg-[#f9fafb] p-6">
                   <Card className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
                     <CardContent className="p-6">
-                      <div className="space-y-4">
-                        <div className="flex items-center justify-between">
-                          <h4 className="font-medium text-gray-900 dark:text-white">Profile views</h4>
-                          <div className="flex items-center space-x-2">
-                            <span className="text-lg font-semibold">1,716,216</span>
-                            <Badge className="bg-green-100 text-green-800 hover:bg-green-100">
-                              <TrendingUp className="w-3 h-3 mr-1" />
-                              +82.4%
-                            </Badge>
-                          </div>
-                        </div>
-                        <div className="text-sm text-gray-600 dark:text-gray-400 mb-4">
-                          July 2025 vs August 2025
-                        </div>
-                        
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                          {/* Pie Chart */}
-                          <div className="flex items-center justify-center">
-                            <div className="w-32 h-32">
-                              <ResponsiveContainer width="100%" height="100%">
-                                <PieChart>
-                                  <Pie
-                                    data={platformData}
-                                    cx="50%"
-                                    cy="50%"
-                                    innerRadius={25}
-                                    outerRadius={60}
-                                    dataKey="value"
-                                  >
-                                    {platformData.map((entry, index) => (
-                                      <Cell key={`cell-${index}`} fill={entry.color} />
-                                    ))}
-                                  </Pie>
-                                </PieChart>
-                              </ResponsiveContainer>
+                      {/* Tabs */}
+                      <div className="flex space-x-1 mb-6 bg-gray-100 dark:bg-gray-800 rounded-lg p-1">
+                        {tabs.map((tab, index) => (
+                          <button
+                            key={index}
+                            onClick={() => setActiveTab(index)}
+                            className={`flex-1 px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+                              activeTab === index
+                                ? 'bg-white dark:bg-gray-700 text-blue-600 dark:text-blue-400 shadow-sm'
+                                : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
+                            }`}
+                          >
+                            <div className="text-center">
+                              <div className="font-medium">{tab.label}</div>
+                              <div className="text-xs text-gray-500">({tab.value})</div>
                             </div>
-                          </div>
-
-                          {/* Platform Breakdown */}
-                          <div className="space-y-2">
-                            <h5 className="text-sm font-medium text-gray-900 dark:text-white mb-3">
-                              Platform and device breakdown that people used to find your profile
-                            </h5>
-                            {platformData.map((item, index) => (
-                              <div key={index} className="flex items-center justify-between text-sm">
-                                <div className="flex items-center space-x-2">
-                                  <div className="w-3 h-3 rounded-full" style={{ backgroundColor: item.color }}></div>
-                                  <span className="text-gray-600 dark:text-gray-400">{item.name}</span>
-                                </div>
-                                <div className="flex items-center space-x-2">
-                                  <span className="font-medium text-gray-900 dark:text-white">{item.count}</span>
-                                  <span className="text-gray-500">{item.value}%</span>
-                                </div>
-                              </div>
-                            ))}
-                          </div>
-                        </div>
+                          </button>
+                        ))}
                       </div>
-                    </CardContent>
-                  </Card>
 
-                  {/* Total Searches */}
-                  <Card className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
-                    <CardContent className="p-6">
-                      <div className="space-y-4">
-                        <div className="flex items-center justify-between">
-                          <h4 className="font-medium text-gray-900 dark:text-white">Total searches</h4>
+                      {/* Main Metrics */}
+                      <div className="mb-6">
+                        <div className="flex items-baseline space-x-4 mb-2">
                           <div className="flex items-center space-x-2">
-                            <span className="text-lg font-semibold">1,230,916</span>
-                            <Badge className="bg-green-100 text-green-800 hover:bg-green-100">
-                              <TrendingUp className="w-3 h-3 mr-1" />
-                              +88.4%
-                            </Badge>
+                            <div className="w-3 h-3 bg-blue-500 rounded-full"></div>
+                            <span className="text-2xl font-bold text-gray-900 dark:text-white">62,006</span>
+                            <span className="text-sm text-gray-600 dark:text-gray-400">Current</span>
                           </div>
+                          <div className="flex items-center space-x-2">
+                            <div className="w-3 h-3 bg-gray-400 rounded-full"></div>
+                            <span className="text-lg text-gray-600 dark:text-gray-400">63,615</span>
+                            <span className="text-sm text-gray-600 dark:text-gray-400">Previous</span>
+                          </div>
+                          <Badge variant="destructive" className="bg-red-100 text-red-800 hover:bg-red-100">
+                            -2.5%
+                          </Badge>
                         </div>
-                        <div className="text-sm text-gray-600 dark:text-gray-400 mb-4">
+                        <div className="text-sm text-gray-500 mb-4">
                           July 2025 vs August 2025
                         </div>
-                        
-                        <div className="space-y-4">
-                          <h5 className="text-sm font-medium text-gray-900 dark:text-white">
-                            Search terms breakdown that showed your Business Profile in the search results
-                          </h5>
-                          
-                          <div className="space-y-3">
-                            {searchTerms.map((item, index) => (
-                              <div key={index} className="flex items-center justify-between py-2">
-                                <div className="flex items-center space-x-3">
-                                  <span className="w-6 h-6 bg-gray-100 dark:bg-gray-700 rounded-full flex items-center justify-center text-xs font-medium">
-                                    {index + 1}
-                                  </span>
-                                  <span className="text-sm text-gray-900 dark:text-white">{item.term}</span>
-                                </div>
-                                <span className="text-sm font-medium text-gray-900 dark:text-white">
-                                  {item.count}
-                                </span>
-                              </div>
-                            ))}
-                          </div>
-                          
-                          <Button variant="outline" className="w-full mt-4">
-                            See More
-                          </Button>
-                        </div>
+                      </div>
+
+                      {/* Chart */}
+                      <div className="h-64">
+                        <ResponsiveContainer width="100%" height="100%">
+                          <LineChart data={chartData}>
+                            <XAxis 
+                              dataKey="name" 
+                              axisLine={false}
+                              tickLine={false}
+                              className="text-xs text-gray-500"
+                            />
+                            <YAxis 
+                              axisLine={false}
+                              tickLine={false}
+                              className="text-xs text-gray-500"
+                            />
+                            <Line 
+                              type="monotone" 
+                              dataKey="current" 
+                              stroke="#3b82f6" 
+                              strokeWidth={2}
+                              dot={false}
+                            />
+                            <Line 
+                              type="monotone" 
+                              dataKey="previous" 
+                              stroke="#9ca3af" 
+                              strokeWidth={2}
+                              dot={false}
+                            />
+                          </LineChart>
+                        </ResponsiveContainer>
                       </div>
                     </CardContent>
                   </Card>
                 </div>
               </div>
-            </div>
 
-            {/* Locations Data Table Section - Standalone Card */}
-            <div className="border-t border-gray-200">
-              <div className="bg-[#f9fafb] p-6">
-                <Card className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
-                  <CardContent className="p-0">
-                    <LocationDataTable
-                      data={filteredData}
-                      onRowClick={onRowClick}
-                      onEdit={onEdit}
-                    />
-                  </CardContent>
-                </Card>
+              {/* Profile Views and Total Searches Section - Second Part */}
+              <div className="border-t border-gray-200">
+                <div className="bg-[#f9fafb] p-6">
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    {/* Profile Views */}
+                    <Card className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
+                      <CardContent className="p-6">
+                        <div className="space-y-4">
+                          <div className="flex items-center justify-between">
+                            <h4 className="font-medium text-gray-900 dark:text-white">Profile views</h4>
+                            <div className="flex items-center space-x-2">
+                              <span className="text-lg font-semibold">1,716,216</span>
+                              <Badge className="bg-green-100 text-green-800 hover:bg-green-100">
+                                <TrendingUp className="w-3 h-3 mr-1" />
+                                +82.4%
+                              </Badge>
+                            </div>
+                          </div>
+                          <div className="text-sm text-gray-600 dark:text-gray-400 mb-4">
+                            July 2025 vs August 2025
+                          </div>
+                          
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            {/* Pie Chart */}
+                            <div className="flex items-center justify-center">
+                              <div className="w-32 h-32">
+                                <ResponsiveContainer width="100%" height="100%">
+                                  <PieChart>
+                                    <Pie
+                                      data={platformData}
+                                      cx="50%"
+                                      cy="50%"
+                                      innerRadius={25}
+                                      outerRadius={60}
+                                      dataKey="value"
+                                    >
+                                      {platformData.map((entry, index) => (
+                                        <Cell key={`cell-${index}`} fill={entry.color} />
+                                      ))}
+                                    </Pie>
+                                  </PieChart>
+                                </ResponsiveContainer>
+                              </div>
+                            </div>
+
+                            {/* Platform Breakdown */}
+                            <div className="space-y-2">
+                              <h5 className="text-sm font-medium text-gray-900 dark:text-white mb-3">
+                                Platform and device breakdown that people used to find your profile
+                              </h5>
+                              {platformData.map((item, index) => (
+                                <div key={index} className="flex items-center justify-between text-sm">
+                                  <div className="flex items-center space-x-2">
+                                    <div className="w-3 h-3 rounded-full" style={{ backgroundColor: item.color }}></div>
+                                    <span className="text-gray-600 dark:text-gray-400">{item.name}</span>
+                                  </div>
+                                  <div className="flex items-center space-x-2">
+                                    <span className="font-medium text-gray-900 dark:text-white">{item.count}</span>
+                                    <span className="text-gray-500">{item.value}%</span>
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Card>
+
+                    {/* Total Searches */}
+                    <Card className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
+                      <CardContent className="p-6">
+                        <div className="space-y-4">
+                          <div className="flex items-center justify-between">
+                            <h4 className="font-medium text-gray-900 dark:text-white">Total searches</h4>
+                            <div className="flex items-center space-x-2">
+                              <span className="text-lg font-semibold">1,230,916</span>
+                              <Badge className="bg-green-100 text-green-800 hover:bg-green-100">
+                                <TrendingUp className="w-3 h-3 mr-1" />
+                                +88.4%
+                              </Badge>
+                            </div>
+                          </div>
+                          <div className="text-sm text-gray-600 dark:text-gray-400 mb-4">
+                            July 2025 vs August 2025
+                          </div>
+                          
+                          <div className="space-y-4">
+                            <h5 className="text-sm font-medium text-gray-900 dark:text-white">
+                              Search terms breakdown that showed your Business Profile in the search results
+                            </h5>
+                            
+                            <div className="space-y-3">
+                              {searchTerms.map((item, index) => (
+                                <div key={index} className="flex items-center justify-between py-2">
+                                  <div className="flex items-center space-x-3">
+                                    <span className="w-6 h-6 bg-gray-100 dark:bg-gray-700 rounded-full flex items-center justify-center text-xs font-medium">
+                                      {index + 1}
+                                    </span>
+                                    <span className="text-sm text-gray-900 dark:text-white">{item.term}</span>
+                                  </div>
+                                  <span className="text-sm font-medium text-gray-900 dark:text-white">
+                                    {item.count}
+                                  </span>
+                                </div>
+                              ))}
+                            </div>
+                            
+                            <Button variant="outline" className="w-full mt-4">
+                              See More
+                            </Button>
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </div>
+                </div>
               </div>
-            </div>
-          </>
-        )}
+            </>
+          )}
+        </div>
+      </Card>
+
+      {/* Locations Data Table Section - Standalone Card */}
+      <div className="mx-6 mb-6">
+        <Card className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-none">
+          <CardContent className="p-0">
+            <LocationDataTable
+              data={filteredData}
+              onRowClick={onRowClick}
+              onEdit={onEdit}
+            />
+          </CardContent>
+        </Card>
       </div>
-    </Card>
+    </>
   );
 }
