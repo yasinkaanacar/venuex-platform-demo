@@ -49,17 +49,17 @@ export function LocationDataTable({ data, onRowClick, onEdit }: LocationDataTabl
   const startIndex = (currentPage - 1) * rowsPerPage;
   const paginatedData = data.slice(startIndex, startIndex + rowsPerPage);
 
-  const handleSelectAll = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.checked) {
+  const handleSelectAll = (event: React.ChangeEvent<HTMLInputElement>, checked: boolean) => {
+    if (checked) {
       setSelectedIds(new Set(paginatedData.map(item => item.id)));
     } else {
       setSelectedIds(new Set());
     }
   };
 
-  const handleSelectRow = (id: string, event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleSelectRow = (id: string) => (event: React.ChangeEvent<HTMLInputElement>, checked: boolean) => {
     const newSelected = new Set(selectedIds);
-    if (event.target.checked) {
+    if (checked) {
       newSelected.add(id);
     } else {
       newSelected.delete(id);
@@ -80,7 +80,6 @@ export function LocationDataTable({ data, onRowClick, onEdit }: LocationDataTabl
                 <TableHead className="w-12 text-[#1a1a1a]">
                   <Checkbox
                     checked={isAllSelected}
-                    indeterminate={isIndeterminate}
                     onChange={handleSelectAll}
                     data-testid="select-all-locations"
                   />
@@ -113,7 +112,7 @@ export function LocationDataTable({ data, onRowClick, onEdit }: LocationDataTabl
                   <TableCell onClick={(e) => e.stopPropagation()}>
                     <Checkbox
                       checked={selectedIds.has(location.id)}
-                      onChange={(event) => handleSelectRow(location.id, event)}
+                      onChange={handleSelectRow(location.id)}
                       data-testid={`select-location-${location.id}`}
                     />
                   </TableCell>

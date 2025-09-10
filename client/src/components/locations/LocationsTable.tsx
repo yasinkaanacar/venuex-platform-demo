@@ -430,7 +430,6 @@ export function LocationsTable({ onRowClick, onEdit, filters, onManageFields, on
           </>
         )}
       </div>
-    </div>
     </Card>
   );
 }
