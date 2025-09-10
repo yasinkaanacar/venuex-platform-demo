@@ -419,47 +419,51 @@ export function LocationsTable({ onRowClick, onEdit, filters, onManageFields, on
                   </Card>
 
                   {/* Total Searches */}
-                  <div className="space-y-4">
-                    <div className="flex items-center justify-between">
-                      <h4 className="font-medium text-gray-900 dark:text-white">Total searches</h4>
-                      <div className="flex items-center space-x-2">
-                        <span className="text-lg font-semibold">1,230,916</span>
-                        <Badge className="bg-green-100 text-green-800 hover:bg-green-100">
-                          <TrendingUp className="w-3 h-3 mr-1" />
-                          +88.4%
-                        </Badge>
-                      </div>
-                    </div>
-                    <div className="text-sm text-gray-600 dark:text-gray-400 mb-4">
-                      July 2025 vs August 2025
-                    </div>
-                    
-                    <div className="space-y-4">
-                      <h5 className="text-sm font-medium text-gray-900 dark:text-white">
-                        Search terms breakdown that showed your Business Profile in the search results
-                      </h5>
-                      
-                      <div className="space-y-3">
-                        {searchTerms.map((item, index) => (
-                          <div key={index} className="flex items-center justify-between py-2">
-                            <div className="flex items-center space-x-3">
-                              <span className="w-6 h-6 bg-gray-100 dark:bg-gray-700 rounded-full flex items-center justify-center text-xs font-medium">
-                                {index + 1}
-                              </span>
-                              <span className="text-sm text-gray-900 dark:text-white">{item.term}</span>
-                            </div>
-                            <span className="text-sm font-medium text-gray-900 dark:text-white">
-                              {item.count}
-                            </span>
+                  <Card className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
+                    <CardContent className="p-6">
+                      <div className="space-y-4">
+                        <div className="flex items-center justify-between">
+                          <h4 className="font-medium text-gray-900 dark:text-white">Total searches</h4>
+                          <div className="flex items-center space-x-2">
+                            <span className="text-lg font-semibold">1,230,916</span>
+                            <Badge className="bg-green-100 text-green-800 hover:bg-green-100">
+                              <TrendingUp className="w-3 h-3 mr-1" />
+                              +88.4%
+                            </Badge>
                           </div>
-                        ))}
+                        </div>
+                        <div className="text-sm text-gray-600 dark:text-gray-400 mb-4">
+                          July 2025 vs August 2025
+                        </div>
+                        
+                        <div className="space-y-4">
+                          <h5 className="text-sm font-medium text-gray-900 dark:text-white">
+                            Search terms breakdown that showed your Business Profile in the search results
+                          </h5>
+                          
+                          <div className="space-y-3">
+                            {searchTerms.map((item, index) => (
+                              <div key={index} className="flex items-center justify-between py-2">
+                                <div className="flex items-center space-x-3">
+                                  <span className="w-6 h-6 bg-gray-100 dark:bg-gray-700 rounded-full flex items-center justify-center text-xs font-medium">
+                                    {index + 1}
+                                  </span>
+                                  <span className="text-sm text-gray-900 dark:text-white">{item.term}</span>
+                                </div>
+                                <span className="text-sm font-medium text-gray-900 dark:text-white">
+                                  {item.count}
+                                </span>
+                              </div>
+                            ))}
+                          </div>
+                          
+                          <Button variant="outline" className="w-full mt-4">
+                            See More
+                          </Button>
+                        </div>
                       </div>
-                      
-                      <Button variant="outline" className="w-full mt-4">
-                        See More
-                      </Button>
-                    </div>
-                  </div>
+                    </CardContent>
+                  </Card>
                 </div>
               </div>
             </div>
