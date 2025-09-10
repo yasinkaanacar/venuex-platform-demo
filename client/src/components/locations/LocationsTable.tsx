@@ -422,9 +422,6 @@ export function LocationsTable({ onRowClick, onEdit, filters, onManageFields, on
                 </div>
               </div>
             </div>
-
-            
-            <div></div>
             <LocationDataTable
               data={filteredData}
               onRowClick={onRowClick}
