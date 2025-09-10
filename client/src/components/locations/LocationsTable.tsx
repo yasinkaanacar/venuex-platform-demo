@@ -196,7 +196,7 @@ export function LocationsTable({ onRowClick, onEdit, filters, onManageFields, on
         <div>
           {/* Title Header */}
           <div className="bg-[#f9fafb] py-2 px-6 flex justify-between items-center border-b border-gray-200">
-            <h3 className="text-lg font-semibold text-foreground">Locations & Performance</h3>
+            <h3 className="text-lg font-semibold text-foreground">Performance</h3>
             <Button
               variant="ghost"
               size="sm"
@@ -427,10 +427,16 @@ export function LocationsTable({ onRowClick, onEdit, filters, onManageFields, on
           )}
         </div>
       </Card>
-
       {/* Locations Data Table Section - Standalone Card */}
       <div className="mx-6 mb-6">
         <Card className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-none">
+          <FilterBar
+            onManageFields={onManageFields}
+            onAddNewLocation={onAddNewLocation}
+            onUploadLocations={onUploadLocations}
+            filters={filters}
+            onFiltersChange={onFiltersChange}
+          />
           <CardContent className="p-0">
             <LocationDataTable
               data={filteredData}
