@@ -422,11 +422,21 @@ export function LocationsTable({ onRowClick, onEdit, filters, onManageFields, on
                 </div>
               </div>
             </div>
-            <LocationDataTable
-              data={filteredData}
-              onRowClick={onRowClick}
-              onEdit={onEdit}
-            />
+
+            {/* Locations Data Table Section - Standalone Card */}
+            <div className="border-t border-gray-200">
+              <div className="bg-[#f9fafb] p-6">
+                <Card className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
+                  <CardContent className="p-0">
+                    <LocationDataTable
+                      data={filteredData}
+                      onRowClick={onRowClick}
+                      onEdit={onEdit}
+                    />
+                  </CardContent>
+                </Card>
+              </div>
+            </div>
           </>
         )}
       </div>
