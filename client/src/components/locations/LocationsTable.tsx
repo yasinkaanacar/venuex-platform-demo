@@ -470,9 +470,8 @@ export function LocationsTable({ onRowClick, onEdit, filters, onManageFields, on
 
             
             
-            <CardContent className="bg-[#f9fafb] p-6">
-              <Card className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
-                <CardContent className="p-0">
+            <Card className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 m-6">
+              <CardContent className="p-0">
                   
                   
                   <div className="overflow-hidden">
@@ -694,7 +693,6 @@ export function LocationsTable({ onRowClick, onEdit, filters, onManageFields, on
                   </div>
                 </CardContent>
               </Card>
-            </CardContent>
           </>
         )}
       </div>
