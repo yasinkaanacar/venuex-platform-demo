@@ -9,7 +9,7 @@ interface DataQualityEnrichmentProps {
 export default function DataQualityEnrichment({ context = 'dashboard' }: DataQualityEnrichmentProps) {
   return (
     <div className="bg-[#fcfcfc] rounded-lg border border-gray-200 overflow-hidden">
-      <div className="bg-[#f9fafb] p-6 flex justify-between items-center border-b border-gray-200">
+      <div className="bg-[#f9fafb] py-2 px-6 flex justify-between items-center border-b border-gray-200">
         <div>
           <h3 className="text-lg font-semibold text-foreground">Data Quality Assessment</h3>
           <p className="text-sm text-muted-foreground">
