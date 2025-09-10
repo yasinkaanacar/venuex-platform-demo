@@ -261,7 +261,7 @@ export function LocationsTable({ onRowClick, onEdit, filters, onManageFields, on
               onFiltersChange={onFiltersChange}
             />
             
-            {/* Business Profile Interactions Section */}
+            {/* Business Profile Interactions Section - First Part */}
             <div className="border-t border-gray-200">
               <div className="bg-[#f9fafb] p-6">
                   {/* Tabs */}
@@ -307,7 +307,7 @@ export function LocationsTable({ onRowClick, onEdit, filters, onManageFields, on
                   </div>
 
                   {/* Chart */}
-                  <div className="h-64 mb-8">
+                  <div className="h-64">
                     <ResponsiveContainer width="100%" height="100%">
                       <LineChart data={chartData}>
                         <XAxis 
@@ -338,112 +338,116 @@ export function LocationsTable({ onRowClick, onEdit, filters, onManageFields, on
                       </LineChart>
                     </ResponsiveContainer>
                   </div>
+              </div>
+            </div>
 
-                  {/* Bottom Sections */}
-                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                    {/* Profile Views */}
-                    <div className="space-y-4">
-                      <div className="flex items-center justify-between">
-                        <h4 className="font-medium text-gray-900 dark:text-white">Profile views</h4>
-                        <div className="flex items-center space-x-2">
-                          <span className="text-lg font-semibold">1,716,216</span>
-                          <Badge className="bg-green-100 text-green-800 hover:bg-green-100">
-                            <TrendingUp className="w-3 h-3 mr-1" />
-                            +82.4%
-                          </Badge>
-                        </div>
-                      </div>
-                      <div className="text-sm text-gray-600 dark:text-gray-400 mb-4">
-                        July 2025 vs August 2025
-                      </div>
-                      
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        {/* Pie Chart */}
-                        <div className="flex items-center justify-center">
-                          <div className="w-32 h-32">
-                            <ResponsiveContainer width="100%" height="100%">
-                              <PieChart>
-                                <Pie
-                                  data={platformData}
-                                  cx="50%"
-                                  cy="50%"
-                                  innerRadius={25}
-                                  outerRadius={60}
-                                  dataKey="value"
-                                >
-                                  {platformData.map((entry, index) => (
-                                    <Cell key={`cell-${index}`} fill={entry.color} />
-                                  ))}
-                                </Pie>
-                              </PieChart>
-                            </ResponsiveContainer>
-                          </div>
-                        </div>
-
-                        {/* Platform Breakdown */}
-                        <div className="space-y-2">
-                          <h5 className="text-sm font-medium text-gray-900 dark:text-white mb-3">
-                            Platform and device breakdown that people used to find your profile
-                          </h5>
-                          {platformData.map((item, index) => (
-                            <div key={index} className="flex items-center justify-between text-sm">
-                              <div className="flex items-center space-x-2">
-                                <div className="w-3 h-3 rounded-full" style={{ backgroundColor: item.color }}></div>
-                                <span className="text-gray-600 dark:text-gray-400">{item.name}</span>
-                              </div>
-                              <div className="flex items-center space-x-2">
-                                <span className="font-medium text-gray-900 dark:text-white">{item.count}</span>
-                                <span className="text-gray-500">{item.value}%</span>
-                              </div>
-                            </div>
-                          ))}
-                        </div>
+            {/* Profile Views and Total Searches Section - Second Part */}
+            <div className="border-t border-gray-200">
+              <div className="bg-[#f9fafb] p-6">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                  {/* Profile Views */}
+                  <div className="space-y-4">
+                    <div className="flex items-center justify-between">
+                      <h4 className="font-medium text-gray-900 dark:text-white">Profile views</h4>
+                      <div className="flex items-center space-x-2">
+                        <span className="text-lg font-semibold">1,716,216</span>
+                        <Badge className="bg-green-100 text-green-800 hover:bg-green-100">
+                          <TrendingUp className="w-3 h-3 mr-1" />
+                          +82.4%
+                        </Badge>
                       </div>
                     </div>
+                    <div className="text-sm text-gray-600 dark:text-gray-400 mb-4">
+                      July 2025 vs August 2025
+                    </div>
+                    
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      {/* Pie Chart */}
+                      <div className="flex items-center justify-center">
+                        <div className="w-32 h-32">
+                          <ResponsiveContainer width="100%" height="100%">
+                            <PieChart>
+                              <Pie
+                                data={platformData}
+                                cx="50%"
+                                cy="50%"
+                                innerRadius={25}
+                                outerRadius={60}
+                                dataKey="value"
+                              >
+                                {platformData.map((entry, index) => (
+                                  <Cell key={`cell-${index}`} fill={entry.color} />
+                                ))}
+                              </Pie>
+                            </PieChart>
+                          </ResponsiveContainer>
+                        </div>
+                      </div>
 
-                    {/* Total Searches */}
-                    <div className="space-y-4">
-                      <div className="flex items-center justify-between">
-                        <h4 className="font-medium text-gray-900 dark:text-white">Total searches</h4>
-                        <div className="flex items-center space-x-2">
-                          <span className="text-lg font-semibold">1,230,916</span>
-                          <Badge className="bg-green-100 text-green-800 hover:bg-green-100">
-                            <TrendingUp className="w-3 h-3 mr-1" />
-                            +88.4%
-                          </Badge>
-                        </div>
-                      </div>
-                      <div className="text-sm text-gray-600 dark:text-gray-400 mb-4">
-                        July 2025 vs August 2025
-                      </div>
-                      
-                      <div className="space-y-4">
-                        <h5 className="text-sm font-medium text-gray-900 dark:text-white">
-                          Search terms breakdown that showed your Business Profile in the search results
+                      {/* Platform Breakdown */}
+                      <div className="space-y-2">
+                        <h5 className="text-sm font-medium text-gray-900 dark:text-white mb-3">
+                          Platform and device breakdown that people used to find your profile
                         </h5>
-                        
-                        <div className="space-y-3">
-                          {searchTerms.map((item, index) => (
-                            <div key={index} className="flex items-center justify-between py-2">
-                              <div className="flex items-center space-x-3">
-                                <span className="w-6 h-6 bg-gray-100 dark:bg-gray-700 rounded-full flex items-center justify-center text-xs font-medium">
-                                  {index + 1}
-                                </span>
-                                <span className="text-sm text-gray-900 dark:text-white">{item.term}</span>
-                              </div>
-                              <span className="text-sm font-medium text-gray-900 dark:text-white">
-                                {item.count}
-                              </span>
+                        {platformData.map((item, index) => (
+                          <div key={index} className="flex items-center justify-between text-sm">
+                            <div className="flex items-center space-x-2">
+                              <div className="w-3 h-3 rounded-full" style={{ backgroundColor: item.color }}></div>
+                              <span className="text-gray-600 dark:text-gray-400">{item.name}</span>
                             </div>
-                          ))}
-                        </div>
-                        
-                        <Button variant="outline" className="w-full mt-4">
-                          See More
-                        </Button>
+                            <div className="flex items-center space-x-2">
+                              <span className="font-medium text-gray-900 dark:text-white">{item.count}</span>
+                              <span className="text-gray-500">{item.value}%</span>
+                            </div>
+                          </div>
+                        ))}
                       </div>
                     </div>
                   </div>
+
+                  {/* Total Searches */}
+                  <div className="space-y-4">
+                    <div className="flex items-center justify-between">
+                      <h4 className="font-medium text-gray-900 dark:text-white">Total searches</h4>
+                      <div className="flex items-center space-x-2">
+                        <span className="text-lg font-semibold">1,230,916</span>
+                        <Badge className="bg-green-100 text-green-800 hover:bg-green-100">
+                          <TrendingUp className="w-3 h-3 mr-1" />
+                          +88.4%
+                        </Badge>
+                      </div>
+                    </div>
+                    <div className="text-sm text-gray-600 dark:text-gray-400 mb-4">
+                      July 2025 vs August 2025
+                    </div>
+                    
+                    <div className="space-y-4">
+                      <h5 className="text-sm font-medium text-gray-900 dark:text-white">
+                        Search terms breakdown that showed your Business Profile in the search results
+                      </h5>
+                      
+                      <div className="space-y-3">
+                        {searchTerms.map((item, index) => (
+                          <div key={index} className="flex items-center justify-between py-2">
+                            <div className="flex items-center space-x-3">
+                              <span className="w-6 h-6 bg-gray-100 dark:bg-gray-700 rounded-full flex items-center justify-center text-xs font-medium">
+                                {index + 1}
+                              </span>
+                              <span className="text-sm text-gray-900 dark:text-white">{item.term}</span>
+                            </div>
+                            <span className="text-sm font-medium text-gray-900 dark:text-white">
+                              {item.count}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+                      
+                      <Button variant="outline" className="w-full mt-4">
+                        See More
+                      </Button>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
             
