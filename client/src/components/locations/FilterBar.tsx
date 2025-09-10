@@ -62,8 +62,8 @@ export function FilterBar({
   return (
     <div className="sticky top-0 z-20 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700">
       {/* Single Line Filters */}
-      <div className="px-6 py-4">
-        <div className="flex items-center gap-4">
+      <div className="px-6 py-3">
+        <div className="flex items-center gap-3">
           {/* Search */}
           <div className="relative flex-1 max-w-[400px]">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
