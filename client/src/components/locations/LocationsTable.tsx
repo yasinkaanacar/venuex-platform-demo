@@ -452,6 +452,11 @@ export function LocationsTable({ onRowClick, onEdit, filters, onManageFields, on
             </div>
             
             <CardContent className="bg-[#f9fafb] p-0">
+              {/* Locations List Header */}
+              <div className="bg-[#f9fafb] py-2 px-6 flex justify-between items-center border-b border-gray-200">
+                <h3 className="text-lg font-semibold text-foreground">Locations List</h3>
+              </div>
+              
           <div className="overflow-hidden">
             <Table>
               <TableHeader>
