@@ -355,64 +355,68 @@ export function LocationsTable({ onRowClick, onEdit, filters, onManageFields, on
               <div className="bg-[#f9fafb] p-6">
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                   {/* Profile Views */}
-                  <div className="space-y-4">
-                    <div className="flex items-center justify-between">
-                      <h4 className="font-medium text-gray-900 dark:text-white">Profile views</h4>
-                      <div className="flex items-center space-x-2">
-                        <span className="text-lg font-semibold">1,716,216</span>
-                        <Badge className="bg-green-100 text-green-800 hover:bg-green-100">
-                          <TrendingUp className="w-3 h-3 mr-1" />
-                          +82.4%
-                        </Badge>
-                      </div>
-                    </div>
-                    <div className="text-sm text-gray-600 dark:text-gray-400 mb-4">
-                      July 2025 vs August 2025
-                    </div>
-                    
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      {/* Pie Chart */}
-                      <div className="flex items-center justify-center">
-                        <div className="w-32 h-32">
-                          <ResponsiveContainer width="100%" height="100%">
-                            <PieChart>
-                              <Pie
-                                data={platformData}
-                                cx="50%"
-                                cy="50%"
-                                innerRadius={25}
-                                outerRadius={60}
-                                dataKey="value"
-                              >
-                                {platformData.map((entry, index) => (
-                                  <Cell key={`cell-${index}`} fill={entry.color} />
-                                ))}
-                              </Pie>
-                            </PieChart>
-                          </ResponsiveContainer>
+                  <Card className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
+                    <CardContent className="p-6">
+                      <div className="space-y-4">
+                        <div className="flex items-center justify-between">
+                          <h4 className="font-medium text-gray-900 dark:text-white">Profile views</h4>
+                          <div className="flex items-center space-x-2">
+                            <span className="text-lg font-semibold">1,716,216</span>
+                            <Badge className="bg-green-100 text-green-800 hover:bg-green-100">
+                              <TrendingUp className="w-3 h-3 mr-1" />
+                              +82.4%
+                            </Badge>
+                          </div>
                         </div>
-                      </div>
-
-                      {/* Platform Breakdown */}
-                      <div className="space-y-2">
-                        <h5 className="text-sm font-medium text-gray-900 dark:text-white mb-3">
-                          Platform and device breakdown that people used to find your profile
-                        </h5>
-                        {platformData.map((item, index) => (
-                          <div key={index} className="flex items-center justify-between text-sm">
-                            <div className="flex items-center space-x-2">
-                              <div className="w-3 h-3 rounded-full" style={{ backgroundColor: item.color }}></div>
-                              <span className="text-gray-600 dark:text-gray-400">{item.name}</span>
-                            </div>
-                            <div className="flex items-center space-x-2">
-                              <span className="font-medium text-gray-900 dark:text-white">{item.count}</span>
-                              <span className="text-gray-500">{item.value}%</span>
+                        <div className="text-sm text-gray-600 dark:text-gray-400 mb-4">
+                          July 2025 vs August 2025
+                        </div>
+                        
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                          {/* Pie Chart */}
+                          <div className="flex items-center justify-center">
+                            <div className="w-32 h-32">
+                              <ResponsiveContainer width="100%" height="100%">
+                                <PieChart>
+                                  <Pie
+                                    data={platformData}
+                                    cx="50%"
+                                    cy="50%"
+                                    innerRadius={25}
+                                    outerRadius={60}
+                                    dataKey="value"
+                                  >
+                                    {platformData.map((entry, index) => (
+                                      <Cell key={`cell-${index}`} fill={entry.color} />
+                                    ))}
+                                  </Pie>
+                                </PieChart>
+                              </ResponsiveContainer>
                             </div>
                           </div>
-                        ))}
+
+                          {/* Platform Breakdown */}
+                          <div className="space-y-2">
+                            <h5 className="text-sm font-medium text-gray-900 dark:text-white mb-3">
+                              Platform and device breakdown that people used to find your profile
+                            </h5>
+                            {platformData.map((item, index) => (
+                              <div key={index} className="flex items-center justify-between text-sm">
+                                <div className="flex items-center space-x-2">
+                                  <div className="w-3 h-3 rounded-full" style={{ backgroundColor: item.color }}></div>
+                                  <span className="text-gray-600 dark:text-gray-400">{item.name}</span>
+                                </div>
+                                <div className="flex items-center space-x-2">
+                                  <span className="font-medium text-gray-900 dark:text-white">{item.count}</span>
+                                  <span className="text-gray-500">{item.value}%</span>
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
                       </div>
-                    </div>
-                  </div>
+                    </CardContent>
+                  </Card>
 
                   {/* Total Searches */}
                   <div className="space-y-4">
