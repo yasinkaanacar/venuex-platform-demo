@@ -128,15 +128,12 @@ export default function LocationsPage() {
                 <div className="w-8 h-8 bg-muted rounded-full flex items-center justify-center">
                   <User className="w-4 h-4 text-muted-foreground" />
                 </div>
-                <span className="text-sm font-medium" data-testid="text-user-name">
-                  Sarah Johnson
-                </span>
+                <span className="text-sm font-medium" data-testid="text-user-name">Kürşad Arman</span>
               </div>
             </div>
           </div>
         </div>
       </header>
-      
       {/* Main Content */}
       <div className="pb-6 bg-[#ffffff]">
         {/* Data Health & Flow Banner */}
