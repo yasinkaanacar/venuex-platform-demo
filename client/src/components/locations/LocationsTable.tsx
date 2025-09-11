@@ -546,7 +546,7 @@ export function LocationsTable({
                 filters={filters}
                 onFiltersChange={onFiltersChange}
               />
-              <CardContent className="p-0">
+              <CardContent className="p-0 bg-[#f9fafb]">
                 <LocationDataTable
                   data={filteredData}
                   onRowClick={onRowClick}
