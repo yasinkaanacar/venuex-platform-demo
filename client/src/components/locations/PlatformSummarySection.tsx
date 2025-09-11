@@ -313,11 +313,6 @@ export function PlatformSummarySection({}: PlatformSummarySectionProps) {
     // Default layout for VenueX (index 0)
     return (
       <div className="p-6 bg-gray-50">
-        <div className="text-center mb-6">
-          <div className="text-lg text-gray-600 mb-2">VenueX Platform Overview</div>
-          <div className="text-sm text-gray-500">Manage your VenueX presence and performance</div>
-        </div>
-        
         {/* Business Metrics Section */}
         <BusinessMetricsSection />
       </div>
