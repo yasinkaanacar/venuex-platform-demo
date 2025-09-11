@@ -14,7 +14,7 @@ export function LocationActionsSection({
   const [, setLocation] = useLocation();
 
   return (
-    <div className="mx-6 mb-6 bg-white rounded-lg border border-gray-200 overflow-hidden shadow-none">
+    <div className="mx-6 mb-6 bg-white rounded-lg border border-white-200 overflow-hidden shadow-none">
       <div className="p-4 bg-gray-50">
         <div className="grid grid-cols-3 gap-4 items-center">
           {/* 1/3 - Manage Posts */}
@@ -23,7 +23,7 @@ export function LocationActionsSection({
               variant="outline"
               size="lg"
               onClick={() => setLocation("/locations/posts")}
-              className="bg-blue-600 hover:bg-blue-700 text-white w-full h-16"
+              className="text-blue-600 border-blue-200 hover:bg-blue-50 w-full h-16"
               data-testid="btn-manage-posts"
             >
               <FileText className="w-4 h-4 mr-2" />
@@ -37,7 +37,7 @@ export function LocationActionsSection({
               variant="outline"
               size="lg"
               onClick={onAddNewLocation}
-              className="bg-blue-600 hover:bg-blue-700 text-white w-full h-16"
+              className="text-blue-600 border-blue-200 hover:bg-blue-50 w-full h-16"
               data-testid="btn-add-new-location"
             >
               <Plus className="w-4 h-4 mr-2" />
@@ -48,10 +48,10 @@ export function LocationActionsSection({
           {/* 1/3 - Upload Locations */}
           <div className="flex justify-center">
             <Button
-              variant="default"
+              variant="outline"
               size="lg"
               onClick={onUploadLocations}
-              className="bg-blue-600 hover:bg-blue-700 text-white w-full h-16"
+              className="text-blue-600 border-blue-200 hover:bg-blue-50 w-full h-16"
               data-testid="btn-bulk-updates"
             >
               <Edit className="w-4 h-4 mr-2" />
