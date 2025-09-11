@@ -32,7 +32,9 @@ export function BusinessMetricsSection() {
           {/* Index Section - 1/3 */}
           <div className="flex flex-col items-center text-center h-full justify-between">
             <div className="flex flex-col items-center">
-              <div className="font-bold text-gray-900 mb-4 text-[48px]">87%</div>
+              <div className="font-bold text-gray-900 mb-4 text-[48px]">
+                87%
+              </div>
               <h3 className="text-lg font-semibold text-gray-900 mb-2">
                 Data Quality Index
               </h3>
@@ -46,22 +48,30 @@ export function BusinessMetricsSection() {
               className="w-full text-blue-600 hover:text-blue-700"
               onClick={() => {
                 // Try to find the Data Quality Assessment section
-                let element = document.getElementById('data-quality-assessment') || 
-                             document.querySelector('[data-section="data-quality-assessment"]');
-                
+                let element =
+                  document.getElementById("data-quality-assessment") ||
+                  document.querySelector(
+                    '[data-section="data-quality-assessment"]',
+                  );
+
                 if (!element) {
                   // Find by heading text content
-                  const headings = Array.from(document.querySelectorAll('h1, h2, h3, h4'));
+                  const headings = Array.from(
+                    document.querySelectorAll("h1, h2, h3, h4"),
+                  );
                   for (const heading of headings) {
-                    if (heading.textContent?.includes('Data Quality Assessment')) {
-                      element = heading.closest('div') || heading as HTMLElement;
+                    if (
+                      heading.textContent?.includes("Data Quality Assessment")
+                    ) {
+                      element =
+                        heading.closest("div") || (heading as HTMLElement);
                       break;
                     }
                   }
                 }
-                
+
                 if (element) {
-                  element.scrollIntoView({ behavior: 'smooth' });
+                  element.scrollIntoView({ behavior: "smooth" });
                 }
               }}
             >
@@ -78,7 +88,9 @@ export function BusinessMetricsSection() {
               <div className="space-y-4 mb-6">
                 <div className="text-center">
                   <div className="text-3xl font-bold text-gray-900">243</div>
-                  <div className="text-sm text-gray-600">Total Interactions</div>
+                  <div className="text-sm text-gray-600">
+                    Total Interactions
+                  </div>
                 </div>
                 <div className="text-center">
                   <div className="text-3xl font-bold text-gray-900">177</div>
@@ -91,22 +103,31 @@ export function BusinessMetricsSection() {
               className="w-full text-blue-600 hover:text-blue-700"
               onClick={() => {
                 // Try to find the Performance section
-                let element = document.getElementById('performance-section') || 
-                             document.querySelector('[data-section="performance-section"]');
-                
+                let element =
+                  document.getElementById("performance-section") ||
+                  document.querySelector(
+                    '[data-section="performance-section"]',
+                  );
+
                 if (!element) {
                   // Find by heading text content
-                  const headings = Array.from(document.querySelectorAll('h1, h2, h3, h4'));
+                  const headings = Array.from(
+                    document.querySelectorAll("h1, h2, h3, h4"),
+                  );
                   for (const heading of headings) {
-                    if (heading.textContent?.includes('Performance') && !heading.closest('.card')) {
-                      element = heading.closest('div') || heading as HTMLElement;
+                    if (
+                      heading.textContent?.includes("Performance") &&
+                      !heading.closest(".card")
+                    ) {
+                      element =
+                        heading.closest("div") || (heading as HTMLElement);
                       break;
                     }
                   }
                 }
-                
+
                 if (element) {
-                  element.scrollIntoView({ behavior: 'smooth' });
+                  element.scrollIntoView({ behavior: "smooth" });
                 }
               }}
             >
@@ -157,22 +178,32 @@ export function BusinessMetricsSection() {
               className="w-full text-blue-600 hover:text-blue-700 mt-auto"
               onClick={() => {
                 // Try to find the Locations section header
-                let element = document.getElementById('locations-section') || 
-                             document.querySelector('[data-section="locations"]');
-                
+                let element =
+                  document.getElementById("locations-section") ||
+                  document.querySelector('[data-section="locations"]');
+
                 if (!element) {
                   // Find the "Locations" heading specifically (not inside the current card)
-                  const headings = Array.from(document.querySelectorAll('h1, h2, h3, h4'));
+                  const headings = Array.from(
+                    document.querySelectorAll("h1, h2, h3, h4"),
+                  );
                   for (const heading of headings) {
-                    if (heading.textContent?.trim() === 'Locations' && !heading.closest('[class*="BusinessMetrics"]')) {
-                      element = heading.closest('div') || heading as HTMLElement;
+                    if (
+                      heading.textContent?.trim() === "Locations" &&
+                      !heading.closest('[class*="BusinessMetrics"]')
+                    ) {
+                      element =
+                        heading.closest("div") || (heading as HTMLElement);
                       break;
                     }
                   }
                 }
-                
+
                 if (element) {
-                  element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                  element.scrollIntoView({
+                    behavior: "smooth",
+                    block: "start",
+                  });
                 }
               }}
             >
