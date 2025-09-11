@@ -97,4 +97,52 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 )
 Button.displayName = "Button"
 
+// Create a buttonVariants function for compatibility with shadcn components
+export const buttonVariants = (props?: { variant?: ButtonProps['variant']; size?: ButtonProps['size'] }) => {
+  const variant = props?.variant || 'default';
+  const size = props?.size || 'default';
+  
+  let baseClasses = 'inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none ring-offset-background';
+  
+  // Variant classes
+  switch (variant) {
+    case 'default':
+      baseClasses += ' bg-primary text-primary-foreground hover:bg-primary/90';
+      break;
+    case 'destructive':
+      baseClasses += ' bg-destructive text-destructive-foreground hover:bg-destructive/90';
+      break;
+    case 'outline':
+      baseClasses += ' border border-input hover:bg-accent hover:text-accent-foreground';
+      break;
+    case 'secondary':
+      baseClasses += ' bg-secondary text-secondary-foreground hover:bg-secondary/80';
+      break;
+    case 'ghost':
+      baseClasses += ' hover:bg-accent hover:text-accent-foreground';
+      break;
+    case 'link':
+      baseClasses += ' underline-offset-4 hover:underline text-primary';
+      break;
+  }
+  
+  // Size classes
+  switch (size) {
+    case 'sm':
+      baseClasses += ' h-9 px-3';
+      break;
+    case 'lg':
+      baseClasses += ' h-11 px-8';
+      break;
+    case 'icon':
+      baseClasses += ' h-10 w-10';
+      break;
+    default:
+      baseClasses += ' h-10 px-4 py-2';
+      break;
+  }
+  
+  return baseClasses;
+};
+
 export { Button }

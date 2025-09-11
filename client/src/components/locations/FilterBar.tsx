@@ -8,7 +8,11 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
-import { Plus, Upload, Settings, Search, Filter, X } from "lucide-react";
+import { Calendar } from "@/components/ui/calendar";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Plus, Upload, Settings, Search, Filter, X, CalendarIcon } from "lucide-react";
+import { useState } from "react";
+import { format } from "date-fns";
 
 interface FilterState {
   search: string;
@@ -17,6 +21,7 @@ interface FilterState {
   platformStatus: string;
   storeSet: string;
   missingPOI: string;
+  date?: Date;
 }
 
 interface FilterBarProps {
@@ -46,6 +51,13 @@ export function FilterBar({
     });
   };
 
+  const handleDateChange = (date: Date | undefined) => {
+    onFiltersChange({
+      ...filters,
+      date: date
+    });
+  };
+
   const clearAllFilters = () => {
     onFiltersChange({
       search: "",
@@ -53,7 +65,8 @@ export function FilterBar({
       businessStatus: "",
       platformStatus: "",
       storeSet: "",
-      missingPOI: ""
+      missingPOI: "",
+      date: undefined
     });
   };
 
@@ -142,6 +155,28 @@ export function FilterBar({
               <SelectItem value="No">No</SelectItem>
             </SelectContent>
           </Select>
+
+          {/* Date Picker */}
+          <Popover>
+            <PopoverTrigger asChild>
+              <Button
+                variant="outline"
+                className="w-[180px] justify-start text-left font-normal"
+                data-testid="filter-date-picker"
+              >
+                <CalendarIcon className="mr-2 h-4 w-4" />
+                {filters.date ? format(filters.date, "PPP") : <span className="text-gray-500">Pick a date</span>}
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-auto p-0" align="start">
+              <Calendar
+                mode="single"
+                selected={filters.date}
+                onSelect={handleDateChange}
+                initialFocus
+              />
+            </PopoverContent>
+          </Popover>
         </div>
       </div>
     </div>

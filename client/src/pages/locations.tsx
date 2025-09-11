@@ -16,6 +16,7 @@ interface FilterState {
   platformStatus: string;
   storeSet: string;
   missingPOI: string;
+  date?: Date;
 }
 
 export default function LocationsPage() {
@@ -28,7 +29,8 @@ export default function LocationsPage() {
     businessStatus: "",
     platformStatus: "",
     storeSet: "",
-    missingPOI: ""
+    missingPOI: "",
+    date: undefined
   });
 
   // Event handlers
