@@ -257,12 +257,7 @@ export function LocationsTable({
 
               {/* Business Profile Interactions Section - First Part */}
               <div className="border-t border-gray-200">
-                {/* Business Profile Interactions Header */}
-                <div className="bg-[#f9fafb] py-2 px-6 flex justify-between items-center border-b border-gray-200">
-                  <h3 className="text-lg font-semibold text-foreground">
-                    Business Profile Interactions
-                  </h3>
-                </div>
+                
 
                 <div className="bg-[#f9fafb] p-6">
                   <Card className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
