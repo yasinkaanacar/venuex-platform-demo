@@ -37,7 +37,7 @@ export function LocationActionsSection({
               variant="outline"
               size="lg"
               onClick={onAddNewLocation}
-              className="text-blue-600 border-blue-200 hover:bg-blue-50 w-full h-16"
+              className="text-blue-600 border-blue-200 hover:bg-blue-50 w-full h-16 bg-[#ffffff]"
               data-testid="btn-add-new-location"
             >
               <Plus className="w-4 h-4 mr-2" />
@@ -51,7 +51,7 @@ export function LocationActionsSection({
               variant="outline"
               size="lg"
               onClick={onUploadLocations}
-              className="text-blue-600 border-blue-200 hover:bg-blue-50 w-full h-16"
+              className="text-blue-600 border-blue-200 hover:bg-blue-50 w-full h-16 bg-[#ffffff]"
               data-testid="btn-bulk-updates"
             >
               <Edit className="w-4 h-4 mr-2" />
