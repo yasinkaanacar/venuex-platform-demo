@@ -143,7 +143,11 @@ export default function LocationsDataHealthAlerts({
             <Button
               variant="outlined"
               size="small"
-              className="text-xs pointer-events-none"
+              className="text-xs"
+              onClick={(e) => {
+                e.stopPropagation();
+                onScrollToBottom();
+              }}
               data-testid="button-scroll-to-bottom"
             >
               <ArrowDown className="w-3 h-3 mr-1" />
