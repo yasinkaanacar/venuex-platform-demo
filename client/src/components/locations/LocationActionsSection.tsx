@@ -51,7 +51,7 @@ export function LocationActionsSection({
               variant="outline"
               size="lg"
               onClick={onUploadLocations}
-              className="text-blue-600 border-blue-200 hover:bg-blue-50 w-full h-16 bg-[#ffffff]"
+              className="text-blue-600 border-blue-200 hover:bg-blue-50 w-full h-16 bg-[#ffffff] text-[18px]"
               data-testid="btn-bulk-updates"
             >
               <Edit className="w-4 h-4 mr-2" />
