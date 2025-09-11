@@ -69,7 +69,50 @@ export function BusinessMetricsSection() {
             </Button>
           </div>
 
-          {/* Store Status Section - 1/3 */}
+          {/* Performance Section - 2/3 */}
+          <div className="flex flex-col h-full">
+            <h3 className="text-lg font-semibold text-gray-900 mb-4 text-center">
+              Performance
+            </h3>
+            <div className="space-y-4 mb-6">
+              <div className="text-center">
+                <div className="text-3xl font-bold text-gray-900">243</div>
+                <div className="text-sm text-gray-600">Total Interactions</div>
+              </div>
+              <div className="text-center">
+                <div className="text-3xl font-bold text-gray-900">177</div>
+                <div className="text-sm text-gray-600">Total Views</div>
+              </div>
+            </div>
+            <Button
+              variant="outline"
+              className="w-full text-blue-600 hover:text-blue-700 mt-auto"
+              onClick={() => {
+                // Try to find the Performance section
+                let element = document.getElementById('performance-section') || 
+                             document.querySelector('[data-section="performance-section"]');
+                
+                if (!element) {
+                  // Find by heading text content
+                  const headings = Array.from(document.querySelectorAll('h1, h2, h3, h4'));
+                  for (const heading of headings) {
+                    if (heading.textContent?.includes('Performance') && !heading.closest('.card')) {
+                      element = heading.closest('div') || heading as HTMLElement;
+                      break;
+                    }
+                  }
+                }
+                
+                if (element) {
+                  element.scrollIntoView({ behavior: 'smooth' });
+                }
+              }}
+            >
+              View details
+            </Button>
+          </div>
+
+          {/* Store Status Section - 3/3 */}
           <div className="flex flex-col h-full">
             <h3 className="text-lg font-semibold text-gray-900 mb-4 text-center">
               Store Status
@@ -122,49 +165,6 @@ export function BusinessMetricsSection() {
                 
                 if (element) {
                   element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                }
-              }}
-            >
-              View details
-            </Button>
-          </div>
-
-          {/* Performance Section - 1/3 */}
-          <div className="flex flex-col h-full">
-            <h3 className="text-lg font-semibold text-gray-900 mb-4 text-center">
-              Performance
-            </h3>
-            <div className="space-y-4 mb-6">
-              <div className="text-center">
-                <div className="text-3xl font-bold text-gray-900">243</div>
-                <div className="text-sm text-gray-600">Total Interactions</div>
-              </div>
-              <div className="text-center">
-                <div className="text-3xl font-bold text-gray-900">177</div>
-                <div className="text-sm text-gray-600">Total Views</div>
-              </div>
-            </div>
-            <Button
-              variant="outline"
-              className="w-full text-blue-600 hover:text-blue-700 mt-auto"
-              onClick={() => {
-                // Try to find the Performance section
-                let element = document.getElementById('performance-section') || 
-                             document.querySelector('[data-section="performance-section"]');
-                
-                if (!element) {
-                  // Find by heading text content
-                  const headings = Array.from(document.querySelectorAll('h1, h2, h3, h4'));
-                  for (const heading of headings) {
-                    if (heading.textContent?.includes('Performance') && !heading.closest('.card')) {
-                      element = heading.closest('div') || heading as HTMLElement;
-                      break;
-                    }
-                  }
-                }
-                
-                if (element) {
-                  element.scrollIntoView({ behavior: 'smooth' });
                 }
               }}
             >
