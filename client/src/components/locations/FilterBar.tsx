@@ -10,9 +10,12 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { Plus, Upload, Settings, Search, Filter, X, CalendarIcon } from "lucide-react";
+import { Switch } from "@/components/ui/switch";
+import { Label } from "@/components/ui/label";
+import { Plus, Upload, Settings, Search, Filter, X, CalendarIcon, GitCompare } from "lucide-react";
 import { useState } from "react";
-import { format } from "date-fns";
+import { format, addDays, subDays } from "date-fns";
+import { DateRange } from "react-day-picker";
 
 interface FilterState {
   search: string;
@@ -21,7 +24,13 @@ interface FilterState {
   platformStatus: string;
   storeSet: string;
   missingPOI: string;
-  date?: Date;
+  dateRange: string;
+  platform: string;
+  compareMode: boolean;
+  startDate?: Date;
+  endDate?: Date;
+  compareStartDate?: Date;
+  compareEndDate?: Date;
 }
 
 interface FilterBarProps {
@@ -43,6 +52,16 @@ export function FilterBar({
   const businessStatuses = ["Open", "Closed", "Temporarily Closed"];
   const platformStatuses = ["Optimal Waiting", "Needs Attention", "Connected"];
   const storeSets = ["SMR", "Premium", "Express", "Standard", "Regional"];
+  const platforms = ["Google", "Facebook", "Instagram", "TikTok", "Apple Maps"];
+  
+  const dateRangePresets = [
+    { label: "Last 7 days", value: "7d" },
+    { label: "Last 30 days", value: "30d" },
+    { label: "Last 90 days", value: "90d" },
+    { label: "This month", value: "month" },
+    { label: "Last month", value: "lastMonth" },
+    { label: "Custom range", value: "custom" },
+  ];
 
   const handleFilterChange = (key: keyof FilterState, value: string) => {
     onFiltersChange({
@@ -51,10 +70,53 @@ export function FilterBar({
     });
   };
 
-  const handleDateChange = (date: Date | undefined) => {
+  const handleDateRangeChange = (preset: string) => {
+    const today = new Date();
+    let startDate: Date;
+    let endDate = today;
+    
+    switch (preset) {
+      case "7d":
+        startDate = subDays(today, 7);
+        break;
+      case "30d":
+        startDate = subDays(today, 30);
+        break;
+      case "90d":
+        startDate = subDays(today, 90);
+        break;
+      case "month":
+        startDate = new Date(today.getFullYear(), today.getMonth(), 1);
+        break;
+      case "lastMonth":
+        startDate = new Date(today.getFullYear(), today.getMonth() - 1, 1);
+        endDate = new Date(today.getFullYear(), today.getMonth(), 0);
+        break;
+      default:
+        startDate = subDays(today, 30);
+    }
+    
     onFiltersChange({
       ...filters,
-      date: date
+      dateRange: preset,
+      startDate,
+      endDate
+    });
+  };
+
+  const handleCustomDateRange = (range: { startDate?: Date; endDate?: Date }) => {
+    onFiltersChange({
+      ...filters,
+      dateRange: "custom",
+      startDate: range.startDate,
+      endDate: range.endDate
+    });
+  };
+
+  const handleCompareToggle = (event: React.ChangeEvent<HTMLInputElement>, checked: boolean) => {
+    onFiltersChange({
+      ...filters,
+      compareMode: checked
     });
   };
 
@@ -66,7 +128,13 @@ export function FilterBar({
       platformStatus: "",
       storeSet: "",
       missingPOI: "",
-      date: undefined
+      dateRange: "30d",
+      platform: "",
+      compareMode: false,
+      startDate: undefined,
+      endDate: undefined,
+      compareStartDate: undefined,
+      compareEndDate: undefined
     });
   };
 
@@ -158,28 +226,93 @@ export function FilterBar({
             </SelectContent>
           </Select>
 
-          {/* Date Picker */}
-          <Popover>
-            <PopoverTrigger asChild>
-              <Button
-                variant="outline"
-                className="w-[180px] justify-start text-left font-normal"
-                data-testid="filter-date-picker"
-              >
-                <CalendarIcon className="mr-2 h-4 w-4" />
-                {filters.date ? format(filters.date, "PPP") : <span className="text-gray-500">Date</span>}
-              </Button>
-            </PopoverTrigger>
-            <PopoverContent className="w-auto p-0" align="start">
-              <Calendar
-                mode="single"
-                selected={filters.date}
-                onSelect={handleDateChange}
-                initialFocus
-              />
-            </PopoverContent>
-          </Popover>
+          {/* Date Range Selector */}
+          <Select value={filters.dateRange || "30d"} onValueChange={handleDateRangeChange}>
+            <SelectTrigger className="w-[150px]" data-testid="filter-date-range">
+              <div className="flex flex-col items-start w-full">
+                <div className="text-xs text-gray-500">Date Range</div>
+                <div className="text-sm">
+                  {dateRangePresets.find(p => p.value === (filters.dateRange || "30d"))?.label || "Last 30 days"}
+                </div>
+              </div>
+            </SelectTrigger>
+            <SelectContent>
+              {dateRangePresets.map((preset) => (
+                <SelectItem key={preset.value} value={preset.value}>
+                  {preset.label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+
+          {/* Platform Filter */}
+          <Select value={filters.platform || "All"} onValueChange={(value) => handleFilterChange('platform', value === "All" ? "" : value)}>
+            <SelectTrigger className="w-[150px]" data-testid="filter-platform">
+              <div className="flex flex-col items-start w-full">
+                <div className="text-xs text-gray-500">Platform</div>
+                <div className="text-sm">{filters.platform || "All"}</div>
+              </div>
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="All">All</SelectItem>
+              {platforms.map((platform) => (
+                <SelectItem key={platform} value={platform}>
+                  {platform}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+
+          {/* Compare Mode Toggle */}
+          <div className="flex items-center space-x-2 px-3 py-2 border border-gray-200 rounded-md" data-testid="compare-mode-toggle">
+            <GitCompare className="w-4 h-4 text-gray-500" />
+            <Label htmlFor="compare-mode" className="text-sm text-gray-600">Compare</Label>
+            <Switch
+              id="compare-mode"
+              checked={filters.compareMode || false}
+              onChange={handleCompareToggle}
+              className="data-[state=checked]:bg-blue-600"
+            />
+          </div>
         </div>
+        
+        {/* Date Range Display */}
+        {filters.startDate && filters.endDate && (
+          <div className="mt-3 flex items-center gap-2 text-sm text-gray-600">
+            <CalendarIcon className="w-4 h-4" />
+            <span>
+              {format(filters.startDate, "MMM dd, yyyy")} - {format(filters.endDate, "MMM dd, yyyy")}
+            </span>
+            {filters.compareMode && filters.compareStartDate && filters.compareEndDate && (
+              <>
+                <span className="text-gray-400">vs</span>
+                <span className="text-blue-600">
+                  {format(filters.compareStartDate, "MMM dd, yyyy")} - {format(filters.compareEndDate, "MMM dd, yyyy")}
+                </span>
+              </>
+            )}
+          </div>
+        )}
+
+        {/* Active Filters Display */}
+        {activeFiltersCount > 0 && (
+          <div className="mt-3 flex items-center gap-2">
+            <span className="text-sm text-gray-500">Active filters:</span>
+            <Badge variant="secondary" className="text-xs">
+              {activeFiltersCount} active
+            </Badge>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={clearAllFilters}
+              className="text-xs h-6 px-2"
+              data-testid="button-clear-filters"
+            >
+              <X className="w-3 h-3 mr-1" />
+              Clear all
+            </Button>
+          </div>
+        )}
       </div>
     </div>
   );

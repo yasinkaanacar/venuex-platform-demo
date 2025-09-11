@@ -17,7 +17,13 @@ interface FilterState {
   platformStatus: string;
   storeSet: string;
   missingPOI: string;
-  date?: Date;
+  dateRange: string;
+  platform: string;
+  compareMode: boolean;
+  startDate?: Date;
+  endDate?: Date;
+  compareStartDate?: Date;
+  compareEndDate?: Date;
 }
 
 export default function LocationsPage() {
@@ -31,7 +37,13 @@ export default function LocationsPage() {
     platformStatus: "",
     storeSet: "",
     missingPOI: "",
-    date: undefined
+    dateRange: "30d",
+    platform: "",
+    compareMode: false,
+    startDate: undefined,
+    endDate: undefined,
+    compareStartDate: undefined,
+    compareEndDate: undefined
   });
 
   // Event handlers
