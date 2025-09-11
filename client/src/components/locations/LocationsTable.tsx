@@ -283,7 +283,7 @@ export function LocationsTable({
                             onClick={() => setActiveTab(index)}
                             className={`flex-1 px-4 py-2 rounded-md text-sm font-medium transition-colors ${
                               activeTab === index
-                                ? "bg-white dark:bg-gray-700 text-blue-600 dark:text-blue-400 shadow-sm"
+                                ? "bg-white dark:bg-gray-700 text-blue-600 dark:text-blue-400"
                                 : "text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
                             }`}
                           >

@@ -110,7 +110,7 @@ export default function LocationsDataHealthAlerts({
   if (bannerMode) {
     return (
       <div
-        className="border border-blue-200 dark:border-blue-800 bg-blue-50 dark:bg-blue-950/20 rounded-lg shadow-none cursor-pointer hover:bg-blue-100 dark:hover:bg-blue-950/30 transition-colors"
+        className="border border-blue-200 dark:border-blue-800 bg-blue-50 dark:bg-blue-950/20 rounded-lg cursor-pointer hover:bg-blue-100 dark:hover:bg-blue-950/30 transition-colors"
         onClick={onScrollToBottom}
       >
         <div className="py-3 px-4">
@@ -563,7 +563,7 @@ export default function LocationsDataHealthAlerts({
                 {/* Data Sources - Left Side */}
                 <div className="absolute left-0 top-1/2 transform -translate-y-1/2 space-y-6">
                   {locationsPageMode ? (
-                    <div className="bg-white dark:bg-gray-800 rounded-xl p-4 shadow-sm border border-gray-100 dark:border-gray-700 w-64">
+                    <div className="bg-white dark:bg-gray-800 rounded-xl p-4  border border-gray-100 dark:border-gray-700 w-64">
                       <div className="flex items-center gap-3">
                         <div className="w-10 h-10 bg-blue-100 dark:bg-blue-900/50 rounded-lg flex items-center justify-center">
                           <MapPin className="w-5 h-5 text-blue-600" />
@@ -583,7 +583,7 @@ export default function LocationsDataHealthAlerts({
                     </div>
                   ) : (
                     <>
-                      <div className="bg-white dark:bg-gray-800 rounded-xl p-4 shadow-sm border border-gray-100 dark:border-gray-700 w-64">
+                      <div className="bg-white dark:bg-gray-800 rounded-xl p-4  border border-gray-100 dark:border-gray-700 w-64">
                         <div className="flex items-center gap-3">
                           <div className="w-10 h-10 bg-purple-100 dark:bg-purple-900/50 rounded-lg flex items-center justify-center">
                             <Package className="w-5 h-5 text-purple-600" />
@@ -602,7 +602,7 @@ export default function LocationsDataHealthAlerts({
                         </div>
                       </div>
 
-                      <div className="bg-white dark:bg-gray-800 rounded-xl p-4 shadow-sm border border-gray-100 dark:border-gray-700 w-64">
+                      <div className="bg-white dark:bg-gray-800 rounded-xl p-4  border border-gray-100 dark:border-gray-700 w-64">
                         <div className="flex items-center gap-3">
                           <div className="w-10 h-10 bg-green-100 dark:bg-green-900/50 rounded-lg flex items-center justify-center">
                             <Receipt className="w-5 h-5 text-green-600" />
@@ -621,7 +621,7 @@ export default function LocationsDataHealthAlerts({
                         </div>
                       </div>
 
-                      <div className="bg-white dark:bg-gray-800 rounded-xl p-4 shadow-sm border border-gray-100 dark:border-gray-700 w-64">
+                      <div className="bg-white dark:bg-gray-800 rounded-xl p-4  border border-gray-100 dark:border-gray-700 w-64">
                         <div className="flex items-center gap-3">
                           <div className="w-10 h-10 bg-blue-100 dark:bg-blue-900/50 rounded-lg flex items-center justify-center">
                             <MapPin className="w-5 h-5 text-blue-600" />
@@ -645,9 +645,9 @@ export default function LocationsDataHealthAlerts({
 
                 {/* Central VenueX Hub */}
                 <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2">
-                  <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-lg border-2 border-blue-200 dark:border-blue-800">
+                  <div className="bg-white dark:bg-gray-800 rounded-2xl p-6  border-2 border-blue-200 dark:border-blue-800">
                     <div className="flex flex-col items-center text-center">
-                      <div className="w-16 h-16 bg-white rounded-xl flex items-center justify-center shadow-sm">
+                      <div className="w-16 h-16 bg-white rounded-xl flex items-center justify-center ">
                         <img
                           src={vxLogo}
                           alt="VenueX"
@@ -668,7 +668,7 @@ export default function LocationsDataHealthAlerts({
                 <div className="absolute right-8 top-1/2 transform -translate-y-1/2 space-y-2">
                   {locationsPageMode ? (
                     /* Location Platforms Only */
-                    <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-2.5 shadow-sm border border-gray-200 dark:border-gray-700 w-56">
+                    <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-2.5  border border-gray-200 dark:border-gray-700 w-56">
                       <div className="text-xs font-semibold text-blue-600 mb-1.5">
                         Location Platforms
                       </div>
@@ -738,7 +738,7 @@ export default function LocationsDataHealthAlerts({
                   ) : (
                     <>
                       {/* Location Platforms */}
-                      <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-2.5 shadow-sm border border-gray-200 dark:border-gray-700 w-56">
+                      <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-2.5  border border-gray-200 dark:border-gray-700 w-56">
                         <div className="text-xs font-semibold text-blue-600 mb-1.5">
                           Location Platforms
                         </div>
@@ -807,7 +807,7 @@ export default function LocationsDataHealthAlerts({
                       </div>
 
                       {/* Merchant Platforms */}
-                      <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-2.5 shadow-sm border border-gray-200 dark:border-gray-700 w-56">
+                      <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-2.5  border border-gray-200 dark:border-gray-700 w-56">
                         <div className="text-xs font-semibold text-green-600 mb-1.5">
                           Merchant Platforms
                         </div>
@@ -858,7 +858,7 @@ export default function LocationsDataHealthAlerts({
                       </div>
 
                       {/* Ad Platforms */}
-                      <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-2.5 shadow-sm border border-gray-200 dark:border-gray-700 w-56">
+                      <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-2.5  border border-gray-200 dark:border-gray-700 w-56">
                         <div className="text-xs font-semibold text-purple-600 mb-1.5">
                           Ad Platforms
                         </div>
@@ -1410,7 +1410,7 @@ export default function LocationsDataHealthAlerts({
                 {/* Data Sources - Left Side */}
                 <div className="absolute left-0 top-1/2 transform -translate-y-1/2 space-y-6">
                   {locationsPageMode ? (
-                    <div className="bg-white dark:bg-gray-800 rounded-xl p-4 shadow-sm border border-gray-100 dark:border-gray-700 w-64">
+                    <div className="bg-white dark:bg-gray-800 rounded-xl p-4  border border-gray-100 dark:border-gray-700 w-64">
                       <div className="flex items-center gap-3">
                         <div className="w-10 h-10 bg-blue-100 dark:bg-blue-900/50 rounded-lg flex items-center justify-center">
                           <MapPin className="w-5 h-5 text-blue-600" />
@@ -1430,7 +1430,7 @@ export default function LocationsDataHealthAlerts({
                     </div>
                   ) : (
                     <>
-                      <div className="bg-white dark:bg-gray-800 rounded-xl p-4 shadow-sm border border-gray-100 dark:border-gray-700 w-64">
+                      <div className="bg-white dark:bg-gray-800 rounded-xl p-4  border border-gray-100 dark:border-gray-700 w-64">
                         <div className="flex items-center gap-3">
                           <div className="w-10 h-10 bg-purple-100 dark:bg-purple-900/50 rounded-lg flex items-center justify-center">
                             <Package className="w-5 h-5 text-purple-600" />
@@ -1449,7 +1449,7 @@ export default function LocationsDataHealthAlerts({
                         </div>
                       </div>
 
-                      <div className="bg-white dark:bg-gray-800 rounded-xl p-4 shadow-sm border border-gray-100 dark:border-gray-700 w-64">
+                      <div className="bg-white dark:bg-gray-800 rounded-xl p-4  border border-gray-100 dark:border-gray-700 w-64">
                         <div className="flex items-center gap-3">
                           <div className="w-10 h-10 bg-green-100 dark:bg-green-900/50 rounded-lg flex items-center justify-center">
                             <Receipt className="w-5 h-5 text-green-600" />
@@ -1468,7 +1468,7 @@ export default function LocationsDataHealthAlerts({
                         </div>
                       </div>
 
-                      <div className="bg-white dark:bg-gray-800 rounded-xl p-4 shadow-sm border border-gray-100 dark:border-gray-700 w-64">
+                      <div className="bg-white dark:bg-gray-800 rounded-xl p-4  border border-gray-100 dark:border-gray-700 w-64">
                         <div className="flex items-center gap-3">
                           <div className="w-10 h-10 bg-blue-100 dark:bg-blue-900/50 rounded-lg flex items-center justify-center">
                             <MapPin className="w-5 h-5 text-blue-600" />
@@ -1492,9 +1492,9 @@ export default function LocationsDataHealthAlerts({
 
                 {/* Central VenueX Hub */}
                 <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2">
-                  <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-lg border-2 border-blue-200 dark:border-blue-800">
+                  <div className="bg-white dark:bg-gray-800 rounded-2xl p-6  border-2 border-blue-200 dark:border-blue-800">
                     <div className="flex flex-col items-center text-center">
-                      <div className="w-16 h-16 bg-white rounded-xl flex items-center justify-center shadow-sm">
+                      <div className="w-16 h-16 bg-white rounded-xl flex items-center justify-center ">
                         <img
                           src={vxLogo}
                           alt="VenueX"
@@ -1515,7 +1515,7 @@ export default function LocationsDataHealthAlerts({
                 <div className="absolute right-8 top-1/2 transform -translate-y-1/2 space-y-2">
                   {locationsPageMode ? (
                     /* Location Platforms Only */
-                    <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-2.5 shadow-sm border border-gray-200 dark:border-gray-700 w-56">
+                    <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-2.5  border border-gray-200 dark:border-gray-700 w-56">
                       <div className="text-xs font-semibold text-blue-600 mb-1.5">
                         Location Platforms
                       </div>
@@ -1585,7 +1585,7 @@ export default function LocationsDataHealthAlerts({
                   ) : (
                     <>
                       {/* Location Platforms */}
-                      <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-2.5 shadow-sm border border-gray-200 dark:border-gray-700 w-56">
+                      <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-2.5  border border-gray-200 dark:border-gray-700 w-56">
                         <div className="text-xs font-semibold text-blue-600 mb-1.5">
                           Location Platforms
                         </div>
@@ -1654,7 +1654,7 @@ export default function LocationsDataHealthAlerts({
                       </div>
 
                       {/* Merchant Platforms */}
-                      <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-2.5 shadow-sm border border-gray-200 dark:border-gray-700 w-56">
+                      <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-2.5  border border-gray-200 dark:border-gray-700 w-56">
                         <div className="text-xs font-semibold text-green-600 mb-1.5">
                           Merchant Platforms
                         </div>
@@ -1705,7 +1705,7 @@ export default function LocationsDataHealthAlerts({
                       </div>
 
                       {/* Ad Platforms */}
-                      <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-2.5 shadow-sm border border-gray-200 dark:border-gray-700 w-56">
+                      <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-2.5  border border-gray-200 dark:border-gray-700 w-56">
                         <div className="text-xs font-semibold text-purple-600 mb-1.5">
                           Ad Platforms
                         </div>

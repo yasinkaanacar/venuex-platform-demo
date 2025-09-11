@@ -380,7 +380,7 @@ export function PlatformSummarySection({
   };
 
   return (
-    <div className="mx-6 mb-6 bg-white rounded-lg border border-gray-200 overflow-hidden">
+    <div className="mx-6 mb-6 bg-white rounded-lg border border-gray-200 overflow-hidden shadow-none">
       {/* Platform Tabs */}
       <div className="flex border-b border-gray-200">
         {platforms.map((platform, index) => (
