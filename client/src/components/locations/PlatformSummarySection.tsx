@@ -323,81 +323,58 @@ export function PlatformSummarySection({
     // Default layout for VenueX (index 0)
     return (
       <div className="p-4 bg-gray-50">
-        <div className="grid grid-cols-4 gap-6 items-start">
-          {/* 1/4 - 130 Locations */}
-          <div className="text-center bg-white rounded-lg p-4 border border-gray-200">
-            <div className="text-4xl font-bold text-gray-900 mb-2">130</div>
-            <div className="text-sm text-gray-600">Locations</div>
+        <div className="grid grid-cols-4 gap-4 items-center">
+          {/* 1/4 - Location count */}
+          <div className="text-center">
+            <div className="text-5xl font-bold text-gray-900 mb-1">130</div>
+            <div className="text-base text-gray-600">Lokasyon</div>
           </div>
 
-          {/* 1/4 - Data Quality Index */}
-          <div className="text-center bg-white rounded-lg p-4 border border-gray-200">
-            <div className="text-4xl font-bold text-green-600 mb-2">85%</div>
-            <div className="text-sm text-gray-600">Data Quality Index</div>
-            <div className="mt-2">
-              <div className="w-full bg-gray-200 rounded-full h-2">
-                <div className="bg-green-600 h-2 rounded-full" style={{ width: '85%' }}></div>
-              </div>
-            </div>
+          {/* 1/4 - Manage Posts */}
+          <div className="flex justify-center">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setLocation('/locations/posts')}
+              className="text-blue-600 border-blue-200 hover:bg-blue-50 w-full"
+              data-testid="btn-manage-posts"
+            >
+              <Settings className="w-4 h-4 mr-2" />
+              Manage Posts
+            </Button>
           </div>
 
-          {/* 1/4 - Store Status */}
-          <div className="text-center bg-white rounded-lg p-4 border border-gray-200">
-            <div className="text-2xl font-bold text-blue-600 mb-2">125</div>
-            <div className="text-sm text-gray-600">Active Stores</div>
-            <div className="mt-2 text-xs text-gray-500">
-              <div>5 Pending Review</div>
-            </div>
+          {/* 1/4 - Add New Location */}
+          <div className="flex justify-center">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={onAddNewLocation}
+              className="text-blue-600 border-blue-200 hover:bg-blue-50 w-full"
+              data-testid="btn-add-new-location"
+            >
+              <Plus className="w-4 h-4 mr-2" />
+              Add New Location
+            </Button>
           </div>
 
-          {/* 1/4 - Performance */}
-          <div className="text-center bg-white rounded-lg p-4 border border-gray-200">
-            <div className="text-2xl font-bold text-purple-600 mb-2">+12%</div>
-            <div className="text-sm text-gray-600">Performance</div>
-            <div className="mt-2 text-xs text-gray-500">
-              <div>vs. Last Month</div>
-            </div>
+          {/* 1/4 - Upload Locations */}
+          <div className="flex justify-center">
+            <Button
+              variant="default"
+              size="sm"
+              onClick={onUploadLocations}
+              className="bg-blue-600 hover:bg-blue-700 text-white w-full"
+              data-testid="btn-bulk-updates"
+            >
+              <Edit className="w-4 h-4 mr-2" />
+              Bulk Updates
+            </Button>
           </div>
-        </div>
-
-        {/* Action Buttons Row */}
-        <div className="mt-6 grid grid-cols-3 gap-4">
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => setLocation('/locations/posts')}
-            className="text-blue-600 border-blue-200 hover:bg-blue-50"
-            data-testid="btn-manage-posts"
-          >
-            <Settings className="w-4 h-4 mr-2" />
-            Manage Posts
-          </Button>
-
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={onAddNewLocation}
-            className="text-blue-600 border-blue-200 hover:bg-blue-50"
-            data-testid="btn-add-new-location"
-          >
-            <Plus className="w-4 h-4 mr-2" />
-            Add New Location
-          </Button>
-
-          <Button
-            variant="default"
-            size="sm"
-            onClick={onUploadLocations}
-            className="bg-blue-600 hover:bg-blue-700 text-white"
-            data-testid="btn-bulk-updates"
-          >
-            <Edit className="w-4 h-4 mr-2" />
-            Bulk Updates
-          </Button>
         </div>
 
         {/* Business Metrics Card */}
-        <div className="mt-6 pt-4 border-t border-gray-200">
+        <div className="mt-3 pt-2 border-t border-gray-200">
           <BusinessMetricsSection />
         </div>
       </div>
