@@ -4,6 +4,8 @@ import { showToast } from "@/lib/toast";
 import { LocationsTable } from "@/components/locations/LocationsTable";
 import { FieldManagementDialog } from "@/components/locations/FieldManagementDialog";
 import { PlatformSummarySection } from "@/components/locations/PlatformSummarySection";
+import { LocationActionsSection } from "@/components/locations/LocationActionsSection";
+import { BusinessMetricsSection } from "@/components/locations/BusinessMetricsSection";
 import DataQualityEnrichment from "@/components/overview/data-quality-enrichment";
 import LocationsDataHealthAlerts from "@/components/locations/locations-data-health-alerts";
 import { Store, User, Check } from 'lucide-react';
@@ -155,8 +157,17 @@ export default function LocationsPage() {
         </div>
 
         {/* Platform Summary Section */}
-        <PlatformSummarySection 
-          onManageFields={handleManageFields}
+        <PlatformSummarySection />
+
+        {/* Business Metrics Section */}
+        <div className="mx-6 mb-6 bg-white rounded-lg border border-gray-200 overflow-hidden shadow-none">
+          <div className="p-6">
+            <BusinessMetricsSection />
+          </div>
+        </div>
+
+        {/* Location Actions Section */}
+        <LocationActionsSection 
           onAddNewLocation={handleAddNewLocation}
           onUploadLocations={handleUploadLocations}
         />

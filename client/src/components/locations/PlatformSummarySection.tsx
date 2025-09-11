@@ -1,9 +1,7 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { ChevronRight, Info, Phone, Navigation, Eye, MousePointer, Plus, Upload, Settings, Edit } from "lucide-react";
-import { BusinessMetricsSection } from "@/components/locations/BusinessMetricsSection";
 import { Tooltip } from "@/components/ui/tooltip";
-import { useLocation } from "wouter";
 
 const platforms = [
   "VenueX",
@@ -78,19 +76,10 @@ const EngagementMetric = ({ value, label, icon }: { value: number; label: string
   </div>
 );
 
-interface PlatformSummarySectionProps {
-  onManageFields?: () => void;
-  onAddNewLocation?: () => void;
-  onUploadLocations?: () => void;
-}
+interface PlatformSummarySectionProps {}
 
-export function PlatformSummarySection({ 
-  onManageFields, 
-  onAddNewLocation, 
-  onUploadLocations 
-}: PlatformSummarySectionProps) {
+export function PlatformSummarySection({}: PlatformSummarySectionProps) {
   const [activePlatform, setActivePlatform] = useState(0);
-  const [, setLocation] = useLocation();
 
   // Get current date and time
   const now = new Date();
@@ -322,60 +311,10 @@ export function PlatformSummarySection({
 
     // Default layout for VenueX (index 0)
     return (
-      <div className="p-4 bg-gray-50">
-        <div className="grid grid-cols-4 gap-4 items-center">
-          {/* 1/4 - Location count */}
-          <div className="text-center">
-            <div className="text-5xl font-bold text-gray-900 mb-1">130</div>
-            <div className="text-base text-gray-600">Lokasyon</div>
-          </div>
-
-          {/* 1/4 - Manage Posts */}
-          <div className="flex justify-center">
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => setLocation('/locations/posts')}
-              className="text-blue-600 border-blue-200 hover:bg-blue-50 w-full"
-              data-testid="btn-manage-posts"
-            >
-              <Settings className="w-4 h-4 mr-2" />
-              Manage Posts
-            </Button>
-          </div>
-
-          {/* 1/4 - Add New Location */}
-          <div className="flex justify-center">
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={onAddNewLocation}
-              className="text-blue-600 border-blue-200 hover:bg-blue-50 w-full"
-              data-testid="btn-add-new-location"
-            >
-              <Plus className="w-4 h-4 mr-2" />
-              Add New Location
-            </Button>
-          </div>
-
-          {/* 1/4 - Upload Locations */}
-          <div className="flex justify-center">
-            <Button
-              variant="default"
-              size="sm"
-              onClick={onUploadLocations}
-              className="bg-blue-600 hover:bg-blue-700 text-white w-full"
-              data-testid="btn-bulk-updates"
-            >
-              <Edit className="w-4 h-4 mr-2" />
-              Bulk Updates
-            </Button>
-          </div>
-        </div>
-
-        {/* Business Metrics Card */}
-        <div className="mt-3 pt-2 border-t border-gray-200">
-          <BusinessMetricsSection />
+      <div className="p-6 bg-gray-50">
+        <div className="text-center">
+          <div className="text-lg text-gray-600 mb-2">VenueX Platform Overview</div>
+          <div className="text-sm text-gray-500">Manage your VenueX presence and performance</div>
         </div>
       </div>
     );
