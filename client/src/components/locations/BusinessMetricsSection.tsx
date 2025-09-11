@@ -44,6 +44,26 @@ export function BusinessMetricsSection() {
             <Button
               variant="outline"
               className="w-full text-blue-600 hover:text-blue-700"
+              onClick={() => {
+                // Try to find the Data Quality Assessment section
+                let element = document.getElementById('data-quality-assessment') || 
+                             document.querySelector('[data-section="data-quality-assessment"]');
+                
+                if (!element) {
+                  // Find by heading text content
+                  const headings = Array.from(document.querySelectorAll('h1, h2, h3, h4'));
+                  for (const heading of headings) {
+                    if (heading.textContent?.includes('Data Quality Assessment')) {
+                      element = heading.closest('div') || heading as HTMLElement;
+                      break;
+                    }
+                  }
+                }
+                
+                if (element) {
+                  element.scrollIntoView({ behavior: 'smooth' });
+                }
+              }}
             >
               View details
             </Button>
