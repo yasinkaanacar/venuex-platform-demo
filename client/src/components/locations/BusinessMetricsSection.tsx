@@ -105,15 +105,15 @@ export function BusinessMetricsSection() {
               variant="outline"
               className="w-full text-blue-600 hover:text-blue-700 mt-auto"
               onClick={() => {
-                // Try to find the Locations table section
-                let element = document.getElementById('locations-table') || 
-                             document.querySelector('[data-section="locations-table"]');
+                // Try to find the Locations section header
+                let element = document.getElementById('locations-section') || 
+                             document.querySelector('[data-section="locations"]');
                 
                 if (!element) {
-                  // Find by heading text content
+                  // Find the "Locations" heading specifically (not inside the current card)
                   const headings = Array.from(document.querySelectorAll('h1, h2, h3, h4'));
                   for (const heading of headings) {
-                    if (heading.textContent?.includes('Locations')) {
+                    if (heading.textContent?.trim() === 'Locations' && !heading.closest('[class*="BusinessMetrics"]')) {
                       element = heading.closest('div') || heading as HTMLElement;
                       break;
                     }
@@ -121,7 +121,7 @@ export function BusinessMetricsSection() {
                 }
                 
                 if (element) {
-                  element.scrollIntoView({ behavior: 'smooth' });
+                  element.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 }
               }}
             >
