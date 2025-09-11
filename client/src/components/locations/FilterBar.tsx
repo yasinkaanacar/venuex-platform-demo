@@ -98,7 +98,7 @@ export function FilterBar({
     });
   };
 
-  const handleCompareToggle = (event: React.ChangeEvent<HTMLInputElement>, checked: boolean) => {
+  const handleCompareToggle = (checked: boolean) => {
     onFiltersChange({
       ...filters,
       compareMode: checked
@@ -255,7 +255,7 @@ export function FilterBar({
             <Switch
               id="compare-mode"
               checked={filters.compareMode || false}
-              onChange={handleCompareToggle}
+              onChange={(event) => handleCompareToggle(event.target.checked)}
               className="data-[state=checked]:bg-blue-600"
             />
           </div>

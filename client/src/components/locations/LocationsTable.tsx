@@ -267,6 +267,9 @@ export function LocationsTable({
                 <div className="bg-[#f9fafb] p-6">
                   <Card className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
                     <CardContent className="p-6">
+                      <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+                        Business Profile Interaction
+                      </h4>
                       {/* Tabs */}
                       <div className="flex space-x-1 mb-6 bg-gray-100 dark:bg-gray-800 rounded-lg p-1">
                         {tabs.map((tab, index) => (
