@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import { FilterBar } from "@/components/locations/FilterBar";
 import { LocationDataTable } from "@/components/locations/LocationDataTable";
+import { LocationsFilterState } from "@/lib/types";
 import {
   LineChart,
   Line,
@@ -159,23 +160,14 @@ const tabs = [
   { label: "Direction Requests", value: "34632", active: false },
 ];
 
-interface FilterState {
-  search: string;
-  city: string;
-  businessStatus: string;
-  platformStatus: string;
-  storeSet: string;
-  missingPOI: string;
-}
-
 interface LocationsTableProps {
   onRowClick: (id: string) => void;
   onEdit: (id: string) => void;
-  filters: FilterState;
+  filters: LocationsFilterState;
   onManageFields: () => void;
   onAddNewLocation: () => void;
   onUploadLocations: () => void;
-  onFiltersChange: (filters: FilterState) => void;
+  onFiltersChange: (filters: LocationsFilterState) => void;
 }
 
 export function LocationsTable({

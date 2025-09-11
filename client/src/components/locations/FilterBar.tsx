@@ -16,29 +16,14 @@ import { Plus, Upload, Settings, Search, Filter, X, CalendarIcon, GitCompare } f
 import { useState } from "react";
 import { format, addDays, subDays } from "date-fns";
 import { DateRange } from "react-day-picker";
-
-interface FilterState {
-  search: string;
-  city: string;
-  businessStatus: string;
-  platformStatus: string;
-  storeSet: string;
-  missingPOI: string;
-  dateRange: string;
-  platform: string;
-  compareMode: boolean;
-  startDate?: Date;
-  endDate?: Date;
-  compareStartDate?: Date;
-  compareEndDate?: Date;
-}
+import { LocationsFilterState } from "@/lib/types";
 
 interface FilterBarProps {
   onManageFields: () => void;
   onAddNewLocation: () => void;
   onUploadLocations: () => void;
-  filters: FilterState;
-  onFiltersChange: (filters: FilterState) => void;
+  filters: LocationsFilterState;
+  onFiltersChange: (filters: LocationsFilterState) => void;
 }
 
 export function FilterBar({
@@ -63,7 +48,7 @@ export function FilterBar({
     { label: "Custom range", value: "custom" },
   ];
 
-  const handleFilterChange = (key: keyof FilterState, value: string) => {
+  const handleFilterChange = (key: keyof LocationsFilterState, value: string) => {
     onFiltersChange({
       ...filters,
       [key]: value

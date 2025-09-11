@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { showToast } from "@/lib/toast";
+import { LocationsFilterState } from "@/lib/types";
 
 import { LocationsTable } from "@/components/locations/LocationsTable";
 import { FieldManagementDialog } from "@/components/locations/FieldManagementDialog";
@@ -10,27 +11,11 @@ import LocationsDataHealthAlerts from "@/components/locations/locations-data-hea
 import { Store, User, Check } from 'lucide-react';
 import { Tooltip } from '@mui/material';
 
-interface FilterState {
-  search: string;
-  city: string;
-  businessStatus: string;
-  platformStatus: string;
-  storeSet: string;
-  missingPOI: string;
-  dateRange: string;
-  platform: string;
-  compareMode: boolean;
-  startDate?: Date;
-  endDate?: Date;
-  compareStartDate?: Date;
-  compareEndDate?: Date;
-}
-
 export default function LocationsPage() {
   // State management
   const [selectedLocationId, setSelectedLocationId] = useState<string | null>(null);
   const [fieldManagementOpen, setFieldManagementOpen] = useState(false);
-  const [filters, setFilters] = useState<FilterState>({
+  const [filters, setFilters] = useState<LocationsFilterState>({
     search: "",
     city: "",
     businessStatus: "",
