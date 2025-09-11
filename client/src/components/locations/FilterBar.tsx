@@ -126,14 +126,15 @@ export function FilterBar({
           </Select>
 
           {/* Store Set Filter */}
-          <Select value={filters.storeSet || ""} onValueChange={(value) => handleFilterChange('storeSet', value)}>
+          <Select value={filters.storeSet || "All"} onValueChange={(value) => handleFilterChange('storeSet', value === "All" ? "" : value)}>
             <SelectTrigger className="w-[150px]" data-testid="filter-store-set">
-              <div className="flex items-center justify-between w-full">
-                <span className="text-sm text-gray-500">{filters.storeSet || "Select a store set"}</span>
+              <div className="flex flex-col items-start w-full">
+                <div className="text-xs text-gray-500">Store Set</div>
+                <div className="text-sm">{filters.storeSet || "All"}</div>
               </div>
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="">Select a store set</SelectItem>
+              <SelectItem value="All">All</SelectItem>
               {storeSets.map((set) => (
                 <SelectItem key={set} value={set}>
                   {set}
@@ -143,14 +144,15 @@ export function FilterBar({
           </Select>
 
           {/* Missing POI Filter */}
-          <Select value={filters.missingPOI || ""} onValueChange={(value) => handleFilterChange('missingPOI', value)}>
+          <Select value={filters.missingPOI || "All"} onValueChange={(value) => handleFilterChange('missingPOI', value === "All" ? "" : value)}>
             <SelectTrigger className="w-[120px]" data-testid="filter-missing-poi">
-              <div className="flex items-center justify-between w-full">
-                <span className="text-sm text-gray-500">{filters.missingPOI || "Missing POI"}</span>
+              <div className="flex flex-col items-start w-full">
+                <div className="text-xs text-gray-500">Missing POI</div>
+                <div className="text-sm">{filters.missingPOI || "All"}</div>
               </div>
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="">Missing POI</SelectItem>
+              <SelectItem value="All">All</SelectItem>
               <SelectItem value="Yes">Yes</SelectItem>
               <SelectItem value="No">No</SelectItem>
             </SelectContent>
