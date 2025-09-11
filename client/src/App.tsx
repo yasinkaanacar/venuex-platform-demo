@@ -26,6 +26,7 @@ function Router() {
           <Route path="/" component={Overview} />
           <Route path="/offline-conversions" component={OfflineConversions} />
           <Route path="/locations" component={Locations} />
+          <Route path="/locations/posts" component={Locations} />
           <Route component={NotFound} />
         </Switch>
       </main>

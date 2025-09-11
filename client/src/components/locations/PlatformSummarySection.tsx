@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { ChevronRight, Info, Phone, Navigation, Eye, MousePointer, Plus, Upload, Settings, Edit } from "lucide-react";
 import { BusinessMetricsSection } from "@/components/locations/BusinessMetricsSection";
 import { Tooltip } from "@/components/ui/tooltip";
+import { useLocation } from "wouter";
 
 const platforms = [
   "VenueX",
@@ -89,6 +90,7 @@ export function PlatformSummarySection({
   onUploadLocations 
 }: PlatformSummarySectionProps) {
   const [activePlatform, setActivePlatform] = useState(0);
+  const [, setLocation] = useLocation();
 
   // Get current date and time
   const now = new Date();
@@ -333,9 +335,9 @@ export function PlatformSummarySection({
             <Button
               variant="outline"
               size="sm"
-              onClick={onManageFields}
+              onClick={() => setLocation('/locations/posts')}
               className="text-blue-600 border-blue-200 hover:bg-blue-50 w-full"
-              data-testid="btn-manage-fields"
+              data-testid="btn-manage-posts"
             >
               <Settings className="w-4 h-4 mr-2" />
               Manage Posts
@@ -400,3 +402,5 @@ export function PlatformSummarySection({
     </div>
   );
 }
+
+export default PlatformSummarySection;
