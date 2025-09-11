@@ -71,22 +71,24 @@ export function BusinessMetricsSection() {
 
           {/* Performance Section - 2/3 */}
           <div className="flex flex-col h-full">
-            <h3 className="text-lg font-semibold text-gray-900 mb-4 text-center">
-              Performance
-            </h3>
-            <div className="space-y-4 mb-6">
-              <div className="text-center">
-                <div className="text-3xl font-bold text-gray-900">243</div>
-                <div className="text-sm text-gray-600">Total Interactions</div>
-              </div>
-              <div className="text-center">
-                <div className="text-3xl font-bold text-gray-900">177</div>
-                <div className="text-sm text-gray-600">Total Views</div>
+            <div className="flex flex-col flex-1">
+              <h3 className="text-lg font-semibold text-gray-900 mb-4 text-center">
+                Performance
+              </h3>
+              <div className="space-y-4 mb-6">
+                <div className="text-center">
+                  <div className="text-3xl font-bold text-gray-900">243</div>
+                  <div className="text-sm text-gray-600">Total Interactions</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-3xl font-bold text-gray-900">177</div>
+                  <div className="text-sm text-gray-600">Total Views</div>
+                </div>
               </div>
             </div>
             <Button
               variant="outline"
-              className="w-full text-blue-600 hover:text-blue-700 mt-auto"
+              className="w-full text-blue-600 hover:text-blue-700"
               onClick={() => {
                 // Try to find the Performance section
                 let element = document.getElementById('performance-section') || 
