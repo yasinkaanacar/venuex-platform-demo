@@ -32,7 +32,7 @@ export function BusinessMetricsSection() {
           {/* Index Section - 1/3 */}
           <div className="flex flex-col items-center text-center h-full justify-between">
             <div className="flex flex-col items-center">
-              <div className="text-4xl font-bold text-gray-900 mb-4">87%</div>
+              <div className="font-bold text-gray-900 mb-4 text-[48px]">87%</div>
               <h3 className="text-lg font-semibold text-gray-900 mb-2">
                 Data Quality Index
               </h3>
