@@ -39,6 +39,13 @@ export default function LocationsPage() {
     setFieldManagementOpen(true);
   };
 
+  const scrollToDataHealthDetails = () => {
+    const element = document.getElementById('data-health-details');
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   const handleAddNewLocation = () => {
     console.log('Add new location clicked');
     showToast({
@@ -143,6 +150,7 @@ export default function LocationsPage() {
           <LocationsDataHealthAlerts 
             bannerMode={true}
             locationsPageMode={true}
+            onScrollToBottom={scrollToDataHealthDetails}
           />
         </div>
 
@@ -173,7 +181,7 @@ export default function LocationsPage() {
         </div>
 
         {/* Alerts & Notifications (Expanded) */}
-        <div className="mx-6 mt-8">
+        <div className="mx-6 mt-8" id="data-health-details">
           <LocationsDataHealthAlerts 
             bannerMode={false}
             alwaysExpanded={true}

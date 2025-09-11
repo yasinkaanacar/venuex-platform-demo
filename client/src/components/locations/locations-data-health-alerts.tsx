@@ -146,7 +146,9 @@ export default function LocationsDataHealthAlerts({
               className="text-xs"
               onClick={(e) => {
                 e.stopPropagation();
-                onScrollToBottom();
+                if (onScrollToBottom) {
+                  onScrollToBottom();
+                }
               }}
               data-testid="button-scroll-to-bottom"
             >
