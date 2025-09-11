@@ -7,9 +7,9 @@ interface LocationActionsSectionProps {
   onUploadLocations?: () => void;
 }
 
-export function LocationActionsSection({ 
-  onAddNewLocation, 
-  onUploadLocations 
+export function LocationActionsSection({
+  onAddNewLocation,
+  onUploadLocations,
 }: LocationActionsSectionProps) {
   const [, setLocation] = useLocation();
 
@@ -22,8 +22,8 @@ export function LocationActionsSection({
             <Button
               variant="outline"
               size="lg"
-              onClick={() => setLocation('/locations/posts')}
-              className="text-blue-600 border-blue-200 hover:bg-blue-50 w-full h-16"
+              onClick={() => setLocation("/locations/posts")}
+              className="bg-blue-600 hover:bg-blue-700 text-white w-full h-16"
               data-testid="btn-manage-posts"
             >
               <FileText className="w-4 h-4 mr-2" />
@@ -37,7 +37,7 @@ export function LocationActionsSection({
               variant="outline"
               size="lg"
               onClick={onAddNewLocation}
-              className="text-blue-600 border-blue-200 hover:bg-blue-50 w-full h-16"
+              className="bg-blue-600 hover:bg-blue-700 text-white w-full h-16"
               data-testid="btn-add-new-location"
             >
               <Plus className="w-4 h-4 mr-2" />
