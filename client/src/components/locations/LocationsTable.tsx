@@ -189,6 +189,7 @@ export function LocationsTable({
 }: LocationsTableProps) {
   const [activeTab, setActiveTab] = useState(0);
   const [isExpanded, setIsExpanded] = useState(true);
+  const [isLocationsExpanded, setIsLocationsExpanded] = useState(true);
 
   const filteredData = mockLocationData.filter((location) => {
     // Search filter
@@ -523,21 +524,37 @@ export function LocationsTable({
           {/* Title Header */}
           <div className="bg-[#f9fafb] py-2 px-6 flex justify-between items-center border-b border-gray-200">
             <h3 className="text-lg font-semibold text-foreground">Locations</h3>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => setIsLocationsExpanded(!isLocationsExpanded)}
+              className="h-8 w-8 p-0"
+            >
+              {isLocationsExpanded ? (
+                <ChevronUp className="h-4 w-4" />
+              ) : (
+                <ChevronDown className="h-4 w-4" />
+              )}
+            </Button>
           </div>
-          <FilterBar
-            onManageFields={onManageFields}
-            onAddNewLocation={onAddNewLocation}
-            onUploadLocations={onUploadLocations}
-            filters={filters}
-            onFiltersChange={onFiltersChange}
-          />
-          <CardContent className="p-0">
-            <LocationDataTable
-              data={filteredData}
-              onRowClick={onRowClick}
-              onEdit={onEdit}
-            />
-          </CardContent>
+          {isLocationsExpanded && (
+            <>
+              <FilterBar
+                onManageFields={onManageFields}
+                onAddNewLocation={onAddNewLocation}
+                onUploadLocations={onUploadLocations}
+                filters={filters}
+                onFiltersChange={onFiltersChange}
+              />
+              <CardContent className="p-0">
+                <LocationDataTable
+                  data={filteredData}
+                  onRowClick={onRowClick}
+                  onEdit={onEdit}
+                />
+              </CardContent>
+            </>
+          )}
         </Card>
       </div>
     </>
