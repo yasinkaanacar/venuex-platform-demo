@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { ChevronRight, Info, Phone, Navigation, Eye, MousePointer, Plus, Upload, Settings } from "lucide-react";
+import { ChevronRight, Info, Phone, Navigation, Eye, MousePointer, Plus, Upload, Settings, Edit } from "lucide-react";
 import { BusinessMetricsSection } from "@/components/locations/BusinessMetricsSection";
 import { Tooltip } from "@/components/ui/tooltip";
 
@@ -363,10 +363,10 @@ export function PlatformSummarySection({
               size="sm"
               onClick={onUploadLocations}
               className="bg-blue-600 hover:bg-blue-700 text-white w-full"
-              data-testid="btn-upload-locations"
+              data-testid="btn-bulk-updates"
             >
-              <Upload className="w-4 h-4 mr-2" />
-              Upload Locations
+              <Edit className="w-4 h-4 mr-2" />
+              Bulk Updates
             </Button>
           </div>
         </div>
