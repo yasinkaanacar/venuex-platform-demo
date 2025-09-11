@@ -24,6 +24,29 @@ const getPlatformIcon = (platform: string) => {
   }
 };
 
+// Data quality index color helper function
+const getDataQualityColor = (percentage: string) => {
+  const value = parseInt(percentage.replace('%', ''));
+  if (value >= 80) {
+    return 'text-green-600';
+  } else if (value >= 60) {
+    return 'text-yellow-600';
+  } else {
+    return 'text-red-600';
+  }
+};
+
+const getDataQualityIcon = (percentage: string) => {
+  const value = parseInt(percentage.replace('%', ''));
+  if (value >= 80) {
+    return <CheckCircle className="w-4 h-4 text-green-500" />;
+  } else if (value >= 60) {
+    return <AlertTriangle className="w-4 h-4 text-yellow-500" />;
+  } else {
+    return <AlertTriangle className="w-4 h-4 text-red-500" />;
+  }
+};
+
 interface LocationData {
   id: string;
   storeCode: string;
@@ -142,8 +165,8 @@ export function LocationDataTable({ data, onRowClick, onEdit }: LocationDataTabl
                 </TableCell>
                 <TableCell>
                   <div className="flex items-center space-x-1">
-                    <CheckCircle className="w-4 h-4 text-green-500" />
-                    <span className="text-green-600 text-sm">{location.poiStatus}</span>
+                    {getDataQualityIcon(location.poiStatus)}
+                    <span className={`text-sm font-medium ${getDataQualityColor(location.poiStatus)}`}>{location.poiStatus}</span>
                   </div>
                 </TableCell>
                 <TableCell>

@@ -31,7 +31,7 @@ const mockLocationData = [
     locationName: "Boyner Eskişehir Kanatlı",
     businessStatus: "Open" as const,
     platformStatus: "Looks Good!",
-    poiStatus: "Looks Good!",
+    poiStatus: "92%",
     platforms: ["facebook", "google", "instagram", "yelp"],
   },
   {
@@ -40,7 +40,7 @@ const mockLocationData = [
     locationName: "Boyner Denizli Forum",
     businessStatus: "Open" as const,
     platformStatus: "Looks Good!",
-    poiStatus: "Looks Good!",
+    poiStatus: "68%",
     platforms: ["facebook", "google", "instagram", "yelp"],
   },
   {
@@ -49,7 +49,7 @@ const mockLocationData = [
     locationName: "Boyner Çanakkale 17 Burda",
     businessStatus: "Open" as const,
     platformStatus: "Looks Good!",
-    poiStatus: "Looks Good!",
+    poiStatus: "45%",
     platforms: ["facebook", "google", "instagram", "yelp"],
   },
   {
@@ -58,7 +58,7 @@ const mockLocationData = [
     locationName: "Boyner Adapazarı Agora",
     businessStatus: "Open" as const,
     platformStatus: "Looks Good!",
-    poiStatus: "Looks Good!",
+    poiStatus: "87%",
     platforms: ["facebook", "google", "instagram", "yelp"],
   },
   {
@@ -67,7 +67,7 @@ const mockLocationData = [
     locationName: "Boyner Forum Diyarbakır",
     businessStatus: "Open" as const,
     platformStatus: "Looks Good!",
-    poiStatus: "Looks Good!",
+    poiStatus: "75%",
     platforms: ["facebook", "google", "instagram", "yelp"],
   },
   {
@@ -76,7 +76,7 @@ const mockLocationData = [
     locationName: "Boyner Van",
     businessStatus: "Open" as const,
     platformStatus: "Looks Good!",
-    poiStatus: "Looks Good!",
+    poiStatus: "33%",
     platforms: ["facebook", "google", "instagram", "yelp"],
   },
   {
@@ -85,7 +85,7 @@ const mockLocationData = [
     locationName: "Boyner Adapazarı Serdivan",
     businessStatus: "Open" as const,
     platformStatus: "Looks Good!",
-    poiStatus: "Looks Good!",
+    poiStatus: "95%",
     platforms: ["facebook", "google", "instagram", "yelp"],
   },
   {
@@ -94,7 +94,7 @@ const mockLocationData = [
     locationName: "Boyner Antalya Alanyum",
     businessStatus: "Open" as const,
     platformStatus: "Looks Good!",
-    poiStatus: "Looks Good!",
+    poiStatus: "62%",
     platforms: ["facebook", "google", "instagram", "yelp"],
   },
   {
@@ -103,7 +103,7 @@ const mockLocationData = [
     locationName: "Boyner Şanlıurfa Piazza",
     businessStatus: "Open" as const,
     platformStatus: "Looks Good!",
-    poiStatus: "Looks Good!",
+    poiStatus: "81%",
     platforms: ["facebook", "google", "instagram", "yelp"],
   },
   {
@@ -112,7 +112,7 @@ const mockLocationData = [
     locationName: "Boyner Tekirdağ Orion",
     businessStatus: "Open" as const,
     platformStatus: "Looks Good!",
-    poiStatus: "Looks Good!",
+    poiStatus: "52%",
     platforms: ["facebook", "google", "instagram", "yelp"],
   },
 ];
