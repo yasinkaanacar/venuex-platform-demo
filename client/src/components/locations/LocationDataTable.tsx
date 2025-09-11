@@ -116,7 +116,7 @@ export function LocationDataTable({ data, onRowClick, onEdit }: LocationDataTabl
               <TableHead className="text-[#1a1a1a] font-medium">Business Status</TableHead>
               <TableHead className="text-[#1a1a1a] font-medium">
                 <div className="flex items-center space-x-1">
-                  <span>POI</span>
+                  <span>Data Quality Index</span>
                   <Info className="w-3 h-3" />
                 </div>
               </TableHead>
@@ -220,7 +220,6 @@ export function LocationDataTable({ data, onRowClick, onEdit }: LocationDataTabl
           </TableBody>
         </Table>
       </div>
-      
       {/* Bottom Pagination */}
       <div className="flex items-center justify-between p-4 border-t">
         <div className="flex items-center space-x-4">
