@@ -341,7 +341,9 @@ export function PlatformSummarySection({
           <button
             key={index}
             onClick={() => setActivePlatform(index)}
-            className="flex-1 px-4 py-3 text-sm font-medium transition-colors border-r border-gray-200 last:border-r-0 text-gray-900 bg-[#f9fafb]"
+            className={`flex-1 px-4 py-3 text-sm font-medium transition-colors border-r border-gray-200 last:border-r-0 text-gray-900 ${
+              activePlatform === index ? 'bg-white' : 'bg-[#f9fafb]'
+            }`}
           >
             {platform}
           </button>
