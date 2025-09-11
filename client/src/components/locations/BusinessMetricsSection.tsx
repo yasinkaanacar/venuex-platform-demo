@@ -137,10 +137,10 @@ export function BusinessMetricsSection() {
 
           {/* Store Status Section - 3/3 */}
           <div className="flex flex-col h-full">
-            <h3 className="text-lg font-semibold text-gray-900 mb-4 text-center">
+            <h3 className="text-lg font-semibold text-gray-900 mb-2 text-center">
               Store Status
             </h3>
-            <div className="space-y-4 mb-6">
+            <div className="space-y-2 mb-4">
               <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-2">
                   <span className="text-sm text-gray-600">Total Locations</span>
