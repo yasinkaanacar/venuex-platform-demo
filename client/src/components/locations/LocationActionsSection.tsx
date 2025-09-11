@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { Settings, Plus, Edit } from "lucide-react";
+import { FileText, Plus, Edit } from "lucide-react";
 import { useLocation } from "wouter";
 
 interface LocationActionsSectionProps {
@@ -26,7 +26,7 @@ export function LocationActionsSection({
               className="text-blue-600 border-blue-200 hover:bg-blue-50 w-full h-16"
               data-testid="btn-manage-posts"
             >
-              <Settings className="w-4 h-4 mr-2" />
+              <FileText className="w-4 h-4 mr-2" />
               Manage Posts
             </Button>
           </div>
