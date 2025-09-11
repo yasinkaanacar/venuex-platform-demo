@@ -23,7 +23,7 @@ export function LocationActionsSection({
               variant="outline"
               size="lg"
               onClick={() => setLocation("/locations/posts")}
-              className="text-blue-600 border-blue-200 hover:bg-blue-50 w-full h-16 bg-[#ffffff] text-[18px]"
+              className="text-blue-600 border-blue-200 hover:bg-blue-50 w-full h-16 text-[18px] bg-[#ffffff]"
               data-testid="btn-manage-posts"
             >
               <FileText className="w-4 h-4 mr-2" />
@@ -51,7 +51,7 @@ export function LocationActionsSection({
               variant="outline"
               size="lg"
               onClick={onUploadLocations}
-              className="text-blue-600 border-blue-200 hover:bg-blue-50 w-full h-16 bg-[#ffffff] text-[18px]"
+              className="text-blue-600 border-blue-200 hover:bg-blue-50 w-full h-16 text-[18px] bg-[#ffffff]"
               data-testid="btn-bulk-updates"
             >
               <Edit className="w-4 h-4 mr-2" />
