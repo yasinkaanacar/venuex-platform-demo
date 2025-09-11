@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { ChevronRight, Info, Phone, Navigation, Eye, MousePointer, Plus, Upload, Settings } from "lucide-react";
 import { BusinessMetricsSection } from "@/components/locations/BusinessMetricsSection";
+import { Tooltip } from "@/components/ui/tooltip";
 
 const platforms = [
   "VenueX",
@@ -11,15 +12,60 @@ const platforms = [
   "Yandex Maps"
 ];
 
-const StatusItem = ({ count, label, icon }: { count: number; label: string; icon?: boolean }) => (
-  <div className="flex items-center justify-between">
-    <div className="flex items-center space-x-2">
-      <span className="text-2xl font-bold text-gray-900">{count}</span>
-      <span className="text-sm text-gray-600">{label}</span>
-      {icon && <Info className="w-4 h-4 text-gray-400" />}
+const getTooltipContent = (label: string) => {
+  const tooltips: { [key: string]: { title: string; description: string } } = {
+    'Verified': {
+      title: 'What are verified listings?',
+      description: 'Business profiles that have been verified by the platform and are showing accurate information to customers.'
+    },
+    'Unverified': {
+      title: 'What are unverified listings?',
+      description: 'Business profiles that have not yet been verified by the platform and may need additional confirmation.'
+    },
+    'Duplicated': {
+      title: 'What are duplicated listings?',
+      description: 'Business profiles that have duplicate entries on the platform and need to be merged or removed.'
+    },
+    'Suspended': {
+      title: 'What are suspended listings?',
+      description: 'Business profiles that have been temporarily suspended due to policy violations or other issues.'
+    },
+    'Published': {
+      title: 'What are published listings?',
+      description: 'Business profiles that are live and visible to customers on the platform.'
+    },
+    'Rejected': {
+      title: 'What are rejected listings?',
+      description: 'Business profiles that were rejected during the review process and need to be corrected.'
+    }
+  };
+  return tooltips[label] || { title: 'Information', description: 'Additional details about this metric.' };
+};
+
+const StatusItem = ({ count, label, icon }: { count: number; label: string; icon?: boolean }) => {
+  const tooltipContent = getTooltipContent(label);
+  
+  return (
+    <div className="flex items-center justify-between">
+      <div className="flex items-center space-x-2">
+        <span className="text-2xl font-bold text-gray-900">{count}</span>
+        <span className="text-sm text-gray-600">{label}</span>
+        {icon && (
+          <Tooltip 
+            title={
+              <div>
+                <div className="font-medium mb-2">{tooltipContent.title}</div>
+                <div className="text-sm">{tooltipContent.description}</div>
+              </div>
+            }
+          >
+            <Info className="w-4 h-4 text-gray-400 hover:text-gray-600 cursor-help transition-colors" />
+          </Tooltip>
+        )}
+      </div>
     </div>
-  </div>
-);
+  );
+};
 
 const EngagementMetric = ({ value, label, icon }: { value: number; label: string; icon: React.ReactNode }) => (
   <div className="text-center">
