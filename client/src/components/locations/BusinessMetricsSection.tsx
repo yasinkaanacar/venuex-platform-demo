@@ -104,6 +104,26 @@ export function BusinessMetricsSection() {
             <Button
               variant="outline"
               className="w-full text-blue-600 hover:text-blue-700 mt-auto"
+              onClick={() => {
+                // Try to find the Locations table section
+                let element = document.getElementById('locations-table') || 
+                             document.querySelector('[data-section="locations-table"]');
+                
+                if (!element) {
+                  // Find by heading text content
+                  const headings = Array.from(document.querySelectorAll('h1, h2, h3, h4'));
+                  for (const heading of headings) {
+                    if (heading.textContent?.includes('Locations')) {
+                      element = heading.closest('div') || heading as HTMLElement;
+                      break;
+                    }
+                  }
+                }
+                
+                if (element) {
+                  element.scrollIntoView({ behavior: 'smooth' });
+                }
+              }}
             >
               View details
             </Button>
@@ -127,6 +147,26 @@ export function BusinessMetricsSection() {
             <Button
               variant="outline"
               className="w-full text-blue-600 hover:text-blue-700 mt-auto"
+              onClick={() => {
+                // Try to find the Performance section
+                let element = document.getElementById('performance-section') || 
+                             document.querySelector('[data-section="performance-section"]');
+                
+                if (!element) {
+                  // Find by heading text content
+                  const headings = Array.from(document.querySelectorAll('h1, h2, h3, h4'));
+                  for (const heading of headings) {
+                    if (heading.textContent?.includes('Performance') && !heading.closest('.card')) {
+                      element = heading.closest('div') || heading as HTMLElement;
+                      break;
+                    }
+                  }
+                }
+                
+                if (element) {
+                  element.scrollIntoView({ behavior: 'smooth' });
+                }
+              }}
             >
               View details
             </Button>
