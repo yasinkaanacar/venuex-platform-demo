@@ -140,7 +140,7 @@ export function BusinessMetricsSection() {
                     Temporarily Closed
                   </span>
                 </div>
-                <span className="text-2xl font-bold text-gray-900">2</span>
+                <span className="text-2xl font-bold text-gray-900">4</span>
               </div>
               <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-2">
