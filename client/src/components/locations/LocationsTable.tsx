@@ -189,7 +189,7 @@ export function LocationsTable({
 }: LocationsTableProps) {
   const [activeTab, setActiveTab] = useState(0);
   const [isExpanded, setIsExpanded] = useState(true);
-  const [isLocationsExpanded, setIsLocationsExpanded] = useState(true);
+  const [isLocationsExpanded, setIsLocationsExpanded] = useState(false);
 
   const filteredData = mockLocationData.filter((location) => {
     // Search filter
