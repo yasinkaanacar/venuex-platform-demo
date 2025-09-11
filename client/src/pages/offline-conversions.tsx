@@ -1,15 +1,14 @@
 import Header from '@/components/overview/header';
 import FilterBar from '@/components/overview/filter-bar';
 import WeeklySalesChart from '@/components/overview/weekly-sales-chart';
+import TopPerformingLocations from '@/components/overview/top-performing-locations';
 import { useState } from 'react';
 import { FilterState } from '@/lib/types';
 
 export default function OfflineConversions() {
   const [filters, setFilters] = useState<FilterState>({
     dateRange: 'Last 7 days',
-    platform: 'All Platforms',
-    location: 'All Locations',
-    campaign: 'All Campaigns',
+    platform: 'Google',
     compareMode: false
   });
 
@@ -27,6 +26,7 @@ export default function OfflineConversions() {
         
         <div className="space-y-8">
           <WeeklySalesChart />
+          <TopPerformingLocations filters={filters} onFiltersChange={setFilters} />
         </div>
       </div>
     </div>
