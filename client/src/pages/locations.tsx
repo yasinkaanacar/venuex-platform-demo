@@ -6,7 +6,6 @@ import { FieldManagementDialog } from "@/components/locations/FieldManagementDia
 import { PlatformSummarySection } from "@/components/locations/PlatformSummarySection";
 import DataQualityEnrichment from "@/components/overview/data-quality-enrichment";
 import LocationsDataHealthAlerts from "@/components/locations/locations-data-health-alerts";
-import TurkeyMap from "@/components/locations/TurkeyMap";
 import { Store, User, Check } from 'lucide-react';
 import { Tooltip } from '@mui/material';
 
@@ -188,11 +187,6 @@ export default function LocationsPage() {
             alwaysExpanded={true}
             locationsPageMode={true}
           />
-        </div>
-
-        {/* Turkey Map */}
-        <div className="mx-6 mt-8">
-          <TurkeyMap />
         </div>
       </div>
       {/* Field Management Dialog */}
