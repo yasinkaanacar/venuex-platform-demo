@@ -165,7 +165,7 @@ export function FilterBar({
                 data-testid="filter-date-picker"
               >
                 <CalendarIcon className="mr-2 h-4 w-4" />
-                {filters.date ? format(filters.date, "PPP") : <span className="text-gray-500">Pick a date</span>}
+                {filters.date ? format(filters.date, "PPP") : <span className="text-gray-500">Date</span>}
               </Button>
             </PopoverTrigger>
             <PopoverContent className="w-auto p-0" align="start">
