@@ -3,12 +3,12 @@ import { Button } from "@/components/ui/button";
 
 const GaugeChart = ({ percentage }: { percentage: number }) => {
   const angle = (percentage / 100) * 180 - 90;
-  
+
   return (
     <div className="relative w-24 h-12 mb-4">
       <div className="absolute inset-0 flex items-end justify-center">
         <div className="w-20 h-10 border-4 border-gray-200 rounded-t-full relative overflow-hidden">
-          <div 
+          <div
             className="absolute bottom-0 left-1/2 w-0.5 h-8 bg-blue-500 origin-bottom transform -translate-x-1/2"
             style={{ transform: `translateX(-50%) rotate(${angle}deg)` }}
           />
@@ -24,7 +24,6 @@ const GaugeChart = ({ percentage }: { percentage: number }) => {
   );
 };
 
-
 export function BusinessMetricsSection() {
   return (
     <Card className="w-full shadow-none">
@@ -34,19 +33,27 @@ export function BusinessMetricsSection() {
           <div className="flex flex-col items-center text-center h-full justify-between">
             <div className="flex flex-col items-center">
               <GaugeChart percentage={25} />
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">Data Quality Index</h3>
+              <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                Data Quality Index
+              </h3>
               <p className="text-sm text-gray-600 text-center leading-relaxed mb-6">
-                Tips will appear here on how to improve your online map presence and company performance
+                Tips will appear here on how to improve your online map presence
+                and company performance
               </p>
             </div>
-            <Button variant="outline" className="w-full text-blue-600 hover:text-blue-700">
+            <Button
+              variant="outline"
+              className="w-full text-blue-600 hover:text-blue-700"
+            >
               View details
             </Button>
           </div>
 
           {/* Store Status Section - 1/3 */}
           <div className="flex flex-col h-full">
-            <h3 className="text-lg font-semibold text-gray-900 mb-4 text-center">Store Status</h3>
+            <h3 className="text-lg font-semibold text-gray-900 mb-4 text-center">
+              Store Status
+            </h3>
             <div className="space-y-4 mb-6">
               <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-2">
@@ -58,26 +65,35 @@ export function BusinessMetricsSection() {
               <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-2">
                   <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
-                  <span className="text-sm text-gray-600">Temporarily Closed</span>
+                  <span className="text-sm text-gray-600">
+                    Temporarily Closed
+                  </span>
                 </div>
                 <span className="text-2xl font-bold text-gray-900">1</span>
               </div>
               <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-2">
                   <div className="w-3 h-3 bg-red-500 rounded-full"></div>
-                  <span className="text-sm text-gray-600">Permanently Closed</span>
+                  <span className="text-sm text-gray-600">
+                    Permanently Closed
+                  </span>
                 </div>
                 <span className="text-2xl font-bold text-gray-900">0</span>
               </div>
             </div>
-            <Button variant="outline" className="w-full text-blue-600 hover:text-blue-700 mt-auto">
+            <Button
+              variant="outline"
+              className="w-full text-blue-600 hover:text-blue-700 mt-auto"
+            >
               View details
             </Button>
           </div>
 
           {/* Performance Section - 1/3 */}
           <div className="flex flex-col h-full">
-            <h3 className="text-lg font-semibold text-gray-900 mb-4 text-center">Performance</h3>
+            <h3 className="text-lg font-semibold text-gray-900 mb-4 text-center">
+              Performance
+            </h3>
             <div className="space-y-4 mb-6">
               <div className="text-center">
                 <div className="text-3xl font-bold text-gray-900">243</div>
@@ -88,7 +104,10 @@ export function BusinessMetricsSection() {
                 <div className="text-sm text-gray-600">Total Views</div>
               </div>
             </div>
-            <Button variant="outline" className="w-full text-blue-600 hover:text-blue-700 mt-auto">
+            <Button
+              variant="outline"
+              className="w-full text-blue-600 hover:text-blue-700 mt-auto"
+            >
               View details
             </Button>
           </div>
