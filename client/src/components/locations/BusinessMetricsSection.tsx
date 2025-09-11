@@ -28,8 +28,44 @@ export function BusinessMetricsSection() {
   return (
     <Card className="w-full shadow-none">
       <CardContent className="p-6">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-stretch">
-          {/* Index Section - 1/3 */}
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 items-stretch">
+          {/* Locations Section - 1/4 */}
+          <div className="flex flex-col items-center text-center h-full justify-between">
+            <div className="flex flex-col items-center">
+              <div className="font-bold text-gray-900 mb-4 text-[48px]">130</div>
+              <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                Locations
+              </h3>
+            </div>
+            <Button
+              variant="outline"
+              className="w-full text-blue-600 hover:text-blue-700"
+              onClick={() => {
+                // Scroll to locations table
+                let element = document.getElementById('locations-table') || 
+                             document.querySelector('[data-section="locations-table"]');
+                
+                if (!element) {
+                  // Find by heading text content
+                  const headings = Array.from(document.querySelectorAll('h1, h2, h3, h4'));
+                  for (const heading of headings) {
+                    if (heading.textContent?.includes('Locations') && !heading.closest('[class*="BusinessMetrics"]')) {
+                      element = heading.closest('div') || heading as HTMLElement;
+                      break;
+                    }
+                  }
+                }
+                
+                if (element) {
+                  element.scrollIntoView({ behavior: 'smooth' });
+                }
+              }}
+            >
+              View details
+            </Button>
+          </div>
+
+          {/* Data Quality Index Section - 1/4 */}
           <div className="flex flex-col items-center text-center h-full justify-between">
             <div className="flex flex-col items-center">
               <div className="font-bold text-gray-900 mb-4 text-[48px]">87%</div>
@@ -69,7 +105,7 @@ export function BusinessMetricsSection() {
             </Button>
           </div>
 
-          {/* Store Status Section - 1/3 */}
+          {/* Store Status Section - 1/4 */}
           <div className="flex flex-col h-full">
             <h3 className="text-lg font-semibold text-gray-900 mb-4 text-center">
               Store Status
@@ -129,7 +165,7 @@ export function BusinessMetricsSection() {
             </Button>
           </div>
 
-          {/* Performance Section - 1/3 */}
+          {/* Performance Section - 1/4 */}
           <div className="flex flex-col h-full">
             <h3 className="text-lg font-semibold text-gray-900 mb-4 text-center">
               Performance
