@@ -636,6 +636,417 @@ export default function LocationsPage() {
           </div>
         </div>
 
+        {/* Locations Section - Copy of Performance */}
+        <div className="mx-6 mb-6 bg-white rounded-lg border border-slate-200 overflow-hidden shadow-none">
+          {/* Header without tabs */}
+          <div className="flex items-center justify-between border-b border-slate-200 px-6 py-4 bg-gradient-to-b from-white to-stone-50">
+            <h3 className="text-base font-semibold text-foreground">Locations</h3>
+          </div>
+          {/* Content */}
+          <div className="bg-stone-50">
+            <div className="px-6 py-3">
+              <div className="flex items-center gap-3">
+                {/* Search */}
+                <div className="relative flex-1 max-w-[400px]">
+                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
+                  <Input
+                    placeholder="Search by store code, store name or address"
+                    value={filters.search}
+                    onChange={(e) => setFilters(prev => ({ ...prev, search: e.target.value }))}
+                    className="pl-10"
+                    data-testid="filter-search"
+                  />
+                </div>
+
+                {/* Business Status Filter */}
+                <Select value={filters.businessStatus || "All"} onValueChange={(value) => setFilters(prev => ({ ...prev, businessStatus: value === "All" ? "" : value }))}>
+                  <SelectTrigger className="w-[150px]" data-testid="filter-business-status">
+                    <div className="flex flex-col items-start w-full">
+                      <div className="text-xs text-gray-500">Business Status</div>
+                      <div className="text-sm">{filters.businessStatus || "All"}</div>
+                    </div>
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="All">All</SelectItem>
+                    <SelectItem value="Open">Open</SelectItem>
+                    <SelectItem value="Closed">Closed</SelectItem>
+                    <SelectItem value="Temporarily Closed">Temporarily Closed</SelectItem>
+                  </SelectContent>
+                </Select>
+
+                {/* Platform Status Filter */}
+                <Select value={filters.platformStatus || "All"} onValueChange={(value) => setFilters(prev => ({ ...prev, platformStatus: value === "All" ? "" : value }))}>
+                  <SelectTrigger className="w-[150px]" data-testid="filter-platform-status">
+                    <div className="flex flex-col items-start w-full">
+                      <div className="text-xs text-gray-500">Platform Status</div>
+                      <div className="text-sm">{filters.platformStatus || "All"}</div>
+                    </div>
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="All">All</SelectItem>
+                    <SelectItem value="Optimal Waiting">Optimal Waiting</SelectItem>
+                    <SelectItem value="Needs Attention">Needs Attention</SelectItem>
+                    <SelectItem value="Connected">Connected</SelectItem>
+                  </SelectContent>
+                </Select>
+
+                {/* Store Set Filter */}
+                <Select value={filters.storeSet || "All"} onValueChange={(value) => setFilters(prev => ({ ...prev, storeSet: value === "All" ? "" : value }))}>
+                  <SelectTrigger className="w-[150px]" data-testid="filter-store-set">
+                    <div className="flex flex-col items-start w-full">
+                      <div className="text-xs text-gray-500">Store Set</div>
+                      <div className="text-sm">{filters.storeSet || "All"}</div>
+                    </div>
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="All">All</SelectItem>
+                    <SelectItem value="SMR">SMR</SelectItem>
+                    <SelectItem value="Premium">Premium</SelectItem>
+                    <SelectItem value="Express">Express</SelectItem>
+                    <SelectItem value="Standard">Standard</SelectItem>
+                    <SelectItem value="Regional">Regional</SelectItem>
+                  </SelectContent>
+                </Select>
+
+                {/* Missing POI Filter */}
+                <Select value={filters.missingPOI || "All"} onValueChange={(value) => setFilters(prev => ({ ...prev, missingPOI: value === "All" ? "" : value }))}>
+                  <SelectTrigger className="w-[120px]" data-testid="filter-missing-poi">
+                    <div className="flex flex-col items-start w-full">
+                      <div className="text-xs text-gray-500">Missing POI</div>
+                      <div className="text-sm">{filters.missingPOI || "All"}</div>
+                    </div>
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="All">All</SelectItem>
+                    <SelectItem value="Yes">Yes</SelectItem>
+                    <SelectItem value="No">No</SelectItem>
+                  </SelectContent>
+                </Select>
+
+                {/* Date Range Selector */}
+                <Select value={filters.dateRange || "30d"} onValueChange={(value) => setFilters(prev => ({ ...prev, dateRange: value }))}>
+                  <SelectTrigger className="w-[150px]" data-testid="filter-date-range">
+                    <div className="flex flex-col items-start w-full">
+                      <div className="text-xs text-gray-500">Date Range</div>
+                      <div className="text-sm">
+                        {filters.dateRange === "7d" ? "Last 7 days" : filters.dateRange === "30d" ? "Last 30 days" : "Last 90 days"}
+                      </div>
+                    </div>
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="7d">Last 7 days</SelectItem>
+                    <SelectItem value="30d">Last 30 days</SelectItem>
+                    <SelectItem value="90d">Last 90 days</SelectItem>
+                  </SelectContent>
+                </Select>
+
+                {/* Platform Filter */}
+                <Select value={filters.platform || "All"} onValueChange={(value) => setFilters(prev => ({ ...prev, platform: value === "All" ? "" : value }))}>
+                  <SelectTrigger className="w-[150px]" data-testid="filter-platform">
+                    <div className="flex flex-col items-start w-full">
+                      <div className="text-xs text-gray-500">Platform</div>
+                      <div className="text-sm">{filters.platform || "All"}</div>
+                    </div>
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="All">All</SelectItem>
+                    <SelectItem value="Google">Google</SelectItem>
+                    <SelectItem value="Facebook">Facebook</SelectItem>
+                    <SelectItem value="Instagram">Instagram</SelectItem>
+                    <SelectItem value="TikTok">TikTok</SelectItem>
+                    <SelectItem value="Apple Maps">Apple Maps</SelectItem>
+                  </SelectContent>
+                </Select>
+
+                {/* Compare Mode Toggle */}
+                <div className="flex items-center space-x-2 px-3 py-2 border border-gray-200 rounded-md" data-testid="compare-mode-toggle">
+                  <GitCompare className="w-4 h-4 text-gray-500" />
+                  <Label htmlFor="compare-mode" className="text-sm text-gray-600">Compare</Label>
+                  <Switch
+                    id="compare-mode"
+                    checked={filters.compareMode || false}
+                    onChange={(event) => setFilters(prev => ({ ...prev, compareMode: event.target.checked }))}
+                    className="data-[state=checked]:bg-blue-600"
+                  />
+                </div>
+              </div>
+              
+              {/* Active Filters Display */}
+              {Object.values(filters).filter(value => value !== "").length > 0 && (
+                <div className="mt-3 flex items-center gap-2">
+                  <span className="text-sm text-gray-500">Active filters:</span>
+                  <Badge variant="secondary" className="text-xs">
+                    {Object.values(filters).filter(value => value !== "").length} active
+                  </Badge>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => setFilters({
+                      search: "",
+                      city: "",
+                      businessStatus: "",
+                      platformStatus: "",
+                      storeSet: "",
+                      missingPOI: "",
+                      dateRange: "30d",
+                      platform: "",
+                      compareMode: false,
+                      startDate: undefined,
+                      endDate: undefined,
+                      compareStartDate: undefined,
+                      compareEndDate: undefined
+                    })}
+                    className="text-xs h-6 px-2"
+                    data-testid="button-clear-filters"
+                  >
+                    <X className="w-3 h-3 mr-1" />
+                    Clear all
+                  </Button>
+                </div>
+              )}
+            </div>
+          </div>
+          
+          {/* Separator */}
+          <div className="border-b border-slate-200"></div>
+          
+          {/* Business Profile Interaction Content */}
+          <div className="p-6 bg-stone-50">
+            <h4 className="text-gray-900 dark:text-white mb-4 font-medium text-[16px]">
+              Business Profile Interaction
+            </h4>
+            
+            {/* Tabs */}
+            <div className="flex space-x-1 mb-6 bg-gray-100 dark:bg-gray-800 rounded-lg p-1">
+              {tabs.map((tab, index) => (
+                <button
+                  key={index}
+                  onClick={() => setActiveTab(index)}
+                  className={`flex-1 px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+                    activeTab === index
+                      ? "bg-white dark:bg-gray-700 text-blue-600 dark:text-blue-400"
+                      : "text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
+                  }`}
+                >
+                  <div className="text-center">
+                    <div className="font-medium">{tab.label}</div>
+                    <div className="text-xs text-gray-500">
+                      ({tab.value})
+                    </div>
+                  </div>
+                </button>
+              ))}
+            </div>
+
+            {/* Main Metrics */}
+            <div className="mb-6">
+              <div className="flex items-baseline space-x-4 mb-2">
+                <div className="flex items-center space-x-2">
+                  <div className="w-3 h-3 bg-blue-500 rounded-full"></div>
+                  <span className="text-2xl font-bold text-gray-900 dark:text-white">
+                    62,006
+                  </span>
+                  <span className="text-sm text-gray-600 dark:text-gray-400">
+                    Current
+                  </span>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <div className="w-3 h-3 bg-gray-400 rounded-full"></div>
+                  <span className="text-lg text-gray-600 dark:text-gray-400">
+                    63,615
+                  </span>
+                  <span className="text-sm text-gray-600 dark:text-gray-400">
+                    Previous
+                  </span>
+                </div>
+                <Badge
+                  variant="destructive"
+                  className="bg-red-100 text-red-800 hover:bg-red-100"
+                >
+                  -2.5%
+                </Badge>
+              </div>
+              <div className="text-sm text-gray-500 mb-4">
+                July 2025 vs August 2025
+              </div>
+            </div>
+
+            {/* Chart */}
+            <div className="h-64">
+              <ResponsiveContainer width="100%" height="100%">
+                <LineChart data={chartData}>
+                  <XAxis
+                    dataKey="name"
+                    axisLine={false}
+                    tickLine={false}
+                    className="text-xs text-gray-500"
+                  />
+                  <YAxis
+                    axisLine={false}
+                    tickLine={false}
+                    className="text-xs text-gray-500"
+                  />
+                  <Line
+                    type="monotone"
+                    dataKey="current"
+                    stroke="#3b82f6"
+                    strokeWidth={2}
+                    dot={false}
+                  />
+                  <Line
+                    type="monotone"
+                    dataKey="previous"
+                    stroke="#9ca3af"
+                    strokeWidth={2}
+                    dot={false}
+                  />
+                </LineChart>
+              </ResponsiveContainer>
+            </div>
+          </div>
+          
+          {/* Second Separator */}
+          <div className="border-b border-slate-200"></div>
+          
+          {/* Profile Views and Total Searches Content */}
+          <div className="p-6 bg-stone-50">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:divide-x lg:divide-slate-200">
+              {/* Profile Views */}
+              <div className="space-y-4 lg:pr-8">
+                <div className="flex items-center justify-between">
+                  <h4 className="font-medium text-gray-900 dark:text-white">
+                    Profile views
+                  </h4>
+                  <div className="flex items-center space-x-2">
+                    <span className="text-lg font-semibold">
+                      1,716,216
+                    </span>
+                    <Badge className="bg-green-100 text-green-800 hover:bg-green-100">
+                      <TrendingUp className="w-3 h-3 mr-1" />
+                      +82.4%
+                    </Badge>
+                  </div>
+                </div>
+                <div className="text-sm text-gray-600 dark:text-gray-400 mb-4">
+                  July 2025 vs August 2025
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {/* Pie Chart */}
+                  <div className="flex items-center justify-center">
+                    <div className="w-32 h-32">
+                      <ResponsiveContainer width="100%" height="100%">
+                        <PieChart>
+                          <Pie
+                            data={platformData}
+                            cx="50%"
+                            cy="50%"
+                            innerRadius={25}
+                            outerRadius={60}
+                            dataKey="value"
+                          >
+                            {platformData.map((entry, index) => (
+                              <Cell
+                                key={`cell-${index}`}
+                                fill={entry.color}
+                              />
+                            ))}
+                          </Pie>
+                        </PieChart>
+                      </ResponsiveContainer>
+                    </div>
+                  </div>
+
+                  {/* Platform Breakdown */}
+                  <div className="space-y-2">
+                    <h5 className="text-sm font-medium text-gray-900 dark:text-white mb-3">
+                      Platform and device breakdown that people used
+                      to find your profile
+                    </h5>
+                    {platformData.map((item, index) => (
+                      <div
+                        key={index}
+                        className="flex items-center justify-between text-sm"
+                      >
+                        <div className="flex items-center space-x-2">
+                          <div
+                            className="w-3 h-3 rounded-full"
+                            style={{ backgroundColor: item.color }}
+                          ></div>
+                          <span className="text-gray-600 dark:text-gray-400">
+                            {item.name}
+                          </span>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                          <span className="font-medium text-gray-900 dark:text-white">
+                            {item.count}
+                          </span>
+                          <span className="text-gray-500">
+                            {item.value}%
+                          </span>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              {/* Total Searches */}
+              <div className="space-y-4 lg:pl-8">
+                <div className="flex items-center justify-between">
+                  <h4 className="font-medium text-gray-900 dark:text-white">
+                    Total searches
+                  </h4>
+                  <div className="flex items-center space-x-2">
+                    <span className="text-lg font-semibold">
+                      1,230,916
+                    </span>
+                    <Badge className="bg-green-100 text-green-800 hover:bg-green-100">
+                      <TrendingUp className="w-3 h-3 mr-1" />
+                      +88.4%
+                    </Badge>
+                  </div>
+                </div>
+                <div className="text-sm text-gray-600 dark:text-gray-400 mb-4">
+                  July 2025 vs August 2025
+                </div>
+
+                <div className="space-y-4">
+                  <h5 className="text-sm font-medium text-gray-900 dark:text-white">
+                    Search terms breakdown that showed your Business
+                    Profile in the search results
+                  </h5>
+
+                  <div className="space-y-3">
+                    {searchTerms.map((item, index) => (
+                      <div
+                        key={index}
+                        className="flex items-center justify-between py-2"
+                      >
+                        <div className="flex items-center space-x-3">
+                          <span className="w-6 h-6 bg-gray-100 dark:bg-gray-700 rounded-full flex items-center justify-center text-xs font-medium">
+                            {index + 1}
+                          </span>
+                          <span className="text-sm text-gray-900 dark:text-white">
+                            {item.term}
+                          </span>
+                        </div>
+                        <span className="text-sm font-medium text-gray-900 dark:text-white">
+                          {item.count}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+
+                  <Button variant="outline" className="w-full mt-4">
+                    See More
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
         {/* Locations Table Section */}
         <div className="mb-6">
           <LocationsTable 
