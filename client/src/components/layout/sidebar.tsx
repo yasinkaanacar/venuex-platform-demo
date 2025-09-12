@@ -91,11 +91,11 @@ export default function Sidebar({ collapsed, onToggle }: SidebarProps) {
           <div className="px-6 py-4">
             <div className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-800 rounded-md">
               <div className="flex items-center space-x-3">
-                <div className="w-16 h-16 rounded-full bg-white flex items-center justify-center shadow-sm">
+                <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center shadow-sm">
                   <img 
                     src="https://venuex-cdn.s3.eu-central-1.amazonaws.com/images/brands/logo/boyner.png" 
                     alt="Boyner Logo" 
-                    className="w-12 h-12 object-contain"
+                    className="w-9 h-9 object-contain"
                   />
                 </div>
                 <span className="text-sm font-medium text-gray-900 dark:text-white">
