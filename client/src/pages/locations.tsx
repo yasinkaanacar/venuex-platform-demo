@@ -499,9 +499,9 @@ export default function LocationsPage() {
           
           {/* Profile Views and Total Searches Content */}
           <div className="p-6 bg-stone-50">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:divide-x lg:divide-slate-200">
               {/* Profile Views */}
-              <div className="space-y-4">
+              <div className="space-y-4 lg:pr-8">
                 <div className="flex items-center justify-between">
                   <h4 className="font-medium text-gray-900 dark:text-white">
                     Profile views
@@ -581,7 +581,7 @@ export default function LocationsPage() {
               </div>
 
               {/* Total Searches */}
-              <div className="space-y-4">
+              <div className="space-y-4 lg:pl-8">
                 <div className="flex items-center justify-between">
                   <h4 className="font-medium text-gray-900 dark:text-white">
                     Total searches
