@@ -23,7 +23,7 @@ function Router() {
       <Sidebar collapsed={sidebarCollapsed} onToggle={toggleSidebar} />
       <main className={`flex-1 overflow-auto transition-all duration-300 ${sidebarCollapsed ? 'ml-0' : ''}`}>
         <Switch>
-          <Route path="/" component={Locations} />
+          <Route path="/" component={Overview} />
           <Route path="/offline-conversions" component={OfflineConversions} />
           <Route path="/locations" component={Locations} />
           <Route path="/locations/posts" component={Locations} />
