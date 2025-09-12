@@ -1,4 +1,3 @@
-import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 
 const GaugeChart = ({ percentage }: { percentage: number }) => {
@@ -26,9 +25,8 @@ const GaugeChart = ({ percentage }: { percentage: number }) => {
 
 export function BusinessMetricsSection() {
   return (
-    <Card className="w-full shadow-none border-0" style={{ boxShadow: 'none' }}>
-      <CardContent className="p-4 shadow-none">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-stretch">
+    <div className="w-full p-4">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-stretch">
           {/* Index Section - 1/3 */}
           <div className="flex flex-col items-center text-center h-full justify-between">
             <div className="flex flex-col items-center">
@@ -210,8 +208,7 @@ export function BusinessMetricsSection() {
               View details
             </Button>
           </div>
-        </div>
-      </CardContent>
-    </Card>
+      </div>
+    </div>
   );
 }
