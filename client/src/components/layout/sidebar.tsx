@@ -8,11 +8,11 @@ import {
   Bell,
   ChevronDown,
   Menu,
-  ShoppingCart,
-  Store
+  ShoppingCart
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import venueXLogo from '@assets/vx-logo-1000x1000_1756566252817.png';
+import boynerLogo from '@assets/image_1757702645786.png';
 
 const navigationItems = [
   { 
@@ -91,8 +91,14 @@ export default function Sidebar({ collapsed, onToggle }: SidebarProps) {
         {!collapsed && (
           <div className="px-6 py-4">
             <div className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-800 rounded-md">
-              <div className="flex items-center space-x-2">
-                <Store className="w-4 h-4 text-gray-600" />
+              <div className="flex items-center space-x-3">
+                <div className="w-8 h-8 rounded-full bg-white flex items-center justify-center shadow-sm">
+                  <img 
+                    src={boynerLogo} 
+                    alt="Boyner Logo" 
+                    className="w-6 h-6 object-contain"
+                  />
+                </div>
                 <span className="text-sm font-medium text-gray-900 dark:text-white">
                   Boyner
                 </span>
