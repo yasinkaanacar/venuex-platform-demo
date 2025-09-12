@@ -92,7 +92,7 @@ export default function Sidebar({ collapsed, onToggle }: SidebarProps) {
             <div className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">
               CURRENT ROLE
             </div>
-            <div className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-800 rounded-lg">
+            <div className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-800 rounded-md">
               <span className="text-sm font-medium text-gray-900 dark:text-white">
                 Digital Marketing Dashboard
               </span>
@@ -122,7 +122,7 @@ export default function Sidebar({ collapsed, onToggle }: SidebarProps) {
                 <Link href={item.href}>
                   <div 
                     className={cn(
-                      "flex items-center rounded-lg text-sm transition-colors cursor-pointer",
+                      "flex items-center rounded-md text-sm transition-colors cursor-pointer",
                       collapsed ? "px-3 py-2 justify-center" : "space-x-3 px-3 py-2",
                       isActive 
                         ? "bg-blue-600 text-white" 
@@ -144,7 +144,7 @@ export default function Sidebar({ collapsed, onToggle }: SidebarProps) {
             <li>
               <button
                 onClick={onToggle}
-                className="w-full flex items-center justify-center px-3 py-2 rounded-lg text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+                className="w-full flex items-center justify-center px-3 py-2 rounded-md text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
                 data-testid="sidebar-toggle"
                 title="Expand sidebar"
               >
@@ -161,7 +161,7 @@ export default function Sidebar({ collapsed, onToggle }: SidebarProps) {
             <div className="w-2 h-2 bg-green-500 rounded-full" title="All systems operational"></div>
           </div>
         ) : (
-          <div className="flex items-center space-x-3 p-3 bg-gray-50 dark:bg-gray-800 rounded-lg">
+          <div className="flex items-center space-x-3 p-3 bg-gray-50 dark:bg-gray-800 rounded-md">
             <div className="w-2 h-2 bg-green-500 rounded-full"></div>
             <div className="flex-1">
               <div className="text-sm font-medium text-gray-900 dark:text-white">
