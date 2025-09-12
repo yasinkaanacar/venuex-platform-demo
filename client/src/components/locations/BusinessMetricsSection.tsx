@@ -28,7 +28,7 @@ export function BusinessMetricsSection() {
     <div className="w-full p-4">
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-stretch">
           {/* Index Section - 1/3 */}
-          <div className="flex flex-col items-center text-center h-full justify-between">
+          <div className="flex flex-col items-center text-center h-full justify-between border-r border-gray-200 pr-8">
             <div className="flex flex-col items-center">
               <div className="font-bold text-gray-900 mb-4 text-[48px]">
                 87%
@@ -78,7 +78,7 @@ export function BusinessMetricsSection() {
           </div>
 
           {/* Performance Section - 2/3 */}
-          <div className="flex flex-col h-full">
+          <div className="flex flex-col h-full border-r border-gray-200 pr-8">
             <div className="flex flex-col flex-1">
               <h3 className="text-lg font-semibold text-gray-900 mb-4 text-center">
                 Performance
