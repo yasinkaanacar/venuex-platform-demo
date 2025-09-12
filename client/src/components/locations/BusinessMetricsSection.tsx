@@ -140,7 +140,7 @@ export function BusinessMetricsSection() {
             <h3 className="text-lg font-semibold text-gray-900 mb-2 text-center">
               Store Status
             </h3>
-            <div className="space-y-2 mb-4">
+            <div className="space-y-2 flex-1">
               <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-2">
                   <span className="text-sm text-gray-600">Total Locations</span>
