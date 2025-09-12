@@ -67,9 +67,9 @@ export default function Sidebar({ collapsed, onToggle }: SidebarProps) {
   const [location] = useLocation();
 
   return (
-    <div className="dark:bg-gray-900 border-r-2 border-gray-300 dark:border-gray-600 flex flex-col h-screen shadow-lg transition-all duration-300 w-64 bg-[#f9fafb]">
+    <div className="dark:bg-gray-900 border-r border-gray-300 dark:border-gray-600 flex flex-col h-screen shadow-sm transition-all duration-300 w-64 bg-[#f9fafb]">
       {/* Logo and Brand */}
-      <div className="border-b-2 border-gray-300 dark:border-gray-600 h-20">
+      <div className="border-b border-gray-300 dark:border-gray-600 h-20">
         <div className="flex items-center justify-center h-full">
           {!collapsed && (
             <img 
