@@ -3,6 +3,7 @@ import { showToast } from "@/lib/toast";
 import { LocationsFilterState } from "@/lib/types";
 
 import { LocationsTable } from "@/components/locations/LocationsTable";
+import { LocationDataTable } from "@/components/locations/LocationDataTable";
 import { FieldManagementDialog } from "@/components/locations/FieldManagementDialog";
 import { PlatformSummarySection } from "@/components/locations/PlatformSummarySection";
 import { LocationActionsSection } from "@/components/locations/LocationActionsSection";
@@ -74,6 +75,100 @@ const searchTerms = [
   { term: "tommy hilfiger", count: "9,373" },
 ];
 
+// Mock location data for table
+const mockLocationData = [
+  {
+    id: "1",
+    storeCode: "CB06",
+    locationName: "Boyner Eskişehir Kanatlı",
+    businessStatus: "Open" as const,
+    platformStatus: "Looks Good!",
+    poiStatus: "92%",
+    platforms: ["facebook", "google", "instagram", "yelp"],
+  },
+  {
+    id: "2",
+    storeCode: "CB08",
+    locationName: "Boyner Denizli Forum",
+    businessStatus: "Open" as const,
+    platformStatus: "Looks Good!",
+    poiStatus: "68%",
+    platforms: ["facebook", "google", "instagram", "yelp"],
+  },
+  {
+    id: "3",
+    storeCode: "CB13",
+    locationName: "Boyner Çanakkale 17 Burda",
+    businessStatus: "Open" as const,
+    platformStatus: "Looks Good!",
+    poiStatus: "45%",
+    platforms: ["facebook", "google", "instagram", "yelp"],
+  },
+  {
+    id: "4",
+    storeCode: "CB14",
+    locationName: "Boyner Adapazarı Agora",
+    businessStatus: "Open" as const,
+    platformStatus: "Looks Good!",
+    poiStatus: "87%",
+    platforms: ["facebook", "google", "instagram", "yelp"],
+  },
+  {
+    id: "5",
+    storeCode: "CB15",
+    locationName: "Boyner Forum Diyarbakır",
+    businessStatus: "Open" as const,
+    platformStatus: "Looks Good!",
+    poiStatus: "75%",
+    platforms: ["facebook", "google", "instagram", "yelp"],
+  },
+  {
+    id: "6",
+    storeCode: "CB21",
+    locationName: "Boyner Van",
+    businessStatus: "Open" as const,
+    platformStatus: "Looks Good!",
+    poiStatus: "33%",
+    platforms: ["facebook", "google", "instagram", "yelp"],
+  },
+  {
+    id: "7",
+    storeCode: "CB22",
+    locationName: "Boyner Adapazarı Serdivan",
+    businessStatus: "Open" as const,
+    platformStatus: "Looks Good!",
+    poiStatus: "95%",
+    platforms: ["facebook", "google", "instagram", "yelp"],
+  },
+  {
+    id: "8",
+    storeCode: "CB23",
+    locationName: "Boyner Antalya Alanyum",
+    businessStatus: "Open" as const,
+    platformStatus: "Looks Good!",
+    poiStatus: "62%",
+    platforms: ["facebook", "google", "instagram", "yelp"],
+  },
+  {
+    id: "9",
+    storeCode: "CB27",
+    locationName: "Boyner Şanlıurfa Piazza",
+    businessStatus: "Open" as const,
+    platformStatus: "Looks Good!",
+    poiStatus: "81%",
+    platforms: ["facebook", "google", "instagram", "yelp"],
+  },
+  {
+    id: "10",
+    storeCode: "CB28",
+    locationName: "Boyner Tekirdağ Orion",
+    businessStatus: "Open" as const,
+    platformStatus: "Looks Good!",
+    poiStatus: "52%",
+    platforms: ["facebook", "google", "instagram", "yelp"],
+  },
+];
+
 export default function LocationsPage() {
   // State management
   const [selectedLocationId, setSelectedLocationId] = useState<string | null>(null);
@@ -93,6 +188,27 @@ export default function LocationsPage() {
     endDate: undefined,
     compareStartDate: undefined,
     compareEndDate: undefined
+  });
+
+  // Filter the location data based on filters
+  const filteredData = mockLocationData.filter((location) => {
+    // Search filter
+    const searchMatch =
+      !filters.search ||
+      location.locationName
+        .toLowerCase()
+        .includes(filters.search.toLowerCase()) ||
+      location.storeCode.toLowerCase().includes(filters.search.toLowerCase());
+
+    // Business status filter
+    const businessStatusMatch =
+      !filters.businessStatus || location.businessStatus === filters.businessStatus;
+
+    // Platform status filter
+    const platformStatusMatch =
+      !filters.platformStatus || location.platformStatus === filters.platformStatus;
+
+    return searchMatch && businessStatusMatch && platformStatusMatch;
   });
 
   // Event handlers
@@ -807,6 +923,17 @@ export default function LocationsPage() {
             </div>
           </div>
           
+          {/* Separator */}
+          <div className="border-b border-slate-200"></div>
+          
+          {/* Location Data Table Content */}
+          <CardContent className="p-0 bg-stone-50">
+            <LocationDataTable
+              data={filteredData}
+              onRowClick={handleRowClick}
+              onEdit={handleEdit}
+            />
+          </CardContent>
         </div>
 
         {/* Locations Table Section */}

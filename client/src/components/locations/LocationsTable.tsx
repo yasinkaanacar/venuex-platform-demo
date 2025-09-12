@@ -253,13 +253,6 @@ export function LocationsTable({
                 filters={filters}
                 onFiltersChange={onFiltersChange}
               />
-              <CardContent className="p-0 bg-stone-50">
-                <LocationDataTable
-                  data={filteredData}
-                  onRowClick={onRowClick}
-                  onEdit={onEdit}
-                />
-              </CardContent>
             </>
           )}
         </Card>
