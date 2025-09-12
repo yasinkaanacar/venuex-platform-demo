@@ -61,17 +61,17 @@ export function BusinessProfileSection() {
           <span>August 2025</span>
         </button>
       </div>
-      <CardContent className="bg-[#f9fafb]">
+      <CardContent className="bg-blue-50/30">
         {/* Tabs */}
-        <div className="flex space-x-1 mb-6 bg-gray-100 dark:bg-gray-800 rounded-lg p-1">
+        <div className="flex space-x-1 mb-6 bg-slate-100 rounded-lg p-1">
           {tabs.map((tab, index) => (
             <button
               key={index}
               onClick={() => setActiveTab(index)}
-              className={`flex-1 px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+              className={`flex-1 px-4 py-2 rounded-md text-sm font-medium transition-all duration-200 ${
                 activeTab === index
-                  ? 'bg-white dark:bg-gray-700 text-blue-600 dark:text-blue-400'
-                  : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
+                  ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-sm'
+                  : 'text-slate-600 hover:bg-slate-100 hover:text-slate-800'
               }`}
             >
               <div className="text-center">

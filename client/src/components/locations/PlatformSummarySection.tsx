@@ -312,7 +312,7 @@ export function PlatformSummarySection({}: PlatformSummarySectionProps) {
 
     // Default layout for VenueX (index 0)
     return (
-      <div className="p-6 bg-gray-50">
+      <div className="p-6 bg-blue-50/30">
         {/* Business Metrics Section */}
         <BusinessMetricsSection />
       </div>
@@ -327,8 +327,10 @@ export function PlatformSummarySection({}: PlatformSummarySectionProps) {
           <button
             key={index}
             onClick={() => setActivePlatform(index)}
-            className={`flex-1 px-4 py-3 text-sm font-medium transition-colors border-r border-gray-200 last:border-r-0 text-gray-900 ${
-              activePlatform === index ? 'bg-white' : 'bg-[#f9fafb]'
+            className={`flex-1 px-4 py-3 text-sm font-medium transition-all duration-200 border-r border-gray-200 last:border-r-0 ${
+              activePlatform === index 
+                ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-sm' 
+                : 'bg-slate-50 text-slate-600 hover:bg-slate-100 hover:text-slate-800'
             }`}
           >
             {platform}
