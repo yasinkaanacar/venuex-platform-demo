@@ -20,13 +20,13 @@ export function LocationActionsSection({
         size="sm"
         onClick={() => setLocation("/locations/posts")}
         sx={{ 
-          backgroundColor: '#fafaf9 !important', 
+          backgroundColor: '#f5f5f4 !important', 
           color: '#374151 !important', 
           borderColor: '#d1d5db !important',
           fontSize: '0.8125rem',
           height: '40px',
           '&:hover': { 
-            backgroundColor: '#f5f5f4 !important' 
+            backgroundColor: '#e7e5e4 !important' 
           }
         }}
         data-testid="btn-manage-posts"
@@ -40,13 +40,13 @@ export function LocationActionsSection({
         size="sm"
         onClick={onAddNewLocation}
         sx={{ 
-          backgroundColor: '#fafaf9 !important', 
+          backgroundColor: '#f5f5f4 !important', 
           color: '#374151 !important', 
           borderColor: '#d1d5db !important',
           fontSize: '0.8125rem',
           height: '40px',
           '&:hover': { 
-            backgroundColor: '#f5f5f4 !important' 
+            backgroundColor: '#e7e5e4 !important' 
           }
         }}
         data-testid="btn-add-new-location"
@@ -60,13 +60,13 @@ export function LocationActionsSection({
         size="sm"
         onClick={onUploadLocations}
         sx={{ 
-          backgroundColor: '#fafaf9 !important', 
+          backgroundColor: '#f5f5f4 !important', 
           color: '#374151 !important', 
           borderColor: '#d1d5db !important',
           fontSize: '0.8125rem',
           height: '40px',
           '&:hover': { 
-            backgroundColor: '#f5f5f4 !important' 
+            backgroundColor: '#e7e5e4 !important' 
           }
         }}
         data-testid="btn-bulk-updates"
