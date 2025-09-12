@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { ChevronRight, Info, Phone, Navigation, Eye, MousePointer, Plus, Upload, Settings, Edit, Building2 } from "lucide-react";
+import { ChevronRight, Info, Phone, Navigation, Eye, MousePointer, Plus, Upload, Settings, Edit } from "lucide-react";
 import { SiGoogle, SiMeta, SiApple } from 'react-icons/si';
 import { Tooltip } from "@/components/ui/tooltip";
 import { BusinessMetricsSection } from "@/components/locations/BusinessMetricsSection";
@@ -16,7 +16,7 @@ const platforms = [
 const getPlatformIcon = (platform: string) => {
   switch (platform) {
     case 'VenueX':
-      return <Building2 className="w-4 h-4" />;
+      return <img src="https://venuex.io/wp-content/uploads/2023/09/favicon-150x150.png" alt="VenueX" className="w-4 h-4 object-contain" />;
     case 'Google Business Profile':
       return <SiGoogle className="w-4 h-4" />;
     case 'Meta Business':
