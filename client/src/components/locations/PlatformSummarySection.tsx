@@ -329,7 +329,7 @@ export function PlatformSummarySection({}: PlatformSummarySectionProps) {
             onClick={() => setActivePlatform(index)}
             className={`flex-1 px-4 py-3 text-sm font-medium transition-all duration-200 border-r border-violet-200 last:border-r-0 ${
               activePlatform === index 
-                ? 'bg-violet-600 text-white shadow-sm hover:bg-violet-700' 
+                ? 'bg-slate-500 text-white shadow-sm hover:bg-slate-600' 
                 : 'bg-violet-50 text-violet-800 hover:bg-violet-100 hover:text-violet-900'
             }`}
           >
