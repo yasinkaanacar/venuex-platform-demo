@@ -312,7 +312,7 @@ export function PlatformSummarySection({}: PlatformSummarySectionProps) {
 
     // Default layout for VenueX (index 0)
     return (
-      <div className="p-6 bg-[var(--brand-50)]">
+      <div className="p-6 bg-stone-50">
         {/* Business Metrics Section */}
         <BusinessMetricsSection />
       </div>
