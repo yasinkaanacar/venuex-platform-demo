@@ -161,6 +161,18 @@ export default function LocationsPage() {
         {/* Platform Summary Section */}
         <PlatformSummarySection />
 
+        {/* Test Section - Same structure as Platform Summary but without tabs */}
+        <div className="mx-6 mb-6 bg-white rounded-lg border border-slate-200 overflow-hidden shadow-none">
+          {/* Header without tabs */}
+          <div className="flex items-center justify-between border-b border-slate-200 px-6 py-4 bg-gradient-to-b from-white to-stone-50">
+            <h3 className="text-base font-semibold text-foreground">Test Section</h3>
+          </div>
+          {/* Content */}
+          <div className="p-6 bg-stone-50">
+            <p className="text-gray-600">Bu Platform Summary ile aynı div yapısını kullanıyor ama tab yok.</p>
+          </div>
+        </div>
+
         {/* Locations Table Section */}
         <div className="mb-6">
           <LocationsTable 
