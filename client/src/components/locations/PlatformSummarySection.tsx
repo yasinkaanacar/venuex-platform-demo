@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { ChevronRight, Info, Phone, Navigation, Eye, MousePointer, Plus, Upload, Settings, Edit } from "lucide-react";
+import { ChevronRight, Info, Phone, Navigation, Eye, MousePointer, Plus, Upload, Settings, Edit, Building2, MapPin } from "lucide-react";
+import { SiGoogle, SiMeta, SiApple } from 'react-icons/si';
 import { Tooltip } from "@/components/ui/tooltip";
 import { BusinessMetricsSection } from "@/components/locations/BusinessMetricsSection";
 
@@ -11,6 +12,23 @@ const platforms = [
   "Apple Business Connect",
   "Yandex Maps"
 ];
+
+const getPlatformIcon = (platform: string) => {
+  switch (platform) {
+    case 'VenueX':
+      return <Building2 className="w-4 h-4" />;
+    case 'Google Business Profile':
+      return <SiGoogle className="w-4 h-4" />;
+    case 'Meta Business':
+      return <SiMeta className="w-4 h-4" />;
+    case 'Apple Business Connect':
+      return <SiApple className="w-4 h-4" />;
+    case 'Yandex Maps':
+      return <MapPin className="w-4 h-4 text-red-600" />;
+    default:
+      return null;
+  }
+};
 
 const getTooltipContent = (label: string) => {
   const tooltips: { [key: string]: { title: string; description: string } } = {
@@ -331,13 +349,14 @@ export function PlatformSummarySection({}: PlatformSummarySectionProps) {
               role="tab"
               aria-selected={activePlatform === index}
               onClick={() => setActivePlatform(index)}
-              className={`relative -mb-px inline-flex items-center border-b-2 px-1 py-3 text-sm font-medium transition-all duration-200 focus:outline-none ${
+              className={`relative -mb-px inline-flex items-center gap-2 border-b-2 px-1 py-3 text-sm font-medium transition-all duration-200 focus:outline-none ${
                 activePlatform === index 
                   ? 'text-emerald-600 border-emerald-500' 
                   : 'text-slate-600 border-transparent hover:text-slate-900'
               }`}
               data-testid={`link-platform-${platform.toLowerCase().replace(/\s+/g, '-')}`}
             >
+              {getPlatformIcon(platform)}
               {platform}
             </button>
           ))}
