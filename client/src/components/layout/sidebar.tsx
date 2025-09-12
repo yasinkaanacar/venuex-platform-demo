@@ -8,54 +8,36 @@ import {
   Bell,
   ChevronDown,
   Menu,
-  ShoppingCart
+  ShoppingCart,
+  MessageSquare,
+  TrendingUp
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import venueXLogo from '@assets/vx-logo-1000x1000_1756566252817.png';
 
-const navigationItems = [
-  { 
-    name: 'Dashboard', 
-    href: '/', 
-    icon: BarChart3,
-    active: true 
+const navigationGroups = [
+  {
+    title: "LOKASYONLAR",
+    items: [
+      { name: 'Lokasyonlar', href: '/locations', icon: MapPin },
+      { name: 'Yorumlar', href: '/reviews', icon: MessageSquare }
+    ]
   },
-  { 
-    name: 'Offline Conversions', 
-    href: '/offline-conversions', 
-    icon: ShoppingCart,
-    active: false 
-  },
-  { 
-    name: 'Locations', 
-    href: '/locations', 
-    icon: MapPin,
-    active: false 
-  },
-  { 
-    name: 'Inventory', 
-    href: '/inventory', 
-    icon: Package,
-    active: false 
-  },
-  { 
-    name: 'Data Integration', 
-    href: '/data-integration', 
-    icon: ArrowRightLeft,
-    active: false 
-  },
-  { 
-    name: 'Data Quality', 
-    href: '/data-quality', 
-    icon: CheckCircle,
-    active: false 
-  },
-  { 
-    name: 'Alerts', 
-    href: '/alerts', 
-    icon: Bell,
-    active: false 
-  },
+  {
+    title: "SATIŞLAR", 
+    items: [
+      { name: 'Satışlar', href: '/sales', icon: TrendingUp },
+      { name: 'Katalog', href: '/catalog', icon: Package }
+    ]
+  }
+];
+
+const ungroupedItems = [
+  { name: 'Dashboard', href: '/', icon: BarChart3 },
+  { name: 'Offline Conversions', href: '/offline-conversions', icon: ShoppingCart },
+  { name: 'Data Integration', href: '/data-integration', icon: ArrowRightLeft },
+  { name: 'Data Quality', href: '/data-quality', icon: CheckCircle },
+  { name: 'Alerts', href: '/alerts', icon: Bell }
 ];
 
 interface SidebarProps {
@@ -121,7 +103,8 @@ export default function Sidebar({ collapsed, onToggle }: SidebarProps) {
       {/* Navigation */}
       <nav className={cn("flex-1 py-2", collapsed ? "px-2" : "px-6")}>
         <ul className="space-y-1">
-          {navigationItems.map((item) => {
+          {/* Ungrouped Items */}
+          {ungroupedItems.map((item) => {
             const isActive = location === item.href;
             return (
               <li key={item.name}>
@@ -144,6 +127,42 @@ export default function Sidebar({ collapsed, onToggle }: SidebarProps) {
               </li>
             );
           })}
+          
+          {/* Grouped Items */}
+          {navigationGroups.map((group) => (
+            <li key={group.title}>
+              {!collapsed && (
+                <div className="px-3 py-2 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                  {group.title}
+                </div>
+              )}
+              <ul className="space-y-1">
+                {group.items.map((item) => {
+                  const isActive = location === item.href;
+                  return (
+                    <li key={item.name}>
+                      <Link href={item.href}>
+                        <div 
+                          className={cn(
+                            "flex items-center rounded-md text-sm transition-colors cursor-pointer",
+                            collapsed ? "px-3 py-2 justify-center" : "space-x-3 px-3 py-2",
+                            isActive 
+                              ? "bg-blue-600 text-white" 
+                              : "text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800"
+                          )}
+                          data-testid={`nav-${item.name.toLowerCase().replace(/\s+/g, '-')}`}
+                          title={collapsed ? item.name : undefined}
+                        >
+                          <item.icon className="w-5 h-5" />
+                          {!collapsed && <span>{item.name}</span>}
+                        </div>
+                      </Link>
+                    </li>
+                  );
+                })}
+              </ul>
+            </li>
+          ))}
           
           {/* Toggle Button - only show here when collapsed, at the end of menu */}
           {collapsed && (
