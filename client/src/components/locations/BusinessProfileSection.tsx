@@ -70,7 +70,7 @@ export function BusinessProfileSection() {
               onClick={() => setActiveTab(index)}
               className={`flex-1 px-4 py-2 rounded-md text-sm font-medium transition-all duration-200 ${
                 activeTab === index
-                  ? 'bg-slate-500 text-white shadow-sm hover:bg-slate-600'
+                  ? 'bg-emerald-500 text-white shadow-sm hover:bg-emerald-600'
                   : 'bg-violet-100 text-violet-800 hover:bg-violet-200 hover:text-violet-900'
               }`}
             >
