@@ -51,7 +51,7 @@ export function BusinessProfileSection() {
 
   return (
     <Card className="mx-6 mb-6">
-      <div className="bg-[#f9fafb] p-6 flex justify-between items-center border-b border-gray-200">
+      <div className="bg-[var(--surface-100)] p-6 flex justify-between items-center border-b border-[var(--border-brand)]">
         <div className="flex items-center space-x-2">
           <h3 className="text-lg font-semibold text-foreground">Business Profile Interactions</h3>
           <Info className="w-4 h-4 text-gray-400" />
@@ -61,17 +61,17 @@ export function BusinessProfileSection() {
           <span>August 2025</span>
         </button>
       </div>
-      <CardContent className="bg-blue-50/30">
+      <CardContent className="bg-[var(--brand-50)]">
         {/* Tabs */}
-        <div className="flex space-x-1 mb-6 bg-slate-100 rounded-lg p-1">
+        <div className="flex space-x-1 mb-6 bg-[var(--brand-50)] rounded-lg p-1">
           {tabs.map((tab, index) => (
             <button
               key={index}
               onClick={() => setActiveTab(index)}
               className={`flex-1 px-4 py-2 rounded-md text-sm font-medium transition-all duration-200 ${
                 activeTab === index
-                  ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-sm'
-                  : 'text-slate-600 hover:bg-slate-100 hover:text-slate-800'
+                  ? 'bg-[var(--brand-600)] text-[var(--text-on-brand)] shadow-sm hover:bg-[var(--brand-700)]'
+                  : 'bg-[var(--brand-100)] text-[var(--brand-800)] hover:bg-[var(--brand-200)] hover:text-[var(--brand-900)]'
               }`}
             >
               <div className="text-center">

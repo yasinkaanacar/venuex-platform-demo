@@ -49,6 +49,25 @@
   --shadow-2xl: 0px 2px 0px 0px hsl(9, 75%, 61% / 0.00);
   --tracking-normal: 0em;
   --spacing: 0.25rem;
+  /* Brand palette - Violet theme */
+  --brand-50: hsl(270, 40%, 98%);
+  --brand-100: hsl(268, 44%, 96%);
+  --brand-200: hsl(266, 48%, 92%);
+  --brand-300: hsl(264, 52%, 86%);
+  --brand-400: hsl(262, 56%, 76%);
+  --brand-500: hsl(260, 60%, 64%);
+  --brand-600: hsl(258, 62%, 54%);
+  --brand-700: hsl(256, 60%, 46%);
+  --brand-800: hsl(254, 58%, 38%);
+  --brand-900: hsl(252, 56%, 32%);
+  /* Surface variants */
+  --surface-50: hsl(240, 8%, 98%);
+  --surface-100: hsl(240, 7%, 96%);
+  --surface-200: hsl(240, 6%, 93%);
+  --border-brand: hsl(240, 6%, 88%);
+  --text-brand: hsl(240, 10%, 10%);
+  --text-muted-brand: hsl(240, 6%, 40%);
+  --text-on-brand: hsl(0, 0%, 100%);
 }
 
 .dark {
@@ -98,6 +117,14 @@
   --shadow-2xl: 0px 2px 0px 0px hsl(202.8169 89.1213% 53.1373% / 0.00);
   --spacing: 0.25rem;
   --tracking-normal: 0em;
+  /* Brand palette - Dark mode versions */
+  --surface-50: hsl(240, 12%, 12%);
+  --surface-100: hsl(240, 12%, 14%);
+  --surface-200: hsl(240, 10%, 18%);
+  --border-brand: hsl(240, 8%, 26%);
+  --text-brand: hsl(0, 0%, 98%);
+  --text-muted-brand: hsl(240, 6%, 70%);
+  /* Brand colors stay the same for recognition */
 }
 
 @layer base {
