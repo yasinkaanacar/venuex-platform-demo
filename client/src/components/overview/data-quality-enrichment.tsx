@@ -26,7 +26,7 @@ export default function DataQualityEnrichment({ context = 'dashboard' }: DataQua
             {/* Location Data */}
             <div>
               <h4 className="text-sm font-medium text-foreground mb-4">Location Data</h4>
-              <div className="space-y-3 bg-[#ffffff]">
+              <div className="space-y-3 bg-[#f9fafb]">
                 <div className="flex items-center justify-between">
                   <span className="text-sm text-muted-foreground">Address</span>
                   <div className="flex items-center gap-2 ml-4">
