@@ -42,8 +42,8 @@ export function BusinessMetricsSection() {
               </p>
             </div>
             <Button
-              variant="outline"
-              className="w-full text-blue-600 hover:text-blue-700"
+              variant="link"
+              className="text-blue-600 hover:text-blue-700 text-sm p-0 h-auto"
               onClick={() => {
                 // Try to find the Data Quality Assessment section
                 let element =
@@ -97,8 +97,8 @@ export function BusinessMetricsSection() {
               </div>
             </div>
             <Button
-              variant="outline"
-              className="w-full text-blue-600 hover:text-blue-700"
+              variant="link"
+              className="text-blue-600 hover:text-blue-700 text-sm p-0 h-auto"
               onClick={() => {
                 // Try to find the Performance section
                 let element =
@@ -172,8 +172,8 @@ export function BusinessMetricsSection() {
               </div>
             </div>
             <Button
-              variant="outline"
-              className="w-full text-blue-600 hover:text-blue-700 mt-auto"
+              variant="link"
+              className="text-blue-600 hover:text-blue-700 text-sm p-0 h-auto mt-auto"
               onClick={() => {
                 // Try to find the Locations section header
                 let element =
