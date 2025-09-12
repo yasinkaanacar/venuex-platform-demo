@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { ChevronRight, Info, Phone, Navigation, Eye, MousePointer, Plus, Upload, Settings, Edit, Building2, MapPin } from "lucide-react";
+import { ChevronRight, Info, Phone, Navigation, Eye, MousePointer, Plus, Upload, Settings, Edit, Building2 } from "lucide-react";
 import { SiGoogle, SiMeta, SiApple } from 'react-icons/si';
 import { Tooltip } from "@/components/ui/tooltip";
 import { BusinessMetricsSection } from "@/components/locations/BusinessMetricsSection";
@@ -24,7 +24,7 @@ const getPlatformIcon = (platform: string) => {
     case 'Apple Business Connect':
       return <SiApple className="w-4 h-4" />;
     case 'Yandex Maps':
-      return <MapPin className="w-4 h-4 text-red-600" />;
+      return <span className="text-sm">🔴</span>;
     default:
       return null;
   }
