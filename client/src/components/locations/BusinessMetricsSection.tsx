@@ -170,7 +170,7 @@ export function BusinessMetricsSection() {
                     Permanently Closed
                   </span>
                 </div>
-                <span className="text-2xl font-bold text-gray-900">4</span>
+                <span className="text-2xl font-bold text-gray-900">2</span>
               </div>
             </div>
             <Button
