@@ -225,11 +225,11 @@ export function LocationsTable({
 
   return (
     <>
-      <Card className="mx-6 mb-6 shadow-none border-gray-200 dark:border-gray-700">
+      <Card className="mx-6 mb-6 bg-white rounded-lg border border-slate-200 overflow-hidden shadow-none">
         {/* First Div - Locations Table */}
         <div>
           {/* Title Header */}
-          <div className="bg-[#f9fafb] py-2 px-6 flex justify-between items-center border-b border-gray-200">
+          <div className="bg-gradient-to-b from-white to-stone-50 py-2 px-6 flex justify-between items-center border-b border-slate-200">
             <h3 className="text-lg font-semibold text-foreground">Performance</h3>
             <Button
               variant="ghost"
@@ -259,7 +259,7 @@ export function LocationsTable({
               <div className="border-t border-gray-200">
                 
 
-                <div className="bg-[#f9fafb] p-6">
+                <div className="bg-stone-50 p-6">
                   <Card className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
                     <CardContent className="p-6">
                       <h4 className="text-gray-900 dark:text-white mb-4 font-medium text-[16px]">
@@ -359,7 +359,7 @@ export function LocationsTable({
 
               {/* Profile Views and Total Searches Section - Second Part */}
               <div className="border-t border-gray-200">
-                <div className="bg-[#f9fafb] p-6">
+                <div className="bg-stone-50 p-6">
                   <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                     {/* Profile Views */}
                     <Card className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
@@ -510,9 +510,9 @@ export function LocationsTable({
       </Card>
       {/* Locations Data Table Section - Standalone Card */}
       <div className="mx-6 mb-6">
-        <Card className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-none">
+        <Card className="bg-white rounded-lg border border-slate-200 overflow-hidden shadow-none">
           {/* Title Header */}
-          <div className="bg-[#f9fafb] py-2 px-6 flex justify-between items-center border-b border-gray-200">
+          <div className="bg-gradient-to-b from-white to-stone-50 py-2 px-6 flex justify-between items-center border-b border-slate-200">
             <h3 className="text-lg font-semibold text-foreground">Locations</h3>
             <Button
               variant="ghost"
@@ -536,7 +536,7 @@ export function LocationsTable({
                 filters={filters}
                 onFiltersChange={onFiltersChange}
               />
-              <CardContent className="p-0 bg-[#f9fafb]">
+              <CardContent className="p-0 bg-stone-50">
                 <LocationDataTable
                   data={filteredData}
                   onRowClick={onRowClick}
