@@ -26,14 +26,8 @@ const GaugeChart = ({ percentage }: { percentage: number }) => {
 
 export function BusinessMetricsSection() {
   return (
-    <div className="mx-6 mb-6 bg-white rounded-lg border border-slate-200 overflow-hidden shadow-none">
-      {/* Header */}
-      <div className="flex items-center justify-between border-b border-slate-200 px-6 py-4 bg-gradient-to-b from-white to-stone-50">
-        <h3 className="text-base font-semibold text-foreground">Business Metrics</h3>
-      </div>
-      {/* Content */}
-      <div className="p-6 bg-stone-50">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-stretch">
+    <div className="w-full p-4 bg-stone-50">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-stretch">
           {/* Index Section - 1/3 */}
           <div className="flex flex-col items-center text-center h-full justify-between border-r border-gray-200 pr-8">
             <div className="flex flex-col items-center">
@@ -218,7 +212,6 @@ export function BusinessMetricsSection() {
               <ArrowUpRight className="w-3 h-3 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform duration-200" />
             </Button>
           </div>
-        </div>
       </div>
     </div>
   );
