@@ -229,8 +229,8 @@ export function LocationsTable({
         {/* First Div - Locations Table */}
         <div>
           {/* Title Header */}
-          <div className="bg-gradient-to-b from-white to-stone-50 py-2 px-6 flex justify-between items-center border-b border-slate-200">
-            <h3 className="text-lg font-semibold text-foreground">Performance</h3>
+          <div className="bg-gradient-to-b from-white to-stone-50 px-6 py-4 flex justify-between items-center border-b border-slate-200">
+            <h3 className="text-base font-semibold text-foreground">Performance</h3>
             <Button
               variant="ghost"
               size="sm"
