@@ -20,13 +20,13 @@ export function LocationActionsSection({
         size="sm"
         onClick={() => setLocation("/locations/posts")}
         sx={{ 
-          backgroundColor: '#dbeafe', 
-          color: '#1d4ed8', 
-          borderColor: '#93c5fd',
+          backgroundColor: '#dbeafe !important', 
+          color: '#1d4ed8 !important', 
+          borderColor: '#93c5fd !important',
           fontSize: '0.8125rem',
           height: '40px',
           '&:hover': { 
-            backgroundColor: '#bfdbfe' 
+            backgroundColor: '#bfdbfe !important' 
           }
         }}
         data-testid="btn-manage-posts"
