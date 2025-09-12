@@ -51,7 +51,7 @@ export function BusinessProfileSection() {
 
   return (
     <Card className="mx-6 mb-6">
-      <div className="bg-violet-50 p-6 flex items-center justify-between border-b border-violet-200">
+      <div className="bg-gradient-to-b from-white to-violet-50 p-6 flex items-center justify-between border-b border-violet-200">
         <div className="flex items-center space-x-2">
           <h3 className="text-base font-semibold text-foreground">Business Profile Interactions</h3>
           <Info className="w-4 h-4 text-gray-400" />

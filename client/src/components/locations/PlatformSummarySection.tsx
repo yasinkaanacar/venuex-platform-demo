@@ -322,7 +322,7 @@ export function PlatformSummarySection({}: PlatformSummarySectionProps) {
   return (
     <div className="mx-6 mb-6 bg-white rounded-lg border border-violet-200 overflow-hidden shadow-none">
       {/* Header with Title and Links */}
-      <div className="flex items-center justify-between border-b border-violet-200 px-6 py-4">
+      <div className="flex items-center justify-between border-b border-violet-200 px-6 py-4 bg-gradient-to-b from-white to-violet-50">
         <h3 className="text-base font-semibold text-foreground">Platform Summary</h3>
         <nav className="inline-flex items-center gap-6" role="tablist">
           {platforms.map((platform, index) => (
