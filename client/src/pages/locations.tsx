@@ -265,7 +265,7 @@ export default function LocationsPage() {
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       {/* Header */}
-      <header className="bg-card border-b-2 border-border sticky top-0 z-50 shadow-sm h-20">
+      <header className="bg-card border-b border-border sticky top-0 z-50 shadow-sm h-20">
         <div className="max-w-7xl mx-auto px-6 h-full flex items-center bg-[#f9fafb]">
           <div className="flex items-center justify-between w-full">
             <div className="flex items-center space-x-2">
@@ -298,13 +298,13 @@ export default function LocationsPage() {
                   
                   {/* Step 3 - Pending */}
                   <Tooltip title="İşletme Profili" arrow componentsProps={{ tooltip: { sx: { fontSize: '14px' } } }}>
-                    <div className="w-6 h-6 border-2 border-gray-400 bg-white rounded-full"></div>
+                    <div className="w-6 h-6 border border-gray-400 bg-white rounded-full"></div>
                   </Tooltip>
                   <div className="w-8 h-0.5 bg-gray-300"></div>
                   
                   {/* Step 4 - Pending */}
                   <Tooltip title="Satışlar ve Offline Conversion" arrow componentsProps={{ tooltip: { sx: { fontSize: '14px' } } }}>
-                    <div className="w-6 h-6 border-2 border-gray-400 bg-white rounded-full"></div>
+                    <div className="w-6 h-6 border border-gray-400 bg-white rounded-full"></div>
                   </Tooltip>
                 </div>
                 <div className="text-xs text-gray-500 mt-2">VenueX Kurulum</div>
