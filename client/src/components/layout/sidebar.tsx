@@ -89,9 +89,6 @@ export default function Sidebar({ collapsed, onToggle }: SidebarProps) {
       <div className="relative">
         {!collapsed && (
           <div className="px-6 py-4">
-            <div className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">
-              CURRENT ROLE
-            </div>
             <div className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-800 rounded-md">
               <span className="text-sm font-medium text-gray-900 dark:text-white">
                 Digital Marketing Dashboard
