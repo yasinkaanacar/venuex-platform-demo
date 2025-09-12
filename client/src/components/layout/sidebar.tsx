@@ -12,7 +12,6 @@ import {
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import venueXLogo from '@assets/vx-logo-1000x1000_1756566252817.png';
-import boynerLogo from '@assets/image_1757702645786.png';
 
 const navigationItems = [
   { 
@@ -94,7 +93,7 @@ export default function Sidebar({ collapsed, onToggle }: SidebarProps) {
               <div className="flex items-center space-x-3">
                 <div className="w-8 h-8 rounded-full bg-white flex items-center justify-center shadow-sm">
                   <img 
-                    src={boynerLogo} 
+                    src="https://venuex-cdn.s3.eu-central-1.amazonaws.com/images/brands/logo/boyner.png" 
                     alt="Boyner Logo" 
                     className="w-6 h-6 object-contain"
                   />
