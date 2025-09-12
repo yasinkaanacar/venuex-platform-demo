@@ -90,7 +90,7 @@ export function PlatformSummarySection({}: PlatformSummarySectionProps) {
   const renderContent = () => {
     if (activePlatform === 1) { // Google Business Profile
       return (
-        <div className="p-6 bg-[var(--brand-50)]">
+        <div className="p-6 bg-violet-50">
           <div className="grid grid-cols-3 gap-6 items-center mb-6">
             {/* 1/3 - Location count */}
             <div className="text-center">
@@ -147,7 +147,7 @@ export function PlatformSummarySection({}: PlatformSummarySectionProps) {
 
     if (activePlatform === 2) { // Meta Business
       return (
-        <div className="p-6 bg-[var(--brand-50)]">
+        <div className="p-6 bg-violet-50">
           <div className="grid grid-cols-3 gap-6 items-center mb-6">
             {/* 1/3 - Location count */}
             <div className="text-center">
@@ -202,7 +202,7 @@ export function PlatformSummarySection({}: PlatformSummarySectionProps) {
 
     if (activePlatform === 3) { // Apple Business Connect
       return (
-        <div className="p-6 bg-[var(--brand-50)]">
+        <div className="p-6 bg-violet-50">
           <div className="grid grid-cols-3 gap-6 items-center mb-6">
             {/* 1/3 - Location count */}
             <div className="text-center">
@@ -257,7 +257,7 @@ export function PlatformSummarySection({}: PlatformSummarySectionProps) {
 
     if (activePlatform === 4) { // Yandex Maps
       return (
-        <div className="p-6 bg-[var(--brand-50)]">
+        <div className="p-6 bg-violet-50">
           <div className="grid grid-cols-3 gap-6 items-center mb-6">
             {/* 1/3 - Location count */}
             <div className="text-center">
@@ -320,17 +320,17 @@ export function PlatformSummarySection({}: PlatformSummarySectionProps) {
   };
 
   return (
-    <div className="mx-6 mb-6 bg-white rounded-lg border border-[var(--border-brand)] overflow-hidden shadow-none">
+    <div className="mx-6 mb-6 bg-white rounded-lg border border-violet-200 overflow-hidden shadow-none">
       {/* Platform Tabs */}
-      <div className="flex border-b border-[var(--border-brand)]">
+      <div className="flex border-b border-violet-200">
         {platforms.map((platform, index) => (
           <button
             key={index}
             onClick={() => setActivePlatform(index)}
-            className={`flex-1 px-4 py-3 text-sm font-medium transition-all duration-200 border-r border-[var(--border-brand)] last:border-r-0 ${
+            className={`flex-1 px-4 py-3 text-sm font-medium transition-all duration-200 border-r border-violet-200 last:border-r-0 ${
               activePlatform === index 
-                ? 'bg-[var(--brand-600)] text-[var(--text-on-brand)] shadow-sm hover:bg-[var(--brand-700)]' 
-                : 'bg-[var(--brand-50)] text-[var(--brand-800)] hover:bg-[var(--brand-100)] hover:text-[var(--brand-900)]'
+                ? 'bg-violet-600 text-white shadow-sm hover:bg-violet-700' 
+                : 'bg-violet-50 text-violet-800 hover:bg-violet-100 hover:text-violet-900'
             }`}
           >
             {platform}
