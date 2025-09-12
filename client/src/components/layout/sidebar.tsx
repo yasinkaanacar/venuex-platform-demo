@@ -8,7 +8,8 @@ import {
   Bell,
   ChevronDown,
   Menu,
-  ShoppingCart
+  ShoppingCart,
+  Store
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import venueXLogo from '@assets/vx-logo-1000x1000_1756566252817.png';
@@ -90,9 +91,12 @@ export default function Sidebar({ collapsed, onToggle }: SidebarProps) {
         {!collapsed && (
           <div className="px-6 py-4">
             <div className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-800 rounded-md">
-              <span className="text-sm font-medium text-gray-900 dark:text-white">
-                Digital Marketing Dashboard
-              </span>
+              <div className="flex items-center space-x-2">
+                <Store className="w-4 h-4 text-gray-600" />
+                <span className="text-sm font-medium text-gray-900 dark:text-white">
+                  Boyner
+                </span>
+              </div>
               <ChevronDown className="w-4 h-4 text-gray-500" />
             </div>
           </div>
