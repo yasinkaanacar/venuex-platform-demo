@@ -24,7 +24,7 @@ const getPlatformIcon = (platform: string) => {
     case 'Apple Business Connect':
       return <SiApple className="w-4 h-4" />;
     case 'Yandex Maps':
-      return <span className="text-sm">🔴</span>;
+      return <img src="https://yastatic.net/s3/home-static/_/nova/JSRBlH1m.png" alt="Yandex" className="w-4 h-4 object-contain" />;
     default:
       return null;
   }
