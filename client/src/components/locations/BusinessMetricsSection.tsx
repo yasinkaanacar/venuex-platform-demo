@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import { ArrowUpRight } from "lucide-react";
 
 const GaugeChart = ({ percentage }: { percentage: number }) => {
   const angle = (percentage / 100) * 180 - 90;
@@ -43,7 +44,7 @@ export function BusinessMetricsSection() {
             </div>
             <Button
               variant="link"
-              className="text-blue-600 hover:text-blue-700 text-sm p-0 h-auto"
+              className="text-blue-600 hover:text-blue-800 text-sm p-0 h-auto flex items-center gap-1 hover:gap-2 transition-all duration-200 group"
               onClick={() => {
                 // Try to find the Data Quality Assessment section
                 let element =
@@ -73,7 +74,8 @@ export function BusinessMetricsSection() {
                 }
               }}
             >
-              View details
+              <span>View details</span>
+              <ArrowUpRight className="w-3 h-3 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform duration-200" />
             </Button>
           </div>
 
@@ -98,7 +100,7 @@ export function BusinessMetricsSection() {
             </div>
             <Button
               variant="link"
-              className="text-blue-600 hover:text-blue-700 text-sm p-0 h-auto"
+              className="text-blue-600 hover:text-blue-800 text-sm p-0 h-auto flex items-center gap-1 hover:gap-2 transition-all duration-200 group"
               onClick={() => {
                 // Try to find the Performance section
                 let element =
@@ -129,7 +131,8 @@ export function BusinessMetricsSection() {
                 }
               }}
             >
-              View details
+              <span>View details</span>
+              <ArrowUpRight className="w-3 h-3 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform duration-200" />
             </Button>
           </div>
 
@@ -173,7 +176,7 @@ export function BusinessMetricsSection() {
             </div>
             <Button
               variant="link"
-              className="text-blue-600 hover:text-blue-700 text-sm p-0 h-auto mt-auto"
+              className="text-blue-600 hover:text-blue-800 text-sm p-0 h-auto mt-auto flex items-center gap-1 hover:gap-2 transition-all duration-200 group"
               onClick={() => {
                 // Try to find the Locations section header
                 let element =
@@ -205,7 +208,8 @@ export function BusinessMetricsSection() {
                 }
               }}
             >
-              View details
+              <span>View details</span>
+              <ArrowUpRight className="w-3 h-3 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform duration-200" />
             </Button>
           </div>
       </div>
