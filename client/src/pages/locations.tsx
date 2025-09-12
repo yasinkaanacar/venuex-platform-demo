@@ -8,7 +8,18 @@ import { PlatformSummarySection } from "@/components/locations/PlatformSummarySe
 import { LocationActionsSection } from "@/components/locations/LocationActionsSection";
 import DataQualityEnrichment from "@/components/overview/data-quality-enrichment";
 import LocationsDataHealthAlerts from "@/components/locations/locations-data-health-alerts";
-import { Store, User, Check } from 'lucide-react';
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+} from "@/components/ui/select";
+import { Badge } from "@/components/ui/badge";
+import { Switch } from "@/components/ui/switch";
+import { Label } from "@/components/ui/label";
+import { Store, User, Check, Search, GitCompare, X } from 'lucide-react';
 import { Tooltip } from '@mui/material';
 
 export default function LocationsPage() {
@@ -168,8 +179,168 @@ export default function LocationsPage() {
             <h3 className="text-base font-semibold text-foreground">Performance</h3>
           </div>
           {/* Content */}
-          <div className="p-6 bg-stone-50">
-            <p className="text-gray-600">Bu Platform Summary ile aynı div yapısını kullanıyor ama tab yok.</p>
+          <div className="bg-stone-50">
+            <div className="px-6 py-3">
+              <div className="flex items-center gap-3">
+                {/* Search */}
+                <div className="relative flex-1 max-w-[400px]">
+                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
+                  <Input
+                    placeholder="Search by store code, store name or address"
+                    value={filters.search}
+                    onChange={(e) => setFilters(prev => ({ ...prev, search: e.target.value }))}
+                    className="pl-10"
+                    data-testid="filter-search"
+                  />
+                </div>
+
+                {/* Business Status Filter */}
+                <Select value={filters.businessStatus || "All"} onValueChange={(value) => setFilters(prev => ({ ...prev, businessStatus: value === "All" ? "" : value }))}>
+                  <SelectTrigger className="w-[150px]" data-testid="filter-business-status">
+                    <div className="flex flex-col items-start w-full">
+                      <div className="text-xs text-gray-500">Business Status</div>
+                      <div className="text-sm">{filters.businessStatus || "All"}</div>
+                    </div>
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="All">All</SelectItem>
+                    <SelectItem value="Open">Open</SelectItem>
+                    <SelectItem value="Closed">Closed</SelectItem>
+                    <SelectItem value="Temporarily Closed">Temporarily Closed</SelectItem>
+                  </SelectContent>
+                </Select>
+
+                {/* Platform Status Filter */}
+                <Select value={filters.platformStatus || "All"} onValueChange={(value) => setFilters(prev => ({ ...prev, platformStatus: value === "All" ? "" : value }))}>
+                  <SelectTrigger className="w-[150px]" data-testid="filter-platform-status">
+                    <div className="flex flex-col items-start w-full">
+                      <div className="text-xs text-gray-500">Platform Status</div>
+                      <div className="text-sm">{filters.platformStatus || "All"}</div>
+                    </div>
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="All">All</SelectItem>
+                    <SelectItem value="Optimal Waiting">Optimal Waiting</SelectItem>
+                    <SelectItem value="Needs Attention">Needs Attention</SelectItem>
+                    <SelectItem value="Connected">Connected</SelectItem>
+                  </SelectContent>
+                </Select>
+
+                {/* Store Set Filter */}
+                <Select value={filters.storeSet || "All"} onValueChange={(value) => setFilters(prev => ({ ...prev, storeSet: value === "All" ? "" : value }))}>
+                  <SelectTrigger className="w-[150px]" data-testid="filter-store-set">
+                    <div className="flex flex-col items-start w-full">
+                      <div className="text-xs text-gray-500">Store Set</div>
+                      <div className="text-sm">{filters.storeSet || "All"}</div>
+                    </div>
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="All">All</SelectItem>
+                    <SelectItem value="SMR">SMR</SelectItem>
+                    <SelectItem value="Premium">Premium</SelectItem>
+                    <SelectItem value="Express">Express</SelectItem>
+                    <SelectItem value="Standard">Standard</SelectItem>
+                    <SelectItem value="Regional">Regional</SelectItem>
+                  </SelectContent>
+                </Select>
+
+                {/* Missing POI Filter */}
+                <Select value={filters.missingPOI || "All"} onValueChange={(value) => setFilters(prev => ({ ...prev, missingPOI: value === "All" ? "" : value }))}>
+                  <SelectTrigger className="w-[120px]" data-testid="filter-missing-poi">
+                    <div className="flex flex-col items-start w-full">
+                      <div className="text-xs text-gray-500">Missing POI</div>
+                      <div className="text-sm">{filters.missingPOI || "All"}</div>
+                    </div>
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="All">All</SelectItem>
+                    <SelectItem value="Yes">Yes</SelectItem>
+                    <SelectItem value="No">No</SelectItem>
+                  </SelectContent>
+                </Select>
+
+                {/* Date Range Selector */}
+                <Select value={filters.dateRange || "30d"} onValueChange={(value) => setFilters(prev => ({ ...prev, dateRange: value }))}>
+                  <SelectTrigger className="w-[150px]" data-testid="filter-date-range">
+                    <div className="flex flex-col items-start w-full">
+                      <div className="text-xs text-gray-500">Date Range</div>
+                      <div className="text-sm">
+                        {filters.dateRange === "7d" ? "Last 7 days" : filters.dateRange === "30d" ? "Last 30 days" : "Last 90 days"}
+                      </div>
+                    </div>
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="7d">Last 7 days</SelectItem>
+                    <SelectItem value="30d">Last 30 days</SelectItem>
+                    <SelectItem value="90d">Last 90 days</SelectItem>
+                  </SelectContent>
+                </Select>
+
+                {/* Platform Filter */}
+                <Select value={filters.platform || "All"} onValueChange={(value) => setFilters(prev => ({ ...prev, platform: value === "All" ? "" : value }))}>
+                  <SelectTrigger className="w-[150px]" data-testid="filter-platform">
+                    <div className="flex flex-col items-start w-full">
+                      <div className="text-xs text-gray-500">Platform</div>
+                      <div className="text-sm">{filters.platform || "All"}</div>
+                    </div>
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="All">All</SelectItem>
+                    <SelectItem value="Google">Google</SelectItem>
+                    <SelectItem value="Facebook">Facebook</SelectItem>
+                    <SelectItem value="Instagram">Instagram</SelectItem>
+                    <SelectItem value="TikTok">TikTok</SelectItem>
+                    <SelectItem value="Apple Maps">Apple Maps</SelectItem>
+                  </SelectContent>
+                </Select>
+
+                {/* Compare Mode Toggle */}
+                <div className="flex items-center space-x-2 px-3 py-2 border border-gray-200 rounded-md" data-testid="compare-mode-toggle">
+                  <GitCompare className="w-4 h-4 text-gray-500" />
+                  <Label htmlFor="compare-mode" className="text-sm text-gray-600">Compare</Label>
+                  <Switch
+                    id="compare-mode"
+                    checked={filters.compareMode || false}
+                    onChange={(event) => setFilters(prev => ({ ...prev, compareMode: event.target.checked }))}
+                    className="data-[state=checked]:bg-blue-600"
+                  />
+                </div>
+              </div>
+              
+              {/* Active Filters Display */}
+              {Object.values(filters).filter(value => value !== "").length > 0 && (
+                <div className="mt-3 flex items-center gap-2">
+                  <span className="text-sm text-gray-500">Active filters:</span>
+                  <Badge variant="secondary" className="text-xs">
+                    {Object.values(filters).filter(value => value !== "").length} active
+                  </Badge>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => setFilters({
+                      search: "",
+                      city: "",
+                      businessStatus: "",
+                      platformStatus: "",
+                      storeSet: "",
+                      missingPOI: "",
+                      dateRange: "30d",
+                      platform: "",
+                      compareMode: false,
+                      startDate: undefined,
+                      endDate: undefined,
+                      compareStartDate: undefined,
+                      compareEndDate: undefined
+                    })}
+                    className="text-xs h-6 px-2"
+                    data-testid="button-clear-filters"
+                  >
+                    <X className="w-3 h-3 mr-1" />
+                    Clear all
+                  </Button>
+                </div>
+              )}
+            </div>
           </div>
         </div>
 
