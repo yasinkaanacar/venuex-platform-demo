@@ -48,7 +48,7 @@ export function BulkActionBar({
             variant="outline"
             size="sm"
             onClick={onSyncSelected}
-            className="border-blue-200 text-blue-700 hover:bg-blue-100 dark:border-blue-700 dark:text-blue-300 dark:hover:bg-blue-800"
+            className="border-blue-300 text-blue-700 bg-blue-100 hover:bg-blue-200 dark:border-blue-700 dark:text-blue-300 dark:bg-blue-800/30 dark:hover:bg-blue-800"
             data-testid="btn-bulk-sync"
           >
             <RotateCw className="w-4 h-4 mr-2" />
@@ -59,7 +59,7 @@ export function BulkActionBar({
             variant="outline"
             size="sm"
             onClick={onExportSelected}
-            className="border-blue-200 text-blue-700 hover:bg-blue-100 dark:border-blue-700 dark:text-blue-300 dark:hover:bg-blue-800"
+            className="border-green-300 text-green-700 bg-green-100 hover:bg-green-200 dark:border-green-700 dark:text-green-300 dark:bg-green-800/30 dark:hover:bg-green-800"
             data-testid="btn-bulk-export"
           >
             <Download className="w-4 h-4 mr-2" />
@@ -70,7 +70,7 @@ export function BulkActionBar({
             variant="outline"
             size="sm"
             onClick={onPublishSelected}
-            className="border-blue-200 text-blue-700 hover:bg-blue-100 dark:border-blue-700 dark:text-blue-300 dark:hover:bg-blue-800"
+            className="border-emerald-300 text-emerald-700 bg-emerald-100 hover:bg-emerald-200 dark:border-emerald-700 dark:text-emerald-300 dark:bg-emerald-800/30 dark:hover:bg-emerald-800"
             data-testid="btn-bulk-publish"
           >
             <Eye className="w-4 h-4 mr-2" />
@@ -81,7 +81,7 @@ export function BulkActionBar({
             variant="outline"
             size="sm"
             onClick={onUnpublishSelected}
-            className="border-blue-200 text-blue-700 hover:bg-blue-100 dark:border-blue-700 dark:text-blue-300 dark:hover:bg-blue-800"
+            className="border-orange-300 text-orange-700 bg-orange-100 hover:bg-orange-200 dark:border-orange-700 dark:text-orange-300 dark:bg-orange-800/30 dark:hover:bg-orange-800"
             data-testid="btn-bulk-unpublish"
           >
             <EyeOff className="w-4 h-4 mr-2" />
