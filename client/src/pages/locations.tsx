@@ -152,14 +152,14 @@ export default function LocationsPage() {
           />
         </div>
 
-        {/* Platform Summary Section */}
-        <PlatformSummarySection />
-
         {/* Location Actions Section */}
         <LocationActionsSection 
           onAddNewLocation={handleAddNewLocation}
           onUploadLocations={handleUploadLocations}
         />
+
+        {/* Platform Summary Section */}
+        <PlatformSummarySection />
 
         {/* Locations Table Section */}
         <div className="mb-6">
