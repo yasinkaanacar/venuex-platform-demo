@@ -321,21 +321,27 @@ export function PlatformSummarySection({}: PlatformSummarySectionProps) {
 
   return (
     <div className="mx-6 mb-6 bg-white rounded-lg border border-violet-200 overflow-hidden shadow-none">
-      {/* Platform Tabs */}
-      <div className="flex border-b border-violet-200">
-        {platforms.map((platform, index) => (
-          <button
-            key={index}
-            onClick={() => setActivePlatform(index)}
-            className={`flex-1 px-4 py-3 text-sm font-medium transition-all duration-200 border-r border-violet-200 last:border-r-0 ${
-              activePlatform === index 
-                ? 'bg-emerald-500 text-white shadow-sm hover:bg-emerald-600' 
-                : 'bg-violet-50 text-violet-800 hover:bg-violet-100 hover:text-violet-900'
-            }`}
-          >
-            {platform}
-          </button>
-        ))}
+      {/* Header with Title and Links */}
+      <div className="flex items-center justify-between border-b border-violet-200 px-6 py-4">
+        <h3 className="text-base font-semibold text-foreground">Platform Summary</h3>
+        <nav className="inline-flex items-center gap-6" role="tablist">
+          {platforms.map((platform, index) => (
+            <button
+              key={index}
+              role="tab"
+              aria-selected={activePlatform === index}
+              onClick={() => setActivePlatform(index)}
+              className={`relative -mb-px inline-flex items-center border-b-2 px-1 py-3 text-sm font-medium transition-all duration-200 focus:outline-none ${
+                activePlatform === index 
+                  ? 'text-emerald-600 border-emerald-500' 
+                  : 'text-slate-600 border-transparent hover:text-slate-900'
+              }`}
+              data-testid={`link-platform-${platform.toLowerCase().replace(/\s+/g, '-')}`}
+            >
+              {platform}
+            </button>
+          ))}
+        </nav>
       </div>
       {/* Dynamic Content */}
       {renderContent()}

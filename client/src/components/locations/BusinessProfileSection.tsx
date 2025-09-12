@@ -51,36 +51,40 @@ export function BusinessProfileSection() {
 
   return (
     <Card className="mx-6 mb-6">
-      <div className="bg-violet-50 p-6 flex justify-between items-center border-b border-violet-200">
+      <div className="bg-violet-50 p-6 flex items-center justify-between border-b border-violet-200">
         <div className="flex items-center space-x-2">
-          <h3 className="text-lg font-semibold text-foreground">Business Profile Interactions</h3>
+          <h3 className="text-base font-semibold text-foreground">Business Profile Interactions</h3>
           <Info className="w-4 h-4 text-gray-400" />
         </div>
-        <button className="text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:hover:text-white font-medium bg-transparent border-none cursor-pointer flex items-center space-x-2">
-          <Calendar className="w-4 h-4" />
-          <span>August 2025</span>
-        </button>
+        <div className="flex items-center space-x-8">
+          <nav className="inline-flex items-center gap-6" role="tablist">
+            {tabs.map((tab, index) => (
+              <button
+                key={index}
+                role="tab"
+                aria-selected={activeTab === index}
+                onClick={() => setActiveTab(index)}
+                className={`relative -mb-px inline-flex items-center border-b-2 px-1 py-3 text-sm font-medium transition-all duration-200 focus:outline-none ${
+                  activeTab === index
+                    ? 'text-emerald-600 border-emerald-500'
+                    : 'text-slate-600 border-transparent hover:text-slate-900'
+                }`}
+                data-testid={`link-metric-${tab.label.toLowerCase().replace(/\s+/g, '-')}`}
+              >
+                <div className="text-center">
+                  <div className="font-medium">{tab.label}</div>
+                  <div className="text-xs opacity-60">({tab.value})</div>
+                </div>
+              </button>
+            ))}
+          </nav>
+          <button className="text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:hover:text-white font-medium bg-transparent border-none cursor-pointer flex items-center space-x-2">
+            <Calendar className="w-4 h-4" />
+            <span>August 2025</span>
+          </button>
+        </div>
       </div>
       <CardContent className="bg-violet-50">
-        {/* Tabs */}
-        <div className="flex space-x-1 mb-6 bg-violet-100 rounded-lg p-1">
-          {tabs.map((tab, index) => (
-            <button
-              key={index}
-              onClick={() => setActiveTab(index)}
-              className={`flex-1 px-4 py-2 rounded-md text-sm font-medium transition-all duration-200 ${
-                activeTab === index
-                  ? 'bg-emerald-500 text-white shadow-sm hover:bg-emerald-600'
-                  : 'bg-violet-100 text-violet-800 hover:bg-violet-200 hover:text-violet-900'
-              }`}
-            >
-              <div className="text-center">
-                <div className="font-medium">{tab.label}</div>
-                <div className="text-xs text-gray-500">({tab.value})</div>
-              </div>
-            </button>
-          ))}
-        </div>
 
         {/* Main Metrics */}
         <div className="mb-6">
