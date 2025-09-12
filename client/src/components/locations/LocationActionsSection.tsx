@@ -19,7 +19,16 @@ export function LocationActionsSection({
         variant="outline"
         size="sm"
         onClick={() => setLocation("/locations/posts")}
-        className="border-blue-200 hover:bg-blue-100 h-10 bg-blue-50 text-blue-700 px-4 text-sm"
+        sx={{ 
+          backgroundColor: '#dbeafe', 
+          color: '#1d4ed8', 
+          borderColor: '#93c5fd',
+          fontSize: '0.8125rem',
+          height: '40px',
+          '&:hover': { 
+            backgroundColor: '#bfdbfe' 
+          }
+        }}
         data-testid="btn-manage-posts"
       >
         <FileText className="w-3 h-3 mr-1" />
@@ -30,7 +39,16 @@ export function LocationActionsSection({
         variant="outline"
         size="sm"
         onClick={onAddNewLocation}
-        className="text-green-700 border-green-200 hover:bg-green-100 h-10 bg-green-50 px-4 text-sm"
+        sx={{ 
+          backgroundColor: '#dcfce7', 
+          color: '#15803d', 
+          borderColor: '#86efac',
+          fontSize: '0.8125rem',
+          height: '40px',
+          '&:hover': { 
+            backgroundColor: '#bbf7d0' 
+          }
+        }}
         data-testid="btn-add-new-location"
       >
         <Plus className="w-3 h-3 mr-1" />
@@ -41,7 +59,16 @@ export function LocationActionsSection({
         variant="outline"
         size="sm"
         onClick={onUploadLocations}
-        className="text-purple-700 border-purple-200 hover:bg-purple-100 h-10 bg-purple-50 px-4 text-sm"
+        sx={{ 
+          backgroundColor: '#f3e8ff', 
+          color: '#7c3aed', 
+          borderColor: '#c4b5fd',
+          fontSize: '0.8125rem',
+          height: '40px',
+          '&:hover': { 
+            backgroundColor: '#e9d5ff' 
+          }
+        }}
         data-testid="btn-bulk-updates"
       >
         <Edit className="w-3 h-3 mr-1" />
