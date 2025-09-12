@@ -33,11 +33,7 @@ const navigationGroups = [
 ];
 
 const ungroupedItems = [
-  { name: 'Dashboard', href: '/', icon: BarChart3 },
-  { name: 'Offline Conversions', href: '/offline-conversions', icon: ShoppingCart },
-  { name: 'Data Integration', href: '/data-integration', icon: ArrowRightLeft },
-  { name: 'Data Quality', href: '/data-quality', icon: CheckCircle },
-  { name: 'Alerts', href: '/alerts', icon: Bell }
+  { name: 'Dashboard', href: '/', icon: BarChart3 }
 ];
 
 interface SidebarProps {
