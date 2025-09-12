@@ -19,13 +19,47 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
+import { Card, CardContent } from "@/components/ui/card";
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  ResponsiveContainer,
+} from "recharts";
 import { Store, User, Check, Search, GitCompare, X } from 'lucide-react';
 import { Tooltip } from '@mui/material';
+
+// Chart data for Business Profile Interaction
+const chartData = [
+  { name: "Aug 25", current: 2000, previous: 1950 },
+  { name: "03 Aug", current: 1850, previous: 2100 },
+  { name: "05 Aug", current: 1900, previous: 2000 },
+  { name: "07 Aug", current: 2400, previous: 1800 },
+  { name: "09 Aug", current: 1950, previous: 2050 },
+  { name: "11 Aug", current: 1800, previous: 2100 },
+  { name: "14 Aug", current: 2100, previous: 1900 },
+  { name: "16 Aug", current: 2250, previous: 2200 },
+  { name: "18 Aug", current: 1900, previous: 2050 },
+  { name: "20 Aug", current: 1850, previous: 1950 },
+  { name: "22 Aug", current: 2000, previous: 2100 },
+  { name: "24 Aug", current: 2200, previous: 1980 },
+  { name: "26 Aug", current: 2150, previous: 2050 },
+  { name: "30 Aug", current: 1900, previous: 2000 },
+];
+
+const tabs = [
+  { label: "Total", value: "62006", active: true },
+  { label: "Calls Made", value: "23499", active: false },
+  { label: "Website Clicks", value: "3875", active: false },
+  { label: "Direction Requests", value: "34632", active: false },
+];
 
 export default function LocationsPage() {
   // State management
   const [selectedLocationId, setSelectedLocationId] = useState<string | null>(null);
   const [fieldManagementOpen, setFieldManagementOpen] = useState(false);
+  const [activeTab, setActiveTab] = useState(0);
   const [filters, setFilters] = useState<LocationsFilterState>({
     search: "",
     city: "",
@@ -345,6 +379,105 @@ export default function LocationsPage() {
           
           {/* Separator */}
           <div className="border-b border-slate-200"></div>
+          
+          {/* Business Profile Interaction Content */}
+          <div className="p-6 bg-stone-50">
+            <Card className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
+              <CardContent className="p-6">
+                <h4 className="text-gray-900 dark:text-white mb-4 font-medium text-[16px]">
+                  Business Profile Interaction
+                </h4>
+                
+                {/* Tabs */}
+                <div className="flex space-x-1 mb-6 bg-gray-100 dark:bg-gray-800 rounded-lg p-1">
+                  {tabs.map((tab, index) => (
+                    <button
+                      key={index}
+                      onClick={() => setActiveTab(index)}
+                      className={`flex-1 px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+                        activeTab === index
+                          ? "bg-white dark:bg-gray-700 text-blue-600 dark:text-blue-400"
+                          : "text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
+                      }`}
+                    >
+                      <div className="text-center">
+                        <div className="font-medium">{tab.label}</div>
+                        <div className="text-xs text-gray-500">
+                          ({tab.value})
+                        </div>
+                      </div>
+                    </button>
+                  ))}
+                </div>
+
+                {/* Main Metrics */}
+                <div className="mb-6">
+                  <div className="flex items-baseline space-x-4 mb-2">
+                    <div className="flex items-center space-x-2">
+                      <div className="w-3 h-3 bg-blue-500 rounded-full"></div>
+                      <span className="text-2xl font-bold text-gray-900 dark:text-white">
+                        62,006
+                      </span>
+                      <span className="text-sm text-gray-600 dark:text-gray-400">
+                        Current
+                      </span>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <div className="w-3 h-3 bg-gray-400 rounded-full"></div>
+                      <span className="text-lg text-gray-600 dark:text-gray-400">
+                        63,615
+                      </span>
+                      <span className="text-sm text-gray-600 dark:text-gray-400">
+                        Previous
+                      </span>
+                    </div>
+                    <Badge
+                      variant="destructive"
+                      className="bg-red-100 text-red-800 hover:bg-red-100"
+                    >
+                      -2.5%
+                    </Badge>
+                  </div>
+                  <div className="text-sm text-gray-500 mb-4">
+                    July 2025 vs August 2025
+                  </div>
+                </div>
+
+                {/* Chart */}
+                <div className="h-64">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <LineChart data={chartData}>
+                      <XAxis
+                        dataKey="name"
+                        axisLine={false}
+                        tickLine={false}
+                        className="text-xs text-gray-500"
+                      />
+                      <YAxis
+                        axisLine={false}
+                        tickLine={false}
+                        className="text-xs text-gray-500"
+                      />
+                      <Line
+                        type="monotone"
+                        dataKey="current"
+                        stroke="#3b82f6"
+                        strokeWidth={2}
+                        dot={false}
+                      />
+                      <Line
+                        type="monotone"
+                        dataKey="previous"
+                        stroke="#9ca3af"
+                        strokeWidth={2}
+                        dot={false}
+                      />
+                    </LineChart>
+                  </ResponsiveContainer>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
         </div>
 
         {/* Locations Table Section */}
