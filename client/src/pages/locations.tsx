@@ -474,6 +474,9 @@ export default function LocationsPage() {
               </ResponsiveContainer>
             </div>
           </div>
+          
+          {/* Second Separator */}
+          <div className="border-b border-slate-200"></div>
         </div>
 
         {/* Locations Table Section */}
