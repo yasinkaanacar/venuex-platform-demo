@@ -401,47 +401,62 @@ export default function Reviews() {
         <div className="mx-6 mb-6 bg-white rounded-lg border border-slate-200 overflow-hidden shadow-none">
           <div className="flex items-center justify-between border-b border-slate-200 px-6 py-4 bg-gradient-to-b from-white to-stone-50">
             <h3 className="text-base font-semibold text-foreground">Rating Distribution</h3>
-            <div className="text-sm text-gray-500">Based on {ratingBreakdown.reduce((sum, item) => sum + item.count, 0).toLocaleString()} reviews</div>
           </div>
           <div className="bg-stone-50 p-6">
             <div className="bg-white rounded-md border border-slate-200 p-6">
-              <div className="space-y-4">
-                {ratingBreakdown.map((rating, index) => (
-                  <div key={rating.stars} className="flex items-center gap-4">
-                    <div className="flex items-center gap-2 min-w-[80px]">
-                      <span className="text-sm font-medium text-gray-700">{rating.stars}</span>
-                      <div className="flex">
-                        {Array.from({ length: rating.stars }, (_, i) => (
-                          <span key={i} className="text-yellow-400">⭐</span>
-                        ))}
-                      </div>
-                    </div>
-                    <div className="flex-1">
-                      <div className="flex items-center justify-between mb-1">
-                        <div className="w-full bg-gray-200 rounded-full h-3 relative overflow-hidden">
+              {/* Summary Stats */}
+              <div className="flex justify-between items-center mb-8">
+                <div className="text-center">
+                  <div className="text-3xl font-bold text-gray-900 mb-1">
+                    {ratingBreakdown.reduce((sum, item) => sum + item.count, 0).toLocaleString()}
+                  </div>
+                  <div className="text-sm text-gray-600">Total Reviews</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-3xl font-bold text-gray-900 mb-1">3.28</div>
+                  <div className="text-sm text-gray-600">Average Rating</div>
+                </div>
+              </div>
+
+              {/* Column Chart */}
+              <div className="relative">
+                <div className="flex items-end justify-between gap-4 h-32 mb-2">
+                  {[1, 2, 3, 4, 5].map((starCount) => {
+                    const rating = ratingBreakdown.find(r => r.stars === starCount);
+                    if (!rating) return null;
+                    
+                    return (
+                      <div key={rating.stars} className="flex-1 flex flex-col items-center">
+                        <div className="w-full flex justify-center mb-2">
                           <div 
-                            className={`h-full rounded-full transition-all duration-500 ${
-                              rating.stars === 5 ? 'bg-green-500' :
-                              rating.stars === 4 ? 'bg-blue-500' :
+                            className={`w-12 rounded-t transition-all duration-700 ${
+                              rating.stars === 5 ? 'bg-green-600' :
+                              rating.stars === 4 ? 'bg-green-400' :
                               rating.stars === 3 ? 'bg-yellow-500' :
                               rating.stars === 2 ? 'bg-orange-500' : 'bg-red-500'
                             }`}
-                            style={{ width: `${rating.percentage}%` }}
-                            data-testid={`rating-bar-${rating.stars}`}
+                            style={{ 
+                              height: `${Math.max((rating.percentage / 25) * 100, 8)}%`,
+                              minHeight: '8px'
+                            }}
+                            data-testid={`rating-column-${rating.stars}`}
                           />
                         </div>
-                        <div className="flex items-center gap-3 ml-4">
-                          <span className="text-sm font-medium text-gray-600 min-w-[45px]">
-                            {rating.percentage}%
-                          </span>
-                          <span className="text-sm text-gray-500 min-w-[60px]">
-                            ({rating.count.toLocaleString()})
-                          </span>
-                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+                
+                {/* Labels */}
+                <div className="flex justify-between gap-4">
+                  {[1, 2, 3, 4, 5].map((starCount) => (
+                    <div key={starCount} className="flex-1 text-center">
+                      <div className="text-xs text-gray-600 font-medium">
+                        {starCount} Star{starCount > 1 ? 's' : ''}
                       </div>
                     </div>
-                  </div>
-                ))}
+                  ))}
+                </div>
               </div>
             </div>
           </div>
