@@ -46,6 +46,7 @@ export default function Reviews() {
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedReviewId, setSelectedReviewId] = useState(1);
   const [replyText, setReplyText] = useState("");
+  const [ratingDistributionTab, setRatingDistributionTab] = useState("overall");
   
   // Location table sorting
   const [sortColumn, setSortColumn] = useState<string>("");
@@ -103,6 +104,30 @@ export default function Reviews() {
     { name: "Boyner Van 100. Yıl", rating: 3.3, reviews: 156, responseRate: 39, sentiment: "Negative" },
     { name: "Boyner Şanlıurfa Piazza", rating: 4.0, reviews: 298, responseRate: 65, sentiment: "Positive" },
     { name: "Boyner Batman Park", rating: 3.6, reviews: 134, responseRate: 44, sentiment: "Negative" }
+  ];
+
+  // Top 20 locations with star rating breakdowns for histogram
+  const topLocationsData = [
+    { name: "İstanbul AVM", total: 1243, ratings: { 5: 312, 4: 298, 3: 236, 2: 198, 1: 199 } },
+    { name: "İzmir Konak", total: 934, ratings: { 5: 280, 4: 234, 3: 187, 2: 140, 1: 93 } },
+    { name: "Eskişehir Kanatlı", total: 847, ratings: { 5: 254, 4: 212, 3: 169, 2: 127, 1: 85 } },
+    { name: "Antalya MarkAntalya", total: 756, ratings: { 5: 227, 4: 189, 3: 151, 2: 113, 1: 76 } },
+    { name: "Ankara Kızılay", total: 692, ratings: { 5: 208, 4: 173, 3: 138, 2: 104, 1: 69 } },
+    { name: "Samsun Piazza", total: 623, ratings: { 5: 187, 4: 156, 3: 125, 2: 93, 1: 62 } },
+    { name: "Kayseri Forum", total: 567, ratings: { 5: 170, 4: 142, 3: 113, 2: 85, 1: 57 } },
+    { name: "Bursa Kent Meydanı", total: 528, ratings: { 5: 106, 4: 132, 3: 158, 2: 79, 1: 53 } },
+    { name: "Mersin Marina", total: 478, ratings: { 5: 96, 4: 120, 3: 143, 2: 72, 1: 47 } },
+    { name: "Gaziantep Forum", total: 445, ratings: { 5: 89, 4: 111, 3: 133, 2: 67, 1: 45 } },
+    { name: "Adana Optimum", total: 421, ratings: { 5: 84, 4: 105, 3: 126, 2: 63, 1: 43 } },
+    { name: "Konya M1", total: 398, ratings: { 5: 80, 4: 99, 3: 119, 2: 60, 1: 40 } },
+    { name: "Trabzon Forum", total: 389, ratings: { 5: 78, 4: 97, 3: 117, 2: 58, 1: 39 } },
+    { name: "Denizli Forum", total: 312, ratings: { 5: 94, 4: 78, 3: 62, 2: 47, 1: 31 } },
+    { name: "Şanlıurfa Piazza", total: 298, ratings: { 5: 89, 4: 74, 3: 60, 2: 45, 1: 30 } },
+    { name: "Malatya Arasta Park", total: 267, ratings: { 5: 80, 4: 67, 3: 53, 2: 40, 1: 27 } },
+    { name: "Diyarbakır Kay", total: 234, ratings: { 5: 70, 4: 58, 3: 47, 2: 35, 1: 24 } },
+    { name: "Erzurum Palandöken", total: 189, ratings: { 5: 57, 4: 47, 3: 38, 2: 28, 1: 19 } },
+    { name: "Van 100. Yıl", total: 156, ratings: { 5: 31, 4: 39, 3: 47, 2: 23, 1: 16 } },
+    { name: "Batman Park", total: 134, ratings: { 5: 27, 4: 33, 3: 40, 2: 20, 1: 14 } }
   ];
 
   // Sorting function
@@ -399,13 +424,38 @@ export default function Reviews() {
 
         {/* Rating Distribution */}
         <div className="mx-6 mb-6 bg-white rounded-lg border border-slate-200 overflow-hidden shadow-none">
-          <div className="flex items-center justify-between border-b border-slate-200 px-6 py-4 bg-gradient-to-b from-white to-stone-50">
-            <h3 className="text-base font-semibold text-foreground">Rating Distribution</h3>
+          <div className="border-b border-slate-200 bg-gradient-to-b from-white to-stone-50">
+            <div className="px-6 py-4">
+              <h3 className="text-base font-semibold text-foreground">Rating Distribution</h3>
+            </div>
+            <div className="flex border-t border-slate-200">
+              <button
+                onClick={() => setRatingDistributionTab("overall")}
+                className={`px-6 py-3 text-sm font-medium border-b-2 ${
+                  ratingDistributionTab === "overall"
+                    ? "border-blue-600 text-blue-600 bg-blue-50"
+                    : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
+                }`}
+              >
+                Overall
+              </button>
+              <button
+                onClick={() => setRatingDistributionTab("locations")}
+                className={`px-6 py-3 text-sm font-medium border-b-2 ${
+                  ratingDistributionTab === "locations"
+                    ? "border-blue-600 text-blue-600 bg-blue-50"
+                    : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
+                }`}
+              >
+                Locations
+              </button>
+            </div>
           </div>
           <div className="bg-stone-50 p-6">
             <div className="bg-white rounded-md border border-slate-200 p-6">
-              {/* Column Chart with Y-Axis */}
-              <div className="relative flex">
+              {ratingDistributionTab === "overall" ? (
+                /* Overall Rating Distribution */
+                <div className="relative flex">
                 {(() => {
                   // Calculate dynamic grid based on data
                   const maxCount = Math.max(...ratingBreakdown.map(r => r.count));
@@ -491,7 +541,129 @@ export default function Reviews() {
                     </>
                   );
                 })()}
-              </div>
+                </div>
+              ) : (
+                /* Locations Rating Distribution */
+                <div className="relative">
+                  {(() => {
+                    // Calculate dynamic grid based on location data
+                    const maxTotal = Math.max(...topLocationsData.map(loc => loc.total));
+                    const roundedMax = Math.ceil(maxTotal / 100) * 100;
+                    const interval = roundedMax / 5;
+                    const gridValues = Array.from({length: 6}, (_, i) => roundedMax - (i * interval));
+                    
+                    return (
+                      <>
+                        {/* Y-Axis */}
+                        <div className="flex">
+                          <div className="flex flex-col justify-between h-80 pr-4 mr-2">
+                            {gridValues.map((value, index) => (
+                              <div key={value} className="text-xs text-gray-500 text-right">
+                                {Math.round(value).toLocaleString()}
+                              </div>
+                            ))}
+                          </div>
+                          
+                          {/* Chart Area */}
+                          <div className="flex-1 relative">
+                            {/* Horizontal Grid Lines */}
+                            <div className="absolute inset-0 h-80">
+                              {gridValues.map((value, index) => (
+                                <div
+                                  key={value}
+                                  className="absolute w-full border-t border-gray-200"
+                                  style={{
+                                    top: `${(index / (gridValues.length - 1)) * 100}%`,
+                                  }}
+                                />
+                              ))}
+                            </div>
+                            
+                            {/* Stacked Bars - Locations */}
+                            <div className="flex items-end justify-between gap-1 h-80 mb-4 relative overflow-x-auto">
+                              {topLocationsData.map((location, index) => {
+                                const containerHeight = 320;
+                                const totalHeight = (location.total / roundedMax) * containerHeight;
+                                
+                                // Calculate segments proportionally
+                                const segments = [
+                                  { rating: 5, count: location.ratings[5], color: 'bg-green-600' },
+                                  { rating: 4, count: location.ratings[4], color: 'bg-green-400' },
+                                  { rating: 3, count: location.ratings[3], color: 'bg-yellow-500' },
+                                  { rating: 2, count: location.ratings[2], color: 'bg-orange-500' },
+                                  { rating: 1, count: location.ratings[1], color: 'bg-red-500' }
+                                ];
+                                
+                                return (
+                                  <div key={location.name} className="flex flex-col items-center">
+                                    {/* Total count above bar */}
+                                    <div className="text-xs font-medium text-gray-700 mb-2 text-center">
+                                      {location.total.toLocaleString()}
+                                    </div>
+                                    
+                                    {/* Stacked Bar */}
+                                    <div className="flex flex-col-reverse" style={{ height: `${Math.max(totalHeight, 20)}px` }}>
+                                      {segments.map((segment, segIndex) => {
+                                        const segmentHeight = (segment.count / location.total) * totalHeight;
+                                        return segmentHeight > 0 ? (
+                                          <div
+                                            key={segment.rating}
+                                            className={`w-12 ${segment.color} transition-all duration-700 ${segIndex === 0 ? 'rounded-t' : ''}`}
+                                            style={{ 
+                                              height: `${Math.max(segmentHeight, 2)}px`,
+                                              minHeight: '2px'
+                                            }}
+                                            title={`${segment.rating} stars: ${segment.count} reviews`}
+                                          />
+                                        ) : null;
+                                      })}
+                                    </div>
+                                  </div>
+                                );
+                              })}
+                            </div>
+                            
+                            {/* Location Labels */}
+                            <div className="flex justify-between gap-1 overflow-x-auto">
+                              {topLocationsData.map((location) => (
+                                <div key={location.name} className="flex-shrink-0 text-center">
+                                  <div className="text-xs text-gray-600 font-medium transform -rotate-45 origin-left whitespace-nowrap w-12">
+                                    {location.name}
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        </div>
+                        
+                        {/* Legend */}
+                        <div className="flex justify-center gap-4 mt-6">
+                          <div className="flex items-center gap-2">
+                            <div className="w-3 h-3 bg-red-500 rounded"></div>
+                            <span className="text-xs text-gray-600">1 Star</span>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <div className="w-3 h-3 bg-orange-500 rounded"></div>
+                            <span className="text-xs text-gray-600">2 Stars</span>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <div className="w-3 h-3 bg-yellow-500 rounded"></div>
+                            <span className="text-xs text-gray-600">3 Stars</span>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <div className="w-3 h-3 bg-green-400 rounded"></div>
+                            <span className="text-xs text-gray-600">4 Stars</span>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <div className="w-3 h-3 bg-green-600 rounded"></div>
+                            <span className="text-xs text-gray-600">5 Stars</span>
+                          </div>
+                        </div>
+                      </>
+                    );
+                  })()}
+                </div>
+              )}
             </div>
           </div>
         </div>
