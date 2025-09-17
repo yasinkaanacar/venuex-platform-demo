@@ -273,98 +273,6 @@ export default function Reviews() {
           </div>
         </div>
 
-        {/* Top Metrics Section */}
-        <div className="mx-6 mb-6 bg-white rounded-lg border border-slate-200 overflow-hidden shadow-none">
-          <div className="flex items-center justify-between border-b border-slate-200 px-6 py-4 bg-gradient-to-b from-white to-stone-50">
-            <h3 className="text-base font-semibold text-foreground">Reviews</h3>
-            <div className="flex items-center gap-4">
-              <Button variant="outline" className="text-blue-600 border-blue-600">
-                Review Templates
-              </Button>
-              <div className="flex -space-x-2">
-                {[1,2,3,4,5].map(i => (
-                  <div key={i} className="w-8 h-8 rounded-full bg-gray-300 border-2 border-white flex items-center justify-center text-xs font-medium">
-                    {i}
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-
-          <div className="bg-stone-50 p-6">
-            <div className="grid grid-cols-12 gap-6">
-              {/* Overall Rating */}
-              <div className="col-span-3">
-                <div className="bg-white rounded-md border border-slate-200 p-6">
-                  <div className="text-center">
-                    <div className="text-sm font-medium text-gray-600 mb-2">RATINGS</div>
-                    <div className="flex justify-center mb-2">
-                      {getRatingStars(3)}
-                    </div>
-                    <div className="text-3xl font-bold text-gray-900 mb-1">3.28</div>
-                    <div className="text-sm text-gray-500">Good</div>
-                    <div className="text-sm text-gray-500 mt-1">1,625 ★</div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Rating Breakdown */}
-              <div className="col-span-4">
-                <div className="bg-white rounded-md border border-slate-200 p-6">
-                  <div className="space-y-3">
-                    {ratingBreakdown.map((item) => (
-                      <div key={item.stars} className="flex items-center gap-3">
-                        <div className="flex items-center gap-1">
-                          <span className="text-sm font-medium">{item.stars}</span>
-                          <Star className="w-3 h-3 fill-yellow-400 text-yellow-400" />
-                        </div>
-                        <div className="flex-1 bg-gray-200 rounded-full h-2">
-                          <div 
-                            className="bg-red-500 h-2 rounded-full"
-                            style={{ width: `${item.percentage}%` }}
-                          ></div>
-                        </div>
-                        <span className="text-sm text-gray-600">{item.percentage}%</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-
-              {/* Review Sentiment */}
-              <div className="col-span-5">
-                <div className="bg-white rounded-md border border-slate-200 p-6">
-                  <div className="text-sm font-medium text-gray-600 mb-4">REVIEW SENTIMENT</div>
-                  <div className="grid grid-cols-3 gap-4">
-                    <div className="text-center">
-                      <div className="text-2xl font-bold text-gray-900">16.53</div>
-                      <div className="text-xs text-green-600">+86% vs previous period</div>
-                      <div className="text-xs text-gray-500 mt-1">Positive</div>
-                    </div>
-                    <div className="text-center">
-                      <div className="text-2xl font-bold text-gray-900">8.42</div>
-                      <div className="text-xs text-gray-500">Neutral</div>
-                      <div className="text-xs text-gray-500 mt-1">vs previous period</div>
-                    </div>
-                    <div className="text-center">
-                      <div className="text-2xl font-bold text-gray-900">9.35</div>
-                      <div className="text-xs text-red-600">-1% vs previous period</div>
-                      <div className="text-xs text-gray-500 mt-1">Negative</div>
-                    </div>
-                  </div>
-                  <div className="mt-4 pt-4 border-t">
-                    <div className="text-sm font-medium text-gray-600 mb-2">PLATFORMS</div>
-                    <div className="flex gap-2">
-                      <Badge className="bg-blue-100 text-blue-800">Google Business Profile</Badge>
-                      <Badge className="bg-gray-100 text-gray-800">Meta</Badge>
-                      <Badge className="bg-gray-100 text-gray-800">Tripadvisor</Badge>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
 
         {/* Dashboard Cards */}
         <div className="mx-6 mb-6 bg-white rounded-lg border border-slate-200 overflow-hidden shadow-none">
@@ -605,6 +513,12 @@ export default function Reviews() {
                           </div>
                           
                           <div className="space-y-3">
+                            <div className="flex items-center justify-between mb-2">
+                              <div className="text-sm font-medium text-gray-600">Reply Templates:</div>
+                              <Button variant="outline" size="sm" className="text-blue-600 border-blue-600">
+                                Review Templates
+                              </Button>
+                            </div>
                             <Textarea
                               placeholder="Write your reply here..."
                               value={replyText}
