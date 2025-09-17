@@ -11,6 +11,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
+import { Textarea } from "@/components/ui/textarea";
 import { 
   Search, 
   Star, 
@@ -24,7 +25,8 @@ import {
   MessageSquare,
   AlertTriangle,
   CheckCircle,
-  Calendar
+  Calendar,
+  Send
 } from 'lucide-react';
 
 export default function Reviews() {
@@ -32,6 +34,7 @@ export default function Reviews() {
   const [viewMode, setViewMode] = useState("list");
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedReviewId, setSelectedReviewId] = useState(1);
+  const [replyText, setReplyText] = useState("");
 
   // Star rating breakdown data
   const ratingBreakdown = [
@@ -526,7 +529,7 @@ export default function Reviews() {
                           <div className="text-sm text-gray-600 mb-4">Good</div>
                         </div>
 
-                        {/* Boyner Reply */}
+                        {/* Reply Composer */}
                         <div className="border-t border-gray-200 pt-4">
                           <div className="flex items-start gap-3 mb-3">
                             <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center text-white text-sm font-medium">
@@ -534,38 +537,37 @@ export default function Reviews() {
                             </div>
                             <div>
                               <div className="font-medium text-gray-900">Boyner Eskişehir Kanatlı</div>
-                              <div className="text-xs text-gray-500">17 Sep 2025 8:52 AM</div>
+                              <div className="text-xs text-gray-500">Write a reply</div>
                             </div>
                           </div>
                           
-                          <div className="bg-blue-50 rounded-lg p-4 mb-4">
-                            <p className="text-gray-700 text-sm mb-3">
-                              Sayın İsmail hakkı yazgan, değerli görüşleriniz için teşekkür ederiz. Boyner Eskişehir Kanatlı 
-                              olarak size daha iyi bir alışveriş deneyimi sunmak için geri bildirimlerinizi önemsiyoruz. Tüm 
-                              talepleriniz için bize online@boynergroup.com.tr üzerinden veya 444 29 67 numaralı çağrı 
-                              merkezi hattımızdan ulaşabilirsiniz. İyi günler dileriz.
-                            </p>
-                            <p className="text-xs text-gray-500 mb-3">(Translated by Google)</p>
-                            
-                            <p className="text-gray-700 text-sm">
-                              Dear Mr. İsmail Hakkı Yazgan, thank you for your valuable feedback. At Boyner Eskişehir 
-                              Kanatlı, we value your feedback to provide you with a better shopping experience. For all 
-                              your inquiries, please contact us at online@boynergroup.com.tr or our call center at 444 29 67. 
-                              Have a great day.
-                            </p>
+                          <div className="space-y-3">
+                            <Textarea
+                              placeholder="Write your reply here..."
+                              value={replyText}
+                              onChange={(e) => setReplyText(e.target.value)}
+                              className="min-h-[120px] resize-none"
+                              data-testid="textarea-reply"
+                            />
                           </div>
                         </div>
                       </div>
 
                       {/* Action Buttons */}
                       <div className="p-4 border-t border-slate-200">
-                        <div className="flex gap-3">
+                        <div className="flex justify-between items-center">
                           <Button variant="outline" className="text-red-600 border-red-600 hover:bg-red-50">
-                            Delete
+                            Delete Review
                           </Button>
-                          <Button className="bg-gray-900 hover:bg-gray-800 text-white">
-                            Edit
-                          </Button>
+                          <div className="flex gap-2">
+                            <Button variant="outline" onClick={() => setReplyText("")}>
+                              Clear
+                            </Button>
+                            <Button className="bg-blue-600 hover:bg-blue-700 text-white flex items-center gap-2">
+                              <Send className="w-4 h-4" />
+                              Send Reply
+                            </Button>
+                          </div>
                         </div>
                       </div>
                     </div>
