@@ -445,7 +445,9 @@ export default function Reviews() {
                             const rating = ratingBreakdown.find(r => r.stars === starCount);
                             if (!rating) return null;
                             
-                            const barHeight = (rating.count / roundedMax) * 120;
+                            // Calculate bar height relative to the container height (160px = h-40)
+                            const containerHeight = 160;
+                            const barHeight = (rating.count / roundedMax) * containerHeight;
                             
                             return (
                               <div key={rating.stars} className="flex-1 flex flex-col items-center">
@@ -464,8 +466,8 @@ export default function Reviews() {
                                       rating.stars === 2 ? 'bg-orange-500' : 'bg-red-500'
                                     }`}
                                     style={{ 
-                                      height: `${Math.max(barHeight, 8)}px`,
-                                      minHeight: '8px'
+                                      height: `${Math.max(barHeight, 12)}px`,
+                                      minHeight: '12px'
                                     }}
                                     data-testid={`rating-column-${rating.stars}`}
                                   />
