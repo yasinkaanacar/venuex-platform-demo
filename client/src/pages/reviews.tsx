@@ -12,6 +12,14 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Textarea } from "@/components/ui/textarea";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import { 
   Search, 
   Star, 
@@ -670,6 +678,158 @@ export default function Reviews() {
                   </Button>
                 </div>
               </div>
+            </div>
+          </div>
+
+          {/* Location Summary Table */}
+          <div className="bg-white rounded-lg shadow-sm border border-gray-200 mx-6 mb-6">
+            <div className="p-4 border-b border-gray-200">
+              <h2 className="text-lg font-semibold text-gray-900">Lokasyon Özeti</h2>
+              <p className="text-sm text-gray-600">Tüm lokasyonların yorum performansı</p>
+            </div>
+            <div className="p-4">
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead className="w-[300px]">Lokasyon</TableHead>
+                    <TableHead>Ortalama Rating</TableHead>
+                    <TableHead>Toplam Yorum</TableHead>
+                    <TableHead>Cevaplanma Oranı</TableHead>
+                    <TableHead>Sentiment</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  <TableRow data-testid="location-row-eskisehir">
+                    <TableCell className="font-medium">Boyner Eskişehir Kanatlı</TableCell>
+                    <TableCell>
+                      <div className="flex items-center gap-2">
+                        <span>4.2</span>
+                        <div className="flex items-center gap-0.5">
+                          {[1,2,3,4].map(i => (
+                            <Star key={i} className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+                          ))}
+                          <Star className="w-4 h-4 text-gray-300" />
+                        </div>
+                      </div>
+                    </TableCell>
+                    <TableCell data-testid="total-reviews-eskisehir">847</TableCell>
+                    <TableCell data-testid="response-rate-eskisehir">
+                      <span className="text-green-600">78%</span>
+                    </TableCell>
+                    <TableCell data-testid="sentiment-eskisehir">
+                      <Badge className="bg-green-100 text-green-800">Positive</Badge>
+                    </TableCell>
+                  </TableRow>
+                  <TableRow data-testid="location-row-istanbul">
+                    <TableCell className="font-medium">Boyner İstanbul AVM</TableCell>
+                    <TableCell>
+                      <div className="flex items-center gap-2">
+                        <span>3.8</span>
+                        <div className="flex items-center gap-0.5">
+                          {[1,2,3].map(i => (
+                            <Star key={i} className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+                          ))}
+                          <Star className="w-4 h-4 fill-yellow-400/50 text-yellow-400" />
+                          <Star className="w-4 h-4 text-gray-300" />
+                        </div>
+                      </div>
+                    </TableCell>
+                    <TableCell data-testid="total-reviews-istanbul">1,243</TableCell>
+                    <TableCell data-testid="response-rate-istanbul">
+                      <span className="text-red-600">45%</span>
+                    </TableCell>
+                    <TableCell data-testid="sentiment-istanbul">
+                      <Badge className="bg-yellow-100 text-yellow-800">Neutral</Badge>
+                    </TableCell>
+                  </TableRow>
+                  <TableRow data-testid="location-row-ankara">
+                    <TableCell className="font-medium">Boyner Ankara Kızılay</TableCell>
+                    <TableCell>
+                      <div className="flex items-center gap-2">
+                        <span>4.5</span>
+                        <div className="flex items-center gap-0.5">
+                          {[1,2,3,4].map(i => (
+                            <Star key={i} className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+                          ))}
+                          <Star className="w-4 h-4 fill-yellow-400/50 text-yellow-400" />
+                        </div>
+                      </div>
+                    </TableCell>
+                    <TableCell data-testid="total-reviews-ankara">692</TableCell>
+                    <TableCell data-testid="response-rate-ankara">
+                      <span className="text-green-600">92%</span>
+                    </TableCell>
+                    <TableCell data-testid="sentiment-ankara">
+                      <Badge className="bg-green-100 text-green-800">Positive</Badge>
+                    </TableCell>
+                  </TableRow>
+                  <TableRow data-testid="location-row-bursa">
+                    <TableCell className="font-medium">Boyner Bursa Kent Meydanı</TableCell>
+                    <TableCell>
+                      <div className="flex items-center gap-2">
+                        <span>3.2</span>
+                        <div className="flex items-center gap-0.5">
+                          {[1,2,3].map(i => (
+                            <Star key={i} className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+                          ))}
+                          <Star className="w-4 h-4 text-gray-300" />
+                          <Star className="w-4 h-4 text-gray-300" />
+                        </div>
+                      </div>
+                    </TableCell>
+                    <TableCell data-testid="total-reviews-bursa">528</TableCell>
+                    <TableCell data-testid="response-rate-bursa">
+                      <span className="text-red-600">38%</span>
+                    </TableCell>
+                    <TableCell data-testid="sentiment-bursa">
+                      <Badge className="bg-red-100 text-red-800">Negative</Badge>
+                    </TableCell>
+                  </TableRow>
+                  <TableRow data-testid="location-row-izmir">
+                    <TableCell className="font-medium">Boyner İzmir Konak</TableCell>
+                    <TableCell>
+                      <div className="flex items-center gap-2">
+                        <span>4.1</span>
+                        <div className="flex items-center gap-0.5">
+                          {[1,2,3,4].map(i => (
+                            <Star key={i} className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+                          ))}
+                          <Star className="w-4 h-4 text-gray-300" />
+                        </div>
+                      </div>
+                    </TableCell>
+                    <TableCell data-testid="total-reviews-izmir">934</TableCell>
+                    <TableCell data-testid="response-rate-izmir">
+                      <span className="text-yellow-600">67%</span>
+                    </TableCell>
+                    <TableCell data-testid="sentiment-izmir">
+                      <Badge className="bg-green-100 text-green-800">Positive</Badge>
+                    </TableCell>
+                  </TableRow>
+                  <TableRow data-testid="location-row-adana">
+                    <TableCell className="font-medium">Boyner Adana Optimum</TableCell>
+                    <TableCell>
+                      <div className="flex items-center gap-2">
+                        <span>3.9</span>
+                        <div className="flex items-center gap-0.5">
+                          {[1,2,3].map(i => (
+                            <Star key={i} className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+                          ))}
+                          <Star className="w-4 h-4 fill-yellow-400/75 text-yellow-400" />
+                          <Star className="w-4 h-4 text-gray-300" />
+                        </div>
+                      </div>
+                    </TableCell>
+                    <TableCell data-testid="total-reviews-adana">421</TableCell>
+                    <TableCell data-testid="response-rate-adana">
+                      <span className="text-yellow-600">58%</span>
+                    </TableCell>
+                    <TableCell data-testid="sentiment-adana">
+                      <Badge className="bg-yellow-100 text-yellow-800">Neutral</Badge>
+                    </TableCell>
+                  </TableRow>
+                </TableBody>
+              </Table>
             </div>
           </div>
         </div>
