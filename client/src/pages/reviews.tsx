@@ -406,78 +406,89 @@ export default function Reviews() {
             <div className="bg-white rounded-md border border-slate-200 p-6">
               {/* Column Chart with Y-Axis */}
               <div className="relative flex">
-                {/* Y-Axis */}
-                <div className="flex flex-col justify-between h-40 pr-4 mr-2">
-                  {[1000, 800, 600, 400, 200, 0].map((value, index) => (
-                    <div key={value} className="text-xs text-gray-500 text-right">
-                      {value.toLocaleString()}
-                    </div>
-                  ))}
-                </div>
-                
-                {/* Chart Area */}
-                <div className="flex-1 relative">
-                  {/* Horizontal Grid Lines */}
-                  <div className="absolute inset-0 h-40">
-                    {[0, 20, 40, 60, 80, 100].map((percentage, index) => (
-                      <div
-                        key={percentage}
-                        className="absolute w-full border-t border-gray-200"
-                        style={{
-                          top: `${percentage}%`,
-                        }}
-                      />
-                    ))}
-                  </div>
+                {(() => {
+                  // Calculate dynamic grid based on data
+                  const maxCount = Math.max(...ratingBreakdown.map(r => r.count));
+                  const roundedMax = Math.ceil(maxCount / 100) * 100; // Round up to nearest 100
+                  const interval = roundedMax / 5; // 5 intervals
+                  const gridValues = Array.from({length: 6}, (_, i) => roundedMax - (i * interval));
                   
-                  {/* Bars */}
-                  <div className="flex items-end justify-between gap-8 h-40 mb-4 relative">
-                    {[1, 2, 3, 4, 5].map((starCount) => {
-                      const rating = ratingBreakdown.find(r => r.stars === starCount);
-                      if (!rating) return null;
-                      
-                      const maxCount = Math.max(...ratingBreakdown.map(r => r.count));
-                      const barHeight = (rating.count / maxCount) * 120;
-                      
-                      return (
-                        <div key={rating.stars} className="flex-1 flex flex-col items-center">
-                          {/* Count above bar */}
-                          <div className="text-sm font-medium text-gray-700 mb-2">
-                            {rating.count.toLocaleString()}
+                  return (
+                    <>
+                      {/* Y-Axis */}
+                      <div className="flex flex-col justify-between h-40 pr-4 mr-2">
+                        {gridValues.map((value, index) => (
+                          <div key={value} className="text-xs text-gray-500 text-right">
+                            {Math.round(value).toLocaleString()}
                           </div>
-                          
-                          {/* Bar */}
-                          <div className="w-full flex justify-center">
-                            <div 
-                              className={`w-16 rounded-t transition-all duration-700 ${
-                                rating.stars === 5 ? 'bg-green-600' :
-                                rating.stars === 4 ? 'bg-green-400' :
-                                rating.stars === 3 ? 'bg-yellow-500' :
-                                rating.stars === 2 ? 'bg-orange-500' : 'bg-red-500'
-                              }`}
-                              style={{ 
-                                height: `${Math.max(barHeight, 20)}px`,
-                                minHeight: '20px'
+                        ))}
+                      </div>
+                      
+                      {/* Chart Area */}
+                      <div className="flex-1 relative">
+                        {/* Horizontal Grid Lines */}
+                        <div className="absolute inset-0 h-40">
+                          {gridValues.map((value, index) => (
+                            <div
+                              key={value}
+                              className="absolute w-full border-t border-gray-200"
+                              style={{
+                                top: `${(index / (gridValues.length - 1)) * 100}%`,
                               }}
-                              data-testid={`rating-column-${rating.stars}`}
                             />
-                          </div>
+                          ))}
                         </div>
-                      );
-                    })}
-                  </div>
-                  
-                  {/* Labels */}
-                  <div className="flex justify-between gap-8 ml-0">
-                    {[1, 2, 3, 4, 5].map((starCount) => (
-                      <div key={starCount} className="flex-1 text-center">
-                        <div className="text-sm text-gray-600 font-medium">
-                          {starCount} Star{starCount > 1 ? 's' : ''}
+                        
+                        {/* Bars */}
+                        <div className="flex items-end justify-between gap-8 h-40 mb-4 relative">
+                          {[1, 2, 3, 4, 5].map((starCount) => {
+                            const rating = ratingBreakdown.find(r => r.stars === starCount);
+                            if (!rating) return null;
+                            
+                            const barHeight = (rating.count / roundedMax) * 120;
+                            
+                            return (
+                              <div key={rating.stars} className="flex-1 flex flex-col items-center">
+                                {/* Count above bar */}
+                                <div className="text-sm font-medium text-gray-700 mb-2">
+                                  {rating.count.toLocaleString()}
+                                </div>
+                                
+                                {/* Bar */}
+                                <div className="w-full flex justify-center">
+                                  <div 
+                                    className={`w-16 rounded-t transition-all duration-700 ${
+                                      rating.stars === 5 ? 'bg-green-600' :
+                                      rating.stars === 4 ? 'bg-green-400' :
+                                      rating.stars === 3 ? 'bg-yellow-500' :
+                                      rating.stars === 2 ? 'bg-orange-500' : 'bg-red-500'
+                                    }`}
+                                    style={{ 
+                                      height: `${Math.max(barHeight, 8)}px`,
+                                      minHeight: '8px'
+                                    }}
+                                    data-testid={`rating-column-${rating.stars}`}
+                                  />
+                                </div>
+                              </div>
+                            );
+                          })}
+                        </div>
+                        
+                        {/* Labels */}
+                        <div className="flex justify-between gap-8 ml-0">
+                          {[1, 2, 3, 4, 5].map((starCount) => (
+                            <div key={starCount} className="flex-1 text-center">
+                              <div className="text-sm text-gray-600 font-medium">
+                                {starCount} Star{starCount > 1 ? 's' : ''}
+                              </div>
+                            </div>
+                          ))}
                         </div>
                       </div>
-                    ))}
-                  </div>
-                </div>
+                    </>
+                  );
+                })()}
               </div>
             </div>
           </div>
