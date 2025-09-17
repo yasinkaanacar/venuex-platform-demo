@@ -389,6 +389,50 @@ export default function Reviews() {
 
               {/* Filter Bar */}
               <div className="flex items-center gap-3 text-xs">
+                {/* Sort By Filter */}
+                <div className="flex items-center gap-1">
+                  <span className="text-gray-600">Sort By:</span>
+                  <Select value="newest" onValueChange={() => {}}>
+                    <SelectTrigger className="w-32 h-6 text-xs">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="newest">Newest to Oldest</SelectItem>
+                      <SelectItem value="oldest">Oldest to Newest</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                {/* Store Set Filter */}
+                <div className="flex items-center gap-1">
+                  <span className="text-gray-600">Store Set:</span>
+                  <Select value="create" onValueChange={() => {}}>
+                    <SelectTrigger className="w-28 h-6 text-xs">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="create">+Create Store Set</SelectItem>
+                      <SelectItem value="istanbul">İstanbul AVM</SelectItem>
+                      <SelectItem value="ankara">Ankara Kızılay</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                {/* Content Filter */}
+                <div className="flex items-center gap-1">
+                  <span className="text-gray-600">Content:</span>
+                  <Select value="all" onValueChange={() => {}}>
+                    <SelectTrigger className="w-24 h-6 text-xs">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="all">All</SelectItem>
+                      <SelectItem value="rating">Rating Only</SelectItem>
+                      <SelectItem value="comment">Comment</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+
                 {/* Rating Filter */}
                 <div className="flex items-center gap-1">
                   <span className="text-gray-600">Rating:</span>
