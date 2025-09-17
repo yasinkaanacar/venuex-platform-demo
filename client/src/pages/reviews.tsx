@@ -381,21 +381,6 @@ export default function Reviews() {
 
           <div className="bg-stone-50 p-6">
             <div className="flex items-center gap-3 mb-6">
-              {/* Platform Selector */}
-              <Select value={selectedPlatform} onValueChange={setSelectedPlatform}>
-                <SelectTrigger className="w-64">
-                  <div className="flex flex-col items-start w-full">
-                    <div className="text-xs text-gray-500">Platform</div>
-                    <div className="text-sm">Google Business Profile</div>
-                  </div>
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="google">🔍 Google Business Profile</SelectItem>
-                  <SelectItem value="meta">📘 Meta Business</SelectItem>
-                  <SelectItem value="yandex">🔴 Yandex Maps</SelectItem>
-                </SelectContent>
-              </Select>
-
               {/* Search */}
               <div className="relative flex-1 max-w-[400px]">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
