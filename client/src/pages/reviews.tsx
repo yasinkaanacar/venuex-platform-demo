@@ -702,16 +702,13 @@ export default function Reviews() {
                           </div>
                           
                           <div className="space-y-3">
-                            <div className="flex items-center justify-between mb-2">
-                              <div className="text-sm font-medium text-gray-600">Reply Templates:</div>
-                              <div className="flex gap-2">
-                                <Button variant="outline" size="sm" className="text-purple-600 border-purple-600" data-testid="button-reply-ai">
-                                  Reply with AI
-                                </Button>
-                                <Button variant="outline" size="sm" className="text-blue-600 border-blue-600" data-testid="button-review-templates">
-                                  Review Templates
-                                </Button>
-                              </div>
+                            <div className="flex gap-2 mb-2">
+                              <Button variant="outline" size="sm" className="text-purple-600 border-purple-600" data-testid="button-reply-ai">
+                                Reply with AI
+                              </Button>
+                              <Button variant="outline" size="sm" className="text-blue-600 border-blue-600" data-testid="button-review-templates">
+                                Review Templates
+                              </Button>
                             </div>
                             <Textarea
                               placeholder="Write your reply here..."
