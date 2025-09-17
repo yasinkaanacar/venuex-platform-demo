@@ -367,7 +367,11 @@ export default function Reviews() {
                 <div className="text-center">
                   <div className="text-sm font-medium text-gray-600 mb-3">UNANSWERED</div>
                   <div className="text-2xl font-bold text-red-600 mb-2">4,708</div>
-                  <div className="text-sm text-gray-500">Needs attention</div>
+                  <div className="text-sm text-gray-500 mb-3">Needs attention</div>
+                  <div className="border-t border-gray-200 pt-3">
+                    <div className="text-xs text-gray-600 mb-1">Reply Rate</div>
+                    <div className="text-lg font-semibold text-orange-600">62.3%</div>
+                  </div>
                 </div>
               </div>
 
