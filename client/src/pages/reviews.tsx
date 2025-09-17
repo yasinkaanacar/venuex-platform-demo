@@ -556,7 +556,7 @@ export default function Reviews() {
                       <>
                         {/* Y-Axis */}
                         <div className="flex">
-                          <div className="flex flex-col justify-between h-80 pr-4 mr-2">
+                          <div className="flex flex-col justify-between h-48 pr-4 mr-2">
                             {gridValues.map((value, index) => (
                               <div key={value} className="text-xs text-gray-500 text-right">
                                 {Math.round(value).toLocaleString()}
@@ -567,7 +567,7 @@ export default function Reviews() {
                           {/* Chart Area */}
                           <div className="flex-1 relative">
                             {/* Horizontal Grid Lines */}
-                            <div className="absolute inset-0 h-80">
+                            <div className="absolute inset-0 h-48">
                               {gridValues.map((value, index) => (
                                 <div
                                   key={value}
@@ -580,9 +580,9 @@ export default function Reviews() {
                             </div>
                             
                             {/* Stacked Bars - Locations */}
-                            <div className="flex items-end justify-between gap-1 h-80 mb-4 relative overflow-x-auto">
+                            <div className="flex items-end justify-between gap-2 h-48 mb-4 relative overflow-x-auto">
                               {topLocationsData.map((location, index) => {
-                                const containerHeight = 320;
+                                const containerHeight = 192;
                                 const totalHeight = (location.total / roundedMax) * containerHeight;
                                 
                                 // Calculate segments proportionally
@@ -602,16 +602,16 @@ export default function Reviews() {
                                     </div>
                                     
                                     {/* Stacked Bar */}
-                                    <div className="flex flex-col-reverse" style={{ height: `${Math.max(totalHeight, 20)}px` }}>
+                                    <div className="flex flex-col-reverse" style={{ height: `${Math.max(totalHeight, 15)}px` }}>
                                       {segments.map((segment, segIndex) => {
                                         const segmentHeight = (segment.count / location.total) * totalHeight;
                                         return segmentHeight > 0 ? (
                                           <div
                                             key={segment.rating}
-                                            className={`w-12 ${segment.color} transition-all duration-700 ${segIndex === 0 ? 'rounded-t' : ''}`}
+                                            className={`w-10 ${segment.color} transition-all duration-700 ${segIndex === 0 ? 'rounded-t' : ''}`}
                                             style={{ 
-                                              height: `${Math.max(segmentHeight, 2)}px`,
-                                              minHeight: '2px'
+                                              height: `${Math.max(segmentHeight, 1)}px`,
+                                              minHeight: '1px'
                                             }}
                                             title={`${segment.rating} stars: ${segment.count} reviews`}
                                           />
@@ -624,10 +624,10 @@ export default function Reviews() {
                             </div>
                             
                             {/* Location Labels */}
-                            <div className="flex justify-between gap-1 overflow-x-auto">
+                            <div className="flex justify-between gap-2 mt-4">
                               {topLocationsData.map((location) => (
-                                <div key={location.name} className="flex-shrink-0 text-center">
-                                  <div className="text-xs text-gray-600 font-medium transform -rotate-45 origin-left whitespace-nowrap w-12">
+                                <div key={location.name} className="flex-shrink-0 text-center w-10">
+                                  <div className="text-xs text-gray-600 font-medium transform -rotate-45 origin-center whitespace-nowrap">
                                     {location.name}
                                   </div>
                                 </div>
