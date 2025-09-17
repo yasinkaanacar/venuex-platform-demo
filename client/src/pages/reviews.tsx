@@ -547,12 +547,12 @@ export default function Reviews() {
                       <div className="p-4 border-b border-slate-200 bg-gray-50">
                         <div className="flex items-center gap-2 mb-2">
                           <h3 className="font-semibold text-gray-900">{selectedReview.name}</h3>
-                          <span className="text-sm text-gray-500">(CB06)</span>
+                          <span className="text-sm text-gray-500">(Google Business Profile)</span>
                         </div>
                         <div className="flex items-center gap-2 text-sm text-gray-600">
-                          <span>3.96</span>
-                          {getRatingStars(4)}
-                          <span>1017 Reviews</span>
+                          <span>{selectedReview.rating}.0</span>
+                          {getRatingStars(selectedReview.rating)}
+                          <span>{selectedReview.date || 'Recently'}</span>
                         </div>
                       </div>
 
@@ -560,24 +560,35 @@ export default function Reviews() {
                       <div className="flex-1 p-4 overflow-y-auto">
                         <div className="mb-6">
                           <div className="flex items-start gap-3 mb-3">
-                            <div className="w-8 h-8 bg-amber-500 rounded-full flex items-center justify-center text-white text-sm font-medium">
-                              İ
+                            <div className={`w-8 h-8 rounded-full flex items-center justify-center text-white text-sm font-medium ${
+                              selectedReview.rating >= 4 ? 'bg-green-500' : 
+                              selectedReview.rating >= 3 ? 'bg-yellow-500' : 'bg-red-500'
+                            }`}>
+                              {selectedReview.name.charAt(0).toUpperCase()}
                             </div>
                             <div>
-                              <div className="font-medium text-gray-900">İsmail hakkı yazgan</div>
+                              <div className="font-medium text-gray-900">{selectedReview.name}</div>
                               <div className="flex items-center gap-1 my-1">
                                 {getRatingStars(selectedReview.rating)}
                               </div>
-                              <div className="text-sm text-green-600 mb-2">Answered</div>
+                              <div className={`text-sm mb-2 ${
+                                selectedReview.status === "Answered" ? 'text-green-600' : 'text-red-600'
+                              }`}>
+                                {selectedReview.status || 'Unanswered'}
+                              </div>
                             </div>
                           </div>
                           
                           <div className="bg-gray-50 rounded-lg p-4 mb-4">
-                            <p className="text-gray-700 text-sm mb-2">İyi</p>
+                            <p className="text-gray-700 text-sm mb-2">{selectedReview.comment}</p>
                             <p className="text-xs text-gray-500">(Translated by Google)</p>
                           </div>
                           
-                          <div className="text-sm text-gray-600 mb-4">Good</div>
+                          <div className="text-sm text-gray-600 mb-4">
+                            {selectedReview.comment === "İyi" ? "Good" : 
+                             selectedReview.comment === "Güzel" ? "Nice" :
+                             selectedReview.comment === "Kötü" ? "Bad" : "Translation available"}
+                          </div>
                         </div>
 
                         {/* Reply Composer */}
