@@ -400,29 +400,7 @@ export default function Reviews() {
             <h3 className="text-base font-semibold text-foreground">Review Analytics</h3>
           </div>
           <div className="bg-stone-50 p-6">
-            <div className="grid grid-cols-3 gap-6">
-              {/* AI Review Analysis */}
-              <div className="bg-white rounded-md border border-slate-200 p-6">
-                <div className="flex items-center gap-2 mb-4">
-                  <CheckCircle className="w-4 h-4 text-blue-600" />
-                  <span className="text-sm font-medium">AI Review Analysis</span>
-                </div>
-                <div className="space-y-3">
-                  <div className="flex justify-between">
-                    <span className="text-sm text-gray-600">Total Reviews</span>
-                    <span className="font-medium">{aiAnalysisData.totalReviews}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-sm text-gray-600">Unanswered</span>
-                    <span className="font-medium">{aiAnalysisData.unanswered}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-sm text-gray-600">Answered</span>
-                    <span className="font-medium">{aiAnalysisData.answered}</span>
-                  </div>
-                </div>
-              </div>
-
+            <div className="grid grid-cols-2 gap-6">
               {/* Issues & Suggestions */}
               <div className="bg-white rounded-md border border-slate-200 p-6">
                 <div className="flex items-center gap-2 mb-4">
