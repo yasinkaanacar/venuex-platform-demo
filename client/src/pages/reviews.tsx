@@ -402,10 +402,61 @@ export default function Reviews() {
                 <Input placeholder="Search reviews..." className="pl-10" />
               </div>
 
-              {/* Bulk Actions */}
-              <div className="flex items-center gap-2">
-                <Button variant="outline" size="sm">Bulk Actions ↓</Button>
-                <Button variant="outline" size="sm">Export Reviews ↓</Button>
+              {/* Filter Bar */}
+              <div className="flex items-center gap-3 text-xs">
+                {/* Rating Filter */}
+                <div className="flex items-center gap-1">
+                  <span className="text-gray-600">Rating:</span>
+                  <Select value="all" onValueChange={() => {}}>
+                    <SelectTrigger className="w-20 h-6 text-xs">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="all">All</SelectItem>
+                      <SelectItem value="5">⭐⭐⭐⭐⭐</SelectItem>
+                      <SelectItem value="4">⭐⭐⭐⭐</SelectItem>
+                      <SelectItem value="3">⭐⭐⭐</SelectItem>
+                      <SelectItem value="2">⭐⭐</SelectItem>
+                      <SelectItem value="1">⭐</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                {/* Status Filter */}
+                <div className="flex items-center gap-1">
+                  <span className="text-gray-600">Status:</span>
+                  <Select value="all" onValueChange={() => {}}>
+                    <SelectTrigger className="w-24 h-6 text-xs">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="all">All</SelectItem>
+                      <SelectItem value="answered">Answered</SelectItem>
+                      <SelectItem value="unanswered">Unanswered</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                {/* Sentiment Filter */}
+                <div className="flex items-center gap-1">
+                  <span className="text-gray-600">Sentiment:</span>
+                  <Select value="all" onValueChange={() => {}}>
+                    <SelectTrigger className="w-20 h-6 text-xs">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="all">All</SelectItem>
+                      <SelectItem value="positive">Positive</SelectItem>
+                      <SelectItem value="neutral">Neutral</SelectItem>
+                      <SelectItem value="negative">Negative</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                {/* Clear Filters */}
+                <Button variant="ghost" size="sm" className="h-6 px-2 text-xs text-gray-500 hover:text-gray-700">
+                  Clear
+                </Button>
               </div>
             </div>
 
@@ -414,68 +465,13 @@ export default function Reviews() {
               {/* Left Panel - Reviews List */}
               <div className="w-1/2 border-r border-slate-200 overflow-y-auto">
                 <div className="p-4 border-b border-slate-200 bg-gray-50">
-                  <div className="flex items-center gap-2 mb-3">
+                  <div className="flex items-center gap-2">
                     <Checkbox />
                     <span className="text-sm text-gray-600">Select All</span>
                     <div className="ml-auto flex gap-2">
+                      <Button variant="outline" size="sm">Bulk Actions ↓</Button>
+                      <Button variant="outline" size="sm">Export Reviews ↓</Button>
                     </div>
-                  </div>
-                  
-                  {/* Filter Bar */}
-                  <div className="flex items-center gap-3 text-xs">
-                    {/* Rating Filter */}
-                    <div className="flex items-center gap-1">
-                      <span className="text-gray-600">Rating:</span>
-                      <Select value="all" onValueChange={() => {}}>
-                        <SelectTrigger className="w-20 h-6 text-xs">
-                          <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="all">All</SelectItem>
-                          <SelectItem value="5">⭐⭐⭐⭐⭐</SelectItem>
-                          <SelectItem value="4">⭐⭐⭐⭐</SelectItem>
-                          <SelectItem value="3">⭐⭐⭐</SelectItem>
-                          <SelectItem value="2">⭐⭐</SelectItem>
-                          <SelectItem value="1">⭐</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </div>
-
-                    {/* Status Filter */}
-                    <div className="flex items-center gap-1">
-                      <span className="text-gray-600">Status:</span>
-                      <Select value="all" onValueChange={() => {}}>
-                        <SelectTrigger className="w-24 h-6 text-xs">
-                          <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="all">All</SelectItem>
-                          <SelectItem value="answered">Answered</SelectItem>
-                          <SelectItem value="unanswered">Unanswered</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </div>
-
-                    {/* Sentiment Filter */}
-                    <div className="flex items-center gap-1">
-                      <span className="text-gray-600">Sentiment:</span>
-                      <Select value="all" onValueChange={() => {}}>
-                        <SelectTrigger className="w-20 h-6 text-xs">
-                          <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="all">All</SelectItem>
-                          <SelectItem value="positive">Positive</SelectItem>
-                          <SelectItem value="neutral">Neutral</SelectItem>
-                          <SelectItem value="negative">Negative</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </div>
-
-                    {/* Clear Filters */}
-                    <Button variant="ghost" size="sm" className="h-6 px-2 text-xs text-gray-500 hover:text-gray-700">
-                      Clear
-                    </Button>
                   </div>
                 </div>
                 <div className="space-y-0">
