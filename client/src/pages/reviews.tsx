@@ -210,6 +210,69 @@ export default function Reviews() {
   return (
     <div className="min-h-screen bg-stone-50">
       <div className="p-6">
+        {/* Summary Section */}
+        <div className="mx-6 mb-6 bg-white rounded-lg border border-slate-200 overflow-hidden shadow-none">
+          <div className="flex items-center justify-between border-b border-slate-200 px-6 py-4 bg-gradient-to-b from-white to-stone-50">
+            <h3 className="text-base font-semibold text-foreground">Review Summary</h3>
+            <div className="text-sm text-gray-500">Last 30 days</div>
+          </div>
+          <div className="bg-stone-50 p-6">
+            <div className="grid grid-cols-4 gap-6">
+              {/* Average Rating */}
+              <div className="bg-white rounded-md border border-slate-200 p-6">
+                <div className="text-center">
+                  <div className="text-sm font-medium text-gray-600 mb-3">AVERAGE RATING</div>
+                  <div className="flex justify-center mb-2">
+                    {getRatingStars(3)}
+                  </div>
+                  <div className="text-2xl font-bold text-gray-900 mb-1">3.28</div>
+                  <div className="text-sm text-gray-500">Out of 5.0</div>
+                </div>
+              </div>
+
+              {/* Total Reviews */}
+              <div className="bg-white rounded-md border border-slate-200 p-6">
+                <div className="text-center">
+                  <div className="text-sm font-medium text-gray-600 mb-3">TOTAL REVIEWS</div>
+                  <div className="text-2xl font-bold text-gray-900 mb-2">3,672</div>
+                  <div className="flex items-center justify-center gap-1">
+                    <TrendingUp className="w-4 h-4 text-green-600" />
+                    <span className="text-sm text-green-600">+12% vs prev period</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Unanswered Reviews */}
+              <div className="bg-white rounded-md border border-slate-200 p-6">
+                <div className="text-center">
+                  <div className="text-sm font-medium text-gray-600 mb-3">UNANSWERED</div>
+                  <div className="text-2xl font-bold text-red-600 mb-2">4,708</div>
+                  <div className="text-sm text-gray-500">Needs attention</div>
+                </div>
+              </div>
+
+              {/* Sentiment Analysis */}
+              <div className="bg-white rounded-md border border-slate-200 p-6">
+                <div className="text-sm font-medium text-gray-600 mb-3">SENTIMENT</div>
+                <div className="space-y-2">
+                  <div className="flex justify-between items-center">
+                    <span className="text-sm text-green-600">Positive</span>
+                    <span className="font-medium text-green-600">58.2%</span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-sm text-gray-600">Neutral</span>
+                    <span className="font-medium text-gray-600">23.1%</span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-sm text-red-600">Negative</span>
+                    <span className="font-medium text-red-600">18.7%</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
         {/* Top Metrics Section */}
         <div className="mx-6 mb-6 bg-white rounded-lg border border-slate-200 overflow-hidden shadow-none">
           <div className="flex items-center justify-between border-b border-slate-200 px-6 py-4 bg-gradient-to-b from-white to-stone-50">
