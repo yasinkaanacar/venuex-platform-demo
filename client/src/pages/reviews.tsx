@@ -31,6 +31,7 @@ export default function Reviews() {
   const [selectedPlatform, setSelectedPlatform] = useState("google");
   const [viewMode, setViewMode] = useState("list");
   const [currentPage, setCurrentPage] = useState(1);
+  const [selectedReviewId, setSelectedReviewId] = useState(1);
 
   // Star rating breakdown data
   const ratingBreakdown = [
@@ -434,53 +435,162 @@ export default function Reviews() {
               </div>
             </div>
 
-            {/* Reviews Content */}
-            <div className="bg-white rounded-md border border-slate-200">
-              <div className="space-y-0">
-                {reviews.map((review, index) => (
-                  <div key={review.id} className={`p-6 border-b border-slate-200 ${index === reviews.length - 1 ? 'border-b-0' : ''}`}>
-                    <div className="flex items-start gap-4">
-                      <Checkbox />
-                      <div className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center">
-                        <span className="text-sm font-medium text-gray-600">
-                          {review.name.charAt(0)}
-                        </span>
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <div className="flex items-center gap-3 mb-2">
-                          <h4 className="font-medium text-gray-900">{review.name}</h4>
-                          <div className="flex items-center gap-1">
-                            {getRatingStars(review.rating)}
-                          </div>
-                          {review.date && (
-                            <span className="text-sm text-gray-500">{review.date}</span>
-                          )}
-                        </div>
-                        <p className="text-gray-700 text-sm mb-3 leading-relaxed">{review.comment}</p>
-                        {review.location && (
-                          <p className="text-xs text-gray-500 mb-3">{review.location}</p>
-                        )}
-                      </div>
-                      <div className="flex items-center gap-2">
-                        {getStatusBadge(review.status)}
-                        <Button variant="outline" size="sm" className="w-8 h-8 p-0">
-                          <MoreHorizontal className="w-4 h-4" />
-                        </Button>
-                      </div>
+            {/* Split View - Reviews Content */}
+            <div className="bg-white rounded-md border border-slate-200 flex" style={{height: '600px'}}>
+              {/* Left Panel - Reviews List */}
+              <div className="w-1/2 border-r border-slate-200 overflow-y-auto">
+                <div className="p-4 border-b border-slate-200 bg-gray-50">
+                  <div className="flex items-center gap-2">
+                    <Checkbox />
+                    <span className="text-sm text-gray-600">Select All</span>
+                    <div className="ml-auto flex gap-2">
+                      <Button variant="outline" size="sm">Bulk Actions ↓</Button>
+                      <Button variant="outline" size="sm">Export Reviews ↓</Button>
                     </div>
                   </div>
-                ))}
+                </div>
+                <div className="space-y-0">
+                  {reviews.map((review, index) => (
+                    <div 
+                      key={review.id} 
+                      className={`p-4 border-b border-slate-200 cursor-pointer hover:bg-gray-50 ${
+                        selectedReviewId === review.id ? 'bg-blue-50 border-l-4 border-l-blue-500' : ''
+                      } ${index === reviews.length - 1 ? 'border-b-0' : ''}`}
+                      onClick={() => setSelectedReviewId(review.id)}
+                    >
+                      <div className="flex items-start gap-3">
+                        <Checkbox checked={selectedReviewId === review.id} />
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-2 mb-1">
+                            <h4 className="font-medium text-gray-900 text-sm">{review.name}</h4>
+                            {review.status === "Answered" && (
+                              <Badge className="bg-green-100 text-green-800 text-xs px-2 py-0.5">New</Badge>
+                            )}
+                          </div>
+                          <div className="text-xs text-gray-500 mb-2">
+                            {review.date && <span>{review.date}</span>}
+                            {review.date && <span> · </span>}
+                            <span>İyi</span>
+                          </div>
+                          <div className="flex items-center gap-1 mb-2">
+                            {getRatingStars(review.rating)}
+                          </div>
+                          <p className="text-gray-700 text-sm line-clamp-2">{review.comment}</p>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Right Panel - Review Details & Reply */}
+              <div className="w-1/2 flex flex-col">
+                {selectedReviewId && (() => {
+                  const selectedReview = reviews.find(r => r.id === selectedReviewId);
+                  return selectedReview ? (
+                    <div className="flex flex-col h-full">
+                      {/* Selected Review Header */}
+                      <div className="p-4 border-b border-slate-200 bg-gray-50">
+                        <div className="flex items-center gap-2 mb-2">
+                          <h3 className="font-semibold text-gray-900">{selectedReview.name}</h3>
+                          <span className="text-sm text-gray-500">(CB06)</span>
+                        </div>
+                        <div className="flex items-center gap-2 text-sm text-gray-600">
+                          <span>3.96</span>
+                          {getRatingStars(4)}
+                          <span>1017 Reviews</span>
+                        </div>
+                      </div>
+
+                      {/* Review Content */}
+                      <div className="flex-1 p-4 overflow-y-auto">
+                        <div className="mb-6">
+                          <div className="flex items-start gap-3 mb-3">
+                            <div className="w-8 h-8 bg-amber-500 rounded-full flex items-center justify-center text-white text-sm font-medium">
+                              İ
+                            </div>
+                            <div>
+                              <div className="font-medium text-gray-900">İsmail hakkı yazgan</div>
+                              <div className="flex items-center gap-1 my-1">
+                                {getRatingStars(selectedReview.rating)}
+                              </div>
+                              <div className="text-sm text-green-600 mb-2">Answered</div>
+                            </div>
+                          </div>
+                          
+                          <div className="bg-gray-50 rounded-lg p-4 mb-4">
+                            <p className="text-gray-700 text-sm mb-2">İyi</p>
+                            <p className="text-xs text-gray-500">(Translated by Google)</p>
+                          </div>
+                          
+                          <div className="text-sm text-gray-600 mb-4">Good</div>
+                        </div>
+
+                        {/* Boyner Reply */}
+                        <div className="border-t border-gray-200 pt-4">
+                          <div className="flex items-start gap-3 mb-3">
+                            <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center text-white text-sm font-medium">
+                              B
+                            </div>
+                            <div>
+                              <div className="font-medium text-gray-900">Boyner Eskişehir Kanatlı</div>
+                              <div className="text-xs text-gray-500">17 Sep 2025 8:52 AM</div>
+                            </div>
+                          </div>
+                          
+                          <div className="bg-blue-50 rounded-lg p-4 mb-4">
+                            <p className="text-gray-700 text-sm mb-3">
+                              Sayın İsmail hakkı yazgan, değerli görüşleriniz için teşekkür ederiz. Boyner Eskişehir Kanatlı 
+                              olarak size daha iyi bir alışveriş deneyimi sunmak için geri bildirimlerinizi önemsiyoruz. Tüm 
+                              talepleriniz için bize online@boynergroup.com.tr üzerinden veya 444 29 67 numaralı çağrı 
+                              merkezi hattımızdan ulaşabilirsiniz. İyi günler dileriz.
+                            </p>
+                            <p className="text-xs text-gray-500 mb-3">(Translated by Google)</p>
+                            
+                            <p className="text-gray-700 text-sm">
+                              Dear Mr. İsmail Hakkı Yazgan, thank you for your valuable feedback. At Boyner Eskişehir 
+                              Kanatlı, we value your feedback to provide you with a better shopping experience. For all 
+                              your inquiries, please contact us at online@boynergroup.com.tr or our call center at 444 29 67. 
+                              Have a great day.
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Action Buttons */}
+                      <div className="p-4 border-t border-slate-200">
+                        <div className="flex gap-3">
+                          <Button variant="outline" className="text-red-600 border-red-600 hover:bg-red-50">
+                            Delete
+                          </Button>
+                          <Button className="bg-gray-900 hover:bg-gray-800 text-white">
+                            Edit
+                          </Button>
+                        </div>
+                      </div>
+                    </div>
+                  ) : null;
+                })()}
               </div>
             </div>
 
             {/* Pagination */}
             <div className="flex items-center justify-between mt-6">
               <div className="flex items-center gap-2">
-                <Checkbox />
-                <span className="text-sm text-gray-600">Select All</span>
+                <span className="text-sm text-gray-600">Rows per page:</span>
+                <Select value="10" onValueChange={() => {}}>
+                  <SelectTrigger className="w-16 h-8">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="10">10</SelectItem>
+                    <SelectItem value="25">25</SelectItem>
+                    <SelectItem value="50">50</SelectItem>
+                  </SelectContent>
+                </Select>
               </div>
               <div className="flex items-center gap-4">
-                <span className="text-sm text-gray-600">1 2 3 ... 7386</span>
+                <span className="text-sm text-gray-600">2 3 4 5 ... 7188</span>
                 <div className="flex items-center gap-1">
                   <Button variant="outline" size="sm" className="w-8 h-8 p-0">
                     <ChevronLeft className="w-4 h-4" />
