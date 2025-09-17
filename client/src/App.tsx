@@ -5,6 +5,7 @@ import Sidebar from "@/components/layout/sidebar";
 import Overview from "@/pages/overview";
 import OfflineConversions from "@/pages/offline-conversions";
 import Locations from "@/pages/locations";
+import Reviews from "@/pages/reviews";
 import NotFound from "@/pages/not-found";
 import { useState } from "react";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
@@ -27,6 +28,7 @@ function Router() {
           <Route path="/offline-conversions" component={OfflineConversions} />
           <Route path="/locations" component={Locations} />
           <Route path="/locations/posts" component={Locations} />
+          <Route path="/reviews" component={Reviews} />
           <Route component={NotFound} />
         </Switch>
       </main>
