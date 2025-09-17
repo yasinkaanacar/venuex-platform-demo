@@ -404,40 +404,32 @@ export default function Reviews() {
           </div>
           <div className="bg-stone-50 p-6">
             <div className="bg-white rounded-md border border-slate-200 p-6">
-              {/* Summary Stats */}
-              <div className="flex justify-between items-center mb-8">
-                <div className="text-center">
-                  <div className="text-3xl font-bold text-gray-900 mb-1">
-                    {ratingBreakdown.reduce((sum, item) => sum + item.count, 0).toLocaleString()}
-                  </div>
-                  <div className="text-sm text-gray-600">Total Reviews</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-3xl font-bold text-gray-900 mb-1">3.28</div>
-                  <div className="text-sm text-gray-600">Average Rating</div>
-                </div>
-              </div>
-
               {/* Column Chart */}
               <div className="relative">
-                <div className="flex items-end justify-between gap-4 h-32 mb-2">
+                <div className="flex items-end justify-between gap-8 h-40 mb-4">
                   {[1, 2, 3, 4, 5].map((starCount) => {
                     const rating = ratingBreakdown.find(r => r.stars === starCount);
                     if (!rating) return null;
                     
                     return (
                       <div key={rating.stars} className="flex-1 flex flex-col items-center">
-                        <div className="w-full flex justify-center mb-2">
+                        {/* Count above bar */}
+                        <div className="text-sm font-medium text-gray-700 mb-2">
+                          {rating.count.toLocaleString()}
+                        </div>
+                        
+                        {/* Bar */}
+                        <div className="w-full flex justify-center">
                           <div 
-                            className={`w-12 rounded-t transition-all duration-700 ${
+                            className={`w-16 rounded-t transition-all duration-700 ${
                               rating.stars === 5 ? 'bg-green-600' :
                               rating.stars === 4 ? 'bg-green-400' :
                               rating.stars === 3 ? 'bg-yellow-500' :
                               rating.stars === 2 ? 'bg-orange-500' : 'bg-red-500'
                             }`}
                             style={{ 
-                              height: `${Math.max((rating.percentage / 25) * 100, 8)}%`,
-                              minHeight: '8px'
+                              height: `${Math.max((rating.percentage / 25) * 120, 20)}px`,
+                              minHeight: '20px'
                             }}
                             data-testid={`rating-column-${rating.stars}`}
                           />
@@ -448,10 +440,10 @@ export default function Reviews() {
                 </div>
                 
                 {/* Labels */}
-                <div className="flex justify-between gap-4">
+                <div className="flex justify-between gap-8">
                   {[1, 2, 3, 4, 5].map((starCount) => (
                     <div key={starCount} className="flex-1 text-center">
-                      <div className="text-xs text-gray-600 font-medium">
+                      <div className="text-sm text-gray-600 font-medium">
                         {starCount} Star{starCount > 1 ? 's' : ''}
                       </div>
                     </div>
