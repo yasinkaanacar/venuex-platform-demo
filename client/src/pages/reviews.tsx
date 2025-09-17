@@ -417,8 +417,6 @@ export default function Reviews() {
                     <Checkbox />
                     <span className="text-sm text-gray-600">Select All</span>
                     <div className="ml-auto flex gap-2">
-                      <Button variant="outline" size="sm">Bulk Actions ↓</Button>
-                      <Button variant="outline" size="sm">Export Reviews ↓</Button>
                     </div>
                   </div>
                 </div>
