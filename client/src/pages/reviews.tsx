@@ -404,7 +404,6 @@ export default function Reviews() {
 
               {/* Bulk Actions */}
               <div className="flex items-center gap-2">
-                <Button variant="outline" size="sm">Bulk Actions ↓</Button>
                 <Button variant="outline" size="sm">Export Reviews ↓</Button>
               </div>
             </div>
