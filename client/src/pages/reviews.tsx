@@ -108,26 +108,26 @@ export default function Reviews() {
 
   // Top 20 locations with star rating breakdowns for histogram
   const topLocationsData = [
-    { name: "İstanbul", short: "İst", total: 1243, ratings: { 5: 312, 4: 298, 3: 236, 2: 198, 1: 199 } },
-    { name: "İzmir", short: "İzm", total: 934, ratings: { 5: 280, 4: 234, 3: 187, 2: 140, 1: 93 } },
-    { name: "Eskişehir", short: "Esk", total: 847, ratings: { 5: 254, 4: 212, 3: 169, 2: 127, 1: 85 } },
-    { name: "Antalya", short: "Ant", total: 756, ratings: { 5: 227, 4: 189, 3: 151, 2: 113, 1: 76 } },
-    { name: "Ankara", short: "Ank", total: 692, ratings: { 5: 208, 4: 173, 3: 138, 2: 104, 1: 69 } },
-    { name: "Samsun", short: "Sam", total: 623, ratings: { 5: 187, 4: 156, 3: 125, 2: 93, 1: 62 } },
-    { name: "Kayseri", short: "Kay", total: 567, ratings: { 5: 170, 4: 142, 3: 113, 2: 85, 1: 57 } },
-    { name: "Bursa", short: "Bur", total: 528, ratings: { 5: 106, 4: 132, 3: 158, 2: 79, 1: 53 } },
-    { name: "Mersin", short: "Mer", total: 478, ratings: { 5: 96, 4: 120, 3: 143, 2: 72, 1: 47 } },
-    { name: "Gaziantep", short: "Gaz", total: 445, ratings: { 5: 89, 4: 111, 3: 133, 2: 67, 1: 45 } },
-    { name: "Adana", short: "Ada", total: 421, ratings: { 5: 84, 4: 105, 3: 126, 2: 63, 1: 43 } },
-    { name: "Konya", short: "Kon", total: 398, ratings: { 5: 80, 4: 99, 3: 119, 2: 60, 1: 40 } },
-    { name: "Trabzon", short: "Tra", total: 389, ratings: { 5: 78, 4: 97, 3: 117, 2: 58, 1: 39 } },
-    { name: "Denizli", short: "Den", total: 312, ratings: { 5: 94, 4: 78, 3: 62, 2: 47, 1: 31 } },
-    { name: "Şanlıurfa", short: "Şan", total: 298, ratings: { 5: 89, 4: 74, 3: 60, 2: 45, 1: 30 } },
-    { name: "Malatya", short: "Mal", total: 267, ratings: { 5: 80, 4: 67, 3: 53, 2: 40, 1: 27 } },
-    { name: "Diyarbakır", short: "Diy", total: 234, ratings: { 5: 70, 4: 58, 3: 47, 2: 35, 1: 24 } },
-    { name: "Erzurum", short: "Erz", total: 189, ratings: { 5: 57, 4: 47, 3: 38, 2: 28, 1: 19 } },
-    { name: "Van", short: "Van", total: 156, ratings: { 5: 31, 4: 39, 3: 47, 2: 23, 1: 16 } },
-    { name: "Batman", short: "Bat", total: 134, ratings: { 5: 27, 4: 33, 3: 40, 2: 20, 1: 14 } }
+    { name: "İstanbul", short: "İst", code: "001", total: 1243, ratings: { 5: 312, 4: 298, 3: 236, 2: 198, 1: 199 } },
+    { name: "İzmir", short: "İzm", code: "002", total: 934, ratings: { 5: 280, 4: 234, 3: 187, 2: 140, 1: 93 } },
+    { name: "Eskişehir", short: "Esk", code: "003", total: 847, ratings: { 5: 254, 4: 212, 3: 169, 2: 127, 1: 85 } },
+    { name: "Antalya", short: "Ant", code: "004", total: 756, ratings: { 5: 227, 4: 189, 3: 151, 2: 113, 1: 76 } },
+    { name: "Ankara", short: "Ank", code: "005", total: 692, ratings: { 5: 208, 4: 173, 3: 138, 2: 104, 1: 69 } },
+    { name: "Samsun", short: "Sam", code: "006", total: 623, ratings: { 5: 187, 4: 156, 3: 125, 2: 93, 1: 62 } },
+    { name: "Kayseri", short: "Kay", code: "007", total: 567, ratings: { 5: 170, 4: 142, 3: 113, 2: 85, 1: 57 } },
+    { name: "Bursa", short: "Bur", code: "008", total: 528, ratings: { 5: 106, 4: 132, 3: 158, 2: 79, 1: 53 } },
+    { name: "Mersin", short: "Mer", code: "009", total: 478, ratings: { 5: 96, 4: 120, 3: 143, 2: 72, 1: 47 } },
+    { name: "Gaziantep", short: "Gaz", code: "010", total: 445, ratings: { 5: 89, 4: 111, 3: 133, 2: 67, 1: 45 } },
+    { name: "Adana", short: "Ada", code: "011", total: 421, ratings: { 5: 84, 4: 105, 3: 126, 2: 63, 1: 43 } },
+    { name: "Konya", short: "Kon", code: "012", total: 398, ratings: { 5: 80, 4: 99, 3: 119, 2: 60, 1: 40 } },
+    { name: "Trabzon", short: "Tra", code: "013", total: 389, ratings: { 5: 78, 4: 97, 3: 117, 2: 58, 1: 39 } },
+    { name: "Denizli", short: "Den", code: "014", total: 312, ratings: { 5: 94, 4: 78, 3: 62, 2: 47, 1: 31 } },
+    { name: "Şanlıurfa", short: "Şan", code: "015", total: 298, ratings: { 5: 89, 4: 74, 3: 60, 2: 45, 1: 30 } },
+    { name: "Malatya", short: "Mal", code: "016", total: 267, ratings: { 5: 80, 4: 67, 3: 53, 2: 40, 1: 27 } },
+    { name: "Diyarbakır", short: "Diy", code: "017", total: 234, ratings: { 5: 70, 4: 58, 3: 47, 2: 35, 1: 24 } },
+    { name: "Erzurum", short: "Erz", code: "018", total: 189, ratings: { 5: 57, 4: 47, 3: 38, 2: 28, 1: 19 } },
+    { name: "Van", short: "Van", code: "019", total: 156, ratings: { 5: 31, 4: 39, 3: 47, 2: 23, 1: 16 } },
+    { name: "Batman", short: "Bat", code: "020", total: 134, ratings: { 5: 27, 4: 33, 3: 40, 2: 20, 1: 14 } }
   ];
 
   // Sorting function
@@ -624,11 +624,11 @@ export default function Reviews() {
                             </div>
                             
                             {/* Location Labels */}
-                            <div className="flex gap-1 px-2">
+                            <div className="flex gap-1 px-2 mt-2">
                               {topLocationsData.map((location) => (
-                                <div key={location.name} className="flex-1 text-center">
-                                  <div className="text-xs text-gray-600 font-medium whitespace-nowrap">
-                                    {location.short}
+                                <div key={location.name} className="flex-1 text-center relative h-8">
+                                  <div className="text-xs text-gray-600 font-medium whitespace-nowrap transform -rotate-45 origin-center absolute left-1/2 top-0 -translate-x-1/2">
+                                    {location.short}-{location.code}
                                   </div>
                                 </div>
                               ))}
