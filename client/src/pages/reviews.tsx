@@ -108,26 +108,26 @@ export default function Reviews() {
 
   // Top 20 locations with star rating breakdowns for histogram
   const topLocationsData = [
-    { name: "İstanbul AVM", total: 1243, ratings: { 5: 312, 4: 298, 3: 236, 2: 198, 1: 199 } },
-    { name: "İzmir Konak", total: 934, ratings: { 5: 280, 4: 234, 3: 187, 2: 140, 1: 93 } },
-    { name: "Eskişehir Kanatlı", total: 847, ratings: { 5: 254, 4: 212, 3: 169, 2: 127, 1: 85 } },
-    { name: "Antalya MarkAntalya", total: 756, ratings: { 5: 227, 4: 189, 3: 151, 2: 113, 1: 76 } },
-    { name: "Ankara Kızılay", total: 692, ratings: { 5: 208, 4: 173, 3: 138, 2: 104, 1: 69 } },
-    { name: "Samsun Piazza", total: 623, ratings: { 5: 187, 4: 156, 3: 125, 2: 93, 1: 62 } },
-    { name: "Kayseri Forum", total: 567, ratings: { 5: 170, 4: 142, 3: 113, 2: 85, 1: 57 } },
-    { name: "Bursa Kent Meydanı", total: 528, ratings: { 5: 106, 4: 132, 3: 158, 2: 79, 1: 53 } },
-    { name: "Mersin Marina", total: 478, ratings: { 5: 96, 4: 120, 3: 143, 2: 72, 1: 47 } },
-    { name: "Gaziantep Forum", total: 445, ratings: { 5: 89, 4: 111, 3: 133, 2: 67, 1: 45 } },
-    { name: "Adana Optimum", total: 421, ratings: { 5: 84, 4: 105, 3: 126, 2: 63, 1: 43 } },
-    { name: "Konya M1", total: 398, ratings: { 5: 80, 4: 99, 3: 119, 2: 60, 1: 40 } },
-    { name: "Trabzon Forum", total: 389, ratings: { 5: 78, 4: 97, 3: 117, 2: 58, 1: 39 } },
-    { name: "Denizli Forum", total: 312, ratings: { 5: 94, 4: 78, 3: 62, 2: 47, 1: 31 } },
-    { name: "Şanlıurfa Piazza", total: 298, ratings: { 5: 89, 4: 74, 3: 60, 2: 45, 1: 30 } },
-    { name: "Malatya Arasta Park", total: 267, ratings: { 5: 80, 4: 67, 3: 53, 2: 40, 1: 27 } },
-    { name: "Diyarbakır Kay", total: 234, ratings: { 5: 70, 4: 58, 3: 47, 2: 35, 1: 24 } },
-    { name: "Erzurum Palandöken", total: 189, ratings: { 5: 57, 4: 47, 3: 38, 2: 28, 1: 19 } },
-    { name: "Van 100. Yıl", total: 156, ratings: { 5: 31, 4: 39, 3: 47, 2: 23, 1: 16 } },
-    { name: "Batman Park", total: 134, ratings: { 5: 27, 4: 33, 3: 40, 2: 20, 1: 14 } }
+    { name: "İstanbul", short: "İst", total: 1243, ratings: { 5: 312, 4: 298, 3: 236, 2: 198, 1: 199 } },
+    { name: "İzmir", short: "İzm", total: 934, ratings: { 5: 280, 4: 234, 3: 187, 2: 140, 1: 93 } },
+    { name: "Eskişehir", short: "Esk", total: 847, ratings: { 5: 254, 4: 212, 3: 169, 2: 127, 1: 85 } },
+    { name: "Antalya", short: "Ant", total: 756, ratings: { 5: 227, 4: 189, 3: 151, 2: 113, 1: 76 } },
+    { name: "Ankara", short: "Ank", total: 692, ratings: { 5: 208, 4: 173, 3: 138, 2: 104, 1: 69 } },
+    { name: "Samsun", short: "Sam", total: 623, ratings: { 5: 187, 4: 156, 3: 125, 2: 93, 1: 62 } },
+    { name: "Kayseri", short: "Kay", total: 567, ratings: { 5: 170, 4: 142, 3: 113, 2: 85, 1: 57 } },
+    { name: "Bursa", short: "Bur", total: 528, ratings: { 5: 106, 4: 132, 3: 158, 2: 79, 1: 53 } },
+    { name: "Mersin", short: "Mer", total: 478, ratings: { 5: 96, 4: 120, 3: 143, 2: 72, 1: 47 } },
+    { name: "Gaziantep", short: "Gaz", total: 445, ratings: { 5: 89, 4: 111, 3: 133, 2: 67, 1: 45 } },
+    { name: "Adana", short: "Ada", total: 421, ratings: { 5: 84, 4: 105, 3: 126, 2: 63, 1: 43 } },
+    { name: "Konya", short: "Kon", total: 398, ratings: { 5: 80, 4: 99, 3: 119, 2: 60, 1: 40 } },
+    { name: "Trabzon", short: "Tra", total: 389, ratings: { 5: 78, 4: 97, 3: 117, 2: 58, 1: 39 } },
+    { name: "Denizli", short: "Den", total: 312, ratings: { 5: 94, 4: 78, 3: 62, 2: 47, 1: 31 } },
+    { name: "Şanlıurfa", short: "Şan", total: 298, ratings: { 5: 89, 4: 74, 3: 60, 2: 45, 1: 30 } },
+    { name: "Malatya", short: "Mal", total: 267, ratings: { 5: 80, 4: 67, 3: 53, 2: 40, 1: 27 } },
+    { name: "Diyarbakır", short: "Diy", total: 234, ratings: { 5: 70, 4: 58, 3: 47, 2: 35, 1: 24 } },
+    { name: "Erzurum", short: "Erz", total: 189, ratings: { 5: 57, 4: 47, 3: 38, 2: 28, 1: 19 } },
+    { name: "Van", short: "Van", total: 156, ratings: { 5: 31, 4: 39, 3: 47, 2: 23, 1: 16 } },
+    { name: "Batman", short: "Bat", total: 134, ratings: { 5: 27, 4: 33, 3: 40, 2: 20, 1: 14 } }
   ];
 
   // Sorting function
@@ -580,7 +580,7 @@ export default function Reviews() {
                             </div>
                             
                             {/* Stacked Bars - Locations */}
-                            <div className="flex items-end justify-between gap-2 h-48 mb-4 relative overflow-x-auto">
+                            <div className="flex items-end gap-1 h-48 mb-4 relative px-2">
                               {topLocationsData.map((location, index) => {
                                 const containerHeight = 192;
                                 const totalHeight = (location.total / roundedMax) * containerHeight;
@@ -595,20 +595,20 @@ export default function Reviews() {
                                 ];
                                 
                                 return (
-                                  <div key={location.name} className="flex flex-col items-center">
+                                  <div key={location.name} className="flex flex-col items-center flex-1">
                                     {/* Total count above bar */}
                                     <div className="text-xs font-medium text-gray-700 mb-2 text-center">
                                       {location.total.toLocaleString()}
                                     </div>
                                     
                                     {/* Stacked Bar */}
-                                    <div className="flex flex-col-reverse" style={{ height: `${Math.max(totalHeight, 15)}px` }}>
+                                    <div className="flex flex-col-reverse mx-auto" style={{ height: `${Math.max(totalHeight, 15)}px` }}>
                                       {segments.map((segment, segIndex) => {
                                         const segmentHeight = (segment.count / location.total) * totalHeight;
                                         return segmentHeight > 0 ? (
                                           <div
                                             key={segment.rating}
-                                            className={`w-10 ${segment.color} transition-all duration-700 ${segIndex === 0 ? 'rounded-t' : ''}`}
+                                            className={`w-8 ${segment.color} transition-all duration-700 ${segIndex === 0 ? 'rounded-t' : ''}`}
                                             style={{ 
                                               height: `${Math.max(segmentHeight, 1)}px`,
                                               minHeight: '1px'
@@ -624,11 +624,11 @@ export default function Reviews() {
                             </div>
                             
                             {/* Location Labels */}
-                            <div className="flex justify-between gap-2 mt-4">
+                            <div className="flex gap-1 px-2">
                               {topLocationsData.map((location) => (
-                                <div key={location.name} className="flex-shrink-0 text-center w-10">
-                                  <div className="text-xs text-gray-600 font-medium transform -rotate-45 origin-center whitespace-nowrap">
-                                    {location.name}
+                                <div key={location.name} className="flex-1 text-center">
+                                  <div className="text-xs text-gray-600 font-medium whitespace-nowrap">
+                                    {location.short}
                                   </div>
                                 </div>
                               ))}
