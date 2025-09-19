@@ -696,29 +696,7 @@ export default function Reviews() {
                 </div>
               </div>
 
-              {/* Review Status Change */}
-              <div className="bg-white rounded-md border border-slate-200 p-6">
-                <div className="flex items-center gap-2 mb-4">
-                  <TrendingUp className="w-4 h-4 text-green-600" />
-                  <span className="text-sm font-medium">Review Status Change</span>
-                </div>
-                <div className="space-y-3">
-                  {statusChangeData.map((item, index) => (
-                    <div key={index} className="flex justify-between items-center">
-                      {item.label && <span className="text-sm text-gray-600">{item.label}</span>}
-                      <div className="flex items-center gap-2">
-                        <span className="font-medium">{item.current.toLocaleString()}</span>
-                        <div className={`flex items-center gap-1 text-xs px-2 py-1 rounded ${
-                          item.change > 0 ? 'text-green-700 bg-green-100' : 'text-red-700 bg-red-100'
-                        }`}>
-                          {item.change > 0 ? <TrendingUp className="w-3 h-3" /> : <TrendingDown className="w-3 h-3" />}
-                          {Math.abs(item.change)}%
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
+              
             </div>
           </div>
         </div>
