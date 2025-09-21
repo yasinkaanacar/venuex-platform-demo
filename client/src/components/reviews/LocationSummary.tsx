@@ -1,5 +1,14 @@
 import { useState } from "react";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Table,
@@ -13,13 +22,23 @@ import {
   Star,
   ArrowUpDown,
   ArrowUp,
-  ArrowDown
+  ArrowDown,
+  Search,
+  ChevronLeft,
+  ChevronRight
 } from 'lucide-react';
 
 export default function LocationSummary() {
   // Location table sorting
   const [sortColumn, setSortColumn] = useState<string>("");
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
+  
+  // Filtering and pagination
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedPlatform, setSelectedPlatform] = useState("all");
+  const [selectedSentiment, setSelectedSentiment] = useState("all");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
 
   // Location data for table
   const locationData = [
@@ -55,8 +74,15 @@ export default function LocationSummary() {
     }
   };
 
+  // Filtering logic
+  const filteredData = locationData.filter((location) => {
+    const matchesSearch = location.name.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesSentiment = selectedSentiment === "all" || location.sentiment.toLowerCase() === selectedSentiment.toLowerCase();
+    return matchesSearch && matchesSentiment;
+  });
+
   // Sort data
-  const sortedLocationData = [...locationData].sort((a: any, b: any) => {
+  const sortedLocationData = [...filteredData].sort((a: any, b: any) => {
     if (!sortColumn) return 0;
     
     let aVal = a[sortColumn];
@@ -73,6 +99,11 @@ export default function LocationSummary() {
       return aVal < bVal ? 1 : -1;
     }
   });
+
+  // Pagination logic
+  const totalPages = Math.ceil(sortedLocationData.length / rowsPerPage);
+  const startIndex = (currentPage - 1) * rowsPerPage;
+  const paginatedData = sortedLocationData.slice(startIndex, startIndex + rowsPerPage);
 
   // Get sort icon
   const getSortIcon = (column: string) => {
@@ -129,10 +160,52 @@ export default function LocationSummary() {
   return (
     <Card className="mx-6 mb-6">
       <CardHeader>
-        <CardTitle>Lokasyon Özeti</CardTitle>
-        <p className="text-sm text-gray-600">Tüm lokasyonların yorum performansı</p>
+        <CardTitle>Location Performance</CardTitle>
+        <p className="text-sm text-gray-600">Performance overview for all locations</p>
       </CardHeader>
       <CardContent>
+        {/* Filter Bar */}
+        <div className="flex items-center gap-4 mb-6 p-4 bg-gray-50 rounded-lg">
+          <div className="relative flex-1 max-w-sm">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
+            <Input 
+              placeholder="Search locations..." 
+              className="pl-10"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              data-testid="input-search-locations"
+            />
+          </div>
+          
+          <div className="flex items-center gap-2">
+            <span className="text-sm text-gray-600">Sentiment:</span>
+            <Select value={selectedSentiment} onValueChange={setSelectedSentiment}>
+              <SelectTrigger className="w-32">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All</SelectItem>
+                <SelectItem value="positive">Positive</SelectItem>
+                <SelectItem value="neutral">Neutral</SelectItem>
+                <SelectItem value="negative">Negative</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+          
+          <Button 
+            variant="outline" 
+            size="sm" 
+            onClick={() => {
+              setSearchQuery("");
+              setSelectedSentiment("all");
+              setCurrentPage(1);
+            }}
+            data-testid="button-clear-filters"
+          >
+            Clear Filters
+          </Button>
+        </div>
+
         <Table>
           <TableHeader>
             <TableRow>
@@ -189,7 +262,7 @@ export default function LocationSummary() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {sortedLocationData.map((location, index) => (
+            {paginatedData.map((location, index) => (
               <TableRow 
                 key={location.name} 
                 data-testid={`location-row-${index}`}
@@ -216,6 +289,55 @@ export default function LocationSummary() {
             ))}
           </TableBody>
         </Table>
+
+        {/* Pagination Controls */}
+        <div className="flex items-center justify-between mt-6 pt-4 border-t border-gray-200">
+          <div className="flex items-center gap-2">
+            <span className="text-sm text-gray-600">Rows per page:</span>
+            <Select value={rowsPerPage.toString()} onValueChange={(value) => {
+              setRowsPerPage(parseInt(value));
+              setCurrentPage(1);
+            }}>
+              <SelectTrigger className="w-20">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="5">5</SelectItem>
+                <SelectItem value="10">10</SelectItem>
+                <SelectItem value="20">20</SelectItem>
+                <SelectItem value="50">50</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+          
+          <div className="flex items-center gap-4">
+            <span className="text-sm text-gray-600">
+              {startIndex + 1}-{Math.min(startIndex + rowsPerPage, sortedLocationData.length)} of {sortedLocationData.length}
+            </span>
+            <div className="flex items-center gap-1">
+              <Button 
+                variant="outline" 
+                size="sm" 
+                className="w-8 h-8 p-0"
+                disabled={currentPage === 1}
+                onClick={() => setCurrentPage(currentPage - 1)}
+                data-testid="button-previous-page"
+              >
+                <ChevronLeft className="w-4 h-4" />
+              </Button>
+              <Button 
+                variant="outline" 
+                size="sm" 
+                className="w-8 h-8 p-0"
+                disabled={currentPage === totalPages}
+                onClick={() => setCurrentPage(currentPage + 1)}
+                data-testid="button-next-page"
+              >
+                <ChevronRight className="w-4 h-4" />
+              </Button>
+            </div>
+          </div>
+        </div>
       </CardContent>
     </Card>
   );
