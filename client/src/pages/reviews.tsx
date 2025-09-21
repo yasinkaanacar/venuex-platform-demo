@@ -877,7 +877,10 @@ export default function Reviews() {
             </div>
           </div>
 
-          {/* Location Summary Component */}
+        </div>
+
+        {/* Location Summary Section - Separated for clear visual distinction */}
+        <div className="mt-8 border-t-4 border-stone-200 pt-8">
           <LocationSummary />
         </div>
       </div>
