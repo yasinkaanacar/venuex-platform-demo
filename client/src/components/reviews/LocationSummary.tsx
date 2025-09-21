@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Badge } from "@/components/ui/badge";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Table,
   TableBody,
@@ -126,12 +127,12 @@ export default function LocationSummary() {
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-sm border border-gray-200 mx-6 mb-6">
-      <div className="p-4 border-b border-gray-200">
-        <h2 className="text-lg font-semibold text-gray-900">Lokasyon Özeti</h2>
+    <Card className="mx-6 mb-6">
+      <CardHeader>
+        <CardTitle>Lokasyon Özeti</CardTitle>
         <p className="text-sm text-gray-600">Tüm lokasyonların yorum performansı</p>
-      </div>
-      <div className="p-4">
+      </CardHeader>
+      <CardContent>
         <Table>
           <TableHeader>
             <TableRow>
@@ -215,7 +216,7 @@ export default function LocationSummary() {
             ))}
           </TableBody>
         </Table>
-      </div>
-    </div>
+      </CardContent>
+    </Card>
   );
 }
