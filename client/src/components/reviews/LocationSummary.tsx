@@ -159,10 +159,10 @@ export default function LocationSummary() {
 
   return (
     <Card className="mx-6 mb-6">
-      <CardHeader>
-        <CardTitle>Location Overview</CardTitle>
+      <div className="p-6 border-b border-gray-200">
+        <h2 className="text-lg font-semibold text-gray-900 mb-2">Location Overview</h2>
         <p className="text-sm text-gray-600">Performance overview for all locations</p>
-      </CardHeader>
+      </div>
       <CardContent>
         {/* Filter Bar */}
         <div className="flex items-center gap-4 mb-6 p-4 bg-gray-50 rounded-lg">
