@@ -3,9 +3,10 @@ import { Tooltip } from '@mui/material';
 
 interface HeaderProps {
   lastSync?: string;
+  title?: string;
 }
 
-export default function Header({ lastSync }: HeaderProps) {
+export default function Header({ lastSync, title = "Dashboard" }: HeaderProps) {
   const formatSyncTime = (timestamp?: string) => {
     if (!timestamp) return 'No sync data';
     
@@ -29,8 +30,7 @@ export default function Header({ lastSync }: HeaderProps) {
               <Store className="w-6 h-6" />
             </div>
             <div>
-              <h1 className="text-xl font-bold text-foreground" data-testid="text-app-title">Dashboard
-</h1>
+              <h1 className="text-xl font-bold text-foreground" data-testid="text-app-title">{title}</h1>
             </div>
           </div>
           

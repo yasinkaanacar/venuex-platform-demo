@@ -29,6 +29,7 @@ import {
   Send
 } from 'lucide-react';
 import LocationSummary from "@/components/reviews/LocationSummary";
+import Header from '@/components/overview/header';
 
 export default function Reviews() {
   const [selectedPlatform, setSelectedPlatform] = useState("google");
@@ -237,6 +238,7 @@ export default function Reviews() {
 
   return (
     <div className="min-h-screen bg-stone-50">
+      <Header title="Reviews" />
       <div className="p-6">
         {/* Summary Section */}
         <div className="mx-6 mb-6 bg-white rounded-lg border border-slate-200 overflow-hidden shadow-none">
