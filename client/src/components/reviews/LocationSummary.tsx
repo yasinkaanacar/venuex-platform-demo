@@ -160,7 +160,7 @@ export default function LocationSummary() {
   return (
     <Card className="mx-6 mb-6">
       <CardHeader>
-        <CardTitle>Location Performance</CardTitle>
+        <CardTitle>Location Overview</CardTitle>
         <p className="text-sm text-gray-600">Performance overview for all locations</p>
       </CardHeader>
       <CardContent>
