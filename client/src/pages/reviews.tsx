@@ -668,38 +668,7 @@ export default function Reviews() {
           </div>
         </div>
 
-        {/* Dashboard Cards */}
-        <div className="mx-6 mb-6 bg-white rounded-lg border border-slate-200 overflow-hidden shadow-none">
-          <div className="flex items-center justify-between border-b border-slate-200 px-6 py-4 bg-gradient-to-b from-white to-stone-50">
-            <h3 className="text-base font-semibold text-foreground">Review Analytics</h3>
-          </div>
-          <div className="bg-stone-50 p-6">
-            <div className="grid grid-cols-2 gap-6">
-              {/* Issues & Suggestions */}
-              <div className="bg-white rounded-md border border-slate-200 p-6">
-                <div className="flex items-center gap-2 mb-4">
-                  <AlertTriangle className="w-4 h-4 text-orange-600" />
-                  <span className="text-sm font-medium">Issues & Suggestions</span>
-                </div>
-                <div className="space-y-3">
-                  {issuesData.slice(0, 3).map((issue, index) => (
-                    <div key={index} className="flex justify-between items-center">
-                      <span className="text-sm text-gray-700">{issue.type}</span>
-                      <div className="flex items-center gap-2">
-                        <span className="text-sm font-medium">{issue.count}</span>
-                        <Button size="sm" variant="outline" className="text-xs px-2 py-1 h-7">
-                          Take Action
-                        </Button>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              
-            </div>
-          </div>
-        </div>
+        
 
         {/* Reviews List */}
         <div className="mx-6 mb-6 bg-white rounded-lg border border-slate-200 overflow-hidden shadow-none">
