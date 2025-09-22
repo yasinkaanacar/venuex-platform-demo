@@ -1020,6 +1020,385 @@ export default function Reviews() {
           <div className="mt-8 border-t-4 border-stone-200 pt-8">
             <LocationSummary />
           </div>
+
+          {/* Sentiment Analysis Section */}
+          <div className="mt-8 border-t-4 border-stone-200 pt-8">
+            <div className="mx-6 mb-6 bg-white rounded-lg border border-slate-200 overflow-hidden shadow-none">
+              <div className="flex items-center justify-between border-b border-slate-200 px-6 py-4 bg-gradient-to-b from-white to-stone-50">
+                <h3 className="text-base font-semibold text-foreground">Sentiment Analysis</h3>
+                <div className="flex items-center gap-2">
+                  <Button variant="outline" size="sm">Create Collection</Button>
+                  <Button variant="outline" size="sm">Highest Mentions ↓</Button>
+                </div>
+              </div>
+              
+              <div className="bg-stone-50 p-6">
+                {/* Filters */}
+                <div className="flex items-center gap-3 mb-6 text-sm">
+                  <span className="text-gray-600 font-medium">Filters:</span>
+                  <Select value="all-locations" onValueChange={() => {}}>
+                    <SelectTrigger className="w-32 h-8">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="all-locations">All Locations</SelectItem>
+                    </SelectContent>
+                  </Select>
+                  <Select value="all-time" onValueChange={() => {}}>
+                    <SelectTrigger className="w-24 h-8">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="all-time">All Time</SelectItem>
+                    </SelectContent>
+                  </Select>
+                  <Select value="all-mention-counts" onValueChange={() => {}}>
+                    <SelectTrigger className="w-40 h-8">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="all-mention-counts">All Mention Counts</SelectItem>
+                    </SelectContent>
+                  </Select>
+                  <Select value="all-keywords" onValueChange={() => {}}>
+                    <SelectTrigger className="w-32 h-8">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="all-keywords">All keywords</SelectItem>
+                    </SelectContent>
+                  </Select>
+                  <Select value="all-sites" onValueChange={() => {}}>
+                    <SelectTrigger className="w-24 h-8">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="all-sites">All Sites</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                {/* Sentiment Scale */}
+                <div className="mb-8">
+                  <div className="flex items-center justify-center mb-2">
+                    <span className="text-sm font-medium text-gray-600">SENTIMENT</span>
+                  </div>
+                  <div className="relative">
+                    <div className="h-2 bg-gradient-to-r from-red-500 via-yellow-500 to-green-500 rounded-full"></div>
+                    <div className="flex justify-between text-xs text-gray-500 mt-1">
+                      <span>-100</span>
+                      <span>0</span>
+                      <span>+100</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="bg-white rounded-md border border-slate-200 p-6">
+                  {/* Sentiment by Collection */}
+                  <div className="mb-8">
+                    <div className="flex items-center gap-2 mb-4">
+                      <h4 className="text-lg font-semibold text-gray-900">Sentiment by Collection</h4>
+                      <div className="w-4 h-4 rounded-full bg-gray-300 flex items-center justify-center text-xs text-white">?</div>
+                    </div>
+                    
+                    <div className="space-y-4">
+                      {/* ATM */}
+                      <div className="flex items-center gap-4">
+                        <div className="w-24 flex items-center gap-2">
+                          <span className="text-sm font-medium text-gray-700">ATM</span>
+                          <button className="w-3 h-3 text-gray-400">✏️</button>
+                        </div>
+                        <div className="flex items-center gap-6 flex-1">
+                          <div className="flex flex-col items-center">
+                            <div className="text-xs text-gray-500 mb-1">SENTIMENT</div>
+                            <div className="w-12 h-12 rounded-full bg-green-100 border-2 border-green-500 flex items-center justify-center">
+                              <span className="text-sm font-bold text-green-700">+19</span>
+                            </div>
+                          </div>
+                          <div className="flex flex-col items-center">
+                            <div className="text-xs text-gray-500 mb-1">MENTIONS</div>
+                            <div className="text-lg font-semibold text-gray-900">12</div>
+                          </div>
+                          <div className="flex flex-col items-center">
+                            <div className="text-xs text-gray-500 mb-1">AVG RATING</div>
+                            <div className="flex items-center gap-1">
+                              <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+                              <span className="text-sm font-medium">3.6</span>
+                            </div>
+                          </div>
+                          <div className="flex flex-col flex-1">
+                            <div className="text-xs text-gray-500 mb-1">TOP MODIFIERS</div>
+                            <div className="flex-1 relative bg-gray-100 rounded h-8">
+                              <div className="absolute inset-0 flex">
+                                <div className="bg-blue-600 h-full" style={{width: '25%'}}></div>
+                                <div className="bg-green-600 h-full" style={{width: '20%'}}></div>
+                                <div className="bg-blue-500 h-full" style={{width: '18%'}}></div>
+                                <div className="bg-gray-600 h-full" style={{width: '15%'}}></div>
+                                <div className="bg-blue-400 h-full" style={{width: '12%'}}></div>
+                                <div className="bg-red-500 h-full" style={{width: '10%'}}></div>
+                              </div>
+                              <div className="absolute inset-0 flex items-center px-2 text-xs text-white font-medium">
+                                <span className="mr-2">convenient</span>
+                                <span className="mr-2">fantastic</span>
+                                <span className="mr-2">fast</span>
+                                <span className="mr-2">functional</span>
+                                <span className="mr-2">reliable</span>
+                                <span>dirty</span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Facilities */}
+                      <div className="flex items-center gap-4">
+                        <div className="w-24 flex items-center gap-2">
+                          <span className="text-sm font-medium text-gray-700">Facilities</span>
+                          <button className="w-3 h-3 text-gray-400">✏️</button>
+                        </div>
+                        <div className="flex items-center gap-6 flex-1">
+                          <div className="flex flex-col items-center">
+                            <div className="text-xs text-gray-500 mb-1">SENTIMENT</div>
+                            <div className="w-12 h-12 rounded-full bg-orange-100 border-2 border-orange-500 flex items-center justify-center">
+                              <span className="text-sm font-bold text-orange-700">-8</span>
+                            </div>
+                          </div>
+                          <div className="flex flex-col items-center">
+                            <div className="text-xs text-gray-500 mb-1">MENTIONS</div>
+                            <div className="text-lg font-semibold text-gray-900">6</div>
+                          </div>
+                          <div className="flex flex-col items-center">
+                            <div className="text-xs text-gray-500 mb-1">AVG RATING</div>
+                            <div className="flex items-center gap-1">
+                              <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+                              <span className="text-sm font-medium">2.9</span>
+                            </div>
+                          </div>
+                          <div className="flex flex-col flex-1">
+                            <div className="text-xs text-gray-500 mb-1">TOP MODIFIERS</div>
+                            <div className="flex-1 relative bg-gray-100 rounded h-8">
+                              <div className="absolute inset-0 flex">
+                                <div className="bg-red-600 h-full" style={{width: '35%'}}></div>
+                                <div className="bg-gray-600 h-full" style={{width: '25%'}}></div>
+                                <div className="bg-green-600 h-full" style={{width: '25%'}}></div>
+                                <div className="bg-blue-500 h-full" style={{width: '15%'}}></div>
+                              </div>
+                              <div className="absolute inset-0 flex items-center px-2 text-xs text-white font-medium">
+                                <span className="mr-3">annoying</span>
+                                <span className="mr-3">long</span>
+                                <span className="mr-3">great</span>
+                                <span>convenient</span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Service/Staff */}
+                      <div className="flex items-center gap-4">
+                        <div className="w-24 flex items-center gap-2">
+                          <span className="text-sm font-medium text-gray-700">Service/Staff</span>
+                          <button className="w-3 h-3 text-gray-400">✏️</button>
+                        </div>
+                        <div className="flex items-center gap-6 flex-1">
+                          <div className="flex flex-col items-center">
+                            <div className="text-xs text-gray-500 mb-1">SENTIMENT</div>
+                            <div className="w-12 h-12 rounded-full bg-red-100 border-2 border-red-500 flex items-center justify-center">
+                              <span className="text-sm font-bold text-red-700">-31</span>
+                            </div>
+                          </div>
+                          <div className="flex flex-col items-center">
+                            <div className="text-xs text-gray-500 mb-1">MENTIONS</div>
+                            <div className="text-lg font-semibold text-gray-900">14</div>
+                          </div>
+                          <div className="flex flex-col items-center">
+                            <div className="text-xs text-gray-500 mb-1">AVG RATING</div>
+                            <div className="flex items-center gap-1">
+                              <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+                              <span className="text-sm font-medium">3.9</span>
+                            </div>
+                          </div>
+                          <div className="flex flex-col flex-1">
+                            <div className="text-xs text-gray-500 mb-1">TOP MODIFIERS</div>
+                            <div className="flex-1 relative bg-gray-100 rounded h-8">
+                              <div className="absolute inset-0 flex">
+                                <div className="bg-green-600 h-full" style={{width: '15%'}}></div>
+                                <div className="bg-green-500 h-full" style={{width: '15%'}}></div>
+                                <div className="bg-red-600 h-full" style={{width: '12%'}}></div>
+                                <div className="bg-blue-500 h-full" style={{width: '10%'}}></div>
+                                <div className="bg-red-500 h-full" style={{width: '10%'}}></div>
+                                <div className="bg-orange-500 h-full" style={{width: '8%'}}></div>
+                                <div className="bg-blue-400 h-full" style={{width: '8%'}}></div>
+                                <div className="bg-blue-600 h-full" style={{width: '8%'}}></div>
+                                <div className="bg-green-400 h-full" style={{width: '7%'}}></div>
+                                <div className="bg-gray-500 h-full" style={{width: '7%'}}></div>
+                              </div>
+                              <div className="absolute inset-0 flex items-center px-2 text-xs text-white font-medium">
+                                <span className="mr-1">friendly</span>
+                                <span className="mr-1">great</span>
+                                <span className="mr-1">unhelpful</span>
+                                <span className="mr-1">personal</span>
+                                <span className="mr-1">poor</span>
+                                <span className="mr-1">slow</span>
+                                <span className="mr-1">quick</span>
+                                <span className="mr-1">reliable</span>
+                                <span className="mr-1">amazing</span>
+                                <span>knowledgeable</span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Sentiment by Keyword */}
+                  <div>
+                    <div className="flex items-center gap-2 mb-4">
+                      <h4 className="text-lg font-semibold text-gray-900">Sentiment by Keyword</h4>
+                      <div className="w-4 h-4 rounded-full bg-gray-300 flex items-center justify-center text-xs text-white">?</div>
+                    </div>
+                    
+                    <div className="space-y-4">
+                      {/* atm */}
+                      <div className="flex items-center gap-4">
+                        <div className="w-24 flex items-center gap-2">
+                          <span className="text-sm font-medium text-blue-600">atm</span>
+                          <button className="w-3 h-3 text-gray-400">✏️</button>
+                        </div>
+                        <div className="flex items-center gap-6 flex-1">
+                          <div className="flex flex-col items-center">
+                            <div className="text-xs text-gray-500 mb-1">SENTIMENT</div>
+                            <div className="w-12 h-12 rounded-full bg-green-100 border-2 border-green-400 flex items-center justify-center">
+                              <span className="text-sm font-bold text-green-600">+1</span>
+                            </div>
+                          </div>
+                          <div className="flex flex-col items-center">
+                            <div className="text-xs text-gray-500 mb-1">MENTIONS</div>
+                            <div className="text-lg font-semibold text-gray-900">7</div>
+                          </div>
+                          <div className="flex flex-col items-center">
+                            <div className="text-xs text-gray-500 mb-1">AVG RATING</div>
+                            <div className="flex items-center gap-1">
+                              <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+                              <span className="text-sm font-medium">4.2</span>
+                            </div>
+                          </div>
+                          <div className="flex flex-col flex-1">
+                            <div className="text-xs text-gray-500 mb-1">TOP MODIFIERS</div>
+                            <div className="flex-1 relative bg-gray-100 rounded h-8">
+                              <div className="absolute inset-0 flex">
+                                <div className="bg-green-600 h-full" style={{width: '35%'}}></div>
+                                <div className="bg-blue-600 h-full" style={{width: '30%'}}></div>
+                                <div className="bg-gray-600 h-full" style={{width: '20%'}}></div>
+                                <div className="bg-red-500 h-full" style={{width: '15%'}}></div>
+                              </div>
+                              <div className="absolute inset-0 flex items-center px-2 text-xs text-white font-medium">
+                                <span className="mr-3">fantastic</span>
+                                <span className="mr-3">convenient</span>
+                                <span className="mr-3">functional</span>
+                                <span>dirty</span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* service */}
+                      <div className="flex items-center gap-4">
+                        <div className="w-24 flex items-center gap-2">
+                          <span className="text-sm font-medium text-blue-600">service</span>
+                          <button className="w-3 h-3 text-gray-400">✏️</button>
+                        </div>
+                        <div className="flex items-center gap-6 flex-1">
+                          <div className="flex flex-col items-center">
+                            <div className="text-xs text-gray-500 mb-1">SENTIMENT</div>
+                            <div className="w-12 h-12 rounded-full bg-orange-100 border-2 border-orange-500 flex items-center justify-center">
+                              <span className="text-sm font-bold text-orange-700">-20</span>
+                            </div>
+                          </div>
+                          <div className="flex flex-col items-center">
+                            <div className="text-xs text-gray-500 mb-1">MENTIONS</div>
+                            <div className="text-lg font-semibold text-gray-900">7</div>
+                          </div>
+                          <div className="flex flex-col items-center">
+                            <div className="text-xs text-gray-500 mb-1">AVG RATING</div>
+                            <div className="flex items-center gap-1">
+                              <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+                              <span className="text-sm font-medium">3.6</span>
+                            </div>
+                          </div>
+                          <div className="flex flex-col flex-1">
+                            <div className="text-xs text-gray-500 mb-1">TOP MODIFIERS</div>
+                            <div className="flex-1 relative bg-gray-100 rounded h-8">
+                              <div className="absolute inset-0 flex">
+                                <div className="bg-blue-600 h-full" style={{width: '20%'}}></div>
+                                <div className="bg-green-600 h-full" style={{width: '15%'}}></div>
+                                <div className="bg-red-600 h-full" style={{width: '15%'}}></div>
+                                <div className="bg-red-500 h-full" style={{width: '15%'}}></div>
+                                <div className="bg-green-500 h-full" style={{width: '12%'}}></div>
+                                <div className="bg-orange-500 h-full" style={{width: '10%'}}></div>
+                                <div className="bg-blue-400 h-full" style={{width: '8%'}}></div>
+                                <div className="bg-blue-500 h-full" style={{width: '5%'}}></div>
+                              </div>
+                              <div className="absolute inset-0 flex items-center px-2 text-xs text-white font-medium">
+                                <span className="mr-1">generally reliable</span>
+                                <span className="mr-1">great</span>
+                                <span className="mr-1">unhelpful</span>
+                                <span className="mr-1">poor</span>
+                                <span className="mr-1">friendly</span>
+                                <span className="mr-1">slow</span>
+                                <span className="mr-1">quick</span>
+                                <span>reliable</span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* staff */}
+                      <div className="flex items-center gap-4">
+                        <div className="w-24 flex items-center gap-2">
+                          <span className="text-sm font-medium text-blue-600">staff</span>
+                          <button className="w-3 h-3 text-gray-400">✏️</button>
+                        </div>
+                        <div className="flex items-center gap-6 flex-1">
+                          <div className="flex flex-col items-center">
+                            <div className="text-xs text-gray-500 mb-1">SENTIMENT</div>
+                            <div className="w-12 h-12 rounded-full bg-red-100 border-2 border-red-600 flex items-center justify-center">
+                              <span className="text-sm font-bold text-red-700">-44</span>
+                            </div>
+                          </div>
+                          <div className="flex flex-col items-center">
+                            <div className="text-xs text-gray-500 mb-1">MENTIONS</div>
+                            <div className="text-lg font-semibold text-gray-900">3</div>
+                          </div>
+                          <div className="flex flex-col items-center">
+                            <div className="text-xs text-gray-500 mb-1">AVG RATING</div>
+                            <div className="flex items-center gap-1">
+                              <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+                              <span className="text-sm font-medium">3.0</span>
+                            </div>
+                          </div>
+                          <div className="flex flex-col flex-1">
+                            <div className="text-xs text-gray-500 mb-1">TOP MODIFIERS</div>
+                            <div className="flex-1 relative bg-gray-100 rounded h-8">
+                              <div className="absolute inset-0 flex">
+                                <div className="bg-gray-700 h-full" style={{width: '100%'}}></div>
+                              </div>
+                              <div className="absolute inset-0 flex items-center px-2 text-xs text-white font-medium">
+                                <span>accessible</span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
