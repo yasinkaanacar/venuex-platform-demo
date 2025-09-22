@@ -832,10 +832,7 @@ export default function Reviews() {
 
                           {/* Action Buttons */}
                           <div className="p-4 border-t border-slate-200">
-                            <div className="flex justify-between items-center">
-                              <Button variant="outline" className="text-red-600 border-red-600 hover:bg-red-50">
-                                Delete Review
-                              </Button>
+                            <div className="flex justify-end items-center">
                               <div className="flex gap-2">
                                 <Button variant="outline" onClick={() => setReplyText("")}>
                                   Clear
