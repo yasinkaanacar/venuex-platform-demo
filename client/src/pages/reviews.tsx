@@ -1021,7 +1021,121 @@ export default function Reviews() {
             <LocationSummary />
           </div>
 
-          
+          {/* Keywords Analysis Tables */}
+          <div className="mt-8 border-t-4 border-stone-200 pt-8">
+            <div className="mx-6 mb-6 bg-white rounded-lg border border-slate-200 overflow-hidden shadow-none">
+              <div className="flex items-center justify-between border-b border-slate-200 px-6 py-4 bg-gradient-to-b from-white to-stone-50">
+                <h3 className="text-base font-semibold text-foreground">Keyword Analysis</h3>
+              </div>
+              
+              <div className="bg-stone-50 p-6">
+                <div className="grid grid-cols-2 gap-6">
+                  {/* Keywords by Mentions */}
+                  <div className="bg-white rounded-md border border-slate-200 overflow-hidden">
+                    <div className="px-4 py-3 border-b border-slate-200 bg-gradient-to-b from-white to-stone-50">
+                      <div className="flex items-center justify-between">
+                        <h4 className="text-sm font-semibold text-gray-900 flex items-center gap-2">
+                          Keywords by Mentions
+                          <div className="w-4 h-4 rounded-full bg-gray-300 flex items-center justify-center text-xs text-white">i</div>
+                        </h4>
+                        <span className="text-sm font-medium text-gray-600">299</span>
+                      </div>
+                    </div>
+                    <div className="overflow-x-auto">
+                      <table className="w-full text-sm">
+                        <thead>
+                          <tr className="border-b border-slate-200 bg-gray-50">
+                            <th className="text-left py-2 px-3 font-medium text-gray-600">Rank</th>
+                            <th className="text-left py-2 px-3 font-medium text-gray-600">Review Keywords</th>
+                            <th className="text-left py-2 px-3 font-medium text-gray-600">Keyword Mentions ↓</th>
+                            <th className="text-left py-2 px-3 font-medium text-gray-600">Keyword Sentiment</th>
+                            <th className="text-left py-2 px-3 font-medium text-gray-600">Average Rating</th>
+                            <th className="text-left py-2 px-3 font-medium text-gray-600">Reviews</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {[
+                            { rank: 1, keyword: 'place', mentions: 19, sentiment: 0.62, rating: 4.43, reviews: 14 },
+                            { rank: 2, keyword: 'beets', mentions: 14, sentiment: 0.31, rating: 4, reviews: 6 },
+                            { rank: 3, keyword: 'stay', mentions: 13, sentiment: 0.65, rating: 4.55, reviews: 11 },
+                            { rank: 4, keyword: 'experience', mentions: 13, sentiment: 0.64, rating: 4.5, reviews: 12 },
+                            { rank: 5, keyword: 'food', mentions: 11, sentiment: 0.5, rating: 4.55, reviews: 11 },
+                            { rank: 6, keyword: 'staff', mentions: 10, sentiment: 0.62, rating: 4.2, reviews: 10 },
+                            { rank: 7, keyword: 'dwight', mentions: 10, sentiment: 0.51, rating: 4.13, reviews: 8 },
+                            { rank: 8, keyword: 'farm', mentions: 9, sentiment: 0.49, rating: 4.5, reviews: 8 },
+                            { rank: 9, keyword: 'schrute farms', mentions: 8, sentiment: 0.63, rating: 4.25, reviews: 8 },
+                            { rank: 10, keyword: 'rooms', mentions: 7, sentiment: 0.6, rating: 4, reviews: 6 },
+                            { rank: 11, keyword: 'mose', mentions: 7, sentiment: 0.48, rating: 4, reviews: 6 }
+                          ].map((item) => (
+                            <tr key={item.rank} className="border-b border-slate-100 hover:bg-slate-50">
+                              <td className="py-2 px-3 text-gray-700">{item.rank}</td>
+                              <td className="py-2 px-3 text-gray-900 font-medium">{item.keyword}</td>
+                              <td className="py-2 px-3 text-gray-700">{item.mentions}</td>
+                              <td className="py-2 px-3 text-gray-700">{item.sentiment}</td>
+                              <td className="py-2 px-3 text-gray-700">{item.rating}</td>
+                              <td className="py-2 px-3 text-gray-700">{item.reviews}</td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+
+                  {/* Keywords by Sentiment */}
+                  <div className="bg-white rounded-md border border-slate-200 overflow-hidden">
+                    <div className="px-4 py-3 border-b border-slate-200 bg-gradient-to-b from-white to-stone-50">
+                      <div className="flex items-center justify-between">
+                        <h4 className="text-sm font-semibold text-gray-900 flex items-center gap-2">
+                          Keywords by Sentiment
+                          <div className="w-4 h-4 rounded-full bg-gray-300 flex items-center justify-center text-xs text-white">i</div>
+                        </h4>
+                        <span className="text-sm font-medium text-gray-600">36.1</span>
+                      </div>
+                    </div>
+                    <div className="overflow-x-auto">
+                      <table className="w-full text-sm">
+                        <thead>
+                          <tr className="border-b border-slate-200 bg-gray-50">
+                            <th className="text-left py-2 px-3 font-medium text-gray-600">Rank</th>
+                            <th className="text-left py-2 px-3 font-medium text-gray-600">Review Keywords</th>
+                            <th className="text-left py-2 px-3 font-medium text-gray-600">Keyword Sentiment ↓</th>
+                            <th className="text-left py-2 px-3 font-medium text-gray-600">Keyword Mentions</th>
+                            <th className="text-left py-2 px-3 font-medium text-gray-600">Average Rating</th>
+                            <th className="text-left py-2 px-3 font-medium text-gray-600">Reviews</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {[
+                            { rank: 1, keyword: 'actors', sentiment: -0.6, mentions: 1, rating: 2, reviews: 1 },
+                            { rank: 2, keyword: 'breakfast', sentiment: -0.4, mentions: 1, rating: 2, reviews: 1 },
+                            { rank: 3, keyword: 'bathrooms', sentiment: -0.3, mentions: 1, rating: 4, reviews: 1 },
+                            { rank: 4, keyword: 'bed', sentiment: -0.3, mentions: 1, rating: 1, reviews: 1 },
+                            { rank: 5, keyword: 'landlord', sentiment: -0.3, mentions: 2, rating: 4, reviews: 1 },
+                            { rank: 6, keyword: 'beet farmer', sentiment: -0.2, mentions: 2, rating: 4, reviews: 1 },
+                            { rank: 7, keyword: 'guy', sentiment: -0.2, mentions: 2, rating: 1, reviews: 1 },
+                            { rank: 8, keyword: 'anyone', sentiment: -0.1, mentions: 1, rating: 4, reviews: 1 },
+                            { rank: 9, keyword: 'business', sentiment: -0.1, mentions: 1, rating: 4, reviews: 1 },
+                            { rank: 10, keyword: 'memories', sentiment: -0.05, mentions: 2, rating: 1, reviews: 1 },
+                            { rank: 11, keyword: 'address', sentiment: 0, mentions: 1, rating: 5, reviews: 1 }
+                          ].map((item) => (
+                            <tr key={item.rank} className="border-b border-slate-100 hover:bg-slate-50">
+                              <td className="py-2 px-3 text-gray-700">{item.rank}</td>
+                              <td className="py-2 px-3 text-gray-900 font-medium">{item.keyword}</td>
+                              <td className="py-2 px-3 text-gray-700">{item.sentiment}</td>
+                              <td className="py-2 px-3 text-gray-700">{item.mentions}</td>
+                              <td className="py-2 px-3 text-gray-700">{item.rating}</td>
+                              <td className="py-2 px-3 text-gray-700">{item.reviews}</td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
         </div>
       </div>
     </div>
