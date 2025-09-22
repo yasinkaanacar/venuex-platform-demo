@@ -70,7 +70,7 @@ export default function Reviews() {
   ];
 
 
-  // Top 20 locations with star rating breakdowns for histogram
+  // Top 15 locations with star rating breakdowns for histogram
   const topLocationsData = [
     { name: "İstanbul", short: "İst", code: "001", total: 1243, ratings: { 5: 312, 4: 298, 3: 236, 2: 198, 1: 199 } },
     { name: "İzmir", short: "İzm", code: "002", total: 934, ratings: { 5: 280, 4: 234, 3: 187, 2: 140, 1: 93 } },
@@ -86,12 +86,7 @@ export default function Reviews() {
     { name: "Konya", short: "Kon", code: "012", total: 398, ratings: { 5: 80, 4: 99, 3: 119, 2: 60, 1: 40 } },
     { name: "Trabzon", short: "Tra", code: "013", total: 389, ratings: { 5: 78, 4: 97, 3: 117, 2: 58, 1: 39 } },
     { name: "Denizli", short: "Den", code: "014", total: 312, ratings: { 5: 94, 4: 78, 3: 62, 2: 47, 1: 31 } },
-    { name: "Şanlıurfa", short: "Şan", code: "015", total: 298, ratings: { 5: 89, 4: 74, 3: 60, 2: 45, 1: 30 } },
-    { name: "Malatya", short: "Mal", code: "016", total: 267, ratings: { 5: 80, 4: 67, 3: 53, 2: 40, 1: 27 } },
-    { name: "Diyarbakır", short: "Diy", code: "017", total: 234, ratings: { 5: 70, 4: 58, 3: 47, 2: 35, 1: 24 } },
-    { name: "Erzurum", short: "Erz", code: "018", total: 189, ratings: { 5: 57, 4: 47, 3: 38, 2: 28, 1: 19 } },
-    { name: "Van", short: "Van", code: "019", total: 156, ratings: { 5: 31, 4: 39, 3: 47, 2: 23, 1: 16 } },
-    { name: "Batman", short: "Bat", code: "020", total: 134, ratings: { 5: 27, 4: 33, 3: 40, 2: 20, 1: 14 } }
+    { name: "Şanlıurfa", short: "Şan", code: "015", total: 298, ratings: { 5: 89, 4: 74, 3: 60, 2: 45, 1: 30 } }
   ];
 
 
