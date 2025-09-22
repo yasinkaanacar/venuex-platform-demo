@@ -252,7 +252,11 @@ export default function Reviews() {
                     {getRatingStars(3)}
                   </div>
                   <div className="text-2xl font-bold text-gray-900 mb-1">3.28</div>
-                  <div className="text-sm text-gray-500">Out of 5.0</div>
+                  <div className="text-sm text-gray-500 mb-2">Out of 5.0</div>
+                  <div className="flex items-center justify-center gap-1">
+                    <TrendingDown className="w-4 h-4 text-red-600" />
+                    <span className="text-sm text-red-600">-2.1% vs prev period</span>
+                  </div>
                 </div>
               </div>
 
@@ -273,10 +277,18 @@ export default function Reviews() {
                 <div className="text-center">
                   <div className="text-sm font-medium text-gray-600 mb-3">UNANSWERED</div>
                   <div className="text-2xl font-bold text-red-600 mb-2">4,708</div>
+                  <div className="flex items-center justify-center gap-1 mb-2">
+                    <TrendingUp className="w-4 h-4 text-red-600" />
+                    <span className="text-sm text-red-600">+8.5% vs prev period</span>
+                  </div>
                   <div className="text-sm text-gray-500 mb-3">Needs attention</div>
                   <div className="border-t border-gray-200 pt-3">
                     <div className="text-xs text-gray-600 mb-1">Reply Rate</div>
-                    <div className="text-lg font-semibold text-orange-600">62.3%</div>
+                    <div className="text-lg font-semibold text-orange-600 mb-1">62.3%</div>
+                    <div className="flex items-center justify-center gap-1">
+                      <TrendingDown className="w-3 h-3 text-red-600" />
+                      <span className="text-xs text-red-600">-3.2% vs prev period</span>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -284,18 +296,36 @@ export default function Reviews() {
               {/* Sentiment Analysis */}
               <div className="bg-white rounded-md border border-slate-200 p-6">
                 <div className="text-sm font-medium text-gray-600 mb-3">SENTIMENT</div>
-                <div className="space-y-2">
-                  <div className="flex justify-between items-center">
-                    <span className="text-sm text-green-600">Positive</span>
-                    <span className="font-medium text-green-600">58.2%</span>
+                <div className="space-y-3">
+                  <div className="space-y-1">
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm text-green-600">Positive</span>
+                      <span className="font-medium text-green-600">58.2%</span>
+                    </div>
+                    <div className="flex items-center justify-end gap-1">
+                      <TrendingUp className="w-3 h-3 text-green-600" />
+                      <span className="text-xs text-green-600">+4.1% vs prev</span>
+                    </div>
                   </div>
-                  <div className="flex justify-between items-center">
-                    <span className="text-sm text-gray-600">Neutral</span>
-                    <span className="font-medium text-gray-600">23.1%</span>
+                  <div className="space-y-1">
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm text-gray-600">Neutral</span>
+                      <span className="font-medium text-gray-600">23.1%</span>
+                    </div>
+                    <div className="flex items-center justify-end gap-1">
+                      <TrendingDown className="w-3 h-3 text-orange-600" />
+                      <span className="text-xs text-orange-600">-1.8% vs prev</span>
+                    </div>
                   </div>
-                  <div className="flex justify-between items-center">
-                    <span className="text-sm text-red-600">Negative</span>
-                    <span className="font-medium text-red-600">18.7%</span>
+                  <div className="space-y-1">
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm text-red-600">Negative</span>
+                      <span className="font-medium text-red-600">18.7%</span>
+                    </div>
+                    <div className="flex items-center justify-end gap-1">
+                      <TrendingDown className="w-3 h-3 text-green-600" />
+                      <span className="text-xs text-green-600">-2.3% vs prev</span>
+                    </div>
                   </div>
                 </div>
               </div>
