@@ -695,159 +695,275 @@ export default function Reviews() {
 
             {/* Split View - Reviews Content */}
             <div className="bg-white rounded-md border border-slate-200 flex" style={{height: '600px'}}>
-              {/* Left Panel - Reviews List */}
-              <div className="w-1/2 border-r border-slate-200 overflow-y-auto">
-                <div className="p-4 border-b border-slate-200 bg-gray-50">
-                  <div className="flex items-center gap-2">
-                    <Checkbox />
-                    <span className="text-sm text-gray-600">Select All</span>
-                    <div className="ml-auto flex gap-2">
-                      <Button variant="outline" size="sm">Bulk Actions ↓</Button>
-                      <Button variant="outline" size="sm">Export Reviews ↓</Button>
+              {viewMode === "list" ? (
+                /* List View */
+                <>
+                  {/* Left Panel - Reviews List */}
+                  <div className="w-1/2 border-r border-slate-200 overflow-y-auto">
+                    <div className="p-4 border-b border-slate-200 bg-gray-50">
+                      <div className="flex items-center gap-2">
+                        <Checkbox />
+                        <span className="text-sm text-gray-600">Select All</span>
+                        <div className="ml-auto flex gap-2">
+                          <Button variant="outline" size="sm">Bulk Actions ↓</Button>
+                          <Button variant="outline" size="sm">Export Reviews ↓</Button>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="space-y-0">
+                      {reviews.map((review, index) => (
+                        <div 
+                          key={review.id} 
+                          className={`p-4 border-b border-slate-200 cursor-pointer hover:bg-gray-50 ${
+                            selectedReviewId === review.id ? 'bg-blue-50 border-l-4 border-l-blue-500' : ''
+                          } ${index === reviews.length - 1 ? 'border-b-0' : ''}`}
+                          onClick={() => setSelectedReviewId(review.id)}
+                        >
+                          <div className="flex items-start gap-3">
+                            <Checkbox checked={selectedReviewId === review.id} />
+                            <div className="flex-1 min-w-0">
+                              <div className="flex items-center gap-2 mb-1">
+                                <h4 className="font-medium text-gray-900 text-sm">{review.name}</h4>
+                                {review.status === "Answered" && (
+                                  <Badge className="bg-green-100 text-green-800 text-xs px-2 py-0.5">New</Badge>
+                                )}
+                              </div>
+                              <div className="text-xs text-gray-500 mb-2">
+                                {review.date && <span>{review.date}</span>}
+                                {review.date && <span> · </span>}
+                                <span>İyi</span>
+                              </div>
+                              <div className="flex items-center gap-1 mb-2">
+                                {getRatingStars(review.rating)}
+                              </div>
+                              <p className="text-gray-700 text-sm line-clamp-2">{review.comment}</p>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
                     </div>
                   </div>
-                </div>
-                <div className="space-y-0">
-                  {reviews.map((review, index) => (
-                    <div 
-                      key={review.id} 
-                      className={`p-4 border-b border-slate-200 cursor-pointer hover:bg-gray-50 ${
-                        selectedReviewId === review.id ? 'bg-blue-50 border-l-4 border-l-blue-500' : ''
-                      } ${index === reviews.length - 1 ? 'border-b-0' : ''}`}
-                      onClick={() => setSelectedReviewId(review.id)}
-                    >
-                      <div className="flex items-start gap-3">
-                        <Checkbox checked={selectedReviewId === review.id} />
-                        <div className="flex-1 min-w-0">
-                          <div className="flex items-center gap-2 mb-1">
-                            <h4 className="font-medium text-gray-900 text-sm">{review.name}</h4>
-                            {review.status === "Answered" && (
-                              <Badge className="bg-green-100 text-green-800 text-xs px-2 py-0.5">New</Badge>
-                            )}
+
+                  {/* Right Panel - Review Details & Reply */}
+                  <div className="w-1/2 flex flex-col">
+                    {selectedReviewId && (() => {
+                      const selectedReview = reviews.find(r => r.id === selectedReviewId);
+                      return selectedReview ? (
+                        <div className="flex flex-col h-full">
+                          {/* Selected Review Header */}
+                          <div className="p-4 border-b border-slate-200 bg-gray-50">
+                            <div className="flex items-center gap-2 mb-2">
+                              <h3 className="font-semibold text-gray-900">{selectedReview.name}</h3>
+                              <span className="text-sm text-gray-500">(Google Business Profile)</span>
+                            </div>
+                            <div className="flex items-center gap-2 text-sm text-gray-600">
+                              <span>{selectedReview.rating}.0</span>
+                              {getRatingStars(selectedReview.rating)}
+                              <span>{selectedReview.date || 'Recently'}</span>
+                            </div>
                           </div>
-                          <div className="text-xs text-gray-500 mb-2">
-                            {review.date && <span>{review.date}</span>}
-                            {review.date && <span> · </span>}
-                            <span>İyi</span>
+
+                          {/* Review Content */}
+                          <div className="flex-1 p-4 overflow-y-auto">
+                            <div className="mb-6">
+                              <div className="flex items-start gap-3 mb-3">
+                                <div className={`w-8 h-8 rounded-full flex items-center justify-center text-white text-sm font-medium ${
+                                  selectedReview.rating >= 4 ? 'bg-green-500' : 
+                                  selectedReview.rating >= 3 ? 'bg-yellow-500' : 'bg-red-500'
+                                }`}>
+                                  {selectedReview.name.charAt(0).toUpperCase()}
+                                </div>
+                                <div>
+                                  <div className="font-medium text-gray-900">{selectedReview.name}</div>
+                                  <div className="flex items-center gap-1 my-1">
+                                    {getRatingStars(selectedReview.rating)}
+                                  </div>
+                                  <div className={`text-sm mb-2 ${
+                                    selectedReview.status === "Answered" ? 'text-green-600' : 'text-red-600'
+                                  }`}>
+                                    {selectedReview.status || 'Unanswered'}
+                                  </div>
+                                </div>
+                              </div>
+                              
+                              <div className="bg-gray-50 rounded-lg p-4 mb-4">
+                                <p className="text-gray-700 text-sm mb-2">{selectedReview.comment}</p>
+                                <p className="text-xs text-gray-500">(Translated by Google)</p>
+                              </div>
+                              
+                              <div className="text-sm text-gray-600 mb-4">
+                                {selectedReview.comment === "İyi" ? "Good" : 
+                                 selectedReview.comment === "Güzel" ? "Nice" :
+                                 selectedReview.comment === "Kötü" ? "Bad" : "Translation available"}
+                              </div>
+                            </div>
+
+                            {/* Reply Composer */}
+                            <div className="border-t border-gray-200 pt-4">
+                              <div className="flex items-start gap-3 mb-3">
+                                <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center text-white text-sm font-medium">
+                                  B
+                                </div>
+                                <div>
+                                  <div className="font-medium text-gray-900">Boyner Eskişehir Kanatlı</div>
+                                  <div className="text-xs text-gray-500">Write a reply</div>
+                                </div>
+                              </div>
+                              
+                              <div className="space-y-3">
+                                <div className="flex gap-2 mb-2">
+                                  <Button variant="outline" size="sm" className="text-purple-600 border-purple-600" data-testid="button-reply-ai">
+                                    Reply with AI
+                                  </Button>
+                                  <Button variant="outline" size="sm" className="text-blue-600 border-blue-600" data-testid="button-review-templates">
+                                    Review Templates
+                                  </Button>
+                                </div>
+                                <Textarea
+                                  placeholder="Write your reply here..."
+                                  value={replyText}
+                                  onChange={(e) => setReplyText(e.target.value)}
+                                  className="min-h-[120px] resize-none"
+                                  data-testid="textarea-reply"
+                                />
+                              </div>
+                            </div>
                           </div>
-                          <div className="flex items-center gap-1 mb-2">
-                            {getRatingStars(review.rating)}
+
+                          {/* Action Buttons */}
+                          <div className="p-4 border-t border-slate-200">
+                            <div className="flex justify-between items-center">
+                              <Button variant="outline" className="text-red-600 border-red-600 hover:bg-red-50">
+                                Delete Review
+                              </Button>
+                              <div className="flex gap-2">
+                                <Button variant="outline" onClick={() => setReplyText("")}>
+                                  Clear
+                                </Button>
+                                <Button className="bg-blue-600 hover:bg-blue-700 text-white flex items-center gap-2">
+                                  <Send className="w-4 h-4" />
+                                  Send Reply
+                                </Button>
+                              </div>
+                            </div>
                           </div>
-                          <p className="text-gray-700 text-sm line-clamp-2">{review.comment}</p>
+                        </div>
+                      ) : null;
+                    })()}
+                  </div>
+                </>
+              ) : (
+                /* Map View */
+                <>
+                  {/* Map Area */}
+                  <div className="w-2/3 bg-blue-50 flex items-center justify-center relative">
+                    <div className="w-full h-full bg-gradient-to-br from-blue-100 to-green-100 flex items-center justify-center relative overflow-hidden">
+                      {/* Mock Map Background */}
+                      <div className="absolute inset-0 opacity-30">
+                        <div className="w-full h-full bg-blue-200 relative">
+                          {/* Mock Map Markers */}
+                          <div className="absolute top-16 left-20 w-4 h-4 bg-red-500 rounded-full"></div>
+                          <div className="absolute top-32 left-32 w-4 h-4 bg-blue-500 rounded-full"></div>
+                          <div className="absolute top-40 right-32 w-4 h-4 bg-green-500 rounded-full"></div>
+                          <div className="absolute bottom-32 left-24 w-4 h-4 bg-yellow-500 rounded-full"></div>
+                          <div className="absolute bottom-20 right-20 w-4 h-4 bg-purple-500 rounded-full"></div>
+                        </div>
+                      </div>
+                      <div className="text-gray-600 text-center">
+                        <Map className="w-16 h-16 mx-auto mb-4 text-gray-400" />
+                        <h3 className="text-lg font-semibold mb-2">Location Map View</h3>
+                        <p className="text-sm">Interactive map showing review locations</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Location Reviews Sidebar */}
+                  <div className="w-1/3 border-l border-slate-200 flex flex-col">
+                    <div className="p-4 border-b border-slate-200 bg-gray-50">
+                      <div className="flex justify-between items-center mb-4">
+                        <h3 className="font-semibold text-gray-900">Location Reviews</h3>
+                        <Button variant="ghost" size="sm">✕</Button>
+                      </div>
+                      <div className="grid grid-cols-2 gap-4 mb-4">
+                        <div className="text-center">
+                          <div className="text-2xl font-bold text-gray-900">9873</div>
+                          <div className="text-sm text-gray-600">Total Reviews</div>
+                        </div>
+                        <div className="text-center">
+                          <div className="flex items-center justify-center gap-1">
+                            <Star className="w-5 h-5 fill-yellow-400 text-yellow-400" />
+                            <span className="text-2xl font-bold text-gray-900">3.59</span>
+                          </div>
+                          <div className="text-sm text-gray-600">Average Rating</div>
                         </div>
                       </div>
                     </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Right Panel - Review Details & Reply */}
-              <div className="w-1/2 flex flex-col">
-                {selectedReviewId && (() => {
-                  const selectedReview = reviews.find(r => r.id === selectedReviewId);
-                  return selectedReview ? (
-                    <div className="flex flex-col h-full">
-                      {/* Selected Review Header */}
-                      <div className="p-4 border-b border-slate-200 bg-gray-50">
-                        <div className="flex items-center gap-2 mb-2">
-                          <h3 className="font-semibold text-gray-900">{selectedReview.name}</h3>
-                          <span className="text-sm text-gray-500">(Google Business Profile)</span>
-                        </div>
-                        <div className="flex items-center gap-2 text-sm text-gray-600">
-                          <span>{selectedReview.rating}.0</span>
-                          {getRatingStars(selectedReview.rating)}
-                          <span>{selectedReview.date || 'Recently'}</span>
-                        </div>
-                      </div>
-
-                      {/* Review Content */}
-                      <div className="flex-1 p-4 overflow-y-auto">
-                        <div className="mb-6">
-                          <div className="flex items-start gap-3 mb-3">
-                            <div className={`w-8 h-8 rounded-full flex items-center justify-center text-white text-sm font-medium ${
-                              selectedReview.rating >= 4 ? 'bg-green-500' : 
-                              selectedReview.rating >= 3 ? 'bg-yellow-500' : 'bg-red-500'
-                            }`}>
-                              {selectedReview.name.charAt(0).toUpperCase()}
-                            </div>
-                            <div>
-                              <div className="font-medium text-gray-900">{selectedReview.name}</div>
-                              <div className="flex items-center gap-1 my-1">
-                                {getRatingStars(selectedReview.rating)}
-                              </div>
-                              <div className={`text-sm mb-2 ${
-                                selectedReview.status === "Answered" ? 'text-green-600' : 'text-red-600'
-                              }`}>
-                                {selectedReview.status || 'Unanswered'}
-                              </div>
+                    
+                    <div className="flex-1 overflow-y-auto">
+                      <div className="p-4">
+                        <div className="space-y-3">
+                          <div className="grid grid-cols-4 gap-2 text-xs font-medium text-gray-600 pb-2 border-b">
+                            <div>Code</div>
+                            <div>Business</div>
+                            <div>Count</div>
+                            <div>Rating</div>
+                          </div>
+                          
+                          <div className="grid grid-cols-4 gap-2 text-sm py-2 border-b">
+                            <div className="text-gray-600">M177</div>
+                            <div className="font-medium">İyaspark - Derimod</div>
+                            <div>1</div>
+                            <div className="flex items-center gap-1">
+                              <Star className="w-3 h-3 fill-yellow-400 text-yellow-400" />
+                              <span>5.00</span>
                             </div>
                           </div>
                           
-                          <div className="bg-gray-50 rounded-lg p-4 mb-4">
-                            <p className="text-gray-700 text-sm mb-2">{selectedReview.comment}</p>
-                            <p className="text-xs text-gray-500">(Translated by Google)</p>
-                          </div>
-                          
-                          <div className="text-sm text-gray-600 mb-4">
-                            {selectedReview.comment === "İyi" ? "Good" : 
-                             selectedReview.comment === "Güzel" ? "Nice" :
-                             selectedReview.comment === "Kötü" ? "Bad" : "Translation available"}
-                          </div>
-                        </div>
-
-                        {/* Reply Composer */}
-                        <div className="border-t border-gray-200 pt-4">
-                          <div className="flex items-start gap-3 mb-3">
-                            <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center text-white text-sm font-medium">
-                              B
-                            </div>
-                            <div>
-                              <div className="font-medium text-gray-900">Boyner Eskişehir Kanatlı</div>
-                              <div className="text-xs text-gray-500">Write a reply</div>
+                          <div className="grid grid-cols-4 gap-2 text-sm py-2 border-b">
+                            <div className="text-gray-600">M172</div>
+                            <div className="font-medium">Derimod - Bursa Downtown</div>
+                            <div>4</div>
+                            <div className="flex items-center gap-1">
+                              <Star className="w-3 h-3 fill-yellow-400 text-yellow-400" />
+                              <span>4.75</span>
                             </div>
                           </div>
                           
-                          <div className="space-y-3">
-                            <div className="flex gap-2 mb-2">
-                              <Button variant="outline" size="sm" className="text-purple-600 border-purple-600" data-testid="button-reply-ai">
-                                Reply with AI
-                              </Button>
-                              <Button variant="outline" size="sm" className="text-blue-600 border-blue-600" data-testid="button-review-templates">
-                                Review Templates
-                              </Button>
+                          <div className="grid grid-cols-4 gap-2 text-sm py-2 border-b">
+                            <div className="text-gray-600">M171</div>
+                            <div className="font-medium">Derimod - Laleli</div>
+                            <div>10</div>
+                            <div className="flex items-center gap-1">
+                              <Star className="w-3 h-3 fill-yellow-400 text-yellow-400" />
+                              <span>4.30</span>
                             </div>
-                            <Textarea
-                              placeholder="Write your reply here..."
-                              value={replyText}
-                              onChange={(e) => setReplyText(e.target.value)}
-                              className="min-h-[120px] resize-none"
-                              data-testid="textarea-reply"
-                            />
                           </div>
-                        </div>
-                      </div>
-
-                      {/* Action Buttons */}
-                      <div className="p-4 border-t border-slate-200">
-                        <div className="flex justify-between items-center">
-                          <Button variant="outline" className="text-red-600 border-red-600 hover:bg-red-50">
-                            Delete Review
-                          </Button>
-                          <div className="flex gap-2">
-                            <Button variant="outline" onClick={() => setReplyText("")}>
-                              Clear
-                            </Button>
-                            <Button className="bg-blue-600 hover:bg-blue-700 text-white flex items-center gap-2">
-                              <Send className="w-4 h-4" />
-                              Send Reply
-                            </Button>
+                          
+                          <div className="grid grid-cols-4 gap-2 text-sm py-2 border-b">
+                            <div className="text-gray-600">M175</div>
+                            <div className="font-medium">Boyner Eskişehir</div>
+                            <div>847</div>
+                            <div className="flex items-center gap-1">
+                              <Star className="w-3 h-3 fill-yellow-400 text-yellow-400" />
+                              <span>4.20</span>
+                            </div>
+                          </div>
+                          
+                          <div className="grid grid-cols-4 gap-2 text-sm py-2 border-b">
+                            <div className="text-gray-600">M180</div>
+                            <div className="font-medium">Boyner İstanbul AVM</div>
+                            <div>1243</div>
+                            <div className="flex items-center gap-1">
+                              <Star className="w-3 h-3 fill-yellow-400 text-yellow-400" />
+                              <span>3.80</span>
+                            </div>
                           </div>
                         </div>
                       </div>
                     </div>
-                  ) : null;
-                })()}
-              </div>
+                  </div>
+                </>
+              )}
             </div>
 
             {/* Pagination */}
