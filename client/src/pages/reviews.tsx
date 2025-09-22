@@ -1055,17 +1055,17 @@ export default function Reviews() {
                         </thead>
                         <tbody>
                           {[
-                            { rank: 1, keyword: 'place', mentions: 19, sentiment: 0.62, rating: 4.43, reviews: 14 },
-                            { rank: 2, keyword: 'beets', mentions: 14, sentiment: 0.31, rating: 4, reviews: 6 },
-                            { rank: 3, keyword: 'stay', mentions: 13, sentiment: 0.65, rating: 4.55, reviews: 11 },
-                            { rank: 4, keyword: 'experience', mentions: 13, sentiment: 0.64, rating: 4.5, reviews: 12 },
-                            { rank: 5, keyword: 'food', mentions: 11, sentiment: 0.5, rating: 4.55, reviews: 11 },
-                            { rank: 6, keyword: 'staff', mentions: 10, sentiment: 0.62, rating: 4.2, reviews: 10 },
-                            { rank: 7, keyword: 'dwight', mentions: 10, sentiment: 0.51, rating: 4.13, reviews: 8 },
-                            { rank: 8, keyword: 'farm', mentions: 9, sentiment: 0.49, rating: 4.5, reviews: 8 },
-                            { rank: 9, keyword: 'schrute farms', mentions: 8, sentiment: 0.63, rating: 4.25, reviews: 8 },
-                            { rank: 10, keyword: 'rooms', mentions: 7, sentiment: 0.6, rating: 4, reviews: 6 },
-                            { rank: 11, keyword: 'mose', mentions: 7, sentiment: 0.48, rating: 4, reviews: 6 }
+                            { rank: 1, keyword: 'mağaza', mentions: 19, sentiment: 0.62, rating: 4.43, reviews: 14 },
+                            { rank: 2, keyword: 'ürün', mentions: 14, sentiment: 0.31, rating: 4, reviews: 6 },
+                            { rank: 3, keyword: 'deneyim', mentions: 13, sentiment: 0.65, rating: 4.55, reviews: 11 },
+                            { rank: 4, keyword: 'personel', mentions: 13, sentiment: 0.64, rating: 4.5, reviews: 12 },
+                            { rank: 5, keyword: 'kalite', mentions: 11, sentiment: 0.5, rating: 4.55, reviews: 11 },
+                            { rank: 6, keyword: 'fiyat', mentions: 10, sentiment: 0.62, rating: 4.2, reviews: 10 },
+                            { rank: 7, keyword: 'hizmet', mentions: 10, sentiment: 0.51, rating: 4.13, reviews: 8 },
+                            { rank: 8, keyword: 'moda', mentions: 9, sentiment: 0.49, rating: 4.5, reviews: 8 },
+                            { rank: 9, keyword: 'koleksiyon', mentions: 8, sentiment: 0.63, rating: 4.25, reviews: 8 },
+                            { rank: 10, keyword: 'müşteri', mentions: 7, sentiment: 0.6, rating: 4, reviews: 6 },
+                            { rank: 11, keyword: 'alışveriş', mentions: 7, sentiment: 0.48, rating: 4, reviews: 6 }
                           ].map((item) => (
                             <tr key={item.rank} className="border-b border-slate-100 hover:bg-slate-50">
                               <td className="py-2 px-3 text-gray-700">{item.rank}</td>
@@ -1106,17 +1106,17 @@ export default function Reviews() {
                         </thead>
                         <tbody>
                           {[
-                            { rank: 1, keyword: 'actors', sentiment: -0.6, mentions: 1, rating: 2, reviews: 1 },
-                            { rank: 2, keyword: 'breakfast', sentiment: -0.4, mentions: 1, rating: 2, reviews: 1 },
-                            { rank: 3, keyword: 'bathrooms', sentiment: -0.3, mentions: 1, rating: 4, reviews: 1 },
-                            { rank: 4, keyword: 'bed', sentiment: -0.3, mentions: 1, rating: 1, reviews: 1 },
-                            { rank: 5, keyword: 'landlord', sentiment: -0.3, mentions: 2, rating: 4, reviews: 1 },
-                            { rank: 6, keyword: 'beet farmer', sentiment: -0.2, mentions: 2, rating: 4, reviews: 1 },
-                            { rank: 7, keyword: 'guy', sentiment: -0.2, mentions: 2, rating: 1, reviews: 1 },
-                            { rank: 8, keyword: 'anyone', sentiment: -0.1, mentions: 1, rating: 4, reviews: 1 },
-                            { rank: 9, keyword: 'business', sentiment: -0.1, mentions: 1, rating: 4, reviews: 1 },
-                            { rank: 10, keyword: 'memories', sentiment: -0.05, mentions: 2, rating: 1, reviews: 1 },
-                            { rank: 11, keyword: 'address', sentiment: 0, mentions: 1, rating: 5, reviews: 1 }
+                            { rank: 1, keyword: 'kuyruk', sentiment: -0.6, mentions: 1, rating: 2, reviews: 1 },
+                            { rank: 2, keyword: 'bekleme', sentiment: -0.4, mentions: 1, rating: 2, reviews: 1 },
+                            { rank: 3, keyword: 'kalabalık', sentiment: -0.3, mentions: 1, rating: 4, reviews: 1 },
+                            { rank: 4, keyword: 'pahalı', sentiment: -0.3, mentions: 1, rating: 1, reviews: 1 },
+                            { rank: 5, keyword: 'yavaş', sentiment: -0.3, mentions: 2, rating: 4, reviews: 1 },
+                            { rank: 6, keyword: 'problemli', sentiment: -0.2, mentions: 2, rating: 4, reviews: 1 },
+                            { rank: 7, keyword: 'zor', sentiment: -0.2, mentions: 2, rating: 1, reviews: 1 },
+                            { rank: 8, keyword: 'yetersiz', sentiment: -0.1, mentions: 1, rating: 4, reviews: 1 },
+                            { rank: 9, keyword: 'eksik', sentiment: -0.1, mentions: 1, rating: 4, reviews: 1 },
+                            { rank: 10, keyword: 'hatıralar', sentiment: -0.05, mentions: 2, rating: 1, reviews: 1 },
+                            { rank: 11, keyword: 'adres', sentiment: 0, mentions: 1, rating: 5, reviews: 1 }
                           ].map((item) => (
                             <tr key={item.rank} className="border-b border-slate-100 hover:bg-slate-50">
                               <td className="py-2 px-3 text-gray-700">{item.rank}</td>
