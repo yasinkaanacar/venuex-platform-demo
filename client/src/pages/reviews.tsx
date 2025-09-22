@@ -327,105 +327,103 @@ export default function Reviews() {
                     ? "border-blue-600 text-blue-600 bg-blue-50"
                     : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
                 }`}
-              >
-                Locations
-              </button>
+              >Top Locations</button>
             </div>
           </div>
           <div className="bg-stone-50 p-6">
             <div className="bg-white rounded-md border border-slate-200 p-6">
               {ratingDistributionTab === "overall" ? (
                 /* Overall Rating Distribution */
-                <div className="relative flex">
-                {(() => {
-                  // Calculate dynamic grid based on data
-                  const maxCount = Math.max(...ratingBreakdown.map(r => r.count));
-                  const roundedMax = Math.ceil(maxCount / 100) * 100; // Round up to nearest 100
-                  const interval = roundedMax / 5; // 5 intervals
-                  const gridValues = Array.from({length: 6}, (_, i) => roundedMax - (i * interval));
-                  
-                  return (
-                    <>
-                      {/* Y-Axis */}
-                      <div className="flex flex-col justify-between h-40 pr-4 mr-2">
-                        {gridValues.map((value, index) => (
-                          <div key={value} className="text-xs text-gray-500 text-right">
-                            {Math.round(value).toLocaleString()}
-                          </div>
-                        ))}
-                      </div>
-                      
-                      {/* Chart Area */}
-                      <div className="flex-1 relative">
-                        {/* Horizontal Grid Lines */}
-                        <div className="absolute inset-0 h-40">
+                (<div className="relative flex">
+                  {(() => {
+                    // Calculate dynamic grid based on data
+                    const maxCount = Math.max(...ratingBreakdown.map(r => r.count));
+                    const roundedMax = Math.ceil(maxCount / 100) * 100; // Round up to nearest 100
+                    const interval = roundedMax / 5; // 5 intervals
+                    const gridValues = Array.from({length: 6}, (_, i) => roundedMax - (i * interval));
+                    
+                    return (
+                      <>
+                        {/* Y-Axis */}
+                        <div className="flex flex-col justify-between h-40 pr-4 mr-2">
                           {gridValues.map((value, index) => (
-                            <div
-                              key={value}
-                              className="absolute w-full border-t border-gray-200"
-                              style={{
-                                top: `${(index / (gridValues.length - 1)) * 100}%`,
-                              }}
-                            />
-                          ))}
-                        </div>
-                        
-                        {/* Bars */}
-                        <div className="flex items-end justify-between gap-8 h-40 mb-4 relative">
-                          {[1, 2, 3, 4, 5].map((starCount) => {
-                            const rating = ratingBreakdown.find(r => r.stars === starCount);
-                            if (!rating) return null;
-                            
-                            // Calculate bar height relative to the container height (160px = h-40)
-                            const containerHeight = 160;
-                            const barHeight = (rating.count / roundedMax) * containerHeight;
-                            
-                            return (
-                              <div key={rating.stars} className="flex-1 flex flex-col items-center">
-                                {/* Count above bar */}
-                                <div className="text-sm font-medium text-gray-700 mb-2">
-                                  {rating.count.toLocaleString()}
-                                </div>
-                                
-                                {/* Bar */}
-                                <div className="w-full flex justify-center">
-                                  <div 
-                                    className={`w-16 rounded-t transition-all duration-700 ${
-                                      rating.stars === 5 ? 'bg-green-600' :
-                                      rating.stars === 4 ? 'bg-green-400' :
-                                      rating.stars === 3 ? 'bg-yellow-500' :
-                                      rating.stars === 2 ? 'bg-orange-500' : 'bg-red-500'
-                                    }`}
-                                    style={{ 
-                                      height: `${Math.max(barHeight, 12)}px`,
-                                      minHeight: '12px'
-                                    }}
-                                    data-testid={`rating-column-${rating.stars}`}
-                                  />
-                                </div>
-                              </div>
-                            );
-                          })}
-                        </div>
-                        
-                        {/* Labels */}
-                        <div className="flex justify-between gap-8 ml-0">
-                          {[1, 2, 3, 4, 5].map((starCount) => (
-                            <div key={starCount} className="flex-1 text-center">
-                              <div className="text-sm text-gray-600 font-medium">
-                                {starCount} Star{starCount > 1 ? 's' : ''}
-                              </div>
+                            <div key={value} className="text-xs text-gray-500 text-right">
+                              {Math.round(value).toLocaleString()}
                             </div>
                           ))}
                         </div>
-                      </div>
-                    </>
-                  );
-                })()}
-                </div>
+                        
+                        {/* Chart Area */}
+                        <div className="flex-1 relative">
+                          {/* Horizontal Grid Lines */}
+                          <div className="absolute inset-0 h-40">
+                            {gridValues.map((value, index) => (
+                              <div
+                                key={value}
+                                className="absolute w-full border-t border-gray-200"
+                                style={{
+                                  top: `${(index / (gridValues.length - 1)) * 100}%`,
+                                }}
+                              />
+                            ))}
+                          </div>
+                          
+                          {/* Bars */}
+                          <div className="flex items-end justify-between gap-8 h-40 mb-4 relative">
+                            {[1, 2, 3, 4, 5].map((starCount) => {
+                              const rating = ratingBreakdown.find(r => r.stars === starCount);
+                              if (!rating) return null;
+                              
+                              // Calculate bar height relative to the container height (160px = h-40)
+                              const containerHeight = 160;
+                              const barHeight = (rating.count / roundedMax) * containerHeight;
+                              
+                              return (
+                                <div key={rating.stars} className="flex-1 flex flex-col items-center">
+                                  {/* Count above bar */}
+                                  <div className="text-sm font-medium text-gray-700 mb-2">
+                                    {rating.count.toLocaleString()}
+                                  </div>
+                                  
+                                  {/* Bar */}
+                                  <div className="w-full flex justify-center">
+                                    <div 
+                                      className={`w-16 rounded-t transition-all duration-700 ${
+                                        rating.stars === 5 ? 'bg-green-600' :
+                                        rating.stars === 4 ? 'bg-green-400' :
+                                        rating.stars === 3 ? 'bg-yellow-500' :
+                                        rating.stars === 2 ? 'bg-orange-500' : 'bg-red-500'
+                                      }`}
+                                      style={{ 
+                                        height: `${Math.max(barHeight, 12)}px`,
+                                        minHeight: '12px'
+                                      }}
+                                      data-testid={`rating-column-${rating.stars}`}
+                                    />
+                                  </div>
+                                </div>
+                              );
+                            })}
+                          </div>
+                          
+                          {/* Labels */}
+                          <div className="flex justify-between gap-8 ml-0">
+                            {[1, 2, 3, 4, 5].map((starCount) => (
+                              <div key={starCount} className="flex-1 text-center">
+                                <div className="text-sm text-gray-600 font-medium">
+                                  {starCount} Star{starCount > 1 ? 's' : ''}
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      </>
+                    );
+                  })()}
+                </div>)
               ) : (
                 /* Locations Rating Distribution */
-                <div className="relative">
+                (<div className="relative">
                   {(() => {
                     // Calculate dynamic grid based on location data
                     const maxTotal = Math.max(...topLocationsData.map(loc => loc.total));
@@ -543,7 +541,7 @@ export default function Reviews() {
                       </>
                     );
                   })()}
-                </div>
+                </div>)
               )}
             </div>
           </div>
@@ -693,7 +691,7 @@ export default function Reviews() {
             <div className="bg-white rounded-md border border-slate-200 flex" style={{height: '600px'}}>
               {viewMode === "list" ? (
                 /* List View */
-                <>
+                (<>
                   {/* Left Panel - Reviews List */}
                   <div className="w-1/2 border-r border-slate-200 overflow-y-auto">
                     <div className="p-4 border-b border-slate-200 bg-gray-50">
@@ -739,7 +737,6 @@ export default function Reviews() {
                       ))}
                     </div>
                   </div>
-
                   {/* Right Panel - Review Details & Reply */}
                   <div className="w-1/2 flex flex-col">
                     {selectedReviewId && (() => {
@@ -844,10 +841,10 @@ export default function Reviews() {
                       ) : null;
                     })()}
                   </div>
-                </>
+                </>)
               ) : (
                 /* Map View */
-                <>
+                (<>
                   {/* Map Area */}
                   <div className="w-2/3 bg-blue-50 flex items-center justify-center relative">
                     <div className="w-full h-full bg-gradient-to-br from-blue-100 to-green-100 flex items-center justify-center relative overflow-hidden">
@@ -869,7 +866,6 @@ export default function Reviews() {
                       </div>
                     </div>
                   </div>
-
                   {/* Location Reviews Sidebar */}
                   <div className="w-1/3 border-l border-slate-200 flex flex-col">
                     <div className="p-4 border-b border-slate-200 bg-gray-50">
@@ -955,7 +951,7 @@ export default function Reviews() {
                       </div>
                     </div>
                   </div>
-                </>
+                </>)
               )}
             </div>
 
