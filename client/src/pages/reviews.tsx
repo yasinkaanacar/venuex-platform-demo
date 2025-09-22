@@ -237,9 +237,10 @@ export default function Reviews() {
   };
 
   return (
-    <div className="min-h-screen bg-stone-50">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       <Header title="Reviews" />
-      <div className="p-6">
+      <div className="pb-6 bg-[#ffffff]">
+        <div className="px-6 py-4">
         {/* Summary Section */}
         <div className="mx-6 mb-6 bg-white rounded-lg border border-slate-200 overflow-hidden shadow-none">
           <div className="flex items-center justify-between border-b border-slate-200 px-6 py-4 bg-gradient-to-b from-white to-stone-50">
@@ -994,9 +995,10 @@ export default function Reviews() {
 
         </div>
 
-        {/* Location Summary Section - Separated for clear visual distinction */}
-        <div className="mt-8 border-t-4 border-stone-200 pt-8">
-          <LocationSummary />
+          {/* Location Summary Section - Separated for clear visual distinction */}
+          <div className="mt-8 border-t-4 border-stone-200 pt-8">
+            <LocationSummary />
+          </div>
         </div>
       </div>
     </div>
