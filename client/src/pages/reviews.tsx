@@ -1024,11 +1024,11 @@ export default function Reviews() {
           {/* Keywords Analysis Tables */}
           <div className="mt-8 border-t-4 border-stone-200 pt-8">
             <div className="mx-6 mb-6 bg-white rounded-lg border border-slate-200 overflow-hidden shadow-none">
-              <div className="flex items-center justify-between border-b border-slate-200 px-6 py-4 bg-gradient-to-b from-white to-stone-50">
+              <div className="flex items-center justify-between border-b border-slate-200 px-6 py-4 from-white to-stone-50 bg-[#f9fafb]">
                 <h3 className="text-base font-semibold text-foreground">Keyword Analysis</h3>
               </div>
               
-              <div className="bg-stone-50 p-6">
+              <div className="p-6 bg-[#f9fafb]">
                 <div className="grid grid-cols-2 gap-6">
                   {/* Keywords by Mentions */}
                   <div className="bg-white rounded-md border border-slate-200 overflow-hidden">
