@@ -247,7 +247,7 @@ export default function Reviews() {
               {/* E-reputation */}
               <div className="bg-white rounded-md border border-slate-200 p-6">
                 <div>
-                  <div className="text-lg font-semibold text-gray-900 mb-1">E-reputation</div>
+                  <div className="text-lg font-semibold text-gray-900 mb-1">Average Rating</div>
                   <div className="text-sm text-gray-500 mb-6">(Last 12 months)</div>
                   
                   <div className="mb-4">
