@@ -336,7 +336,7 @@ export default function Reviews() {
         {/* Rating Distribution */}
         <div className="mx-6 mb-6 bg-white rounded-lg border border-slate-200 overflow-hidden shadow-none">
           <div className="border-b border-slate-200 bg-gradient-to-b from-white to-stone-50">
-            <div className="px-6 py-4">
+            <div className="px-6 py-4 bg-[#f9fafb]">
               <h3 className="text-base font-semibold text-foreground">Rating Distribution</h3>
             </div>
             <div className="flex border-t border-slate-200">
