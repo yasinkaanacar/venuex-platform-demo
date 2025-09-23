@@ -339,7 +339,7 @@ export default function Reviews() {
             <div className="px-6 py-4 bg-[#f9fafb]">
               <h3 className="text-base font-semibold text-foreground">Rating Distribution</h3>
             </div>
-            <div className="flex border-t border-slate-200">
+            <div className="flex border-t border-slate-200 bg-[#f9fafb]">
               <button
                 onClick={() => setRatingDistributionTab("overall")}
                 className={`px-6 py-3 text-sm font-medium border-b-2 ${
@@ -360,7 +360,7 @@ export default function Reviews() {
               >Top Locations</button>
             </div>
           </div>
-          <div className="bg-stone-50 p-6">
+          <div className="p-6 bg-[#f9fafb]">
             <div className="bg-white rounded-md border border-slate-200 p-6">
               {ratingDistributionTab === "overall" ? (
                 /* Overall Rating Distribution */
@@ -581,7 +581,7 @@ export default function Reviews() {
 
         {/* Reviews List */}
         <div className="mx-6 mb-6 bg-white rounded-lg border border-slate-200 overflow-hidden shadow-none">
-          <div className="flex items-center justify-between border-b border-slate-200 px-6 py-4 bg-gradient-to-b from-white to-stone-50">
+          <div className="flex items-center justify-between border-b border-slate-200 px-6 py-4 from-white to-stone-50 bg-[#f9fafb]">
             <h3 className="text-base font-semibold text-foreground">Reviews (73,880)</h3>
             <div className="flex items-center gap-4">
               <div className="flex items-center gap-2">
