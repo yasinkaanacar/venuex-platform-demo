@@ -244,18 +244,62 @@ export default function Reviews() {
           </div>
           <div className="p-6 bg-[#f9fafb]">
             <div className="grid grid-cols-4 gap-6">
-              {/* Average Rating */}
+              {/* E-reputation */}
               <div className="bg-white rounded-md border border-slate-200 p-6">
-                <div className="text-center">
-                  <div className="text-sm font-medium text-gray-600 mb-3">AVERAGE RATING</div>
-                  <div className="flex justify-center mb-2">
-                    {getRatingStars(3)}
+                <div>
+                  <div className="text-lg font-semibold text-gray-900 mb-1">E-reputation</div>
+                  <div className="text-sm text-gray-500 mb-6">(Last 12 months)</div>
+                  
+                  <div className="mb-4">
+                    <div className="text-4xl font-bold text-gray-900 mb-1">4.78</div>
+                    <div className="text-sm text-gray-500">5617 reviews</div>
                   </div>
-                  <div className="text-2xl font-bold text-gray-900 mb-1">3.28</div>
-                  <div className="text-sm text-gray-500 mb-2">Out of 5.0</div>
-                  <div className="flex items-center justify-center gap-1">
-                    <TrendingDown className="w-4 h-4 text-red-600" />
-                    <span className="text-sm text-red-600">-2.1% vs prev period</span>
+                  
+                  <div className="space-y-2">
+                    {/* 5 Star */}
+                    <div className="flex items-center gap-3">
+                      <span className="text-sm font-medium text-gray-700 w-4">5</span>
+                      <div className="flex-1 bg-gray-200 rounded-full h-2">
+                        <div className="bg-yellow-500 h-2 rounded-full" style={{width: '92%'}}></div>
+                      </div>
+                      <span className="text-sm text-gray-600 w-8">92%</span>
+                    </div>
+                    
+                    {/* 4 Star */}
+                    <div className="flex items-center gap-3">
+                      <span className="text-sm font-medium text-gray-700 w-4">4</span>
+                      <div className="flex-1 bg-gray-200 rounded-full h-2">
+                        <div className="bg-yellow-500 h-2 rounded-full" style={{width: '5%'}}></div>
+                      </div>
+                      <span className="text-sm text-gray-600 w-8">5%</span>
+                    </div>
+                    
+                    {/* 3 Star */}
+                    <div className="flex items-center gap-3">
+                      <span className="text-sm font-medium text-gray-700 w-4">3</span>
+                      <div className="flex-1 bg-gray-200 rounded-full h-2">
+                        <div className="bg-yellow-500 h-2 rounded-full" style={{width: '1%'}}></div>
+                      </div>
+                      <span className="text-sm text-gray-600 w-8">1%</span>
+                    </div>
+                    
+                    {/* 2 Star */}
+                    <div className="flex items-center gap-3">
+                      <span className="text-sm font-medium text-gray-700 w-4">2</span>
+                      <div className="flex-1 bg-gray-200 rounded-full h-2">
+                        <div className="bg-yellow-500 h-2 rounded-full" style={{width: '2%'}}></div>
+                      </div>
+                      <span className="text-sm text-gray-600 w-8">2%</span>
+                    </div>
+                    
+                    {/* 1 Star */}
+                    <div className="flex items-center gap-3">
+                      <span className="text-sm font-medium text-gray-700 w-4">1</span>
+                      <div className="flex-1 bg-gray-200 rounded-full h-2">
+                        <div className="bg-yellow-500 h-2 rounded-full" style={{width: '2%'}}></div>
+                      </div>
+                      <span className="text-sm text-gray-600 w-8">2%</span>
+                    </div>
                   </div>
                 </div>
               </div>
