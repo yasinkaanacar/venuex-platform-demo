@@ -159,7 +159,7 @@ export default function LocationSummary() {
 
   return (
     <Card className="mx-6 mb-6">
-      <div className="p-6 border-b border-gray-200">
+      <div className="p-6 border-b border-gray-200 bg-[#f9fafb]">
         <h2 className="text-lg font-semibold text-gray-900 mb-2">Location Overview</h2>
         <p className="text-sm text-gray-600">Performance overview for all locations</p>
       </div>

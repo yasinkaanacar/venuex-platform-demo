@@ -607,7 +607,7 @@ export default function Reviews() {
             </div>
           </div>
 
-          <div className="bg-stone-50 p-6">
+          <div className="p-6 bg-[#f9fafb]">
             <div className="flex items-center gap-3 mb-6">
               {/* Search */}
               <div className="relative flex-1 max-w-[400px]">
