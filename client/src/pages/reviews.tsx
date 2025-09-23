@@ -242,7 +242,7 @@ export default function Reviews() {
             <h3 className="text-base font-semibold text-foreground">Review Summary</h3>
             <div className="text-sm text-gray-500">Last 30 days</div>
           </div>
-          <div className="bg-stone-50 p-6">
+          <div className="p-6 bg-[#f9fafb]">
             <div className="grid grid-cols-4 gap-6">
               {/* Average Rating */}
               <div className="bg-white rounded-md border border-slate-200 p-6">
