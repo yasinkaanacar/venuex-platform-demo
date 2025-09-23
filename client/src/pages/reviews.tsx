@@ -236,85 +236,99 @@ export default function Reviews() {
       <Header title="Reviews" />
       <div className="pb-6 bg-[#ffffff]">
         <div className="px-6 py-4">
-        {/* Key Metrics Cards */}
-        <div className="grid grid-cols-4 gap-6 mx-6 mb-6">
-          {/* Offline ROAS */}
-          <div className="bg-white rounded-lg border border-slate-200 p-6 shadow-sm">
-            <div className="flex items-start justify-between mb-3">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
-                  <TrendingUp className="w-5 h-5 text-blue-600" />
-                </div>
-                <div>
-                  <div className="text-sm font-medium text-gray-600">Offline ROAS</div>
-                  <div className="text-2xl font-bold text-gray-900">4.2x</div>
-                </div>
-              </div>
-            </div>
-            <div className="flex items-center gap-1">
-              <TrendingUp className="w-4 h-4 text-green-600" />
-              <span className="text-sm text-green-600 font-medium">+12.5%</span>
-              <span className="text-sm text-gray-500">vs previous period</span>
-            </div>
+        {/* Summary Section */}
+        <div className="mx-6 mb-6 bg-white rounded-lg border border-slate-200 overflow-hidden shadow-none">
+          <div className="flex items-center justify-between border-b border-slate-200 px-6 py-4 from-white to-stone-50 bg-[#f9fafb]">
+            <h3 className="text-base font-semibold text-foreground">Review Summary</h3>
+            <div className="text-sm text-gray-500">Last 30 days</div>
           </div>
-
-          {/* Location Interactions */}
-          <div className="bg-white rounded-lg border border-slate-200 p-6 shadow-sm">
-            <div className="flex items-start justify-between mb-3">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
-                  <MessageSquare className="w-5 h-5 text-green-600" />
-                </div>
-                <div>
-                  <div className="text-sm font-medium text-gray-600">Location Interactions</div>
-                  <div className="text-2xl font-bold text-gray-900">23,847</div>
-                </div>
-              </div>
-            </div>
-            <div className="flex items-center gap-1">
-              <TrendingUp className="w-4 h-4 text-green-600" />
-              <span className="text-sm text-green-600 font-medium">+15.7%</span>
-              <span className="text-sm text-gray-500">vs previous period</span>
-            </div>
-          </div>
-
-          {/* Local Inventory */}
-          <div className="bg-white rounded-lg border border-slate-200 p-6 shadow-sm">
-            <div className="flex items-start justify-between mb-3">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center">
-                  <CheckCircle className="w-5 h-5 text-purple-600" />
-                </div>
-                <div>
-                  <div className="text-sm font-medium text-gray-600">Local Inventory</div>
-                  <div className="text-2xl font-bold text-gray-900">87.5%</div>
+          <div className="p-6 bg-[#f9fafb]">
+            <div className="grid grid-cols-4 gap-6">
+              {/* Average Rating */}
+              <div className="bg-white rounded-md border border-slate-200 p-6">
+                <div className="text-center">
+                  <div className="text-sm font-medium text-gray-600 mb-3">AVERAGE RATING</div>
+                  <div className="flex justify-center mb-2">
+                    {getRatingStars(3)}
+                  </div>
+                  <div className="text-2xl font-bold text-gray-900 mb-1">3.28</div>
+                  <div className="text-sm text-gray-500 mb-2">Out of 5.0</div>
+                  <div className="flex items-center justify-center gap-1">
+                    <TrendingDown className="w-4 h-4 text-red-600" />
+                    <span className="text-sm text-red-600">-2.1% vs prev period</span>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div className="flex items-center gap-1">
-              <TrendingUp className="w-4 h-4 text-green-600" />
-              <span className="text-sm text-green-600 font-medium">+5.3%</span>
-              <span className="text-sm text-gray-500">vs previous period</span>
-            </div>
-          </div>
 
-          {/* Average Rating */}
-          <div className="bg-white rounded-lg border border-slate-200 p-6 shadow-sm">
-            <div className="flex items-start justify-between mb-3">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-yellow-100 rounded-lg flex items-center justify-center">
-                  <Star className="w-5 h-5 text-yellow-600" />
-                </div>
-                <div>
-                  <div className="text-sm font-medium text-gray-600">Average Rating</div>
-                  <div className="text-2xl font-bold text-gray-900">4.3</div>
+              {/* Total Reviews */}
+              <div className="bg-white rounded-md border border-slate-200 p-6">
+                <div className="text-center">
+                  <div className="text-sm font-medium text-gray-600 mb-3">TOTAL REVIEWS</div>
+                  <div className="text-2xl font-bold text-gray-900 mb-2">3,672</div>
+                  <div className="flex items-center justify-center gap-1">
+                    <TrendingUp className="w-4 h-4 text-green-600" />
+                    <span className="text-sm text-green-600">+12% vs prev period</span>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div className="flex items-center gap-1">
-              <TrendingUp className="w-4 h-4 text-green-600" />
-              <span className="text-sm text-green-600 font-medium">+0.2</span>
-              <span className="text-sm text-gray-500">vs previous period</span>
+
+              {/* Unanswered Reviews */}
+              <div className="bg-white rounded-md border border-slate-200 p-6">
+                <div className="text-center">
+                  <div className="text-sm font-medium text-gray-600 mb-3">UNANSWERED</div>
+                  <div className="text-2xl font-bold text-red-600 mb-2">4,708</div>
+                  <div className="flex items-center justify-center gap-1 mb-2">
+                    <TrendingUp className="w-4 h-4 text-red-600" />
+                    <span className="text-sm text-red-600">+8.5% vs prev period</span>
+                  </div>
+                  <div className="text-sm text-gray-500 mb-3">Needs attention</div>
+                  <div className="border-t border-gray-200 pt-3">
+                    <div className="text-xs text-gray-600 mb-1">Reply Rate</div>
+                    <div className="text-lg font-semibold text-orange-600 mb-1">62.3%</div>
+                    <div className="flex items-center justify-center gap-1">
+                      <TrendingDown className="w-3 h-3 text-red-600" />
+                      <span className="text-xs text-red-600">-3.2% vs prev period</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Sentiment Analysis */}
+              <div className="bg-white rounded-md border border-slate-200 p-6">
+                <div className="text-sm font-medium text-gray-600 mb-3">SENTIMENT</div>
+                <div className="space-y-3">
+                  <div className="space-y-1">
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm text-green-600">Positive</span>
+                      <span className="font-medium text-green-600">58.2%</span>
+                    </div>
+                    <div className="flex items-center justify-end gap-1">
+                      <TrendingUp className="w-3 h-3 text-green-600" />
+                      <span className="text-xs text-green-600">+4.1% vs prev</span>
+                    </div>
+                  </div>
+                  <div className="space-y-1">
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm text-gray-600">Neutral</span>
+                      <span className="font-medium text-gray-600">23.1%</span>
+                    </div>
+                    <div className="flex items-center justify-end gap-1">
+                      <TrendingDown className="w-3 h-3 text-orange-600" />
+                      <span className="text-xs text-orange-600">-1.8% vs prev</span>
+                    </div>
+                  </div>
+                  <div className="space-y-1">
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm text-red-600">Negative</span>
+                      <span className="font-medium text-red-600">18.7%</span>
+                    </div>
+                    <div className="flex items-center justify-end gap-1">
+                      <TrendingDown className="w-3 h-3 text-green-600" />
+                      <span className="text-xs text-green-600">-2.3% vs prev</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
