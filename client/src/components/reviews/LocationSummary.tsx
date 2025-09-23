@@ -163,7 +163,7 @@ export default function LocationSummary() {
         <h2 className="text-lg font-semibold text-gray-900 mb-2">Location Overview</h2>
         <p className="text-sm text-gray-600">Performance overview for all locations</p>
       </div>
-      <CardContent>
+      <CardContent className="bg-[#f9fafb]">
         {/* Filter Bar */}
         <div className="flex items-center gap-4 mb-6 p-4 bg-gray-50 rounded-lg">
           <div className="relative flex-1 max-w-sm">
