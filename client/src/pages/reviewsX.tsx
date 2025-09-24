@@ -375,42 +375,223 @@ export default function ReviewsX() {
                     <CardTitle>Yorum Hacmi ve Ortalama Puan</CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <div className="h-64 flex items-center justify-center text-gray-500">
-                      <BarChart3 className="w-12 h-12 mr-3" />
-                      Zaman bazlı grafik burada gösterilecek
+                    <div className="h-64 bg-gray-50 rounded-lg p-4">
+                      <div className="flex justify-between items-center mb-4">
+                        <div className="text-xs text-gray-500">Son 12 hafta</div>
+                        <div className="flex gap-4 text-xs">
+                          <div className="flex items-center gap-1">
+                            <div className="w-3 h-3 bg-blue-500 rounded"></div>
+                            <span>Yorum Sayısı</span>
+                          </div>
+                          <div className="flex items-center gap-1">
+                            <div className="w-3 h-3 bg-green-500 rounded"></div>
+                            <span>Ortalama Puan</span>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="relative h-48 border-l border-b border-gray-300">
+                        <div className="absolute inset-0 flex items-end justify-between px-2 pb-4">
+                          {[...Array(12)].map((_, i) => (
+                            <div key={i} className="flex flex-col items-center gap-1">
+                              <div className="w-6 bg-blue-400 rounded-t" style={{height: `${Math.random() * 120 + 20}px`}}></div>
+                              <div className="text-xs text-gray-400">W{i+1}</div>
+                            </div>
+                          ))}
+                        </div>
+                        <div className="absolute top-4 right-4 text-green-600 font-medium">
+                          4.78★ Trend
+                        </div>
+                      </div>
                     </div>
                   </CardContent>
                 </Card>
 
                 <Card>
                   <CardHeader>
-                    <CardTitle>Kaynak Dağılımı</CardTitle>
+                    <div className="flex items-center justify-between">
+                      <CardTitle>Kaynak Dağılımı</CardTitle>
+                      <Button variant="outline" size="sm">
+                        <BarChart3 className="w-4 h-4 mr-2" />
+                        Grafik Görünümü
+                      </Button>
+                    </div>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="space-y-4">
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-2">
+                          <div className="w-8 h-8 bg-red-100 rounded-lg flex items-center justify-center">
+                            <span className="text-red-600 font-bold text-sm">G</span>
+                          </div>
+                          <span className="text-sm font-medium">Google My Business</span>
+                        </div>
+                        <span className="text-sm font-medium">65% (2,386 yorum)</span>
+                      </div>
+                      <div className="w-full bg-gray-200 rounded-full h-3">
+                        <div className="bg-red-500 h-3 rounded-full" style={{width: '65%'}}></div>
+                      </div>
+                      
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-2">
+                          <div className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center">
+                            <span className="text-blue-600 font-bold text-sm">f</span>
+                          </div>
+                          <span className="text-sm font-medium">Facebook</span>
+                        </div>
+                        <span className="text-sm font-medium">20% (734 yorum)</span>
+                      </div>
+                      <div className="w-full bg-gray-200 rounded-full h-3">
+                        <div className="bg-blue-500 h-3 rounded-full" style={{width: '20%'}}></div>
+                      </div>
+                      
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-2">
+                          <div className="w-8 h-8 bg-yellow-100 rounded-lg flex items-center justify-center">
+                            <span className="text-yellow-600 font-bold text-sm">Y</span>
+                          </div>
+                          <span className="text-sm font-medium">Yandex Maps</span>
+                        </div>
+                        <span className="text-sm font-medium">15% (552 yorum)</span>
+                      </div>
+                      <div className="w-full bg-gray-200 rounded-full h-3">
+                        <div className="bg-yellow-500 h-3 rounded-full" style={{width: '15%'}}></div>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+
+              {/* Rating Distribution Section */}
+              <Card>
+                <CardHeader>
+                  <CardTitle>Puan Dağılımı ve Analiz</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <Tabs defaultValue="overall" className="w-full">
+                    <TabsList className="grid w-fit grid-cols-2">
+                      <TabsTrigger value="overall">Genel</TabsTrigger>
+                      <TabsTrigger value="locations">Lokasyonlara Göre</TabsTrigger>
+                    </TabsList>
+                    
+                    <TabsContent value="overall" className="space-y-4">
+                      <div className="grid grid-cols-5 gap-4">
+                        {[
+                          {stars: 5, count: 2890, percentage: 78.7, color: "green"},
+                          {stars: 4, count: 445, percentage: 12.1, color: "lime"},
+                          {stars: 3, count: 185, percentage: 5.0, color: "yellow"},
+                          {stars: 2, count: 89, percentage: 2.4, color: "orange"},
+                          {stars: 1, count: 63, percentage: 1.7, color: "red"}
+                        ].map((rating) => (
+                          <div key={rating.stars} className="text-center">
+                            <div className="text-lg font-bold">{rating.stars}★</div>
+                            <div className="h-24 bg-gray-100 rounded mb-2 flex items-end justify-center">
+                              <div 
+                                className={`w-8 bg-${rating.color}-500 rounded-t`}
+                                style={{height: `${rating.percentage}%`}}
+                              ></div>
+                            </div>
+                            <div className="text-sm font-medium">{rating.count}</div>
+                            <div className="text-xs text-gray-500">{rating.percentage}%</div>
+                          </div>
+                        ))}
+                      </div>
+                    </TabsContent>
+                    
+                    <TabsContent value="locations" className="space-y-4">
+                      <div className="text-sm text-gray-600 mb-4">En fazla yoruma sahip 10 lokasyon için puan dağılımı</div>
+                      <div className="space-y-3">
+                        {locations.slice(0, 3).map((location) => (
+                          <div key={location.id} className="flex items-center gap-4">
+                            <div className="w-32 text-sm font-medium">{location.name}</div>
+                            <div className="flex-1 flex gap-1">
+                              {[5,4,3,2,1].map((star) => (
+                                <div key={star} className="flex-1 bg-gray-200 rounded-sm h-6 flex items-end">
+                                  <div 
+                                    className={`w-full rounded-sm ${star === 5 ? 'bg-green-500' : star === 4 ? 'bg-lime-500' : star === 3 ? 'bg-yellow-500' : star === 2 ? 'bg-orange-500' : 'bg-red-500'}`}
+                                    style={{height: `${Math.random() * 80 + 20}%`}}
+                                  ></div>
+                                </div>
+                              ))}
+                            </div>
+                            <div className="w-16 text-sm text-gray-600">{location.rating}★</div>
+                          </div>
+                        ))}
+                      </div>
+                    </TabsContent>
+                  </Tabs>
+                </CardContent>
+              </Card>
+
+              {/* Keyword Analysis Tables */}
+              <div className="grid grid-cols-2 gap-6">
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Anahtar Kelimeler - Bahis Sayısı</CardTitle>
                   </CardHeader>
                   <CardContent>
                     <div className="space-y-3">
-                      <div className="flex items-center justify-between">
-                        <span className="text-sm">Google</span>
-                        <span className="text-sm font-medium">65%</span>
-                      </div>
-                      <div className="w-full bg-gray-200 rounded-full h-2">
-                        <div className="bg-blue-600 h-2 rounded-full" style={{width: '65%'}}></div>
-                      </div>
-                      
-                      <div className="flex items-center justify-between">
-                        <span className="text-sm">Facebook</span>
-                        <span className="text-sm font-medium">20%</span>
-                      </div>
-                      <div className="w-full bg-gray-200 rounded-full h-2">
-                        <div className="bg-green-600 h-2 rounded-full" style={{width: '20%'}}></div>
-                      </div>
-                      
-                      <div className="flex items-center justify-between">
-                        <span className="text-sm">Yandex</span>
-                        <span className="text-sm font-medium">15%</span>
-                      </div>
-                      <div className="w-full bg-gray-200 rounded-full h-2">
-                        <div className="bg-yellow-600 h-2 rounded-full" style={{width: '15%'}}></div>
-                      </div>
+                      {[
+                        {keyword: "mağaza", mentions: 245, trend: "up"},
+                        {keyword: "ürün", mentions: 189, trend: "up"},
+                        {keyword: "personel", mentions: 156, trend: "stable"},
+                        {keyword: "kalite", mentions: 134, trend: "up"},
+                        {keyword: "fiyat", mentions: 98, trend: "down"},
+                        {keyword: "hizmet", mentions: 87, trend: "up"},
+                        {keyword: "çeşit", mentions: 76, trend: "stable"},
+                        {keyword: "atmosfer", mentions: 65, trend: "up"}
+                      ].map((item, index) => (
+                        <div key={index} className="flex items-center justify-between p-2 hover:bg-gray-50 rounded">
+                          <div className="flex items-center gap-3">
+                            <span className="font-mono text-xs text-gray-500 w-6">#{index + 1}</span>
+                            <span className="font-medium">{item.keyword}</span>
+                          </div>
+                          <div className="flex items-center gap-3">
+                            <span className="text-sm text-gray-600">{item.mentions} bahis</span>
+                            {item.trend === "up" && <ArrowUp className="w-4 h-4 text-green-600" />}
+                            {item.trend === "down" && <ArrowDown className="w-4 h-4 text-red-600" />}
+                            {item.trend === "stable" && <div className="w-4 h-0.5 bg-gray-400"></div>}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </CardContent>
+                </Card>
+
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Anahtar Kelimeler - Duygu Analizi</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="space-y-3">
+                      {[
+                        {keyword: "mağaza", positive: 78, negative: 22, sentiment: "positive"},
+                        {keyword: "ürün", positive: 82, negative: 18, sentiment: "positive"},
+                        {keyword: "personel", positive: 91, negative: 9, sentiment: "positive"},
+                        {keyword: "kalite", positive: 88, negative: 12, sentiment: "positive"},
+                        {keyword: "fiyat", positive: 45, negative: 55, sentiment: "negative"},
+                        {keyword: "hizmet", positive: 76, negative: 24, sentiment: "positive"},
+                        {keyword: "çeşit", positive: 69, negative: 31, sentiment: "positive"},
+                        {keyword: "atmosfer", positive: 84, negative: 16, sentiment: "positive"}
+                      ].map((item, index) => (
+                        <div key={index} className="flex items-center gap-3 p-2 hover:bg-gray-50 rounded">
+                          <span className="font-mono text-xs text-gray-500 w-6">#{index + 1}</span>
+                          <span className="font-medium w-20">{item.keyword}</span>
+                          <div className="flex-1 flex bg-gray-200 rounded-full h-2">
+                            <div 
+                              className="bg-green-500 rounded-l-full h-2" 
+                              style={{width: `${item.positive}%`}}
+                            ></div>
+                            <div 
+                              className="bg-red-500 rounded-r-full h-2" 
+                              style={{width: `${item.negative}%`}}
+                            ></div>
+                          </div>
+                          <div className="flex gap-2 text-xs">
+                            <span className="text-green-600">+{item.positive}%</span>
+                            <span className="text-red-600">-{item.negative}%</span>
+                          </div>
+                        </div>
+                      ))}
                     </div>
                   </CardContent>
                 </Card>
