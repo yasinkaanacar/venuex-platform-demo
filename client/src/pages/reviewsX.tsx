@@ -466,6 +466,7 @@ export default function ReviewsX() {
                 >
                   <CardHeader className="pb-3">
                     <CardTitle className="tracking-tight text-[#111827] font-semibold text-[18px]">Review Volume</CardTitle>
+                    <div className="text-sm text-gray-500">(Last 30 Days)</div>
                   </CardHeader>
                   <CardContent>
                     <div className="space-y-3">
