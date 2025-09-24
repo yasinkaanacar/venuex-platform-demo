@@ -368,11 +368,7 @@ export default function ReviewsX() {
 
               
 
-              {/* Share Snapshot */}
-              <Button variant="outline" size="sm">
-                <Share2 className="w-4 h-4 mr-2" />
-                Share Snapshot
-              </Button>
+              
             </div>
           </div>
         </div>
