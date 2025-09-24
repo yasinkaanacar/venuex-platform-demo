@@ -3100,20 +3100,7 @@ export default function ReviewsX() {
                       </div>
                     </div>
                     
-                    <div className="pt-3 border-t">
-                      <label className="text-sm font-medium">AI Response Tone</label>
-                      <Select defaultValue="professional">
-                        <SelectTrigger className="mt-2">
-                          <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="professional">Professional</SelectItem>
-                          <SelectItem value="friendly">Friendly</SelectItem>
-                          <SelectItem value="formal">Formal</SelectItem>
-                          <SelectItem value="enthusiastic">Enthusiastic</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </div>
+                    
                   </CardContent>
                 </Card>
 
