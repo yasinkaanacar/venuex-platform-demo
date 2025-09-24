@@ -467,9 +467,11 @@ export default function ReviewsX() {
                   <CardHeader className="pb-3">
                     <CardTitle className="tracking-tight text-[#111827] font-semibold text-[18px]">Review Volume</CardTitle>
                   </CardHeader>
-                  <CardContent>
-                    <div className="space-y-4">
-                      <div>
+                  <CardContent className="p-0">
+                    <div className="flex flex-col h-full">
+                      {/* First 1/3: Review Volume */}
+                      <div className="flex-1 p-6 border-b border-gray-100">
+                        <div className="text-sm text-gray-600 mb-2">Review Volume</div>
                         <div className="text-2xl font-bold text-gray-900">{kpiData.totalReviews.toLocaleString()}</div>
                         <div className="flex items-center gap-1 text-xs text-green-600">
                           <ArrowUp className="w-3 h-3" />
@@ -477,28 +479,30 @@ export default function ReviewsX() {
                         </div>
                       </div>
                       
-                      <div className="grid grid-cols-3 gap-3 pt-2 border-t border-gray-100">
-                        <div>
-                          <div className="text-sm text-gray-600 mb-1">Reply Rate</div>
-                          <div className="text-lg font-bold text-gray-900">{kpiData.responseRate}%</div>
+                      {/* Second 1/3: Unanswered */}
+                      <div className="flex-1 p-6 border-b border-gray-100">
+                        <div className="text-sm text-gray-600 mb-2">Unanswered</div>
+                        <div className="text-2xl font-bold text-gray-900">{Math.round(kpiData.totalReviews * (100 - kpiData.responseRate) / 100).toLocaleString()}</div>
+                        <div className="flex items-center gap-1 text-xs text-red-600">
+                          <ArrowUp className="w-3 h-3" />
+                          +15 vs previous
+                        </div>
+                      </div>
+                      
+                      {/* Third 1/3: Reply Rate & Response Time (horizontally split) */}
+                      <div className="flex-1 flex">
+                        <div className="flex-1 p-6 border-r border-gray-100">
+                          <div className="text-sm text-gray-600 mb-2">Reply Rate</div>
+                          <div className="text-xl font-bold text-gray-900">{kpiData.responseRate}%</div>
                           <div className="flex items-center gap-1 text-xs text-green-600">
                             <ArrowUp className="w-3 h-3" />
                             +5% vs previous
                           </div>
                         </div>
                         
-                        <div>
-                          <div className="text-sm text-gray-600 mb-1">Unanswered</div>
-                          <div className="text-lg font-bold text-gray-900">{Math.round(kpiData.totalReviews * (100 - kpiData.responseRate) / 100).toLocaleString()}</div>
-                          <div className="flex items-center gap-1 text-xs text-red-600">
-                            <ArrowUp className="w-3 h-3" />
-                            +15 vs previous
-                          </div>
-                        </div>
-                        
-                        <div>
-                          <div className="text-sm text-gray-600 mb-1">Response Time</div>
-                          <div className="text-lg font-bold text-gray-900">{kpiData.avgResponseTime}</div>
+                        <div className="flex-1 p-6">
+                          <div className="text-sm text-gray-600 mb-2">Response Time</div>
+                          <div className="text-xl font-bold text-gray-900">{kpiData.avgResponseTime}</div>
                           <div className="flex items-center gap-1 text-xs text-red-600">
                             <ArrowUp className="w-3 h-3" />
                             +2h vs previous
