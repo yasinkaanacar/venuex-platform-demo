@@ -517,22 +517,22 @@ export default function ReviewsX() {
                     <div className="text-sm text-gray-500">(Last 30 Days)</div>
                   </CardHeader>
                   <CardContent>
-                    <div className="space-y-3">
+                    <div className="space-y-4">
                       {/* Most Positive Theme */}
-                      <div className="flex items-center gap-2">
-                        <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                      <div className="flex items-center gap-3">
+                        <div className="w-3 h-3 bg-green-500 rounded-full"></div>
                         <div className="flex-1">
-                          <div className="text-sm font-medium text-gray-900">Staff Service</div>
-                          <div className="text-xs text-gray-500">91% positive • 156 mentions</div>
+                          <div className="text-base font-bold text-gray-900">Staff Service</div>
+                          <div className="text-sm text-gray-600">91% positive • 156 mentions</div>
                         </div>
                       </div>
                       
                       {/* Most Negative Theme */}
-                      <div className="flex items-center gap-2">
-                        <div className="w-2 h-2 bg-red-500 rounded-full"></div>
+                      <div className="flex items-center gap-3">
+                        <div className="w-3 h-3 bg-red-500 rounded-full"></div>
                         <div className="flex-1">
-                          <div className="text-sm font-medium text-gray-900">Pricing</div>
-                          <div className="text-xs text-gray-500">55% negative • 98 mentions</div>
+                          <div className="text-base font-bold text-gray-900">Pricing</div>
+                          <div className="text-sm text-gray-600">55% negative • 98 mentions</div>
                         </div>
                       </div>
                     </div>
