@@ -529,7 +529,7 @@ export default function ReviewsX() {
               <div className="grid grid-cols-2 gap-6">
                 <Card>
                   <CardHeader>
-                    <CardTitle>Review Volume and Average Rating</CardTitle>
+                    <CardTitle>Review Volume</CardTitle>
                   </CardHeader>
                   <CardContent>
                     <div className="h-64 bg-gray-50 rounded-lg p-4">
@@ -539,10 +539,6 @@ export default function ReviewsX() {
                           <div className="flex items-center gap-1">
                             <div className="w-3 h-3 bg-blue-500 rounded"></div>
                             <span>Review Count</span>
-                          </div>
-                          <div className="flex items-center gap-1">
-                            <div className="w-3 h-3 bg-green-500 rounded"></div>
-                            <span>Average Rating</span>
                           </div>
                         </div>
                       </div>
@@ -554,15 +550,6 @@ export default function ReviewsX() {
                           <span>200</span>
                           <span>100</span>
                           <span>0</span>
-                        </div>
-                        
-                        {/* Y-axis labels for rating */}
-                        <div className="absolute right-0 top-0 h-full flex flex-col justify-between text-xs text-gray-400 -mr-8">
-                          <span>5.0★</span>
-                          <span>4.5★</span>
-                          <span>4.0★</span>
-                          <span>3.5★</span>
-                          <span>3.0★</span>
                         </div>
                         
                         {/* Volume bars layer */}
@@ -593,74 +580,6 @@ export default function ReviewsX() {
                           ))}
                         </div>
                         
-                        {/* Rating points layer - independent positioning */}
-                        <div className="absolute inset-0 px-2 pb-6">
-                          {[
-                            {week: 1, volume: 245, rating: 4.6},
-                            {week: 2, volume: 312, rating: 4.7},
-                            {week: 3, volume: 198, rating: 4.5},
-                            {week: 4, volume: 287, rating: 4.8},
-                            {week: 5, volume: 334, rating: 4.9},
-                            {week: 6, volume: 275, rating: 4.7},
-                            {week: 7, volume: 356, rating: 4.8},
-                            {week: 8, volume: 298, rating: 4.6},
-                            {week: 9, volume: 267, rating: 4.7},
-                            {week: 10, volume: 385, rating: 4.9},
-                            {week: 11, volume: 298, rating: 4.8},
-                            {week: 12, volume: 342, rating: 4.7}
-                          ].map((data, i) => {
-                            // Calculate X position for each week (distribute evenly across width)
-                            const xPosition = (i / 11) * 100;
-                            // Calculate Y position based on rating scale (3.0-5.0 maps to 0-160px from bottom)
-                            const yPosition = ((data.rating - 3.0) / 2.0) * 160;
-                            
-                            return (
-                              <div 
-                                key={i}
-                                className="absolute w-3 h-3 bg-green-500 rounded-full border-2 border-white shadow-sm cursor-pointer"
-                                style={{
-                                  left: `${xPosition}%`,
-                                  bottom: `${yPosition}px`,
-                                  transform: 'translateX(-50%)'
-                                }}
-                                title={`${data.rating}★ average`}
-                                onClick={() => navigateToInboxWithFilter('week', data.week)}
-                              />
-                            );
-                          })}
-                        </div>
-                        
-                        {/* Rating trend line */}
-                        <svg className="absolute inset-0 pointer-events-none" style={{paddingLeft: '8px', paddingRight: '8px', paddingBottom: '24px'}}>
-                          <polyline
-                            fill="none"
-                            stroke="#22c55e"
-                            strokeWidth="2"
-                            points={[
-                              {week: 1, volume: 245, rating: 4.6},
-                              {week: 2, volume: 312, rating: 4.7},
-                              {week: 3, volume: 198, rating: 4.5},
-                              {week: 4, volume: 287, rating: 4.8},
-                              {week: 5, volume: 334, rating: 4.9},
-                              {week: 6, volume: 275, rating: 4.7},
-                              {week: 7, volume: 356, rating: 4.8},
-                              {week: 8, volume: 298, rating: 4.6},
-                              {week: 9, volume: 267, rating: 4.7},
-                              {week: 10, volume: 385, rating: 4.9},
-                              {week: 11, volume: 298, rating: 4.8},
-                              {week: 12, volume: 342, rating: 4.7}
-                            ].map((d, i) => {
-                              // Match the exact positioning of rating points
-                              const x = (i / 11) * 100;
-                              const y = 100 - (((d.rating - 3.0) / 2.0) * 100);
-                              return `${x}%,${y}%`;
-                            }).join(' ')}
-                          />
-                        </svg>
-                        
-                        <div className="absolute top-4 right-4 text-green-600 font-medium">
-                          ▲ 4.75★ Average (+0.15)
-                        </div>
                       </div>
                     </div>
                   </CardContent>
