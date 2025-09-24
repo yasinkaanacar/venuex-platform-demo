@@ -648,8 +648,8 @@ export default function ReviewsX() {
 
       const sorted = [...locations].sort((a, b) => b.rating - a.rating);
       return {
-        topPerformers: sorted.filter(loc => loc.rating >= 4.0).slice(0, 5),
-        needsAttention: sorted.filter(loc => loc.rating < 3.5).slice(0, 5)
+        topPerformers: sorted.filter(loc => loc.rating >= 4.0).slice(0, 3),
+        needsAttention: sorted.filter(loc => loc.rating < 3.5).slice(0, 3)
       };
     }
   };
