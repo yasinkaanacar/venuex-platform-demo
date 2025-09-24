@@ -2727,41 +2727,16 @@ export default function ReviewsX() {
                 </div>
               </div>
 
-              {/* Sentiment Overview */}
-              <div className="grid grid-cols-2 gap-6">
-                <Card>
-                  <CardHeader>
-                    <CardTitle>Sentiment Overview</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="text-center">
-                      <div className="text-4xl font-bold text-green-600 mb-2">+82</div>
-                      <div className="text-sm text-gray-600">Net Sentiment Score</div>
-                      <div className="mt-4 space-y-2">
-                        <div className="flex justify-between text-sm">
-                          <span>Positive</span>
-                          <span className="font-medium text-green-600">80%</span>
-                        </div>
-                        <div className="flex justify-between text-sm">
-                          <span>Neutral</span>
-                          <span className="font-medium text-gray-600">15%</span>
-                        </div>
-                        <div className="flex justify-between text-sm">
-                          <span>Negative</span>
-                          <span className="font-medium text-red-600">5%</span>
-                        </div>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-
-
-                <Card>
-                  <CardHeader>
-                    <CardTitle>Response Performance</CardTitle>
-                  </CardHeader>
-                  <CardContent>
+              {/* Response Performance - Standalone */}
+              <Card>
+                <CardHeader>
+                  <CardTitle>Response Performance</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid grid-cols-2 gap-8">
+                    {/* Response Time Performance */}
                     <div className="space-y-4">
+                      <h4 className="font-semibold text-gray-700 border-b pb-2">Response Time</h4>
                       <div className="flex justify-between items-center">
                         <span className="text-sm">Within 24 hours</span>
                         <span className="font-medium">67%</span>
@@ -2786,9 +2761,95 @@ export default function ReviewsX() {
                         <div className="bg-red-600 h-2 rounded-full" style={{width: '11%'}}></div>
                       </div>
                     </div>
-                  </CardContent>
-                </Card>
-              </div>
+
+                    {/* Response Rate by Star Rating */}
+                    <div className="space-y-4">
+                      <h4 className="font-semibold text-gray-700 border-b pb-2">Response Rate by Rating</h4>
+                      <div className="flex justify-between items-center">
+                        <span className="text-sm flex items-center gap-2">
+                          <span className="text-yellow-500">★★★★★</span>
+                          5-star reviews
+                        </span>
+                        <span className="font-medium">45%</span>
+                      </div>
+                      <div className="w-full bg-gray-200 rounded-full h-2">
+                        <div className="bg-green-600 h-2 rounded-full" style={{width: '45%'}}></div>
+                      </div>
+                      
+                      <div className="flex justify-between items-center">
+                        <span className="text-sm flex items-center gap-2">
+                          <span className="text-yellow-500">★★★★</span>
+                          4-star reviews
+                        </span>
+                        <span className="font-medium">72%</span>
+                      </div>
+                      <div className="w-full bg-gray-200 rounded-full h-2">
+                        <div className="bg-blue-600 h-2 rounded-full" style={{width: '72%'}}></div>
+                      </div>
+                      
+                      <div className="flex justify-between items-center">
+                        <span className="text-sm flex items-center gap-2">
+                          <span className="text-yellow-500">★★★</span>
+                          3-star reviews
+                        </span>
+                        <span className="font-medium">85%</span>
+                      </div>
+                      <div className="w-full bg-gray-200 rounded-full h-2">
+                        <div className="bg-yellow-600 h-2 rounded-full" style={{width: '85%'}}></div>
+                      </div>
+                      
+                      <div className="flex justify-between items-center">
+                        <span className="text-sm flex items-center gap-2">
+                          <span className="text-yellow-500">★★</span>
+                          2-star reviews
+                        </span>
+                        <span className="font-medium">94%</span>
+                      </div>
+                      <div className="w-full bg-gray-200 rounded-full h-2">
+                        <div className="bg-orange-600 h-2 rounded-full" style={{width: '94%'}}></div>
+                      </div>
+                      
+                      <div className="flex justify-between items-center">
+                        <span className="text-sm flex items-center gap-2">
+                          <span className="text-yellow-500">★</span>
+                          1-star reviews
+                        </span>
+                        <span className="font-medium">98%</span>
+                      </div>
+                      <div className="w-full bg-gray-200 rounded-full h-2">
+                        <div className="bg-red-600 h-2 rounded-full" style={{width: '98%'}}></div>
+                      </div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Sentiment Overview */}
+              <Card>
+                <CardHeader>
+                  <CardTitle>Sentiment Overview</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="text-center">
+                    <div className="text-4xl font-bold text-green-600 mb-2">+82</div>
+                    <div className="text-sm text-gray-600">Net Sentiment Score</div>
+                    <div className="mt-4 space-y-2">
+                      <div className="flex justify-between text-sm">
+                        <span>Positive</span>
+                        <span className="font-medium text-green-600">80%</span>
+                      </div>
+                      <div className="flex justify-between text-sm">
+                        <span>Neutral</span>
+                        <span className="font-medium text-gray-600">15%</span>
+                      </div>
+                      <div className="flex justify-between text-sm">
+                        <span>Negative</span>
+                        <span className="font-medium text-red-600">5%</span>
+                      </div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
 
               {/* Trend Analysis - Standalone */}
               <Card>
