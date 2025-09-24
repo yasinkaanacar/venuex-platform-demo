@@ -61,6 +61,8 @@ import Header from '@/components/overview/header';
 import { MapContainer, TileLayer, Marker, Popup, Tooltip as LeafletTooltip } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
+import * as d3 from 'd3';
+import { useRef, useEffect } from 'react';
 
 // Fix for default markers in Leaflet with React
 delete (L.Icon.Default.prototype as any)._getIconUrl;
@@ -163,6 +165,130 @@ export default function ReviewsX() {
     }
   ];
 
+  // Hierarchical data for treemap drill-down
+  const hierarchicalData = {
+    name: "Turkey",
+    value: 8,
+    avgRating: 4.0,
+    sentiment: 0.72,
+    totalReviews: 2038,
+    children: [
+      {
+        name: "Istanbul",
+        value: 3,
+        avgRating: 4.2,
+        sentiment: 0.78,
+        totalReviews: 1025,
+        children: [
+          {
+            name: "Boyner Nişantaşı",
+            value: 324,
+            avgRating: 4.2,
+            sentiment: 0.85,
+            totalReviews: 324,
+            trend: "+12%",
+            themes: ["Service Quality", "Product Range"],
+            children: []
+          },
+          {
+            name: "Boyner Bağdat Caddesi", 
+            value: 289,
+            avgRating: 4.1,
+            sentiment: 0.78,
+            totalReviews: 289,
+            trend: "+8%",
+            themes: ["Location", "Staff Helpfulness"],
+            children: []
+          },
+          {
+            name: "Boyner Zorlu Center",
+            value: 412,
+            avgRating: 4.4,
+            sentiment: 0.88,
+            totalReviews: 412,
+            trend: "+15%",
+            themes: ["Shopping Experience", "Product Quality"],
+            children: []
+          }
+        ]
+      },
+      {
+        name: "Ankara",
+        value: 2,
+        avgRating: 3.9,
+        sentiment: 0.65,
+        totalReviews: 354,
+        children: [
+          {
+            name: "Boyner Kızılay",
+            value: 198,
+            avgRating: 3.8,
+            sentiment: 0.62,
+            totalReviews: 198,
+            trend: "-3%",
+            themes: ["Waiting Times", "Store Layout"],
+            children: []
+          },
+          {
+            name: "Boyner Tunalı",
+            value: 156,
+            avgRating: 3.9,
+            sentiment: 0.68,
+            totalReviews: 156,
+            trend: "+5%",
+            themes: ["Product Availability", "Customer Service"],
+            children: []
+          }
+        ]
+      },
+      {
+        name: "Izmir",
+        value: 3,
+        avgRating: 4.0,
+        sentiment: 0.72,
+        totalReviews: 659,
+        children: [
+          {
+            name: "Boyner Konak",
+            value: 267,
+            avgRating: 4.0,
+            sentiment: 0.75,
+            totalReviews: 267,
+            trend: "+10%",
+            themes: ["Store Ambiance", "Product Selection"],
+            children: []
+          },
+          {
+            name: "Boyner Alsancak",
+            value: 203,
+            avgRating: 3.7,
+            sentiment: 0.68,
+            totalReviews: 203,
+            trend: "-2%",
+            themes: ["Pricing", "Service Speed"],
+            children: []
+          },
+          {
+            name: "Boyner Forum Bornova",
+            value: 189,
+            avgRating: 4.1,
+            sentiment: 0.76,
+            totalReviews: 189,
+            trend: "+7%",
+            themes: ["Accessibility", "Modern Design"],
+            children: []
+          }
+        ]
+      }
+    ]
+  };
+
+  // Treemap state management
+  const [currentLevel, setCurrentLevel] = useState<"country" | "region" | "location">("country");
+  const [currentData, setCurrentData] = useState(hierarchicalData);
+  const [breadcrumbs, setBreadcrumbs] = useState<string[]>(["Turkey"]);
+  const treemapRef = useRef<SVGSVGElement>(null);
+
   // Function to get marker color based on rating
   const getMarkerColor = (rating: number) => {
     if (rating >= 4.0) return "#22c55e"; // green
@@ -202,6 +328,179 @@ export default function ReviewsX() {
       iconAnchor: [size / 2, size / 2]
     });
   };
+
+  // Treemap helper functions
+  const getSentimentColor = (sentiment: number) => {
+    if (sentiment >= 0.8) return "#22c55e"; // green
+    if (sentiment >= 0.7) return "#84cc16"; // lime 
+    if (sentiment >= 0.6) return "#eab308"; // yellow
+    if (sentiment >= 0.5) return "#f97316"; // orange
+    return "#ef4444"; // red
+  };
+
+  const getRatingColor = (rating: number) => {
+    if (rating >= 4.0) return "#22c55e"; // green
+    if (rating >= 3.5) return "#84cc16"; // lime
+    if (rating >= 3.0) return "#eab308"; // yellow
+    if (rating >= 2.5) return "#f97316"; // orange
+    return "#ef4444"; // red
+  };
+
+  // Treemap drill-down handlers
+  const handleTreemapDrillDown = (node: any) => {
+    if (node.children) {
+      setCurrentData(node);
+      setCurrentLevel(currentLevel === "country" ? "region" : "location");
+      setBreadcrumbs([...breadcrumbs, node.name]);
+    }
+  };
+
+  const handleTreemapDrillUp = () => {
+    if (breadcrumbs.length > 1) {
+      const newBreadcrumbs = [...breadcrumbs];
+      newBreadcrumbs.pop();
+      setBreadcrumbs(newBreadcrumbs);
+      
+      if (newBreadcrumbs.length === 1) {
+        setCurrentData(hierarchicalData);
+        setCurrentLevel("country");
+      } else {
+        // Navigate to parent level
+        const parentPath = newBreadcrumbs.slice(1);
+        let parentData = hierarchicalData;
+        for (const name of parentPath) {
+          parentData = parentData.children?.find((child: any) => child.name === name) || parentData;
+        }
+        setCurrentData(parentData);
+        setCurrentLevel("region");
+      }
+    }
+  };
+
+  // Treemap rendering logic
+  useEffect(() => {
+    if (!treemapRef.current) return;
+
+    const svg = d3.select(treemapRef.current);
+    svg.selectAll("*").remove();
+
+    const width = 800;
+    const height = 400;
+    
+    svg.attr("width", width).attr("height", height);
+
+    const dataToRender = currentLevel === "country" ? hierarchicalData : currentData;
+    
+    const root = d3.hierarchy(dataToRender)
+      .sum((d: any) => currentLevel === "location" ? d.value : d.value)
+      .sort((a: any, b: any) => b.value! - a.value!);
+
+    const treemap = d3.treemap<any>()
+      .size([width, height])
+      .padding(2)
+      .round(true);
+
+    treemap(root);
+
+    const tooltip = d3.select("body").selectAll(".treemap-tooltip").data([0])
+      .join("div")
+      .attr("class", "treemap-tooltip")
+      .style("position", "absolute")
+      .style("background", "rgba(0, 0, 0, 0.9)")
+      .style("color", "white")
+      .style("padding", "8px")
+      .style("border-radius", "4px")
+      .style("font-size", "12px")
+      .style("pointer-events", "none")
+      .style("opacity", 0)
+      .style("z-index", "1000");
+
+    const leaves = svg.selectAll("g")
+      .data(root.leaves())
+      .join("g")
+      .attr("transform", (d: any) => `translate(${d.x0},${d.y0})`);
+
+    leaves.append("rect")
+      .attr("width", (d: any) => d.x1 - d.x0)
+      .attr("height", (d: any) => d.y1 - d.y0)
+      .attr("fill", (d: any) => {
+        if (currentLevel === "location") {
+          return getSentimentColor(d.data.sentiment);
+        } else {
+          return getRatingColor(d.data.avgRating || d.data.rating);
+        }
+      })
+      .attr("stroke", "white")
+      .attr("stroke-width", 2)
+      .attr("cursor", "pointer")
+      .on("mouseover", function(event: any, d: any) {
+        d3.select(this).attr("opacity", 0.8);
+        
+        const tooltipContent = currentLevel === "location" ? 
+          `<strong>${d.data.name}</strong><br/>
+           Rating: ${d.data.avgRating}★<br/>
+           Reviews: ${d.data.value}<br/>
+           Sentiment: ${Math.round(d.data.sentiment * 100)}%<br/>
+           Trend: ${d.data.trend}<br/>
+           Top Themes: ${d.data.themes.join(", ")}` :
+          `<strong>${d.data.name}</strong><br/>
+           Average Rating: ${d.data.avgRating}★<br/>
+           Locations: ${d.data.value}<br/>
+           Total Reviews: ${d.data.totalReviews}<br/>
+           Sentiment: ${Math.round(d.data.sentiment * 100)}%<br/>
+           Click to drill down`;
+
+        tooltip.html(tooltipContent)
+          .style("left", (event.pageX + 10) + "px")
+          .style("top", (event.pageY - 10) + "px")
+          .style("opacity", 1);
+      })
+      .on("mouseout", function() {
+        d3.select(this).attr("opacity", 1);
+        tooltip.style("opacity", 0);
+      })
+      .on("click", (event: any, d: any) => {
+        if (currentLevel !== "location") {
+          handleTreemapDrillDown(d.data);
+        }
+      });
+
+    // Add text labels
+    leaves.append("text")
+      .attr("x", 4)
+      .attr("y", 16)
+      .attr("font-size", (d: any) => {
+        const width = d.x1 - d.x0;
+        const height = d.y1 - d.y0;
+        return Math.min(width / 8, height / 4, 14) + "px";
+      })
+      .attr("font-weight", "bold")
+      .attr("fill", "white")
+      .text((d: any) => d.data.name)
+      .each(function(d: any) {
+        const text = d3.select(this);
+        const width = d.x1 - d.x0;
+        let textLength = (text.node() as any)?.getComputedTextLength();
+        if (textLength > width - 8) {
+          text.text(d.data.name.substring(0, Math.floor((width - 8) / 8)) + "...");
+        }
+      });
+
+    // Add metric labels
+    leaves.append("text")
+      .attr("x", 4)
+      .attr("y", 32)
+      .attr("font-size", "11px")
+      .attr("fill", "rgba(255, 255, 255, 0.9)")
+      .text((d: any) => {
+        if (currentLevel === "location") {
+          return `${d.data.avgRating}★ • ${d.data.value} reviews`;
+        } else {
+          return `${d.data.avgRating}★ • ${d.data.value} locations`;
+        }
+      });
+
+  }, [currentData, currentLevel]);
 
   // Get Tailwind color classes for rating distribution
   const getRatingColorClass = (color: string) => {
@@ -1456,6 +1755,165 @@ export default function ReviewsX() {
                           <span className="text-xs text-gray-600">&lt;200</span>
                         </div>
                       </div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Hierarchical Treemap Drill-Down */}
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <BarChart3 className="w-5 h-5" />
+                    Hierarchical Performance Analysis
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  {/* Breadcrumb Navigation */}
+                  <div className="mb-4 flex items-center gap-2">
+                    <div className="flex items-center gap-2">
+                      {breadcrumbs.map((crumb, index) => (
+                        <div key={index} className="flex items-center gap-2">
+                          {index > 0 && <span className="text-gray-400">→</span>}
+                          <button
+                            className={`px-2 py-1 rounded text-sm ${
+                              index === breadcrumbs.length - 1
+                                ? 'bg-blue-100 text-blue-700 font-medium'
+                                : 'text-gray-600 hover:text-blue-600'
+                            }`}
+                            onClick={() => {
+                              if (index < breadcrumbs.length - 1) {
+                                const newBreadcrumbs = breadcrumbs.slice(0, index + 1);
+                                setBreadcrumbs(newBreadcrumbs);
+                                if (newBreadcrumbs.length === 1) {
+                                  setCurrentData(hierarchicalData);
+                                  setCurrentLevel("country");
+                                } else {
+                                  const parentPath = newBreadcrumbs.slice(1);
+                                  let parentData = hierarchicalData;
+                                  for (const name of parentPath) {
+                                    parentData = parentData.children?.find((child: any) => child.name === name) || parentData;
+                                  }
+                                  setCurrentData(parentData);
+                                  setCurrentLevel("region");
+                                }
+                              }
+                            }}
+                            data-testid={`breadcrumb-${index}`}
+                          >
+                            {crumb}
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                    {breadcrumbs.length > 1 && (
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={handleTreemapDrillUp}
+                        className="ml-auto"
+                        data-testid="button-drill-up"
+                      >
+                        ← Back
+                      </Button>
+                    )}
+                  </div>
+
+                  {/* Current Level Info */}
+                  <div className="mb-4 p-3 bg-gray-50 rounded-lg">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <h4 className="font-semibold text-lg">{currentData.name}</h4>
+                        <p className="text-sm text-gray-600">
+                          {currentLevel === "country" ? "Country Overview" : 
+                           currentLevel === "region" ? "Region Overview" : "Individual Locations"}
+                        </p>
+                      </div>
+                      <div className="flex gap-4 text-sm">
+                        {currentLevel === "location" ? (
+                          <>
+                            <div>
+                              <span className="text-gray-500">Rating:</span>
+                              <span className="font-medium ml-1">{currentData.avgRating}★</span>
+                            </div>
+                            <div>
+                              <span className="text-gray-500">Reviews:</span>
+                              <span className="font-medium ml-1">{currentData.totalReviews || currentData.value}</span>
+                            </div>
+                          </>
+                        ) : (
+                          <>
+                            <div>
+                              <span className="text-gray-500">Avg Rating:</span>
+                              <span className="font-medium ml-1">{currentData.avgRating}★</span>
+                            </div>
+                            <div>
+                              <span className="text-gray-500">Locations:</span>
+                              <span className="font-medium ml-1">{currentData.value}</span>
+                            </div>
+                            <div>
+                              <span className="text-gray-500">Total Reviews:</span>
+                              <span className="font-medium ml-1">{currentData.totalReviews}</span>
+                            </div>
+                          </>
+                        )}
+                        <div>
+                          <span className="text-gray-500">Sentiment:</span>
+                          <span className="font-medium ml-1">{Math.round(currentData.sentiment * 100)}%</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Treemap Visualization */}
+                  <div className="border rounded-lg overflow-hidden bg-white">
+                    <svg ref={treemapRef} data-testid="hierarchical-treemap"></svg>
+                  </div>
+
+                  {/* Color Legend */}
+                  <div className="mt-4 flex items-center justify-between text-sm">
+                    <div className="flex items-center gap-4">
+                      <h4 className="font-medium text-gray-700">
+                        {currentLevel === "location" ? "Sentiment Scale:" : "Rating Scale:"}
+                      </h4>
+                      <div className="flex items-center gap-3">
+                        <div className="flex items-center gap-1">
+                          <div className="w-3 h-3 rounded bg-green-500"></div>
+                          <span className="text-gray-600">
+                            {currentLevel === "location" ? "≥80%" : "≥4.0★"}
+                          </span>
+                        </div>
+                        <div className="flex items-center gap-1">
+                          <div className="w-3 h-3 rounded bg-lime-500"></div>
+                          <span className="text-gray-600">
+                            {currentLevel === "location" ? "70-79%" : "3.5-3.9★"}
+                          </span>
+                        </div>
+                        <div className="flex items-center gap-1">
+                          <div className="w-3 h-3 rounded bg-yellow-500"></div>
+                          <span className="text-gray-600">
+                            {currentLevel === "location" ? "60-69%" : "3.0-3.4★"}
+                          </span>
+                        </div>
+                        <div className="flex items-center gap-1">
+                          <div className="w-3 h-3 rounded bg-orange-500"></div>
+                          <span className="text-gray-600">
+                            {currentLevel === "location" ? "50-59%" : "2.5-2.9★"}
+                          </span>
+                        </div>
+                        <div className="flex items-center gap-1">
+                          <div className="w-3 h-3 rounded bg-red-500"></div>
+                          <span className="text-gray-600">
+                            {currentLevel === "location" ? "&lt;50%" : "&lt;2.5★"}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="text-gray-600">
+                      {currentLevel === "location" 
+                        ? "Rectangle size = Review volume • Color = Sentiment score"
+                        : "Rectangle size = Location count • Color = Average rating"
+                      }
                     </div>
                   </div>
                 </CardContent>
