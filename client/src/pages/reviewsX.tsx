@@ -2791,8 +2791,7 @@ export default function ReviewsX() {
               </div>
 
               {/* Trend Analysis - Standalone */}
-              <div className="max-w-4xl mx-auto">
-                <Card>
+              <Card>
                   <CardHeader>
                     <CardTitle>Trend Analysis</CardTitle>
                     <div className="text-sm text-gray-600">Review volume by channel with rating overlay (Last 14 days)</div>
@@ -2903,7 +2902,6 @@ export default function ReviewsX() {
                     </div>
                   </CardContent>
                 </Card>
-              </div>
 
               {/* Theme Analysis */}
               <Card>
