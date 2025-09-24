@@ -692,14 +692,83 @@ export default function ReviewsX() {
     return colorMap[color] || 'bg-gray-500';
   };
 
-  // Sample data for the components
-  const kpiData = {
-    averageRating: 4.78,
-    totalReviews: 3672,
-    responseRate: 87.5,
-    avgResponseTime: "18h",
-    sentimentIndex: 82.3
+  // Compute KPI metrics from currentData (following hierarchical pattern)
+  const getKpiData = (data: any, level: string) => {
+    if (!data) {
+      return {
+        averageRating: 0,
+        totalReviews: 0,
+        responseRate: 0,
+        avgResponseTime: "0h",
+        sentimentIndex: 0
+      };
+    }
+
+    if (level === "location") {
+      // For individual locations, extract directly from data properties
+      const avgRating = data.avgRating || 0;
+      const totalReviews = data.totalReviews || 0;
+      const sentiment = data.sentiment || 0;
+      
+      // Deterministic response rate and response time based on stable properties
+      // Use name hash for consistency across renders
+      const nameHash = data.name ? data.name.length + data.name.charCodeAt(0) : 0;
+      
+      // Response rate: higher ratings = better response rate (75-95% vs 45-75%)
+      const baseResponseRate = avgRating > 3.5 ? 85 : 60;
+      const responseRateVariation = (nameHash % 10) - 5; // -5 to +4 variation
+      const responseRate = Math.max(30, Math.min(95, baseResponseRate + responseRateVariation));
+      
+      // Response time: higher ratings = faster response (8-20h vs 18-42h)
+      const baseResponseTime = avgRating > 3.5 ? 14 : 30;
+      const timeVariation = (nameHash % 12) - 6; // -6 to +5 hour variation
+      const avgResponseTime = Math.max(4, baseResponseTime + timeVariation);
+      
+      return {
+        averageRating: Math.round(avgRating * 100) / 100,
+        totalReviews,
+        responseRate: Math.round(responseRate * 10) / 10,
+        avgResponseTime: `${avgResponseTime}h`,
+        sentimentIndex: Math.round(sentiment * 100 * 10) / 10
+      };
+    } else {
+      // For country/region, aggregate from children
+      const children = data.children || [];
+      if (children.length === 0) {
+        return {
+          averageRating: data.avgRating || 0,
+          totalReviews: data.totalReviews || 0,
+          responseRate: 75,
+          avgResponseTime: "14h",
+          sentimentIndex: Math.round((data.sentiment || 0) * 100 * 10) / 10
+        };
+      }
+
+      const childLevel = level === "country" ? "region" : "location";
+      const aggregated = children.reduce((acc: any, child: any) => {
+        const childKpi = getKpiData(child, childLevel);
+        return {
+          totalRating: acc.totalRating + (childKpi.averageRating * childKpi.totalReviews),
+          totalReviews: acc.totalReviews + childKpi.totalReviews,
+          totalResponseRate: acc.totalResponseRate + (childKpi.responseRate * childKpi.totalReviews),
+          totalResponseTime: acc.totalResponseTime + (parseFloat(childKpi.avgResponseTime) * childKpi.totalReviews),
+          totalSentiment: acc.totalSentiment + (childKpi.sentimentIndex * childKpi.totalReviews),
+          childCount: acc.childCount + 1
+        };
+      }, { totalRating: 0, totalReviews: 0, totalResponseRate: 0, totalResponseTime: 0, totalSentiment: 0, childCount: 0 });
+
+      const totalReviews = aggregated.totalReviews || 1; // Avoid division by zero
+      return {
+        averageRating: Math.round((aggregated.totalRating / totalReviews) * 100) / 100,
+        totalReviews: aggregated.totalReviews,
+        responseRate: Math.round((aggregated.totalResponseRate / totalReviews) * 10) / 10,
+        avgResponseTime: `${Math.round(aggregated.totalResponseTime / totalReviews)}h`,
+        sentimentIndex: Math.round((aggregated.totalSentiment / totalReviews) * 10) / 10
+      };
+    }
   };
+
+  const kpiData = getKpiData(currentData, currentLevel);
 
   const alertsCount = 12;
 
@@ -1012,15 +1081,19 @@ export default function ReviewsX() {
             {/* Overview Section */}
             <TabsContent value="overview" className="space-y-6">
               {/* KPI Summary Cards */}
-              <div className="grid grid-cols-4 gap-6">
-                <Card 
-                  className="cursor-pointer hover:shadow-md transition-shadow"
-                  onClick={() => setActiveTab("insights")}
-                >
-                  <CardHeader className="pb-4">
-                    <CardTitle className="text-lg font-semibold text-gray-900">
-                      Average Rating
-                    </CardTitle>
+              <TooltipProvider>
+                <div className="grid grid-cols-5 gap-4">
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Card 
+                      className="cursor-pointer hover:shadow-md transition-shadow"
+                      onClick={() => setActiveTab("insights")}
+                      data-testid="card-average-rating"
+                    >
+                      <CardHeader className="pb-4">
+                        <CardTitle className="text-lg font-semibold text-gray-900">
+                          Average Rating
+                        </CardTitle>
                     <div className="text-sm text-gray-500">(Last 30 days)</div>
                   </CardHeader>
                   <CardContent className="space-y-4">
@@ -1052,14 +1125,20 @@ export default function ReviewsX() {
                         </div>
                       ))}
                     </div>
-                  </CardContent>
-                </Card>
+                    </CardContent>
+                    </Card>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>Average customer rating across all reviews in the last 30 days. Click to view detailed rating insights and trends.</p>
+                  </TooltipContent>
+                </Tooltip>
 
                 <Card 
                   className="cursor-pointer hover:shadow-md transition-shadow"
                   onClick={() => setActiveTab("insights")}
+                  data-testid="card-review-volume"
                 >
-                  <CardHeader className="pb-3">
+                        <CardHeader className="pb-3">
                     <CardTitle className="tracking-tight text-[#111827] font-semibold text-[18px]">Review Volume</CardTitle>
                     <div className="text-sm text-gray-500">(Last 30 Days)</div>
                   </CardHeader>
@@ -1084,7 +1163,12 @@ export default function ReviewsX() {
                         </div>
                         
                         <div>
-                          <div className="text-xs text-gray-600 mb-1">Response Time</div>
+                          <div className="flex items-center justify-between mb-1">
+                            <div className="text-xs text-gray-600">Response Time</div>
+                            <Badge variant="destructive" className="text-xs px-1 py-0.5" data-testid="badge-sla-risk">
+                              SLA Risk
+                            </Badge>
+                          </div>
                           <div className="text-base font-bold text-gray-900">{kpiData.avgResponseTime}</div>
                           <div className="flex items-center gap-1 text-xs text-red-600">
                             <ArrowUp className="w-2 h-2" />
@@ -1094,9 +1178,14 @@ export default function ReviewsX() {
                       </div>
                       
                       <div className="pt-1 border-t border-gray-100">
-                        <div className="text-xs text-gray-600 mb-1">Unanswered Count</div>
+                        <div className="flex items-center justify-between mb-1">
+                          <div className="text-xs text-gray-600">Unanswered Count</div>
+                          <Badge variant="destructive" className="text-xs px-1 py-0.5" data-testid="badge-urgent-action">
+                            Urgent
+                          </Badge>
+                        </div>
                         <div className="flex items-center justify-between">
-                          <div className="text-base font-bold text-red-600">23</div>
+                          <div className="text-base font-bold text-red-600">{openIssuesData.unreplied}</div>
                           <div className="text-xs text-red-600">Needs attention</div>
                         </div>
                       </div>
@@ -1107,6 +1196,7 @@ export default function ReviewsX() {
                 <Card 
                   className="cursor-pointer hover:shadow-md transition-shadow"
                   onClick={() => setActiveTab("insights")}
+                  data-testid="card-top-themes"
                 >
                   <CardHeader className="pb-3">
                     <CardTitle className="tracking-tight text-[#111827] font-semibold text-[18px]">Top Themes</CardTitle>
@@ -1138,6 +1228,7 @@ export default function ReviewsX() {
                 <Card 
                   className="cursor-pointer hover:shadow-md transition-shadow"
                   onClick={() => setActiveTab("insights")}
+                  data-testid="card-sentiment-index"
                 >
                   <CardHeader className="pb-3">
                     <CardTitle className="tracking-tight text-[#111827] font-semibold text-[18px]">Sentiment Index</CardTitle>
@@ -1181,7 +1272,56 @@ export default function ReviewsX() {
                     </div>
                   </CardContent>
                 </Card>
+
+                <Card 
+                  className="cursor-pointer hover:shadow-md transition-shadow"
+                  onClick={() => setActiveTab("inbox")}
+                  data-testid="card-sla-performance"
+                >
+                  <CardHeader className="pb-3">
+                    <CardTitle className="tracking-tight text-[#111827] font-semibold text-[18px]">SLA Performance</CardTitle>
+                    <div className="text-sm text-gray-500">(Last 30 Days)</div>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="space-y-3">
+                      <div>
+                        <div className="text-2xl font-bold text-gray-900">78%</div>
+                        <div className="flex items-center gap-1 text-xs text-orange-600">
+                          <ArrowDown className="w-3 h-3" />
+                          -5% below target
+                        </div>
+                      </div>
+                      
+                      <div className="space-y-2 pt-1 border-t border-gray-100">
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center gap-2">
+                            <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                            <span className="text-xs text-gray-600">On Time</span>
+                          </div>
+                          <span className="text-sm font-bold text-green-600">78%</span>
+                        </div>
+                        
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center gap-2">
+                            <div className="w-2 h-2 bg-orange-500 rounded-full"></div>
+                            <span className="text-xs text-gray-600">At Risk</span>
+                          </div>
+                          <span className="text-sm font-bold text-orange-600">{openIssuesData.slaRisk}</span>
+                        </div>
+                        
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center gap-2">
+                            <div className="w-2 h-2 bg-red-500 rounded-full"></div>
+                            <span className="text-xs text-gray-600">Breached</span>
+                          </div>
+                          <span className="text-sm font-bold text-red-600">{openIssuesData.escalated}</span>
+                        </div>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
                 </div>
+              </TooltipProvider>
 
               {/* Charts Row */}
               <div className="grid grid-cols-2 gap-6">
