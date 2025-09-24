@@ -58,6 +58,17 @@ import {
   AlertCircle
 } from 'lucide-react';
 import Header from '@/components/overview/header';
+import { MapContainer, TileLayer, Marker, Popup, Tooltip as LeafletTooltip } from 'react-leaflet';
+import 'leaflet/dist/leaflet.css';
+import L from 'leaflet';
+
+// Fix for default markers in Leaflet with React
+delete (L.Icon.Default.prototype as any)._getIconUrl;
+L.Icon.Default.mergeOptions({
+  iconRetinaUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png',
+  iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png',
+  shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
+});
 
 export default function ReviewsX() {
   const [activeTab, setActiveTab] = useState("overview");
@@ -74,6 +85,122 @@ export default function ReviewsX() {
   const navigateToInboxWithFilter = (filterType: string, filterValue: string | number | null) => {
     setInboxFilters(prev => ({ ...prev, [filterType]: filterValue }));
     setActiveTab("inbox");
+  };
+
+  // Boyner store locations data for Turkey map
+  const storeLocations = [
+    {
+      id: 1,
+      name: "Boyner Nişantaşı",
+      city: "Istanbul",
+      coordinates: [41.0482, 28.9942] as [number, number],
+      reviewCount: 324,
+      averageRating: 4.2,
+      monthlyTrend: "+12%"
+    },
+    {
+      id: 2,
+      name: "Boyner Bağdat Caddesi",
+      city: "Istanbul", 
+      coordinates: [40.9673, 29.0815] as [number, number],
+      reviewCount: 289,
+      averageRating: 4.1,
+      monthlyTrend: "+8%"
+    },
+    {
+      id: 3,
+      name: "Boyner Zorlu Center",
+      city: "Istanbul",
+      coordinates: [41.0766, 29.0142] as [number, number],
+      reviewCount: 412,
+      averageRating: 4.4,
+      monthlyTrend: "+15%"
+    },
+    {
+      id: 4,
+      name: "Boyner Kızılay",
+      city: "Ankara",
+      coordinates: [39.9208, 32.8541] as [number, number],
+      reviewCount: 198,
+      averageRating: 3.8,
+      monthlyTrend: "-3%"
+    },
+    {
+      id: 5,
+      name: "Boyner Tunalı",
+      city: "Ankara",
+      coordinates: [39.9075, 32.8597] as [number, number],
+      reviewCount: 156,
+      averageRating: 3.9,
+      monthlyTrend: "+5%"
+    },
+    {
+      id: 6,
+      name: "Boyner Konak",
+      city: "Izmir",
+      coordinates: [38.4189, 27.1287] as [number, number],
+      reviewCount: 267,
+      averageRating: 4.0,
+      monthlyTrend: "+10%"
+    },
+    {
+      id: 7,
+      name: "Boyner Alsancak",
+      city: "Izmir",
+      coordinates: [38.4392, 27.1514] as [number, number],
+      reviewCount: 203,
+      averageRating: 3.7,
+      monthlyTrend: "-2%"
+    },
+    {
+      id: 8,
+      name: "Boyner Forum Bornova",
+      city: "Izmir",
+      coordinates: [38.4618, 27.2065] as [number, number],
+      reviewCount: 189,
+      averageRating: 4.1,
+      monthlyTrend: "+7%"
+    }
+  ];
+
+  // Function to get marker color based on rating
+  const getMarkerColor = (rating: number) => {
+    if (rating >= 4.0) return "#22c55e"; // green
+    if (rating >= 3.0) return "#eab308"; // yellow
+    return "#ef4444"; // red
+  };
+
+  // Function to get marker size based on review count
+  const getMarkerSize = (reviewCount: number) => {
+    if (reviewCount >= 300) return 25;
+    if (reviewCount >= 200) return 20;
+    return 15;
+  };
+
+  // Create custom markers for locations
+  const createCustomIcon = (rating: number, reviewCount: number) => {
+    const color = getMarkerColor(rating);
+    const size = getMarkerSize(reviewCount);
+    
+    return L.divIcon({
+      className: 'custom-marker',
+      html: `<div style="
+        background-color: ${color};
+        width: ${size}px;
+        height: ${size}px;
+        border-radius: 50%;
+        border: 3px solid white;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        color: white;
+        font-size: 10px;
+      ">${Math.round(rating * 10) / 10}</div>`,
+      iconSize: [size, size],
+      iconAnchor: [size / 2, size / 2]
+    });
   };
 
   // Get Tailwind color classes for rating distribution
@@ -1205,6 +1332,131 @@ export default function ReviewsX() {
                     >
                       View All Locations
                     </Button>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Geospatial Intelligence Module */}
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <Map className="w-5 h-5" />
+                    Geospatial Intelligence
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="h-96 rounded-lg overflow-hidden border">
+                    <MapContainer
+                      center={[39.9334, 32.8597]} // Turkey center coordinates
+                      zoom={6}
+                      style={{ height: '100%', width: '100%' }}
+                      data-testid="geospatial-map"
+                    >
+                      <TileLayer
+                        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                      />
+                      {storeLocations.map((location) => (
+                        <Marker
+                          key={location.id}
+                          position={location.coordinates}
+                          icon={createCustomIcon(location.averageRating, location.reviewCount)}
+                          eventHandlers={{
+                            click: () => {
+                              setLocationFilter(location.name);
+                              setActiveTab("locations");
+                            }
+                          }}
+                          data-testid={`marker-${location.id}`}
+                        >
+                          <Popup>
+                            <div className="p-2 min-w-48">
+                              <h4 className="font-semibold text-lg mb-2">{location.name}</h4>
+                              <div className="space-y-1 text-sm">
+                                <div className="flex justify-between">
+                                  <span className="text-gray-600">City:</span>
+                                  <span className="font-medium">{location.city}</span>
+                                </div>
+                                <div className="flex justify-between">
+                                  <span className="text-gray-600">Rating:</span>
+                                  <span className="font-medium flex items-center gap-1">
+                                    <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+                                    {location.averageRating}
+                                  </span>
+                                </div>
+                                <div className="flex justify-between">
+                                  <span className="text-gray-600">Reviews:</span>
+                                  <span className="font-medium">{location.reviewCount}</span>
+                                </div>
+                                <div className="flex justify-between">
+                                  <span className="text-gray-600">Monthly Trend:</span>
+                                  <span className={`font-medium ${location.monthlyTrend.startsWith('+') ? 'text-green-600' : 'text-red-600'}`}>
+                                    {location.monthlyTrend}
+                                  </span>
+                                </div>
+                              </div>
+                              <Button 
+                                size="sm" 
+                                className="w-full mt-3"
+                                onClick={() => {
+                                  setLocationFilter(location.name);
+                                  setActiveTab("locations");
+                                }}
+                                data-testid={`button-view-location-${location.id}`}
+                              >
+                                View Location Details
+                              </Button>
+                            </div>
+                          </Popup>
+                          <LeafletTooltip direction="top" offset={[0, -10]} opacity={0.9}>
+                            <div className="text-center">
+                              <div className="font-semibold">{location.name}</div>
+                              <div className="text-sm">
+                                ★ {location.averageRating} • {location.reviewCount} reviews
+                              </div>
+                            </div>
+                          </LeafletTooltip>
+                        </Marker>
+                      ))}
+                    </MapContainer>
+                  </div>
+                  
+                  {/* Map Legend */}
+                  <div className="mt-4 flex items-center justify-between">
+                    <div className="flex items-center gap-4">
+                      <h4 className="font-medium text-sm text-gray-700">Rating Scale:</h4>
+                      <div className="flex items-center gap-3">
+                        <div className="flex items-center gap-1">
+                          <div className="w-3 h-3 rounded-full bg-green-500"></div>
+                          <span className="text-xs text-gray-600">≥4.0</span>
+                        </div>
+                        <div className="flex items-center gap-1">
+                          <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
+                          <span className="text-xs text-gray-600">3.0-3.9</span>
+                        </div>
+                        <div className="flex items-center gap-1">
+                          <div className="w-3 h-3 rounded-full bg-red-500"></div>
+                          <span className="text-xs text-gray-600">&lt;3.0</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-4">
+                      <h4 className="font-medium text-sm text-gray-700">Marker Size:</h4>
+                      <div className="flex items-center gap-3">
+                        <div className="flex items-center gap-1">
+                          <div className="w-5 h-5 rounded-full bg-gray-400"></div>
+                          <span className="text-xs text-gray-600">300+ reviews</span>
+                        </div>
+                        <div className="flex items-center gap-1">
+                          <div className="w-4 h-4 rounded-full bg-gray-400"></div>
+                          <span className="text-xs text-gray-600">200-299</span>
+                        </div>
+                        <div className="flex items-center gap-1">
+                          <div className="w-3 h-3 rounded-full bg-gray-400"></div>
+                          <span className="text-xs text-gray-600">&lt;200</span>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </CardContent>
               </Card>
