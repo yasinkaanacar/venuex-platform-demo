@@ -260,7 +260,6 @@ export default function ReviewsX() {
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       <Header title="Reviews" />
-      
       {/* Global Navigation Header */}
       <div className="bg-white border-b border-gray-200 shadow-sm">
         <div className="px-6 py-4">
@@ -426,7 +425,7 @@ export default function ReviewsX() {
                     <CardTitle className="text-lg font-semibold text-gray-900">
                       Average Rating
                     </CardTitle>
-                    <div className="text-sm text-gray-500">(Last 12 months)</div>
+                    <div className="text-sm text-gray-500">(Last 30 days)</div>
                   </CardHeader>
                   <CardContent className="space-y-4">
                     <div className="text-4xl font-bold text-gray-900">
