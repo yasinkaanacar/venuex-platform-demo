@@ -66,14 +66,14 @@ export default function ReviewsX() {
   const [inboxFilters, setInboxFilters] = useState({ source: null, rating: null, week: null });
 
   // Function to navigate to inbox with filters
-  const navigateToInboxWithFilter = (filterType, filterValue) => {
+  const navigateToInboxWithFilter = (filterType: string, filterValue: string | number | null) => {
     setInboxFilters(prev => ({ ...prev, [filterType]: filterValue }));
     setActiveTab("inbox");
   };
 
   // Get Tailwind color classes for rating distribution
-  const getRatingColorClass = (color) => {
-    const colorMap = {
+  const getRatingColorClass = (color: string) => {
+    const colorMap: Record<string, string> = {
       green: 'bg-green-500',
       lime: 'bg-lime-500', 
       yellow: 'bg-yellow-500',
