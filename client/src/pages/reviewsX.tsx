@@ -2966,14 +2966,14 @@ export default function ReviewsX() {
             {/* Settings Section */}
             <TabsContent value="settings" className="space-y-6">
               <div className="flex items-center justify-between">
-                <h2 className="text-2xl font-bold">Ayarlar & Yapılandırma</h2>
+                <h2 className="text-2xl font-bold">Settings & Configuration</h2>
               </div>
 
               <div className="grid grid-cols-2 gap-6">
                 {/* Sources & Integrations */}
                 <Card>
                   <CardHeader>
-                    <CardTitle>Kaynaklar & Entegrasyonlar</CardTitle>
+                    <CardTitle>Sources & Integrations</CardTitle>
                   </CardHeader>
                   <CardContent className="space-y-4">
                     <div className="flex items-center justify-between p-3 border rounded-lg">
@@ -2983,17 +2983,27 @@ export default function ReviewsX() {
                         </div>
                         <span>Google My Business</span>
                       </div>
-                      <Badge variant="default">Bağlı ✅</Badge>
+                      <Badge variant="default">Connected ✅</Badge>
                     </div>
                     
                     <div className="flex items-center justify-between p-3 border rounded-lg">
                       <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center">
-                          <span className="text-blue-600 font-bold text-sm">f</span>
+                        <div className="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center">
+                          <span className="text-green-600 font-bold text-sm">W</span>
                         </div>
-                        <span>Facebook</span>
+                        <span>Website</span>
                       </div>
-                      <Badge variant="default">Bağlı ✅</Badge>
+                      <Badge variant="default">Connected ✅</Badge>
+                    </div>
+                    
+                    <div className="flex items-center justify-between p-3 border rounded-lg">
+                      <div className="flex items-center gap-3">
+                        <div className="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center">
+                          <span className="text-purple-600 font-bold text-sm">A</span>
+                        </div>
+                        <span>App</span>
+                      </div>
+                      <Badge variant="default">Connected ✅</Badge>
                     </div>
                     
                     <div className="flex items-center justify-between p-3 border rounded-lg">
@@ -3003,12 +3013,12 @@ export default function ReviewsX() {
                         </div>
                         <span>Yandex</span>
                       </div>
-                      <Badge variant="secondary">Yalnızca İzleme</Badge>
+                      <Badge variant="secondary">View Only</Badge>
                     </div>
                     
                     <Button variant="outline" className="w-full">
                       <Plus className="w-4 h-4 mr-2" />
-                      Yeni Kaynak Ekle
+                      Add New Source
                     </Button>
                   </CardContent>
                 </Card>
@@ -3038,7 +3048,7 @@ export default function ReviewsX() {
                     
                     <Button variant="outline" className="w-full">
                       <Plus className="w-4 h-4 mr-2" />
-                      Yeni Şablon Ekle
+                      Add New Template
                     </Button>
                   </CardContent>
                 </Card>
@@ -3046,7 +3056,7 @@ export default function ReviewsX() {
                 {/* Alerts & Notifications */}
                 <Card>
                   <CardHeader>
-                    <CardTitle>Uyarılar & Bildirimler</CardTitle>
+                    <CardTitle>Alerts & Notifications</CardTitle>
                   </CardHeader>
                   <CardContent className="space-y-4">
                     <div className="space-y-3">
@@ -3070,7 +3080,7 @@ export default function ReviewsX() {
                     
                     <Button variant="outline" className="w-full">
                       <Mail className="w-4 h-4 mr-2" />
-                      Bildirim Ayarlarını Düzenle
+                      Edit Notification Settings
                     </Button>
                   </CardContent>
                 </Card>
