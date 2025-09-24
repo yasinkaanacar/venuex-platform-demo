@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -62,6 +62,26 @@ export default function ReviewsX() {
   const [productFilter, setProductFilter] = useState("all");
   const [searchQuery, setSearchQuery] = useState("");
   const [viewMode, setViewMode] = useState("table");
+  const [chartToggle, setChartToggle] = useState("source"); // "source" or "rating"
+  const [inboxFilters, setInboxFilters] = useState({ source: null, rating: null, week: null });
+
+  // Function to navigate to inbox with filters
+  const navigateToInboxWithFilter = (filterType, filterValue) => {
+    setInboxFilters(prev => ({ ...prev, [filterType]: filterValue }));
+    setActiveTab("inbox");
+  };
+
+  // Get Tailwind color classes for rating distribution
+  const getRatingColorClass = (color) => {
+    const colorMap = {
+      green: 'bg-green-500',
+      lime: 'bg-lime-500', 
+      yellow: 'bg-yellow-500',
+      orange: 'bg-orange-500',
+      red: 'bg-red-500'
+    };
+    return colorMap[color] || 'bg-gray-500';
+  };
 
   // Sample data for the components
   const kpiData = {
@@ -83,7 +103,8 @@ export default function ReviewsX() {
       text: "Great shopping experience, staff was very helpful...",
       location: "Zorlu Center",
       date: "2 hours ago",
-      isNew: true
+      isNew: true,
+      isUrgent: false
     },
     {
       id: 2,
@@ -93,7 +114,8 @@ export default function ReviewsX() {
       text: "Product quality wasn't as expected, return process took too long...",
       location: "Kanyon",
       date: "4 hours ago",
-      isNew: true
+      isNew: true,
+      isUrgent: true
     },
     {
       id: 3,
@@ -103,9 +125,46 @@ export default function ReviewsX() {
       text: "Generally satisfied but prices are a bit high...",
       location: "İstinye Park",
       date: "6 hours ago",
-      isNew: false
+      isNew: false,
+      isUrgent: false
+    },
+    {
+      id: 4,
+      reviewer: "Ali D.",
+      platform: "google",
+      rating: 1,
+      text: "Poor service, waited too long and couldn't get any explanation...",
+      location: "Akmerkez",
+      date: "12 hours ago",
+      isNew: true,
+      isUrgent: true
+    },
+    {
+      id: 5,
+      reviewer: "Elif S.",
+      platform: "instagram",
+      rating: 5,
+      text: "Perfect! Everything was great, I definitely recommend it...",
+      location: "Metrocity",
+      date: "1 day ago",
+      isNew: false,
+      isUrgent: false
     }
   ];
+
+  // Memoized filtered reviews for inbox
+  const filteredInboxReviews = useMemo(() => {
+    return recentReviews.filter(review => {
+      if (inboxFilters.source && review.platform !== inboxFilters.source) return false;
+      if (inboxFilters.rating && review.rating !== inboxFilters.rating) return false;
+      if (inboxFilters.week) {
+        // For demo purposes, map review ID to week (1-12)
+        const reviewWeek = (review.id % 12) + 1;
+        if (reviewWeek !== inboxFilters.week) return false;
+      }
+      return true;
+    });
+  }, [recentReviews, inboxFilters]);
 
   const locations = [
     {
@@ -346,7 +405,10 @@ export default function ReviewsX() {
             <TabsContent value="overview" className="space-y-6">
               {/* KPI Summary Cards */}
               <div className="grid grid-cols-5 gap-6">
-                <Card>
+                <Card 
+                  className="cursor-pointer hover:shadow-md transition-shadow"
+                  onClick={() => setActiveTab("insights")}
+                >
                   <CardHeader 
                     title="Average Rating"
                     titleTypographyProps={{
@@ -364,7 +426,10 @@ export default function ReviewsX() {
                   </CardContent>
                 </Card>
 
-                <Card>
+                <Card 
+                  className="cursor-pointer hover:shadow-md transition-shadow"
+                  onClick={() => setActiveTab("insights")}
+                >
                   <CardHeader 
                     title="Review Volume"
                     titleTypographyProps={{
@@ -382,7 +447,10 @@ export default function ReviewsX() {
                   </CardContent>
                 </Card>
 
-                <Card>
+                <Card 
+                  className="cursor-pointer hover:shadow-md transition-shadow"
+                  onClick={() => setActiveTab("inbox")}
+                >
                   <CardHeader 
                     title="Reply Rate"
                     titleTypographyProps={{
@@ -400,7 +468,10 @@ export default function ReviewsX() {
                   </CardContent>
                 </Card>
 
-                <Card>
+                <Card 
+                  className="cursor-pointer hover:shadow-md transition-shadow"
+                  onClick={() => setActiveTab("inbox")}
+                >
                   <CardHeader 
                     title="Response Time"
                     titleTypographyProps={{
@@ -418,7 +489,10 @@ export default function ReviewsX() {
                   </CardContent>
                 </Card>
 
-                <Card>
+                <Card 
+                  className="cursor-pointer hover:shadow-md transition-shadow"
+                  onClick={() => setActiveTab("insights")}
+                >
                   <CardHeader 
                     title="Sentiment Index"
                     titleTypographyProps={{
@@ -493,12 +567,12 @@ export default function ReviewsX() {
                             {week: 11, volume: 298, rating: 4.8},
                             {week: 12, volume: 342, rating: 4.7}
                           ].map((data, i) => (
-                            <div key={i} className="flex flex-col items-center gap-1 relative">
+                            <div key={i} className="flex flex-col items-center gap-1 relative cursor-pointer hover:bg-gray-50 rounded p-1" onClick={() => navigateToInboxWithFilter('week', data.week)}>
                               {/* Volume bar */}
                               <div 
-                                className="w-6 bg-blue-400 rounded-t" 
+                                className="w-6 bg-blue-400 rounded-t hover:bg-blue-500 transition-colors" 
                                 style={{height: `${(data.volume / 400) * 160}px`}}
-                                title={`${data.volume} reviews`}
+                                title={`${data.volume} reviews - Click to view`}
                               ></div>
                               <div className="text-xs text-gray-400">W{data.week}</div>
                               
@@ -554,54 +628,82 @@ export default function ReviewsX() {
                 <Card>
                   <CardHeader>
                     <div className="flex items-center justify-between">
-                      <CardTitle>Source Distribution</CardTitle>
-                      <Button variant="outline" size="sm">
+                      <CardTitle>{chartToggle === "source" ? "Source Distribution" : "Rating Distribution"}</CardTitle>
+                      <Button 
+                        variant="outline" 
+                        size="sm"
+                        onClick={() => setChartToggle(chartToggle === "source" ? "rating" : "source")}
+                      >
                         <BarChart3 className="w-4 h-4 mr-2" />
-                        Chart View
+                        Switch to {chartToggle === "source" ? "Rating" : "Source"} View
                       </Button>
                     </div>
                   </CardHeader>
                   <CardContent>
-                    <div className="space-y-4">
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-2">
-                          <div className="w-8 h-8 bg-red-100 rounded-lg flex items-center justify-center">
-                            <span className="text-red-600 font-bold text-sm">G</span>
+                    {chartToggle === "source" ? (
+                      <div className="space-y-4">
+                        <div className="flex items-center justify-between cursor-pointer hover:bg-gray-50 p-2 rounded" onClick={() => navigateToInboxWithFilter('source', 'google')}>
+                          <div className="flex items-center gap-2">
+                            <div className="w-8 h-8 bg-red-100 rounded-lg flex items-center justify-center">
+                              <span className="text-red-600 font-bold text-sm">G</span>
+                            </div>
+                            <span className="text-sm font-medium">Google My Business</span>
                           </div>
-                          <span className="text-sm font-medium">Google My Business</span>
+                          <span className="text-sm font-medium">65% (2,386 reviews)</span>
                         </div>
-                        <span className="text-sm font-medium">65% (2,386 reviews)</span>
-                      </div>
-                      <div className="w-full bg-gray-200 rounded-full h-3">
-                        <div className="bg-red-500 h-3 rounded-full" style={{width: '65%'}}></div>
-                      </div>
-                      
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-2">
-                          <div className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center">
-                            <span className="text-blue-600 font-bold text-sm">f</span>
+                        <div className="w-full bg-gray-200 rounded-full h-3">
+                          <div className="bg-red-500 h-3 rounded-full" style={{width: '65%'}}></div>
+                        </div>
+                        
+                        <div className="flex items-center justify-between cursor-pointer hover:bg-gray-50 p-2 rounded" onClick={() => navigateToInboxWithFilter('source', 'facebook')}>
+                          <div className="flex items-center gap-2">
+                            <div className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center">
+                              <span className="text-blue-600 font-bold text-sm">f</span>
+                            </div>
+                            <span className="text-sm font-medium">Facebook</span>
                           </div>
-                          <span className="text-sm font-medium">Facebook</span>
+                          <span className="text-sm font-medium">20% (734 reviews)</span>
                         </div>
-                        <span className="text-sm font-medium">20% (734 reviews)</span>
-                      </div>
-                      <div className="w-full bg-gray-200 rounded-full h-3">
-                        <div className="bg-blue-500 h-3 rounded-full" style={{width: '20%'}}></div>
-                      </div>
-                      
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-2">
-                          <div className="w-8 h-8 bg-yellow-100 rounded-lg flex items-center justify-center">
-                            <span className="text-yellow-600 font-bold text-sm">Y</span>
+                        <div className="w-full bg-gray-200 rounded-full h-3">
+                          <div className="bg-blue-500 h-3 rounded-full" style={{width: '20%'}}></div>
+                        </div>
+                        
+                        <div className="flex items-center justify-between cursor-pointer hover:bg-gray-50 p-2 rounded" onClick={() => navigateToInboxWithFilter('source', 'yandex')}>
+                          <div className="flex items-center gap-2">
+                            <div className="w-8 h-8 bg-yellow-100 rounded-lg flex items-center justify-center">
+                              <span className="text-yellow-600 font-bold text-sm">Y</span>
+                            </div>
+                            <span className="text-sm font-medium">Yandex Maps</span>
                           </div>
-                          <span className="text-sm font-medium">Yandex Maps</span>
+                          <span className="text-sm font-medium">15% (552 reviews)</span>
                         </div>
-                        <span className="text-sm font-medium">15% (552 reviews)</span>
+                        <div className="w-full bg-gray-200 rounded-full h-3">
+                          <div className="bg-yellow-500 h-3 rounded-full" style={{width: '15%'}}></div>
+                        </div>
                       </div>
-                      <div className="w-full bg-gray-200 rounded-full h-3">
-                        <div className="bg-yellow-500 h-3 rounded-full" style={{width: '15%'}}></div>
+                    ) : (
+                      <div className="grid grid-cols-5 gap-4">
+                        {[
+                          {stars: 5, count: 2890, percentage: 78.7, color: "green"},
+                          {stars: 4, count: 445, percentage: 12.1, color: "lime"},
+                          {stars: 3, count: 185, percentage: 5.0, color: "yellow"},
+                          {stars: 2, count: 89, percentage: 2.4, color: "orange"},
+                          {stars: 1, count: 63, percentage: 1.7, color: "red"}
+                        ].map((rating) => (
+                          <div key={rating.stars} className="text-center cursor-pointer hover:bg-gray-50 p-2 rounded" onClick={() => navigateToInboxWithFilter('rating', rating.stars)}>
+                            <div className="text-lg font-bold">{rating.stars}★</div>
+                            <div className="h-24 bg-gray-100 rounded mb-2 flex items-end justify-center">
+                              <div 
+                                className={`w-8 rounded-t ${getRatingColorClass(rating.color)}`}
+                                style={{height: `${rating.percentage}%`}}
+                              ></div>
+                            </div>
+                            <div className="text-sm font-medium">{rating.count}</div>
+                            <div className="text-xs text-gray-500">{rating.percentage}%</div>
+                          </div>
+                        ))}
                       </div>
-                    </div>
+                    )}
                   </CardContent>
                 </Card>
               </div>
@@ -804,9 +906,16 @@ export default function ReviewsX() {
                   <CardContent>
                     <div className="space-y-4">
                       {recentReviews.map((review) => (
-                        <div key={review.id} className="flex items-start gap-3 p-3 border rounded-lg hover:bg-gray-50">
+                        <div 
+                          key={review.id} 
+                          className="flex items-start gap-3 p-3 border rounded-lg hover:bg-gray-50 cursor-pointer transition-colors"
+                          onClick={() => setActiveTab("inbox")}
+                        >
                           <div className="flex items-center gap-2">
-                            {review.isNew && <div className="w-2 h-2 bg-red-500 rounded-full"></div>}
+                            <div className="flex items-center gap-1">
+                              {review.isNew && <div className="w-2 h-2 bg-red-500 rounded-full"></div>}
+                              {review.isUrgent && <div className="w-4 h-4 bg-red-500 rounded-full flex items-center justify-center text-white text-xs font-bold">!</div>}
+                            </div>
                             <div className="flex">
                               {[...Array(5)].map((_, i) => (
                                 <Star
@@ -817,7 +926,10 @@ export default function ReviewsX() {
                             </div>
                           </div>
                           <div className="flex-1">
-                            <div className="font-medium text-sm">{review.reviewer} - {review.location}</div>
+                            <div className="font-medium text-sm flex items-center gap-2">
+                              <span>{review.reviewer} - {review.location}</span>
+                              {review.isUrgent && <span className="text-xs bg-red-100 text-red-600 px-2 py-1 rounded-full">URGENT</span>}
+                            </div>
                             <div className="text-sm text-gray-600 line-clamp-2">{review.text}</div>
                             <div className="text-xs text-gray-500 mt-1">{review.date}</div>
                           </div>
@@ -860,6 +972,17 @@ export default function ReviewsX() {
                           </div>
                         </div>
                       </div>
+                      
+                      <div className="mt-4">
+                        <Button 
+                          variant="outline" 
+                          size="sm" 
+                          onClick={() => setActiveTab("insights")}
+                          className="text-blue-600 hover:text-blue-700"
+                        >
+                          View Details
+                        </Button>
+                      </div>
                     </div>
                   </CardContent>
                 </Card>
@@ -875,13 +998,16 @@ export default function ReviewsX() {
                     <div>
                       <h4 className="font-medium text-green-600 mb-3">🏆 Top 5 Locations</h4>
                       <div className="space-y-2">
-                        {locations.slice(0, 3).map((location, index) => (
-                          <div key={location.id} className="flex items-center justify-between p-2 bg-green-50 rounded">
+                        {locations.slice(0, 5).map((location, index) => (
+                          <div key={location.id} className="flex items-center justify-between p-2 bg-green-50 rounded hover:bg-green-100 cursor-pointer transition-colors" onClick={() => setActiveTab("locations")}>
                             <div className="flex items-center gap-2">
                               <span className="font-bold text-green-600">#{index + 1}</span>
                               <span className="text-sm">{location.name}</span>
                             </div>
-                            <span className="text-sm font-medium">{location.rating}★</span>
+                            <div className="text-right">
+                              <div className="text-sm font-medium">{location.rating}★</div>
+                              <div className="text-xs text-gray-500">{location.reviewCount} reviews</div>
+                            </div>
                           </div>
                         ))}
                       </div>
@@ -890,17 +1016,30 @@ export default function ReviewsX() {
                     <div>
                       <h4 className="font-medium text-red-600 mb-3">⚠️ Needs Improvement</h4>
                       <div className="space-y-2">
-                        {locations.slice(-2).map((location, index) => (
-                          <div key={location.id} className="flex items-center justify-between p-2 bg-red-50 rounded">
+                        {locations.slice(-5).map((location, index) => (
+                          <div key={location.id} className="flex items-center justify-between p-2 bg-red-50 rounded hover:bg-red-100 cursor-pointer transition-colors" onClick={() => setActiveTab("locations")}>
                             <div className="flex items-center gap-2">
-                              <span className="font-bold text-red-600">#{locations.length - 1 + index}</span>
+                              <span className="font-bold text-red-600">#{locations.length - 5 + index + 1}</span>
                               <span className="text-sm">{location.name}</span>
                             </div>
-                            <span className="text-sm font-medium">{location.rating}★</span>
+                            <div className="text-right">
+                              <div className="text-sm font-medium">{location.rating}★</div>
+                              <div className="text-xs text-gray-500">{location.reviewCount} reviews</div>
+                            </div>
                           </div>
                         ))}
                       </div>
                     </div>
+                  </div>
+                  
+                  <div className="mt-6 text-center">
+                    <Button 
+                      variant="outline" 
+                      onClick={() => setActiveTab("locations")}
+                      className="text-blue-600 hover:text-blue-700"
+                    >
+                      View All Locations
+                    </Button>
                   </div>
                 </CardContent>
               </Card>
@@ -1061,24 +1200,69 @@ export default function ReviewsX() {
               <div className="flex items-center justify-between">
                 <h2 className="text-2xl font-bold">Review Inbox</h2>
                 <div className="flex items-center gap-2">
-                  <Badge variant="outline">{recentReviews.filter(r => r.isNew).length} Yeni</Badge>
-                  <Button variant="outline" size="sm">
+                  <Badge variant="outline">{recentReviews.filter(r => r.isNew).length} New</Badge>
+                  <Button variant="outline" size="sm" onClick={() => setInboxFilters({ source: null, rating: null, week: null })}>
                     <Filter className="w-4 h-4 mr-2" />
-                    Filtrele
+                    Clear Filters
                   </Button>
                 </div>
               </div>
+              
+              {/* Active Filters Display */}
+              {(inboxFilters.source || inboxFilters.rating || inboxFilters.week) && (
+                <div className="flex items-center gap-2 p-3 bg-blue-50 rounded-lg border border-blue-200">
+                  <span className="text-sm font-medium text-blue-800">Active Filters:</span>
+                  {inboxFilters.source && (
+                    <Badge variant="secondary" className="bg-blue-100 text-blue-800">
+                      Source: {inboxFilters.source}
+                      <button 
+                        onClick={() => setInboxFilters({...inboxFilters, source: null})}
+                        className="ml-1 hover:bg-blue-200 rounded-full p-0.5"
+                      >
+                        ✕
+                      </button>
+                    </Badge>
+                  )}
+                  {inboxFilters.rating && (
+                    <Badge variant="secondary" className="bg-blue-100 text-blue-800">
+                      Rating: {inboxFilters.rating}★
+                      <button 
+                        onClick={() => setInboxFilters({...inboxFilters, rating: null})}
+                        className="ml-1 hover:bg-blue-200 rounded-full p-0.5"
+                      >
+                        ✕
+                      </button>
+                    </Badge>
+                  )}
+                  {inboxFilters.week && (
+                    <Badge variant="secondary" className="bg-blue-100 text-blue-800">
+                      Week: {inboxFilters.week}
+                      <button 
+                        onClick={() => setInboxFilters({...inboxFilters, week: null})}
+                        className="ml-1 hover:bg-blue-200 rounded-full p-0.5"
+                      >
+                        ✕
+                      </button>
+                    </Badge>
+                  )}
+                </div>
+              )}
 
               <div className="grid grid-cols-3 gap-6">
                 {/* Review List */}
                 <div className="col-span-1">
                   <Card>
                     <CardHeader>
-                      <CardTitle className="text-base">Reviews ({recentReviews.length})</CardTitle>
+                      <CardTitle className="text-base">Reviews ({filteredInboxReviews.length})</CardTitle>
                     </CardHeader>
                     <CardContent className="p-0">
                       <div className="space-y-1">
-                        {recentReviews.map((review) => (
+                        {recentReviews.filter(review => {
+                          if (inboxFilters.source && review.platform !== inboxFilters.source) return false;
+                          if (inboxFilters.rating && review.rating !== inboxFilters.rating) return false;
+                          // For week filter, you'd need to implement date logic here
+                          return true;
+                        }).map((review) => (
                           <div key={review.id} className={`p-4 border-b hover:bg-gray-50 cursor-pointer ${review.isNew ? 'bg-blue-50 border-l-4 border-l-blue-500' : ''}`}>
                             <div className="flex items-center gap-2 mb-2">
                               <div className="flex">
