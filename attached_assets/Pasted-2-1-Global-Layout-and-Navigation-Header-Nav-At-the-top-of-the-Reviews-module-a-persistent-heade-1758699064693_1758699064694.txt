@@ -1,0 +1,305 @@
+2.1 Global Layout and Navigation
+
+Header & Nav: At the top of the Reviews module, a persistent header shows high-level filters and actions. A module breadcrumb (“VenueX > Reviews”) and date filter are on the top bar. The user can choose the date range for data (e.g. Last 7 days, 30 days, custom) which will update all Overview stats and Insights
+support.sproutsocial.com
+. On the left side, a sub-navigation menu (tabs) lists: Overview, Locations, Products, Inbox/Replies, Insights, Settings. This allows one-click switching between sections. The current section is highlighted.
+
+Common UI elements include a location filter dropdown (default “All Locations”) and if relevant a product filter (default “All Products”) near the top – so users can scope what they’re viewing. There’s also a prominent “New Review Alerts” icon (bell) that shows a count of new/unread reviews since last visit
+chatmeter.com
+chatmeter.com
+. Clicking it jumps to Inbox filtered to those new items.
+
+Design philosophy: Keep navigation simple and consistent. Users (based on persona) might spend most time in one section (store managers in Inbox, execs in Overview/Insights). So direct nav helps. Also, maintain context when switching – e.g. if a user filters to “Region = West” in Locations, that filter persists if they go to Insights, ensuring continuity in analysis.
+
+2.2 Overview Section
+
+Purpose: The Overview provides a brand-level dashboard of reputation health and performance. It aggregates data across all locations (unless a location filter is applied) and highlights key KPIs, recent activity, and trends. It’s the default landing for corporate users (e.g. CMO, Head of CX) who need a snapshot of how the brand is doing overall
+sproutsocial.com
+sproutsocial.com
+.
+
+Layout & Components:
+
+KPI Summary Cards: At the top, a row of stat cards shows top metrics: e.g. Average Star Rating (brand-wide)
+reputation.com
+, Total Review Volume (in selected period)
+reputation.com
+, Response Rate (% of reviews responded to)
+chatmeter.com
+chatmeter.com
+, Avg Response Time (e.g. 18h, against SLA)
+support.sproutsocial.com
+, and Sentiment Index (an NLP-derived score of text sentiment). Each card might have a small indicator of change (up/down vs previous period). For example, “Average Rating: 4.2 ★ (▲ 0.1)” to show improvement
+yext.com
+yext.com
+. These give an executive quick insight into reputation trajectory. Clicking a card can deep-link to a detailed view in Insights or Locations.
+
+Trends & Graphs: Below KPI cards, we display one or two visualizations. On the left, a line or bar chart shows Review Volume & Average Rating over time (timeline could be weekly over the past 3 months). This helps spot trends or seasonality (e.g. a dip in ratings in July)
+chatmeter.com
+chatmeter.com
+. The chart could dual-plot volume (bars) and avg rating (line) per week. On the right, a pie or bar chart shows Review Source Distribution – what % of reviews come from Google, Facebook, Yelp, etc., perhaps top 5 sources and “Other”
+socialpilot.co
+. This reveals which platforms dominate (often Google) so the user knows where most feedback comes from. Alternatively, that right-side could be a Rating Distribution (how many 5★, 4★, etc.) to quickly gauge sentiment spread
+chatmeter.com
+chatmeter.com
+. We may include both via a toggle.
+
+Recent Reviews & Alerts: A panel listing, say, the 5 most recent reviews across all locations (with source icon, location name, star rating, snippet of text)
+media.sproutsocial.com
+. Each item might have a colored dot if unread/unresponded (like an email inbox). This provides recency awareness: e.g. “John Doe – 1★ on Google for Store #123: ‘…very slow service…’ – 2 hours ago.” Users can click it to go to Inbox view of that review to respond or see details. Also in this panel, highlight urgent items: e.g. any new 1★ reviews or reviews containing certain words (like “cancel” or “lawsuit”) could be flagged with a warning icon
+reputation.com
+reputation.com
+. This ensures critical issues are visible at a glance in Overview.
+
+Top Positive & Negative Themes: Another panel (or set of bullet points) shows analysis like “Top 3 Compliments” and “Top 3 Complaints” from recent reviews
+chatmeter.com
+chatmeter.com
+. For example: “👍 Staff Friendliness (mentioned 45 times, 95% positive)”, “👎 Wait Time (mentioned 30 times, 40% negative sentiment)”. These come from NLP theme extraction and let execs see what customers love or where improvement is needed at the aggregate level. A “View Details” link goes to Insights section’s theme analysis for more.
+
+Location Leaderboard Snapshot: If the brand has multiple locations, at the bottom of Overview we show a mini leaderboard table – e.g. 5 best and 5 worst locations by average rating this period
+chatmeter.com
+chatmeter.com
+. Each entry lists location name, avg rating, # of reviews, and maybe response rate. This gives context if a particular store is excelling or struggling. A “View All Locations” button jumps to Locations tab for the full list.
+
+UX Flow: The Overview is mostly read-only data visualizations. However, everything is interactive to drill down. For instance, clicking on “1★” portion of rating distribution could navigate to Inbox filtered for 1★ reviews. Or clicking a specific week’s bar in the volume chart could bring up reviews from that week. This interactive design encourages exploration and quick access to root causes behind metrics
+chatmeter.com
+chatmeter.com
+. The goal is that a user like the Head of CX can scan the Overview in 30 seconds and know overall reputation status (fast), then optionally dive deeper by clicking on areas of interest (clear and valuable details on demand).
+
+2.3 Locations Section
+
+Purpose: The Locations section provides a page for comparing and managing at the location level. It lists all stores/locations with their key reputation metrics, and allows drilling into a single location’s detail page. This is primarily used by regional managers (to see how their stores rank and identify outliers) and by corporate to identify patterns or target support/training
+chatmeter.com
+chatmeter.com
+.
+
+Layout & Components:
+
+Locations Table/List: A structured table listing each location (or those filtered by region/city). Columns include: Location Name (and ID/Code), City/Region, Average Rating
+chatmeter.com
+, Review Count (in selected period, or total), % Negative (1-2★ percentage, indicating problem frequency), Response Rate (how many of its reviews have replies)
+chatmeter.com
+, and maybe Last Review Date. This table is sortable by any column – e.g. sort by rating to see best→worst stores. It’s also searchable (a search box above to find a specific store quickly). If the user filtered by region already (via global filter or region selection on a map), the list only shows those relevant locations. Each row likely has a right-side “…” menu with quick actions: View Details, Go to Inbox for this location, etc. Rows could be color-coded or have icons for status – e.g. a red icon if avg rating < 3, or a check mark if response rate is 100%. This provides a management at a glance: who needs attention.
+
+Map View Toggle: Optionally, a toggle to switch between “Table view” and “Map view.” The Map view would show a geographic map with pins for each location (like Google Maps). Pin color or size might reflect the rating or volume. Hovering or clicking a pin shows a tooltip with that location’s name and summary stats (avg rating, # reviews, maybe a snippet of the latest review). This can help identify spatial patterns (e.g. the West region’s pins are mostly red = low ratings). For many locations, a cluster view with heatmap might be useful. This is a more visual alternative to the table, and users can zoom in to specific areas.
+
+Location Detail Panel: If a user clicks a location (from table or map), a detail panel or separate page opens. On that Location Detail page, they’d see that store’s specific metrics and recent reviews. Essentially, it’s like an Overview but scoped to one location: star rating trend for that store, latest reviews at that store, etc. There would also be a comparison to company average (“This store: 3.8★ vs Company: 4.2★”). We might integrate other VenueX data here too (like foot traffic or sales – e.g. “foot traffic has declined 5% in weeks with lower ratings”, if data available). But at minimum, it’s a per-location reputation dashboard, possibly including the store manager’s response performance (like average response time for that store). This helps regional or store managers hone in on their areas. From here, one can click “Respond to Reviews” which would go to Inbox filtered to that location.
+
+Filters & Grouping: The Locations page would have filtering options beyond location hierarchy. For instance, a filter for “At-risk locations” which could mean rating below X or negative review surge > Y% (some pre-defined views). Also a filter by tag or attributes: if locations have attributes like concept type, size, etc., one could filter those to see if e.g. mall stores have different patterns than standalone. We might allow grouping the table by region – showing subheadings or expandable sections per region, making it easier to digest for a regional manager.
+
+Bulk Actions: Possibly, for power users, the ability to select multiple locations and perform an action – e.g. send a bulk message to their managers or assign someone to audit responses for all those locations. This is more internal workflow; we mention it for design completeness but it might come later.
+
+UX Flow: The typical flow: a Regional Manager opens Locations, filters to their region. They immediately see their list of stores ranked by rating. They notice one store is significantly lower than others. They click that store row to view detail – see the common issues (maybe lots of complaints about an employee). They can then hit “Inbox” from that detail to perhaps assign someone to review all those complaints or ensure responses are handled. Alternatively, a Head of Operations might come to Locations and sort by response rate to find which locations are neglecting reviews, then use the data to follow up with those store managers. The design emphasizes quick identification of outliers and drilling in to diagnose cause
+chatmeter.com
+chatmeter.com
+, consistent with competitor approaches where spotting spikes or declines triggers action
+chatmeter.com
+chatmeter.com
+. The map gives a macro sense (fast identification of regional patterns), while the table gives precise values (clear ranking), fulfilling both fast and clear aspects. It’s valuable because it directly points to where to intervene.
+
+2.4 Products Section
+
+Purpose: The Products section mirrors Locations but for product-specific reviews. This is particularly useful if VenueX’s clients also track reviews of products or SKUs (for retailers, think product ratings on their site or aggregated from places like Google Merchant or Amazon if applicable). It allows a Product Ops or Brand Manager to see how each product is rated and what feedback it’s getting, across all locations and channels.
+
+Layout & Components:
+
+Products Table: A listing of products (or product categories) with columns similar to Locations: Product Name (and maybe SKU or category), Average Rating (if numerical ratings exist for products), Review Count, Sentiment summary (if textual feedback), and possibly Common Pros/Cons for that product. For example, “Product XYZ – 4.5★ – 120 reviews – Top Compliment: ‘quality’, Top Complaint: ‘price’.” If clients integrate e-commerce reviews, this is where those appear. If we are instead deriving product mentions from location reviews (e.g. “the shoes I bought were great”), then this section might be more about topics. However, since the spec mentions product→SKU hierarchy, likely clients have direct product reviews we ingest (maybe via Bazaarvoice or Trustpilot). So each row is basically the aggregate of that product’s reviews.
+
+Category Filter: Likely a filter to view by category or brand line. E.g. filter to “Laptops” to see all laptop products’ ratings.
+
+Product Detail: Clicking a product row would show that product’s detail page: overall rating, a breakdown of ratings by location (if we know which store sold it or review by store), and common themes in its reviews. For instance, “Camera X: 4.2★ – strong praise for image quality, complaints about battery life” discovered via text mining. This detail would help Product Ops or merchandisers identify if a product has a design issue or if its sentiment is improving after a new version.
+
+Integration with Inventory: Because VenueX ties to offline data, we could also show how many sold or returned – but that might be beyond just reviews. At minimum, we show how reviews for that product trending over time (especially around launch dates). If integrated with knowledge graph, maybe show product attributes (release date, etc.) for context.
+
+Review List by Product: Could also list a few recent reviews for that product (like a mini-inbox filtered to that product). If someone from product team wants to respond (in some contexts, product managers respond to e-commerce reviews or community feedback), they can do so from here or jump to Inbox with a product filter.
+
+UX Flow: A Product Manager logs in and goes to Products. They see a list of their portfolio with ratings. One product stands out with lower score than others. They click it to examine reviews and find a recurring complaint about sizing. They then coordinate with design to fix that. Or they notice an improvement in ratings after a known issue was resolved – validating their actions. For a CMO, they could filter to a category to see how a new line is being received by customers across all stores. The design thereby provides an actionable view for product improvements, aligning with the "valuable" part – e.g. showing receding themes might highlight that a previous problem (like “battery overheating”) no longer appears in recent reviews, which is a win. If product reviews are not a major focus or available data for a client, this section can be hidden or repurposed (the UI should be modular). But given spec calls it out, we design it fully.
+
+2.5 Inbox/Replies Section
+
+Purpose: The Inbox (also called “Reviews Inbox” or “Reply Console”) is the operational heart where users read individual reviews and respond, assign, or take other actions
+yext.com
+. It’s designed for daily use by community managers, store managers, and any staff replying to reviews. The interface is similar to an email or helpdesk inbox – listing reviews and providing a pane to compose replies.
+
+Layout & Components:
+
+Review List (Inbox): A sequential list of all reviews (across filtered scope) sorted by date (newest first by default, or priority). Each list item (as seen in the embedded image above) shows key info: reviewer name (or alias), source icon (Google “G”, Facebook “f”, etc.), star rating, review text excerpt, location (if multi-location), date posted
+media.sproutsocial.com
+. It also indicates status: e.g. unreplied reviews might be bold or marked with a dot, and replied reviews could be greyed or show a reply icon. Possibly a filter to show only unreplied ones (like “Open items”). If a review is selected, it’s highlighted. This list can be filtered using a left sidebar or top filters by rating, source, location, tags, sentiment, date, etc.
+support.sproutsocial.com
+. We’ll have quick filter buttons e.g. “⭐ 1-2 Star”, “😠 Negative sentiment”, “📍 Location: Midtown”, etc. Additionally, a search bar allows full-text search across reviews
+support.sproutsocial.com
+ (for instance, find all reviews mentioning “refund”). This is crucial for ad-hoc queries, say during an incident. The list can also be toggled to show as “threaded” or “flat”. For example, if a review has responses or follow-up from the customer (not common on review platforms except maybe Google updates), we could nest those. But likely flat per review entry.
+
+Review Detail & Reply Pane: When a user selects a review from the list, a detail pane on the right (or bottom in smaller screens) displays the full review content: reviewer name, any profile photo, the star rating, the text, and additional metadata (e.g. platform, review ID, if it’s been marked resolved, etc.). If the review text is long, it’s fully shown here. Below the review, if the review has not been responded to yet, we show a textbox/ editor labeled “Write a reply…” where the user can type their response
+support.sproutsocial.com
+. We’ll support rich text minimally (line breaks, maybe preset signatures). For convenience, the user can pick from Response Templates via a dropdown or button – a list of saved reply snippets to insert (like “Thank you for your feedback, we’re sorry…” etc.)
+socialpilot.co
+. Also, an AI Suggestion button is present: clicking a “⚡ Generate Reply” (or similar) triggers our AI to craft a draft reply based on the review, which then appears in the textbox ready for editing
+yext.com
+. This uses the generative AI integration. The user can tweak it, then hit “Send”. If there is already a reply (from before or by someone else), instead of the editor, it displays the existing reply below the review content – possibly with the replier’s name and date. If allowed to edit, an edit button is shown (some platforms allow editing responses, others don’t; we’ll reflect accordingly). If the user doesn’t have reply permissions, the text box is disabled and shows “You don’t have permission to reply (read-only)”.
+
+Assignment & Collaboration Tools: At the top of the detail pane, there are controls for internal workflow: Assign – which allows assigning this review to a user or team (e.g. route to “Legal Team” or a specific manager)
+support.sproutsocial.com
+. Status – mark review as “Open”, “Pending”, or “Complete” (similar to Sprout’s complete button)
+support.sproutsocial.com
+. Possibly a Prioritize/Star option to flag important ones. We also have an Internal Notes field where team members can discuss the review internally. For instance, an area manager might leave a note: “Spoke with this customer offline, resolved their issue.” These notes are only visible internally and are logged.
+
+Case/Escalate: There might be an “Escalate to Ticket” button. For example, clicking a “Create Case” could tie into a support system or VenueX’s Relate module, opening a customer case referencing this review
+support.sproutsocial.com
+. This is mostly for negative reviews that require further action.
+
+Tags: The detail view can show and allow adding tags/labels to the review (for thematic classification beyond automated). E.g. tag as “Staff Issue” or “Repeat Complaint”. These tags feed into Insights reports. Users can add multiple tags via a tags field.
+
+Multi-select & Bulk Reply: The inbox might allow selecting multiple reviews (via checkboxes) for bulk actions. E.g. mark a bunch as “Reviewed” or assign many to a user in one go. Bulk responding is generally not advisable except maybe for templated positive reviews. We may support sending a bulk response template to many 5★ reviews at once (“Thank you for your positive feedback!”), but caution with uniqueness to avoid platforms flagging. If implemented, user selects multiple, picks a template, and sends – system customizes if possible (like inserts location name in each).
+
+Pagination/Continuous load: If there are hundreds of reviews, the list will load progressively or paginated, with a control at bottom or infinite scroll. Filtering narrows it down as needed.
+
+UX Flow: The Inbox is where, say, a Store Manager will spend time daily. They might filter the inbox to only their location (the global filter can do that too, but within Inbox they might set a saved filter). They see 5 new reviews came in. They click the first – a 5★ Google review – they decide to use a saved “Thank you” template, maybe tweak the customer name, and hit Send. The UI shows a success and maybe the reply now visible with a small “Replied” status. They then click a 2★ review – tougher. They hit “AI Suggestion” – it generates: “We’re sorry about your long wait... please contact us...” – they edit a bit and send. For a 1★ with a serious complaint, they assign it to the Regional Manager or corporate CX via the Assign dropdown (perhaps leaving a note, “Need guidance on this issue”). That review now might appear tagged or in that manager’s view. If an Approvals workflow is in place, maybe certain users have to submit reply for approval. In that case, after writing a reply, instead of “Send” it says “Submit for Approval”
+support.sproutsocial.com
+. The approver then sees it (the review might move to a “Pending Approval” filter). Sprout’s reply approval workflow implies if a pending reply exists, others cannot send a direct reply until it’s resolved
+support.sproutsocial.com
+ – we’ll mimic that.
+
+The Inbox is designed for efficiency: keyboard shortcuts could be enabled (e.g. press “J/K” to navigate reviews, “R” to focus reply box, etc.). Also, as soon as a reply is sent, it could auto-advance to the next unreplied review to streamline workflow (perhaps configurable).
+
+This section must handle multiple scenarios: multi-location corporate user might have an inbox flooded with all stores’ reviews – they would heavily rely on filters (e.g. show only 1★ or unassigned ones). Local users will see just theirs. The UI therefore has to scale from a few reviews to thousands, hence the robust filtering and labeling.
+
+Throughout, the design ensures it’s clear which reviews are still open vs done (maybe an “Open” queue count is shown at top like “12 open reviews” which matches Sprout’s approach of showing how many not marked complete
+support.sproutsocial.com
+). It’s valuable because it facilitates timely responses (which we know correlates to better outcomes
+yext.com
+chatmeter.com
+) and proper team coordination to address feedback.
+
+2.6 Insights Section
+
+Purpose: The Insights section is for deep-dive analytics and reports. It complements the Overview by providing more detailed visualizations, historical trends, and AI-driven analysis like sentiment by topic, anomalies, predictive insights, etc. This is primarily used by analysts, CX leads, and regional/brand managers who want to understand the “why” behind the metrics and get actionable intelligence
+socialpilot.co
+trustradius.com
+.
+
+Layout & Components:
+The Insights section is likely divided into sub-tabs or panels focusing on different analytical angles: e.g. Sentiment & Themes, Trends, Competitors (if applicable), Operational Insights, and Reports/Exports.
+
+Key components include:
+
+Sentiment Overview: A visualization (e.g. a donut chart or net sentiment gauge) summarizing overall sentiment. Possibly a score from -100 to +100 (like NPS style) or simply % positive vs negative mentions across all reviews text
+trustradius.com
+. But star ratings give quantitative sentiment, so more critical is textual sentiment. We might show “Out of all review comments, 80% are positive in tone, 15% neutral, 5% negative.” along with a trend line of sentiment index over time.
+
+Theme Analysis (Topics): This is where we leverage NLP heavily. Possibly represented by a bar chart or bubble chart of top themes by volume and sentiment. For example, bars for “Staff Attitude”, “Pricing”, “Store Cleanliness”, etc., each bar split into green/red indicating positive vs negative mention ratio
+socialpilot.co
+socialpilot.co
+. One could filter to negative sentiments only to see the biggest pain points. If using something like BERTopic, we can list dynamic topic clusters. Alternatively, a word cloud could be used, but those are less precise. Better is a sorted list: e.g. “Cleanliness – 93% positive (120 mentions)”, “Wait Time – 30% positive (50 mentions)”, etc., with sparkline trend next to each to show if it’s improving or worsening. Clicking a theme allows the user to see underlying reviews (drill-down)
+amalytix.com
+amalytix.com
+ – a pop-up or transition to a filtered Inbox of reviews that mention that theme. This interactive exploration is key.
+
+Comparative Insights: Possibly a panel to compare themes or sentiment across locations or segments. E.g. a heatmap where rows are top themes and columns are regions, color-coded by sentiment (so you can see e.g. “Parking: East region very negative, West region neutral, etc.”). Or a table “Top 3 negative themes per region” to find if some issues are localized.
+
+Trend Analysis: Graphs focusing on how metrics change over time. We might have a line chart for average rating per month (with ability to filter by location or region to compare – maybe multiple lines to compare Region A vs Region B). Another could be volume vs sentiment over time (are negative reviews rising or falling quarter over quarter?). Possibly include known events (vertical markers) if integrated (like store reopenings or product launches) for context. We could also highlight anomalies automatically: e.g. if June had a huge spike in reviews or a drop in rating beyond normal variance, mark it in red. The system might even auto-caption: “Anomaly detected: Significant drop in average rating in July for Western region – investigate cause.”
+
+Operational Insights: This ties reviews to operations. For instance, we might display a chart correlating Response Rate vs Star Rating by location (to show that stores that respond more have higher ratings)
+yext.com
+chatmeter.com
+. Or a scatterplot of Average rating vs Foot traffic change to find if better reputation is driving more visits (if we have that data, which is likely since VenueX deals with offline impact). The idea is to quantify impact: e.g. “Locations above 4★ rating have on average +5% YoY sales growth compared to others
+yext.com
+.” If competitor data is integrated (maybe through public scraping or a provided feed), show Competitor Comparison – e.g. a chart of our brand’s rating vs competitor’s in the same timeframe
+chatmeter.com
+chatmeter.com
+. Or a table: by city, our average vs competitor average (to spot markets where we lag).
+
+Response Performance: A sub-section focusing on how the team is handling reviews. Charts like distribution of response times (perhaps see how many within 24h vs beyond 48h – to measure SLA compliance)
+chatmeter.com
+chatmeter.com
+. Also top responders by volume, or which regions meet the 48h SLA the most. Possibly a leaderboard of response rate by region to encourage internal competition (and identify training needs for laggards). These could be bar charts or just data points like “Company-wide, 89% of reviews are answered within 48h (target 90%)” with maybe a projection or recommendation.
+
+Exportable Reports: We’d include an interface to generate PDF/Excel reports from the insights. There might be preset templates like “Monthly Reputation Report” summarizing key KPIs and top themes, which can be downloaded or scheduled via Settings. This section might list available reports and when last generated. It would incorporate the above analytics in a shareable format.
+
+Governance in Insights: We ensure not to display any PII inadvertently. If a review contains personal info and our system flagged it, maybe in insights we exclude that text from word clouds etc. Also, any bias in AI is mitigated by letting users filter by actual star ratings as well (not purely trusting sentiment analysis).
+
+UX Flow: An Analyst might come into Insights after noticing something in Overview or due to a management query (“Why did our ratings drop in Q3?”). They open Trends, adjust the time frame to year-over-year, see a dip in Q3, then switch to Themes and filter Q3 – noticing “Pricing” complaints spiked. They then recall that’s when prices were raised – confirming cause. They compile that into a report for leadership (using the export). Or a Head of CX could go to Insights monthly to see what new issues are emerging – e.g. sees “Online Order Pickup” became a trending negative theme in the last month, which is actionable to fix that process. The design allows them to go from high-level pattern to specific reviews causing it (with a few clicks like filtering by theme then reading sample comments), ensuring clear traceability from data to evidence
+chatmeter.com
+chatmeter.com
+. The insights are valuable as they directly inform decisions (like training needs, policy changes, etc.). We also incorporate small explanatory notes with charts (like a caption “Responding to reviews within 24-48h can increase updated ratings and SEO visibility
+yext.com
+chatmeter.com
+” to reinforce best practices).
+
+2.7 Settings Section
+
+Purpose: The Settings section is where administrators configure the Reviews module: integration settings, templates, alerts, roles permissions related to reviews, AI settings, and other governance controls. It ensures the system can be tailored to the organization’s needs.
+
+Layout & Components:
+We expect a left menu within Settings with several subsections: Sources & Integrations, Review Templates, Alerts & Notifications, Automations & AI Assist, Permissions (or a link to global permissions if handled centrally), and Miscellaneous (like SLA definitions, custom tags management, etc.).
+
+Key Settings components:
+
+Sources & Integrations: A list of all connected review sources (Google, Facebook, TripAdvisor, first-party, etc.) with status (connected ✅ or needs reconnect). Admins can click “Add Source” to connect new ones (maybe an integration wizard for any that require OAuth, e.g. Google My Business or Facebook linking)
+support.sproutsocial.com
+support.sproutsocial.com
+. For some (like Yelp, which might not allow API respond for everyone), we’ll indicate limitations (e.g. “Monitor only”). If custom CSV import is allowed (for example, to bring in historical data or from a niche site not integrated), options for that might be here too. Also, if using competitor monitoring, they might input competitor business names/IDs here for tracking.
+
+Templates: Manage Response Templates library. It will show a list of existing templates (e.g. “Thank Positive – General”, “Apology – Service Issue”). Each can be edited: content with placeholders (like {Location} or {ReviewerName}). Admin can create new templates and categorize them by type. Possibly mark some as “Default for 5★” so the AI/automations know which to use. This ensures consistency in voice across responders
+reputation.com
+reputation.com
+.
+
+Alerts & Notifications: Settings to configure who gets notified and how. E.g. set rules: “Email to Regional Manager if any review ≤2★ for their region”
+reputation.com
+reputation.com
+, “Slack alert to #reviews-channel for all new 1★ reviews globally”, “Daily summary at 5pm to store managers of new reviews”
+reputation.com
+reputation.com
+. Also, personal notification preferences: toggle on/off in-app notifications or emails for assigned reviews, approvals, etc.
+support.sproutsocial.com
+. Possibly integration with SMS for urgent alerts. We allow customizing frequency (immediate, hourly digest, daily digest)
+reputation.com
+.
+
+Automations & AI Assist: Configure the AI and auto-response features. For example: toggle “Auto-respond to 5★ reviews with template [X] after [Y] hours if not responded by a human.” (ensuring a quick thank you)
+socialpilot.co
+. Or “Auto-acknowledge 1★ reviews (send a generic sorry and promise follow-up) immediately, but still assign to human for real follow-up”
+socialpilot.co
+. Admin can set those rules here. Also, settings for AI reply suggestions: e.g. choose tone (“Formal”, “Enthusiastic”, etc.), do we allow AI to auto-post or require human review always? (Probably require human review by default for caution, with an option for auto mode on low-risk scenarios). Possibly an option to auto-translate foreign language reviews for easier handling (tick box to auto-show translations in Inbox). And maybe connect API keys if needed for AI services (if not provided by VenueX out of box).
+
+SLA & Escalation: Define service-level targets (like “Respond to all reviews in 48h” which drives the SLA compliance calculations). Set escalation rules if SLA missed – e.g. escalate to higher manager if a review is unanswered >48h. Also, define escalation keywords and flows (like the escalation matrix mentioned earlier
+soci.ai
+). For instance, specify: if a review contains “lawyer” or is 1★ with “safety”, flag as “Legal” and notify legal team or mark with an icon until they review it. These rules can be input as keyword lists or chosen from common categories.
+
+Permissions (Reviews-specific): If not all global users can respond, an admin might manage which roles have reply capability, who can approve, etc., specifically for the Reviews module
+support.sproutsocial.com
+support.sproutsocial.com
+. Possibly a matrix: e.g. “Store Manager – can reply to their location’s reviews, cannot approve; CX Director – can reply to all, can approve; Legal – view only but receives escalations; Agency X – can reply on behalf of assigned locations.” If this is managed in a central permissions area, the Settings here might simply link or show a summary of those roles for convenience.
+
+Managed Responses integration: If the company uses an outsourced service or our own managed service, settings to enable that and route certain reviews to that team (like enabling “Managed Moderation for first-party reviews” or scheduling tasks for an external team). Possibly not needed if not offering that.
+
+Integrations (outgoing): Possibly set up webhooks or API access – e.g. send review data to a BI system or integrate with CRM. Could have a sub-page for API keys and webhooks triggers (like “POST new review data to this endpoint for internal systems”).
+
+Data & Privacy: Options related to data retention (how long to keep reviews in system if any limitations?), anonymization settings (maybe toggle to anonymize reviewer names in UI for privacy), and compliance toggles (like “mask PII in review text display” if needed, though we’d rather detect and mask automatically always). Also, ability to delete specific review data from VenueX if required by law (just an admin function in case a deletion request under GDPR, though actual review on Google won’t be deleted unless done at source; but our stored copy could be).
+
+Miscellaneous: Custom tags management (predefine tags or categories for consistency), customizing sentiment thresholds (if they want to consider 3★ as negative or neutral, etc.), and UI preferences (like timezone display for reviews time, etc.). Possibly location groups if they want to use in filters.
+
+Reporting & Schedule: Setup scheduled Insights email reports (like “Email executive summary to CEO monthly”) – pick recipients and frequency, which uses the Overview/Insights data.
+
+Assumptions in Settings: The design of Settings assumes administrators will invest time initially to configure these. We’ll include tooltips and recommended defaults to guide them (e.g. default templates, default alert rules, etc.) so it’s not from scratch.
+
+UX Flow: An Admin on onboarding goes to Sources first: connects Google and Facebook via OAuth (we streamline with help guides if needed)
+support.sproutsocial.com
+. They see them turn “Connected.” They might connect Yelp monitoring by adding their business IDs manually if required. Then they go to Templates: they see a few pre-populated generic templates (we can provide some proven templates out-of-box for common scenarios
+socialpilot.co
+socialpilot.co
+). They edit them to add brand voice touches. Next Alerts: by default we might have “Immediate alert to assigned owner for 1★” and “Daily summary for all new reviews to CX team” – they adjust recipients and thresholds as needed. They set SLA 48h as corporate goal. Under Automations, maybe they enable auto-response for 5★ with a friendly template after 24h (some might prefer not to auto-respond at all; but we give the option)
+chatmeter.com
+chatmeter.com
+. They might restrict AI: e.g. require all AI-suggested replies to be approved by a person (especially at launch until trust built). In Permissions, they verify that each user role from the main system has correct rights (we likely integrate with how we manage roles platform-wide, but we illustrate it here for clarity).
+
+Over time, they might come back to Settings to adjust – e.g. if a new platform becomes important, connect it; if they find they get too many alert emails, tweak frequency. We provide an organized, categorized settings UI so they can find relevant settings easily. Possibly include a search within settings (like type “Slack” to find Slack integration setting).
+
+One more important piece: Quality & Governance features. For example, if they want to enforce that certain phrases are NOT used in responses (legal no-nos), we could have a list “Banned words in responses” – and our system can warn if a drafted reply includes them. That could be in Settings under a Policy section. E.g. add “guarantee” or “100% safe” as words to avoid, etc. This helps ensure responses remain compliant (ties to our governance plan that addresses hallucination and brand compliance).
+
+In summary, Settings, though less glamorous, is critically structured to support how the organization implements the module. It's where fast is less critical (people will carefully configure) but clear labeling and grouping is vital (so admins don’t misconfigure an alert or template). And doing it right makes the tool more valuable by aligning it with the company’s processes (the right people get the right notifications, responses follow brand standards, etc.). We will accompany settings with maybe a right side help panel or links to our Hitchhiker guides for best practices (Yext’s Hitchhikers style) so admins can easily get help on what to do in each part
+reputation.com
+reputation.com
+.
