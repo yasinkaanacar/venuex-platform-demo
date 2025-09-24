@@ -517,23 +517,23 @@ export default function ReviewsX() {
                     <div className="text-sm text-gray-500">(Last 30 Days)</div>
                   </CardHeader>
                   <CardContent>
-                    <div className="flex flex-col items-center justify-center h-full space-y-6">
+                    <div className="space-y-4">
                       {/* Most Positive Theme */}
-                      <div className="text-center">
-                        <div className="flex items-center justify-center gap-2 mb-2">
-                          <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-                          <div className="text-lg font-bold text-gray-900">Staff Service</div>
+                      <div className="flex items-center gap-3">
+                        <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+                        <div className="flex-1">
+                          <div className="text-base font-bold text-gray-900">Staff Service</div>
+                          <div className="text-sm text-gray-600">91% positive • 156 mentions</div>
                         </div>
-                        <div className="text-sm text-gray-600">91% positive • 156 mentions</div>
                       </div>
                       
                       {/* Most Negative Theme */}
-                      <div className="text-center">
-                        <div className="flex items-center justify-center gap-2 mb-2">
-                          <div className="w-3 h-3 bg-red-500 rounded-full"></div>
-                          <div className="text-lg font-bold text-gray-900">Pricing</div>
+                      <div className="flex items-center gap-3">
+                        <div className="w-3 h-3 bg-red-500 rounded-full"></div>
+                        <div className="flex-1">
+                          <div className="text-base font-bold text-gray-900">Pricing</div>
+                          <div className="text-sm text-gray-600">55% negative • 98 mentions</div>
                         </div>
-                        <div className="text-sm text-gray-600">55% negative • 98 mentions</div>
                       </div>
                     </div>
                   </CardContent>
