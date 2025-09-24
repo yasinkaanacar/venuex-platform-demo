@@ -50,7 +50,9 @@ import {
   MoreHorizontal,
   Edit,
   Trash2,
-  ExternalLink
+  ExternalLink,
+  Bookmark,
+  Share2
 } from 'lucide-react';
 import Header from '@/components/overview/header';
 
@@ -264,7 +266,9 @@ export default function ReviewsX() {
             <Home className="w-4 h-4" />
             <span>VenueX</span>
             <ChevronRight className="w-4 h-4" />
-            <span className="text-gray-900 font-medium">Reviews</span>
+            <span>Reviews</span>
+            <ChevronRight className="w-4 h-4" />
+            <span className="text-gray-900 font-medium">Overview</span>
           </div>
           
           {/* Filters Row */}
@@ -360,10 +364,16 @@ export default function ReviewsX() {
                 )}
               </Button>
 
-              {/* Quick Actions Menu */}
+              {/* Save View */}
               <Button variant="outline" size="sm">
-                <Plus className="w-4 h-4 mr-2" />
-                Quick Actions
+                <Bookmark className="w-4 h-4 mr-2" />
+                Save View
+              </Button>
+
+              {/* Share Snapshot */}
+              <Button variant="outline" size="sm">
+                <Share2 className="w-4 h-4 mr-2" />
+                Share Snapshot
               </Button>
             </div>
           </div>
