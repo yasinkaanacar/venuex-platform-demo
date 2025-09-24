@@ -366,11 +366,7 @@ export default function ReviewsX() {
                 )}
               </Button>
 
-              {/* Save View */}
-              <Button variant="outline" size="sm">
-                <Bookmark className="w-4 h-4 mr-2" />
-                Save View
-              </Button>
+              
 
               {/* Share Snapshot */}
               <Button variant="outline" size="sm">
