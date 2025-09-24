@@ -464,14 +464,9 @@ export default function ReviewsX() {
                   className="cursor-pointer hover:shadow-md transition-shadow"
                   onClick={() => setActiveTab("insights")}
                 >
-                  <CardHeader 
-                    title="Review Volume"
-                    titleTypographyProps={{
-                      variant: "body2",
-                      style: { fontSize: '0.875rem', fontWeight: 600, color: '#374151' }
-                    }}
-                    style={{ paddingBottom: 12, paddingTop: 24 }}
-                  />
+                  <CardHeader className="pb-3">
+                    <CardTitle className="text-sm font-medium text-gray-600">Review Volume</CardTitle>
+                  </CardHeader>
                   <CardContent>
                     <div className="text-2xl font-bold text-gray-900">{kpiData.totalReviews.toLocaleString()}</div>
                     <div className="flex items-center gap-1 text-xs text-green-600">
@@ -485,14 +480,9 @@ export default function ReviewsX() {
                   className="cursor-pointer hover:shadow-md transition-shadow"
                   onClick={() => setActiveTab("inbox")}
                 >
-                  <CardHeader 
-                    title="Reply Rate"
-                    titleTypographyProps={{
-                      variant: "body2",
-                      style: { fontSize: '0.875rem', fontWeight: 600, color: '#374151' }
-                    }}
-                    style={{ paddingBottom: 12, paddingTop: 24 }}
-                  />
+                  <CardHeader className="pb-3">
+                    <CardTitle className="text-sm font-medium text-gray-600">Reply Rate</CardTitle>
+                  </CardHeader>
                   <CardContent>
                     <div className="text-2xl font-bold text-gray-900">{kpiData.responseRate}%</div>
                     <div className="flex items-center gap-1 text-xs text-green-600">
@@ -506,14 +496,9 @@ export default function ReviewsX() {
                   className="cursor-pointer hover:shadow-md transition-shadow"
                   onClick={() => setActiveTab("inbox")}
                 >
-                  <CardHeader 
-                    title="Response Time"
-                    titleTypographyProps={{
-                      variant: "body2",
-                      style: { fontSize: '0.875rem', fontWeight: 600, color: '#374151' }
-                    }}
-                    style={{ paddingBottom: 12, paddingTop: 24 }}
-                  />
+                  <CardHeader className="pb-3">
+                    <CardTitle className="text-sm font-medium text-gray-600">Response Time</CardTitle>
+                  </CardHeader>
                   <CardContent>
                     <div className="text-2xl font-bold text-gray-900">{kpiData.avgResponseTime}</div>
                     <div className="flex items-center gap-1 text-xs text-red-600">
@@ -527,14 +512,9 @@ export default function ReviewsX() {
                   className="cursor-pointer hover:shadow-md transition-shadow"
                   onClick={() => setActiveTab("insights")}
                 >
-                  <CardHeader 
-                    title="Sentiment Index"
-                    titleTypographyProps={{
-                      variant: "body2",
-                      style: { fontSize: '0.875rem', fontWeight: 600, color: '#374151' }
-                    }}
-                    style={{ paddingBottom: 12, paddingTop: 24 }}
-                  />
+                  <CardHeader className="pb-3">
+                    <CardTitle className="text-sm font-medium text-gray-600">Sentiment Index</CardTitle>
+                  </CardHeader>
                   <CardContent>
                     <div className="text-2xl font-bold text-gray-900">{kpiData.sentimentIndex}%</div>
                     <div className="flex items-center gap-1 text-xs text-green-600">
