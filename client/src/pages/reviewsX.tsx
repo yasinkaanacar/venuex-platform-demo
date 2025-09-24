@@ -449,7 +449,6 @@ export default function ReviewsX() {
                       </Card>
                     </TooltipTrigger>
                     <TooltipContent>
-                      <p>Mean of normalized platform ratings within selected scope. Rounded to one decimal place.</p>
                     </TooltipContent>
                   </Tooltip>
 
