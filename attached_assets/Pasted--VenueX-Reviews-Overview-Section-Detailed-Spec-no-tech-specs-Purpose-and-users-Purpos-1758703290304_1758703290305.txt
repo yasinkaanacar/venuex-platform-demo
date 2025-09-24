@@ -1,0 +1,96 @@
+# VenueX Reviews — Overview Section (Detailed Spec, no tech specs)
+
+## Purpose and users
+
+* **Purpose:** Brand-level snapshot that answers “How are we doing right now?” while making the next action obvious.
+* **Primary users:** CMO, Head of CX, Regional Leaders, Data/Insight partners.
+* **Outcomes:** Instant status, trend recognition, hotspot detection, one-click drill-down to Locations, Products, or Inbox.
+
+## Data scope and context
+
+* **Scope:** All reviews within the active **date range** and current **global filters** (source channel, brand→region→city→store, product/SKU, rating, sentiment, theme, language, replied/unreplied, SLA status, country/region).
+* **Persistence:** Selected filters and date range persist across tabs and deep links.
+* **Time comparison:** Period-over-period deltas use the immediately preceding, equal-length period.
+
+## Layout blueprint (top→bottom)
+
+1. **Overview header bar**
+
+   * Breadcrumb: VenueX → Reviews → Overview.
+   * Global filter chips: date range, source, location hierarchy, product, sentiment, language, reply status, SLA.
+   * Search across reviews; unread alerts badge; “Save view” and “Share snapshot” actions.
+
+2. **KPI ribbon (5 cards)**
+
+   * **Average Rating (★)** with delta vs prior period; shows count of reviews contributing.
+   * **Review Volume Δ** total reviews in range with absolute and percentage change.
+   * **Reply Rate** percentage of reviews with an owner response; SLA badge if above/below target.
+   * **Time to First Response** median hours to first reply; SLA compliance meter.
+   * **Sentiment Index** NLP-derived score with confidence band; directional arrow vs prior period.
+   * Card affordances: hover tooltip with definition; click opens the relevant deep-dive in Insights or Inbox prefiltered to the KPI’s dimension.
+
+3. **Trends & distribution row**
+
+   * **Trend chart:** stacked bars for review volume with an overlaid line for average rating by time bucket; legend toggles, brush to zoom, click to filter Inbox to the selected bucket.
+   * **Distribution chart:** rating distribution or source mix; toggle between the two; clicking a segment applies a filter and opens Inbox or Locations as appropriate.
+
+4. **Recent & urgent**
+
+   * **Recent reviews panel:** newest items with source icon, stars, location/product, age, snippet, and urgency flags for low ratings or keyword triggers; clicking opens the review in Inbox.
+   * **Open issues digest:** counts of unreplied, SLA-at-risk, and escalated items; each count is a link to a prefiltered queue in Inbox.
+
+5. **Themes spotlight**
+
+   * **Top positive themes** and **top negative themes** as chips with volume and sentiment share; chips are clickable filters into Insights → Themes with drill-through to underlying reviews.
+
+6. **Location leaderboard snapshot**
+
+   * **Top performers** and **needs attention** lists with location, average rating, volume, reply rate, and delta; “View all” opens Locations with the current sort and filters applied.
+
+## Interactions and fast paths
+
+* **Drill-down map:** Every chart segment, chip, and KPI card deep-links to either Insights, Locations, or Inbox with the same filter context.
+* **Two-click to action:** From Overview, any negative spike, theme chip, or urgent count takes the user to a reply-ready queue within two clicks.
+* **Saved views:** Named snapshots store filters, time window, and widget states; shareable as links or scheduled reports.
+
+## Metric definitions (display logic)
+
+* **Average Rating:** Mean of normalized platform ratings within scope; rounding to one decimal; minimum sample note if n is small.
+* **Review Volume Δ:** Current-period count; delta shows absolute and percentage change; hover reveals both.
+* **Reply Rate:** Replied reviews ÷ total reviews in scope; excludes platforms where replies are not supported; footnote indicates coverage.
+* **Time to First Response:** Median elapsed time from review timestamp to first owner reply; excludes auto-responses if configured; SLA badge colors based on target threshold.
+* **Sentiment Index:** Weighted document-level sentiment aggregated over scope with a 95% confidence band; tooltip explains scale and confidence.
+
+## Copy and guidance
+
+* **Microcopy tone:** Concise, neutral, and action-oriented; tooltips define metrics and data caveats without jargon.
+* **Badges:** “New”, “SLA risk”, and “Escalated” badges appear consistently across panels to cue urgency.
+
+## States and resilience
+
+* **Loading:** Skeletal KPI cards and placeholders; primary content interactive within 0–1s perceived response.
+* **Empty:** Friendly zero-state with guidance and a link to Settings → Sources if no data matches filters.
+* **Partial data:** Inline notices when a source is excluded or reply APIs are unavailable; calculations indicate coverage.
+* **Errors:** Non-blocking inline toasts with retry for panels; Overview remains navigable.
+
+## Accessibility and usability
+
+* **Keyboard-first:** Tab order lands on filters, then KPIs, then charts; Enter/Space to drill; Esc to clear focus.
+* **ARIA labels:** Descriptive labels for cards, chips, chart segments, and badges; tooltips accessible via focus.
+* **Color-safe:** Red/green cues paired with icons and text labels for non-reliance on color alone.
+
+## Governance
+
+* **Privacy:** Reviewer PII never exposed beyond what sources publicly provide; sensitive terms flagged; internal-only notes never surface on public widgets.
+* **Audit cues:** Hover on reply metrics shows definitions and inclusion rules so teams align on targets.
+
+## Acceptance checklist
+
+* KPI ribbon renders within 1s perceived with accurate deltas and tooltips.
+* Every interactive element deep-links with preserved filters to the correct destination.
+* Open issues digest counts match Inbox totals for the same filters.
+* Theme chips lead to Insights with a representative review set and a clear back path.
+* Leaderboard entries match Locations tab when sorted by the same metric and window.
+* Empty, partial, and error states present clear guidance without blocking navigation.
+
+This Overview delivers a fast, clear, and valuable brand-level snapshot with seamless drill-downs to action.
