@@ -303,9 +303,14 @@ export default function ReviewsX() {
               {/* KPI Summary Cards */}
               <div className="grid grid-cols-5 gap-6">
                 <Card>
-                  <CardHeader className="pb-3 pt-6">
-                    <CardTitle className="text-sm font-semibold text-gray-800">Average Rating</CardTitle>
-                  </CardHeader>
+                  <CardHeader 
+                    title="Average Rating"
+                    titleTypographyProps={{
+                      variant: "body2",
+                      style: { fontSize: '0.875rem', fontWeight: 600, color: '#374151' }
+                    }}
+                    style={{ paddingBottom: 12, paddingTop: 24 }}
+                  />
                   <CardContent>
                     <div className="text-2xl font-bold text-gray-900">{kpiData.averageRating}</div>
                     <div className="flex items-center gap-1 text-xs text-green-600">
@@ -316,9 +321,14 @@ export default function ReviewsX() {
                 </Card>
 
                 <Card>
-                  <CardHeader className="pb-3 pt-6">
-                    <CardTitle className="text-sm font-semibold text-gray-800">Review Volume</CardTitle>
-                  </CardHeader>
+                  <CardHeader 
+                    title="Review Volume"
+                    titleTypographyProps={{
+                      variant: "body2",
+                      style: { fontSize: '0.875rem', fontWeight: 600, color: '#374151' }
+                    }}
+                    style={{ paddingBottom: 12, paddingTop: 24 }}
+                  />
                   <CardContent>
                     <div className="text-2xl font-bold text-gray-900">{kpiData.totalReviews.toLocaleString()}</div>
                     <div className="flex items-center gap-1 text-xs text-green-600">
@@ -329,9 +339,14 @@ export default function ReviewsX() {
                 </Card>
 
                 <Card>
-                  <CardHeader className="pb-3 pt-6">
-                    <CardTitle className="text-sm font-semibold text-gray-800">Reply Rate</CardTitle>
-                  </CardHeader>
+                  <CardHeader 
+                    title="Reply Rate"
+                    titleTypographyProps={{
+                      variant: "body2",
+                      style: { fontSize: '0.875rem', fontWeight: 600, color: '#374151' }
+                    }}
+                    style={{ paddingBottom: 12, paddingTop: 24 }}
+                  />
                   <CardContent>
                     <div className="text-2xl font-bold text-gray-900">{kpiData.responseRate}%</div>
                     <div className="flex items-center gap-1 text-xs text-green-600">
@@ -342,9 +357,14 @@ export default function ReviewsX() {
                 </Card>
 
                 <Card>
-                  <CardHeader className="pb-3 pt-6">
-                    <CardTitle className="text-sm font-semibold text-gray-800">Response Time</CardTitle>
-                  </CardHeader>
+                  <CardHeader 
+                    title="Response Time"
+                    titleTypographyProps={{
+                      variant: "body2",
+                      style: { fontSize: '0.875rem', fontWeight: 600, color: '#374151' }
+                    }}
+                    style={{ paddingBottom: 12, paddingTop: 24 }}
+                  />
                   <CardContent>
                     <div className="text-2xl font-bold text-gray-900">{kpiData.avgResponseTime}</div>
                     <div className="flex items-center gap-1 text-xs text-red-600">
@@ -355,9 +375,14 @@ export default function ReviewsX() {
                 </Card>
 
                 <Card>
-                  <CardHeader className="pb-3 pt-6">
-                    <CardTitle className="text-sm font-semibold text-gray-800">Sentiment Index</CardTitle>
-                  </CardHeader>
+                  <CardHeader 
+                    title="Sentiment Index"
+                    titleTypographyProps={{
+                      variant: "body2",
+                      style: { fontSize: '0.875rem', fontWeight: 600, color: '#374151' }
+                    }}
+                    style={{ paddingBottom: 12, paddingTop: 24 }}
+                  />
                   <CardContent>
                     <div className="text-2xl font-bold text-gray-900">{kpiData.sentimentIndex}%</div>
                     <div className="flex items-center gap-1 text-xs text-green-600">
