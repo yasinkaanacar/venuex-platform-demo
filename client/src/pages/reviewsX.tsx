@@ -61,6 +61,17 @@ import Header from '@/components/overview/header';
 import { MapContainer, TileLayer, Marker, Popup, Tooltip as LeafletTooltip, GeoJSON } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
+import { 
+  ComposedChart, 
+  Bar, 
+  Line, 
+  XAxis, 
+  YAxis, 
+  CartesianGrid, 
+  Tooltip as RechartsTooltip, 
+  Legend, 
+  ResponsiveContainer 
+} from 'recharts';
 import { useRef, useEffect } from 'react';
 
 // Fix for default markers in Leaflet with React
@@ -771,6 +782,50 @@ export default function ReviewsX() {
   const kpiData = getKpiData(currentData, currentLevel);
 
   const alertsCount = 12;
+
+  // Generate trend data for the last 14 days with dynamic integration
+  const getTrendData = () => {
+    const today = new Date();
+    const trendData = [];
+    
+    for (let i = 13; i >= 0; i--) {
+      const date = new Date(today);
+      date.setDate(date.getDate() - i);
+      
+      // Base volume depends on current data scope
+      const baseVolume = currentData?.totalReviews ? Math.floor(currentData.totalReviews / 30) : 100;
+      
+      // Deterministic daily variation based on day index
+      const dayHash = (i * 17 + 23) % 100; // Deterministic "random" based on day
+      const dailyVariation = Math.floor((dayHash / 100) * 0.4 * baseVolume) + baseVolume * 0.8;
+      
+      // Deterministic channel distribution (realistic proportions)
+      const channelHash = ((i * 13) % 10) / 100; // -0.05 to +0.05 variation
+      const google = Math.floor(dailyVariation * (0.45 + channelHash));
+      const facebook = Math.floor(dailyVariation * (0.25 + channelHash * 0.7));
+      const direct = Math.floor(dailyVariation * (0.15 + channelHash * 0.5));
+      const other = Math.max(0, dailyVariation - google - facebook - direct);
+      
+      // Deterministic rating trend that correlates with currentData
+      const baseRating = currentData?.avgRating || 4.2;
+      const ratingHash = ((i * 7 + 11) % 20 - 10) / 100; // -0.1 to +0.1 variation
+      const avgRating = Math.max(1, Math.min(5, baseRating + ratingHash));
+      
+      trendData.push({
+        date: date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
+        google,
+        facebook,
+        direct,
+        other,
+        totalReviews: google + facebook + direct + other,
+        avgRating: Math.round(avgRating * 100) / 100
+      });
+    }
+    
+    return trendData;
+  };
+
+  const trendData = getTrendData();
 
   const recentReviews = [
     {
@@ -2598,11 +2653,119 @@ export default function ReviewsX() {
                 <Card>
                   <CardHeader>
                     <CardTitle>Trend Analysis</CardTitle>
+                    <div className="text-sm text-gray-600">Review volume by channel with rating overlay (Last 14 days)</div>
                   </CardHeader>
                   <CardContent>
-                    <div className="h-48 flex items-center justify-center text-gray-500">
-                      <BarChart3 className="w-12 h-12 mr-3" />
-                      Trend chart will be displayed here
+                    <div className="h-64" data-testid="chart-trend-analysis">
+                      <ResponsiveContainer width="100%" height="100%">
+                        <ComposedChart data={trendData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
+                          <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+                          <XAxis 
+                            dataKey="date" 
+                            axisLine={false}
+                            tickLine={false}
+                            tick={{ fontSize: 12, fill: '#6b7280' }}
+                          />
+                          <YAxis 
+                            yAxisId="volume"
+                            axisLine={false}
+                            tickLine={false}
+                            tick={{ fontSize: 12, fill: '#6b7280' }}
+                          />
+                          <YAxis 
+                            yAxisId="rating"
+                            orientation="right"
+                            domain={[1, 5]}
+                            axisLine={false}
+                            tickLine={false}
+                            tick={{ fontSize: 12, fill: '#6b7280' }}
+                          />
+                          <RechartsTooltip 
+                            content={({ active, payload, label }) => {
+                              if (active && payload && payload.length) {
+                                const total = payload.filter(p => p.dataKey !== 'avgRating').reduce((sum, p) => sum + (p.value || 0), 0);
+                                return (
+                                  <div className="bg-white p-3 border border-gray-200 rounded-lg shadow-lg">
+                                    <p className="font-semibold text-gray-900 mb-2">{label}</p>
+                                    <div className="space-y-1 text-sm">
+                                      <div className="flex justify-between items-center">
+                                        <span className="text-gray-600">Total Reviews:</span>
+                                        <span className="font-medium">{total}</span>
+                                      </div>
+                                      {payload.filter(p => p.dataKey !== 'avgRating').map((entry, index) => (
+                                        <div key={index} className="flex justify-between items-center">
+                                          <div className="flex items-center gap-2">
+                                            <div className="w-3 h-3 rounded" style={{ backgroundColor: entry.color }}></div>
+                                            <span className="text-gray-600 capitalize">{entry.dataKey}:</span>
+                                          </div>
+                                          <span className="font-medium">{entry.value}</span>
+                                        </div>
+                                      ))}
+                                      {payload.find(p => p.dataKey === 'avgRating') && (
+                                        <div className="flex justify-between items-center pt-1 border-t border-gray-100">
+                                          <span className="text-gray-600">Avg Rating:</span>
+                                          <span className="font-medium">{payload.find(p => p.dataKey === 'avgRating')?.value}★</span>
+                                        </div>
+                                      )}
+                                    </div>
+                                  </div>
+                                );
+                              }
+                              return null;
+                            }}
+                          />
+                          <Legend 
+                            wrapperStyle={{ paddingTop: '10px' }}
+                            iconType="rect"
+                          />
+                          
+                          {/* Stacked bars for review channels */}
+                          <Bar 
+                            yAxisId="volume"
+                            dataKey="google" 
+                            stackId="reviews" 
+                            fill="#4285F4" 
+                            name="Google"
+                            radius={[0, 0, 0, 0]}
+                          />
+                          <Bar 
+                            yAxisId="volume"
+                            dataKey="facebook" 
+                            stackId="reviews" 
+                            fill="#1877F2" 
+                            name="Facebook"
+                            radius={[0, 0, 0, 0]}
+                          />
+                          <Bar 
+                            yAxisId="volume"
+                            dataKey="direct" 
+                            stackId="reviews" 
+                            fill="#10B981" 
+                            name="Direct"
+                            radius={[0, 0, 0, 0]}
+                          />
+                          <Bar 
+                            yAxisId="volume"
+                            dataKey="other" 
+                            stackId="reviews" 
+                            fill="#8B5CF6" 
+                            name="Other"
+                            radius={[2, 2, 0, 0]}
+                          />
+                          
+                          {/* Rating polyline overlay */}
+                          <Line 
+                            yAxisId="rating"
+                            type="monotone" 
+                            dataKey="avgRating" 
+                            stroke="#F59E0B" 
+                            strokeWidth={3}
+                            dot={{ fill: '#F59E0B', strokeWidth: 2, r: 4 }}
+                            name="Avg Rating"
+                            connectNulls={true}
+                          />
+                        </ComposedChart>
+                      </ResponsiveContainer>
                     </div>
                   </CardContent>
                 </Card>
