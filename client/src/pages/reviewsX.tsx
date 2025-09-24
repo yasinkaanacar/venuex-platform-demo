@@ -468,7 +468,7 @@ export default function ReviewsX() {
                     <CardTitle className="tracking-tight text-[#111827] font-semibold text-[18px]">Review Volume</CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <div className="space-y-4">
+                    <div className="space-y-3">
                       <div>
                         <div className="text-2xl font-bold text-gray-900">{kpiData.totalReviews.toLocaleString()}</div>
                         <div className="flex items-center gap-1 text-xs text-green-600">
@@ -477,23 +477,31 @@ export default function ReviewsX() {
                         </div>
                       </div>
                       
-                      <div className="grid grid-cols-2 gap-4 pt-2 border-t border-gray-100">
+                      <div className="grid grid-cols-2 gap-3 pt-1 border-t border-gray-100">
                         <div>
-                          <div className="text-sm text-gray-600 mb-1">Reply Rate</div>
-                          <div className="text-lg font-bold text-gray-900">{kpiData.responseRate}%</div>
+                          <div className="text-xs text-gray-600 mb-1">Reply Rate</div>
+                          <div className="text-base font-bold text-gray-900">{kpiData.responseRate}%</div>
                           <div className="flex items-center gap-1 text-xs text-green-600">
-                            <ArrowUp className="w-3 h-3" />
-                            +5% vs previous
+                            <ArrowUp className="w-2 h-2" />
+                            +5%
                           </div>
                         </div>
                         
                         <div>
-                          <div className="text-sm text-gray-600 mb-1">Response Time</div>
-                          <div className="text-lg font-bold text-gray-900">{kpiData.avgResponseTime}</div>
+                          <div className="text-xs text-gray-600 mb-1">Response Time</div>
+                          <div className="text-base font-bold text-gray-900">{kpiData.avgResponseTime}</div>
                           <div className="flex items-center gap-1 text-xs text-red-600">
-                            <ArrowUp className="w-3 h-3" />
-                            +2h vs previous
+                            <ArrowUp className="w-2 h-2" />
+                            +2h
                           </div>
+                        </div>
+                      </div>
+                      
+                      <div className="pt-1 border-t border-gray-100">
+                        <div className="text-xs text-gray-600 mb-1">Unanswered Count</div>
+                        <div className="flex items-center justify-between">
+                          <div className="text-base font-bold text-red-600">23</div>
+                          <div className="text-xs text-red-600">Needs attention</div>
                         </div>
                       </div>
                     </div>
