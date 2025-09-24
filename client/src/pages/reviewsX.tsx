@@ -11,6 +11,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
 import { 
@@ -52,7 +53,9 @@ import {
   Trash2,
   ExternalLink,
   Bookmark,
-  Share2
+  Share2,
+  HelpCircle,
+  AlertCircle
 } from 'lucide-react';
 import Header from '@/components/overview/header';
 
@@ -414,27 +417,41 @@ export default function ReviewsX() {
             {/* Overview Section */}
             <TabsContent value="overview" className="space-y-6">
               {/* KPI Summary Cards */}
-              <div className="grid grid-cols-5 gap-6">
-                <Card 
-                  className="cursor-pointer hover:shadow-md transition-shadow"
-                  onClick={() => setActiveTab("insights")}
-                >
-                  <CardHeader 
-                    title="Average Rating"
-                    titleTypographyProps={{
-                      variant: "body2",
-                      style: { fontSize: '0.875rem', fontWeight: 600, color: '#374151' }
-                    }}
-                    style={{ paddingBottom: 12, paddingTop: 24 }}
-                  />
-                  <CardContent>
-                    <div className="text-2xl font-bold text-gray-900">{kpiData.averageRating}</div>
-                    <div className="flex items-center gap-1 text-xs text-green-600">
-                      <ArrowUp className="w-3 h-3" />
-                      +0.1 vs previous period
-                    </div>
-                  </CardContent>
-                </Card>
+              <TooltipProvider>
+                <div className="grid grid-cols-5 gap-6">
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <Card 
+                        className="cursor-pointer hover:shadow-md transition-shadow"
+                        onClick={() => setActiveTab("insights")}
+                      >
+                        <CardHeader className="pb-3">
+                          <CardTitle className="flex items-center gap-2 text-sm font-medium text-gray-600">
+                            Average Rating
+                            <HelpCircle className="w-4 h-4 text-gray-400" />
+                          </CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                          <div className="text-2xl font-bold text-gray-900 flex items-center gap-2">
+                            {kpiData.averageRating}
+                            <div className="flex gap-0">
+                              {[1,2,3,4,5].map((star) => (
+                                <Star key={star} className={`w-3 h-3 ${star <= Math.floor(kpiData.averageRating) ? 'fill-yellow-400 text-yellow-400' : 'text-gray-300'}`} />
+                              ))}
+                            </div>
+                          </div>
+                          <div className="flex items-center gap-1 text-xs text-green-600 mt-1">
+                            <ArrowUp className="w-3 h-3" />
+                            +0.1 vs previous period
+                          </div>
+                          <div className="text-xs text-gray-500 mt-1">{kpiData.totalReviews} reviews</div>
+                        </CardContent>
+                      </Card>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>Mean of normalized platform ratings within selected scope. Rounded to one decimal place.</p>
+                    </TooltipContent>
+                  </Tooltip>
 
                 <Card 
                   className="cursor-pointer hover:shadow-md transition-shadow"
@@ -519,7 +536,8 @@ export default function ReviewsX() {
                     </div>
                   </CardContent>
                 </Card>
-              </div>
+                </div>
+              </TooltipProvider>
 
               {/* Charts Row */}
               <div className="grid grid-cols-2 gap-6">
@@ -951,52 +969,165 @@ export default function ReviewsX() {
 
                 <Card>
                   <CardHeader>
-                    <CardTitle>Top Positive & Negative Themes</CardTitle>
+                    <CardTitle>Open Issues Digest</CardTitle>
                   </CardHeader>
                   <CardContent>
                     <div className="space-y-4">
-                      <div>
-                        <h4 className="font-medium text-green-600 mb-2">👍 Most Liked</h4>
-                        <div className="space-y-2">
-                          <div className="flex justify-between text-sm">
-                            <span>Staff Courtesy</span>
-                            <span className="text-green-600">95% positive (45 mentions)</span>
-                          </div>
-                          <div className="flex justify-between text-sm">
-                            <span>Product Quality</span>
-                            <span className="text-green-600">88% positive (67 mentions)</span>
-                          </div>
-                        </div>
-                      </div>
-                      
-                      <div>
-                        <h4 className="font-medium text-red-600 mb-2">👎 Most Complained</h4>
-                        <div className="space-y-2">
-                          <div className="flex justify-between text-sm">
-                            <span>Wait Time</span>
-                            <span className="text-red-600">40% negative (30 mentions)</span>
-                          </div>
-                          <div className="flex justify-between text-sm">
-                            <span>Pricing Policy</span>
-                            <span className="text-red-600">35% negative (22 mentions)</span>
+                      {/* Unreplied Reviews */}
+                      <div 
+                        className="flex items-center justify-between p-3 bg-red-50 border border-red-200 rounded-lg cursor-pointer hover:bg-red-100 transition-colors"
+                        onClick={() => {
+                          setInboxFilters(prev => ({ ...prev, source: null, rating: null, week: null, status: 'unreplied' }));
+                          setActiveTab("inbox");
+                        }}
+                      >
+                        <div className="flex items-center gap-3">
+                          <AlertTriangle className="w-5 h-5 text-red-600" />
+                          <div>
+                            <div className="font-medium text-red-900">Unreplied Reviews</div>
+                            <div className="text-xs text-red-700">Requires immediate response</div>
                           </div>
                         </div>
+                        <div className="text-2xl font-bold text-red-600">23</div>
                       </div>
-                      
-                      <div className="mt-4">
-                        <Button 
-                          variant="outline" 
-                          size="sm" 
-                          onClick={() => setActiveTab("insights")}
-                          className="text-blue-600 hover:text-blue-700"
-                        >
-                          View Details
-                        </Button>
+
+                      {/* SLA At Risk */}
+                      <div 
+                        className="flex items-center justify-between p-3 bg-orange-50 border border-orange-200 rounded-lg cursor-pointer hover:bg-orange-100 transition-colors"
+                        onClick={() => {
+                          setInboxFilters(prev => ({ ...prev, source: null, rating: null, week: null, status: 'sla-risk' }));
+                          setActiveTab("inbox");
+                        }}
+                      >
+                        <div className="flex items-center gap-3">
+                          <Clock className="w-5 h-5 text-orange-600" />
+                          <div>
+                            <div className="font-medium text-orange-900">SLA At Risk</div>
+                            <div className="text-xs text-orange-700">Response time approaching limit</div>
+                          </div>
+                        </div>
+                        <div className="text-2xl font-bold text-orange-600">8</div>
+                      </div>
+
+                      {/* Escalated Issues */}
+                      <div 
+                        className="flex items-center justify-between p-3 bg-purple-50 border border-purple-200 rounded-lg cursor-pointer hover:bg-purple-100 transition-colors"
+                        onClick={() => {
+                          setInboxFilters(prev => ({ ...prev, source: null, rating: null, week: null, status: 'escalated' }));
+                          setActiveTab("inbox");
+                        }}
+                      >
+                        <div className="flex items-center gap-3">
+                          <AlertCircle className="w-5 h-5 text-purple-600" />
+                          <div>
+                            <div className="font-medium text-purple-900">Escalated Issues</div>
+                            <div className="text-xs text-purple-700">Requires management attention</div>
+                          </div>
+                        </div>
+                        <div className="text-2xl font-bold text-purple-600">4</div>
+                      </div>
+
+                      {/* Total Open Issues Summary */}
+                      <div className="pt-3 border-t border-gray-200">
+                        <div className="flex items-center justify-between text-sm">
+                          <span className="font-medium text-gray-700">Total Open Issues</span>
+                          <span className="font-bold text-gray-900">35</span>
+                        </div>
                       </div>
                     </div>
                   </CardContent>
                 </Card>
               </div>
+
+              {/* Themes Spotlight */}
+              <Card>
+                <CardHeader>
+                  <CardTitle>Themes Spotlight</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid grid-cols-2 gap-6">
+                    {/* Top Positive Themes */}
+                    <div>
+                      <h4 className="font-medium text-green-600 mb-3 flex items-center gap-2">
+                        <TrendingUp className="w-4 h-4" />
+                        Top Positive Themes
+                      </h4>
+                      <div className="space-y-2">
+                        {[
+                          { theme: "Staff Courtesy", volume: 45, sentiment: 95, total: 450 },
+                          { theme: "Product Quality", volume: 67, sentiment: 88, total: 380 },
+                          { theme: "Store Atmosphere", volume: 32, sentiment: 85, total: 325 }
+                        ].map((item, index) => (
+                          <div 
+                            key={index}
+                            className="cursor-pointer hover:bg-green-50 p-2 rounded-lg border border-green-200 transition-colors"
+                            onClick={() => {
+                              // Navigate to insights with theme filter
+                              setActiveTab("insights");
+                            }}
+                          >
+                            <div className="flex items-center justify-between">
+                              <span className="font-medium text-green-800">{item.theme}</span>
+                              <Badge variant="secondary" className="bg-green-100 text-green-700 text-xs">
+                                {item.sentiment}% positive
+                              </Badge>
+                            </div>
+                            <div className="text-xs text-green-600 mt-1">
+                              {item.volume} mentions • {item.total} total reviews
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Top Negative Themes */}
+                    <div>
+                      <h4 className="font-medium text-red-600 mb-3 flex items-center gap-2">
+                        <TrendingDown className="w-4 h-4" />
+                        Top Negative Themes
+                      </h4>
+                      <div className="space-y-2">
+                        {[
+                          { theme: "Wait Time", volume: 30, sentiment: 40, total: 290 },
+                          { theme: "Pricing Policy", volume: 22, sentiment: 35, total: 275 },
+                          { theme: "Product Availability", volume: 18, sentiment: 38, total: 245 }
+                        ].map((item, index) => (
+                          <div 
+                            key={index}
+                            className="cursor-pointer hover:bg-red-50 p-2 rounded-lg border border-red-200 transition-colors"
+                            onClick={() => {
+                              // Navigate to insights with theme filter
+                              setActiveTab("insights");
+                            }}
+                          >
+                            <div className="flex items-center justify-between">
+                              <span className="font-medium text-red-800">{item.theme}</span>
+                              <Badge variant="secondary" className="bg-red-100 text-red-700 text-xs">
+                                {item.sentiment}% negative
+                              </Badge>
+                            </div>
+                            <div className="text-xs text-red-600 mt-1">
+                              {item.volume} mentions • {item.total} total reviews
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div className="mt-4 pt-4 border-t border-gray-200">
+                    <Button 
+                      variant="outline" 
+                      size="sm" 
+                      onClick={() => setActiveTab("insights")}
+                      className="text-blue-600 hover:text-blue-700"
+                    >
+                      <BarChart3 className="w-4 h-4 mr-2" />
+                      View All Themes in Insights
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
 
               {/* Location Leaderboard */}
               <Card>
@@ -1006,17 +1137,36 @@ export default function ReviewsX() {
                 <CardContent>
                   <div className="grid grid-cols-2 gap-6">
                     <div>
-                      <h4 className="font-medium text-green-600 mb-3">🏆 Top 5 Locations</h4>
-                      <div className="space-y-2">
+                      <h4 className="font-medium text-green-600 mb-3 flex items-center gap-2">
+                        <TrendingUp className="w-4 h-4" />
+                        Top Performers
+                      </h4>
+                      <div className="space-y-3">
                         {locations.slice(0, 5).map((location, index) => (
-                          <div key={location.id} className="flex items-center justify-between p-2 bg-green-50 rounded hover:bg-green-100 cursor-pointer transition-colors" onClick={() => setActiveTab("locations")}>
-                            <div className="flex items-center gap-2">
-                              <span className="font-bold text-green-600">#{index + 1}</span>
-                              <span className="text-sm">{location.name}</span>
+                          <div key={location.id} className="p-3 bg-green-50 border border-green-200 rounded-lg hover:bg-green-100 cursor-pointer transition-colors" onClick={() => setActiveTab("locations")}>
+                            <div className="flex items-center justify-between mb-2">
+                              <div className="flex items-center gap-2">
+                                <span className="font-bold text-green-600">#{index + 1}</span>
+                                <span className="font-medium text-sm">{location.name}</span>
+                              </div>
+                              <div className="flex items-center gap-1 text-green-600">
+                                <ArrowUp className="w-3 h-3" />
+                                <span className="text-xs">+0.2</span>
+                              </div>
                             </div>
-                            <div className="text-right">
-                              <div className="text-sm font-medium">{location.rating}★</div>
-                              <div className="text-xs text-gray-500">{location.reviewCount} reviews</div>
+                            <div className="grid grid-cols-3 gap-2 text-xs">
+                              <div>
+                                <div className="text-gray-500">Rating</div>
+                                <div className="font-medium">{location.rating}★</div>
+                              </div>
+                              <div>
+                                <div className="text-gray-500">Volume</div>
+                                <div className="font-medium">{location.reviewCount}</div>
+                              </div>
+                              <div>
+                                <div className="text-gray-500">Reply Rate</div>
+                                <div className="font-medium">{location.responseRate}%</div>
+                              </div>
                             </div>
                           </div>
                         ))}
@@ -1024,17 +1174,36 @@ export default function ReviewsX() {
                     </div>
                     
                     <div>
-                      <h4 className="font-medium text-red-600 mb-3">⚠️ Needs Improvement</h4>
-                      <div className="space-y-2">
+                      <h4 className="font-medium text-red-600 mb-3 flex items-center gap-2">
+                        <TrendingDown className="w-4 h-4" />
+                        Needs Attention
+                      </h4>
+                      <div className="space-y-3">
                         {locations.slice(-5).map((location, index) => (
-                          <div key={location.id} className="flex items-center justify-between p-2 bg-red-50 rounded hover:bg-red-100 cursor-pointer transition-colors" onClick={() => setActiveTab("locations")}>
-                            <div className="flex items-center gap-2">
-                              <span className="font-bold text-red-600">#{locations.length - 5 + index + 1}</span>
-                              <span className="text-sm">{location.name}</span>
+                          <div key={location.id} className="p-3 bg-red-50 border border-red-200 rounded-lg hover:bg-red-100 cursor-pointer transition-colors" onClick={() => setActiveTab("locations")}>
+                            <div className="flex items-center justify-between mb-2">
+                              <div className="flex items-center gap-2">
+                                <span className="font-bold text-red-600">#{locations.length - 5 + index + 1}</span>
+                                <span className="font-medium text-sm">{location.name}</span>
+                              </div>
+                              <div className="flex items-center gap-1 text-red-600">
+                                <ArrowDown className="w-3 h-3" />
+                                <span className="text-xs">-0.3</span>
+                              </div>
                             </div>
-                            <div className="text-right">
-                              <div className="text-sm font-medium">{location.rating}★</div>
-                              <div className="text-xs text-gray-500">{location.reviewCount} reviews</div>
+                            <div className="grid grid-cols-3 gap-2 text-xs">
+                              <div>
+                                <div className="text-gray-500">Rating</div>
+                                <div className="font-medium">{location.rating}★</div>
+                              </div>
+                              <div>
+                                <div className="text-gray-500">Volume</div>
+                                <div className="font-medium">{location.reviewCount}</div>
+                              </div>
+                              <div>
+                                <div className="text-gray-500">Reply Rate</div>
+                                <div className="font-medium">{location.responseRate}%</div>
+                              </div>
                             </div>
                           </div>
                         ))}
