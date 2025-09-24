@@ -69,6 +69,7 @@ import {
   ComposedChart, 
   Bar, 
   Line, 
+  LineChart,
   XAxis, 
   YAxis, 
   CartesianGrid, 
@@ -96,6 +97,7 @@ export default function ReviewsX() {
   const [viewMode, setViewMode] = useState("table");
   const [chartToggle, setChartToggle] = useState("source"); // "source" or "rating"
   const [inboxFilters, setInboxFilters] = useState({ source: null, rating: null, week: null });
+  const [selectedSentimentDate, setSelectedSentimentDate] = useState(null);
 
   // Function to navigate to inbox with filters
   const navigateToInboxWithFilter = (filterType: string, filterValue: string | number | null) => {
@@ -2824,28 +2826,194 @@ export default function ReviewsX() {
                 </CardContent>
               </Card>
 
-              {/* Sentiment Overview */}
+              {/* Sentiment Trends View */}
               <Card>
                 <CardHeader>
-                  <CardTitle>Sentiment Overview</CardTitle>
+                  <CardTitle>Sentiment Trends View</CardTitle>
+                  <div className="text-sm text-gray-600">Brand Sentiment Index over time - Click on any point to see key driving sentences</div>
                 </CardHeader>
                 <CardContent>
-                  <div className="text-center">
-                    <div className="text-4xl font-bold text-green-600 mb-2">+82</div>
-                    <div className="text-sm text-gray-600">Net Sentiment Score</div>
-                    <div className="mt-4 space-y-2">
-                      <div className="flex justify-between text-sm">
-                        <span>Positive</span>
-                        <span className="font-medium text-green-600">80%</span>
+                  <div className="grid grid-cols-3 gap-6">
+                    {/* Sentiment Chart */}
+                    <div className="col-span-2">
+                      <div className="h-64">
+                        <ResponsiveContainer width="100%" height="100%">
+                          <LineChart
+                            data={(() => {
+                              const sentimentData = [];
+                              for (let i = 13; i >= 0; i--) {
+                                const date = new Date();
+                                date.setDate(date.getDate() - i);
+                                const dayHash = date.getDate() * 37;
+                                const baseScore = 75 + (dayHash % 20) - 10;
+                                const sentiment = Math.max(0, Math.min(100, baseScore + (Math.sin(i * 0.5) * 8)));
+                                sentimentData.push({
+                                  date: date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
+                                  fullDate: date.toISOString().split('T')[0],
+                                  sentiment: Math.round(sentiment),
+                                  positive: Math.round(sentiment * 0.8 + 10),
+                                  neutral: Math.round(20 - sentiment * 0.1),
+                                  negative: Math.round(100 - sentiment * 0.8 - 20 + sentiment * 0.1)
+                                });
+                              }
+                              return sentimentData;
+                            })()}
+                            margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
+                          >
+                            <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+                            <XAxis 
+                              dataKey="date" 
+                              axisLine={false}
+                              tickLine={false}
+                              tick={{ fontSize: 12, fill: '#6b7280' }}
+                            />
+                            <YAxis 
+                              domain={[0, 100]}
+                              axisLine={false}
+                              tickLine={false}
+                              tick={{ fontSize: 12, fill: '#6b7280' }}
+                              label={{ value: 'Sentiment Index', angle: -90, position: 'insideLeft' }}
+                            />
+                            <RechartsTooltip 
+                              content={({ active, payload, label }) => {
+                                if (active && payload && payload.length) {
+                                  const data = payload[0].payload;
+                                  return (
+                                    <div className="bg-white p-3 border border-gray-200 rounded-lg shadow-lg">
+                                      <p className="font-semibold text-gray-900 mb-2">{label}</p>
+                                      <div className="space-y-1 text-sm">
+                                        <div className="flex justify-between items-center">
+                                          <span className="text-gray-600">Sentiment Index:</span>
+                                          <span className="font-medium">{data.sentiment}</span>
+                                        </div>
+                                        <div className="flex justify-between items-center">
+                                          <span className="text-green-600">Positive:</span>
+                                          <span className="font-medium">{data.positive}%</span>
+                                        </div>
+                                        <div className="flex justify-between items-center">
+                                          <span className="text-gray-600">Neutral:</span>
+                                          <span className="font-medium">{data.neutral}%</span>
+                                        </div>
+                                        <div className="flex justify-between items-center">
+                                          <span className="text-red-600">Negative:</span>
+                                          <span className="font-medium">{data.negative}%</span>
+                                        </div>
+                                        <div className="pt-1 text-xs text-blue-600 border-t border-gray-100">
+                                          Click to see key sentences
+                                        </div>
+                                      </div>
+                                    </div>
+                                  );
+                                }
+                                return null;
+                              }}
+                            />
+                            <Line 
+                              type="monotone" 
+                              dataKey="sentiment" 
+                              stroke="#3B82F6" 
+                              strokeWidth={3}
+                              dot={{ 
+                                fill: '#3B82F6', 
+                                strokeWidth: 2, 
+                                r: 5,
+                                cursor: 'pointer'
+                              }}
+                              activeDot={{ 
+                                r: 7, 
+                                fill: '#1D4ED8',
+                                cursor: 'pointer',
+                                onClick: (data) => {
+                                  setSelectedSentimentDate(data.payload);
+                                }
+                              }}
+                              connectNulls={true}
+                            />
+                          </LineChart>
+                        </ResponsiveContainer>
                       </div>
-                      <div className="flex justify-between text-sm">
-                        <span>Neutral</span>
-                        <span className="font-medium text-gray-600">15%</span>
-                      </div>
-                      <div className="flex justify-between text-sm">
-                        <span>Negative</span>
-                        <span className="font-medium text-red-600">5%</span>
-                      </div>
+                    </div>
+
+                    {/* Key Sentences Panel */}
+                    <div className="border-l pl-4">
+                      <h4 className="font-semibold text-gray-700 mb-3">
+                        {selectedSentimentDate ? `Key Sentences - ${selectedSentimentDate.date}` : 'Select a date point'}
+                      </h4>
+                      
+                      {selectedSentimentDate ? (
+                        <div className="space-y-4">
+                          {/* Positive Sentences */}
+                          <div>
+                            <h5 className="text-sm font-medium text-green-600 mb-2 flex items-center gap-1">
+                              <div className="w-2 h-2 bg-green-600 rounded-full"></div>
+                              Positive Drivers
+                            </h5>
+                            <div className="space-y-2">
+                              {(() => {
+                                const positiveExamples = [
+                                  ["Amazing customer service", "Best shopping experience ever", "Staff was incredibly helpful"],
+                                  ["Great product quality", "Fast delivery service", "Excellent value for money"],
+                                  ["Outstanding support team", "Highly recommend this store", "Perfect shopping experience"],
+                                  ["Fantastic product selection", "Very professional service", "Exceeded my expectations"]
+                                ];
+                                const dayIndex = new Date(selectedSentimentDate.fullDate).getDate() % 4;
+                                return positiveExamples[dayIndex].map((sentence, index) => (
+                                  <div key={index} className="text-xs p-2 bg-green-50 rounded border-l-2 border-green-200">
+                                    "{sentence}"
+                                  </div>
+                                ));
+                              })()}
+                            </div>
+                          </div>
+
+                          {/* Negative Sentences */}
+                          <div>
+                            <h5 className="text-sm font-medium text-red-600 mb-2 flex items-center gap-1">
+                              <div className="w-2 h-2 bg-red-600 rounded-full"></div>
+                              Negative Drivers
+                            </h5>
+                            <div className="space-y-2">
+                              {(() => {
+                                const negativeExamples = [
+                                  ["Delivery was delayed", "Product not as described"],
+                                  ["Poor customer service", "Website was confusing"],
+                                  ["Long wait times", "Product quality issues"],
+                                  ["Billing problems", "Difficult return process"]
+                                ];
+                                const dayIndex = new Date(selectedSentimentDate.fullDate).getDate() % 4;
+                                return negativeExamples[dayIndex].map((sentence, index) => (
+                                  <div key={index} className="text-xs p-2 bg-red-50 rounded border-l-2 border-red-200">
+                                    "{sentence}"
+                                  </div>
+                                ));
+                              })()}
+                            </div>
+                          </div>
+
+                          {/* Summary Stats */}
+                          <div className="mt-4 p-3 bg-gray-50 rounded">
+                            <div className="text-xs text-gray-600">
+                              <div className="flex justify-between mb-1">
+                                <span>Sentiment Score:</span>
+                                <span className="font-medium">{selectedSentimentDate.sentiment}/100</span>
+                              </div>
+                              <div className="flex justify-between mb-1">
+                                <span>Total Reviews:</span>
+                                <span className="font-medium">{12 + (new Date(selectedSentimentDate.fullDate).getDate() % 8)}</span>
+                              </div>
+                              <div className="flex justify-between">
+                                <span>Response Rate:</span>
+                                <span className="font-medium">{85 + (new Date(selectedSentimentDate.fullDate).getDate() % 10)}%</span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      ) : (
+                        <div className="text-center text-gray-500 py-8">
+                          <div className="text-sm">📊</div>
+                          <div className="text-xs mt-2">Click any point on the chart to see the key positive and negative sentences that influenced the sentiment score for that day.</div>
+                        </div>
+                      )}
                     </div>
                   </div>
                 </CardContent>
