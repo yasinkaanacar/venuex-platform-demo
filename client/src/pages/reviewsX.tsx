@@ -855,7 +855,6 @@ export default function ReviewsX() {
       const google = Math.floor(dailyVariation * (0.40 + channelHash));
       const website = Math.floor(dailyVariation * (0.25 + channelHash * 0.7));
       const app = Math.floor(dailyVariation * (0.15 + channelHash * 0.6));
-      const direct = Math.floor(dailyVariation * (0.20 + channelHash * 0.5));
       
       // Deterministic rating trend that correlates with currentData
       const baseRating = currentData?.avgRating || 4.2;
@@ -867,8 +866,7 @@ export default function ReviewsX() {
         google,
         website,
         app,
-        direct,
-        totalReviews: google + website + app + direct,
+        totalReviews: google + website + app,
         avgRating: Math.round(avgRating * 100) / 100
       });
     }
@@ -2730,7 +2728,7 @@ export default function ReviewsX() {
               </div>
 
               {/* Sentiment Overview */}
-              <div className="grid grid-cols-3 gap-6">
+              <div className="grid grid-cols-2 gap-6">
                 <Card>
                   <CardHeader>
                     <CardTitle>Sentiment Overview</CardTitle>
@@ -2757,6 +2755,43 @@ export default function ReviewsX() {
                   </CardContent>
                 </Card>
 
+
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Response Performance</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="space-y-4">
+                      <div className="flex justify-between items-center">
+                        <span className="text-sm">Within 24 hours</span>
+                        <span className="font-medium">67%</span>
+                      </div>
+                      <div className="w-full bg-gray-200 rounded-full h-2">
+                        <div className="bg-green-600 h-2 rounded-full" style={{width: '67%'}}></div>
+                      </div>
+                      
+                      <div className="flex justify-between items-center">
+                        <span className="text-sm">Within 48 hours</span>
+                        <span className="font-medium">89%</span>
+                      </div>
+                      <div className="w-full bg-gray-200 rounded-full h-2">
+                        <div className="bg-yellow-600 h-2 rounded-full" style={{width: '89%'}}></div>
+                      </div>
+                      
+                      <div className="flex justify-between items-center">
+                        <span className="text-sm">48+ hours</span>
+                        <span className="font-medium text-red-600">11%</span>
+                      </div>
+                      <div className="w-full bg-gray-200 rounded-full h-2">
+                        <div className="bg-red-600 h-2 rounded-full" style={{width: '11%'}}></div>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+
+              {/* Trend Analysis - Standalone */}
+              <div className="max-w-4xl mx-auto">
                 <Card>
                   <CardHeader>
                     <CardTitle>Trend Analysis</CardTitle>
@@ -2849,15 +2884,7 @@ export default function ReviewsX() {
                             stackId="reviews" 
                             fill="#8B5CF6" 
                             name="App"
-                            radius={[0, 0, 0, 0]}
-                          />
-                          <Bar 
-                            yAxisId="volume"
-                            dataKey="direct" 
-                            stackId="reviews" 
-                            fill="#F59E0B" 
-                            name="Direct"
-                            radius={[0, 0, 0, 0]}
+                            radius={[2, 2, 0, 0]}
                           />
                           
                           {/* Rating polyline overlay */}
@@ -2873,39 +2900,6 @@ export default function ReviewsX() {
                           />
                         </ComposedChart>
                       </ResponsiveContainer>
-                    </div>
-                  </CardContent>
-                </Card>
-
-                <Card>
-                  <CardHeader>
-                    <CardTitle>Response Performance</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="space-y-4">
-                      <div className="flex justify-between items-center">
-                        <span className="text-sm">Within 24 hours</span>
-                        <span className="font-medium">67%</span>
-                      </div>
-                      <div className="w-full bg-gray-200 rounded-full h-2">
-                        <div className="bg-green-600 h-2 rounded-full" style={{width: '67%'}}></div>
-                      </div>
-                      
-                      <div className="flex justify-between items-center">
-                        <span className="text-sm">Within 48 hours</span>
-                        <span className="font-medium">89%</span>
-                      </div>
-                      <div className="w-full bg-gray-200 rounded-full h-2">
-                        <div className="bg-yellow-600 h-2 rounded-full" style={{width: '89%'}}></div>
-                      </div>
-                      
-                      <div className="flex justify-between items-center">
-                        <span className="text-sm">48+ hours</span>
-                        <span className="font-medium text-red-600">11%</span>
-                      </div>
-                      <div className="w-full bg-gray-200 rounded-full h-2">
-                        <div className="bg-red-600 h-2 rounded-full" style={{width: '11%'}}></div>
-                      </div>
                     </div>
                   </CardContent>
                 </Card>
