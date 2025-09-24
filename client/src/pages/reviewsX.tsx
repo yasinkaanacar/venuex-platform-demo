@@ -855,8 +855,7 @@ export default function ReviewsX() {
       const google = Math.floor(dailyVariation * (0.40 + channelHash));
       const website = Math.floor(dailyVariation * (0.25 + channelHash * 0.7));
       const app = Math.floor(dailyVariation * (0.15 + channelHash * 0.6));
-      const direct = Math.floor(dailyVariation * (0.12 + channelHash * 0.5));
-      const other = Math.max(0, dailyVariation - google - website - app - direct);
+      const direct = Math.floor(dailyVariation * (0.20 + channelHash * 0.5));
       
       // Deterministic rating trend that correlates with currentData
       const baseRating = currentData?.avgRating || 4.2;
@@ -869,8 +868,7 @@ export default function ReviewsX() {
         website,
         app,
         direct,
-        other,
-        totalReviews: google + website + app + direct + other,
+        totalReviews: google + website + app + direct,
         avgRating: Math.round(avgRating * 100) / 100
       });
     }
@@ -2861,23 +2859,15 @@ export default function ReviewsX() {
                             name="Direct"
                             radius={[0, 0, 0, 0]}
                           />
-                          <Bar 
-                            yAxisId="volume"
-                            dataKey="other" 
-                            stackId="reviews" 
-                            fill="#6B7280" 
-                            name="Other"
-                            radius={[2, 2, 0, 0]}
-                          />
                           
                           {/* Rating polyline overlay */}
                           <Line 
                             yAxisId="rating"
                             type="monotone" 
                             dataKey="avgRating" 
-                            stroke="#F59E0B" 
+                            stroke="#EF4444" 
                             strokeWidth={3}
-                            dot={{ fill: '#F59E0B', strokeWidth: 2, r: 4 }}
+                            dot={{ fill: '#EF4444', strokeWidth: 2, r: 4 }}
                             name="Avg Rating"
                             connectNulls={true}
                           />
