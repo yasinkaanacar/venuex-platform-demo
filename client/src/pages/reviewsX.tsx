@@ -416,7 +416,7 @@ export default function ReviewsX() {
             {/* Overview Section */}
             <TabsContent value="overview" className="space-y-6">
               {/* KPI Summary Cards */}
-              <div className="grid grid-cols-5 gap-6">
+              <div className="grid grid-cols-4 gap-6">
                 <Card 
                   className="cursor-pointer hover:shadow-md transition-shadow"
                   onClick={() => setActiveTab("insights")}
@@ -538,8 +538,6 @@ export default function ReviewsX() {
                     </div>
                   </CardContent>
                 </Card>
-
-                
 
                 <Card 
                   className="cursor-pointer hover:shadow-md transition-shadow"
