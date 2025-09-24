@@ -477,13 +477,22 @@ export default function ReviewsX() {
                         </div>
                       </div>
                       
-                      <div className="grid grid-cols-2 gap-4 pt-2 border-t border-gray-100">
+                      <div className="grid grid-cols-3 gap-3 pt-2 border-t border-gray-100">
                         <div>
                           <div className="text-sm text-gray-600 mb-1">Reply Rate</div>
                           <div className="text-lg font-bold text-gray-900">{kpiData.responseRate}%</div>
                           <div className="flex items-center gap-1 text-xs text-green-600">
                             <ArrowUp className="w-3 h-3" />
                             +5% vs previous
+                          </div>
+                        </div>
+                        
+                        <div>
+                          <div className="text-sm text-gray-600 mb-1">Unanswered</div>
+                          <div className="text-lg font-bold text-gray-900">{Math.round(kpiData.totalReviews * (100 - kpiData.responseRate) / 100).toLocaleString()}</div>
+                          <div className="flex items-center gap-1 text-xs text-red-600">
+                            <ArrowUp className="w-3 h-3" />
+                            +15 vs previous
                           </div>
                         </div>
                         
