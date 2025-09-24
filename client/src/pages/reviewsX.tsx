@@ -852,10 +852,11 @@ export default function ReviewsX() {
       
       // Deterministic channel distribution (realistic proportions)
       const channelHash = ((i * 13) % 10) / 100; // -0.05 to +0.05 variation
-      const google = Math.floor(dailyVariation * (0.45 + channelHash));
-      const facebook = Math.floor(dailyVariation * (0.25 + channelHash * 0.7));
-      const direct = Math.floor(dailyVariation * (0.15 + channelHash * 0.5));
-      const other = Math.max(0, dailyVariation - google - facebook - direct);
+      const google = Math.floor(dailyVariation * (0.40 + channelHash));
+      const website = Math.floor(dailyVariation * (0.25 + channelHash * 0.7));
+      const app = Math.floor(dailyVariation * (0.15 + channelHash * 0.6));
+      const direct = Math.floor(dailyVariation * (0.12 + channelHash * 0.5));
+      const other = Math.max(0, dailyVariation - google - website - app - direct);
       
       // Deterministic rating trend that correlates with currentData
       const baseRating = currentData?.avgRating || 4.2;
@@ -865,10 +866,11 @@ export default function ReviewsX() {
       trendData.push({
         date: date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
         google,
-        facebook,
+        website,
+        app,
         direct,
         other,
-        totalReviews: google + facebook + direct + other,
+        totalReviews: google + website + app + direct + other,
         avgRating: Math.round(avgRating * 100) / 100
       });
     }
@@ -922,7 +924,7 @@ export default function ReviewsX() {
     {
       id: 2,
       reviewer: "Mehmet Y.",
-      platform: "facebook",
+      platform: "website",
       rating: 2,
       text: "Product quality wasn't as expected, return process took too long...",
       location: "Kanyon",
@@ -1108,7 +1110,7 @@ export default function ReviewsX() {
                 <SelectContent>
                   <SelectItem value="all">All Sources</SelectItem>
                   <SelectItem value="google">Google My Business</SelectItem>
-                  <SelectItem value="facebook">Facebook</SelectItem>
+                  <SelectItem value="website">Website</SelectItem>
                   <SelectItem value="yandex">Yandex Maps</SelectItem>
                   <SelectItem value="instagram">Instagram</SelectItem>
                   <SelectItem value="tripadvisor">TripAdvisor</SelectItem>
@@ -1544,7 +1546,7 @@ export default function ReviewsX() {
                           <div className="bg-red-500 h-3 rounded-full" style={{width: '65%'}}></div>
                         </div>
                         
-                        <div className="flex items-center justify-between cursor-pointer hover:bg-gray-50 p-2 rounded" onClick={() => navigateToInboxWithFilter('source', 'facebook')}>
+                        <div className="flex items-center justify-between cursor-pointer hover:bg-gray-50 p-2 rounded" onClick={() => navigateToInboxWithFilter('source', 'website')}>
                           <div className="flex items-center gap-2">
                             <div className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center">
                               <span className="text-blue-600 font-bold text-sm">f</span>
@@ -2837,17 +2839,25 @@ export default function ReviewsX() {
                           />
                           <Bar 
                             yAxisId="volume"
-                            dataKey="facebook" 
+                            dataKey="website" 
                             stackId="reviews" 
-                            fill="#1877F2" 
-                            name="Facebook"
+                            fill="#10B981" 
+                            name="Website"
+                            radius={[0, 0, 0, 0]}
+                          />
+                          <Bar 
+                            yAxisId="volume"
+                            dataKey="app" 
+                            stackId="reviews" 
+                            fill="#8B5CF6" 
+                            name="App"
                             radius={[0, 0, 0, 0]}
                           />
                           <Bar 
                             yAxisId="volume"
                             dataKey="direct" 
                             stackId="reviews" 
-                            fill="#10B981" 
+                            fill="#F59E0B" 
                             name="Direct"
                             radius={[0, 0, 0, 0]}
                           />
@@ -2855,7 +2865,7 @@ export default function ReviewsX() {
                             yAxisId="volume"
                             dataKey="other" 
                             stackId="reviews" 
-                            fill="#8B5CF6" 
+                            fill="#6B7280" 
                             name="Other"
                             radius={[2, 2, 0, 0]}
                           />
