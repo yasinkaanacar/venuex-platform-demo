@@ -516,7 +516,7 @@ export default function ReviewsX() {
                     <CardTitle className="tracking-tight text-[#111827] font-semibold text-[18px]">Top Themes</CardTitle>
                     <div className="text-sm text-gray-500">(Last 30 Days)</div>
                   </CardHeader>
-                  <CardContent>
+                  <CardContent className="flex items-center justify-center">
                     <div className="space-y-4">
                       {/* Most Positive Theme */}
                       <div className="flex items-center gap-3">
