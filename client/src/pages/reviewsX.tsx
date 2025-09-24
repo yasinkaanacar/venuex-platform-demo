@@ -304,7 +304,7 @@ export default function ReviewsX() {
               <div className="grid grid-cols-5 gap-6">
                 <Card>
                   <CardHeader className="pb-2">
-                    <CardTitle className="text-sm font-medium text-gray-600">Ortalama Puan</CardTitle>
+                    <CardTitle className="text-sm font-medium text-gray-600">Average Rating</CardTitle>
                   </CardHeader>
                   <CardContent>
                     <div className="text-2xl font-bold text-gray-900">{kpiData.averageRating}</div>
@@ -317,7 +317,7 @@ export default function ReviewsX() {
 
                 <Card>
                   <CardHeader className="pb-2">
-                    <CardTitle className="text-sm font-medium text-gray-600">Toplam Yorum</CardTitle>
+                    <CardTitle className="text-sm font-medium text-gray-600">Review Volume</CardTitle>
                   </CardHeader>
                   <CardContent>
                     <div className="text-2xl font-bold text-gray-900">{kpiData.totalReviews.toLocaleString()}</div>
@@ -330,7 +330,7 @@ export default function ReviewsX() {
 
                 <Card>
                   <CardHeader className="pb-2">
-                    <CardTitle className="text-sm font-medium text-gray-600">Yanıt Oranı</CardTitle>
+                    <CardTitle className="text-sm font-medium text-gray-600">Reply Rate</CardTitle>
                   </CardHeader>
                   <CardContent>
                     <div className="text-2xl font-bold text-gray-900">{kpiData.responseRate}%</div>
@@ -343,7 +343,7 @@ export default function ReviewsX() {
 
                 <Card>
                   <CardHeader className="pb-2">
-                    <CardTitle className="text-sm font-medium text-gray-600">Ort. Yanıt Süresi</CardTitle>
+                    <CardTitle className="text-sm font-medium text-gray-600">Response Time</CardTitle>
                   </CardHeader>
                   <CardContent>
                     <div className="text-2xl font-bold text-gray-900">{kpiData.avgResponseTime}</div>
@@ -356,7 +356,7 @@ export default function ReviewsX() {
 
                 <Card>
                   <CardHeader className="pb-2">
-                    <CardTitle className="text-sm font-medium text-gray-600">Duygu İndeksi</CardTitle>
+                    <CardTitle className="text-sm font-medium text-gray-600">Sentiment Index</CardTitle>
                   </CardHeader>
                   <CardContent>
                     <div className="text-2xl font-bold text-gray-900">{kpiData.sentimentIndex}%</div>
