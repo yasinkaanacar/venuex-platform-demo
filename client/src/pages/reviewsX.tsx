@@ -2376,21 +2376,21 @@ export default function ReviewsX() {
             {/* Locations Section */}
             <TabsContent value="locations" className="space-y-6">
               <div className="flex items-center justify-between">
-                <h2 className="text-2xl font-bold">Lokasyon Yönetimi</h2>
+                <h2 className="text-2xl font-bold">Location Management</h2>
                 <div className="flex gap-2">
                   <Button
                     variant={viewMode === "table" ? "default" : "outline"}
                     onClick={() => setViewMode("table")}
                   >
                     <List className="w-4 h-4 mr-2" />
-                    Tablo
+                    Table
                   </Button>
                   <Button
                     variant={viewMode === "map" ? "default" : "outline"}
                     onClick={() => setViewMode("map")}
                   >
                     <Map className="w-4 h-4 mr-2" />
-                    Harita
+                    Map
                   </Button>
                 </div>
               </div>
@@ -2402,14 +2402,14 @@ export default function ReviewsX() {
                       <table className="w-full">
                         <thead>
                           <tr className="border-b border-gray-200 bg-gray-50">
-                            <th className="text-left py-3 px-4 font-medium text-gray-600">Lokasyon</th>
-                            <th className="text-left py-3 px-4 font-medium text-gray-600">Şehir/Bölge</th>
-                            <th className="text-center py-3 px-4 font-medium text-gray-600">Ortalama Puan</th>
+                            <th className="text-left py-3 px-4 font-medium text-gray-600">Location</th>
+                            <th className="text-left py-3 px-4 font-medium text-gray-600">City/Region</th>
+                            <th className="text-center py-3 px-4 font-medium text-gray-600">Average Rating</th>
                             <th className="text-center py-3 px-4 font-medium text-gray-600">Review Count</th>
                             <th className="text-center py-3 px-4 font-medium text-gray-600">% Negative</th>
                             <th className="text-center py-3 px-4 font-medium text-gray-600">Response Rate</th>
                             <th className="text-center py-3 px-4 font-medium text-gray-600">Last Review</th>
-                            <th className="text-center py-3 px-4 font-medium text-gray-600">İşlemler</th>
+                            <th className="text-center py-3 px-4 font-medium text-gray-600">Actions</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -2453,8 +2453,8 @@ export default function ReviewsX() {
                     <div className="h-96 flex items-center justify-center bg-gray-100 rounded-lg">
                       <div className="text-center">
                         <Map className="w-16 h-16 mx-auto text-gray-400 mb-4" />
-                        <p className="text-gray-500">Harita görünümü burada gösterilecek</p>
-                        <p className="text-sm text-gray-400">Lokasyonlar harita üzerinde pin olarak görüntülenecek</p>
+                        <p className="text-gray-500">Map view will be displayed here</p>
+                        <p className="text-sm text-gray-400">Locations will be displayed as pins on the map</p>
                       </div>
                     </div>
                   </CardContent>
@@ -2465,10 +2465,10 @@ export default function ReviewsX() {
             {/* Products Section */}
             <TabsContent value="products" className="space-y-6">
               <div className="flex items-center justify-between">
-                <h2 className="text-2xl font-bold">Ürün İncelemeleri</h2>
+                <h2 className="text-2xl font-bold">Product Reviews</h2>
                 <Button variant="outline">
                   <Filter className="w-4 h-4 mr-2" />
-                  Kategori Filtrele
+                  Filter Category
                 </Button>
               </div>
 
@@ -2478,14 +2478,14 @@ export default function ReviewsX() {
                     <table className="w-full">
                       <thead>
                         <tr className="border-b border-gray-200 bg-gray-50">
-                          <th className="text-left py-3 px-4 font-medium text-gray-600">Ürün</th>
+                          <th className="text-left py-3 px-4 font-medium text-gray-600">Product</th>
                           <th className="text-left py-3 px-4 font-medium text-gray-600">SKU</th>
-                          <th className="text-left py-3 px-4 font-medium text-gray-600">Kategori</th>
+                          <th className="text-left py-3 px-4 font-medium text-gray-600">Category</th>
                           <th className="text-center py-3 px-4 font-medium text-gray-600">Ortalama Puan</th>
                           <th className="text-center py-3 px-4 font-medium text-gray-600">Review Count</th>
-                          <th className="text-center py-3 px-4 font-medium text-gray-600">Duygu</th>
-                          <th className="text-left py-3 px-4 font-medium text-gray-600">En Çok Beğenilen</th>
-                          <th className="text-left py-3 px-4 font-medium text-gray-600">En Çok Şikâyet</th>
+                          <th className="text-center py-3 px-4 font-medium text-gray-600">Sentiment</th>
+                          <th className="text-left py-3 px-4 font-medium text-gray-600">Most Liked</th>
+                          <th className="text-left py-3 px-4 font-medium text-gray-600">Most Complained</th>
                           <th className="text-center py-3 px-4 font-medium text-gray-600">İşlemler</th>
                         </tr>
                       </thead>
@@ -2729,7 +2729,7 @@ export default function ReviewsX() {
               <div className="grid grid-cols-3 gap-6">
                 <Card>
                   <CardHeader>
-                    <CardTitle>Duygu Genel Görünümü</CardTitle>
+                    <CardTitle>Sentiment Overview</CardTitle>
                   </CardHeader>
                   <CardContent>
                     <div className="text-center">
