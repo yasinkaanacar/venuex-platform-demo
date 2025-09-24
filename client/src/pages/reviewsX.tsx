@@ -417,40 +417,48 @@ export default function ReviewsX() {
             {/* Overview Section */}
             <TabsContent value="overview" className="space-y-6">
               {/* KPI Summary Cards */}
-              <TooltipProvider>
-                <div className="grid grid-cols-5 gap-6">
-                  <Tooltip>
-                    <TooltipTrigger asChild>
-                      <Card 
-                        className="cursor-pointer hover:shadow-md transition-shadow"
-                        onClick={() => setActiveTab("insights")}
-                      >
-                        <CardHeader className="pb-3">
-                          <CardTitle className="flex items-center gap-2 text-sm font-medium text-gray-600">
-                            Average Rating
-                            <HelpCircle className="w-4 h-4 text-gray-400" />
-                          </CardTitle>
-                        </CardHeader>
-                        <CardContent>
-                          <div className="text-2xl font-bold text-gray-900 flex items-center gap-2">
-                            {kpiData.averageRating}
-                            <div className="flex gap-0">
-                              {[1,2,3,4,5].map((star) => (
-                                <Star key={star} className={`w-3 h-3 ${star <= Math.floor(kpiData.averageRating) ? 'fill-yellow-400 text-yellow-400' : 'text-gray-300'}`} />
-                              ))}
-                            </div>
+              <div className="grid grid-cols-5 gap-6">
+                <Card 
+                  className="cursor-pointer hover:shadow-md transition-shadow"
+                  onClick={() => setActiveTab("insights")}
+                >
+                  <CardHeader className="pb-4">
+                    <CardTitle className="text-lg font-semibold text-gray-900">
+                      Average Rating
+                    </CardTitle>
+                    <div className="text-sm text-gray-500">(Last 12 months)</div>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    <div className="text-4xl font-bold text-gray-900">
+                      {kpiData.averageRating}
+                    </div>
+                    <div className="text-sm text-gray-500 mb-4">
+                      {kpiData.totalReviews.toLocaleString()} reviews
+                    </div>
+                    
+                    {/* Rating Distribution */}
+                    <div className="space-y-2">
+                      {[
+                        { stars: 5, percentage: 92, color: 'bg-yellow-500' },
+                        { stars: 4, percentage: 5, color: 'bg-orange-400' },
+                        { stars: 3, percentage: 1, color: 'bg-orange-400' },
+                        { stars: 2, percentage: 2, color: 'bg-orange-400' },
+                        { stars: 1, percentage: 2, color: 'bg-orange-400' }
+                      ].map((rating) => (
+                        <div key={rating.stars} className="flex items-center gap-3">
+                          <span className="text-sm font-medium w-2">{rating.stars}</span>
+                          <div className="flex-1 bg-gray-200 rounded-full h-2 relative">
+                            <div 
+                              className={`${rating.color} h-2 rounded-full`}
+                              style={{ width: `${rating.percentage}%` }}
+                            />
                           </div>
-                          <div className="flex items-center gap-1 text-xs text-green-600 mt-1">
-                            <ArrowUp className="w-3 h-3" />
-                            +0.1 vs previous period
-                          </div>
-                          <div className="text-xs text-gray-500 mt-1">{kpiData.totalReviews} reviews</div>
-                        </CardContent>
-                      </Card>
-                    </TooltipTrigger>
-                    <TooltipContent>
-                    </TooltipContent>
-                  </Tooltip>
+                          <span className="text-sm text-gray-600 w-8 text-right">{rating.percentage}%</span>
+                        </div>
+                      ))}
+                    </div>
+                  </CardContent>
+                </Card>
 
                 <Card 
                   className="cursor-pointer hover:shadow-md transition-shadow"
@@ -536,7 +544,6 @@ export default function ReviewsX() {
                   </CardContent>
                 </Card>
                 </div>
-              </TooltipProvider>
 
               {/* Charts Row */}
               <div className="grid grid-cols-2 gap-6">
