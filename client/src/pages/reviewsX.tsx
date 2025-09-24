@@ -390,16 +390,92 @@ export default function ReviewsX() {
                         </div>
                       </div>
                       <div className="relative h-48 border-l border-b border-gray-300">
+                        {/* Y-axis labels for volume */}
+                        <div className="absolute left-0 top-0 h-full flex flex-col justify-between text-xs text-gray-400 -ml-8">
+                          <span>400</span>
+                          <span>300</span>
+                          <span>200</span>
+                          <span>100</span>
+                          <span>0</span>
+                        </div>
+                        
+                        {/* Y-axis labels for rating */}
+                        <div className="absolute right-0 top-0 h-full flex flex-col justify-between text-xs text-gray-400 -mr-8">
+                          <span>5.0★</span>
+                          <span>4.5★</span>
+                          <span>4.0★</span>
+                          <span>3.5★</span>
+                          <span>3.0★</span>
+                        </div>
+                        
+                        {/* Data visualization */}
                         <div className="absolute inset-0 flex items-end justify-between px-2 pb-4">
-                          {[...Array(12)].map((_, i) => (
-                            <div key={i} className="flex flex-col items-center gap-1">
-                              <div className="w-6 bg-blue-400 rounded-t" style={{height: `${Math.random() * 120 + 20}px`}}></div>
-                              <div className="text-xs text-gray-400">W{i+1}</div>
+                          {[
+                            {week: 1, volume: 245, rating: 4.6},
+                            {week: 2, volume: 312, rating: 4.7},
+                            {week: 3, volume: 198, rating: 4.5},
+                            {week: 4, volume: 287, rating: 4.8},
+                            {week: 5, volume: 334, rating: 4.9},
+                            {week: 6, volume: 275, rating: 4.7},
+                            {week: 7, volume: 356, rating: 4.8},
+                            {week: 8, volume: 298, rating: 4.6},
+                            {week: 9, volume: 267, rating: 4.7},
+                            {week: 10, volume: 385, rating: 4.9},
+                            {week: 11, volume: 298, rating: 4.8},
+                            {week: 12, volume: 342, rating: 4.7}
+                          ].map((data, i) => (
+                            <div key={i} className="flex flex-col items-center gap-1 relative">
+                              {/* Volume bar */}
+                              <div 
+                                className="w-6 bg-blue-400 rounded-t" 
+                                style={{height: `${(data.volume / 400) * 160}px`}}
+                                title={`${data.volume} yorum`}
+                              ></div>
+                              <div className="text-xs text-gray-400">W{data.week}</div>
+                              
+                              {/* Rating line point */}
+                              <div 
+                                className="absolute w-3 h-3 bg-green-500 rounded-full border-2 border-white shadow-sm"
+                                style={{
+                                  bottom: `${20 + ((data.rating - 3) / 2) * 160}px`,
+                                  left: '50%',
+                                  transform: 'translateX(-50%)'
+                                }}
+                                title={`${data.rating}★ ortalama`}
+                              ></div>
                             </div>
                           ))}
                         </div>
+                        
+                        {/* Rating trend line */}
+                        <svg className="absolute inset-0 pointer-events-none">
+                          <polyline
+                            fill="none"
+                            stroke="#22c55e"
+                            strokeWidth="2"
+                            points={[
+                              {week: 1, volume: 245, rating: 4.6},
+                              {week: 2, volume: 312, rating: 4.7},
+                              {week: 3, volume: 198, rating: 4.5},
+                              {week: 4, volume: 287, rating: 4.8},
+                              {week: 5, volume: 334, rating: 4.9},
+                              {week: 6, volume: 275, rating: 4.7},
+                              {week: 7, volume: 356, rating: 4.8},
+                              {week: 8, volume: 298, rating: 4.6},
+                              {week: 9, volume: 267, rating: 4.7},
+                              {week: 10, volume: 385, rating: 4.9},
+                              {week: 11, volume: 298, rating: 4.8},
+                              {week: 12, volume: 342, rating: 4.7}
+                            ].map((d, i) => {
+                              const x = (i / 11) * 100;
+                              const y = 100 - (((d.rating - 3) / 2) * 100);
+                              return `${x}%,${y}%`;
+                            }).join(' ')}
+                          />
+                        </svg>
+                        
                         <div className="absolute top-4 right-4 text-green-600 font-medium">
-                          4.78★ Trend
+                          ▲ 4.75★ Ortalama (+0.15)
                         </div>
                       </div>
                     </div>
@@ -498,22 +574,75 @@ export default function ReviewsX() {
                     </TabsContent>
                     
                     <TabsContent value="locations" className="space-y-4">
-                      <div className="text-sm text-gray-600 mb-4">En fazla yoruma sahip 10 lokasyon için puan dağılımı</div>
-                      <div className="space-y-3">
-                        {locations.slice(0, 3).map((location) => (
-                          <div key={location.id} className="flex items-center gap-4">
-                            <div className="w-32 text-sm font-medium">{location.name}</div>
-                            <div className="flex-1 flex gap-1">
-                              {[5,4,3,2,1].map((star) => (
-                                <div key={star} className="flex-1 bg-gray-200 rounded-sm h-6 flex items-end">
+                      <div className="text-sm text-gray-600 mb-4">En fazla yoruma sahip 20 lokasyon için puan dağılımı</div>
+                      <div className="space-y-2 max-h-96 overflow-y-auto">
+                        {[
+                          {name: "Boyner Bağdat Caddesi", total: 542, ratings: {5: 420, 4: 75, 3: 28, 2: 12, 1: 7}, avg: 4.7},
+                          {name: "Boyner Kanyon AVM", total: 489, ratings: {5: 380, 4: 68, 3: 25, 2: 10, 1: 6}, avg: 4.6},
+                          {name: "Boyner İstinyePark", total: 456, ratings: {5: 345, 4: 78, 3: 22, 2: 8, 1: 3}, avg: 4.8},
+                          {name: "Boyner Zorlu Center", total: 423, ratings: {5: 310, 4: 72, 3: 25, 2: 11, 1: 5}, avg: 4.6},
+                          {name: "Boyner Nişantaşı", total: 398, ratings: {5: 295, 4: 68, 3: 20, 2: 10, 1: 5}, avg: 4.7},
+                          {name: "Boyner Akasya AVM", total: 376, ratings: {5: 275, 4: 65, 3: 22, 2: 9, 1: 5}, avg: 4.6},
+                          {name: "Boyner Cevahir AVM", total: 365, ratings: {5: 270, 4: 58, 3: 25, 2: 8, 1: 4}, avg: 4.7},
+                          {name: "Boyner Emaar AVM", total: 342, ratings: {5: 245, 4: 62, 3: 20, 2: 10, 1: 5}, avg: 4.6},
+                          {name: "Boyner Ankara Ankamall", total: 325, ratings: {5: 235, 4: 55, 3: 22, 2: 8, 1: 5}, avg: 4.6},
+                          {name: "Boyner İzmir Forum", total: 312, ratings: {5: 220, 4: 58, 3: 20, 2: 9, 1: 5}, avg: 4.5},
+                          {name: "Boyner Bursa Kent Meydanı", total: 298, ratings: {5: 210, 4: 52, 3: 23, 2: 8, 1: 5}, avg: 4.5},
+                          {name: "Boyner Antalya Migros AVM", total: 287, ratings: {5: 200, 4: 55, 3: 20, 2: 7, 1: 5}, avg: 4.5},
+                          {name: "Boyner Adana Optimum", total: 276, ratings: {5: 195, 4: 48, 3: 22, 2: 7, 1: 4}, avg: 4.5},
+                          {name: "Boyner Mersin Forum", total: 265, ratings: {5: 185, 4: 52, 3: 18, 2: 6, 1: 4}, avg: 4.6},
+                          {name: "Boyner Gaziantep Sanko Park", total: 254, ratings: {5: 175, 4: 48, 3: 20, 2: 7, 1: 4}, avg: 4.5},
+                          {name: "Boyner Konya Kulesite", total: 243, ratings: {5: 165, 4: 45, 3: 22, 2: 7, 1: 4}, avg: 4.4},
+                          {name: "Boyner Eskişehir Espark", total: 232, ratings: {5: 155, 4: 48, 3: 18, 2: 7, 1: 4}, avg: 4.5},
+                          {name: "Boyner Kayseri Park", total: 221, ratings: {5: 145, 4: 44, 3: 20, 2: 8, 1: 4}, avg: 4.4},
+                          {name: "Boyner Trabzon Forum", total: 210, ratings: {5: 140, 4: 42, 3: 18, 2: 6, 1: 4}, avg: 4.5},
+                          {name: "Boyner Samsun Piazza", total: 198, ratings: {5: 130, 4: 38, 3: 20, 2: 6, 1: 4}, avg: 4.4}
+                        ].map((location, index) => (
+                          <div key={index} className="flex items-center gap-4 p-2 hover:bg-gray-50 rounded">
+                            <div className="w-8 text-xs text-gray-500 font-mono">#{index + 1}</div>
+                            <div className="w-48 text-sm font-medium">{location.name}</div>
+                            <div className="flex-1 flex h-8 bg-gray-200 rounded overflow-hidden relative group">
+                              {/* Stacked horizontal bar */}
+                              {[5,4,3,2,1].map((star) => {
+                                const count = location.ratings[star as keyof typeof location.ratings];
+                                const percentage = (count / location.total) * 100;
+                                return (
                                   <div 
-                                    className={`w-full rounded-sm ${star === 5 ? 'bg-green-500' : star === 4 ? 'bg-lime-500' : star === 3 ? 'bg-yellow-500' : star === 2 ? 'bg-orange-500' : 'bg-red-500'}`}
-                                    style={{height: `${Math.random() * 80 + 20}%`}}
+                                    key={star}
+                                    className={`h-full ${
+                                      star === 5 ? 'bg-green-500' : 
+                                      star === 4 ? 'bg-lime-500' : 
+                                      star === 3 ? 'bg-yellow-500' : 
+                                      star === 2 ? 'bg-orange-500' : 'bg-red-500'
+                                    }`}
+                                    style={{width: `${percentage}%`}}
                                   ></div>
+                                );
+                              })}
+                              
+                              {/* Hover tooltip */}
+                              <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-10 bg-black text-white text-xs px-3 py-2 rounded opacity-0 group-hover:opacity-100 transition-opacity z-10 min-w-max">
+                                <div className="space-y-1">
+                                  {[5,4,3,2,1].map((star) => {
+                                    const count = location.ratings[star as keyof typeof location.ratings];
+                                    const percentage = (count / location.total) * 100;
+                                    return (
+                                      <div key={star} className="flex items-center gap-2">
+                                        <div className={`w-3 h-3 rounded ${
+                                          star === 5 ? 'bg-green-500' : 
+                                          star === 4 ? 'bg-lime-500' : 
+                                          star === 3 ? 'bg-yellow-500' : 
+                                          star === 2 ? 'bg-orange-500' : 'bg-red-500'
+                                        }`}></div>
+                                        <span>{star}★: {count} ({percentage.toFixed(1)}%)</span>
+                                      </div>
+                                    );
+                                  })}
                                 </div>
-                              ))}
+                              </div>
                             </div>
-                            <div className="w-16 text-sm text-gray-600">{location.rating}★</div>
+                            <div className="w-16 text-sm text-gray-600 font-medium">{location.avg}★</div>
+                            <div className="w-16 text-xs text-gray-500">{location.total} yorum</div>
                           </div>
                         ))}
                       </div>
