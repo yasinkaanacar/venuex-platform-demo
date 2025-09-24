@@ -827,6 +827,35 @@ export default function ReviewsX() {
 
   const trendData = getTrendData();
 
+  // Enhanced urgency detection based on rating and keywords
+  const detectUrgency = (rating: number, text: string) => {
+    // Low rating threshold (1-2 stars)
+    const hasLowRating = rating <= 2;
+    
+    // Negative keyword triggers
+    const urgentKeywords = [
+      'poor', 'bad', 'terrible', 'awful', 'horrible', 'worst',
+      'slow', 'waited', 'waiting', 'long time', 'too long',
+      'rude', 'unprofessional', 'ignored', 'couldn\'t', 'can\'t',
+      'refused', 'denied', 'disappointed', 'frustrated', 'angry',
+      'return', 'refund', 'money back', 'compensation',
+      'complaint', 'problem', 'issue', 'error', 'mistake',
+      'never again', 'won\'t come back', 'avoid'
+    ];
+    
+    const hasUrgentKeywords = urgentKeywords.some(keyword => 
+      text.toLowerCase().includes(keyword.toLowerCase())
+    );
+    
+    return {
+      isUrgent: hasLowRating || hasUrgentKeywords,
+      urgencyReasons: {
+        lowRating: hasLowRating,
+        negativeKeywords: hasUrgentKeywords
+      }
+    };
+  };
+
   const recentReviews = [
     {
       id: 1,
@@ -1718,17 +1747,47 @@ export default function ReviewsX() {
                   </CardHeader>
                   <CardContent>
                     <div className="space-y-4">
-                      {recentReviews.map((review) => (
-                        <div 
-                          key={review.id} 
-                          className="flex items-start gap-3 p-3 border rounded-lg hover:bg-gray-50 cursor-pointer transition-colors"
-                          onClick={() => setActiveTab("inbox")}
-                        >
-                          <div className="flex items-center gap-2">
-                            <div className="flex items-center gap-1">
-                              {review.isNew && <div className="w-2 h-2 bg-red-500 rounded-full"></div>}
-                              {review.isUrgent && <div className="w-4 h-4 bg-red-500 rounded-full flex items-center justify-center text-white text-xs font-bold">!</div>}
-                            </div>
+                      {recentReviews.map((review) => {
+                        // Apply enhanced urgency detection
+                        const urgencyDetection = detectUrgency(review.rating, review.text);
+                        const isUrgent = urgencyDetection.isUrgent;
+                        const urgencyReasons = urgencyDetection.urgencyReasons;
+                        
+                        return (
+                          <div 
+                            key={review.id} 
+                            className={`flex items-start gap-3 p-3 border rounded-lg hover:bg-gray-50 cursor-pointer transition-colors ${
+                              isUrgent ? 'border-red-200 bg-red-50 hover:bg-red-100' : ''
+                            }`}
+                            onClick={() => {
+                              // Preserved filter navigation - set urgency filter if urgent review
+                              if (isUrgent) {
+                                setInboxFilters(prev => ({ ...prev, rating: review.rating <= 2 ? review.rating : null }));
+                              }
+                              setActiveTab("inbox");
+                            }}
+                            data-testid={`review-${review.id}`}
+                          >
+                            <div className="flex items-center gap-2">
+                              <div className="flex items-center gap-1">
+                                {review.isNew && (
+                                  <div className="w-2 h-2 bg-blue-500 rounded-full" title="New review"></div>
+                                )}
+                                {isUrgent && (
+                                  <div className="flex items-center gap-1">
+                                    {urgencyReasons.lowRating && (
+                                      <div className="w-5 h-5 bg-red-500 rounded-full flex items-center justify-center text-white text-xs font-bold" title="Low rating alert">
+                                        <AlertTriangle className="w-3 h-3" />
+                                      </div>
+                                    )}
+                                    {urgencyReasons.negativeKeywords && (
+                                      <div className="w-5 h-5 bg-orange-500 rounded-full flex items-center justify-center text-white text-xs font-bold" title="Negative keywords detected">
+                                        <MessageSquare className="w-3 h-3" />
+                                      </div>
+                                    )}
+                                  </div>
+                                )}
+                              </div>
                             <div className="flex">
                               {[...Array(5)].map((_, i) => (
                                 <Star
@@ -1747,7 +1806,8 @@ export default function ReviewsX() {
                             <div className="text-xs text-gray-500 mt-1">{review.date}</div>
                           </div>
                         </div>
-                      ))}
+                        );
+                      })}
                     </div>
                   </CardContent>
                 </Card>
