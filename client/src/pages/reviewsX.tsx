@@ -360,7 +360,7 @@ export default function ReviewsX() {
                 <Bell className="w-4 h-4 mr-2" />
                 New Reviews
                 {alertsCount > 0 && (
-                  <Badge variant="destructive" className="absolute -top-2 -right-2 h-5 w-5 p-0 text-xs">
+                  <Badge variant="destructive" className="absolute -top-2 -right-2 h-5 w-5 p-0 text-xs flex items-center justify-center">
                     {alertsCount}
                   </Badge>
                 )}
