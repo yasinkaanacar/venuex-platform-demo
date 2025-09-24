@@ -762,14 +762,14 @@ export default function ReviewsX() {
                   <CardContent>
                     <div className="space-y-3">
                       {[
-                        {keyword: "mağaza", positive: 78, negative: 22, sentiment: "positive"},
-                        {keyword: "ürün", positive: 82, negative: 18, sentiment: "positive"},
-                        {keyword: "personel", positive: 91, negative: 9, sentiment: "positive"},
-                        {keyword: "kalite", positive: 88, negative: 12, sentiment: "positive"},
-                        {keyword: "fiyat", positive: 45, negative: 55, sentiment: "negative"},
-                        {keyword: "hizmet", positive: 76, negative: 24, sentiment: "positive"},
-                        {keyword: "çeşit", positive: 69, negative: 31, sentiment: "positive"},
-                        {keyword: "atmosfer", positive: 84, negative: 16, sentiment: "positive"}
+                        {keyword: "store", positive: 78, negative: 22, sentiment: "positive"},
+                        {keyword: "product", positive: 82, negative: 18, sentiment: "positive"},
+                        {keyword: "staff", positive: 91, negative: 9, sentiment: "positive"},
+                        {keyword: "quality", positive: 88, negative: 12, sentiment: "positive"},
+                        {keyword: "price", positive: 45, negative: 55, sentiment: "negative"},
+                        {keyword: "service", positive: 76, negative: 24, sentiment: "positive"},
+                        {keyword: "variety", positive: 69, negative: 31, sentiment: "positive"},
+                        {keyword: "atmosphere", positive: 84, negative: 16, sentiment: "positive"}
                       ].map((item, index) => (
                         <div key={index} className="flex items-center gap-3 p-2 hover:bg-gray-50 rounded">
                           <span className="font-mono text-xs text-gray-500 w-6">#{index + 1}</span>
@@ -868,12 +868,12 @@ export default function ReviewsX() {
               {/* Location Leaderboard */}
               <Card>
                 <CardHeader>
-                  <CardTitle>Lokasyon Sıralaması</CardTitle>
+                  <CardTitle>Location Leaderboard</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <div className="grid grid-cols-2 gap-6">
                     <div>
-                      <h4 className="font-medium text-green-600 mb-3">🏆 En İyi 5 Lokasyon</h4>
+                      <h4 className="font-medium text-green-600 mb-3">🏆 Top 5 Locations</h4>
                       <div className="space-y-2">
                         {locations.slice(0, 3).map((location, index) => (
                           <div key={location.id} className="flex items-center justify-between p-2 bg-green-50 rounded">
@@ -888,7 +888,7 @@ export default function ReviewsX() {
                     </div>
                     
                     <div>
-                      <h4 className="font-medium text-red-600 mb-3">⚠️ İyileştirme Gereken</h4>
+                      <h4 className="font-medium text-red-600 mb-3">⚠️ Needs Improvement</h4>
                       <div className="space-y-2">
                         {locations.slice(-2).map((location, index) => (
                           <div key={location.id} className="flex items-center justify-between p-2 bg-red-50 rounded">
