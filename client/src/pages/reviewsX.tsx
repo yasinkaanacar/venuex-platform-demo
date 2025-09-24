@@ -98,6 +98,14 @@ export default function ReviewsX() {
   const [chartToggle, setChartToggle] = useState("source"); // "source" or "rating"
   const [inboxFilters, setInboxFilters] = useState({ source: null, rating: null, week: null });
   const [selectedSentimentDate, setSelectedSentimentDate] = useState(null);
+  
+  // Theme Analysis state
+  const [selectedTheme, setSelectedTheme] = useState(null);
+  const [themeFilters, setThemeFilters] = useState({
+    dateRange: "30", // Last 30 Days
+    location: "all", // All Locations
+    product: "all" // All Products
+  });
 
   // Function to navigate to inbox with filters
   const navigateToInboxWithFilter = (filterType: string, filterValue: string | number | null) => {
@@ -1051,13 +1059,237 @@ export default function ReviewsX() {
     }
   ];
 
+  // Enhanced Theme Analysis data with deep-dive information
   const themeAnalysis = [
-    { theme: "Product Quality", positive: 78, neutral: 15, negative: 7, total: 450, trend: "up" },
-    { theme: "Customer Service", positive: 82, neutral: 12, negative: 6, total: 380, trend: "up" },
-    { theme: "Store Atmosphere", positive: 71, neutral: 20, negative: 9, total: 325, trend: "stable" },
-    { theme: "Price-Performance", positive: 65, neutral: 25, negative: 10, total: 290, trend: "down" },
-    { theme: "Product Variety", positive: 88, neutral: 8, negative: 4, total: 275, trend: "up" }
+    { 
+      theme: "Product Quality", 
+      positive: 78, 
+      neutral: 15, 
+      negative: 7, 
+      total: 450, 
+      trend: "up",
+      id: "product_quality",
+      description: "Customer feedback about product quality, materials, and durability"
+    },
+    { 
+      theme: "Customer Service", 
+      positive: 82, 
+      neutral: 12, 
+      negative: 6, 
+      total: 380, 
+      trend: "up",
+      id: "customer_service",
+      description: "Reviews mentioning staff helpfulness, responsiveness, and service quality"
+    },
+    { 
+      theme: "Store Atmosphere", 
+      positive: 71, 
+      neutral: 20, 
+      negative: 9, 
+      total: 325, 
+      trend: "stable",
+      id: "store_atmosphere",
+      description: "Comments about store ambiance, cleanliness, and overall environment"
+    },
+    { 
+      theme: "Price-Performance", 
+      positive: 65, 
+      neutral: 25, 
+      negative: 10, 
+      total: 290, 
+      trend: "down",
+      id: "price_performance",
+      description: "Feedback on value for money, pricing, and cost expectations"
+    },
+    { 
+      theme: "Product Variety", 
+      positive: 88, 
+      neutral: 8, 
+      negative: 4, 
+      total: 275, 
+      trend: "up",
+      id: "product_variety",
+      description: "Reviews about product selection, availability, and range of options"
+    }
   ];
+
+  // Theme prevalence over time data (last 30 days)
+  const getThemeTimelineData = (themeId: string) => {
+    const baseData = [];
+    for (let i = 29; i >= 0; i--) {
+      const date = new Date();
+      date.setDate(date.getDate() - i);
+      const dayOfWeek = date.getDay();
+      
+      // Generate deterministic data based on theme and date
+      const seedValue = themeId.length + date.getDate();
+      let mentions = 8 + (seedValue % 12);
+      
+      // Weekend patterns
+      if (dayOfWeek === 0 || dayOfWeek === 6) {
+        mentions = Math.floor(mentions * 0.7);
+      }
+      
+      // Theme-specific patterns
+      if (themeId === "customer_service") mentions = Math.floor(mentions * 1.2);
+      if (themeId === "price_performance") mentions = Math.floor(mentions * 0.8);
+      
+      baseData.push({
+        date: date.toISOString().split('T')[0],
+        mentions: Math.max(1, mentions),
+        dayName: date.toLocaleDateString('en-US', { weekday: 'short' })
+      });
+    }
+    return baseData;
+  };
+
+  // Representative review snippets for each theme
+  const getThemeReviews = (themeId: string) => {
+    const reviewData = {
+      product_quality: [
+        { 
+          snippet: "The **fabric quality** is exceptional - much better than expected for the price point.",
+          sentiment: "positive",
+          location: "Boyner Nişantaşı",
+          date: "2024-03-20"
+        },
+        { 
+          snippet: "**Material feels cheap** and started showing wear after just a few washes.",
+          sentiment: "negative",
+          location: "Boyner Zorlu Center",
+          date: "2024-03-18"
+        },
+        { 
+          snippet: "Good **construction** and **attention to detail** in the stitching and finishing.",
+          sentiment: "positive",
+          location: "Boyner Ankara Kızılay",
+          date: "2024-03-17"
+        },
+        { 
+          snippet: "The **durability** is questionable - seams came apart after minimal use.",
+          sentiment: "negative",
+          location: "Boyner Izmir Bornova",
+          date: "2024-03-15"
+        }
+      ],
+      customer_service: [
+        { 
+          snippet: "Staff was **incredibly helpful** and went out of their way to find my size.",
+          sentiment: "positive",
+          location: "Boyner Nişantaşı",
+          date: "2024-03-21"
+        },
+        { 
+          snippet: "**Waited 20 minutes** for someone to help me and they seemed disinterested.",
+          sentiment: "negative",
+          location: "Boyner Bağdat Caddesi",
+          date: "2024-03-19"
+        },
+        { 
+          snippet: "Excellent **product knowledge** and great **style recommendations** from the team.",
+          sentiment: "positive",
+          location: "Boyner Zorlu Center",
+          date: "2024-03-18"
+        },
+        { 
+          snippet: "**Unfriendly** service at checkout - felt rushed and unwelcome.",
+          sentiment: "negative",
+          location: "Boyner Ankara Tunalı",
+          date: "2024-03-16"
+        }
+      ],
+      store_atmosphere: [
+        { 
+          snippet: "Beautiful **store layout** and **clean environment** - really pleasant shopping experience.",
+          sentiment: "positive",
+          location: "Boyner Zorlu Center",
+          date: "2024-03-20"
+        },
+        { 
+          snippet: "Store was **messy** and **disorganized** - couldn't find anything easily.",
+          sentiment: "negative",
+          location: "Boyner Izmir Bornova",
+          date: "2024-03-17"
+        },
+        { 
+          snippet: "Great **ambiance** and **modern design** - feels like a premium shopping destination.",
+          sentiment: "positive",
+          location: "Boyner Nişantaşı",
+          date: "2024-03-19"
+        },
+        { 
+          snippet: "**Too crowded** and **noisy** - difficult to browse comfortably.",
+          sentiment: "negative",
+          location: "Boyner Ankara Kızılay",
+          date: "2024-03-15"
+        }
+      ],
+      price_performance: [
+        { 
+          snippet: "**Great value for money** - quality exceeds the price point significantly.",
+          sentiment: "positive",
+          location: "Boyner Bağdat Caddesi",
+          date: "2024-03-21"
+        },
+        { 
+          snippet: "**Overpriced** for what you get - similar items available elsewhere for less.",
+          sentiment: "negative",
+          location: "Boyner Zorlu Center",
+          date: "2024-03-18"
+        },
+        { 
+          snippet: "**Fair pricing** considering the brand quality and design aesthetics.",
+          sentiment: "positive",
+          location: "Boyner Nişantaşı",
+          date: "2024-03-16"
+        },
+        { 
+          snippet: "Expected **better quality** at this price range - disappointing value.",
+          sentiment: "negative",
+          location: "Boyner Ankara Tunalı",
+          date: "2024-03-14"
+        }
+      ],
+      product_variety: [
+        { 
+          snippet: "**Amazing selection** - found exactly what I was looking for and more options.",
+          sentiment: "positive",
+          location: "Boyner Zorlu Center",
+          date: "2024-03-20"
+        },
+        { 
+          snippet: "**Limited sizes** available in most styles - frustrating shopping experience.",
+          sentiment: "negative",
+          location: "Boyner Izmir Bornova",
+          date: "2024-03-17"
+        },
+        { 
+          snippet: "**Wide range of styles** and **current fashion trends** well represented.",
+          sentiment: "positive",
+          location: "Boyner Nişantaşı",
+          date: "2024-03-19"
+        },
+        { 
+          snippet: "**Outdated collection** - most items look like they're from last season.",
+          sentiment: "negative",
+          location: "Boyner Ankara Kızılay",
+          date: "2024-03-15"
+        }
+      ]
+    };
+    return reviewData[themeId] || [];
+  };
+
+  // Location breakdown for selected theme
+  const getThemeLocationBreakdown = (themeId: string) => {
+    return [
+      { location: "Boyner Nişantaşı", mentions: 89, positive: 85, neutral: 10, negative: 5 },
+      { location: "Boyner Zorlu Center", mentions: 76, positive: 78, neutral: 15, negative: 7 },
+      { location: "Boyner Bağdat Caddesi", mentions: 64, positive: 72, neutral: 18, negative: 10 },
+      { location: "Boyner Ankara Kızılay", mentions: 52, positive: 69, neutral: 20, negative: 11 },
+      { location: "Boyner Izmir Bornova", mentions: 43, positive: 65, neutral: 22, negative: 13 }
+    ];
+  };
 
   const responseTemplates = [
     { id: 1, name: "Positive Thank You", category: "5 Star", content: "Dear customer, thank you for your wonderful review..." },
@@ -3132,54 +3364,319 @@ export default function ReviewsX() {
                   </CardContent>
                 </Card>
 
-              {/* Theme Analysis */}
-              <Card>
+              {/* Enhanced Theme Analysis View */}
+              <Card className="col-span-full">
                 <CardHeader>
-                  <CardTitle>Theme Analysis</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="overflow-x-auto">
-                    <table className="w-full">
-                      <thead>
-                        <tr className="border-b border-gray-200 bg-gray-50">
-                          <th className="text-left py-3 px-4 font-medium text-gray-600">Theme</th>
-                          <th className="text-center py-3 px-4 font-medium text-gray-600">Positive %</th>
-                          <th className="text-center py-3 px-4 font-medium text-gray-600">Neutral %</th>
-                          <th className="text-center py-3 px-4 font-medium text-gray-600">Negative %</th>
-                          <th className="text-center py-3 px-4 font-medium text-gray-600">Total Mentions</th>
-                          <th className="text-center py-3 px-4 font-medium text-gray-600">Trend</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {themeAnalysis.map((theme, index) => (
-                          <tr key={index} className="border-b border-gray-100 hover:bg-gray-50">
-                            <td className="py-3 px-4 font-medium">{theme.theme}</td>
-                            <td className="text-center py-3 px-4">
-                              <Badge variant="default" className="bg-green-100 text-green-800">
-                                {theme.positive}%
-                              </Badge>
-                            </td>
-                            <td className="text-center py-3 px-4">
-                              <Badge variant="secondary">
-                                {theme.neutral}%
-                              </Badge>
-                            </td>
-                            <td className="text-center py-3 px-4">
-                              <Badge variant="destructive" className="bg-red-100 text-red-800">
-                                {theme.negative}%
-                              </Badge>
-                            </td>
-                            <td className="text-center py-3 px-4">{theme.total}</td>
-                            <td className="text-center py-3 px-4">
-                              {theme.trend === "up" && <ArrowUp className="w-4 h-4 text-green-600 mx-auto" />}
-                              {theme.trend === "down" && <ArrowDown className="w-4 h-4 text-red-600 mx-auto" />}
-                              {theme.trend === "stable" && <div className="w-4 h-0.5 bg-gray-400 mx-auto"></div>}
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <CardTitle className="flex items-center gap-2">
+                        <Target className="w-5 h-5" />
+                        Theme Analysis
+                      </CardTitle>
+                      <p className="text-sm text-gray-500 mt-1">
+                        Deep exploration of AI-detected topics from customer reviews with filterable analysis
+                      </p>
+                    </div>
+                    {selectedTheme && (
+                      <Button 
+                        variant="outline" 
+                        size="sm" 
+                        onClick={() => setSelectedTheme(null)}
+                        data-testid="button-clear-theme"
+                      >
+                        <X className="w-4 h-4 mr-2" />
+                        Clear Selection
+                      </Button>
+                    )}
                   </div>
+                </CardHeader>
+                <CardContent className="space-y-6">
+                  {/* Cross-Cutting Filter Bar */}
+                  <div className="flex items-center gap-4 p-4 bg-gray-50 rounded-lg border">
+                    <div className="flex items-center gap-2">
+                      <Calendar className="w-4 h-4 text-gray-600" />
+                      <span className="text-sm font-medium text-gray-700">Filters:</span>
+                    </div>
+                    
+                    {/* Date Range Filter */}
+                    <Select 
+                      value={themeFilters.dateRange} 
+                      onValueChange={(value) => setThemeFilters(prev => ({ ...prev, dateRange: value }))}
+                    >
+                      <SelectTrigger className="w-40" data-testid="select-theme-date-range">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="7">Last 7 Days</SelectItem>
+                        <SelectItem value="30">Last 30 Days</SelectItem>
+                        <SelectItem value="90">This Quarter</SelectItem>
+                        <SelectItem value="365">This Year</SelectItem>
+                      </SelectContent>
+                    </Select>
+
+                    {/* Location Hierarchy Filter */}
+                    <Select 
+                      value={themeFilters.location} 
+                      onValueChange={(value) => setThemeFilters(prev => ({ ...prev, location: value }))}
+                    >
+                      <SelectTrigger className="w-52" data-testid="select-theme-location">
+                        <MapPin className="w-4 h-4 mr-2" />
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="all">All Locations</SelectItem>
+                        <SelectItem value="marmara">Marmara Region</SelectItem>
+                        <SelectItem value="istanbul">All Istanbul Stores</SelectItem>
+                        <SelectItem value="ankara">All Ankara Stores</SelectItem>
+                        <SelectItem value="izmir">All İzmir Stores</SelectItem>
+                        <SelectItem value="urban">Urban Stores</SelectItem>
+                        <SelectItem value="suburban">Suburban Stores</SelectItem>
+                      </SelectContent>
+                    </Select>
+
+                    {/* Product Filter */}
+                    <Select 
+                      value={themeFilters.product} 
+                      onValueChange={(value) => setThemeFilters(prev => ({ ...prev, product: value }))}
+                    >
+                      <SelectTrigger className="w-44" data-testid="select-theme-product">
+                        <Package className="w-4 h-4 mr-2" />
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="all">All Products</SelectItem>
+                        <SelectItem value="footwear">Footwear</SelectItem>
+                        <SelectItem value="clothing">Clothing</SelectItem>
+                        <SelectItem value="accessories">Accessories</SelectItem>
+                        <SelectItem value="outerwear">Outerwear</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  {!selectedTheme ? (
+                    /* Theme Volume & Sentiment Overview */
+                    <div className="space-y-4">
+                      <div className="flex items-center justify-between">
+                        <h3 className="text-lg font-semibold">Theme Volume & Sentiment Overview</h3>
+                        <p className="text-sm text-gray-500">Click any bar to drill down into specific theme analysis</p>
+                      </div>
+                      
+                      <div className="space-y-3">
+                        {themeAnalysis.map((theme, index) => (
+                          <div key={theme.id} className="group">
+                            <div className="flex items-center justify-between mb-2">
+                              <div className="flex items-center gap-2">
+                                <h4 className="font-medium text-gray-900">{theme.theme}</h4>
+                                <span className="text-xs text-gray-500">({theme.total} mentions)</span>
+                                {theme.trend === "up" && <ArrowUp className="w-3 h-3 text-green-600" />}
+                                {theme.trend === "down" && <ArrowDown className="w-3 h-3 text-red-600" />}
+                                {theme.trend === "stable" && <div className="w-3 h-0.5 bg-gray-400"></div>}
+                              </div>
+                              <Button 
+                                variant="ghost" 
+                                size="sm" 
+                                onClick={() => setSelectedTheme(theme)}
+                                className="opacity-0 group-hover:opacity-100 transition-opacity"
+                                data-testid={`button-select-theme-${theme.id}`}
+                              >
+                                <ChevronRight className="w-4 h-4" />
+                              </Button>
+                            </div>
+                            
+                            {/* Horizontal Segmented Bar Chart */}
+                            <div 
+                              className="relative h-8 bg-gray-100 rounded-lg overflow-hidden cursor-pointer hover:shadow-md transition-shadow border"
+                              onClick={() => setSelectedTheme(theme)}
+                              data-testid={`bar-theme-${theme.id}`}
+                            >
+                              <div className="flex h-full">
+                                {/* Positive Segment */}
+                                <div 
+                                  className="bg-green-500 flex items-center justify-center text-xs font-medium text-white"
+                                  style={{ width: `${theme.positive}%` }}
+                                >
+                                  {theme.positive > 15 ? `${theme.positive}%` : ''}
+                                </div>
+                                {/* Neutral Segment */}
+                                <div 
+                                  className="bg-yellow-400 flex items-center justify-center text-xs font-medium text-gray-800"
+                                  style={{ width: `${theme.neutral}%` }}
+                                >
+                                  {theme.neutral > 15 ? `${theme.neutral}%` : ''}
+                                </div>
+                                {/* Negative Segment */}
+                                <div 
+                                  className="bg-red-500 flex items-center justify-center text-xs font-medium text-white"
+                                  style={{ width: `${theme.negative}%` }}
+                                >
+                                  {theme.negative > 15 ? `${theme.negative}%` : ''}
+                                </div>
+                              </div>
+                              
+                              {/* Tooltip overlay */}
+                              <div className="absolute inset-0 opacity-0 hover:opacity-100 bg-black bg-opacity-10 flex items-center justify-center text-xs text-white font-medium transition-opacity">
+                                Click to analyze "{theme.theme}"
+                              </div>
+                            </div>
+                            
+                            <p className="text-xs text-gray-500 mt-1">{theme.description}</p>
+                          </div>
+                        ))}
+                      </div>
+                      
+                      {/* Legend */}
+                      <div className="flex items-center justify-center gap-6 pt-4 border-t">
+                        <div className="flex items-center gap-2">
+                          <div className="w-3 h-3 bg-green-500 rounded"></div>
+                          <span className="text-sm text-gray-600">Positive</span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <div className="w-3 h-3 bg-yellow-400 rounded"></div>
+                          <span className="text-sm text-gray-600">Neutral</span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <div className="w-3 h-3 bg-red-500 rounded"></div>
+                          <span className="text-sm text-gray-600">Negative</span>
+                        </div>
+                      </div>
+                    </div>
+                  ) : (
+                    /* Interactive Deep-Dive Module */
+                    <div className="space-y-6">
+                      {/* Selected Theme Header */}
+                      <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                        <div className="flex items-center justify-between">
+                          <div>
+                            <h3 className="text-lg font-semibold text-blue-900">
+                              Deep Analysis: {selectedTheme.theme}
+                            </h3>
+                            <p className="text-sm text-blue-700 mt-1">{selectedTheme.description}</p>
+                          </div>
+                          <div className="flex items-center gap-4 text-sm">
+                            <div className="text-center">
+                              <div className="font-semibold text-blue-900">{selectedTheme.total}</div>
+                              <div className="text-blue-600">Total Mentions</div>
+                            </div>
+                            <div className="text-center">
+                              <div className="font-semibold text-green-600">{selectedTheme.positive}%</div>
+                              <div className="text-gray-600">Positive</div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="grid grid-cols-2 gap-6">
+                        {/* Prevalence Over Time Chart */}
+                        <Card>
+                          <CardHeader>
+                            <CardTitle className="text-base">Prevalence Over Time</CardTitle>
+                            <p className="text-sm text-gray-500">Daily mentions of "{selectedTheme.theme}" theme</p>
+                          </CardHeader>
+                          <CardContent>
+                            <div className="h-64">
+                              <ResponsiveContainer width="100%" height="100%">
+                                <LineChart data={getThemeTimelineData(selectedTheme.id)}>
+                                  <CartesianGrid strokeDasharray="3 3" stroke="#f3f4f6" />
+                                  <XAxis 
+                                    dataKey="date" 
+                                    tick={{ fontSize: 12 }}
+                                    tickFormatter={(date) => new Date(date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+                                    interval="preserveStartEnd"
+                                  />
+                                  <YAxis tick={{ fontSize: 12 }} />
+                                  <RechartsTooltip 
+                                    labelFormatter={(date) => new Date(date).toLocaleDateString('en-US', { 
+                                      weekday: 'short', 
+                                      month: 'short', 
+                                      day: 'numeric' 
+                                    })}
+                                    formatter={(value) => [value, 'Mentions']}
+                                  />
+                                  <Line 
+                                    type="monotone" 
+                                    dataKey="mentions" 
+                                    stroke="#3B82F6" 
+                                    strokeWidth={2}
+                                    dot={{ fill: '#3B82F6', strokeWidth: 2, r: 3 }}
+                                    activeDot={{ r: 5, fill: '#1D4ED8' }}
+                                  />
+                                </LineChart>
+                              </ResponsiveContainer>
+                            </div>
+                          </CardContent>
+                        </Card>
+
+                        {/* Location/Product Breakdown */}
+                        <Card>
+                          <CardHeader>
+                            <CardTitle className="text-base">Location Breakdown</CardTitle>
+                            <p className="text-sm text-gray-500">Top 5 locations for "{selectedTheme.theme}"</p>
+                          </CardHeader>
+                          <CardContent>
+                            <div className="space-y-3">
+                              {getThemeLocationBreakdown(selectedTheme.id).map((location, index) => (
+                                <div key={index} className="flex items-center justify-between p-3 bg-gray-50 rounded">
+                                  <div>
+                                    <div className="font-medium text-sm">{location.location}</div>
+                                    <div className="text-xs text-gray-600">{location.mentions} mentions</div>
+                                  </div>
+                                  <div className="flex items-center gap-2">
+                                    <Badge variant="default" className="bg-green-100 text-green-800 text-xs">
+                                      {location.positive}%
+                                    </Badge>
+                                    <Badge variant="secondary" className="text-xs">
+                                      {location.neutral}%
+                                    </Badge>
+                                    <Badge variant="destructive" className="bg-red-100 text-red-800 text-xs">
+                                      {location.negative}%
+                                    </Badge>
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                          </CardContent>
+                        </Card>
+                      </div>
+
+                      {/* Key Drivers & Representative Reviews */}
+                      <Card>
+                        <CardHeader>
+                          <CardTitle className="text-base">Key Drivers & Representative Reviews</CardTitle>
+                          <p className="text-sm text-gray-500">
+                            Actual customer feedback tagged with "{selectedTheme.theme}" theme
+                          </p>
+                        </CardHeader>
+                        <CardContent>
+                          <div className="space-y-4 max-h-80 overflow-y-auto">
+                            {getThemeReviews(selectedTheme.id).map((review, index) => (
+                              <div 
+                                key={index} 
+                                className={`p-4 rounded-lg border-l-4 ${
+                                  review.sentiment === 'positive' 
+                                    ? 'bg-green-50 border-green-400' 
+                                    : 'bg-red-50 border-red-400'
+                                }`}
+                              >
+                                <div 
+                                  className="text-sm mb-2"
+                                  dangerouslySetInnerHTML={{ 
+                                    __html: review.snippet.replace(/\*\*(.*?)\*\*/g, '<strong class="font-semibold">$1</strong>')
+                                  }}
+                                />
+                                <div className="flex items-center justify-between text-xs text-gray-500">
+                                  <span>{review.location}</span>
+                                  <span>{new Date(review.date).toLocaleDateString('en-US', { 
+                                    month: 'short', 
+                                    day: 'numeric' 
+                                  })}</span>
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        </CardContent>
+                      </Card>
+                    </div>
+                  )}
                 </CardContent>
               </Card>
             </TabsContent>
