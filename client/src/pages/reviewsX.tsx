@@ -58,10 +58,9 @@ import {
   AlertCircle
 } from 'lucide-react';
 import Header from '@/components/overview/header';
-import { MapContainer, TileLayer, Marker, Popup, Tooltip as LeafletTooltip } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Popup, Tooltip as LeafletTooltip, GeoJSON } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
-import * as d3 from 'd3';
 import { useRef, useEffect } from 'react';
 
 // Fix for default markers in Leaflet with React
@@ -283,11 +282,182 @@ export default function ReviewsX() {
     ]
   };
 
-  // Treemap state management
+  // Choropleth state management
   const [currentLevel, setCurrentLevel] = useState<"country" | "region" | "location">("country");
   const [currentData, setCurrentData] = useState(hierarchicalData);
   const [breadcrumbs, setBreadcrumbs] = useState<string[]>(["Turkey"]);
   const treemapRef = useRef<SVGSVGElement>(null);
+
+  // Turkey provinces GeoJSON with better boundaries
+  const turkeyProvincesGeoJSON = {
+    type: "FeatureCollection" as const,
+    features: [
+      {
+        type: "Feature" as const,
+        properties: { name: "Istanbul", id: "34" },
+        geometry: {
+          type: "Polygon" as const,
+          coordinates: [[
+            [27.8, 41.4], [29.8, 41.4], [29.8, 40.6], [27.8, 40.6], [27.8, 41.4]
+          ]]
+        }
+      },
+      {
+        type: "Feature" as const, 
+        properties: { name: "Ankara", id: "06" },
+        geometry: {
+          type: "Polygon" as const,
+          coordinates: [[
+            [31.5, 40.5], [34.0, 40.5], [34.0, 39.2], [31.5, 39.2], [31.5, 40.5]
+          ]]
+        }
+      },
+      {
+        type: "Feature" as const,
+        properties: { name: "Izmir", id: "35" },
+        geometry: {
+          type: "Polygon" as const, 
+          coordinates: [[
+            [26.0, 39.0], [28.0, 39.0], [28.0, 37.8], [26.0, 37.8], [26.0, 39.0]
+          ]]
+        }
+      },
+      // Additional key provinces for better coverage
+      {
+        type: "Feature" as const,
+        properties: { name: "Bursa", id: "16" },
+        geometry: {
+          type: "Polygon" as const,
+          coordinates: [[
+            [28.5, 40.5], [30.0, 40.5], [30.0, 39.8], [28.5, 39.8], [28.5, 40.5]
+          ]]
+        }
+      },
+      {
+        type: "Feature" as const,
+        properties: { name: "Antalya", id: "07" },
+        geometry: {
+          type: "Polygon" as const,
+          coordinates: [[
+            [29.0, 37.5], [32.0, 37.5], [32.0, 35.8], [29.0, 35.8], [29.0, 37.5]
+          ]]
+        }
+      },
+      {
+        type: "Feature" as const,
+        properties: { name: "Adana", id: "01" },
+        geometry: {
+          type: "Polygon" as const,
+          coordinates: [[
+            [34.5, 37.5], [36.5, 37.5], [36.5, 36.5], [34.5, 36.5], [34.5, 37.5]
+          ]]
+        }
+      },
+      {
+        type: "Feature" as const,
+        properties: { name: "Konya", id: "42" },
+        geometry: {
+          type: "Polygon" as const,
+          coordinates: [[
+            [31.0, 38.5], [34.5, 38.5], [34.5, 36.8], [31.0, 36.8], [31.0, 38.5]
+          ]]
+        }
+      },
+      {
+        type: "Feature" as const,
+        properties: { name: "Gaziantep", id: "27" },
+        geometry: {
+          type: "Polygon" as const,
+          coordinates: [[
+            [36.8, 37.5], [38.2, 37.5], [38.2, 36.5], [36.8, 36.5], [36.8, 37.5]
+          ]]
+        }
+      },
+      {
+        type: "Feature" as const,
+        properties: { name: "Kayseri", id: "38" },
+        geometry: {
+          type: "Polygon" as const,
+          coordinates: [[
+            [35.0, 39.0], [36.5, 39.0], [36.5, 38.2], [35.0, 38.2], [35.0, 39.0]
+          ]]
+        }
+      }
+    ]
+  };
+
+  // ChoroplethLayer component
+  const ChoroplethLayer = ({ data, currentLevel, onRegionClick }: any) => {
+    const getProvinceColor = (provinceName: string) => {
+      const provinceData = data.children?.find((child: any) => child.name === provinceName);
+      if (!provinceData) return '#f1f5f9'; // light gray for no data
+      
+      const rating = provinceData.avgRating;
+      if (rating >= 4.0) return '#1e3a8a'; // dark blue
+      if (rating >= 3.5) return '#3b82f6'; // blue  
+      if (rating >= 3.0) return '#93c5fd'; // light blue
+      if (rating >= 2.5) return '#dbeafe'; // very light blue
+      return '#f1f5f9'; // lightest blue/gray
+    };
+
+    const onEachProvince = (feature: any, layer: any) => {
+      const provinceName = feature.properties.name;
+      const provinceData = data.children?.find((child: any) => child.name === provinceName);
+      
+      layer.on({
+        mouseover: (e: any) => {
+          const layer = e.target;
+          layer.setStyle({
+            weight: 3,
+            color: '#666',
+            fillOpacity: 0.9
+          });
+        },
+        mouseout: (e: any) => {
+          const layer = e.target;
+          layer.setStyle({
+            weight: 2,
+            color: 'white',
+            fillOpacity: 0.7
+          });
+        },
+        click: () => {
+          if (provinceData && onRegionClick) {
+            onRegionClick(provinceData);
+          }
+        }
+      });
+
+      if (provinceData) {
+        layer.bindTooltip(
+          `<div style="font-family: Arial, sans-serif;">
+            <strong>${provinceName}</strong><br/>
+            Rating: ${provinceData.avgRating}★<br/>
+            Locations: ${provinceData.value}<br/>
+            Reviews: ${provinceData.totalReviews}<br/>
+            Sentiment: ${Math.round(provinceData.sentiment * 100)}%
+          </div>`,
+          { className: 'custom-tooltip' }
+        );
+      }
+    };
+
+    const style = (feature: any) => ({
+      fillColor: getProvinceColor(feature.properties.name),
+      weight: 2,
+      opacity: 1,
+      color: 'white',
+      fillOpacity: 0.7
+    });
+
+    return (
+      <GeoJSON
+        data={turkeyProvincesGeoJSON}
+        style={style}
+        onEachFeature={onEachProvince}
+      />
+    );
+  };
 
   // Function to get marker color based on rating
   const getMarkerColor = (rating: number) => {
@@ -346,7 +516,134 @@ export default function ReviewsX() {
     return "#ef4444"; // red
   };
 
-  // Treemap drill-down handlers
+  // Dynamic data extraction helpers for sections integration
+  const getOpenIssuesData = (data: any, level: string) => {
+    if (level === "location") {
+      // For individual locations, simulate issue counts based on rating and reviews
+      const avgRating = data.avgRating || 0;
+      const totalReviews = data.totalReviews || 0;
+      return {
+        unreplied: Math.floor(totalReviews * (avgRating < 3.5 ? 0.15 : 0.05)),
+        slaRisk: Math.floor(totalReviews * (avgRating < 3.5 ? 0.08 : 0.02)),
+        escalated: Math.floor(totalReviews * (avgRating < 3.0 ? 0.05 : 0.01))
+      };
+    } else {
+      // For country/region, aggregate from children
+      const children = data.children || [];
+      return children.reduce((acc: any, child: any) => {
+        const childIssues = getOpenIssuesData(child, level === "country" ? "region" : "location");
+        return {
+          unreplied: acc.unreplied + childIssues.unreplied,
+          slaRisk: acc.slaRisk + childIssues.slaRisk,
+          escalated: acc.escalated + childIssues.escalated
+        };
+      }, { unreplied: 0, slaRisk: 0, escalated: 0 });
+    }
+  };
+
+  const getThemesData = (data: any, level: string) => {
+    if (level === "location") {
+      // For individual locations, use their themes
+      const themes = data.themes || [];
+      const sentiment = data.sentiment || 0;
+      return {
+        positive: themes.map((theme: string) => ({
+          theme,
+          volume: Math.floor(Math.random() * 50) + 20,
+          sentiment: Math.floor(sentiment * 100) + Math.floor(Math.random() * 10),
+          total: data.totalReviews || 0
+        })),
+        negative: themes.map((theme: string) => ({
+          theme: theme + " Issues",
+          volume: Math.floor(Math.random() * 20) + 5,
+          sentiment: Math.floor((1 - sentiment) * 50) + 25,
+          total: data.totalReviews || 0
+        }))
+      };
+    } else {
+      // For country/region, aggregate themes from children
+      const children = data.children || [];
+      const allPositiveThemes: any[] = [];
+      const allNegativeThemes: any[] = [];
+      
+      children.forEach((child: any) => {
+        const childThemes = getThemesData(child, level === "country" ? "region" : "location");
+        allPositiveThemes.push(...childThemes.positive);
+        allNegativeThemes.push(...childThemes.negative);
+      });
+
+      // Aggregate by theme name
+      const positiveAgg = allPositiveThemes.reduce((acc: any, theme: any) => {
+        if (!acc[theme.theme]) {
+          acc[theme.theme] = { theme: theme.theme, volume: 0, sentiment: 0, total: 0, count: 0 };
+        }
+        acc[theme.theme].volume += theme.volume;
+        acc[theme.theme].sentiment += theme.sentiment;
+        acc[theme.theme].total += theme.total;
+        acc[theme.theme].count += 1;
+        return acc;
+      }, {});
+
+      const negativeAgg = allNegativeThemes.reduce((acc: any, theme: any) => {
+        if (!acc[theme.theme]) {
+          acc[theme.theme] = { theme: theme.theme, volume: 0, sentiment: 0, total: 0, count: 0 };
+        }
+        acc[theme.theme].volume += theme.volume;
+        acc[theme.theme].sentiment += theme.sentiment;
+        acc[theme.theme].total += theme.total;
+        acc[theme.theme].count += 1;
+        return acc;
+      }, {});
+
+      return {
+        positive: Object.values(positiveAgg).map((theme: any) => ({
+          ...theme,
+          sentiment: Math.floor(theme.sentiment / theme.count)
+        })).slice(0, 3),
+        negative: Object.values(negativeAgg).map((theme: any) => ({
+          ...theme,
+          sentiment: Math.floor(theme.sentiment / theme.count)
+        })).slice(0, 3)
+      };
+    }
+  };
+
+  const getLocationLeaderboardData = (data: any, level: string) => {
+    if (level === "location") {
+      // For individual location, return just that location
+      return {
+        topPerformers: [{
+          id: 1,
+          name: data.name,
+          rating: data.avgRating,
+          reviewCount: data.totalReviews,
+          responseRate: Math.floor(85 + Math.random() * 15),
+          trend: data.trend || "+0%"
+        }],
+        needsAttention: []
+      };
+    } else {
+      // For country/region, get children and sort by performance
+      const children = data.children || [];
+      const locations = children.map((child: any, index: number) => ({
+        id: index + 1,
+        name: child.name,
+        rating: child.avgRating,
+        reviewCount: child.totalReviews,
+        responseRate: Math.floor(75 + Math.random() * 25),
+        trend: child.trend || "+0%",
+        avgRating: child.avgRating
+      }));
+
+      const sorted = [...locations].sort((a, b) => b.rating - a.rating);
+      return {
+        topPerformers: sorted.filter(loc => loc.rating >= 4.0).slice(0, 5),
+        needsAttention: sorted.filter(loc => loc.rating < 3.5).slice(0, 5)
+      };
+    }
+  };
+
+  // Choropleth drill-down handlers
   const handleTreemapDrillDown = (node: any) => {
     if (node.children) {
       setCurrentData(node);
@@ -377,130 +674,11 @@ export default function ReviewsX() {
     }
   };
 
-  // Treemap rendering logic
-  useEffect(() => {
-    if (!treemapRef.current) return;
 
-    const svg = d3.select(treemapRef.current);
-    svg.selectAll("*").remove();
-
-    const width = 800;
-    const height = 400;
-    
-    svg.attr("width", width).attr("height", height);
-
-    const dataToRender = currentLevel === "country" ? hierarchicalData : currentData;
-    
-    const root = d3.hierarchy(dataToRender)
-      .sum((d: any) => currentLevel === "location" ? d.value : d.value)
-      .sort((a: any, b: any) => b.value! - a.value!);
-
-    const treemap = d3.treemap<any>()
-      .size([width, height])
-      .padding(2)
-      .round(true);
-
-    treemap(root);
-
-    const tooltip = d3.select("body").selectAll(".treemap-tooltip").data([0])
-      .join("div")
-      .attr("class", "treemap-tooltip")
-      .style("position", "absolute")
-      .style("background", "rgba(0, 0, 0, 0.9)")
-      .style("color", "white")
-      .style("padding", "8px")
-      .style("border-radius", "4px")
-      .style("font-size", "12px")
-      .style("pointer-events", "none")
-      .style("opacity", 0)
-      .style("z-index", "1000");
-
-    const leaves = svg.selectAll("g")
-      .data(root.leaves())
-      .join("g")
-      .attr("transform", (d: any) => `translate(${d.x0},${d.y0})`);
-
-    leaves.append("rect")
-      .attr("width", (d: any) => d.x1 - d.x0)
-      .attr("height", (d: any) => d.y1 - d.y0)
-      .attr("fill", (d: any) => {
-        if (currentLevel === "location") {
-          return getSentimentColor(d.data.sentiment);
-        } else {
-          return getRatingColor(d.data.avgRating || d.data.rating);
-        }
-      })
-      .attr("stroke", "white")
-      .attr("stroke-width", 2)
-      .attr("cursor", "pointer")
-      .on("mouseover", function(event: any, d: any) {
-        d3.select(this).attr("opacity", 0.8);
-        
-        const tooltipContent = currentLevel === "location" ? 
-          `<strong>${d.data.name}</strong><br/>
-           Rating: ${d.data.avgRating}★<br/>
-           Reviews: ${d.data.value}<br/>
-           Sentiment: ${Math.round(d.data.sentiment * 100)}%<br/>
-           Trend: ${d.data.trend}<br/>
-           Top Themes: ${d.data.themes.join(", ")}` :
-          `<strong>${d.data.name}</strong><br/>
-           Average Rating: ${d.data.avgRating}★<br/>
-           Locations: ${d.data.value}<br/>
-           Total Reviews: ${d.data.totalReviews}<br/>
-           Sentiment: ${Math.round(d.data.sentiment * 100)}%<br/>
-           Click to drill down`;
-
-        tooltip.html(tooltipContent)
-          .style("left", (event.pageX + 10) + "px")
-          .style("top", (event.pageY - 10) + "px")
-          .style("opacity", 1);
-      })
-      .on("mouseout", function() {
-        d3.select(this).attr("opacity", 1);
-        tooltip.style("opacity", 0);
-      })
-      .on("click", (event: any, d: any) => {
-        if (currentLevel !== "location") {
-          handleTreemapDrillDown(d.data);
-        }
-      });
-
-    // Add text labels
-    leaves.append("text")
-      .attr("x", 4)
-      .attr("y", 16)
-      .attr("font-size", (d: any) => {
-        const width = d.x1 - d.x0;
-        const height = d.y1 - d.y0;
-        return Math.min(width / 8, height / 4, 14) + "px";
-      })
-      .attr("font-weight", "bold")
-      .attr("fill", "white")
-      .text((d: any) => d.data.name)
-      .each(function(d: any) {
-        const text = d3.select(this);
-        const width = d.x1 - d.x0;
-        let textLength = (text.node() as any)?.getComputedTextLength();
-        if (textLength > width - 8) {
-          text.text(d.data.name.substring(0, Math.floor((width - 8) / 8)) + "...");
-        }
-      });
-
-    // Add metric labels
-    leaves.append("text")
-      .attr("x", 4)
-      .attr("y", 32)
-      .attr("font-size", "11px")
-      .attr("fill", "rgba(255, 255, 255, 0.9)")
-      .text((d: any) => {
-        if (currentLevel === "location") {
-          return `${d.data.avgRating}★ • ${d.data.value} reviews`;
-        } else {
-          return `${d.data.avgRating}★ • ${d.data.value} locations`;
-        }
-      });
-
-  }, [currentData, currentLevel]);
+  // Extract dynamic data for sections based on current state
+  const openIssuesData = getOpenIssuesData(currentData, currentLevel);
+  const themesData = getThemesData(currentData, currentLevel);
+  const leaderboardData = getLocationLeaderboardData(currentData, currentLevel);
 
   // Get Tailwind color classes for rating distribution
   const getRatingColorClass = (color: string) => {
@@ -1400,7 +1578,7 @@ export default function ReviewsX() {
                             <div className="text-xs text-red-700">Requires immediate response</div>
                           </div>
                         </div>
-                        <div className="text-2xl font-bold text-red-600">23</div>
+                        <div className="text-2xl font-bold text-red-600">{openIssuesData.unreplied}</div>
                       </div>
 
                       {/* SLA At Risk */}
@@ -1418,7 +1596,7 @@ export default function ReviewsX() {
                             <div className="text-xs text-orange-700">Response time approaching limit</div>
                           </div>
                         </div>
-                        <div className="text-2xl font-bold text-orange-600">8</div>
+                        <div className="text-2xl font-bold text-orange-600">{openIssuesData.slaRisk}</div>
                       </div>
 
                       {/* Escalated Issues */}
@@ -1436,14 +1614,14 @@ export default function ReviewsX() {
                             <div className="text-xs text-purple-700">Requires management attention</div>
                           </div>
                         </div>
-                        <div className="text-2xl font-bold text-purple-600">4</div>
+                        <div className="text-2xl font-bold text-purple-600">{openIssuesData.escalated}</div>
                       </div>
 
                       {/* Total Open Issues Summary */}
                       <div className="pt-3 border-t border-gray-200">
                         <div className="flex items-center justify-between text-sm">
                           <span className="font-medium text-gray-700">Total Open Issues</span>
-                          <span className="font-bold text-gray-900">35</span>
+                          <span className="font-bold text-gray-900">{openIssuesData.unreplied + openIssuesData.slaRisk + openIssuesData.escalated}</span>
                         </div>
                       </div>
                     </div>
@@ -1465,11 +1643,7 @@ export default function ReviewsX() {
                         Top Positive Themes
                       </h4>
                       <div className="space-y-2">
-                        {[
-                          { theme: "Staff Courtesy", volume: 45, sentiment: 95, total: 450 },
-                          { theme: "Product Quality", volume: 67, sentiment: 88, total: 380 },
-                          { theme: "Store Atmosphere", volume: 32, sentiment: 85, total: 325 }
-                        ].map((item, index) => (
+                        {themesData.positive.map((item, index) => (
                           <div 
                             key={index}
                             className="cursor-pointer hover:bg-green-50 p-2 rounded-lg border border-green-200 transition-colors"
@@ -1499,11 +1673,7 @@ export default function ReviewsX() {
                         Top Negative Themes
                       </h4>
                       <div className="space-y-2">
-                        {[
-                          { theme: "Wait Time", volume: 30, sentiment: 40, total: 290 },
-                          { theme: "Pricing Policy", volume: 22, sentiment: 35, total: 275 },
-                          { theme: "Product Availability", volume: 18, sentiment: 38, total: 245 }
-                        ].map((item, index) => (
+                        {themesData.negative.map((item, index) => (
                           <div 
                             key={index}
                             className="cursor-pointer hover:bg-red-50 p-2 rounded-lg border border-red-200 transition-colors"
@@ -1554,7 +1724,7 @@ export default function ReviewsX() {
                         Top Performers
                       </h4>
                       <div className="space-y-3">
-                        {locations.slice(0, 5).map((location, index) => (
+                        {leaderboardData.topPerformers.map((location, index) => (
                           <div key={location.id} className="p-3 bg-green-50 border border-green-200 rounded-lg hover:bg-green-100 cursor-pointer transition-colors" onClick={() => setActiveTab("locations")}>
                             <div className="flex items-center justify-between mb-2">
                               <div className="flex items-center gap-2">
@@ -1563,7 +1733,7 @@ export default function ReviewsX() {
                               </div>
                               <div className="flex items-center gap-1 text-green-600">
                                 <ArrowUp className="w-3 h-3" />
-                                <span className="text-xs">+0.2</span>
+                                <span className="text-xs">{location.trend}</span>
                               </div>
                             </div>
                             <div className="grid grid-cols-3 gap-2 text-xs">
@@ -1591,7 +1761,7 @@ export default function ReviewsX() {
                         Needs Attention
                       </h4>
                       <div className="space-y-3">
-                        {locations.slice(-5).map((location, index) => (
+                        {leaderboardData.needsAttention.map((location, index) => (
                           <div key={location.id} className="p-3 bg-red-50 border border-red-200 rounded-lg hover:bg-red-100 cursor-pointer transition-colors" onClick={() => setActiveTab("locations")}>
                             <div className="flex items-center justify-between mb-2">
                               <div className="flex items-center gap-2">
@@ -1760,12 +1930,12 @@ export default function ReviewsX() {
                 </CardContent>
               </Card>
 
-              {/* Hierarchical Treemap Drill-Down */}
+              {/* Choropleth Performance Heatmap */}
               <Card>
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
-                    <BarChart3 className="w-5 h-5" />
-                    Hierarchical Performance Analysis
+                    <Globe className="w-5 h-5" />
+                    Performance Heatmap
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
@@ -1825,38 +1995,23 @@ export default function ReviewsX() {
                       <div>
                         <h4 className="font-semibold text-lg">{currentData.name}</h4>
                         <p className="text-sm text-gray-600">
-                          {currentLevel === "country" ? "Country Overview" : 
-                           currentLevel === "region" ? "Region Overview" : "Individual Locations"}
+                          {currentLevel === "country" ? "Country Overview - Click provinces to drill down" : 
+                           currentLevel === "region" ? "Region Overview - Click cities to see details" : "Individual Locations"}
                         </p>
                       </div>
                       <div className="flex gap-4 text-sm">
-                        {currentLevel === "location" ? (
-                          <>
-                            <div>
-                              <span className="text-gray-500">Rating:</span>
-                              <span className="font-medium ml-1">{currentData.avgRating}★</span>
-                            </div>
-                            <div>
-                              <span className="text-gray-500">Reviews:</span>
-                              <span className="font-medium ml-1">{currentData.totalReviews || currentData.value}</span>
-                            </div>
-                          </>
-                        ) : (
-                          <>
-                            <div>
-                              <span className="text-gray-500">Avg Rating:</span>
-                              <span className="font-medium ml-1">{currentData.avgRating}★</span>
-                            </div>
-                            <div>
-                              <span className="text-gray-500">Locations:</span>
-                              <span className="font-medium ml-1">{currentData.value}</span>
-                            </div>
-                            <div>
-                              <span className="text-gray-500">Total Reviews:</span>
-                              <span className="font-medium ml-1">{currentData.totalReviews}</span>
-                            </div>
-                          </>
-                        )}
+                        <div>
+                          <span className="text-gray-500">Avg Rating:</span>
+                          <span className="font-medium ml-1">{currentData.avgRating}★</span>
+                        </div>
+                        <div>
+                          <span className="text-gray-500">Locations:</span>
+                          <span className="font-medium ml-1">{currentData.value}</span>
+                        </div>
+                        <div>
+                          <span className="text-gray-500">Total Reviews:</span>
+                          <span className="font-medium ml-1">{currentData.totalReviews}</span>
+                        </div>
                         <div>
                           <span className="text-gray-500">Sentiment:</span>
                           <span className="font-medium ml-1">{Math.round(currentData.sentiment * 100)}%</span>
@@ -1865,55 +2020,55 @@ export default function ReviewsX() {
                     </div>
                   </div>
 
-                  {/* Treemap Visualization */}
-                  <div className="border rounded-lg overflow-hidden bg-white">
-                    <svg ref={treemapRef} data-testid="hierarchical-treemap"></svg>
+                  {/* Choropleth Map */}
+                  <div className="h-96 rounded-lg overflow-hidden border">
+                    <MapContainer
+                      center={[39.0, 35.0]}
+                      zoom={6}
+                      style={{ height: '100%', width: '100%' }}
+                      data-testid="choropleth-map"
+                    >
+                      <TileLayer
+                        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                      />
+                      <ChoroplethLayer 
+                        data={hierarchicalData}
+                        currentLevel={currentLevel}
+                        onRegionClick={handleTreemapDrillDown}
+                      />
+                    </MapContainer>
                   </div>
 
                   {/* Color Legend */}
                   <div className="mt-4 flex items-center justify-between text-sm">
                     <div className="flex items-center gap-4">
-                      <h4 className="font-medium text-gray-700">
-                        {currentLevel === "location" ? "Sentiment Scale:" : "Rating Scale:"}
-                      </h4>
+                      <h4 className="font-medium text-gray-700">Performance Scale:</h4>
                       <div className="flex items-center gap-3">
                         <div className="flex items-center gap-1">
-                          <div className="w-3 h-3 rounded bg-green-500"></div>
-                          <span className="text-gray-600">
-                            {currentLevel === "location" ? "≥80%" : "≥4.0★"}
-                          </span>
+                          <div className="w-4 h-4 rounded" style={{backgroundColor: '#1e3a8a'}}></div>
+                          <span className="text-gray-600">Excellent (4.0+★)</span>
                         </div>
                         <div className="flex items-center gap-1">
-                          <div className="w-3 h-3 rounded bg-lime-500"></div>
-                          <span className="text-gray-600">
-                            {currentLevel === "location" ? "70-79%" : "3.5-3.9★"}
-                          </span>
+                          <div className="w-4 h-4 rounded" style={{backgroundColor: '#3b82f6'}}></div>
+                          <span className="text-gray-600">Good (3.5-3.9★)</span>
                         </div>
                         <div className="flex items-center gap-1">
-                          <div className="w-3 h-3 rounded bg-yellow-500"></div>
-                          <span className="text-gray-600">
-                            {currentLevel === "location" ? "60-69%" : "3.0-3.4★"}
-                          </span>
+                          <div className="w-4 h-4 rounded" style={{backgroundColor: '#93c5fd'}}></div>
+                          <span className="text-gray-600">Average (3.0-3.4★)</span>
                         </div>
                         <div className="flex items-center gap-1">
-                          <div className="w-3 h-3 rounded bg-orange-500"></div>
-                          <span className="text-gray-600">
-                            {currentLevel === "location" ? "50-59%" : "2.5-2.9★"}
-                          </span>
+                          <div className="w-4 h-4 rounded" style={{backgroundColor: '#dbeafe'}}></div>
+                          <span className="text-gray-600">Below Average (2.5-2.9★)</span>
                         </div>
                         <div className="flex items-center gap-1">
-                          <div className="w-3 h-3 rounded bg-red-500"></div>
-                          <span className="text-gray-600">
-                            {currentLevel === "location" ? "&lt;50%" : "&lt;2.5★"}
-                          </span>
+                          <div className="w-4 h-4 rounded" style={{backgroundColor: '#f1f5f9'}}></div>
+                          <span className="text-gray-600">Poor (&lt;2.5★)</span>
                         </div>
                       </div>
                     </div>
                     <div className="text-gray-600">
-                      {currentLevel === "location" 
-                        ? "Rectangle size = Review volume • Color = Sentiment score"
-                        : "Rectangle size = Location count • Color = Average rating"
-                      }
+                      Color intensity = Average rating • Click regions to drill down
                     </div>
                   </div>
                 </CardContent>
