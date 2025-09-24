@@ -55,7 +55,11 @@ import {
   Bookmark,
   Share2,
   HelpCircle,
-  AlertCircle
+  AlertCircle,
+  Upload,
+  FileText,
+  X,
+  Zap
 } from 'lucide-react';
 import Header from '@/components/overview/header';
 import { MapContainer, TileLayer, Marker, Popup, Tooltip as LeafletTooltip, GeoJSON } from 'react-leaflet';
@@ -3074,7 +3078,7 @@ export default function ReviewsX() {
                 {/* AI & Automations */}
                 <Card>
                   <CardHeader>
-                    <CardTitle>AI & Otomasyonlar</CardTitle>
+                    <CardTitle>AI & Automations</CardTitle>
                   </CardHeader>
                   <CardContent className="space-y-4">
                     <div className="space-y-3">
@@ -3091,7 +3095,7 @@ export default function ReviewsX() {
                         <Checkbox defaultChecked />
                       </div>
                       <div className="flex items-center justify-between">
-                        <span className="text-sm">Yabancı dil çevirileri</span>
+                        <span className="text-sm">Foreign language translations</span>
                         <Checkbox defaultChecked />
                       </div>
                     </div>
@@ -3103,12 +3107,140 @@ export default function ReviewsX() {
                           <SelectValue />
                         </SelectTrigger>
                         <SelectContent>
-                          <SelectItem value="professional">Profesyonel</SelectItem>
-                          <SelectItem value="friendly">Samimi</SelectItem>
-                          <SelectItem value="formal">Resmi</SelectItem>
-                          <SelectItem value="enthusiastic">Coşkulu</SelectItem>
+                          <SelectItem value="professional">Professional</SelectItem>
+                          <SelectItem value="friendly">Friendly</SelectItem>
+                          <SelectItem value="formal">Formal</SelectItem>
+                          <SelectItem value="enthusiastic">Enthusiastic</SelectItem>
                         </SelectContent>
                       </Select>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                {/* Brand Tone Builder */}
+                <Card className="col-span-2">
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                      <MessageSquare className="w-5 h-5" />
+                      Brand Tone Builder
+                    </CardTitle>
+                    <p className="text-sm text-gray-500">
+                      Upload documents and provide guidelines to train AI for your brand's review response tone
+                    </p>
+                  </CardHeader>
+                  <CardContent className="space-y-6">
+                    {/* Document Upload Section */}
+                    <div className="space-y-3">
+                      <label className="text-sm font-medium">Brand Guidelines & Documents</label>
+                      <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-gray-400 transition-colors">
+                        <div className="space-y-2">
+                          <Upload className="w-8 h-8 mx-auto text-gray-400" />
+                          <div className="text-sm text-gray-600">
+                            <p><strong>Drag and drop</strong> your brand documents here</p>
+                            <p className="text-xs text-gray-500">PDF, DOC, DOCX, TXT (max 10MB each)</p>
+                          </div>
+                          <Button variant="outline" size="sm" data-testid="button-upload-documents">
+                            <FileText className="w-4 h-4 mr-2" />
+                            Choose Files
+                          </Button>
+                        </div>
+                      </div>
+                      
+                      {/* Uploaded Documents List */}
+                      <div className="space-y-2">
+                        <div className="flex items-center justify-between p-2 bg-gray-50 rounded">
+                          <div className="flex items-center gap-2">
+                            <FileText className="w-4 h-4 text-blue-600" />
+                            <span className="text-sm">Brand_Guidelines_2024.pdf</span>
+                            <Badge variant="secondary" className="text-xs">Processed</Badge>
+                          </div>
+                          <Button variant="ghost" size="sm">
+                            <X className="w-4 h-4" />
+                          </Button>
+                        </div>
+                        <div className="flex items-center justify-between p-2 bg-gray-50 rounded">
+                          <div className="flex items-center gap-2">
+                            <FileText className="w-4 h-4 text-blue-600" />
+                            <span className="text-sm">Customer_Service_Manual.docx</span>
+                            <Badge variant="secondary" className="text-xs">Processed</Badge>
+                          </div>
+                          <Button variant="ghost" size="sm">
+                            <X className="w-4 h-4" />
+                          </Button>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Text Guidelines Section */}
+                    <div className="space-y-3">
+                      <label className="text-sm font-medium">Brand Voice Guidelines</label>
+                      <textarea
+                        className="w-full h-32 p-3 border border-gray-300 rounded-lg resize-none text-sm"
+                        placeholder="Describe your brand's tone and voice for customer responses. Include key phrases, communication style, and any specific instructions for different types of reviews..."
+                        data-testid="textarea-brand-guidelines"
+                      />
+                      <div className="flex items-center gap-2 text-xs text-gray-500">
+                        <span>Characters: 0 / 2000</span>
+                      </div>
+                    </div>
+
+                    {/* Tone Examples Section */}
+                    <div className="space-y-3">
+                      <label className="text-sm font-medium">Response Examples</label>
+                      <div className="grid grid-cols-2 gap-4">
+                        <div className="space-y-2">
+                          <label className="text-xs font-medium text-green-600">5-Star Response Example</label>
+                          <textarea
+                            className="w-full h-24 p-2 border border-gray-300 rounded text-xs resize-none"
+                            placeholder="Example of how to respond to positive reviews..."
+                            data-testid="textarea-positive-example"
+                          />
+                        </div>
+                        <div className="space-y-2">
+                          <label className="text-xs font-medium text-red-600">Negative Review Example</label>
+                          <textarea
+                            className="w-full h-24 p-2 border border-gray-300 rounded text-xs resize-none"
+                            placeholder="Example of how to respond to negative reviews..."
+                            data-testid="textarea-negative-example"
+                          />
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* AI Processing Status */}
+                    <div className="space-y-3">
+                      <div className="flex items-center justify-between">
+                        <label className="text-sm font-medium">AI Training Status</label>
+                        <Badge variant="default" className="text-xs">
+                          <Zap className="w-3 h-3 mr-1" />
+                          Ready
+                        </Badge>
+                      </div>
+                      <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
+                        <div className="flex items-start gap-2">
+                          <CheckCircle className="w-4 h-4 text-blue-600 mt-0.5" />
+                          <div className="space-y-1">
+                            <p className="text-sm font-medium text-blue-900">Brand tone model is trained and ready</p>
+                            <p className="text-xs text-blue-700">Last updated: March 15, 2024 • 2 documents processed</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Action Buttons */}
+                    <div className="flex items-center gap-3 pt-3 border-t">
+                      <Button className="flex-1" data-testid="button-train-model">
+                        <Zap className="w-4 h-4 mr-2" />
+                        Re-train AI Model
+                      </Button>
+                      <Button variant="outline" data-testid="button-test-tone">
+                        <MessageSquare className="w-4 h-4 mr-2" />
+                        Test Tone
+                      </Button>
+                      <Button variant="outline" data-testid="button-export-settings">
+                        <Download className="w-4 h-4 mr-2" />
+                        Export Settings
+                      </Button>
                     </div>
                   </CardContent>
                 </Card>
