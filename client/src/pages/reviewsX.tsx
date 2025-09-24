@@ -539,17 +539,7 @@ export default function ReviewsX() {
                   </CardContent>
                 </Card>
 
-                <Card 
-                  className="cursor-pointer hover:shadow-md transition-shadow"
-                  onClick={() => setActiveTab("inbox")}
-                >
-                  <CardHeader className="pb-3">
-                    <CardTitle className="tracking-tight text-[#111827] font-semibold text-[18px]"></CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="h-16"></div>
-                  </CardContent>
-                </Card>
+                
 
                 <Card 
                   className="cursor-pointer hover:shadow-md transition-shadow"
