@@ -57,8 +57,10 @@ import Header from '@/components/overview/header';
 export default function ReviewsX() {
   const [activeTab, setActiveTab] = useState("overview");
   const [dateRange, setDateRange] = useState("30");
+  const [sourceFilter, setSourceFilter] = useState("all");
   const [locationFilter, setLocationFilter] = useState("all");
   const [productFilter, setProductFilter] = useState("all");
+  const [searchQuery, setSearchQuery] = useState("");
   const [viewMode, setViewMode] = useState("table");
 
   // Sample data for the components
@@ -224,6 +226,22 @@ export default function ReviewsX() {
                 </SelectContent>
               </Select>
 
+              {/* Source Channel Filter */}
+              <Select value={sourceFilter} onValueChange={setSourceFilter}>
+                <SelectTrigger className="w-48">
+                  <Globe className="w-4 h-4 mr-2" />
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">Tüm Kaynaklar</SelectItem>
+                  <SelectItem value="google">Google My Business</SelectItem>
+                  <SelectItem value="facebook">Facebook</SelectItem>
+                  <SelectItem value="yandex">Yandex Maps</SelectItem>
+                  <SelectItem value="instagram">Instagram</SelectItem>
+                  <SelectItem value="tripadvisor">TripAdvisor</SelectItem>
+                </SelectContent>
+              </Select>
+
               {/* Location Filter */}
               <Select value={locationFilter} onValueChange={setLocationFilter}>
                 <SelectTrigger className="w-48">
@@ -251,18 +269,44 @@ export default function ReviewsX() {
                   <SelectItem value="accessories">Aksesuar</SelectItem>
                 </SelectContent>
               </Select>
+
+              {/* Search */}
+              <div className="relative">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+                <Input 
+                  placeholder="Yorum ara..." 
+                  className="pl-10 w-64"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                />
+              </div>
             </div>
 
-            {/* New Review Alerts */}
-            <Button variant="outline" className="relative">
-              <Bell className="w-4 h-4 mr-2" />
-              Yeni Yorumlar
-              {alertsCount > 0 && (
-                <Badge variant="destructive" className="absolute -top-2 -right-2 h-5 w-5 p-0 text-xs">
-                  {alertsCount}
-                </Badge>
-              )}
-            </Button>
+            {/* Quick Actions */}
+            <div className="flex items-center gap-2">
+              {/* Export */}
+              <Button variant="outline" size="sm">
+                <Download className="w-4 h-4 mr-2" />
+                Dışa Aktar
+              </Button>
+
+              {/* New Review Alerts */}
+              <Button variant="outline" className="relative">
+                <Bell className="w-4 h-4 mr-2" />
+                Yeni Yorumlar
+                {alertsCount > 0 && (
+                  <Badge variant="destructive" className="absolute -top-2 -right-2 h-5 w-5 p-0 text-xs">
+                    {alertsCount}
+                  </Badge>
+                )}
+              </Button>
+
+              {/* Quick Actions Menu */}
+              <Button variant="outline" size="sm">
+                <Plus className="w-4 h-4 mr-2" />
+                Hızlı İşlemler
+              </Button>
+            </div>
           </div>
         </div>
 
