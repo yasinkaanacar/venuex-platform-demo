@@ -77,12 +77,12 @@ export default function ReviewsX() {
   const recentReviews = [
     {
       id: 1,
-      reviewer: "Ayşe K.",
+      reviewer: "Ayse K.",
       platform: "google",
       rating: 5,
-      text: "Harika bir alışveriş deneyimi yaşadım, personel çok yardımseverdi...",
+      text: "Great shopping experience, staff was very helpful...",
       location: "Zorlu Center",
-      date: "2 saat önce",
+      date: "2 hours ago",
       isNew: true
     },
     {
@@ -90,9 +90,9 @@ export default function ReviewsX() {
       reviewer: "Mehmet Y.",
       platform: "facebook",
       rating: 2,
-      text: "Ürün kalitesi beklediğim gibi değildi, iade süreci de uzun...",
+      text: "Product quality wasn't as expected, return process took too long...",
       location: "Kanyon",
-      date: "4 saat önce",
+      date: "4 hours ago",
       isNew: true
     },
     {
@@ -100,9 +100,9 @@ export default function ReviewsX() {
       reviewer: "Zeynep A.",
       platform: "yandex",
       rating: 4,
-      text: "Genel olarak memnunum ama fiyatlar biraz yüksek...",
+      text: "Generally satisfied but prices are a bit high...",
       location: "İstinye Park",
-      date: "6 saat önce",
+      date: "6 hours ago",
       isNew: false
     }
   ];
@@ -111,35 +111,35 @@ export default function ReviewsX() {
     {
       id: 1,
       name: "Zorlu Center",
-      city: "İstanbul",
-      region: "Avrupa",
+      city: "Istanbul",
+      region: "Europe",
       rating: 4.8,
       reviewCount: 234,
       negativePercent: 8,
       responseRate: 92,
-      lastReview: "2 saat önce"
+      lastReview: "2 hours ago"
     },
     {
       id: 2,
       name: "Kanyon",
-      city: "İstanbul", 
-      region: "Avrupa",
+      city: "Istanbul", 
+      region: "Europe",
       rating: 4.2,
       reviewCount: 189,
       negativePercent: 15,
       responseRate: 78,
-      lastReview: "4 saat önce"
+      lastReview: "4 hours ago"
     },
     {
       id: 3,
       name: "İstinye Park",
-      city: "İstanbul",
-      region: "Avrupa", 
+      city: "Istanbul",
+      region: "Europe", 
       rating: 4.6,
       reviewCount: 156,
       negativePercent: 12,
       responseRate: 88,
-      lastReview: "6 saat önce"
+      lastReview: "6 hours ago"
     }
   ];
 
@@ -163,34 +163,34 @@ export default function ReviewsX() {
       rating: 4.1,
       reviewCount: 234,
       sentiment: "mixed",
-      topComplaint: "boyut",
-      topCompliment: "rahatlık"
+      topComplaint: "size",
+      topCompliment: "comfort"
     },
     {
       id: 3,
       name: "Blazer - Lacivert",
       sku: "BYN-BL-012",
-      category: "Üst Giyim",
+      category: "Outerwear",
       rating: 4.7,
       reviewCount: 43,
       sentiment: "positive", 
-      topComplaint: "kesim",
-      topCompliment: "kumaş"
+      topComplaint: "cut",
+      topCompliment: "fabric"
     }
   ];
 
   const themeAnalysis = [
-    { theme: "Ürün Kalitesi", positive: 78, neutral: 15, negative: 7, total: 450, trend: "up" },
-    { theme: "Müşteri Hizmeti", positive: 82, neutral: 12, negative: 6, total: 380, trend: "up" },
-    { theme: "Mağaza Atmosferi", positive: 71, neutral: 20, negative: 9, total: 325, trend: "stable" },
-    { theme: "Fiyat-Performans", positive: 65, neutral: 25, negative: 10, total: 290, trend: "down" },
-    { theme: "Ürün Çeşitliliği", positive: 88, neutral: 8, negative: 4, total: 275, trend: "up" }
+    { theme: "Product Quality", positive: 78, neutral: 15, negative: 7, total: 450, trend: "up" },
+    { theme: "Customer Service", positive: 82, neutral: 12, negative: 6, total: 380, trend: "up" },
+    { theme: "Store Atmosphere", positive: 71, neutral: 20, negative: 9, total: 325, trend: "stable" },
+    { theme: "Price-Performance", positive: 65, neutral: 25, negative: 10, total: 290, trend: "down" },
+    { theme: "Product Variety", positive: 88, neutral: 8, negative: 4, total: 275, trend: "up" }
   ];
 
   const responseTemplates = [
-    { id: 1, name: "Pozitif Teşekkür", category: "5 Yıldız", content: "Değerli müşterimiz, güzel yorumunuz için teşekkür ederiz..." },
-    { id: 2, name: "Özür Genel", category: "Negatif", content: "Yaşadığınız olumsuz deneyim için özür dileriz..." },
-    { id: 3, name: "Bilgi Talebi", category: "Nötr", content: "Geri bildiriminiz için teşekkürler. Daha detaylı bilgi için..." }
+    { id: 1, name: "Positive Thank You", category: "5 Star", content: "Dear customer, thank you for your wonderful review..." },
+    { id: 2, name: "General Apology", category: "Negative", content: "We apologize for the negative experience you had..." },
+    { id: 3, name: "Information Request", category: "Neutral", content: "Thank you for your feedback. For more detailed information..." }
   ];
 
   return (
@@ -218,11 +218,11 @@ export default function ReviewsX() {
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="7">Son 7 gün</SelectItem>
-                  <SelectItem value="30">Son 30 gün</SelectItem>
-                  <SelectItem value="90">Son 90 gün</SelectItem>
-                  <SelectItem value="365">Son 1 yıl</SelectItem>
-                  <SelectItem value="custom">Özel tarih</SelectItem>
+                  <SelectItem value="7">Last 7 days</SelectItem>
+                  <SelectItem value="30">Last 30 days</SelectItem>
+                  <SelectItem value="90">Last 90 days</SelectItem>
+                  <SelectItem value="365">Last 1 year</SelectItem>
+                  <SelectItem value="custom">Custom date</SelectItem>
                 </SelectContent>
               </Select>
 
@@ -233,7 +233,7 @@ export default function ReviewsX() {
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="all">Tüm Kaynaklar</SelectItem>
+                  <SelectItem value="all">All Sources</SelectItem>
                   <SelectItem value="google">Google My Business</SelectItem>
                   <SelectItem value="facebook">Facebook</SelectItem>
                   <SelectItem value="yandex">Yandex Maps</SelectItem>
@@ -249,10 +249,10 @@ export default function ReviewsX() {
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="all">Tüm Lokasyonlar</SelectItem>
-                  <SelectItem value="istanbul">İstanbul</SelectItem>
+                  <SelectItem value="all">All Locations</SelectItem>
+                  <SelectItem value="istanbul">Istanbul</SelectItem>
                   <SelectItem value="ankara">Ankara</SelectItem>
-                  <SelectItem value="izmir">İzmir</SelectItem>
+                  <SelectItem value="izmir">Izmir</SelectItem>
                 </SelectContent>
               </Select>
 
@@ -263,10 +263,10 @@ export default function ReviewsX() {
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="all">Tüm Ürünler</SelectItem>
-                  <SelectItem value="clothing">Giyim</SelectItem>
-                  <SelectItem value="shoes">Ayakkabı</SelectItem>
-                  <SelectItem value="accessories">Aksesuar</SelectItem>
+                  <SelectItem value="all">All Products</SelectItem>
+                  <SelectItem value="clothing">Clothing</SelectItem>
+                  <SelectItem value="shoes">Shoes</SelectItem>
+                  <SelectItem value="accessories">Accessories</SelectItem>
                 </SelectContent>
               </Select>
 
@@ -274,7 +274,7 @@ export default function ReviewsX() {
               <div className="relative">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
                 <Input 
-                  placeholder="Yorum ara..." 
+                  placeholder="Search reviews..." 
                   className="pl-10 w-64"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
@@ -287,13 +287,13 @@ export default function ReviewsX() {
               {/* Export */}
               <Button variant="outline" size="sm">
                 <Download className="w-4 h-4 mr-2" />
-                Dışa Aktar
+                Export
               </Button>
 
               {/* New Review Alerts */}
               <Button variant="outline" className="relative">
                 <Bell className="w-4 h-4 mr-2" />
-                Yeni Yorumlar
+                New Reviews
                 {alertsCount > 0 && (
                   <Badge variant="destructive" className="absolute -top-2 -right-2 h-5 w-5 p-0 text-xs">
                     {alertsCount}
@@ -304,7 +304,7 @@ export default function ReviewsX() {
               {/* Quick Actions Menu */}
               <Button variant="outline" size="sm">
                 <Plus className="w-4 h-4 mr-2" />
-                Hızlı İşlemler
+                Quick Actions
               </Button>
             </div>
           </div>
@@ -315,27 +315,27 @@ export default function ReviewsX() {
           <TabsList className="grid w-full grid-cols-6 bg-gray-50 rounded-none border-t border-gray-200">
             <TabsTrigger value="overview" className="data-[state=active]:bg-white data-[state=active]:border-b-2 data-[state=active]:border-blue-600">
               <BarChart className="w-4 h-4 mr-2" />
-              Genel Bakış
+              Overview
             </TabsTrigger>
             <TabsTrigger value="locations" className="data-[state=active]:bg-white data-[state=active]:border-b-2 data-[state=active]:border-blue-600">
               <MapPin className="w-4 h-4 mr-2" />
-              Lokasyonlar
+              Locations
             </TabsTrigger>
             <TabsTrigger value="products" className="data-[state=active]:bg-white data-[state=active]:border-b-2 data-[state=active]:border-blue-600">
               <Package className="w-4 h-4 mr-2" />
-              Ürünler
+              Products
             </TabsTrigger>
             <TabsTrigger value="inbox" className="data-[state=active]:bg-white data-[state=active]:border-b-2 data-[state=active]:border-blue-600">
               <Inbox className="w-4 h-4 mr-2" />
-              Gelen Kutusu
+              Inbox
             </TabsTrigger>
             <TabsTrigger value="insights" className="data-[state=active]:bg-white data-[state=active]:border-b-2 data-[state=active]:border-blue-600">
               <BarChart3 className="w-4 h-4 mr-2" />
-              İçgörüler
+              Insights
             </TabsTrigger>
             <TabsTrigger value="settings" className="data-[state=active]:bg-white data-[state=active]:border-b-2 data-[state=active]:border-blue-600">
               <Settings className="w-4 h-4 mr-2" />
-              Ayarlar
+              Settings
             </TabsTrigger>
           </TabsList>
 
@@ -359,7 +359,7 @@ export default function ReviewsX() {
                     <div className="text-2xl font-bold text-gray-900">{kpiData.averageRating}</div>
                     <div className="flex items-center gap-1 text-xs text-green-600">
                       <ArrowUp className="w-3 h-3" />
-                      +0.1 önceki dönem
+                      +0.1 vs previous period
                     </div>
                   </CardContent>
                 </Card>
@@ -377,7 +377,7 @@ export default function ReviewsX() {
                     <div className="text-2xl font-bold text-gray-900">{kpiData.totalReviews.toLocaleString()}</div>
                     <div className="flex items-center gap-1 text-xs text-green-600">
                       <ArrowUp className="w-3 h-3" />
-                      +12% önceki dönem
+                      +12% vs previous period
                     </div>
                   </CardContent>
                 </Card>
@@ -395,7 +395,7 @@ export default function ReviewsX() {
                     <div className="text-2xl font-bold text-gray-900">{kpiData.responseRate}%</div>
                     <div className="flex items-center gap-1 text-xs text-green-600">
                       <ArrowUp className="w-3 h-3" />
-                      +5% önceki dönem
+                      +5% vs previous period
                     </div>
                   </CardContent>
                 </Card>
@@ -413,7 +413,7 @@ export default function ReviewsX() {
                     <div className="text-2xl font-bold text-gray-900">{kpiData.avgResponseTime}</div>
                     <div className="flex items-center gap-1 text-xs text-red-600">
                       <ArrowUp className="w-3 h-3" />
-                      +2h önceki dönem
+                      +2h vs previous period
                     </div>
                   </CardContent>
                 </Card>
@@ -431,7 +431,7 @@ export default function ReviewsX() {
                     <div className="text-2xl font-bold text-gray-900">{kpiData.sentimentIndex}%</div>
                     <div className="flex items-center gap-1 text-xs text-green-600">
                       <ArrowUp className="w-3 h-3" />
-                      +3% önceki dönem
+                      +3% vs previous period
                     </div>
                   </CardContent>
                 </Card>
@@ -441,20 +441,20 @@ export default function ReviewsX() {
               <div className="grid grid-cols-2 gap-6">
                 <Card>
                   <CardHeader>
-                    <CardTitle>Yorum Hacmi ve Ortalama Puan</CardTitle>
+                    <CardTitle>Review Volume and Average Rating</CardTitle>
                   </CardHeader>
                   <CardContent>
                     <div className="h-64 bg-gray-50 rounded-lg p-4">
                       <div className="flex justify-between items-center mb-4">
-                        <div className="text-xs text-gray-500">Son 12 hafta</div>
+                        <div className="text-xs text-gray-500">Last 12 weeks</div>
                         <div className="flex gap-4 text-xs">
                           <div className="flex items-center gap-1">
                             <div className="w-3 h-3 bg-blue-500 rounded"></div>
-                            <span>Yorum Sayısı</span>
+                            <span>Review Count</span>
                           </div>
                           <div className="flex items-center gap-1">
                             <div className="w-3 h-3 bg-green-500 rounded"></div>
-                            <span>Ortalama Puan</span>
+                            <span>Average Rating</span>
                           </div>
                         </div>
                       </div>
@@ -498,7 +498,7 @@ export default function ReviewsX() {
                               <div 
                                 className="w-6 bg-blue-400 rounded-t" 
                                 style={{height: `${(data.volume / 400) * 160}px`}}
-                                title={`${data.volume} yorum`}
+                                title={`${data.volume} reviews`}
                               ></div>
                               <div className="text-xs text-gray-400">W{data.week}</div>
                               
@@ -510,7 +510,7 @@ export default function ReviewsX() {
                                   left: '50%',
                                   transform: 'translateX(-50%)'
                                 }}
-                                title={`${data.rating}★ ortalama`}
+                                title={`${data.rating}★ average`}
                               ></div>
                             </div>
                           ))}
@@ -544,7 +544,7 @@ export default function ReviewsX() {
                         </svg>
                         
                         <div className="absolute top-4 right-4 text-green-600 font-medium">
-                          ▲ 4.75★ Ortalama (+0.15)
+                          ▲ 4.75★ Average (+0.15)
                         </div>
                       </div>
                     </div>
@@ -554,10 +554,10 @@ export default function ReviewsX() {
                 <Card>
                   <CardHeader>
                     <div className="flex items-center justify-between">
-                      <CardTitle>Kaynak Dağılımı</CardTitle>
+                      <CardTitle>Source Distribution</CardTitle>
                       <Button variant="outline" size="sm">
                         <BarChart3 className="w-4 h-4 mr-2" />
-                        Grafik Görünümü
+                        Chart View
                       </Button>
                     </div>
                   </CardHeader>
@@ -570,7 +570,7 @@ export default function ReviewsX() {
                           </div>
                           <span className="text-sm font-medium">Google My Business</span>
                         </div>
-                        <span className="text-sm font-medium">65% (2,386 yorum)</span>
+                        <span className="text-sm font-medium">65% (2,386 reviews)</span>
                       </div>
                       <div className="w-full bg-gray-200 rounded-full h-3">
                         <div className="bg-red-500 h-3 rounded-full" style={{width: '65%'}}></div>
@@ -583,7 +583,7 @@ export default function ReviewsX() {
                           </div>
                           <span className="text-sm font-medium">Facebook</span>
                         </div>
-                        <span className="text-sm font-medium">20% (734 yorum)</span>
+                        <span className="text-sm font-medium">20% (734 reviews)</span>
                       </div>
                       <div className="w-full bg-gray-200 rounded-full h-3">
                         <div className="bg-blue-500 h-3 rounded-full" style={{width: '20%'}}></div>
@@ -596,7 +596,7 @@ export default function ReviewsX() {
                           </div>
                           <span className="text-sm font-medium">Yandex Maps</span>
                         </div>
-                        <span className="text-sm font-medium">15% (552 yorum)</span>
+                        <span className="text-sm font-medium">15% (552 reviews)</span>
                       </div>
                       <div className="w-full bg-gray-200 rounded-full h-3">
                         <div className="bg-yellow-500 h-3 rounded-full" style={{width: '15%'}}></div>
@@ -609,13 +609,13 @@ export default function ReviewsX() {
               {/* Rating Distribution Section */}
               <Card>
                 <CardHeader>
-                  <CardTitle>Puan Dağılımı ve Analiz</CardTitle>
+                  <CardTitle>Rating Distribution and Analysis</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <Tabs defaultValue="overall" className="w-full">
                     <TabsList className="grid w-fit grid-cols-2">
-                      <TabsTrigger value="overall">Genel</TabsTrigger>
-                      <TabsTrigger value="locations">Lokasyonlara Göre</TabsTrigger>
+                      <TabsTrigger value="overall">Overall</TabsTrigger>
+                      <TabsTrigger value="locations">By Location</TabsTrigger>
                     </TabsList>
                     
                     <TabsContent value="overall" className="space-y-4">
@@ -643,7 +643,7 @@ export default function ReviewsX() {
                     </TabsContent>
                     
                     <TabsContent value="locations" className="space-y-4">
-                      <div className="text-sm text-gray-600 mb-4">En fazla yoruma sahip 20 lokasyon için puan dağılımı</div>
+                      <div className="text-sm text-gray-600 mb-4">Rating distribution for top 20 locations by review volume</div>
                       <div className="space-y-2 max-h-96 overflow-y-auto">
                         {[
                           {name: "Boyner Bağdat Caddesi", total: 542, ratings: {5: 420, 4: 75, 3: 28, 2: 12, 1: 7}, avg: 4.7},
@@ -711,7 +711,7 @@ export default function ReviewsX() {
                               </div>
                             </div>
                             <div className="w-16 text-sm text-gray-600 font-medium">{location.avg}★</div>
-                            <div className="w-16 text-xs text-gray-500">{location.total} yorum</div>
+                            <div className="w-16 text-xs text-gray-500">{location.total} reviews</div>
                           </div>
                         ))}
                       </div>
@@ -724,19 +724,19 @@ export default function ReviewsX() {
               <div className="grid grid-cols-2 gap-6">
                 <Card>
                   <CardHeader>
-                    <CardTitle>Anahtar Kelimeler - Bahis Sayısı</CardTitle>
+                    <CardTitle>Keywords - Mention Count</CardTitle>
                   </CardHeader>
                   <CardContent>
                     <div className="space-y-3">
                       {[
-                        {keyword: "mağaza", mentions: 245, trend: "up"},
-                        {keyword: "ürün", mentions: 189, trend: "up"},
-                        {keyword: "personel", mentions: 156, trend: "stable"},
-                        {keyword: "kalite", mentions: 134, trend: "up"},
-                        {keyword: "fiyat", mentions: 98, trend: "down"},
-                        {keyword: "hizmet", mentions: 87, trend: "up"},
-                        {keyword: "çeşit", mentions: 76, trend: "stable"},
-                        {keyword: "atmosfer", mentions: 65, trend: "up"}
+                        {keyword: "store", mentions: 245, trend: "up"},
+                        {keyword: "product", mentions: 189, trend: "up"},
+                        {keyword: "staff", mentions: 156, trend: "stable"},
+                        {keyword: "quality", mentions: 134, trend: "up"},
+                        {keyword: "price", mentions: 98, trend: "down"},
+                        {keyword: "service", mentions: 87, trend: "up"},
+                        {keyword: "variety", mentions: 76, trend: "stable"},
+                        {keyword: "atmosphere", mentions: 65, trend: "up"}
                       ].map((item, index) => (
                         <div key={index} className="flex items-center justify-between p-2 hover:bg-gray-50 rounded">
                           <div className="flex items-center gap-3">
@@ -744,7 +744,7 @@ export default function ReviewsX() {
                             <span className="font-medium">{item.keyword}</span>
                           </div>
                           <div className="flex items-center gap-3">
-                            <span className="text-sm text-gray-600">{item.mentions} bahis</span>
+                            <span className="text-sm text-gray-600">{item.mentions} mentions</span>
                             {item.trend === "up" && <ArrowUp className="w-4 h-4 text-green-600" />}
                             {item.trend === "down" && <ArrowDown className="w-4 h-4 text-red-600" />}
                             {item.trend === "stable" && <div className="w-4 h-0.5 bg-gray-400"></div>}
@@ -757,7 +757,7 @@ export default function ReviewsX() {
 
                 <Card>
                   <CardHeader>
-                    <CardTitle>Anahtar Kelimeler - Duygu Analizi</CardTitle>
+                    <CardTitle>Keywords - Sentiment Analysis</CardTitle>
                   </CardHeader>
                   <CardContent>
                     <div className="space-y-3">
@@ -799,7 +799,7 @@ export default function ReviewsX() {
               <div className="grid grid-cols-2 gap-6">
                 <Card>
                   <CardHeader>
-                    <CardTitle>Son Yorumlar & Uyarılar</CardTitle>
+                    <CardTitle>Recent Reviews & Alerts</CardTitle>
                   </CardHeader>
                   <CardContent>
                     <div className="space-y-4">
@@ -829,34 +829,34 @@ export default function ReviewsX() {
 
                 <Card>
                   <CardHeader>
-                    <CardTitle>En İyi & En Kötü Temalar</CardTitle>
+                    <CardTitle>Top Positive & Negative Themes</CardTitle>
                   </CardHeader>
                   <CardContent>
                     <div className="space-y-4">
                       <div>
-                        <h4 className="font-medium text-green-600 mb-2">👍 En Çok Beğenilenler</h4>
+                        <h4 className="font-medium text-green-600 mb-2">👍 Most Liked</h4>
                         <div className="space-y-2">
                           <div className="flex justify-between text-sm">
-                            <span>Personel Nezaketi</span>
-                            <span className="text-green-600">95% pozitif (45 bahis)</span>
+                            <span>Staff Courtesy</span>
+                            <span className="text-green-600">95% positive (45 mentions)</span>
                           </div>
                           <div className="flex justify-between text-sm">
-                            <span>Ürün Kalitesi</span>
-                            <span className="text-green-600">88% pozitif (67 bahis)</span>
+                            <span>Product Quality</span>
+                            <span className="text-green-600">88% positive (67 mentions)</span>
                           </div>
                         </div>
                       </div>
                       
                       <div>
-                        <h4 className="font-medium text-red-600 mb-2">👎 En Çok Şikâyet Edilenler</h4>
+                        <h4 className="font-medium text-red-600 mb-2">👎 Most Complained</h4>
                         <div className="space-y-2">
                           <div className="flex justify-between text-sm">
-                            <span>Bekleme Süresi</span>
-                            <span className="text-red-600">40% negatif (30 bahis)</span>
+                            <span>Wait Time</span>
+                            <span className="text-red-600">40% negative (30 mentions)</span>
                           </div>
                           <div className="flex justify-between text-sm">
-                            <span>Fiyat Politikası</span>
-                            <span className="text-red-600">35% negatif (22 bahis)</span>
+                            <span>Pricing Policy</span>
+                            <span className="text-red-600">35% negative (22 mentions)</span>
                           </div>
                         </div>
                       </div>
@@ -938,10 +938,10 @@ export default function ReviewsX() {
                             <th className="text-left py-3 px-4 font-medium text-gray-600">Lokasyon</th>
                             <th className="text-left py-3 px-4 font-medium text-gray-600">Şehir/Bölge</th>
                             <th className="text-center py-3 px-4 font-medium text-gray-600">Ortalama Puan</th>
-                            <th className="text-center py-3 px-4 font-medium text-gray-600">Yorum Sayısı</th>
-                            <th className="text-center py-3 px-4 font-medium text-gray-600">% Negatif</th>
-                            <th className="text-center py-3 px-4 font-medium text-gray-600">Yanıt Oranı</th>
-                            <th className="text-center py-3 px-4 font-medium text-gray-600">Son Yorum</th>
+                            <th className="text-center py-3 px-4 font-medium text-gray-600">Review Count</th>
+                            <th className="text-center py-3 px-4 font-medium text-gray-600">% Negative</th>
+                            <th className="text-center py-3 px-4 font-medium text-gray-600">Response Rate</th>
+                            <th className="text-center py-3 px-4 font-medium text-gray-600">Last Review</th>
                             <th className="text-center py-3 px-4 font-medium text-gray-600">İşlemler</th>
                           </tr>
                         </thead>
@@ -1015,7 +1015,7 @@ export default function ReviewsX() {
                           <th className="text-left py-3 px-4 font-medium text-gray-600">SKU</th>
                           <th className="text-left py-3 px-4 font-medium text-gray-600">Kategori</th>
                           <th className="text-center py-3 px-4 font-medium text-gray-600">Ortalama Puan</th>
-                          <th className="text-center py-3 px-4 font-medium text-gray-600">Yorum Sayısı</th>
+                          <th className="text-center py-3 px-4 font-medium text-gray-600">Review Count</th>
                           <th className="text-center py-3 px-4 font-medium text-gray-600">Duygu</th>
                           <th className="text-left py-3 px-4 font-medium text-gray-600">En Çok Beğenilen</th>
                           <th className="text-left py-3 px-4 font-medium text-gray-600">En Çok Şikâyet</th>
@@ -1037,7 +1037,7 @@ export default function ReviewsX() {
                             <td className="text-center py-3 px-4">{product.reviewCount}</td>
                             <td className="text-center py-3 px-4">
                               <Badge variant={product.sentiment === "positive" ? "default" : product.sentiment === "mixed" ? "secondary" : "destructive"}>
-                                {product.sentiment === "positive" ? "Pozitif" : product.sentiment === "mixed" ? "Karışık" : "Negatif"}
+                                {product.sentiment === "positive" ? "Positive" : product.sentiment === "mixed" ? "Mixed" : "Negative"}
                               </Badge>
                             </td>
                             <td className="py-3 px-4 text-sm text-green-600">{product.topCompliment}</td>
@@ -1059,7 +1059,7 @@ export default function ReviewsX() {
             {/* Inbox Section */}
             <TabsContent value="inbox" className="space-y-6">
               <div className="flex items-center justify-between">
-                <h2 className="text-2xl font-bold">Yorum Gelen Kutusu</h2>
+                <h2 className="text-2xl font-bold">Review Inbox</h2>
                 <div className="flex items-center gap-2">
                   <Badge variant="outline">{recentReviews.filter(r => r.isNew).length} Yeni</Badge>
                   <Button variant="outline" size="sm">
@@ -1074,7 +1074,7 @@ export default function ReviewsX() {
                 <div className="col-span-1">
                   <Card>
                     <CardHeader>
-                      <CardTitle className="text-base">Yorumlar ({recentReviews.length})</CardTitle>
+                      <CardTitle className="text-base">Reviews ({recentReviews.length})</CardTitle>
                     </CardHeader>
                     <CardContent className="p-0">
                       <div className="space-y-1">
@@ -1108,7 +1108,7 @@ export default function ReviewsX() {
                   <Card>
                     <CardHeader>
                       <div className="flex items-center justify-between">
-                        <CardTitle className="text-base">Yorum Detayı</CardTitle>
+                        <CardTitle className="text-base">Review Details</CardTitle>
                         <div className="flex gap-2">
                           <Button variant="outline" size="sm">
                             <Users className="w-4 h-4 mr-2" />
@@ -1143,7 +1143,7 @@ export default function ReviewsX() {
                       {/* Reply Section */}
                       <div className="space-y-3">
                         <div className="flex items-center justify-between">
-                          <h4 className="font-medium">Yanıt Yazın</h4>
+                          <h4 className="font-medium">Write Reply</h4>
                           <div className="flex gap-2">
                             <Button variant="outline" size="sm">
                               <BookOpen className="w-4 h-4 mr-2" />
@@ -1157,17 +1157,17 @@ export default function ReviewsX() {
                         </div>
                         
                         <Textarea
-                          placeholder="Yanıtınızı buraya yazın..."
+                          placeholder="Write your reply here..."
                           className="min-h-[100px]"
                         />
                         
                         <div className="flex items-center justify-between">
                           <div className="flex items-center gap-2">
                             <Checkbox id="internal-note" />
-                            <label htmlFor="internal-note" className="text-sm">İç not olarak kaydet</label>
+                            <label htmlFor="internal-note" className="text-sm">Save as internal note</label>
                           </div>
                           <div className="flex gap-2">
-                            <Button variant="outline">Taslak Kaydet</Button>
+                            <Button variant="outline">Save Draft</Button>
                             <Button>
                               <Send className="w-4 h-4 mr-2" />
                               Gönder
@@ -1178,15 +1178,15 @@ export default function ReviewsX() {
 
                       {/* Internal Notes */}
                       <div className="border-t pt-4">
-                        <h4 className="font-medium mb-2">İç Notlar</h4>
+                        <h4 className="font-medium mb-2">Internal Notes</h4>
                         <div className="space-y-2">
                           <div className="text-sm p-2 bg-yellow-50 rounded border-l-4 border-yellow-400">
-                            <div className="font-medium">Ahmet Y. - 2 saat önce</div>
-                            <div>Bu müşteriyle telefonda konuştum, sorun çözüldü.</div>
+                            <div className="font-medium">Ahmet Y. - 2 hours ago</div>
+                            <div>Spoke with this customer by phone, issue resolved.</div>
                           </div>
                         </div>
                         <Textarea
-                          placeholder="Yeni iç not ekle..."
+                          placeholder="Add new internal note..."
                           className="mt-2"
                           rows={2}
                         />
@@ -1200,15 +1200,15 @@ export default function ReviewsX() {
             {/* Insights Section */}
             <TabsContent value="insights" className="space-y-6">
               <div className="flex items-center justify-between">
-                <h2 className="text-2xl font-bold">Derin Analiz & İçgörüler</h2>
+                <h2 className="text-2xl font-bold">Deep Analysis & Insights</h2>
                 <div className="flex gap-2">
                   <Button variant="outline">
                     <Download className="w-4 h-4 mr-2" />
-                    Rapor İndir
+                    Download Report
                   </Button>
                   <Button variant="outline">
                     <Calendar className="w-4 h-4 mr-2" />
-                    Zamanla Rapor
+                    Schedule Report
                   </Button>
                 </div>
               </div>
@@ -1222,18 +1222,18 @@ export default function ReviewsX() {
                   <CardContent>
                     <div className="text-center">
                       <div className="text-4xl font-bold text-green-600 mb-2">+82</div>
-                      <div className="text-sm text-gray-600">Net Duygu Skoru</div>
+                      <div className="text-sm text-gray-600">Net Sentiment Score</div>
                       <div className="mt-4 space-y-2">
                         <div className="flex justify-between text-sm">
-                          <span>Pozitif</span>
+                          <span>Positive</span>
                           <span className="font-medium text-green-600">80%</span>
                         </div>
                         <div className="flex justify-between text-sm">
-                          <span>Nötr</span>
+                          <span>Neutral</span>
                           <span className="font-medium text-gray-600">15%</span>
                         </div>
                         <div className="flex justify-between text-sm">
-                          <span>Negatif</span>
+                          <span>Negative</span>
                           <span className="font-medium text-red-600">5%</span>
                         </div>
                       </div>
@@ -1243,24 +1243,24 @@ export default function ReviewsX() {
 
                 <Card>
                   <CardHeader>
-                    <CardTitle>Trend Analizi</CardTitle>
+                    <CardTitle>Trend Analysis</CardTitle>
                   </CardHeader>
                   <CardContent>
                     <div className="h-48 flex items-center justify-center text-gray-500">
                       <BarChart3 className="w-12 h-12 mr-3" />
-                      Trend grafiği burada gösterilecek
+                      Trend chart will be displayed here
                     </div>
                   </CardContent>
                 </Card>
 
                 <Card>
                   <CardHeader>
-                    <CardTitle>Yanıt Performansı</CardTitle>
+                    <CardTitle>Response Performance</CardTitle>
                   </CardHeader>
                   <CardContent>
                     <div className="space-y-4">
                       <div className="flex justify-between items-center">
-                        <span className="text-sm">24 saat içinde</span>
+                        <span className="text-sm">Within 24 hours</span>
                         <span className="font-medium">67%</span>
                       </div>
                       <div className="w-full bg-gray-200 rounded-full h-2">
@@ -1268,7 +1268,7 @@ export default function ReviewsX() {
                       </div>
                       
                       <div className="flex justify-between items-center">
-                        <span className="text-sm">48 saat içinde</span>
+                        <span className="text-sm">Within 48 hours</span>
                         <span className="font-medium">89%</span>
                       </div>
                       <div className="w-full bg-gray-200 rounded-full h-2">
@@ -1276,7 +1276,7 @@ export default function ReviewsX() {
                       </div>
                       
                       <div className="flex justify-between items-center">
-                        <span className="text-sm">48+ saat</span>
+                        <span className="text-sm">48+ hours</span>
                         <span className="font-medium text-red-600">11%</span>
                       </div>
                       <div className="w-full bg-gray-200 rounded-full h-2">
@@ -1290,18 +1290,18 @@ export default function ReviewsX() {
               {/* Theme Analysis */}
               <Card>
                 <CardHeader>
-                  <CardTitle>Tema Analizi</CardTitle>
+                  <CardTitle>Theme Analysis</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <div className="overflow-x-auto">
                     <table className="w-full">
                       <thead>
                         <tr className="border-b border-gray-200 bg-gray-50">
-                          <th className="text-left py-3 px-4 font-medium text-gray-600">Tema</th>
-                          <th className="text-center py-3 px-4 font-medium text-gray-600">Pozitif %</th>
-                          <th className="text-center py-3 px-4 font-medium text-gray-600">Nötr %</th>
-                          <th className="text-center py-3 px-4 font-medium text-gray-600">Negatif %</th>
-                          <th className="text-center py-3 px-4 font-medium text-gray-600">Toplam Bahis</th>
+                          <th className="text-left py-3 px-4 font-medium text-gray-600">Theme</th>
+                          <th className="text-center py-3 px-4 font-medium text-gray-600">Positive %</th>
+                          <th className="text-center py-3 px-4 font-medium text-gray-600">Neutral %</th>
+                          <th className="text-center py-3 px-4 font-medium text-gray-600">Negative %</th>
+                          <th className="text-center py-3 px-4 font-medium text-gray-600">Total Mentions</th>
                           <th className="text-center py-3 px-4 font-medium text-gray-600">Trend</th>
                         </tr>
                       </thead>
@@ -1392,7 +1392,7 @@ export default function ReviewsX() {
                 {/* Response Templates */}
                 <Card>
                   <CardHeader>
-                    <CardTitle>Yanıt Şablonları</CardTitle>
+                    <CardTitle>Response Templates</CardTitle>
                   </CardHeader>
                   <CardContent className="space-y-4">
                     {responseTemplates.map((template) => (
@@ -1427,19 +1427,19 @@ export default function ReviewsX() {
                   <CardContent className="space-y-4">
                     <div className="space-y-3">
                       <div className="flex items-center justify-between">
-                        <span className="text-sm">1-2 yıldızlı yorumlar için anında e-posta</span>
+                        <span className="text-sm">Instant email for 1-2 star reviews</span>
                         <Checkbox defaultChecked />
                       </div>
                       <div className="flex items-center justify-between">
-                        <span className="text-sm">Günlük yorum özeti</span>
+                        <span className="text-sm">Daily review summary</span>
                         <Checkbox defaultChecked />
                       </div>
                       <div className="flex items-center justify-between">
-                        <span className="text-sm">Yanıt onayı gerektiğinde bildir</span>
+                        <span className="text-sm">Notify when response approval needed</span>
                         <Checkbox />
                       </div>
                       <div className="flex items-center justify-between">
-                        <span className="text-sm">Haftalık performans raporu</span>
+                        <span className="text-sm">Weekly performance report</span>
                         <Checkbox defaultChecked />
                       </div>
                     </div>
@@ -1459,15 +1459,15 @@ export default function ReviewsX() {
                   <CardContent className="space-y-4">
                     <div className="space-y-3">
                       <div className="flex items-center justify-between">
-                        <span className="text-sm">5 yıldızlı yorumlara otomatik teşekkür</span>
+                        <span className="text-sm">Auto-thank for 5-star reviews</span>
                         <Checkbox />
                       </div>
                       <div className="flex items-center justify-between">
-                        <span className="text-sm">AI yanıt önerileri</span>
+                        <span className="text-sm">AI response suggestions</span>
                         <Checkbox defaultChecked />
                       </div>
                       <div className="flex items-center justify-between">
-                        <span className="text-sm">Otomatik duygu analizi</span>
+                        <span className="text-sm">Automatic sentiment analysis</span>
                         <Checkbox defaultChecked />
                       </div>
                       <div className="flex items-center justify-between">
@@ -1477,7 +1477,7 @@ export default function ReviewsX() {
                     </div>
                     
                     <div className="pt-3 border-t">
-                      <label className="text-sm font-medium">AI Yanıt Tonu</label>
+                      <label className="text-sm font-medium">AI Response Tone</label>
                       <Select defaultValue="professional">
                         <SelectTrigger className="mt-2">
                           <SelectValue />

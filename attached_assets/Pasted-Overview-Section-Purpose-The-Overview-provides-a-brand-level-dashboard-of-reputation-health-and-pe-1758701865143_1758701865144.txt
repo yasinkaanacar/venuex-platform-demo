@@ -1,0 +1,54 @@
+Overview Section
+
+Purpose: The Overview provides a brand-level dashboard of reputation health and performance. It aggregates data across all locations (unless a location filter is applied) and highlights key KPIs, recent activity, and trends. It’s the default landing for corporate users (e.g. CMO, Head of CX) who need a snapshot of how the brand is doing overall
+sproutsocial.com
+sproutsocial.com
+.
+
+Layout & Components:
+
+KPI Summary Cards: At the top, a row of stat cards shows top metrics: e.g. Average Star Rating (brand-wide)
+reputation.com
+, Total Review Volume (in selected period)
+reputation.com
+, Response Rate (% of reviews responded to)
+chatmeter.com
+chatmeter.com
+, Avg Response Time (e.g. 18h, against SLA)
+support.sproutsocial.com
+, and Sentiment Index (an NLP-derived score of text sentiment). Each card might have a small indicator of change (up/down vs previous period). For example, “Average Rating: 4.2 ★ (▲ 0.1)” to show improvement
+yext.com
+yext.com
+. These give an executive quick insight into reputation trajectory. Clicking a card can deep-link to a detailed view in Insights or Locations.
+
+Trends & Graphs: Below KPI cards, we display one or two visualizations. On the left, a line or bar chart shows Review Volume & Average Rating over time (timeline could be weekly over the past 3 months). This helps spot trends or seasonality (e.g. a dip in ratings in July)
+chatmeter.com
+chatmeter.com
+. The chart could dual-plot volume (bars) and avg rating (line) per week. On the right, a pie or bar chart shows Review Source Distribution – what % of reviews come from Google, Facebook, Yelp, etc., perhaps top 5 sources and “Other”
+socialpilot.co
+. This reveals which platforms dominate (often Google) so the user knows where most feedback comes from. Alternatively, that right-side could be a Rating Distribution (how many 5★, 4★, etc.) to quickly gauge sentiment spread
+chatmeter.com
+chatmeter.com
+. We may include both via a toggle.
+
+Recent Reviews & Alerts: A panel listing, say, the 5 most recent reviews across all locations (with source icon, location name, star rating, snippet of text)
+media.sproutsocial.com
+. Each item might have a colored dot if unread/unresponded (like an email inbox). This provides recency awareness: e.g. “John Doe – 1★ on Google for Store #123: ‘…very slow service…’ – 2 hours ago.” Users can click it to go to Inbox view of that review to respond or see details. Also in this panel, highlight urgent items: e.g. any new 1★ reviews or reviews containing certain words (like “cancel” or “lawsuit”) could be flagged with a warning icon
+reputation.com
+reputation.com
+. This ensures critical issues are visible at a glance in Overview.
+
+Top Positive & Negative Themes: Another panel (or set of bullet points) shows analysis like “Top 3 Compliments” and “Top 3 Complaints” from recent reviews
+chatmeter.com
+chatmeter.com
+. For example: “👍 Staff Friendliness (mentioned 45 times, 95% positive)”, “👎 Wait Time (mentioned 30 times, 40% negative sentiment)”. These come from NLP theme extraction and let execs see what customers love or where improvement is needed at the aggregate level. A “View Details” link goes to Insights section’s theme analysis for more.
+
+Location Leaderboard Snapshot: If the brand has multiple locations, at the bottom of Overview we show a mini leaderboard table – e.g. 5 best and 5 worst locations by average rating this period
+chatmeter.com
+chatmeter.com
+. Each entry lists location name, avg rating, # of reviews, and maybe response rate. This gives context if a particular store is excelling or struggling. A “View All Locations” button jumps to Locations tab for the full list.
+
+UX Flow: The Overview is mostly read-only data visualizations. However, everything is interactive to drill down. For instance, clicking on “1★” portion of rating distribution could navigate to Inbox filtered for 1★ reviews. Or clicking a specific week’s bar in the volume chart could bring up reviews from that week. This interactive design encourages exploration and quick access to root causes behind metrics
+chatmeter.com
+chatmeter.com
+. The goal is that a user like the Head of CX can scan the Overview in 30 seconds and know overall reputation status (fast), then optionally dive deeper by clicking on areas of interest (clear and valuable details on demand).
