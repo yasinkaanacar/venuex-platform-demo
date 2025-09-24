@@ -465,7 +465,7 @@ export default function ReviewsX() {
                   onClick={() => setActiveTab("insights")}
                 >
                   <CardHeader className="pb-3">
-                    <CardTitle className="text-sm font-medium text-gray-600">Review Volume</CardTitle>
+                    <CardTitle className="tracking-tight text-[#111827] font-semibold text-[18px]">Review Volume</CardTitle>
                   </CardHeader>
                   <CardContent>
                     <div className="text-2xl font-bold text-gray-900">{kpiData.totalReviews.toLocaleString()}</div>
@@ -481,7 +481,7 @@ export default function ReviewsX() {
                   onClick={() => setActiveTab("inbox")}
                 >
                   <CardHeader className="pb-3">
-                    <CardTitle className="text-sm font-medium text-gray-600">Reply Rate</CardTitle>
+                    <CardTitle className="tracking-tight text-[#111827] font-semibold text-[18px]">Reply Rate</CardTitle>
                   </CardHeader>
                   <CardContent>
                     <div className="text-2xl font-bold text-gray-900">{kpiData.responseRate}%</div>
@@ -497,7 +497,7 @@ export default function ReviewsX() {
                   onClick={() => setActiveTab("inbox")}
                 >
                   <CardHeader className="pb-3">
-                    <CardTitle className="text-sm font-medium text-gray-600">Response Time</CardTitle>
+                    <CardTitle className="tracking-tight text-[#111827] font-semibold text-[18px]">Response Time</CardTitle>
                   </CardHeader>
                   <CardContent>
                     <div className="text-2xl font-bold text-gray-900">{kpiData.avgResponseTime}</div>
@@ -513,7 +513,7 @@ export default function ReviewsX() {
                   onClick={() => setActiveTab("insights")}
                 >
                   <CardHeader className="pb-3">
-                    <CardTitle className="text-sm font-medium text-gray-600">Sentiment Index</CardTitle>
+                    <CardTitle className="tracking-tight text-[#111827] font-semibold text-[18px]">Sentiment Index</CardTitle>
                   </CardHeader>
                   <CardContent>
                     <div className="text-2xl font-bold text-gray-900">{kpiData.sentimentIndex}%</div>
