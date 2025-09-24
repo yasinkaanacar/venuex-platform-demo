@@ -1295,9 +1295,6 @@ export default function ReviewsX() {
                         <div>
                           <div className="flex items-center justify-between mb-1">
                             <div className="text-xs text-gray-600">Response Time</div>
-                            <Badge variant="destructive" className="text-xs px-1 py-0.5" data-testid="badge-sla-risk">
-                              SLA Risk
-                            </Badge>
                           </div>
                           <div className="text-base font-bold text-gray-900">{kpiData.avgResponseTime}</div>
                           <div className="flex items-center gap-1 text-xs text-red-600">
