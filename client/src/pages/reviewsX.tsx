@@ -1213,7 +1213,6 @@ export default function ReviewsX() {
                     </Card>
                   </TooltipTrigger>
                   <TooltipContent>
-                    <p>Average customer rating across all reviews in the last 30 days. Click to view detailed rating insights and trends.</p>
                   </TooltipContent>
                 </Tooltip>
 
