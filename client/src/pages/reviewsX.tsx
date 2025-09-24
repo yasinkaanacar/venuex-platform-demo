@@ -468,10 +468,34 @@ export default function ReviewsX() {
                     <CardTitle className="tracking-tight text-[#111827] font-semibold text-[18px]">Review Volume</CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <div className="text-2xl font-bold text-gray-900">{kpiData.totalReviews.toLocaleString()}</div>
-                    <div className="flex items-center gap-1 text-xs text-green-600">
-                      <ArrowUp className="w-3 h-3" />
-                      +12% vs previous period
+                    <div className="space-y-4">
+                      <div>
+                        <div className="text-2xl font-bold text-gray-900">{kpiData.totalReviews.toLocaleString()}</div>
+                        <div className="flex items-center gap-1 text-xs text-green-600">
+                          <ArrowUp className="w-3 h-3" />
+                          +12% vs previous period
+                        </div>
+                      </div>
+                      
+                      <div className="grid grid-cols-2 gap-4 pt-2 border-t border-gray-100">
+                        <div>
+                          <div className="text-sm text-gray-600 mb-1">Reply Rate</div>
+                          <div className="text-lg font-bold text-gray-900">{kpiData.responseRate}%</div>
+                          <div className="flex items-center gap-1 text-xs text-green-600">
+                            <ArrowUp className="w-3 h-3" />
+                            +5% vs previous
+                          </div>
+                        </div>
+                        
+                        <div>
+                          <div className="text-sm text-gray-600 mb-1">Response Time</div>
+                          <div className="text-lg font-bold text-gray-900">{kpiData.avgResponseTime}</div>
+                          <div className="flex items-center gap-1 text-xs text-red-600">
+                            <ArrowUp className="w-3 h-3" />
+                            +2h vs previous
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </CardContent>
                 </Card>
@@ -481,14 +505,10 @@ export default function ReviewsX() {
                   onClick={() => setActiveTab("inbox")}
                 >
                   <CardHeader className="pb-3">
-                    <CardTitle className="tracking-tight text-[#111827] font-semibold text-[18px]">Reply Rate</CardTitle>
+                    <CardTitle className="tracking-tight text-[#111827] font-semibold text-[18px]"></CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <div className="text-2xl font-bold text-gray-900">{kpiData.responseRate}%</div>
-                    <div className="flex items-center gap-1 text-xs text-green-600">
-                      <ArrowUp className="w-3 h-3" />
-                      +5% vs previous period
-                    </div>
+                    <div className="h-16"></div>
                   </CardContent>
                 </Card>
 
@@ -497,14 +517,10 @@ export default function ReviewsX() {
                   onClick={() => setActiveTab("inbox")}
                 >
                   <CardHeader className="pb-3">
-                    <CardTitle className="tracking-tight text-[#111827] font-semibold text-[18px]">Response Time</CardTitle>
+                    <CardTitle className="tracking-tight text-[#111827] font-semibold text-[18px]"></CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <div className="text-2xl font-bold text-gray-900">{kpiData.avgResponseTime}</div>
-                    <div className="flex items-center gap-1 text-xs text-red-600">
-                      <ArrowUp className="w-3 h-3" />
-                      +2h vs previous period
-                    </div>
+                    <div className="h-16"></div>
                   </CardContent>
                 </Card>
 
