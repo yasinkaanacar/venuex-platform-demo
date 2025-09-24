@@ -581,7 +581,7 @@ export default function ReviewsX() {
                             {week: 11, volume: 298, rating: 4.8},
                             {week: 12, volume: 342, rating: 4.7}
                           ].map((data, i) => (
-                            <div key={i} className="flex flex-col items-center gap-1 relative cursor-pointer hover:bg-gray-50 rounded p-1" onClick={() => navigateToInboxWithFilter('week', data.week)}>
+                            <div key={i} className="flex flex-col items-center gap-1 cursor-pointer hover:bg-gray-50 rounded p-1" onClick={() => navigateToInboxWithFilter('week', data.week)}>
                               {/* Volume bar */}
                               <div 
                                 className="w-6 bg-blue-400 rounded-t hover:bg-blue-500 transition-colors" 
@@ -589,16 +589,37 @@ export default function ReviewsX() {
                                 title={`${data.volume} reviews - Click to view`}
                               ></div>
                               <div className="text-xs text-gray-400">W{data.week}</div>
-                              
-                              {/* Rating line point */}
+                            </div>
+                          ))}
+                        </div>
+                        
+                        {/* Rating points overlay */}
+                        <div className="absolute inset-0 flex items-end justify-between px-2 pb-4 pointer-events-none">
+                          {[
+                            {week: 1, volume: 245, rating: 4.6},
+                            {week: 2, volume: 312, rating: 4.7},
+                            {week: 3, volume: 198, rating: 4.5},
+                            {week: 4, volume: 287, rating: 4.8},
+                            {week: 5, volume: 334, rating: 4.9},
+                            {week: 6, volume: 275, rating: 4.7},
+                            {week: 7, volume: 356, rating: 4.8},
+                            {week: 8, volume: 298, rating: 4.6},
+                            {week: 9, volume: 267, rating: 4.7},
+                            {week: 10, volume: 385, rating: 4.9},
+                            {week: 11, volume: 298, rating: 4.8},
+                            {week: 12, volume: 342, rating: 4.7}
+                          ].map((data, i) => (
+                            <div key={i} className="flex flex-col items-center gap-1 relative" style={{width: 'calc(100%/12)'}}>
+                              {/* Rating point positioned relative to chart area */}
                               <div 
-                                className="absolute w-3 h-3 bg-green-500 rounded-full border-2 border-white shadow-sm"
+                                className="absolute w-3 h-3 bg-green-500 rounded-full border-2 border-white shadow-sm pointer-events-auto cursor-pointer"
                                 style={{
                                   bottom: `${20 + ((data.rating - 3) / 2) * 160}px`,
                                   left: '50%',
                                   transform: 'translateX(-50%)'
                                 }}
                                 title={`${data.rating}★ average`}
+                                onClick={() => navigateToInboxWithFilter('week', data.week)}
                               ></div>
                             </div>
                           ))}
