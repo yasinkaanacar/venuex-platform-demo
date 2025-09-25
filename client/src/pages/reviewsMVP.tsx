@@ -1481,12 +1481,12 @@ export default function ReviewsMVP() {
             <div className="grid grid-cols-3 gap-6">
               {/* Review List */}
               <div className="col-span-1">
-                <Card className="bg-[#f9fafb] h-full">
+                <Card className="bg-[#f9fafb] h-full flex flex-col">
                   <CardHeader>
                     <CardTitle className="text-base">Reviews ({recentReviews.length})</CardTitle>
                   </CardHeader>
-                  <CardContent className="p-0">
-                    <div className="space-y-1 max-h-96 overflow-y-auto">
+                  <CardContent className="p-0 flex-1 overflow-hidden">
+                    <div className="space-y-1 h-full overflow-y-auto">
                       {recentReviews.filter(review => {
                         if (inboxFilters.source && review.platform !== inboxFilters.source) return false;
                         if (inboxFilters.rating && review.rating !== inboxFilters.rating) return false;
