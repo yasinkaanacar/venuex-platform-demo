@@ -917,7 +917,7 @@ export default function ReviewsMVP() {
                       <div className="text-4xl font-bold text-gray-900">1247</div>
                     </div>
                   </div>
-                  <div className="text-sm text-gray-500 mb-4">{kpiData.totalReviews.toLocaleString()} reviews</div>
+                  <div className="text-sm text-gray-500 mb-4">(Last 30 days)</div>
                   
                   {/* Rating Distribution with Dual-Purpose Progress Bars */}
                   <div className="space-y-2">
