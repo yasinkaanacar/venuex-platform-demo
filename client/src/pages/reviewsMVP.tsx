@@ -167,184 +167,74 @@ export default function ReviewsMVP() {
 
           {/* Özet (Overview) Tab */}
           <TabsContent value="ozet" className="space-y-6">
-            {/* Filter Bar */}
-            <Card>
-              <CardContent className="pt-6">
-                <div className="flex flex-wrap items-center gap-4">
-                  <div className="flex items-center gap-2">
-                    <Filter className="w-4 h-4 text-gray-500" />
-                    <span className="text-sm font-medium text-gray-700">Filters:</span>
-                  </div>
-                  
-                  <Select value={dateRange} onValueChange={setDateRange}>
-                    <SelectTrigger className="w-40" data-testid="select-date-range">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="7">Last 7 Days</SelectItem>
-                      <SelectItem value="30">Last 30 Days</SelectItem>
-                      <SelectItem value="90">Last 90 Days</SelectItem>
-                    </SelectContent>
-                  </Select>
-
-                  <Select value={sourceFilter} onValueChange={setSourceFilter}>
-                    <SelectTrigger className="w-40" data-testid="select-source">
-                      <SelectValue placeholder="All Sources" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="all">All Sources</SelectItem>
-                      <SelectItem value="google">Google</SelectItem>
-                      <SelectItem value="facebook">Facebook</SelectItem>
-                      <SelectItem value="website">Website</SelectItem>
-                    </SelectContent>
-                  </Select>
-
-                  <Select value={locationFilter} onValueChange={setLocationFilter}>
-                    <SelectTrigger className="w-48" data-testid="select-location">
-                      <SelectValue placeholder="All Locations" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="all">All Locations</SelectItem>
-                      <SelectItem value="bagdat">Bağdat Caddesi</SelectItem>
-                      <SelectItem value="kanyon">Kanyon AVM</SelectItem>
-                      <SelectItem value="istinyepark">İstinyePark</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* KPI Cards */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-              <Card data-testid="card-total-reviews">
-                <CardHeader className="pb-3">
-                  <CardTitle className="text-sm font-medium text-gray-600">Total Reviews</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="text-2xl font-bold text-gray-900">{kpiData.totalReviews.toLocaleString()}</div>
-                  <div className="flex items-center gap-1 text-xs text-green-600 mt-1">
-                    <ArrowUp className="w-3 h-3" />
-                    +12% vs last period
-                  </div>
-                </CardContent>
-              </Card>
-
-              <Card data-testid="card-average-rating">
-                <CardHeader className="pb-3">
-                  <CardTitle className="text-sm font-medium text-gray-600">Average Rating</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="flex items-center gap-2 mb-2">
-                    <div className="text-2xl font-bold text-gray-900">{kpiData.averageRating}</div>
-                    {renderStars(Math.floor(kpiData.averageRating))}
-                  </div>
-                  <div className="flex items-center gap-1 text-xs text-green-600">
-                    <ArrowUp className="w-3 h-3" />
-                    +0.2 vs last period
-                  </div>
-                </CardContent>
-              </Card>
-
-              <Card data-testid="card-response-rate">
-                <CardHeader className="pb-3">
-                  <CardTitle className="text-sm font-medium text-gray-600">Response Rate</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="text-2xl font-bold text-gray-900">{kpiData.responseRate}%</div>
-                  <div className="flex items-center gap-1 text-xs text-red-600 mt-1">
-                    <ArrowDown className="w-3 h-3" />
-                    -3% vs last period
-                  </div>
-                </CardContent>
-              </Card>
-
-              <Card data-testid="card-response-time">
-                <CardHeader className="pb-3">
-                  <CardTitle className="text-sm font-medium text-gray-600">Avg Response Time</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="text-2xl font-bold text-gray-900">{kpiData.avgResponseTime}</div>
-                  <div className="flex items-center gap-1 text-xs text-green-600 mt-1">
-                    <ArrowDown className="w-3 h-3" />
-                    -30 min improvement
-                  </div>
-                </CardContent>
-              </Card>
+            <div className="flex items-center justify-between">
+              <h2 className="text-2xl font-bold">Haftanın Özeti - Avantajlar / Dezavantajlar</h2>
+              <div className="text-sm text-gray-500">Son 7 gün</div>
             </div>
 
-            {/* Recent Activity */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              {/* New Reviews */}
+            {/* Avantajlar / Dezavantajlar Cards */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {/* Avantajlar (Advantages) Card */}
               <Card>
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <MessageSquare className="w-5 h-5" />
-                    Recent Reviews
+                <CardHeader className="pb-4">
+                  <CardTitle className="text-xl font-semibold text-green-700 flex items-center gap-2">
+                    <TrendingUp className="w-5 h-5" />
+                    Avantajlar
                   </CardTitle>
+                  <p className="text-sm text-gray-600">En olumlu temalar</p>
                 </CardHeader>
-                <CardContent>
-                  <div className="space-y-4">
-                    {recentReviews.map((review) => (
-                      <div key={review.id} className="border rounded-lg p-4">
-                        <div className="flex items-start justify-between mb-2">
-                          <div className="flex items-center gap-2">
-                            {renderStars(review.rating)}
-                            {review.isNew && (
-                              <Badge variant="default" className="bg-blue-100 text-blue-800 text-xs">
-                                New
-                              </Badge>
-                            )}
-                          </div>
-                          <span className="text-xs text-gray-500">{review.date}</span>
-                        </div>
-                        <p className="text-sm text-gray-700 mb-2" data-testid={`review-text-${review.id}`}>
-                          {review.text}
-                        </p>
-                        <div className="flex items-center justify-between text-xs text-gray-500">
-                          <span>{review.reviewer} • {review.location}</span>
-                          <Badge variant="outline" className="text-xs">
-                            {review.platform}
-                          </Badge>
+                <CardContent className="space-y-4">
+                  {themesData.positive.map((item, index) => (
+                    <div key={index} className="space-y-2">
+                      <div className="flex items-center justify-between">
+                        <span className="font-medium text-gray-900">{item.theme}</span>
+                        <div className="flex items-center gap-2 text-sm text-green-600">
+                          <span>{item.percentage}%</span>
+                          <span className="text-gray-500">({item.count})</span>
                         </div>
                       </div>
-                    ))}
-                  </div>
+                      <div className="w-full bg-gray-200 rounded-full h-2.5">
+                        <div 
+                          className="bg-green-500 h-2.5 rounded-full transition-all duration-300" 
+                          style={{ 
+                            width: `${(item.count / themesData.positive[0].count) * 100}%` 
+                          }}
+                        />
+                      </div>
+                    </div>
+                  ))}
                 </CardContent>
               </Card>
 
-              {/* Location Performance */}
+              {/* Dezavantajlar (Disadvantages) Card */}
               <Card>
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <MapPin className="w-5 h-5" />
-                    Location Performance
+                <CardHeader className="pb-4">
+                  <CardTitle className="text-xl font-semibold text-red-700 flex items-center gap-2">
+                    <TrendingDown className="w-5 h-5" />
+                    Dezavantajlar
                   </CardTitle>
+                  <p className="text-sm text-gray-600">En olumsuz temalar</p>
                 </CardHeader>
-                <CardContent>
-                  <div className="space-y-3">
-                    {locationStats.map((location, index) => (
-                      <div key={index} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                        <div>
-                          <div className="font-medium text-sm" data-testid={`location-name-${index}`}>
-                            {location.name}
-                          </div>
-                          <div className="flex items-center gap-2 text-xs text-gray-600">
-                            <span>{location.reviews} reviews</span>
-                            <span>•</span>
-                            <div className="flex items-center gap-1">
-                              <span>{location.rating}</span>
-                              <Star className="w-3 h-3 text-yellow-400 fill-current" />
-                            </div>
-                          </div>
-                        </div>
-                        <div className="flex items-center">
-                          {location.trend === "up" && <ArrowUp className="w-4 h-4 text-green-600" />}
-                          {location.trend === "down" && <ArrowDown className="w-4 h-4 text-red-600" />}
-                          {location.trend === "stable" && <div className="w-4 h-0.5 bg-gray-400"></div>}
+                <CardContent className="space-y-4">
+                  {themesData.negative.map((item, index) => (
+                    <div key={index} className="space-y-2">
+                      <div className="flex items-center justify-between">
+                        <span className="font-medium text-gray-900">{item.theme}</span>
+                        <div className="flex items-center gap-2 text-sm text-red-600">
+                          <span>{item.percentage}%</span>
+                          <span className="text-gray-500">({item.count})</span>
                         </div>
                       </div>
-                    ))}
-                  </div>
+                      <div className="w-full bg-gray-200 rounded-full h-2.5">
+                        <div 
+                          className="bg-red-500 h-2.5 rounded-full transition-all duration-300" 
+                          style={{ 
+                            width: `${(item.count / themesData.negative[0].count) * 100}%` 
+                          }}
+                        />
+                      </div>
+                    </div>
+                  ))}
                 </CardContent>
               </Card>
             </div>
