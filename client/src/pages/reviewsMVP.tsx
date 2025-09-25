@@ -893,6 +893,23 @@ export default function ReviewsMVP() {
 
           {/* Overview Tab */}
           <TabsContent value="ozet" className="space-y-6">
+            {/* Date Range Selector */}
+            <div className="flex justify-end mb-4">
+              <div className="w-fit">
+                <button 
+                  data-testid="button-date-picker"
+                  className="border border-gray-200 focus:border-gray-300 w-40 pl-3 pr-10 py-2 rounded-md text-sm appearance-none bg-no-repeat bg-right text-left"
+                  style={{ 
+                    backgroundColor: '#f9fafb',
+                    backgroundImage: 'url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHZpZXdCb3g9IjAgMCAxNiAxNiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0ibTQgNiA0IDQgNC00IiBzdHJva2U9IiM2NjY2NjYiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+Cjwvc3ZnPg==")',
+                    backgroundPosition: 'right 8px center',
+                    backgroundSize: '16px 16px'
+                  }}
+                >
+                  Last 30 Days
+                </button>
+              </div>
+            </div>
 
             {/* KPI Summary Cards */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
