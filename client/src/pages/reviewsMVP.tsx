@@ -1265,8 +1265,7 @@ export default function ReviewsMVP() {
 
           {/* Inbox Tab */}
           <TabsContent value="inbox" className="space-y-6">
-            <div className="flex items-center justify-between">
-              <h2 className="text-2xl font-bold">Review Inbox</h2>
+            <div className="flex items-center justify-end">
               <div className="flex items-center gap-2">
                 <Button variant="outline" size="sm">
                   <Filter className="w-4 h-4" />
