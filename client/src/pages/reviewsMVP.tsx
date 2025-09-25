@@ -861,7 +861,7 @@ export default function ReviewsMVP() {
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
           {/* Tab Navigation */}
-          <TabsList className="grid w-full grid-cols-3 mb-6">
+          <TabsList className="h-10 items-center justify-center rounded-md p-1 text-muted-foreground grid w-full grid-cols-3 mb-6 bg-[#f9fafb]">
             <TabsTrigger value="ozet" data-testid="tab-ozet">
               <BarChart3 className="w-4 h-4 mr-2" />
               Overview
@@ -881,7 +881,7 @@ export default function ReviewsMVP() {
             {/* KPI Summary Cards */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {/* Average Rating Card */}
-              <Card className="cursor-pointer hover:shadow-md transition-shadow" data-testid="card-average-rating">
+              <Card className="rounded-lg border text-card-foreground shadow-sm cursor-pointer hover:shadow-md transition-shadow bg-[#f9fafb]" data-testid="card-average-rating"></Card>
                 <CardHeader className="pb-4">
                   <CardTitle className="text-lg font-semibold text-gray-900">Average Rating</CardTitle>
                   <div className="text-sm text-gray-500">(Last 30 days)</div>
