@@ -941,6 +941,8 @@ export default function ReviewsMVP() {
                     </div>
                   </div>
                   
+                  <Separator className="my-4" />
+                  
                   {/* Rating Distribution with Dual-Purpose Progress Bars */}
                   <div className="space-y-2">
                     {[
@@ -994,6 +996,8 @@ export default function ReviewsMVP() {
                     <Reply className="w-8 h-8 text-blue-500" />
                     <div className="text-4xl font-bold text-gray-900">96%</div>
                   </div>
+                  
+                  <Separator className="my-4" />
                   
                   {/* Response Rate by Star Rating */}
                   <div className="space-y-2">
