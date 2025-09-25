@@ -56,6 +56,11 @@ export default function ReviewsMVP() {
   const [sourceFilter, setSourceFilter] = useState("all");
   const [locationFilter, setLocationFilter] = useState("all");
   const [searchQuery, setSearchQuery] = useState("");
+  
+  // Desktop Filter Bar state
+  const [replyStatusFilter, setReplyStatusFilter] = useState("unreplied");
+  const [ratingFilter, setRatingFilter] = useState("all");
+  const [themeFilter, setThemeFilter] = useState("all");
   const [inboxFilters, setInboxFilters] = useState({
     source: null,
     rating: null,
@@ -529,6 +534,104 @@ export default function ReviewsMVP() {
                 </Button>
               </div>
             </div>
+
+            {/* Desktop Filter Bar */}
+            <Card className="border-gray-200">
+              <CardContent className="p-4">
+                <div className="flex items-center gap-6">
+                  {/* Location Filter */}
+                  <div className="flex items-center gap-2">
+                    <label className="text-sm font-medium text-gray-700 whitespace-nowrap">Location:</label>
+                    <Select value={locationFilter} onValueChange={setLocationFilter}>
+                      <SelectTrigger className="w-48 border-gray-300 rounded-md">
+                        <SelectValue placeholder="All Locations" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="all">All Locations</SelectItem>
+                        {locationsData.slice(0, 10).map((location) => (
+                          <SelectItem key={location.code} value={location.code}>
+                            {location.name}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  {/* Reply Status - Pill Style Buttons */}
+                  <div className="flex items-center gap-2">
+                    <label className="text-sm font-medium text-gray-700 whitespace-nowrap">Status:</label>
+                    <div className="flex rounded-lg border border-gray-300 overflow-hidden">
+                      <button
+                        className={`px-4 py-2 text-sm font-medium transition-colors ${
+                          replyStatusFilter === "unreplied" 
+                            ? "bg-slate-800 text-white" 
+                            : "bg-gray-50 text-gray-700 hover:bg-gray-100"
+                        }`}
+                        onClick={() => setReplyStatusFilter("unreplied")}
+                      >
+                        Unreplied
+                      </button>
+                      <button
+                        className={`px-4 py-2 text-sm font-medium transition-colors border-l border-gray-300 ${
+                          replyStatusFilter === "replied" 
+                            ? "bg-slate-800 text-white" 
+                            : "bg-gray-50 text-gray-700 hover:bg-gray-100"
+                        }`}
+                        onClick={() => setReplyStatusFilter("replied")}
+                      >
+                        Replied
+                      </button>
+                      <button
+                        className={`px-4 py-2 text-sm font-medium transition-colors border-l border-gray-300 ${
+                          replyStatusFilter === "all" 
+                            ? "bg-slate-800 text-white" 
+                            : "bg-gray-50 text-gray-700 hover:bg-gray-100"
+                        }`}
+                        onClick={() => setReplyStatusFilter("all")}
+                      >
+                        All
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Rating Filter */}
+                  <div className="flex items-center gap-2">
+                    <label className="text-sm font-medium text-gray-700 whitespace-nowrap">Rating:</label>
+                    <Select value={ratingFilter} onValueChange={setRatingFilter}>
+                      <SelectTrigger className="w-36 border-gray-300 rounded-md">
+                        <SelectValue placeholder="All Ratings" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="all">All Ratings</SelectItem>
+                        <SelectItem value="1-2">1-2 Stars ★</SelectItem>
+                        <SelectItem value="3">3 Stars ★</SelectItem>
+                        <SelectItem value="4-5">4-5 Stars ★</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  {/* Theme Filter */}
+                  <div className="flex items-center gap-2">
+                    <label className="text-sm font-medium text-gray-700 whitespace-nowrap">Theme:</label>
+                    <Select value={themeFilter} onValueChange={setThemeFilter}>
+                      <SelectTrigger className="w-40 border-gray-300 rounded-md">
+                        <SelectValue placeholder="All Themes" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="all">All Themes</SelectItem>
+                        <SelectItem value="staff-service">Staff Service</SelectItem>
+                        <SelectItem value="product-quality">Product Quality</SelectItem>
+                        <SelectItem value="store-design">Store Design</SelectItem>
+                        <SelectItem value="cleanliness">Cleanliness</SelectItem>
+                        <SelectItem value="pricing">Pricing</SelectItem>
+                        <SelectItem value="wait-time">Wait Time</SelectItem>
+                        <SelectItem value="parking">Parking</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
             
             {/* Active Filters Display */}
             {(inboxFilters.source || inboxFilters.rating || inboxFilters.week || inboxFilters.status) && (
