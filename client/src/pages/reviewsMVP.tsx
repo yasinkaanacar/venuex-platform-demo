@@ -929,7 +929,7 @@ export default function ReviewsMVP() {
                     </div>
                   </div>
                 </CardHeader>
-                <CardContent className="space-y-4">
+                <CardContent className="space-y-6">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
                       <Star className="w-8 h-8 text-yellow-500 fill-yellow-500" />
@@ -942,7 +942,7 @@ export default function ReviewsMVP() {
                   </div>
                   
                   {/* Rating Distribution with Dual-Purpose Progress Bars */}
-                  <div className="space-y-2 mt-6">
+                  <div className="space-y-2">
                     {[
                       { stars: 5, percentage: 45, replyRate: 95, trackColor: 'bg-green-200', fillColor: 'bg-green-500' },
                       { stars: 4, percentage: 28, replyRate: 88, trackColor: 'bg-blue-200', fillColor: 'bg-blue-500' },
@@ -989,14 +989,14 @@ export default function ReviewsMVP() {
                 <CardHeader className="pb-3">
                   <CardTitle className="tracking-tight text-[#111827] font-semibold text-[18px]">Response Rate</CardTitle>
                 </CardHeader>
-                <CardContent className="space-y-4">
+                <CardContent className="space-y-6">
                   <div className="flex items-center gap-2">
                     <Reply className="w-8 h-8 text-blue-500" />
                     <div className="text-4xl font-bold text-gray-900">96%</div>
                   </div>
                   
                   {/* Response Rate by Star Rating */}
-                  <div className="space-y-2 mt-4">
+                  <div className="space-y-2">
                     {[
                       { stars: 5, percentage: 45, fillColor: 'bg-green-600' },
                       { stars: 4, percentage: 72, fillColor: 'bg-blue-600' },
