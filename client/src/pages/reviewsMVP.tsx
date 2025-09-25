@@ -57,6 +57,7 @@ import {
   ThumbsUp,
   ThumbsDown,
   Minus,
+  Meh,
   Share2,
   Target,
   BookOpen,
@@ -1041,7 +1042,7 @@ export default function ReviewsMVP() {
                     
                     <div className="text-center">
                       <div className="flex items-center justify-center mb-3">
-                        <Minus className="w-10 h-10 text-gray-500" />
+                        <Meh className="w-10 h-10 text-gray-500" />
                       </div>
                       <div className="text-3xl font-bold text-gray-600 mb-2">24%</div>
                       <div className="text-sm text-gray-600">Neutral</div>
