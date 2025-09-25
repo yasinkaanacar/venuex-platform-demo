@@ -217,6 +217,30 @@ export default function ReviewsMVP() {
     });
   }, [locationsData, sortField, sortDirection]);
 
+  // Location leaderboard data function (migrated from reviewsX)
+  const getLocationLeaderboardData = () => {
+    // Mock data for the leaderboard based on actual locations
+    const mockTopPerformers = [
+      { id: 1, name: "İstinyePark", rating: 4.8, reviewCount: 456, responseRate: 92, trend: "+8%" },
+      { id: 2, name: "Bağdat Caddesi", rating: 4.7, reviewCount: 542, responseRate: 85, trend: "+5%" },
+      { id: 3, name: "Nişantaşı", rating: 4.7, reviewCount: 398, responseRate: 88, trend: "+3%" }
+    ];
+
+    const mockNeedsAttention = [
+      { id: 4, name: "Emaar AVM", rating: 4.6, reviewCount: 342, responseRate: 76, trend: "-2%" },
+      { id: 5, name: "Trabzon Forum", rating: 4.5, reviewCount: 210, responseRate: 68, trend: "-5%" },
+      { id: 6, name: "Samsun Piazza", rating: 4.4, reviewCount: 198, responseRate: 62, trend: "-3%" }
+    ];
+
+    return {
+      topPerformers: mockTopPerformers,
+      needsAttention: mockNeedsAttention
+    };
+  };
+
+  // Get leaderboard data
+  const leaderboardData = getLocationLeaderboardData();
+
   // Themes data for Advantages/Disadvantages
   const themesData = {
     positive: [
@@ -1133,6 +1157,99 @@ export default function ReviewsMVP() {
                 </CardContent>
               </Card>
             </div>
+
+            {/* Location Leaderboard */}
+            <Card>
+              <CardHeader>
+                <CardTitle>Location Leaderboard</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-2 gap-6">
+                  <div>
+                    <h4 className="font-medium text-green-600 mb-3 flex items-center gap-2">
+                      <TrendingUp className="w-4 h-4" />
+                      Top Performers
+                    </h4>
+                    <div className="space-y-3">
+                      {leaderboardData.topPerformers.map((location, index) => (
+                        <div key={location.id} className="p-3 bg-green-50 border border-green-200 rounded-lg hover:bg-green-100 cursor-pointer transition-colors" onClick={() => setActiveTab("locations")}>
+                          <div className="flex items-center justify-between mb-2">
+                            <div className="flex items-center gap-2">
+                              <span className="font-bold text-green-600">#{index + 1}</span>
+                              <span className="font-medium text-sm">{location.name}</span>
+                            </div>
+                            <div className="flex items-center gap-1 text-green-600">
+                              <ArrowUp className="w-3 h-3" />
+                              <span className="text-xs">{location.trend}</span>
+                            </div>
+                          </div>
+                          <div className="grid grid-cols-3 gap-2 text-xs">
+                            <div>
+                              <div className="text-gray-500">Rating</div>
+                              <div className="font-medium">{location.rating}★</div>
+                            </div>
+                            <div>
+                              <div className="text-gray-500">Volume</div>
+                              <div className="font-medium">{location.reviewCount}</div>
+                            </div>
+                            <div>
+                              <div className="text-gray-500">Reply Rate</div>
+                              <div className="font-medium">{location.responseRate}%</div>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                  
+                  <div>
+                    <h4 className="font-medium text-red-600 mb-3 flex items-center gap-2">
+                      <TrendingDown className="w-4 h-4" />
+                      Needs Attention
+                    </h4>
+                    <div className="space-y-3">
+                      {leaderboardData.needsAttention.map((location, index) => (
+                        <div key={location.id} className="p-3 bg-red-50 border border-red-200 rounded-lg hover:bg-red-100 cursor-pointer transition-colors" onClick={() => setActiveTab("locations")}>
+                          <div className="flex items-center justify-between mb-2">
+                            <div className="flex items-center gap-2">
+                              <span className="font-bold text-red-600">#{index + 1}</span>
+                              <span className="font-medium text-sm">{location.name}</span>
+                            </div>
+                            <div className="flex items-center gap-1 text-red-600">
+                              <ArrowDown className="w-3 h-3" />
+                              <span className="text-xs">{location.trend}</span>
+                            </div>
+                          </div>
+                          <div className="grid grid-cols-3 gap-2 text-xs">
+                            <div>
+                              <div className="text-gray-500">Rating</div>
+                              <div className="font-medium">{location.rating}★</div>
+                            </div>
+                            <div>
+                              <div className="text-gray-500">Volume</div>
+                              <div className="font-medium">{location.reviewCount}</div>
+                            </div>
+                            <div>
+                              <div className="text-gray-500">Reply Rate</div>
+                              <div className="font-medium">{location.responseRate}%</div>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+                <div className="mt-4 text-center">
+                  <Button 
+                    variant="outline" 
+                    onClick={() => setActiveTab("locations")}
+                    className="text-blue-600 hover:text-blue-700"
+                  >
+                    View All Locations
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
           </TabsContent>
 
           {/* Inbox Tab */}
