@@ -21,7 +21,8 @@ const navigationGroups = [
     items: [
       { name: 'Lokasyonlar', href: '/locations', icon: MapPin },
       { name: 'Yorumlar', href: '/reviews', icon: MessageSquare },
-      { name: 'ReviewsX', href: '/reviewsX', icon: MessageSquare }
+      { name: 'ReviewsX', href: '/reviewsX', icon: MessageSquare },
+      { name: 'ReviewsMVP', href: '/reviewsMVP', icon: MessageSquare }
     ]
   },
   {

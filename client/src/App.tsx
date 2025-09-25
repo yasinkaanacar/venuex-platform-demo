@@ -7,6 +7,7 @@ import OfflineConversions from "@/pages/offline-conversions";
 import Locations from "@/pages/locations";
 import Reviews from "@/pages/reviews";
 import ReviewsX from "@/pages/reviewsX";
+import ReviewsMVP from "@/pages/reviewsMVP";
 import NotFound from "@/pages/not-found";
 import { useState } from "react";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
@@ -31,6 +32,7 @@ function Router() {
           <Route path="/locations/posts" component={Locations} />
           <Route path="/reviews" component={Reviews} />
           <Route path="/reviewsX" component={ReviewsX} />
+          <Route path="/reviewsMVP" component={ReviewsMVP} />
           <Route component={NotFound} />
         </Switch>
       </main>
