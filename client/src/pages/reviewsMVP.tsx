@@ -820,7 +820,7 @@ export default function ReviewsMVP() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-[#f9fafb]">
       <Header />
       <div className="px-6 py-6">
         
@@ -832,7 +832,7 @@ export default function ReviewsMVP() {
             <Button 
               variant="ghost" 
               size="sm" 
-              className="border border-gray-300 hover:bg-gray-50"
+              className="border border-gray-300 hover:bg-[#f9fafb]"
               onClick={() => setAlertSettingsOpen(true)}
             >
               <Bell className="w-4 h-4 mr-2" />
@@ -841,7 +841,7 @@ export default function ReviewsMVP() {
             <Button 
               variant="ghost" 
               size="sm" 
-              className="border border-gray-300 hover:bg-gray-50"
+              className="border border-gray-300 hover:bg-[#f9fafb]"
               onClick={() => setTemplatesOpen(true)}
             >
               <FileText className="w-4 h-4 mr-2" />
@@ -850,7 +850,7 @@ export default function ReviewsMVP() {
             <Button 
               variant="ghost" 
               size="sm" 
-              className="border border-gray-300 hover:bg-gray-50"
+              className="border border-gray-300 hover:bg-[#f9fafb]"
               onClick={() => setAiSettingsOpen(true)}
             >
               <Settings className="w-4 h-4 mr-2" />
@@ -901,7 +901,7 @@ export default function ReviewsMVP() {
                     ].map((rating) => (
                       <div key={rating.stars} className="flex items-center gap-3">
                         <span className="text-sm font-medium w-2">{rating.stars}</span>
-                        <div className="flex-1 bg-gray-200 rounded-full h-2 relative">
+                        <div className="flex-1 bg-[#f9fafb] rounded-full h-2 relative">
                           <div 
                             className={`${rating.color} h-2 rounded-full`}
                             style={{ width: `${rating.percentage}%` }}
@@ -1019,7 +1019,7 @@ export default function ReviewsMVP() {
                       <span className="text-sm">Within 24 hours</span>
                       <span className="font-medium">67%</span>
                     </div>
-                    <div className="w-full bg-gray-200 rounded-full h-2">
+                    <div className="w-full bg-[#f9fafb] rounded-full h-2">
                       <div className="bg-green-600 h-2 rounded-full" style={{width: '67%'}}></div>
                     </div>
                     
@@ -1027,7 +1027,7 @@ export default function ReviewsMVP() {
                       <span className="text-sm">Within 48 hours</span>
                       <span className="font-medium">89%</span>
                     </div>
-                    <div className="w-full bg-gray-200 rounded-full h-2">
+                    <div className="w-full bg-[#f9fafb] rounded-full h-2">
                       <div className="bg-yellow-600 h-2 rounded-full" style={{width: '89%'}}></div>
                     </div>
                     
@@ -1035,7 +1035,7 @@ export default function ReviewsMVP() {
                       <span className="text-sm">48+ hours</span>
                       <span className="font-medium text-red-600">11%</span>
                     </div>
-                    <div className="w-full bg-gray-200 rounded-full h-2">
+                    <div className="w-full bg-[#f9fafb] rounded-full h-2">
                       <div className="bg-red-600 h-2 rounded-full" style={{width: '11%'}}></div>
                     </div>
                   </div>
@@ -1050,7 +1050,7 @@ export default function ReviewsMVP() {
                       </span>
                       <span className="font-medium">45%</span>
                     </div>
-                    <div className="w-full bg-gray-200 rounded-full h-2">
+                    <div className="w-full bg-[#f9fafb] rounded-full h-2">
                       <div className="bg-green-600 h-2 rounded-full" style={{width: '45%'}}></div>
                     </div>
                     
@@ -1061,7 +1061,7 @@ export default function ReviewsMVP() {
                       </span>
                       <span className="font-medium">72%</span>
                     </div>
-                    <div className="w-full bg-gray-200 rounded-full h-2">
+                    <div className="w-full bg-[#f9fafb] rounded-full h-2">
                       <div className="bg-blue-600 h-2 rounded-full" style={{width: '72%'}}></div>
                     </div>
                     
@@ -1072,7 +1072,7 @@ export default function ReviewsMVP() {
                       </span>
                       <span className="font-medium">85%</span>
                     </div>
-                    <div className="w-full bg-gray-200 rounded-full h-2">
+                    <div className="w-full bg-[#f9fafb] rounded-full h-2">
                       <div className="bg-yellow-600 h-2 rounded-full" style={{width: '85%'}}></div>
                     </div>
                     
@@ -1083,7 +1083,7 @@ export default function ReviewsMVP() {
                       </span>
                       <span className="font-medium">94%</span>
                     </div>
-                    <div className="w-full bg-gray-200 rounded-full h-2">
+                    <div className="w-full bg-[#f9fafb] rounded-full h-2">
                       <div className="bg-orange-600 h-2 rounded-full" style={{width: '94%'}}></div>
                     </div>
                     
@@ -1094,7 +1094,7 @@ export default function ReviewsMVP() {
                       </span>
                       <span className="font-medium">98%</span>
                     </div>
-                    <div className="w-full bg-gray-200 rounded-full h-2">
+                    <div className="w-full bg-[#f9fafb] rounded-full h-2">
                       <div className="bg-red-600 h-2 rounded-full" style={{width: '98%'}}></div>
                     </div>
                   </div>
@@ -1128,7 +1128,7 @@ export default function ReviewsMVP() {
                               <span className="text-gray-500">({item.count})</span>
                             </div>
                           </div>
-                          <div className="w-full bg-gray-200 rounded-full h-2.5">
+                          <div className="w-full bg-[#f9fafb] rounded-full h-2.5">
                             <div 
                               className="bg-green-500 h-2.5 rounded-full transition-all duration-300" 
                               style={{ 
@@ -1158,7 +1158,7 @@ export default function ReviewsMVP() {
                               <span className="text-gray-500">({item.count})</span>
                             </div>
                           </div>
-                          <div className="w-full bg-gray-200 rounded-full h-2.5">
+                          <div className="w-full bg-[#f9fafb] rounded-full h-2.5">
                             <div 
                               className="bg-red-500 h-2.5 rounded-full transition-all duration-300" 
                               style={{ 
@@ -1203,7 +1203,7 @@ export default function ReviewsMVP() {
                     </h4>
                     <div className="space-y-3">
                       {leaderboardData.topPerformers.map((location, index) => (
-                        <div key={location.id} className="p-3 bg-green-50 border border-green-200 rounded-lg hover:bg-green-100 cursor-pointer transition-colors" onClick={() => setActiveTab("locations")}>
+                        <div key={location.id} className="p-3 bg-[#f9fafb] border border-green-200 rounded-lg hover:bg-[#f9fafb] cursor-pointer transition-colors" onClick={() => setActiveTab("locations")}>
                           <div className="flex items-center justify-between mb-2">
                             <div className="flex items-center gap-2">
                               <span className="font-bold text-green-600">#{index + 1}</span>
@@ -1240,7 +1240,7 @@ export default function ReviewsMVP() {
                     </h4>
                     <div className="space-y-3">
                       {leaderboardData.needsAttention.map((location, index) => (
-                        <div key={location.id} className="p-3 bg-red-50 border border-red-200 rounded-lg hover:bg-red-100 cursor-pointer transition-colors" onClick={() => setActiveTab("locations")}>
+                        <div key={location.id} className="p-3 bg-[#f9fafb] border border-red-200 rounded-lg hover:bg-[#f9fafb] cursor-pointer transition-colors" onClick={() => setActiveTab("locations")}>
                           <div className="flex items-center justify-between mb-2">
                             <div className="flex items-center gap-2">
                               <span className="font-bold text-red-600">#{index + 1}</span>
@@ -1311,7 +1311,7 @@ export default function ReviewsMVP() {
                         className={`px-4 py-2 text-sm font-medium transition-colors ${
                           reviewSource === "locations" 
                             ? "bg-slate-800 text-white" 
-                            : "bg-gray-50 text-gray-700 hover:bg-gray-100"
+                            : "bg-[#f9fafb] text-gray-700 hover:bg-[#f9fafb]"
                         }`}
                         onClick={() => setReviewSource("locations")}
                       >
@@ -1321,7 +1321,7 @@ export default function ReviewsMVP() {
                         className={`px-4 py-2 text-sm font-medium transition-colors border-l border-gray-300 ${
                           reviewSource === "products" 
                             ? "bg-slate-800 text-white" 
-                            : "bg-gray-50 text-gray-700 hover:bg-gray-100"
+                            : "bg-[#f9fafb] text-gray-700 hover:bg-[#f9fafb]"
                         }`}
                         onClick={() => setReviewSource("products")}
                       >
@@ -1380,7 +1380,7 @@ export default function ReviewsMVP() {
                         className={`px-4 py-2 text-sm font-medium transition-colors ${
                           replyStatusFilter === "unreplied" 
                             ? "bg-slate-800 text-white" 
-                            : "bg-gray-50 text-gray-700 hover:bg-gray-100"
+                            : "bg-[#f9fafb] text-gray-700 hover:bg-[#f9fafb]"
                         }`}
                         onClick={() => setReplyStatusFilter("unreplied")}
                       >
@@ -1390,7 +1390,7 @@ export default function ReviewsMVP() {
                         className={`px-4 py-2 text-sm font-medium transition-colors border-l border-gray-300 ${
                           replyStatusFilter === "replied" 
                             ? "bg-slate-800 text-white" 
-                            : "bg-gray-50 text-gray-700 hover:bg-gray-100"
+                            : "bg-[#f9fafb] text-gray-700 hover:bg-[#f9fafb]"
                         }`}
                         onClick={() => setReplyStatusFilter("replied")}
                       >
@@ -1400,7 +1400,7 @@ export default function ReviewsMVP() {
                         className={`px-4 py-2 text-sm font-medium transition-colors border-l border-gray-300 ${
                           replyStatusFilter === "all" 
                             ? "bg-slate-800 text-white" 
-                            : "bg-gray-50 text-gray-700 hover:bg-gray-100"
+                            : "bg-[#f9fafb] text-gray-700 hover:bg-[#f9fafb]"
                         }`}
                         onClick={() => setReplyStatusFilter("all")}
                       >
@@ -1450,47 +1450,47 @@ export default function ReviewsMVP() {
             
             {/* Active Filters Display */}
             {(inboxFilters.source || inboxFilters.rating || inboxFilters.week || inboxFilters.status) && (
-              <div className="flex items-center gap-2 p-3 bg-blue-50 rounded-lg border border-blue-200">
+              <div className="flex items-center gap-2 p-3 bg-[#f9fafb] rounded-lg border border-blue-200">
                 <span className="text-sm font-medium text-blue-800">Active Filters:</span>
                 {inboxFilters.source && (
-                  <Badge variant="secondary" className="bg-blue-100 text-blue-800">
+                  <Badge variant="secondary" className="bg-[#f9fafb] text-blue-800">
                     Source: {inboxFilters.source}
                     <button 
                       onClick={() => setInboxFilters({...inboxFilters, source: null})}
-                      className="ml-1 hover:bg-blue-200 rounded-full p-0.5"
+                      className="ml-1 hover:bg-[#f9fafb] rounded-full p-0.5"
                     >
                       ✕
                     </button>
                   </Badge>
                 )}
                 {inboxFilters.rating && (
-                  <Badge variant="secondary" className="bg-blue-100 text-blue-800">
+                  <Badge variant="secondary" className="bg-[#f9fafb] text-blue-800">
                     Rating: {inboxFilters.rating}★
                     <button 
                       onClick={() => setInboxFilters({...inboxFilters, rating: null})}
-                      className="ml-1 hover:bg-blue-200 rounded-full p-0.5"
+                      className="ml-1 hover:bg-[#f9fafb] rounded-full p-0.5"
                     >
                       ✕
                     </button>
                   </Badge>
                 )}
                 {inboxFilters.week && (
-                  <Badge variant="secondary" className="bg-blue-100 text-blue-800">
+                  <Badge variant="secondary" className="bg-[#f9fafb] text-blue-800">
                     Week: {inboxFilters.week}
                     <button 
                       onClick={() => setInboxFilters({...inboxFilters, week: null})}
-                      className="ml-1 hover:bg-blue-200 rounded-full p-0.5"
+                      className="ml-1 hover:bg-[#f9fafb] rounded-full p-0.5"
                     >
                       ✕
                     </button>
                   </Badge>
                 )}
                 {inboxFilters.status && (
-                  <Badge variant="secondary" className="bg-blue-100 text-blue-800">
+                  <Badge variant="secondary" className="bg-[#f9fafb] text-blue-800">
                     Status: {inboxFilters.status}
                     <button 
                       onClick={() => setInboxFilters({...inboxFilters, status: null})}
-                      className="ml-1 hover:bg-blue-200 rounded-full p-0.5"
+                      className="ml-1 hover:bg-[#f9fafb] rounded-full p-0.5"
                     >
                       ✕
                     </button>
@@ -1518,10 +1518,10 @@ export default function ReviewsMVP() {
                       }).slice(0, 15).map((review) => (
                         <div 
                           key={review.id} 
-                          className={`p-4 border-b hover:bg-gray-50 cursor-pointer transition-colors ${
-                            review.isNew ? 'bg-blue-50 border-l-4 border-l-blue-500' : ''
+                          className={`p-4 border-b hover:bg-[#f9fafb] cursor-pointer transition-colors ${
+                            review.isNew ? 'bg-[#f9fafb] border-l-4 border-l-blue-500' : ''
                           } ${
-                            selectedReviewId === review.id ? 'bg-blue-100 border-l-4 border-l-blue-600' : ''
+                            selectedReviewId === review.id ? 'bg-[#f9fafb] border-l-4 border-l-blue-600' : ''
                           }`}
                           onClick={() => setSelectedReviewId(review.id)}
                         >
@@ -1576,14 +1576,14 @@ export default function ReviewsMVP() {
                       
                       if (!selectedReview) {
                         return (
-                          <div className="border rounded-lg p-4 bg-gray-50 text-center text-gray-500">
+                          <div className="border rounded-lg p-4 bg-[#f9fafb] text-center text-gray-500">
                             Select a review from the list to view details
                           </div>
                         );
                       }
 
                       return (
-                        <div className="border rounded-lg p-4 bg-gray-50">
+                        <div className="border rounded-lg p-4 bg-[#f9fafb]">
                           <div className="flex items-center gap-2 mb-3">
                             <div className="flex">
                               {[...Array(5)].map((_, i) => (
@@ -1623,7 +1623,7 @@ export default function ReviewsMVP() {
                       if (!selectedReview) return null;
 
                       return (
-                        <div className="border border-blue-200 rounded-lg bg-blue-50 p-4">
+                        <div className="border border-blue-200 rounded-lg bg-[#f9fafb] p-4">
                           {reviewSource === "locations" ? (
                             // Location Snapshot
                             <div>
@@ -1683,7 +1683,7 @@ export default function ReviewsMVP() {
                                       {productContextData[selectedReview.product]?.topNegativeTheme || "Quality"}
                                     </span>
                                   </div>
-                                  <div className="w-12 h-12 bg-white rounded border flex items-center justify-center">
+                                  <div className="w-12 h-12 bg-[#f9fafb] rounded border flex items-center justify-center">
                                     <ShoppingBag className="w-6 h-6 text-gray-400" />
                                   </div>
                                 </div>
@@ -1883,10 +1883,10 @@ export default function ReviewsMVP() {
               <CardContent className="p-0">
                 <div className="overflow-x-auto">
                   <table className="w-full">
-                    <thead className="bg-gray-50 border-b">
+                    <thead className="bg-[#f9fafb] border-b">
                       <tr>
                         <th 
-                          className="text-left p-4 font-medium text-gray-900 cursor-pointer hover:bg-gray-100 select-none"
+                          className="text-left p-4 font-medium text-gray-900 cursor-pointer hover:bg-[#f9fafb] select-none"
                           onClick={() => handleSort('code')}
                         >
                           <div className="flex items-center gap-1">
@@ -1897,7 +1897,7 @@ export default function ReviewsMVP() {
                           </div>
                         </th>
                         <th 
-                          className="text-left p-4 font-medium text-gray-900 cursor-pointer hover:bg-gray-100 select-none"
+                          className="text-left p-4 font-medium text-gray-900 cursor-pointer hover:bg-[#f9fafb] select-none"
                           onClick={() => handleSort('name')}
                         >
                           <div className="flex items-center gap-1">
@@ -1908,7 +1908,7 @@ export default function ReviewsMVP() {
                           </div>
                         </th>
                         <th 
-                          className="text-left p-4 font-medium text-gray-900 cursor-pointer hover:bg-gray-100 select-none"
+                          className="text-left p-4 font-medium text-gray-900 cursor-pointer hover:bg-[#f9fafb] select-none"
                           onClick={() => handleSort('reviews')}
                         >
                           <div className="flex items-center gap-1">
@@ -1919,7 +1919,7 @@ export default function ReviewsMVP() {
                           </div>
                         </th>
                         <th 
-                          className="text-left p-4 font-medium text-gray-900 cursor-pointer hover:bg-gray-100 select-none"
+                          className="text-left p-4 font-medium text-gray-900 cursor-pointer hover:bg-[#f9fafb] select-none"
                           onClick={() => handleSort('rating')}
                         >
                           <div className="flex items-center gap-1">
@@ -1930,7 +1930,7 @@ export default function ReviewsMVP() {
                           </div>
                         </th>
                         <th 
-                          className="text-left p-4 font-medium text-gray-900 cursor-pointer hover:bg-gray-100 select-none"
+                          className="text-left p-4 font-medium text-gray-900 cursor-pointer hover:bg-[#f9fafb] select-none"
                           onClick={() => handleSort('replyRate')}
                         >
                           <div className="flex items-center gap-1">
@@ -1941,7 +1941,7 @@ export default function ReviewsMVP() {
                           </div>
                         </th>
                         <th 
-                          className="text-left p-4 font-medium text-gray-900 cursor-pointer hover:bg-gray-100 select-none"
+                          className="text-left p-4 font-medium text-gray-900 cursor-pointer hover:bg-[#f9fafb] select-none"
                           onClick={() => handleSort('sentiment')}
                         >
                           <div className="flex items-center gap-1">
@@ -1958,7 +1958,7 @@ export default function ReviewsMVP() {
                       {sortedLocationsData.map((location, index) => (
                         <tr 
                           key={location.code} 
-                          className="border-b hover:bg-gray-50 cursor-pointer transition-colors"
+                          className="border-b hover:bg-[#f9fafb] cursor-pointer transition-colors"
                           onClick={() => {
                             setActiveTab("inbox");
                             // Here you could set location filter in inbox
