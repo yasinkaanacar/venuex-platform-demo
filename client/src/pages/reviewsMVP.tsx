@@ -1620,7 +1620,7 @@ export default function ReviewsMVP() {
                             <span className="font-medium">{selectedReview.reviewer}</span>
                             <span className="text-sm text-gray-500">
                               {reviewSource === "locations" ? (
-                                <span className="inline-flex items-center gap-1 ml-1">
+                                <span className="inline-flex items-center gap-1 ml-3">
                                   <MapPin className="w-3 h-3" />
                                   {selectedReview.location}
                                 </span>
