@@ -1722,7 +1722,7 @@ export default function ReviewsMVP() {
 
                     {/* Reply Section */}
                     <div className="space-y-3">
-                      <div className="flex items-center justify-between mt-2">
+                      <div className="flex items-center justify-between mt-6">
                         <h4 className="font-medium">Write Reply</h4>
                         <div className="flex gap-2">
                           <Button variant="outline" size="sm">
