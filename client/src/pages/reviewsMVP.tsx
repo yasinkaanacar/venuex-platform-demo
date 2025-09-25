@@ -971,9 +971,7 @@ export default function ReviewsMVP() {
                 <CardContent>
                   <div className="space-y-3">
                     
-                    <div className="grid grid-cols-2 gap-3 pt-1 border-t border-gray-100">
-                      <div></div>
-                      
+                    <div className="pt-1 border-t border-gray-100">
                       <div>
                         <div className="text-xs text-gray-600 mb-1">Reply Rate</div>
                         <div className="text-base font-bold text-gray-900">{kpiData.responseRate}%</div>
