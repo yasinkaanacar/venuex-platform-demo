@@ -1481,7 +1481,7 @@ export default function ReviewsMVP() {
             <div className="grid grid-cols-3 gap-6">
               {/* Review List */}
               <div className="col-span-1">
-                <Card className="bg-[#f9fafb]">
+                <Card className="bg-[#f9fafb] h-full">
                   <CardHeader>
                     <CardTitle className="text-base">Reviews ({recentReviews.length})</CardTitle>
                   </CardHeader>
@@ -1545,7 +1545,7 @@ export default function ReviewsMVP() {
 
               {/* Review Detail & Reply Pane */}
               <div className="col-span-2">
-                <Card className="bg-[#f9fafb]">
+                <Card className="bg-[#f9fafb] h-full">
                   <CardHeader>
                     <CardTitle className="text-base">Review Details</CardTitle>
                   </CardHeader>
