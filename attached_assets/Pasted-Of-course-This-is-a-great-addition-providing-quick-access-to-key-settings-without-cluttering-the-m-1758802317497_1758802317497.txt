@@ -1,0 +1,106 @@
+Of course. This is a great addition, providing quick access to key settings without cluttering the main navigation. It elegantly separates global configurations from the daily workflow tabs.
+
+Here is the detailed design and functionality specification for the new settings buttons and their corresponding modals.
+
+Design & Functionality: Global Settings Buttons & Modals
+1. Core Principle: Quick Access to Controls
+These buttons provide a persistent, easily accessible way for users to manage high-frequency settings (Templates, AI) and critical configurations (Alerts) from anywhere in the application. Using modals keeps the user in their current context—they can adjust a template and immediately go back to the Inbox without losing their place.
+
+2. Positioning and Layout
+Positioning: The three buttons will be placed in a group in the main page header, aligned to the far right. They will sit on the same horizontal level as the main page title ("VenueX Reviews Platform"), directly above the primary tab selectors (Özet, Gelen Kutusu).
+
+Layout: A flexbox layout on the header will be used. The page title will be on the left, and an empty, expanding element (flex-grow) in the middle will push the button group to the right edge, ensuring perfect alignment.
+
+3. Button Design & Styling
+Size: Small-medium. They should be prominent enough to be easily found but smaller than the main tabs to indicate they are secondary actions.
+
+Style: Clean and modern, with a "ghost button" or light outline style to differentiate them from primary action buttons.
+
+Default State: A light gray border (#e2e8f0), transparent background, and dark slate text (#1e293b).
+
+Hover State: The background will fill with a very light gray (#f8fafc) to provide clear visual feedback.
+
+Iconography: Each button will have a relevant Font Awesome icon to the left of its text for quick recognition.
+
+4. Modal Functionality & Design
+When any of the three buttons are clicked, a modal window will appear. All modals share a common structure and behavior:
+
+Behavior: The modal will appear centered on the screen. The background of the page will be covered by a semi-transparent dark overlay to focus the user's attention. The user cannot interact with the page content behind the modal.
+
+Structure:
+
+Header: A title on the left and a close icon (X) on the right.
+
+Body: The main content and settings for that specific modal.
+
+Footer: Action buttons like "Save" and "Cancel".
+
+Modal 1: Alert Settings
+Icon & Text: <i class="fa fa-bell"></i> Alert Settings
+
+Modal Title: Manage Notifications
+
+Body Content: A simple list of notification options, each with a toggle switch.
+
+Email me for every new 1-2 star review [Toggle Switch]
+
+Email me for every review mentioning "Price" [Toggle Switch]
+
+Send me a daily summary email at 8:00 AM [Toggle Switch]
+
+Footer Actions:
+
+Save Settings (Primary button, solid amber color)
+
+Cancel (Secondary button, simple text link)
+
+Modal 2: Review Templates
+Icon & Text: <i class="fa fa-file-alt"></i> Review Templates
+
+Modal Title: Manage Reply Templates
+
+Body Content:
+
+A button to + Create New Template.
+
+A list of existing templates (e.g., "Positive Reply - 5 Star," "Negative Reply - Staff Issue"). Each item in the list will show the template name and have Edit and Delete buttons next to it.
+
+When "Create" or "Edit" is clicked, the modal body could switch to a simple form with fields for "Template Name" and "Template Content".
+
+Footer Actions:
+
+Save Templates
+
+Cancel
+
+Modal 3: AI Settings
+Icon & Text: <i class="fa fa-wand-magic-sparkles"></i> AI Settings
+
+Modal Title: Configure AI Assistant
+
+Body Content: Settings to control the behavior of the AI features.
+
+Enable AI-Assisted Reply drafts in the Inbox [Toggle Switch]
+
+Default AI Tone: A dropdown menu with options: Empathetic, Professional, Concise. This sets the default tone when the reply panel is opened.
+
+Brand Guidelines: A simple text area where users can input key phrases or facts about their brand for the AI to use (e.g., "Our return policy is 30 days," "Always address the customer by their first name").
+
+Footer Actions:
+
+Save AI Preferences
+
+Cancel
+
+Example User Workflow
+A manager is working in the Inbox and realizes they are repeatedly typing the same apology for a known "Sizing Issue" with a product.
+
+They move their mouse to the top right of the page and click the Review Templates button.
+
+The "Manage Reply Templates" modal appears over the Inbox page.
+
+They click + Create New Template, name it "Sizing Issue Apology," and paste in their standardized response. They save it.
+
+They close the modal by clicking the X icon.
+
+They are immediately back in the Inbox, exactly where they left off. When they click the next review about sizing, they can now select their newly created template from the reply panel, saving significant time.

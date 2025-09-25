@@ -15,6 +15,15 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/comp
 import { Textarea } from "@/components/ui/textarea";
 import { Separator } from "@/components/ui/separator";
 import { Checkbox } from "@/components/ui/checkbox";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { Switch } from "@/components/ui/switch";
 import { 
   Search, 
   Star, 
@@ -47,7 +56,11 @@ import {
   Share2,
   Target,
   BookOpen,
-  ShoppingBag
+  ShoppingBag,
+  Bell,
+  FileText,
+  Settings,
+  X
 } from 'lucide-react';
 import Header from '@/components/overview/header';
 
@@ -77,6 +90,11 @@ export default function ReviewsMVP() {
     week: null,
     status: null
   });
+
+  // Modal state management
+  const [alertSettingsOpen, setAlertSettingsOpen] = useState(false);
+  const [templatesOpen, setTemplatesOpen] = useState(false);
+  const [aiSettingsOpen, setAiSettingsOpen] = useState(false);
 
   // Sample data for MVP
   const kpiData = {
@@ -702,6 +720,40 @@ export default function ReviewsMVP() {
           <p className="text-gray-600">
             Simplified review management and analytics for your retail locations
           </p>
+        </div>
+
+        {/* Global Settings Header */}
+        <div className="flex items-center justify-between mb-6">
+          <h2 className="text-xl font-semibold text-gray-900">VenueX Reviews Platform</h2>
+          <div className="flex items-center gap-3">
+            <Button 
+              variant="ghost" 
+              size="sm" 
+              className="border border-gray-300 hover:bg-gray-50"
+              onClick={() => setAlertSettingsOpen(true)}
+            >
+              <Bell className="w-4 h-4 mr-2" />
+              Alert Settings
+            </Button>
+            <Button 
+              variant="ghost" 
+              size="sm" 
+              className="border border-gray-300 hover:bg-gray-50"
+              onClick={() => setTemplatesOpen(true)}
+            >
+              <FileText className="w-4 h-4 mr-2" />
+              Review Templates
+            </Button>
+            <Button 
+              variant="ghost" 
+              size="sm" 
+              className="border border-gray-300 hover:bg-gray-50"
+              onClick={() => setAiSettingsOpen(true)}
+            >
+              <Settings className="w-4 h-4 mr-2" />
+              AI Settings
+            </Button>
+          </div>
         </div>
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
@@ -1656,6 +1708,154 @@ export default function ReviewsMVP() {
 
         </Tabs>
       </div>
+
+      {/* Alert Settings Modal */}
+      <Dialog open={alertSettingsOpen} onOpenChange={setAlertSettingsOpen}>
+        <DialogContent className="sm:max-w-[425px]">
+          <DialogHeader>
+            <DialogTitle>Manage Notifications</DialogTitle>
+            <DialogDescription>
+              Configure your notification preferences for reviews and alerts.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="grid gap-6 py-4">
+            <div className="flex items-center justify-between">
+              <div className="space-y-0.5">
+                <div className="text-sm font-medium">1-2 Star Review Alerts</div>
+                <div className="text-xs text-gray-500">Email me for every new 1-2 star review</div>
+              </div>
+              <Switch />
+            </div>
+            <div className="flex items-center justify-between">
+              <div className="space-y-0.5">
+                <div className="text-sm font-medium">Price Mentions</div>
+                <div className="text-xs text-gray-500">Email me for every review mentioning "Price"</div>
+              </div>
+              <Switch />
+            </div>
+            <div className="flex items-center justify-between">
+              <div className="space-y-0.5">
+                <div className="text-sm font-medium">Daily Summary</div>
+                <div className="text-xs text-gray-500">Send me a daily summary email at 8:00 AM</div>
+              </div>
+              <Switch defaultChecked />
+            </div>
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setAlertSettingsOpen(false)}>
+              Cancel
+            </Button>
+            <Button onClick={() => setAlertSettingsOpen(false)}>
+              Save Settings
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Review Templates Modal */}
+      <Dialog open={templatesOpen} onOpenChange={setTemplatesOpen}>
+        <DialogContent className="sm:max-w-[600px]">
+          <DialogHeader>
+            <DialogTitle>Manage Reply Templates</DialogTitle>
+            <DialogDescription>
+              Create and manage standardized reply templates for common review scenarios.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4 py-4">
+            <Button variant="outline" className="w-full justify-start">
+              <Plus className="w-4 h-4 mr-2" />
+              Create New Template
+            </Button>
+            <div className="space-y-3">
+              <div className="flex items-center justify-between p-3 border rounded-lg">
+                <div>
+                  <div className="font-medium">Positive Reply - 5 Star</div>
+                  <div className="text-sm text-gray-500">Thank you for your wonderful feedback...</div>
+                </div>
+                <div className="flex gap-2">
+                  <Button variant="ghost" size="sm">
+                    <Edit className="w-4 h-4" />
+                  </Button>
+                  <Button variant="ghost" size="sm">
+                    <Trash2 className="w-4 h-4" />
+                  </Button>
+                </div>
+              </div>
+              <div className="flex items-center justify-between p-3 border rounded-lg">
+                <div>
+                  <div className="font-medium">Negative Reply - Staff Issue</div>
+                  <div className="text-sm text-gray-500">We sincerely apologize for the staff issue...</div>
+                </div>
+                <div className="flex gap-2">
+                  <Button variant="ghost" size="sm">
+                    <Edit className="w-4 h-4" />
+                  </Button>
+                  <Button variant="ghost" size="sm">
+                    <Trash2 className="w-4 h-4" />
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setTemplatesOpen(false)}>
+              Cancel
+            </Button>
+            <Button onClick={() => setTemplatesOpen(false)}>
+              Save Templates
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* AI Settings Modal */}
+      <Dialog open={aiSettingsOpen} onOpenChange={setAiSettingsOpen}>
+        <DialogContent className="sm:max-w-[500px]">
+          <DialogHeader>
+            <DialogTitle>Configure AI Assistant</DialogTitle>
+            <DialogDescription>
+              Customize the AI assistant behavior and brand guidelines for automated replies.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-6 py-4">
+            <div className="flex items-center justify-between">
+              <div className="space-y-0.5">
+                <div className="text-sm font-medium">AI-Assisted Reply Drafts</div>
+                <div className="text-xs text-gray-500">Enable AI-assisted reply drafts in the Inbox</div>
+              </div>
+              <Switch defaultChecked />
+            </div>
+            <div className="space-y-2">
+              <div className="text-sm font-medium">Default AI Tone</div>
+              <Select defaultValue="empathetic">
+                <SelectTrigger>
+                  <SelectValue placeholder="Select tone" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="empathetic">Empathetic</SelectItem>
+                  <SelectItem value="professional">Professional</SelectItem>
+                  <SelectItem value="concise">Concise</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="space-y-2">
+              <div className="text-sm font-medium">Brand Guidelines</div>
+              <Textarea 
+                placeholder="Enter key phrases or facts about your brand for the AI to use (e.g., 'Our return policy is 30 days', 'Always address the customer by their first name')"
+                className="min-h-[80px]"
+              />
+            </div>
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setAiSettingsOpen(false)}>
+              Cancel
+            </Button>
+            <Button onClick={() => setAiSettingsOpen(false)}>
+              Save AI Preferences
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
