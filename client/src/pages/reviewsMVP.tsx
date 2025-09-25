@@ -53,6 +53,7 @@ import {
   Edit,
   Trash2,
   ExternalLink,
+  Globe,
   Bookmark,
   ThumbsUp,
   ThumbsDown,
@@ -81,7 +82,7 @@ const getPlatformIcon = (platform: string) => {
     case 'facebook':
       return <SiFacebook className="w-4 h-4 text-blue-700" />;
     case 'website':
-      return <ExternalLink className="w-4 h-4 text-gray-600" />;
+      return <Globe className="w-4 h-4 text-gray-600" />;
     case 'tripadvisor':
       return <SiTripadvisor className="w-4 h-4 text-green-600" />;
     case 'yelp':
@@ -91,7 +92,7 @@ const getPlatformIcon = (platform: string) => {
     case 'amazon':
       return <SiAmazon className="w-4 h-4 text-orange-500" />;
     default:
-      return <ExternalLink className="w-4 h-4 text-gray-600" />;
+      return <Globe className="w-4 h-4 text-gray-600" />;
   }
 };
 
