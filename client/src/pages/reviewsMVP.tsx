@@ -24,7 +24,6 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Switch } from "@/components/ui/switch";
-import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { 
   Search, 
   Star, 
@@ -88,11 +87,6 @@ export default function ReviewsMVP() {
   const [avgRatingFilter, setAvgRatingFilter] = useState("all");
   const [replyRateFilter, setReplyRateFilter] = useState("all");
   const [locationSearchQuery, setLocationSearchQuery] = useState("");
-  
-  // Advanced Location Filter state
-  const [calculationMethod, setCalculationMethod] = useState("periodic"); // "periodic" or "overall"
-  const [locationDateRange, setLocationDateRange] = useState("30"); // For locations specifically
-  const [minReviews, setMinReviews] = useState(20);
   const [inboxFilters, setInboxFilters] = useState({
     source: null,
     rating: null,
@@ -1761,70 +1755,11 @@ export default function ReviewsMVP() {
               <div className="text-sm text-gray-500">{locationsData.length} locations</div>
             </div>
 
-            {/* Advanced Location Filter Bar */}
+            {/* Location Filter Bar */}
             <Card className="border-gray-200 bg-[#f9fafb]">
               <CardContent className="p-4">
-                <div className="flex items-center gap-6 flex-wrap">
-                  {/* Calculation Method & Date Range */}
-                  <div className="flex items-center gap-4">
-                    {/* Calculation Method Toggle */}
-                    <div className="flex items-center gap-3">
-                      <label className="text-sm font-medium text-gray-700 whitespace-nowrap">Analysis:</label>
-                      <ToggleGroup 
-                        type="single" 
-                        value={calculationMethod} 
-                        onValueChange={setCalculationMethod}
-                        className="border border-gray-300 rounded-md"
-                        data-testid="calculation-method-toggle"
-                      >
-                        <ToggleGroupItem 
-                          value="periodic" 
-                          className="text-xs px-3 py-1.5 data-[state=on]:bg-gray-900 data-[state=on]:text-white"
-                          data-testid="toggle-periodic"
-                        >
-                          Periodic Performance
-                        </ToggleGroupItem>
-                        <ToggleGroupItem 
-                          value="overall" 
-                          className="text-xs px-3 py-1.5 data-[state=on]:bg-gray-900 data-[state=on]:text-white"
-                          data-testid="toggle-overall"
-                        >
-                          Overall Trend
-                        </ToggleGroupItem>
-                      </ToggleGroup>
-                    </div>
-
-                    {/* Date Range Filter */}
-                    <div className="flex items-center gap-2">
-                      <label className="text-sm font-medium text-gray-700 whitespace-nowrap">Period:</label>
-                      <Select value={locationDateRange} onValueChange={setLocationDateRange}>
-                        <SelectTrigger className="w-40 border-gray-300 rounded-md" data-testid="date-range-select">
-                          <SelectValue placeholder="Select Period" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="7">Last 7 Days</SelectItem>
-                          <SelectItem value="30">Last 30 Days</SelectItem>
-                          <SelectItem value="90">Last 90 Days</SelectItem>
-                          <SelectItem value="180">Last 6 Months</SelectItem>
-                          <SelectItem value="365">Last Year</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </div>
-                  </div>
-
-                  {/* Data Quality Filter */}
-                  <div className="flex items-center gap-2">
-                    <label className="text-sm font-medium text-gray-700 whitespace-nowrap">Min. Reviews:</label>
-                    <Input
-                      type="number"
-                      value={minReviews}
-                      onChange={(e) => setMinReviews(parseInt(e.target.value) || 0)}
-                      className="w-20 border-gray-300 rounded-md text-center"
-                      data-testid="min-reviews-input"
-                    />
-                  </div>
-
-                  {/* Geographic Filters */}
+                <div className="flex items-center gap-6">
+                  {/* Geographic Hierarchy */}
                   <div className="flex items-center gap-4">
                     {/* Region Filter */}
                     <div className="flex items-center gap-2">
@@ -1833,7 +1768,7 @@ export default function ReviewsMVP() {
                         setRegionFilter(value);
                         setCityFilter("all"); // Reset city when region changes
                       }}>
-                        <SelectTrigger className="w-40 border-gray-300 rounded-md" data-testid="region-filter">
+                        <SelectTrigger className="w-40 border-gray-300 rounded-md">
                           <SelectValue placeholder="All Regions" />
                         </SelectTrigger>
                         <SelectContent>
@@ -1853,7 +1788,7 @@ export default function ReviewsMVP() {
                     <div className="flex items-center gap-2">
                       <label className="text-sm font-medium text-gray-700 whitespace-nowrap">City:</label>
                       <Select value={cityFilter} onValueChange={setCityFilter}>
-                        <SelectTrigger className="w-36 border-gray-300 rounded-md" data-testid="city-filter">
+                        <SelectTrigger className="w-36 border-gray-300 rounded-md">
                           <SelectValue placeholder="All Cities" />
                         </SelectTrigger>
                         <SelectContent>
@@ -1911,24 +1846,43 @@ export default function ReviewsMVP() {
                     </div>
                   </div>
 
-                  {/* Performance Filter */}
-                  <div className="flex items-center gap-2">
-                    <label className="text-sm font-medium text-gray-700 whitespace-nowrap">Avg. Rating:</label>
-                    <Select value={avgRatingFilter} onValueChange={setAvgRatingFilter}>
-                      <SelectTrigger className="w-44 border-gray-300 rounded-md" data-testid="rating-filter">
-                        <SelectValue placeholder="All Ratings" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="all">All Ratings</SelectItem>
-                        <SelectItem value="excellent">Excellent (4.5+ ★)</SelectItem>
-                        <SelectItem value="good">Good (4.0 - 4.4 ★)</SelectItem>
-                        <SelectItem value="average">Average (3.5 - 3.9 ★)</SelectItem>
-                        <SelectItem value="poor">Poor (&lt; 3.5 ★)</SelectItem>
-                      </SelectContent>
-                    </Select>
+                  {/* Performance Metrics */}
+                  <div className="flex items-center gap-4">
+                    {/* Average Rating Filter */}
+                    <div className="flex items-center gap-2">
+                      <label className="text-sm font-medium text-gray-700 whitespace-nowrap">Avg. Rating:</label>
+                      <Select value={avgRatingFilter} onValueChange={setAvgRatingFilter}>
+                        <SelectTrigger className="w-44 border-gray-300 rounded-md">
+                          <SelectValue placeholder="All Ratings" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="all">All Ratings</SelectItem>
+                          <SelectItem value="excellent">Excellent (4.5+ ★)</SelectItem>
+                          <SelectItem value="good">Good (4.0 - 4.4 ★)</SelectItem>
+                          <SelectItem value="average">Average (3.5 - 3.9 ★)</SelectItem>
+                          <SelectItem value="poor">Poor (&lt; 3.5 ★)</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+
+                    {/* Reply Rate Filter */}
+                    <div className="flex items-center gap-2">
+                      <label className="text-sm font-medium text-gray-700 whitespace-nowrap">Reply Rate:</label>
+                      <Select value={replyRateFilter} onValueChange={setReplyRateFilter}>
+                        <SelectTrigger className="w-48 border-gray-300 rounded-md">
+                          <SelectValue placeholder="All Reply Rates" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="all">All Reply Rates</SelectItem>
+                          <SelectItem value="excellent">Excellent (&gt; 95%)</SelectItem>
+                          <SelectItem value="good">Good (80-94%)</SelectItem>
+                          <SelectItem value="needs-improvement">Needs Improvement (&lt; 80%)</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
                   </div>
 
-                  {/* Search */}
+                  {/* Direct Search */}
                   <div className="flex items-center gap-2 ml-auto">
                     <div className="relative">
                       <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
@@ -1937,7 +1891,6 @@ export default function ReviewsMVP() {
                         value={locationSearchQuery}
                         onChange={(e) => setLocationSearchQuery(e.target.value)}
                         className="pl-10 w-56 border-gray-300"
-                        data-testid="location-search"
                       />
                     </div>
                   </div>
@@ -1989,7 +1942,7 @@ export default function ReviewsMVP() {
                           onClick={() => handleSort('rating')}
                         >
                           <div className="flex items-center gap-1">
-                            {calculationMethod === 'periodic' ? 'Periodic Avg. Rating' : 'Overall Avg. Rating'}
+                            Avg. Rating
                             {sortField === 'rating' && (
                               sortDirection === 'asc' ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />
                             )}
