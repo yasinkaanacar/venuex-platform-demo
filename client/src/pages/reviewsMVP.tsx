@@ -273,36 +273,36 @@ export default function ReviewsMVP() {
                 </CardContent>
               </Card>
 
-              {/* Sentiment Card */}
+              {/* Sentiment Analysis Card */}
               <Card className="cursor-pointer hover:shadow-md transition-shadow" data-testid="card-sentiment">
                 <CardHeader className="pb-3">
-                  <CardTitle className="tracking-tight text-[#111827] font-semibold text-[18px]">Sentiment</CardTitle>
+                  <CardTitle className="tracking-tight text-[#111827] font-semibold text-[18px]">Sentiment Analysis</CardTitle>
                   <div className="text-sm text-gray-500">(Last 30 Days)</div>
                 </CardHeader>
                 <CardContent>
-                  <div className="space-y-2">
+                  <div className="space-y-3">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
-                        <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                        <span className="text-xs text-gray-600">Positive</span>
+                        <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+                        <span className="text-sm text-gray-600">Positive</span>
                       </div>
-                      <span className="text-sm font-bold text-green-600">68%</span>
+                      <span className="text-lg font-bold text-green-600">68%</span>
                     </div>
                     
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
-                        <div className="w-2 h-2 bg-gray-400 rounded-full"></div>
-                        <span className="text-xs text-gray-600">Neutral</span>
+                        <div className="w-3 h-3 bg-gray-400 rounded-full"></div>
+                        <span className="text-sm text-gray-600">Neutral</span>
                       </div>
-                      <span className="text-sm font-bold text-gray-600">24%</span>
+                      <span className="text-lg font-bold text-gray-600">24%</span>
                     </div>
                     
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
-                        <div className="w-2 h-2 bg-red-500 rounded-full"></div>
-                        <span className="text-xs text-gray-600">Negative</span>
+                        <div className="w-3 h-3 bg-red-500 rounded-full"></div>
+                        <span className="text-sm text-gray-600">Negative</span>
                       </div>
-                      <span className="text-sm font-bold text-red-600">8%</span>
+                      <span className="text-lg font-bold text-red-600">8%</span>
                     </div>
                   </div>
                 </CardContent>
