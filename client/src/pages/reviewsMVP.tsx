@@ -30,6 +30,7 @@ import {
   TrendingUp, 
   TrendingDown,
   MessageSquare,
+  MessageSquareReply,
   AlertTriangle,
   CheckCircle,
   Calendar,
@@ -989,7 +990,10 @@ export default function ReviewsMVP() {
                   <CardTitle className="tracking-tight text-[#111827] font-semibold text-[18px]">Response Rate</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                  <div className="text-4xl font-bold text-gray-900">96%</div>
+                  <div className="flex items-center gap-2">
+                    <Reply className="w-8 h-8 text-blue-500" />
+                    <div className="text-4xl font-bold text-gray-900">96%</div>
+                  </div>
                   
                   {/* Response Rate by Star Rating */}
                   <div className="space-y-2">
