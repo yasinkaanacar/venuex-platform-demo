@@ -895,13 +895,27 @@ export default function ReviewsMVP() {
               {/* Average Rating Card */}
               <Card className="rounded-lg border text-card-foreground shadow-sm cursor-pointer hover:shadow-md transition-shadow bg-[#f9fafb]" data-testid="card-average-rating">
                 <CardHeader className="pb-4">
-                  <CardTitle className="text-lg font-semibold text-gray-900">Average Rating</CardTitle>
-                  <div className="text-sm text-gray-500">(Last 30 days)</div>
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <CardTitle className="text-lg font-semibold text-gray-900">Average Rating</CardTitle>
+                      <div className="text-sm text-gray-500">(Last 30 days)</div>
+                    </div>
+                    <div>
+                      <CardTitle className="text-lg font-semibold text-gray-900">Total Review</CardTitle>
+                      <div className="text-sm text-gray-500">(Last 30 days)</div>
+                    </div>
+                  </div>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                  <div className="flex items-center gap-2">
-                    <Star className="w-8 h-8 text-yellow-500 fill-yellow-500" />
-                    <div className="text-4xl font-bold text-gray-900">{kpiData.averageRating}</div>
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <Star className="w-8 h-8 text-yellow-500 fill-yellow-500" />
+                      <div className="text-4xl font-bold text-gray-900">{kpiData.averageRating}</div>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Star className="w-8 h-8 text-yellow-500 fill-yellow-500" />
+                      <div className="text-4xl font-bold text-gray-900">1247</div>
+                    </div>
                   </div>
                   <div className="text-sm text-gray-500 mb-4">{kpiData.totalReviews.toLocaleString()} reviews</div>
                   
