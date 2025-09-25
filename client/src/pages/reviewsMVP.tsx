@@ -712,15 +712,7 @@ export default function ReviewsMVP() {
       <Header />
       
       <div className="px-6 py-6">
-        {/* Page Header */}
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2" data-testid="page-title">
-            Reviews MVP Dashboard
-          </h1>
-          <p className="text-gray-600">
-            Simplified review management and analytics for your retail locations
-          </p>
-        </div>
+        
 
         {/* Global Settings Header */}
         <div className="flex items-center justify-between mb-6">
