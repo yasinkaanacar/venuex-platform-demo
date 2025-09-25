@@ -893,19 +893,6 @@ export default function ReviewsMVP() {
 
           {/* Overview Tab */}
           <TabsContent value="ozet" className="space-y-6">
-            {/* Date Range Selector */}
-            <div className="flex justify-end mb-4">
-              <Select value={selectedPeriod} onValueChange={setSelectedPeriod}>
-                <SelectTrigger className="w-48 border-gray-300 rounded-md">
-                  <SelectValue placeholder="Last 30 Days" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="30days">Last 30 Days</SelectItem>
-                  <SelectItem value="7days">Last 7 Days</SelectItem>
-                  <SelectItem value="90days">Last 90 Days</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
 
             {/* KPI Summary Cards */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
