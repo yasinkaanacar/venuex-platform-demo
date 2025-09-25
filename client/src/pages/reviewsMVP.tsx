@@ -1502,12 +1502,12 @@ export default function ReviewsMVP() {
             <div className="grid gap-6" style={{ gridTemplateColumns: '2fr 3fr' }}>
               {/* Review List */}
               <div className="col-span-1">
-                <Card className="bg-[#f9fafb] flex flex-col" style={{ height: reviewsCardHeight || 'auto', maxHeight: reviewsCardHeight || 'none' }}>
+                <Card className="bg-[#f9fafb] flex flex-col h-[600px]">
                   <CardHeader className="flex-shrink-0">
                     <CardTitle className="text-base">Reviews ({recentReviews.length})</CardTitle>
                   </CardHeader>
                   <CardContent className="p-0 flex-1 overflow-hidden">
-                    <div className="space-y-1 h-full overflow-y-auto max-h-full">
+                    <div className="space-y-1 h-full overflow-y-auto">
                       {recentReviews.filter(review => {
                         if (inboxFilters.source && review.platform !== inboxFilters.source) return false;
                         if (inboxFilters.rating && review.rating !== inboxFilters.rating) return false;
@@ -1569,11 +1569,11 @@ export default function ReviewsMVP() {
 
               {/* Review Detail & Reply Pane */}
               <div className="col-span-1">
-                <Card className="bg-[#f9fafb]" ref={reviewDetailsRef}>
-                  <CardHeader>
+                <Card className="bg-[#f9fafb] h-[600px] flex flex-col" ref={reviewDetailsRef}>
+                  <CardHeader className="flex-shrink-0">
                     <CardTitle className="text-base">Review Details</CardTitle>
                   </CardHeader>
-                  <CardContent className="space-y-4">
+                  <CardContent className="space-y-4 flex-1 overflow-y-auto">
                     {/* Selected Review Display */}
                     {(() => {
                       const selectedReview = selectedReviewId 
