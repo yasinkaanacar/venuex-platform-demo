@@ -1084,79 +1084,77 @@ export default function ReviewsMVP() {
               </CardContent>
             </Card>
 
-            <div className="flex items-center justify-between">
-              <h2 className="text-2xl font-bold">Weekly Summary - Advantages / Disadvantages</h2>
-              <div className="text-sm text-gray-500">Last 7 days</div>
-            </div>
-
-            {/* Advantages / Disadvantages Cards */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {/* Advantages Card */}
-              <Card>
-                <CardHeader className="pb-4 relative">
-                  <Sparkles className="absolute top-4 right-4 w-5 h-5 text-green-500" />
-                  <CardTitle className="text-xl font-semibold text-green-700 flex items-center gap-2">
-                    <TrendingUp className="w-5 h-5" />
-                    Advantages
-                  </CardTitle>
-                  <p className="text-sm text-gray-600">Most positive themes</p>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  {themesData.positive.map((item, index) => (
-                    <div key={index} className="space-y-2">
-                      <div className="flex items-center justify-between">
-                        <span className="font-medium text-gray-900">{item.theme}</span>
-                        <div className="flex items-center gap-2 text-sm text-green-600">
-                          <span>{item.percentage}%</span>
-                          <span className="text-gray-500">({item.count})</span>
-                        </div>
-                      </div>
-                      <div className="w-full bg-gray-200 rounded-full h-2.5">
-                        <div 
-                          className="bg-green-500 h-2.5 rounded-full transition-all duration-300" 
-                          style={{ 
-                            width: `${(item.count / themesData.positive[0].count) * 100}%` 
-                          }}
-                        />
-                      </div>
+            {/* Weekly Summary - Advantages / Disadvantages Card */}
+            <Card>
+              <CardHeader className="pb-4 relative">
+                <Sparkles className="absolute top-4 right-4 w-5 h-5 text-blue-500" />
+                <CardTitle className="text-2xl font-bold">Weekly Summary - Advantages / Disadvantages</CardTitle>
+                <div className="text-sm text-gray-500">Last 7 days</div>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {/* Advantages Section */}
+                  <div>
+                    <div className="flex items-center gap-2 mb-4">
+                      <TrendingUp className="w-5 h-5 text-green-600" />
+                      <h3 className="text-xl font-semibold text-green-700">Advantages</h3>
                     </div>
-                  ))}
-                </CardContent>
-              </Card>
-
-              {/* Disadvantages Card */}
-              <Card>
-                <CardHeader className="pb-4 relative">
-                  <Sparkles className="absolute top-4 right-4 w-5 h-5 text-red-500" />
-                  <CardTitle className="text-xl font-semibold text-red-700 flex items-center gap-2">
-                    <TrendingDown className="w-5 h-5" />
-                    Disadvantages
-                  </CardTitle>
-                  <p className="text-sm text-gray-600">Most negative themes</p>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  {themesData.negative.map((item, index) => (
-                    <div key={index} className="space-y-2">
-                      <div className="flex items-center justify-between">
-                        <span className="font-medium text-gray-900">{item.theme}</span>
-                        <div className="flex items-center gap-2 text-sm text-red-600">
-                          <span>{item.percentage}%</span>
-                          <span className="text-gray-500">({item.count})</span>
+                    <p className="text-sm text-gray-600 mb-4">Most positive themes</p>
+                    <div className="space-y-4">
+                      {themesData.positive.map((item, index) => (
+                        <div key={index} className="space-y-2">
+                          <div className="flex items-center justify-between">
+                            <span className="font-medium text-gray-900">{item.theme}</span>
+                            <div className="flex items-center gap-2 text-sm text-green-600">
+                              <span>{item.percentage}%</span>
+                              <span className="text-gray-500">({item.count})</span>
+                            </div>
+                          </div>
+                          <div className="w-full bg-gray-200 rounded-full h-2.5">
+                            <div 
+                              className="bg-green-500 h-2.5 rounded-full transition-all duration-300" 
+                              style={{ 
+                                width: `${(item.count / themesData.positive[0].count) * 100}%` 
+                              }}
+                            />
+                          </div>
                         </div>
-                      </div>
-                      <div className="w-full bg-gray-200 rounded-full h-2.5">
-                        <div 
-                          className="bg-red-500 h-2.5 rounded-full transition-all duration-300" 
-                          style={{ 
-                            width: `${(item.count / themesData.negative[0].count) * 100}%` 
-                          }}
-                        />
-                      </div>
+                      ))}
                     </div>
-                  ))}
-                </CardContent>
-              </Card>
-            </div>
+                  </div>
+
+                  {/* Disadvantages Section */}
+                  <div>
+                    <div className="flex items-center gap-2 mb-4">
+                      <TrendingDown className="w-5 h-5 text-red-600" />
+                      <h3 className="text-xl font-semibold text-red-700">Disadvantages</h3>
+                    </div>
+                    <p className="text-sm text-gray-600 mb-4">Most negative themes</p>
+                    <div className="space-y-4">
+                      {themesData.negative.map((item, index) => (
+                        <div key={index} className="space-y-2">
+                          <div className="flex items-center justify-between">
+                            <span className="font-medium text-gray-900">{item.theme}</span>
+                            <div className="flex items-center gap-2 text-sm text-red-600">
+                              <span>{item.percentage}%</span>
+                              <span className="text-gray-500">({item.count})</span>
+                            </div>
+                          </div>
+                          <div className="w-full bg-gray-200 rounded-full h-2.5">
+                            <div 
+                              className="bg-red-500 h-2.5 rounded-full transition-all duration-300" 
+                              style={{ 
+                                width: `${(item.count / themesData.negative[0].count) * 100}%` 
+                              }}
+                            />
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
 
             {/* Location Leaderboard */}
             <Card>
