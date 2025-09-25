@@ -822,7 +822,7 @@ export default function ReviewsMVP() {
   return (
     <div className="min-h-screen bg-[#f9fafb]">
       <Header />
-      <div className="px-6 py-6">
+      <div className="px-6 py-6 bg-[ffffff]">
         
 
         {/* Global Settings Header */}
@@ -1626,7 +1626,7 @@ export default function ReviewsMVP() {
                         <div className="border border-blue-200 rounded-lg bg-[#f9fafb] p-4">
                           {reviewSource === "locations" ? (
                             // Location Snapshot
-                            <div>
+                            (<div>
                               <h4 className="font-medium text-blue-900 mb-3 flex items-center gap-2">
                                 <MapPin className="w-4 h-4" />
                                 Location Snapshot: {selectedReview.location}
@@ -1653,10 +1653,10 @@ export default function ReviewsMVP() {
                                   </span>
                                 </div>
                               </div>
-                            </div>
+                            </div>)
                           ) : (
                             // Product Snapshot
-                            <div>
+                            (<div>
                               <h4 className="font-medium text-blue-900 mb-3 flex items-center gap-2">
                                 <ShoppingBag className="w-4 h-4" />
                                 Product Snapshot: {selectedReview.product}
@@ -1688,7 +1688,7 @@ export default function ReviewsMVP() {
                                   </div>
                                 </div>
                               </div>
-                            </div>
+                            </div>)
                           )}
                         </div>
                       );
