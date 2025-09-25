@@ -897,7 +897,7 @@ export default function ReviewsMVP() {
             <div className="flex justify-end mb-4">
               <Select value={selectedPeriod} onValueChange={setSelectedPeriod}>
                 <SelectTrigger className="w-48 border-gray-300 rounded-md">
-                  <SelectValue />
+                  <SelectValue placeholder="Last 30 Days" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="30days">Last 30 Days</SelectItem>
