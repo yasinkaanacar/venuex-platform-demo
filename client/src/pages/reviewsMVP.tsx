@@ -53,6 +53,9 @@ import {
   Trash2,
   ExternalLink,
   Bookmark,
+  ThumbsUp,
+  ThumbsDown,
+  Minus,
   Share2,
   Target,
   BookOpen,
@@ -999,29 +1002,29 @@ export default function ReviewsMVP() {
                   <CardTitle className="tracking-tight text-[#111827] font-semibold text-[18px]">Sentiment Analysis</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="space-y-3">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-2">
-                        <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-                        <span className="text-sm text-gray-600">Positive</span>
+                  <div className="grid grid-cols-3 gap-4">
+                    <div className="text-center">
+                      <div className="flex items-center justify-center mb-2">
+                        <ThumbsUp className="w-6 h-6 text-green-500" />
                       </div>
-                      <span className="text-lg font-bold text-green-600">68%</span>
+                      <div className="text-2xl font-bold text-green-600 mb-1">68%</div>
+                      <div className="text-xs text-gray-600">Positive</div>
                     </div>
                     
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-2">
-                        <div className="w-3 h-3 bg-gray-400 rounded-full"></div>
-                        <span className="text-sm text-gray-600">Neutral</span>
+                    <div className="text-center">
+                      <div className="flex items-center justify-center mb-2">
+                        <Minus className="w-6 h-6 text-gray-500" />
                       </div>
-                      <span className="text-lg font-bold text-gray-600">24%</span>
+                      <div className="text-2xl font-bold text-gray-600 mb-1">24%</div>
+                      <div className="text-xs text-gray-600">Neutral</div>
                     </div>
                     
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-2">
-                        <div className="w-3 h-3 bg-red-500 rounded-full"></div>
-                        <span className="text-sm text-gray-600">Negative</span>
+                    <div className="text-center">
+                      <div className="flex items-center justify-center mb-2">
+                        <ThumbsDown className="w-6 h-6 text-red-500" />
                       </div>
-                      <span className="text-lg font-bold text-red-600">8%</span>
+                      <div className="text-2xl font-bold text-red-600 mb-1">8%</div>
+                      <div className="text-xs text-gray-600">Negative</div>
                     </div>
                   </div>
                 </CardContent>
