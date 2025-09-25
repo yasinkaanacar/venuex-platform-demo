@@ -1498,7 +1498,7 @@ export default function ReviewsMVP() {
               </div>
             )}
 
-            <div className="grid grid-cols-2 gap-6">
+            <div className="grid gap-6" style={{ gridTemplateColumns: '2fr 3fr' }}>
               {/* Review List */}
               <div className="col-span-1">
                 <Card className="bg-[#f9fafb] flex flex-col" style={{ height: reviewsCardHeight || 'auto' }}>
