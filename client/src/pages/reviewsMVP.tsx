@@ -163,16 +163,21 @@ export default function ReviewsMVP() {
   }, [selectedReviewId, activeTab]); // Re-run when selection or tab changes
 
   // Effect to smooth scroll to filter bar when switching to inbox tab
+  const [previousTab, setPreviousTab] = useState<string>("");
+  
   useEffect(() => {
-    if (activeTab === "inbox" && filterBarRef.current) {
+    // Only scroll if we're switching TO inbox from another tab
+    if (activeTab === "inbox" && previousTab !== "inbox" && previousTab !== "" && filterBarRef.current) {
       setTimeout(() => {
         filterBarRef.current?.scrollIntoView({
           behavior: 'smooth',
-          block: 'start'
+          block: 'start',
+          inline: 'nearest'
         });
-      }, 100); // Small delay to ensure tab content is rendered
+      }, 200); // Increased delay for better reliability
     }
-  }, [activeTab]);
+    setPreviousTab(activeTab);
+  }, [activeTab, previousTab]);
 
   // Sorting function for locations table
   const handleSort = (field: string) => {
