@@ -1617,7 +1617,7 @@ export default function ReviewsMVP() {
                                 />
                               ))}
                             </div>
-                            <span className="font-medium pb-2">{selectedReview.reviewer}</span>
+                            <span className="font-medium">{selectedReview.reviewer}</span>
                             <span className="text-sm text-gray-500">
                               {reviewSource === "locations" ? (
                                 <span className="inline-flex items-center gap-1 ml-1">
