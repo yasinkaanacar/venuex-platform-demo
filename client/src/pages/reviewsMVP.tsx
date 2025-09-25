@@ -835,7 +835,7 @@ export default function ReviewsMVP() {
               className="border border-gray-300 hover:bg-[#f9fafb]"
               onClick={() => setAlertSettingsOpen(true)}
             >
-              <Bell className="w-4 h-4 mr-2" />
+              <Bell className="w-4 h-4" />
               Alert Settings
             </Button>
             <Button 
@@ -844,7 +844,7 @@ export default function ReviewsMVP() {
               className="border border-gray-300 hover:bg-[#f9fafb]"
               onClick={() => setTemplatesOpen(true)}
             >
-              <FileText className="w-4 h-4 mr-2" />
+              <FileText className="w-4 h-4" />
               Review Templates
             </Button>
             <Button 
@@ -853,7 +853,7 @@ export default function ReviewsMVP() {
               className="border border-gray-300 hover:bg-[#f9fafb]"
               onClick={() => setAiSettingsOpen(true)}
             >
-              <Settings className="w-4 h-4 mr-2" />
+              <Settings className="w-4 h-4" />
               AI Settings
             </Button>
           </div>
@@ -1308,11 +1308,11 @@ export default function ReviewsMVP() {
               <h2 className="text-2xl font-bold">Review Inbox</h2>
               <div className="flex items-center gap-2">
                 <Button variant="outline" size="sm">
-                  <Filter className="w-4 h-4 mr-2" />
+                  <Filter className="w-4 h-4" />
                   Bulk Actions
                 </Button>
                 <Button variant="outline" size="sm">
-                  <Download className="w-4 h-4 mr-2" />
+                  <Download className="w-4 h-4" />
                   Export
                 </Button>
               </div>
