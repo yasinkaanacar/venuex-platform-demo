@@ -162,22 +162,22 @@ export default function ReviewsMVP() {
     return () => observer.disconnect();
   }, [selectedReviewId, activeTab]); // Re-run when selection or tab changes
 
-  // Effect to smooth scroll to filter bar when switching to inbox tab
-  const [previousTab, setPreviousTab] = useState<string>("");
-  
-  useEffect(() => {
-    // Only scroll if we're switching TO inbox from another tab
-    if (activeTab === "inbox" && previousTab !== "inbox" && previousTab !== "" && filterBarRef.current) {
+  // Handle tab change with scroll
+  const handleTabChange = (newTab: string) => {
+    setActiveTab(newTab);
+    if (newTab === "inbox") {
+      // Scroll to filter bar when switching to inbox
       setTimeout(() => {
-        filterBarRef.current?.scrollIntoView({
-          behavior: 'smooth',
-          block: 'start',
-          inline: 'nearest'
-        });
-      }, 200); // Increased delay for better reliability
+        if (filterBarRef.current) {
+          filterBarRef.current.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start',
+            inline: 'nearest'
+          });
+        }
+      }, 300);
     }
-    setPreviousTab(activeTab);
-  }, [activeTab, previousTab]);
+  };
 
   // Sorting function for locations table
   const handleSort = (field: string) => {
@@ -928,7 +928,7 @@ export default function ReviewsMVP() {
           </div>
         </div>
 
-        <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+        <Tabs value={activeTab} onValueChange={handleTabChange} className="w-full">
           {/* Tab Navigation */}
           <TabsList className="h-12 items-center justify-center rounded-none p-0 text-muted-foreground grid w-full grid-cols-3 mb-6 bg-transparent border-b border-gray-200">
             <TabsTrigger 
@@ -1222,7 +1222,7 @@ export default function ReviewsMVP() {
                     </h4>
                     <div className="space-y-3">
                       {leaderboardData.topPerformers.map((location, index) => (
-                        <div key={location.id} className="p-3 bg-[#f9fafb] border border-green-200 rounded-lg hover:bg-[#f9fafb] cursor-pointer transition-colors" onClick={() => setActiveTab("locations")}>
+                        <div key={location.id} className="p-3 bg-[#f9fafb] border border-green-200 rounded-lg hover:bg-[#f9fafb] cursor-pointer transition-colors" onClick={() => handleTabChange("locations")}>
                           <div className="flex items-center justify-between mb-2">
                             <div className="flex items-center gap-2">
                               <span className="font-bold text-green-600">#{index + 1}</span>
@@ -1259,7 +1259,7 @@ export default function ReviewsMVP() {
                     </h4>
                     <div className="space-y-3">
                       {leaderboardData.needsAttention.map((location, index) => (
-                        <div key={location.id} className="p-3 bg-[#f9fafb] border border-red-200 rounded-lg hover:bg-[#f9fafb] cursor-pointer transition-colors" onClick={() => setActiveTab("locations")}>
+                        <div key={location.id} className="p-3 bg-[#f9fafb] border border-red-200 rounded-lg hover:bg-[#f9fafb] cursor-pointer transition-colors" onClick={() => handleTabChange("locations")}>
                           <div className="flex items-center justify-between mb-2">
                             <div className="flex items-center gap-2">
                               <span className="font-bold text-red-600">#{index + 1}</span>
@@ -1292,7 +1292,7 @@ export default function ReviewsMVP() {
                 <div className="mt-4 text-center">
                   <Button 
                     variant="outline" 
-                    onClick={() => setActiveTab("locations")}
+                    onClick={() => handleTabChange("locations")}
                     className="text-blue-600 hover:text-blue-700"
                   >
                     View All Locations
@@ -1983,7 +1983,7 @@ export default function ReviewsMVP() {
                           key={location.code} 
                           className="border-b hover:bg-[#f9fafb] cursor-pointer transition-colors"
                           onClick={() => {
-                            setActiveTab("inbox");
+                            handleTabChange("inbox");
                             // Here you could set location filter in inbox
                           }}
                         >
