@@ -1633,32 +1633,32 @@ export default function ReviewsMVP() {
                       if (!selectedReview) return null;
 
                       return (
-                        <div className="border border-blue-200 rounded-lg bg-[#f9fafb] p-4">
+                        <div className="border border-blue-200 rounded-lg bg-[#f9fafb] p-2">
                           {reviewSource === "locations" ? (
                             // Location Snapshot
                             (<div>
-                              <h4 className="font-medium text-blue-900 mb-3 flex items-center gap-2">
-                                <MapPin className="w-4 h-4" />
+                              <h4 className="font-medium text-blue-900 mb-1 flex items-center gap-2 text-sm">
+                                <MapPin className="w-3 h-3" />
                                 Location Snapshot: {selectedReview.location}
                               </h4>
-                              <div className="space-y-2">
+                              <div className="space-y-1">
                                 <div className="flex items-center justify-between">
-                                  <span className="text-sm text-blue-800">Overall Rating:</span>
+                                  <span className="text-xs text-blue-800">Overall Rating:</span>
                                   <div className="flex items-center gap-1">
-                                    <span className="font-medium text-blue-900">
+                                    <span className="font-medium text-blue-900 text-xs">
                                       {locationContextData[selectedReview.location]?.overallRating || 4.0} ★
                                     </span>
                                   </div>
                                 </div>
                                 <div className="flex items-center justify-between">
-                                  <span className="text-sm text-blue-800">Total Reviews:</span>
-                                  <span className="font-medium text-blue-900">
+                                  <span className="text-xs text-blue-800">Total Reviews:</span>
+                                  <span className="font-medium text-blue-900 text-xs">
                                     {locationContextData[selectedReview.location]?.totalReviews || 150} Reviews
                                   </span>
                                 </div>
                                 <div className="flex items-center justify-between">
-                                  <span className="text-sm text-blue-800">Top Issue:</span>
-                                  <span className="font-medium text-blue-900">
+                                  <span className="text-xs text-blue-800">Top Issue:</span>
+                                  <span className="font-medium text-blue-900 text-xs">
                                     {locationContextData[selectedReview.location]?.topNegativeTheme || "Staff Attitude"}
                                   </span>
                                 </div>
@@ -1667,34 +1667,34 @@ export default function ReviewsMVP() {
                           ) : (
                             // Product Snapshot
                             (<div>
-                              <h4 className="font-medium text-blue-900 mb-3 flex items-center gap-2">
-                                <ShoppingBag className="w-4 h-4" />
+                              <h4 className="font-medium text-blue-900 mb-1 flex items-center gap-2 text-sm">
+                                <ShoppingBag className="w-3 h-3" />
                                 Product Snapshot: {selectedReview.product}
                               </h4>
-                              <div className="grid grid-cols-2 gap-4">
-                                <div className="space-y-2">
+                              <div className="grid grid-cols-2 gap-2">
+                                <div className="space-y-1">
                                   <div className="flex items-center justify-between">
-                                    <span className="text-sm text-blue-800">SKU / ID:</span>
-                                    <span className="font-medium text-blue-900">
+                                    <span className="text-xs text-blue-800">SKU / ID:</span>
+                                    <span className="font-medium text-blue-900 text-xs">
                                       {productContextData[selectedReview.product]?.sku || selectedReview.productSku}
                                     </span>
                                   </div>
                                   <div className="flex items-center justify-between">
-                                    <span className="text-sm text-blue-800">Overall Rating:</span>
-                                    <span className="font-medium text-blue-900">
+                                    <span className="text-xs text-blue-800">Overall Rating:</span>
+                                    <span className="font-medium text-blue-900 text-xs">
                                       {productContextData[selectedReview.product]?.overallRating || 4.0} ★
                                     </span>
                                   </div>
                                 </div>
-                                <div className="space-y-2">
+                                <div className="space-y-1">
                                   <div className="flex items-center justify-between">
-                                    <span className="text-sm text-blue-800">Top Issue:</span>
-                                    <span className="font-medium text-blue-900">
+                                    <span className="text-xs text-blue-800">Top Issue:</span>
+                                    <span className="font-medium text-blue-900 text-xs">
                                       {productContextData[selectedReview.product]?.topNegativeTheme || "Quality"}
                                     </span>
                                   </div>
-                                  <div className="w-12 h-12 bg-[#f9fafb] rounded border flex items-center justify-center">
-                                    <ShoppingBag className="w-6 h-6 text-gray-400" />
+                                  <div className="w-8 h-8 bg-[#f9fafb] rounded border flex items-center justify-center">
+                                    <ShoppingBag className="w-4 h-4 text-gray-400" />
                                   </div>
                                 </div>
                               </div>
