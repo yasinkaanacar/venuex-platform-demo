@@ -80,6 +80,40 @@ export default function ReviewsMVP() {
     escalated: 3
   };
 
+  // Mock locations data
+  const locationsData = [
+    { code: "BOY001", name: "Bağdat Caddesi", city: "Istanbul", sublocation: "Kadıköy", reviews: 542, rating: 4.7, replyRate: 85, sentiment: "Positive", topPositive: "Staff Service", topNegative: "Parking" },
+    { code: "BOY002", name: "Kanyon AVM", city: "Istanbul", sublocation: "Levent", reviews: 489, rating: 4.6, replyRate: 78, sentiment: "Positive", topPositive: "Product Quality", topNegative: "Wait Time" },
+    { code: "BOY003", name: "İstinyePark", city: "Istanbul", sublocation: "Sarıyer", reviews: 456, rating: 4.8, replyRate: 92, sentiment: "Positive", topPositive: "Store Design", topNegative: "Price" },
+    { code: "BOY004", name: "Zorlu Center", city: "Istanbul", sublocation: "Beşiktaş", reviews: 423, rating: 4.6, replyRate: 81, sentiment: "Positive", topPositive: "Staff Service", topNegative: "Crowded" },
+    { code: "BOY005", name: "Nişantaşı", city: "Istanbul", sublocation: "Şişli", reviews: 398, rating: 4.7, replyRate: 88, sentiment: "Positive", topPositive: "Fashion Selection", topNegative: "Expensive" },
+    { code: "BOY006", name: "Akasya AVM", city: "Istanbul", sublocation: "Acıbadem", reviews: 376, rating: 4.6, replyRate: 79, sentiment: "Positive", topPositive: "Cleanliness", topNegative: "Long Queues" },
+    { code: "BOY007", name: "Cevahir AVM", city: "Istanbul", sublocation: "Şişli", reviews: 365, rating: 4.7, replyRate: 83, sentiment: "Positive", topPositive: "Variety", topNegative: "Navigation" },
+    { code: "BOY008", name: "Emaar AVM", city: "Istanbul", sublocation: "Ümraniye", reviews: 342, rating: 4.6, replyRate: 76, sentiment: "Positive", topPositive: "Modern Design", topNegative: "Accessibility" },
+    { code: "BOY009", name: "Ankamall", city: "Ankara", sublocation: "Çankaya", reviews: 325, rating: 4.6, replyRate: 74, sentiment: "Positive", topPositive: "Staff Helpfulness", topNegative: "Limited Stock" },
+    { code: "BOY010", name: "Forum İzmir", city: "Izmir", sublocation: "Bornova", reviews: 312, rating: 4.5, replyRate: 71, sentiment: "Positive", topPositive: "Location", topNegative: "Parking Fee" },
+    { code: "BOY011", name: "Kent Meydanı", city: "Bursa", sublocation: "Osmangazi", reviews: 298, rating: 4.5, replyRate: 68, sentiment: "Neutral", topPositive: "Product Range", topNegative: "Service Speed" },
+    { code: "BOY012", name: "Migros AVM", city: "Antalya", sublocation: "Konyaaltı", reviews: 287, rating: 4.5, replyRate: 72, sentiment: "Positive", topPositive: "Beach Proximity", topNegative: "Tourist Prices" },
+    { code: "BOY013", name: "Optimum", city: "Adana", sublocation: "Seyhan", reviews: 276, rating: 4.5, replyRate: 67, sentiment: "Positive", topPositive: "Air Conditioning", topNegative: "Noise Level" },
+    { code: "BOY014", name: "Forum Mersin", city: "Mersin", sublocation: "Akdeniz", reviews: 265, rating: 4.6, replyRate: 75, sentiment: "Positive", topPositive: "Sea View", topNegative: "Traffic Access" },
+    { code: "BOY015", name: "Sanko Park", city: "Gaziantep", sublocation: "Şahinbey", reviews: 254, rating: 4.5, replyRate: 69, sentiment: "Positive", topPositive: "Local Culture", topNegative: "Language Barrier" },
+    { code: "BOY016", name: "Kulesite", city: "Konya", sublocation: "Meram", reviews: 243, rating: 4.4, replyRate: 63, sentiment: "Neutral", topPositive: "Traditional Feel", topNegative: "Old Building" },
+    { code: "BOY017", name: "Espark", city: "Eskişehir", sublocation: "Tepebaşı", reviews: 232, rating: 4.5, replyRate: 66, sentiment: "Positive", topPositive: "Student Friendly", topNegative: "Limited Premium" },
+    { code: "BOY018", name: "Park AVM", city: "Kayseri", sublocation: "Kocasinan", reviews: 221, rating: 4.4, replyRate: 61, sentiment: "Neutral", topPositive: "Central Location", topNegative: "Outdated Style" },
+    { code: "BOY019", name: "Forum Trabzon", city: "Trabzon", sublocation: "Ortahisar", reviews: 210, rating: 4.5, replyRate: 64, sentiment: "Positive", topPositive: "Regional Products", topNegative: "Weather Dependent" },
+    { code: "BOY020", name: "Piazza Samsun", city: "Samsun", sublocation: "Atakum", reviews: 198, rating: 4.4, replyRate: 59, sentiment: "Neutral", topPositive: "Coastal Location", topNegative: "Seasonal Crowds" },
+    { code: "BOY021", name: "Forum Erzurum", city: "Erzurum", sublocation: "Yakutiye", reviews: 189, rating: 4.1, replyRate: 58, sentiment: "Neutral", topPositive: "Winter Sports", topNegative: "Cold Weather" },
+    { code: "BOY022", name: "Arasta Park", city: "Malatya", sublocation: "Battalgazi", reviews: 167, rating: 3.8, replyRate: 52, sentiment: "Negative", topPositive: "Apricot Season", topNegative: "Limited Options" },
+    { code: "BOY023", name: "100. Yıl AVM", city: "Van", sublocation: "İpekyolu", reviews: 156, rating: 3.3, replyRate: 39, sentiment: "Negative", topPositive: "Lake View", topNegative: "Remote Location" },
+    { code: "BOY024", name: "Piazza Şanlıurfa", city: "Şanlıurfa", sublocation: "Haliliye", reviews: 145, rating: 4.0, replyRate: 55, sentiment: "Neutral", topPositive: "Historical Context", topNegative: "Hot Climate" },
+    { code: "BOY025", name: "Forum Diyarbakır", city: "Diyarbakır", sublocation: "Bağlar", reviews: 134, rating: 3.9, replyRate: 48, sentiment: "Neutral", topPositive: "Cultural Heritage", topNegative: "Security Concerns" },
+    { code: "BOY026", name: "Kentpark", city: "Denizli", sublocation: "Pamukkale", reviews: 128, rating: 4.4, replyRate: 71, sentiment: "Positive", topPositive: "Thermal Tourism", topNegative: "Tourist Season" },
+    { code: "BOY027", name: "Forum Çamlık", city: "Manisa", sublocation: "Yunusemre", reviews: 121, rating: 4.2, replyRate: 62, sentiment: "Positive", topPositive: "Grape Harvest", topNegative: "Agricultural Area" },
+    { code: "BOY028", name: "Novada Söke", city: "Aydın", sublocation: "Söke", reviews: 115, rating: 4.0, replyRate: 57, sentiment: "Neutral", topPositive: "Cotton Fields", topNegative: "Rural Setting" },
+    { code: "BOY029", name: "Mavera AVM", city: "Muğla", sublocation: "Bodrum", reviews: 108, rating: 4.3, replyRate: 68, sentiment: "Positive", topPositive: "Resort Atmosphere", topNegative: "Seasonal Business" },
+    { code: "BOY030", name: "Akçaabat Çarşı", city: "Trabzon", sublocation: "Akçaabat", reviews: 98, rating: 4.1, replyRate: 54, sentiment: "Neutral", topPositive: "Local Cuisine", topNegative: "Transportation" }
+  ];
+
   // Themes data for Advantages/Disadvantages
   const themesData = {
     positive: [
@@ -170,7 +204,7 @@ export default function ReviewsMVP() {
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
           {/* Tab Navigation */}
-          <TabsList className="grid w-full grid-cols-2 mb-6">
+          <TabsList className="grid w-full grid-cols-3 mb-6">
             <TabsTrigger value="ozet" data-testid="tab-ozet">
               <BarChart3 className="w-4 h-4 mr-2" />
               Overview
@@ -178,6 +212,10 @@ export default function ReviewsMVP() {
             <TabsTrigger value="inbox" data-testid="tab-inbox">
               <MessageSquare className="w-4 h-4 mr-2" />
               Inbox
+            </TabsTrigger>
+            <TabsTrigger value="locations" data-testid="tab-locations">
+              <MapPin className="w-4 h-4 mr-2" />
+              Locations
             </TabsTrigger>
           </TabsList>
 
@@ -676,6 +714,86 @@ export default function ReviewsMVP() {
                 </Card>
               </div>
             </div>
+          </TabsContent>
+
+          {/* Locations Tab */}
+          <TabsContent value="locations" className="space-y-6">
+            <div className="flex items-center justify-between">
+              <h2 className="text-2xl font-bold">Store Locations</h2>
+              <div className="text-sm text-gray-500">{locationsData.length} locations</div>
+            </div>
+            
+            <Card>
+              <CardContent className="p-0">
+                <div className="overflow-x-auto">
+                  <table className="w-full">
+                    <thead className="bg-gray-50 border-b">
+                      <tr>
+                        <th className="text-left p-4 font-medium text-gray-900">Store Code</th>
+                        <th className="text-left p-4 font-medium text-gray-900">Store Name</th>
+                        <th className="text-left p-4 font-medium text-gray-900">Reviews</th>
+                        <th className="text-left p-4 font-medium text-gray-900">Avg. Rating</th>
+                        <th className="text-left p-4 font-medium text-gray-900">Reply Rate</th>
+                        <th className="text-left p-4 font-medium text-gray-900">Sentiment</th>
+                        <th className="text-left p-4 font-medium text-gray-900">Top Themes</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {locationsData.map((location, index) => (
+                        <tr 
+                          key={location.code} 
+                          className="border-b hover:bg-gray-50 cursor-pointer transition-colors"
+                          onClick={() => {
+                            setActiveTab("inbox");
+                            // Here you could set location filter in inbox
+                          }}
+                        >
+                          <td className="p-4">
+                            <div className="font-mono text-sm text-gray-600">{location.code}</div>
+                          </td>
+                          <td className="p-4">
+                            <div className="font-medium text-gray-900">{location.name}</div>
+                            <div className="text-sm text-gray-500 opacity-75">{location.city} / {location.sublocation}</div>
+                          </td>
+                          <td className="p-4">
+                            <div className="font-medium text-gray-900">{location.reviews.toLocaleString()}</div>
+                          </td>
+                          <td className="p-4">
+                            <div className="flex items-center gap-1">
+                              <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+                              <span className="font-medium text-gray-900">{location.rating}</span>
+                            </div>
+                          </td>
+                          <td className="p-4">
+                            <div className="font-medium text-gray-900">{location.replyRate}%</div>
+                          </td>
+                          <td className="p-4">
+                            <Badge variant={
+                              location.sentiment === "Positive" ? "default" :
+                              location.sentiment === "Negative" ? "destructive" : "secondary"
+                            } className="text-xs">
+                              {location.sentiment}
+                            </Badge>
+                          </td>
+                          <td className="p-4">
+                            <div className="space-y-1">
+                              <div className="flex items-center gap-2">
+                                <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                                <span className="text-sm text-gray-700">{location.topPositive}</span>
+                              </div>
+                              <div className="flex items-center gap-2">
+                                <div className="w-2 h-2 bg-red-500 rounded-full"></div>
+                                <span className="text-sm text-gray-700">{location.topNegative}</span>
+                              </div>
+                            </div>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </CardContent>
+            </Card>
           </TabsContent>
 
         </Tabs>
