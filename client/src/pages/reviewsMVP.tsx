@@ -309,6 +309,103 @@ export default function ReviewsMVP() {
               </Card>
             </div>
 
+            {/* Rating Distribution Section */}
+            <Card>
+              <CardHeader>
+                <CardTitle>Rating Distribution and Analysis</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <Tabs defaultValue="overall" className="w-full">
+                  <TabsList className="grid w-fit grid-cols-2">
+                    <TabsTrigger value="overall">Overall</TabsTrigger>
+                    <TabsTrigger value="locations">By Location</TabsTrigger>
+                  </TabsList>
+                  
+                  <TabsContent value="overall" className="space-y-4">
+                    <div className="grid grid-cols-5 gap-4">
+                      {[
+                        {stars: 5, count: 2890, percentage: 78.7, color: "green-500"},
+                        {stars: 4, count: 445, percentage: 12.1, color: "lime-500"},
+                        {stars: 3, count: 185, percentage: 5.0, color: "yellow-500"},
+                        {stars: 2, count: 89, percentage: 2.4, color: "orange-500"},
+                        {stars: 1, count: 63, percentage: 1.7, color: "red-500"}
+                      ].map((rating) => (
+                        <div key={rating.stars} className="text-center">
+                          <div className="text-lg font-bold">{rating.stars}★</div>
+                          <div className="h-24 bg-gray-100 rounded mb-2 flex items-end justify-center">
+                            <div 
+                              className={`w-8 bg-${rating.color} rounded-t`}
+                              style={{height: `${rating.percentage}%`}}
+                            ></div>
+                          </div>
+                          <div className="text-sm font-medium">{rating.count}</div>
+                          <div className="text-xs text-gray-500">{rating.percentage}%</div>
+                        </div>
+                      ))}
+                    </div>
+                  </TabsContent>
+                  
+                  <TabsContent value="locations" className="space-y-4">
+                    <div className="text-sm text-gray-600 mb-4">Rating distribution for top 20 locations by review volume</div>
+                    <div className="space-y-2 max-h-96 overflow-y-auto">
+                      {[
+                        {name: "Boyner Bağdat Caddesi", total: 542, ratings: {5: 420, 4: 75, 3: 28, 2: 12, 1: 7}, avg: 4.7},
+                        {name: "Boyner Kanyon AVM", total: 489, ratings: {5: 380, 4: 68, 3: 25, 2: 10, 1: 6}, avg: 4.6},
+                        {name: "Boyner İstinyePark", total: 456, ratings: {5: 345, 4: 78, 3: 22, 2: 8, 1: 3}, avg: 4.8},
+                        {name: "Boyner Zorlu Center", total: 423, ratings: {5: 310, 4: 72, 3: 25, 2: 11, 1: 5}, avg: 4.6},
+                        {name: "Boyner Nişantaşı", total: 398, ratings: {5: 295, 4: 68, 3: 20, 2: 10, 1: 5}, avg: 4.7},
+                        {name: "Boyner Akasya AVM", total: 376, ratings: {5: 275, 4: 65, 3: 22, 2: 9, 1: 5}, avg: 4.6},
+                        {name: "Boyner Cevahir AVM", total: 365, ratings: {5: 270, 4: 58, 3: 25, 2: 8, 1: 4}, avg: 4.7},
+                        {name: "Boyner Emaar AVM", total: 342, ratings: {5: 245, 4: 62, 3: 20, 2: 10, 1: 5}, avg: 4.6},
+                        {name: "Boyner Ankara Ankamall", total: 325, ratings: {5: 235, 4: 55, 3: 22, 2: 8, 1: 5}, avg: 4.6},
+                        {name: "Boyner İzmir Forum", total: 312, ratings: {5: 220, 4: 58, 3: 20, 2: 9, 1: 5}, avg: 4.5},
+                        {name: "Boyner Bursa Kent Meydanı", total: 298, ratings: {5: 210, 4: 52, 3: 23, 2: 8, 1: 5}, avg: 4.5},
+                        {name: "Boyner Antalya Migros AVM", total: 287, ratings: {5: 200, 4: 55, 3: 20, 2: 7, 1: 5}, avg: 4.5},
+                        {name: "Boyner Adana Optimum", total: 276, ratings: {5: 195, 4: 48, 3: 22, 2: 7, 1: 4}, avg: 4.5},
+                        {name: "Boyner Mersin Forum", total: 265, ratings: {5: 185, 4: 52, 3: 18, 2: 6, 1: 4}, avg: 4.6},
+                        {name: "Boyner Gaziantep Sanko Park", total: 254, ratings: {5: 175, 4: 48, 3: 20, 2: 7, 1: 4}, avg: 4.5},
+                        {name: "Boyner Konya Kulesite", total: 243, ratings: {5: 165, 4: 45, 3: 22, 2: 7, 1: 4}, avg: 4.4},
+                        {name: "Boyner Eskişehir Espark", total: 232, ratings: {5: 155, 4: 48, 3: 18, 2: 7, 1: 4}, avg: 4.5},
+                        {name: "Boyner Kayseri Park", total: 221, ratings: {5: 145, 4: 44, 3: 20, 2: 8, 1: 4}, avg: 4.4},
+                        {name: "Boyner Trabzon Forum", total: 210, ratings: {5: 140, 4: 42, 3: 18, 2: 6, 1: 4}, avg: 4.5},
+                        {name: "Boyner Samsun Piazza", total: 198, ratings: {5: 130, 4: 38, 3: 20, 2: 6, 1: 4}, avg: 4.4}
+                      ].map((location, index) => (
+                        <div key={index} className="flex items-center gap-4 p-2 hover:bg-gray-50 rounded">
+                          <div className="w-8 text-xs text-gray-500 font-mono">#{index + 1}</div>
+                          <div className="w-48 text-sm font-medium">{location.name}</div>
+                          <div className="flex-1 flex h-8 bg-gray-200 rounded overflow-hidden relative group">
+                            {/* Stacked horizontal bar */}
+                            {[5,4,3,2,1].map((star) => {
+                              const count = location.ratings[star as keyof typeof location.ratings];
+                              const percentage = (count / location.total) * 100;
+                              return (
+                                <div 
+                                  key={star}
+                                  className={`h-full ${
+                                    star === 5 ? 'bg-green-500' : 
+                                    star === 4 ? 'bg-lime-500' : 
+                                    star === 3 ? 'bg-yellow-500' : 
+                                    star === 2 ? 'bg-orange-500' : 'bg-red-500'
+                                  }`}
+                                  style={{width: `${percentage}%`}}
+                                ></div>
+                              );
+                            })}
+                            {/* Tooltip overlay */}
+                            <div className="absolute inset-0 opacity-0 group-hover:opacity-100 bg-black bg-opacity-75 text-white p-2 text-xs rounded flex items-center justify-center transition-opacity">
+                              Avg: {location.avg}★ | Total: {location.total}
+                            </div>
+                          </div>
+                          <div className="w-16 text-sm font-medium text-right">{location.avg}★</div>
+                          <div className="w-12 text-xs text-gray-500 text-right">{location.total}</div>
+                        </div>
+                      ))}
+                    </div>
+                  </TabsContent>
+                </Tabs>
+              </CardContent>
+            </Card>
+
             <div className="flex items-center justify-between">
               <h2 className="text-2xl font-bold">Weekly Summary - Advantages / Disadvantages</h2>
               <div className="text-sm text-gray-500">Last 7 days</div>
