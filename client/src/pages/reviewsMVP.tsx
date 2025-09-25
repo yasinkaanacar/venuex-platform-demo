@@ -899,7 +899,10 @@ export default function ReviewsMVP() {
                   <div className="text-sm text-gray-500">(Last 30 days)</div>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                  <div className="text-4xl font-bold text-gray-900">{kpiData.averageRating}</div>
+                  <div className="flex items-center gap-2">
+                    <Star className="w-8 h-8 text-yellow-500 fill-yellow-500" />
+                    <div className="text-4xl font-bold text-gray-900">{kpiData.averageRating}</div>
+                  </div>
                   <div className="text-sm text-gray-500 mb-4">{kpiData.totalReviews.toLocaleString()} reviews</div>
                   
                   {/* Rating Distribution with Dual-Purpose Progress Bars */}
