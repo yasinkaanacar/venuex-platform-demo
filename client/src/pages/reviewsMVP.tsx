@@ -942,7 +942,7 @@ export default function ReviewsMVP() {
                   </div>
                   
                   {/* Rating Distribution with Dual-Purpose Progress Bars */}
-                  <div className="space-y-2">
+                  <div className="space-y-2 mt-4">
                     {[
                       { stars: 5, percentage: 45, replyRate: 95, trackColor: 'bg-green-200', fillColor: 'bg-green-500' },
                       { stars: 4, percentage: 28, replyRate: 88, trackColor: 'bg-blue-200', fillColor: 'bg-blue-500' },
@@ -996,7 +996,7 @@ export default function ReviewsMVP() {
                   </div>
                   
                   {/* Response Rate by Star Rating */}
-                  <div className="space-y-2">
+                  <div className="space-y-2 mt-4">
                     {[
                       { stars: 5, percentage: 45, fillColor: 'bg-green-600' },
                       { stars: 4, percentage: 72, fillColor: 'bg-blue-600' },
