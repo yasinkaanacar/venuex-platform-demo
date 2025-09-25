@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -61,7 +61,9 @@ import {
   FileText,
   Settings,
   X,
-  Sparkles
+  Sparkles,
+  ChevronUp,
+  ChevronDown
 } from 'lucide-react';
 import Header from '@/components/overview/header';
 
@@ -99,6 +101,20 @@ export default function ReviewsMVP() {
 
   // Selected review state
   const [selectedReviewId, setSelectedReviewId] = useState<number | null>(null);
+
+  // Locations table sorting state
+  const [sortField, setSortField] = useState<string | null>(null);
+  const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
+
+  // Sorting function for locations table
+  const handleSort = (field: string) => {
+    if (sortField === field) {
+      setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc');
+    } else {
+      setSortField(field);
+      setSortDirection('asc');
+    }
+  };
 
   // Sample data for MVP
   const kpiData = {
@@ -150,6 +166,56 @@ export default function ReviewsMVP() {
     { code: "BOY029", name: "Mavera AVM", city: "Muğla", sublocation: "Bodrum", reviews: 108, rating: 4.3, replyRate: 68, sentiment: "Positive", topPositive: "Resort Atmosphere", topNegative: "Seasonal Business" },
     { code: "BOY030", name: "Akçaabat Çarşı", city: "Trabzon", sublocation: "Akçaabat", reviews: 98, rating: 4.1, replyRate: 54, sentiment: "Neutral", topPositive: "Local Cuisine", topNegative: "Transportation" }
   ];
+
+  // Sort the locations data using useMemo for performance
+  const sortedLocationsData = useMemo(() => {
+    if (!sortField) return locationsData;
+    
+    return [...locationsData].sort((a, b) => {
+      let aValue, bValue;
+      
+      switch (sortField) {
+        case 'code':
+          aValue = a.code;
+          bValue = b.code;
+          break;
+        case 'name':
+          aValue = a.name;
+          bValue = b.name;
+          break;
+        case 'reviews':
+          aValue = a.reviews;
+          bValue = b.reviews;
+          break;
+        case 'rating':
+          aValue = a.rating;
+          bValue = b.rating;
+          break;
+        case 'replyRate':
+          aValue = a.replyRate;
+          bValue = b.replyRate;
+          break;
+        case 'sentiment':
+          aValue = a.sentiment;
+          bValue = b.sentiment;
+          break;
+        case 'city':
+          aValue = a.city;
+          bValue = b.city;
+          break;
+        default:
+          return 0;
+      }
+      
+      if (typeof aValue === 'string' && typeof bValue === 'string') {
+        const comparison = aValue.localeCompare(bValue);
+        return sortDirection === 'asc' ? comparison : -comparison;
+      } else {
+        const comparison = aValue < bValue ? -1 : aValue > bValue ? 1 : 0;
+        return sortDirection === 'asc' ? comparison : -comparison;
+      }
+    });
+  }, [locationsData, sortField, sortDirection]);
 
   // Themes data for Advantages/Disadvantages
   const themesData = {
@@ -1671,17 +1737,77 @@ export default function ReviewsMVP() {
                   <table className="w-full">
                     <thead className="bg-gray-50 border-b">
                       <tr>
-                        <th className="text-left p-4 font-medium text-gray-900">Store Code</th>
-                        <th className="text-left p-4 font-medium text-gray-900">Store Name</th>
-                        <th className="text-left p-4 font-medium text-gray-900">Reviews</th>
-                        <th className="text-left p-4 font-medium text-gray-900">Avg. Rating</th>
-                        <th className="text-left p-4 font-medium text-gray-900">Reply Rate</th>
-                        <th className="text-left p-4 font-medium text-gray-900">Sentiment</th>
+                        <th 
+                          className="text-left p-4 font-medium text-gray-900 cursor-pointer hover:bg-gray-100 select-none"
+                          onClick={() => handleSort('code')}
+                        >
+                          <div className="flex items-center gap-1">
+                            Store Code
+                            {sortField === 'code' && (
+                              sortDirection === 'asc' ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />
+                            )}
+                          </div>
+                        </th>
+                        <th 
+                          className="text-left p-4 font-medium text-gray-900 cursor-pointer hover:bg-gray-100 select-none"
+                          onClick={() => handleSort('name')}
+                        >
+                          <div className="flex items-center gap-1">
+                            Store Name
+                            {sortField === 'name' && (
+                              sortDirection === 'asc' ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />
+                            )}
+                          </div>
+                        </th>
+                        <th 
+                          className="text-left p-4 font-medium text-gray-900 cursor-pointer hover:bg-gray-100 select-none"
+                          onClick={() => handleSort('reviews')}
+                        >
+                          <div className="flex items-center gap-1">
+                            Reviews
+                            {sortField === 'reviews' && (
+                              sortDirection === 'asc' ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />
+                            )}
+                          </div>
+                        </th>
+                        <th 
+                          className="text-left p-4 font-medium text-gray-900 cursor-pointer hover:bg-gray-100 select-none"
+                          onClick={() => handleSort('rating')}
+                        >
+                          <div className="flex items-center gap-1">
+                            Avg. Rating
+                            {sortField === 'rating' && (
+                              sortDirection === 'asc' ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />
+                            )}
+                          </div>
+                        </th>
+                        <th 
+                          className="text-left p-4 font-medium text-gray-900 cursor-pointer hover:bg-gray-100 select-none"
+                          onClick={() => handleSort('replyRate')}
+                        >
+                          <div className="flex items-center gap-1">
+                            Reply Rate
+                            {sortField === 'replyRate' && (
+                              sortDirection === 'asc' ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />
+                            )}
+                          </div>
+                        </th>
+                        <th 
+                          className="text-left p-4 font-medium text-gray-900 cursor-pointer hover:bg-gray-100 select-none"
+                          onClick={() => handleSort('sentiment')}
+                        >
+                          <div className="flex items-center gap-1">
+                            Sentiment
+                            {sortField === 'sentiment' && (
+                              sortDirection === 'asc' ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />
+                            )}
+                          </div>
+                        </th>
                         <th className="text-left p-4 font-medium text-gray-900">Top Themes</th>
                       </tr>
                     </thead>
                     <tbody>
-                      {locationsData.map((location, index) => (
+                      {sortedLocationsData.map((location, index) => (
                         <tr 
                           key={location.code} 
                           className="border-b hover:bg-gray-50 cursor-pointer transition-colors"
