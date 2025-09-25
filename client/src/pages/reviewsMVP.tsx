@@ -1646,7 +1646,7 @@ export default function ReviewsMVP() {
                                   <span className="text-sm text-gray-300">Overall Rating:</span>
                                   <div className="flex items-center gap-1">
                                     <span className="font-medium text-white text-sm">
-                                      {locationContextData[selectedReview.location]?.overallRating || 4.0} ★
+                                      ★ {locationContextData[selectedReview.location]?.overallRating || 4.0}
                                     </span>
                                   </div>
                                 </div>
@@ -1682,7 +1682,7 @@ export default function ReviewsMVP() {
                                   <div className="flex items-center justify-between gap-5">
                                     <span className="text-sm text-gray-300">Overall Rating:</span>
                                     <span className="font-medium text-white text-sm">
-                                      {productContextData[selectedReview.product]?.overallRating || 4.0} ★
+                                      ★ {productContextData[selectedReview.product]?.overallRating || 4.0}
                                     </span>
                                   </div>
                                 </div>
