@@ -1538,7 +1538,7 @@ export default function ReviewsMVP() {
                                 />
                               ))}
                             </div>
-                            {review.isNew && <span className="text-xs px-2 py-1 bg-emerald-500 text-white font-medium rounded-sm">NEW</span>}
+                            {review.isNew && <span className="text-xs px-2 py-1 text-white font-medium rounded-sm" style={{ backgroundColor: '#25c55f' }}>NEW</span>}
                           </div>
                           <div className="font-medium text-sm mb-1">{review.reviewer}</div>
                           <div className="flex items-center gap-1 text-xs text-gray-600 mb-1">
