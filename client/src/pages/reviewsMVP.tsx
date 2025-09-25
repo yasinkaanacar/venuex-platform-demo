@@ -1213,7 +1213,7 @@ export default function ReviewsMVP() {
                   <div className="flex items-center gap-2">
                     <span className="text-sm font-medium text-gray-700">Sort by:</span>
                     <Select value={leaderboardSortBy} onValueChange={(value) => setLeaderboardSortBy(value as 'rating' | 'volume' | 'replyRate')}>
-                      <SelectTrigger className="w-32 border-gray-300 rounded-md">
+                      <SelectTrigger className="w-40 border-gray-300 rounded-md">
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
