@@ -1498,7 +1498,7 @@ export default function ReviewsMVP() {
               </div>
             )}
 
-            <div className="grid grid-cols-3 gap-6">
+            <div className="grid grid-cols-2 gap-6">
               {/* Review List */}
               <div className="col-span-1">
                 <Card className="bg-[#f9fafb] flex flex-col" style={{ height: reviewsCardHeight || 'auto' }}>
@@ -1564,7 +1564,7 @@ export default function ReviewsMVP() {
               </div>
 
               {/* Review Detail & Reply Pane */}
-              <div className="col-span-2">
+              <div className="col-span-1">
                 <Card className="bg-[#f9fafb]" ref={reviewDetailsRef}>
                   <CardHeader>
                     <CardTitle className="text-base">Review Details</CardTitle>
