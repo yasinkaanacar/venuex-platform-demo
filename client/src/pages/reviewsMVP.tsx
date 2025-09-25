@@ -1001,8 +1001,8 @@ export default function ReviewsMVP() {
                   <Sparkles className="absolute top-4 right-4 w-5 h-5 text-blue-500" />
                   <CardTitle className="tracking-tight text-[#111827] font-semibold text-[18px]">Sentiment Analysis</CardTitle>
                 </CardHeader>
-                <CardContent>
-                  <div className="grid grid-cols-3 gap-4">
+                <CardContent className="flex items-center justify-center">
+                  <div className="grid grid-cols-3 gap-4 w-full">
                     <div className="text-center">
                       <div className="flex items-center justify-center mb-2">
                         <ThumbsUp className="w-6 h-6 text-green-500" />
