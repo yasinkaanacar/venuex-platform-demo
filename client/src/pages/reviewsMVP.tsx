@@ -1631,7 +1631,7 @@ export default function ReviewsMVP() {
                                 </span>
                               )}
                             </span>
-                            <span className="flex items-center gap-1 text-sm text-gray-500">
+                            <span className="flex items-center gap-1 text-sm text-gray-500 ml-3">
                               <Calendar className="w-3 h-3" />
                               <span>{selectedReview.date}</span>
                             </span>
