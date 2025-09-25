@@ -1210,19 +1210,16 @@ export default function ReviewsMVP() {
               <CardHeader>
                 <div className="flex items-center justify-between">
                   <CardTitle>Location Leaderboard</CardTitle>
-                  <div className="flex items-center gap-2">
-                    <span className="text-sm font-medium text-gray-700">Sort by:</span>
-                    <Select value={leaderboardSortBy} onValueChange={(value) => setLeaderboardSortBy(value as 'rating' | 'volume' | 'replyRate')}>
-                      <SelectTrigger className="w-32 border-gray-300 rounded-md">
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="rating">Rating</SelectItem>
-                        <SelectItem value="volume">Volume</SelectItem>
-                        <SelectItem value="replyRate">Reply Rate</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
+                  <Select value={leaderboardSortBy} onValueChange={(value) => setLeaderboardSortBy(value as 'rating' | 'volume' | 'replyRate')}>
+                    <SelectTrigger className="w-40 border-gray-300 rounded-md">
+                      <SelectValue placeholder="Sort by: Rating" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="rating">Sort by: Rating</SelectItem>
+                      <SelectItem value="volume">Sort by: Volume</SelectItem>
+                      <SelectItem value="replyRate">Sort by: Reply Rate</SelectItem>
+                    </SelectContent>
+                  </Select>
                 </div>
               </CardHeader>
               <CardContent>
