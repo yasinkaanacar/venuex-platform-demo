@@ -729,15 +729,7 @@ export default function ReviewsMVP() {
               <div className="col-span-2">
                 <Card>
                   <CardHeader>
-                    <div className="flex items-center justify-between">
-                      <CardTitle className="text-base">Review Details</CardTitle>
-                      <div className="flex gap-2">
-                        <Button variant="outline" size="sm">
-                          <Target className="w-4 h-4 mr-2" />
-                          Change Status
-                        </Button>
-                      </div>
-                    </div>
+                    <CardTitle className="text-base">Review Details</CardTitle>
                   </CardHeader>
                   <CardContent className="space-y-4">
                     {/* Selected Review Display */}
