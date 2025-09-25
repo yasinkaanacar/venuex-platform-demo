@@ -1024,10 +1024,13 @@ export default function ReviewsMVP() {
             <div className="flex items-center justify-between">
               <h2 className="text-2xl font-bold">Review Inbox</h2>
               <div className="flex items-center gap-2">
-                <Badge variant="outline">{recentReviews.filter(r => r.isNew).length} New</Badge>
-                <Button variant="outline" size="sm" onClick={() => setInboxFilters({ source: null, rating: null, week: null, status: null })}>
+                <Button variant="outline" size="sm">
                   <Filter className="w-4 h-4 mr-2" />
-                  Clear Filters
+                  Bulk Actions
+                </Button>
+                <Button variant="outline" size="sm">
+                  <Download className="w-4 h-4 mr-2" />
+                  Export
                 </Button>
               </div>
             </div>
