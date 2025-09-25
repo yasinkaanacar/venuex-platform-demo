@@ -70,24 +70,31 @@ export default function ReviewsMVP() {
     responseRate: 85,
     avgResponseTime: "2.5 hours",
     newReviews: 23,
-    pendingResponses: 12
+    pendingResponses: 12,
+    sentimentIndex: 82
   };
 
-  // Themes data for Avantajlar/Dezavantajlar
+  const openIssuesData = {
+    unreplied: 12,
+    slaRisk: 8,
+    escalated: 3
+  };
+
+  // Themes data for Advantages/Disadvantages
   const themesData = {
     positive: [
-      { theme: "Lezzet", percentage: 91, count: 156, sentiment: "positive" },
-      { theme: "Personel", percentage: 87, count: 142, sentiment: "positive" },
-      { theme: "Temizlik", percentage: 84, count: 128, sentiment: "positive" },
-      { theme: "Atmosfer", percentage: 79, count: 115, sentiment: "positive" },
-      { theme: "Hızlı Servis", percentage: 76, count: 98, sentiment: "positive" }
+      { theme: "Taste", percentage: 91, count: 156, sentiment: "positive" },
+      { theme: "Staff", percentage: 87, count: 142, sentiment: "positive" },
+      { theme: "Cleanliness", percentage: 84, count: 128, sentiment: "positive" },
+      { theme: "Atmosphere", percentage: 79, count: 115, sentiment: "positive" },
+      { theme: "Fast Service", percentage: 76, count: 98, sentiment: "positive" }
     ],
     negative: [
-      { theme: "Fiyat", percentage: 67, count: 89, sentiment: "negative" },
-      { theme: "Bekleme Süresi", percentage: 58, count: 76, sentiment: "negative" },
-      { theme: "Park Sorunu", percentage: 52, count: 64, sentiment: "negative" },
-      { theme: "Gürültü", percentage: 45, count: 52, sentiment: "negative" },
-      { theme: "Porsiyon", percentage: 41, count: 43, sentiment: "negative" }
+      { theme: "Price", percentage: 67, count: 89, sentiment: "negative" },
+      { theme: "Waiting Time", percentage: 58, count: 76, sentiment: "negative" },
+      { theme: "Parking Issue", percentage: 52, count: 64, sentiment: "negative" },
+      { theme: "Noise", percentage: 45, count: 52, sentiment: "negative" },
+      { theme: "Portion", percentage: 41, count: 43, sentiment: "negative" }
     ]
   };
 
@@ -166,31 +173,196 @@ export default function ReviewsMVP() {
           <TabsList className="grid w-full grid-cols-2 mb-6">
             <TabsTrigger value="ozet" data-testid="tab-ozet">
               <BarChart3 className="w-4 h-4 mr-2" />
-              Özet (Overview)
+              Overview
             </TabsTrigger>
             <TabsTrigger value="inbox" data-testid="tab-inbox">
               <MessageSquare className="w-4 h-4 mr-2" />
-              Gelen Kutusu (Inbox)
+              Inbox
             </TabsTrigger>
           </TabsList>
 
-          {/* Özet (Overview) Tab */}
+          {/* Overview Tab */}
           <TabsContent value="ozet" className="space-y-6">
-            <div className="flex items-center justify-between">
-              <h2 className="text-2xl font-bold">Haftanın Özeti - Avantajlar / Dezavantajlar</h2>
-              <div className="text-sm text-gray-500">Son 7 gün</div>
+            {/* KPI Summary Cards */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+              {/* Average Rating Card */}
+              <Card className="cursor-pointer hover:shadow-md transition-shadow" data-testid="card-average-rating">
+                <CardHeader className="pb-4">
+                  <CardTitle className="text-lg font-semibold text-gray-900">Average Rating</CardTitle>
+                  <div className="text-sm text-gray-500">(Last 30 days)</div>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="text-4xl font-bold text-gray-900">{kpiData.averageRating}</div>
+                  <div className="text-sm text-gray-500 mb-4">{kpiData.totalReviews.toLocaleString()} reviews</div>
+                  
+                  {/* Rating Distribution */}
+                  <div className="space-y-2">
+                    {[
+                      { stars: 5, percentage: 92, color: 'bg-yellow-500' },
+                      { stars: 4, percentage: 5, color: 'bg-orange-400' },
+                      { stars: 3, percentage: 1, color: 'bg-orange-400' },
+                      { stars: 2, percentage: 2, color: 'bg-orange-400' },
+                      { stars: 1, percentage: 2, color: 'bg-orange-400' }
+                    ].map((rating) => (
+                      <div key={rating.stars} className="flex items-center gap-3">
+                        <span className="text-sm font-medium w-2">{rating.stars}</span>
+                        <div className="flex-1 bg-gray-200 rounded-full h-2 relative">
+                          <div 
+                            className={`${rating.color} h-2 rounded-full`}
+                            style={{ width: `${rating.percentage}%` }}
+                          />
+                        </div>
+                        <span className="text-sm text-gray-600 w-8 text-right">{rating.percentage}%</span>
+                      </div>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Review Volume Card */}
+              <Card className="cursor-pointer hover:shadow-md transition-shadow" data-testid="card-review-volume">
+                <CardHeader className="pb-3">
+                  <CardTitle className="tracking-tight text-[#111827] font-semibold text-[18px]">Review Volume</CardTitle>
+                  <div className="text-sm text-gray-500">(Last 30 Days)</div>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-3">
+                    <div>
+                      <div className="text-2xl font-bold text-gray-900">{kpiData.totalReviews.toLocaleString()}</div>
+                      <div className="flex items-center gap-1 text-xs text-green-600">
+                        <ArrowUp className="w-3 h-3" />
+                        +12% vs previous period
+                      </div>
+                    </div>
+                    
+                    <div className="grid grid-cols-2 gap-3 pt-1 border-t border-gray-100">
+                      <div>
+                        <div className="text-xs text-gray-600 mb-1">Reply Rate</div>
+                        <div className="text-base font-bold text-gray-900">{kpiData.responseRate}%</div>
+                        <div className="flex items-center gap-1 text-xs text-green-600">
+                          <ArrowUp className="w-2 h-2" />
+                          +5%
+                        </div>
+                      </div>
+                      
+                      <div>
+                        <div className="flex items-center justify-between mb-1">
+                          <div className="text-xs text-gray-600">Response Time</div>
+                        </div>
+                        <div className="text-base font-bold text-gray-900">{kpiData.avgResponseTime}</div>
+                        <div className="flex items-center gap-1 text-xs text-red-600">
+                          <ArrowUp className="w-2 h-2" />
+                          +2h
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div className="pt-1 border-t border-gray-100">
+                      <div className="flex items-center justify-between mb-1">
+                        <div className="text-xs text-gray-600">Unanswered Count</div>
+                        <Badge variant="destructive" className="text-xs px-1 py-0.5" data-testid="badge-urgent-action">
+                          Urgent
+                        </Badge>
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <div className="text-base font-bold text-red-600">{openIssuesData.unreplied}</div>
+                        <div className="text-xs text-red-600">Needs attention</div>
+                      </div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Top Themes Card */}
+              <Card className="cursor-pointer hover:shadow-md transition-shadow" data-testid="card-top-themes">
+                <CardHeader className="pb-3">
+                  <CardTitle className="tracking-tight text-[#111827] font-semibold text-[18px]">Top Themes</CardTitle>
+                  <div className="text-sm text-gray-500">(Last 30 Days)</div>
+                </CardHeader>
+                <CardContent className="flex items-center justify-center">
+                  <div className="space-y-4">
+                    {/* Most Positive Theme */}
+                    <div className="flex items-center gap-3">
+                      <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+                      <div className="flex-1">
+                        <div className="text-base font-bold text-gray-900">Staff Service</div>
+                        <div className="text-sm text-gray-600">91% positive • 156 mentions</div>
+                      </div>
+                    </div>
+                    
+                    {/* Most Negative Theme */}
+                    <div className="flex items-center gap-3">
+                      <div className="w-3 h-3 bg-red-500 rounded-full"></div>
+                      <div className="flex-1">
+                        <div className="text-base font-bold text-gray-900">Pricing</div>
+                        <div className="text-sm text-gray-600">55% negative • 98 mentions</div>
+                      </div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Sentiment Index Card */}
+              <Card className="cursor-pointer hover:shadow-md transition-shadow" data-testid="card-sentiment-index">
+                <CardHeader className="pb-3">
+                  <CardTitle className="tracking-tight text-[#111827] font-semibold text-[18px]">Sentiment Index</CardTitle>
+                  <div className="text-sm text-gray-500">(Last 30 Days)</div>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-3">
+                    <div>
+                      <div className="text-2xl font-bold text-gray-900">{kpiData.sentimentIndex}%</div>
+                      <div className="flex items-center gap-1 text-xs text-green-600">
+                        <ArrowUp className="w-3 h-3" />
+                        +3% overall improvement
+                      </div>
+                    </div>
+                    
+                    <div className="space-y-2 pt-1 border-t border-gray-100">
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-2">
+                          <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                          <span className="text-xs text-gray-600">Positive</span>
+                        </div>
+                        <span className="text-sm font-bold text-green-600">68%</span>
+                      </div>
+                      
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-2">
+                          <div className="w-2 h-2 bg-gray-400 rounded-full"></div>
+                          <span className="text-xs text-gray-600">Neutral</span>
+                        </div>
+                        <span className="text-sm font-bold text-gray-600">24%</span>
+                      </div>
+                      
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-2">
+                          <div className="w-2 h-2 bg-red-500 rounded-full"></div>
+                          <span className="text-xs text-gray-600">Negative</span>
+                        </div>
+                        <span className="text-sm font-bold text-red-600">8%</span>
+                      </div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
             </div>
 
-            {/* Avantajlar / Dezavantajlar Cards */}
+            <div className="flex items-center justify-between">
+              <h2 className="text-2xl font-bold">Weekly Summary - Advantages / Disadvantages</h2>
+              <div className="text-sm text-gray-500">Last 7 days</div>
+            </div>
+
+            {/* Advantages / Disadvantages Cards */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {/* Avantajlar (Advantages) Card */}
+              {/* Advantages Card */}
               <Card>
                 <CardHeader className="pb-4">
                   <CardTitle className="text-xl font-semibold text-green-700 flex items-center gap-2">
                     <TrendingUp className="w-5 h-5" />
-                    Avantajlar
+                    Advantages
                   </CardTitle>
-                  <p className="text-sm text-gray-600">En olumlu temalar</p>
+                  <p className="text-sm text-gray-600">Most positive themes</p>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   {themesData.positive.map((item, index) => (
@@ -215,14 +387,14 @@ export default function ReviewsMVP() {
                 </CardContent>
               </Card>
 
-              {/* Dezavantajlar (Disadvantages) Card */}
+              {/* Disadvantages Card */}
               <Card>
                 <CardHeader className="pb-4">
                   <CardTitle className="text-xl font-semibold text-red-700 flex items-center gap-2">
                     <TrendingDown className="w-5 h-5" />
-                    Dezavantajlar
+                    Disadvantages
                   </CardTitle>
-                  <p className="text-sm text-gray-600">En olumsuz temalar</p>
+                  <p className="text-sm text-gray-600">Most negative themes</p>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   {themesData.negative.map((item, index) => (
@@ -249,7 +421,7 @@ export default function ReviewsMVP() {
             </div>
           </TabsContent>
 
-          {/* Gelen Kutusu (Inbox) Tab */}
+          {/* Inbox Tab */}
           <TabsContent value="inbox" className="space-y-6">
             <div className="flex items-center justify-between">
               <h2 className="text-2xl font-bold">Review Inbox</h2>
@@ -341,7 +513,7 @@ export default function ReviewsMVP() {
                               ))}
                             </div>
                             <span className="text-xs text-gray-500">{review.platform}</span>
-                            {review.isNew && <Badge variant="destructive" className="text-xs px-1 py-0">YENİ</Badge>}
+                            {review.isNew && <Badge variant="destructive" className="text-xs px-1 py-0">NEW</Badge>}
                           </div>
                           <div className="font-medium text-sm mb-1">{review.reviewer}</div>
                           <div className="text-xs text-gray-600 mb-1">{review.location}</div>
@@ -363,11 +535,11 @@ export default function ReviewsMVP() {
                       <div className="flex gap-2">
                         <Button variant="outline" size="sm">
                           <Users className="w-4 h-4 mr-2" />
-                          Ata
+                          Assign
                         </Button>
                         <Button variant="outline" size="sm">
                           <Target className="w-4 h-4 mr-2" />
-                          Durumu Değiştir
+                          Change Status
                         </Button>
                       </div>
                     </div>
@@ -398,11 +570,11 @@ export default function ReviewsMVP() {
                         <div className="flex gap-2">
                           <Button variant="outline" size="sm">
                             <BookOpen className="w-4 h-4 mr-2" />
-                            Şablon Seç
+                            Select Template
                           </Button>
                           <Button variant="outline" size="sm">
                             <Target className="w-4 h-4 mr-2" />
-                            AI Öneri
+                            AI Suggestion
                           </Button>
                         </div>
                       </div>
@@ -421,7 +593,7 @@ export default function ReviewsMVP() {
                           <Button variant="outline">Save Draft</Button>
                           <Button>
                             <Send className="w-4 h-4 mr-2" />
-                            Gönder
+                            Send
                           </Button>
                         </div>
                       </div>
