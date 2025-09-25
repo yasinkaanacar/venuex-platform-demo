@@ -983,7 +983,7 @@ export default function ReviewsMVP() {
               {/* Review Volume Card */}
               <Card className="rounded-lg border text-card-foreground shadow-sm cursor-pointer hover:shadow-md transition-shadow bg-[#f9fafb]" data-testid="card-review-volume">
                 <CardHeader className="pb-3">
-                  <CardTitle className="tracking-tight text-[#111827] font-semibold text-[18px]">Review Volume</CardTitle>
+                  <CardTitle className="tracking-tight text-[#111827] font-semibold text-[18px]">Response Rate</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-3">
