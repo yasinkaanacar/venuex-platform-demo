@@ -983,18 +983,6 @@ export default function ReviewsMVP() {
                       </div>
                     </div>
                     
-                    <div className="pt-1 border-t border-gray-100">
-                      <div className="flex items-center justify-between mb-1">
-                        <div className="text-xs text-gray-600">Unanswered Count</div>
-                        <Badge variant="destructive" className="text-xs px-1 py-0.5" data-testid="badge-urgent-action">
-                          Urgent
-                        </Badge>
-                      </div>
-                      <div className="flex items-center justify-between">
-                        <div className="text-base font-bold text-red-600">{openIssuesData.unreplied}</div>
-                        <div className="text-xs text-red-600">Needs attention</div>
-                      </div>
-                    </div>
                   </div>
                 </CardContent>
               </Card>
