@@ -96,6 +96,9 @@ export default function ReviewsMVP() {
   const [templatesOpen, setTemplatesOpen] = useState(false);
   const [aiSettingsOpen, setAiSettingsOpen] = useState(false);
 
+  // Selected review state
+  const [selectedReviewId, setSelectedReviewId] = useState<number | null>(null);
+
   // Sample data for MVP
   const kpiData = {
     totalReviews: 1247,
@@ -1286,7 +1289,7 @@ export default function ReviewsMVP() {
                     <CardTitle className="text-base">Reviews ({recentReviews.length})</CardTitle>
                   </CardHeader>
                   <CardContent className="p-0">
-                    <div className="space-y-1">
+                    <div className="space-y-1 max-h-96 overflow-y-auto">
                       {recentReviews.filter(review => {
                         if (inboxFilters.source && review.platform !== inboxFilters.source) return false;
                         if (inboxFilters.rating && review.rating !== inboxFilters.rating) return false;
@@ -1294,8 +1297,16 @@ export default function ReviewsMVP() {
                           // Add status filtering logic here
                         }
                         return true;
-                      }).map((review) => (
-                        <div key={review.id} className={`p-4 border-b hover:bg-gray-50 cursor-pointer ${review.isNew ? 'bg-blue-50 border-l-4 border-l-blue-500' : ''}`}>
+                      }).slice(0, 15).map((review) => (
+                        <div 
+                          key={review.id} 
+                          className={`p-4 border-b hover:bg-gray-50 cursor-pointer transition-colors ${
+                            review.isNew ? 'bg-blue-50 border-l-4 border-l-blue-500' : ''
+                          } ${
+                            selectedReviewId === review.id ? 'bg-blue-100 border-l-4 border-l-blue-600' : ''
+                          }`}
+                          onClick={() => setSelectedReviewId(review.id)}
+                        >
                           <div className="flex items-center gap-2 mb-2">
                             <div className="flex">
                               {[...Array(5)].map((_, i) => (
@@ -1340,104 +1351,130 @@ export default function ReviewsMVP() {
                   </CardHeader>
                   <CardContent className="space-y-4">
                     {/* Selected Review Display */}
-                    <div className="border rounded-lg p-4 bg-gray-50">
-                      <div className="flex items-center gap-2 mb-3">
-                        <div className="flex">
-                          {[...Array(5)].map((_, i) => (
-                            <Star
-                              key={i}
-                              className={`w-4 h-4 ${i < recentReviews[0].rating ? 'fill-yellow-400 text-yellow-400' : 'text-gray-300'}`}
-                            />
-                          ))}
+                    {(() => {
+                      const selectedReview = selectedReviewId 
+                        ? recentReviews.find(r => r.id === selectedReviewId) 
+                        : recentReviews[0];
+                      
+                      if (!selectedReview) {
+                        return (
+                          <div className="border rounded-lg p-4 bg-gray-50 text-center text-gray-500">
+                            Select a review from the list to view details
+                          </div>
+                        );
+                      }
+
+                      return (
+                        <div className="border rounded-lg p-4 bg-gray-50">
+                          <div className="flex items-center gap-2 mb-3">
+                            <div className="flex">
+                              {[...Array(5)].map((_, i) => (
+                                <Star
+                                  key={i}
+                                  className={`w-4 h-4 ${i < selectedReview.rating ? 'fill-yellow-400 text-yellow-400' : 'text-gray-300'}`}
+                                />
+                              ))}
+                            </div>
+                            <span className="font-medium">{selectedReview.reviewer}</span>
+                            <span className="text-sm text-gray-500">- 
+                              {reviewSource === "locations" ? (
+                                <span className="inline-flex items-center gap-1 ml-1">
+                                  <MapPin className="w-3 h-3" />
+                                  {selectedReview.location}
+                                </span>
+                              ) : (
+                                <span className="inline-flex items-center gap-1 ml-1">
+                                  <ShoppingBag className="w-3 h-3" />
+                                  {selectedReview.product} ({selectedReview.productSku})
+                                </span>
+                              )}
+                            </span>
+                            <span className="text-sm text-gray-500">- {selectedReview.date}</span>
+                          </div>
+                          <p className="text-gray-700">{selectedReview.text}</p>
                         </div>
-                        <span className="font-medium">{recentReviews[0].reviewer}</span>
-                        <span className="text-sm text-gray-500">- 
-                          {reviewSource === "locations" ? (
-                            <span className="inline-flex items-center gap-1 ml-1">
-                              <MapPin className="w-3 h-3" />
-                              {recentReviews[0].location}
-                            </span>
-                          ) : (
-                            <span className="inline-flex items-center gap-1 ml-1">
-                              <ShoppingBag className="w-3 h-3" />
-                              {recentReviews[0].product} ({recentReviews[0].productSku})
-                            </span>
-                          )}
-                        </span>
-                        <span className="text-sm text-gray-500">- {recentReviews[0].date}</span>
-                      </div>
-                      <p className="text-gray-700">{recentReviews[0].text}</p>
-                    </div>
+                      );
+                    })()}
 
                     {/* Contextual Snippet */}
-                    <div className="border border-blue-200 rounded-lg bg-blue-50 p-4">
-                      {reviewSource === "locations" ? (
-                        // Location Snapshot
-                        (<div>
-                          <h4 className="font-medium text-blue-900 mb-3 flex items-center gap-2">
-                            <MapPin className="w-4 h-4" />
-                            Location Snapshot: {recentReviews[0].location}
-                          </h4>
-                          <div className="space-y-2">
-                            <div className="flex items-center justify-between">
-                              <span className="text-sm text-blue-800">Overall Rating:</span>
-                              <div className="flex items-center gap-1">
-                                <span className="font-medium text-blue-900">
-                                  {locationContextData[recentReviews[0].location]?.overallRating || 4.0} ★
-                                </span>
+                    {(() => {
+                      const selectedReview = selectedReviewId 
+                        ? recentReviews.find(r => r.id === selectedReviewId) 
+                        : recentReviews[0];
+                      
+                      if (!selectedReview) return null;
+
+                      return (
+                        <div className="border border-blue-200 rounded-lg bg-blue-50 p-4">
+                          {reviewSource === "locations" ? (
+                            // Location Snapshot
+                            <div>
+                              <h4 className="font-medium text-blue-900 mb-3 flex items-center gap-2">
+                                <MapPin className="w-4 h-4" />
+                                Location Snapshot: {selectedReview.location}
+                              </h4>
+                              <div className="space-y-2">
+                                <div className="flex items-center justify-between">
+                                  <span className="text-sm text-blue-800">Overall Rating:</span>
+                                  <div className="flex items-center gap-1">
+                                    <span className="font-medium text-blue-900">
+                                      {locationContextData[selectedReview.location]?.overallRating || 4.0} ★
+                                    </span>
+                                  </div>
+                                </div>
+                                <div className="flex items-center justify-between">
+                                  <span className="text-sm text-blue-800">Total Reviews:</span>
+                                  <span className="font-medium text-blue-900">
+                                    {locationContextData[selectedReview.location]?.totalReviews || 150} Reviews
+                                  </span>
+                                </div>
+                                <div className="flex items-center justify-between">
+                                  <span className="text-sm text-blue-800">Top Issue:</span>
+                                  <span className="font-medium text-blue-900">
+                                    {locationContextData[selectedReview.location]?.topNegativeTheme || "Staff Attitude"}
+                                  </span>
+                                </div>
                               </div>
                             </div>
-                            <div className="flex items-center justify-between">
-                              <span className="text-sm text-blue-800">Total Reviews:</span>
-                              <span className="font-medium text-blue-900">
-                                {locationContextData[recentReviews[0].location]?.totalReviews || 150} Reviews
-                              </span>
-                            </div>
-                            <div className="flex items-center justify-between">
-                              <span className="text-sm text-blue-800">Top Issue:</span>
-                              <span className="font-medium text-blue-900">
-                                {locationContextData[recentReviews[0].location]?.topNegativeTheme || "Staff Attitude"}
-                              </span>
-                            </div>
-                          </div>
-                        </div>)
-                      ) : (
-                        // Product Snapshot
-                        (<div>
-                          <h4 className="font-medium text-blue-900 mb-3 flex items-center gap-2">
-                            <ShoppingBag className="w-4 h-4" />
-                            Product Snapshot: {recentReviews[0].product}
-                          </h4>
-                          <div className="grid grid-cols-2 gap-4">
-                            <div className="space-y-2">
-                              <div className="flex items-center justify-between">
-                                <span className="text-sm text-blue-800">SKU / ID:</span>
-                                <span className="font-medium text-blue-900">
-                                  {productContextData[recentReviews[0].product]?.sku || recentReviews[0].productSku}
-                                </span>
-                              </div>
-                              <div className="flex items-center justify-between">
-                                <span className="text-sm text-blue-800">Overall Rating:</span>
-                                <span className="font-medium text-blue-900">
-                                  {productContextData[recentReviews[0].product]?.overallRating || 4.0} ★
-                                </span>
-                              </div>
-                            </div>
-                            <div className="space-y-2">
-                              <div className="flex items-center justify-between">
-                                <span className="text-sm text-blue-800">Top Issue:</span>
-                                <span className="font-medium text-blue-900">
-                                  {productContextData[recentReviews[0].product]?.topNegativeTheme || "Quality"}
-                                </span>
-                              </div>
-                              <div className="w-12 h-12 bg-white rounded border flex items-center justify-center">
-                                <ShoppingBag className="w-6 h-6 text-gray-400" />
+                          ) : (
+                            // Product Snapshot
+                            <div>
+                              <h4 className="font-medium text-blue-900 mb-3 flex items-center gap-2">
+                                <ShoppingBag className="w-4 h-4" />
+                                Product Snapshot: {selectedReview.product}
+                              </h4>
+                              <div className="grid grid-cols-2 gap-4">
+                                <div className="space-y-2">
+                                  <div className="flex items-center justify-between">
+                                    <span className="text-sm text-blue-800">SKU / ID:</span>
+                                    <span className="font-medium text-blue-900">
+                                      {productContextData[selectedReview.product]?.sku || selectedReview.productSku}
+                                    </span>
+                                  </div>
+                                  <div className="flex items-center justify-between">
+                                    <span className="text-sm text-blue-800">Overall Rating:</span>
+                                    <span className="font-medium text-blue-900">
+                                      {productContextData[selectedReview.product]?.overallRating || 4.0} ★
+                                    </span>
+                                  </div>
+                                </div>
+                                <div className="space-y-2">
+                                  <div className="flex items-center justify-between">
+                                    <span className="text-sm text-blue-800">Top Issue:</span>
+                                    <span className="font-medium text-blue-900">
+                                      {productContextData[selectedReview.product]?.topNegativeTheme || "Quality"}
+                                    </span>
+                                  </div>
+                                  <div className="w-12 h-12 bg-white rounded border flex items-center justify-center">
+                                    <ShoppingBag className="w-6 h-6 text-gray-400" />
+                                  </div>
+                                </div>
                               </div>
                             </div>
-                          </div>
-                        </div>)
-                      )}
-                    </div>
+                          )}
+                        </div>
+                      );
+                    })()}
 
                     {/* Reply Section */}
                     <div className="space-y-3">
