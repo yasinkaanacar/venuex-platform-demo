@@ -1642,7 +1642,7 @@ export default function ReviewsMVP() {
                                 {selectedReview.location}
                               </h4>
                               <div className="space-y-1">
-                                <div className="flex items-center justify-between">
+                                <div className="flex items-center justify-between gap-5">
                                   <span className="text-sm text-gray-300">Overall Rating:</span>
                                   <div className="flex items-center gap-1">
                                     <span className="font-medium text-white text-sm">
@@ -1650,13 +1650,13 @@ export default function ReviewsMVP() {
                                     </span>
                                   </div>
                                 </div>
-                                <div className="flex items-center justify-between">
+                                <div className="flex items-center justify-between gap-5">
                                   <span className="text-sm text-gray-300">Total Reviews:</span>
                                   <span className="font-medium text-white text-sm">
                                     {locationContextData[selectedReview.location]?.totalReviews || 150} Reviews
                                   </span>
                                 </div>
-                                <div className="flex items-center justify-between">
+                                <div className="flex items-center justify-between gap-5">
                                   <span className="text-sm text-gray-300">Top Issue:</span>
                                   <span className="font-medium text-white text-sm">
                                     {locationContextData[selectedReview.location]?.topNegativeTheme || "Staff Attitude"}
@@ -1673,13 +1673,13 @@ export default function ReviewsMVP() {
                               </h4>
                               <div className="grid grid-cols-2 gap-2">
                                 <div className="space-y-1">
-                                  <div className="flex items-center justify-between">
+                                  <div className="flex items-center justify-between gap-5">
                                     <span className="text-sm text-gray-300">SKU / ID:</span>
                                     <span className="font-medium text-white text-sm">
                                       {productContextData[selectedReview.product]?.sku || selectedReview.productSku}
                                     </span>
                                   </div>
-                                  <div className="flex items-center justify-between">
+                                  <div className="flex items-center justify-between gap-5">
                                     <span className="text-sm text-gray-300">Overall Rating:</span>
                                     <span className="font-medium text-white text-sm">
                                       {productContextData[selectedReview.product]?.overallRating || 4.0} ★
@@ -1687,7 +1687,7 @@ export default function ReviewsMVP() {
                                   </div>
                                 </div>
                                 <div className="space-y-1">
-                                  <div className="flex items-center justify-between">
+                                  <div className="flex items-center justify-between gap-5">
                                     <span className="text-sm text-gray-300">Top Issue:</span>
                                     <span className="font-medium text-white text-sm">
                                       {productContextData[selectedReview.product]?.topNegativeTheme || "Quality"}
