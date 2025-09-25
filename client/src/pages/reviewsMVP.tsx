@@ -1643,22 +1643,22 @@ export default function ReviewsMVP() {
                               </h4>
                               <div className="space-y-1">
                                 <div className="flex items-center justify-between">
-                                  <span className="text-xs text-blue-800">Overall Rating:</span>
+                                  <span className="text-sm text-blue-800">Overall Rating:</span>
                                   <div className="flex items-center gap-1">
-                                    <span className="font-medium text-blue-900 text-xs">
+                                    <span className="font-medium text-blue-900 text-sm">
                                       {locationContextData[selectedReview.location]?.overallRating || 4.0} ★
                                     </span>
                                   </div>
                                 </div>
                                 <div className="flex items-center justify-between">
-                                  <span className="text-xs text-blue-800">Total Reviews:</span>
-                                  <span className="font-medium text-blue-900 text-xs">
+                                  <span className="text-sm text-blue-800">Total Reviews:</span>
+                                  <span className="font-medium text-blue-900 text-sm">
                                     {locationContextData[selectedReview.location]?.totalReviews || 150} Reviews
                                   </span>
                                 </div>
                                 <div className="flex items-center justify-between">
-                                  <span className="text-xs text-blue-800">Top Issue:</span>
-                                  <span className="font-medium text-blue-900 text-xs">
+                                  <span className="text-sm text-blue-800">Top Issue:</span>
+                                  <span className="font-medium text-blue-900 text-sm">
                                     {locationContextData[selectedReview.location]?.topNegativeTheme || "Staff Attitude"}
                                   </span>
                                 </div>
@@ -1674,22 +1674,22 @@ export default function ReviewsMVP() {
                               <div className="grid grid-cols-2 gap-2">
                                 <div className="space-y-1">
                                   <div className="flex items-center justify-between">
-                                    <span className="text-xs text-blue-800">SKU / ID:</span>
-                                    <span className="font-medium text-blue-900 text-xs">
+                                    <span className="text-sm text-blue-800">SKU / ID:</span>
+                                    <span className="font-medium text-blue-900 text-sm">
                                       {productContextData[selectedReview.product]?.sku || selectedReview.productSku}
                                     </span>
                                   </div>
                                   <div className="flex items-center justify-between">
-                                    <span className="text-xs text-blue-800">Overall Rating:</span>
-                                    <span className="font-medium text-blue-900 text-xs">
+                                    <span className="text-sm text-blue-800">Overall Rating:</span>
+                                    <span className="font-medium text-blue-900 text-sm">
                                       {productContextData[selectedReview.product]?.overallRating || 4.0} ★
                                     </span>
                                   </div>
                                 </div>
                                 <div className="space-y-1">
                                   <div className="flex items-center justify-between">
-                                    <span className="text-xs text-blue-800">Top Issue:</span>
-                                    <span className="font-medium text-blue-900 text-xs">
+                                    <span className="text-sm text-blue-800">Top Issue:</span>
+                                    <span className="font-medium text-blue-900 text-sm">
                                       {productContextData[selectedReview.product]?.topNegativeTheme || "Quality"}
                                     </span>
                                   </div>
