@@ -60,7 +60,8 @@ import {
   Bell,
   FileText,
   Settings,
-  X
+  X,
+  Sparkles
 } from 'lucide-react';
 import Header from '@/components/overview/header';
 
@@ -869,7 +870,7 @@ export default function ReviewsMVP() {
                   <div className="space-y-3">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
-                        <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+                        <Sparkles className="w-4 h-4 text-green-500" />
                         <span className="text-sm text-gray-600">Positive</span>
                       </div>
                       <span className="text-lg font-bold text-green-600">68%</span>
@@ -877,7 +878,7 @@ export default function ReviewsMVP() {
                     
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
-                        <div className="w-3 h-3 bg-gray-400 rounded-full"></div>
+                        <Sparkles className="w-4 h-4 text-gray-400" />
                         <span className="text-sm text-gray-600">Neutral</span>
                       </div>
                       <span className="text-lg font-bold text-gray-600">24%</span>
@@ -885,7 +886,7 @@ export default function ReviewsMVP() {
                     
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
-                        <div className="w-3 h-3 bg-red-500 rounded-full"></div>
+                        <Sparkles className="w-4 h-4 text-red-500" />
                         <span className="text-sm text-gray-600">Negative</span>
                       </div>
                       <span className="text-lg font-bold text-red-600">8%</span>
@@ -1012,7 +1013,10 @@ export default function ReviewsMVP() {
                   {themesData.positive.map((item, index) => (
                     <div key={index} className="space-y-2">
                       <div className="flex items-center justify-between">
-                        <span className="font-medium text-gray-900">{item.theme}</span>
+                        <div className="flex items-center gap-2">
+                          <Sparkles className="w-4 h-4 text-green-500" />
+                          <span className="font-medium text-gray-900">{item.theme}</span>
+                        </div>
                         <div className="flex items-center gap-2 text-sm text-green-600">
                           <span>{item.percentage}%</span>
                           <span className="text-gray-500">({item.count})</span>
@@ -1044,7 +1048,10 @@ export default function ReviewsMVP() {
                   {themesData.negative.map((item, index) => (
                     <div key={index} className="space-y-2">
                       <div className="flex items-center justify-between">
-                        <span className="font-medium text-gray-900">{item.theme}</span>
+                        <div className="flex items-center gap-2">
+                          <Sparkles className="w-4 h-4 text-red-500" />
+                          <span className="font-medium text-gray-900">{item.theme}</span>
+                        </div>
                         <div className="flex items-center gap-2 text-sm text-red-600">
                           <span>{item.percentage}%</span>
                           <span className="text-gray-500">({item.count})</span>
