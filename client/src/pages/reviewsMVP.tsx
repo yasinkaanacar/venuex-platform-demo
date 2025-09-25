@@ -108,6 +108,9 @@ export default function ReviewsMVP() {
 
   // Leaderboard sorting state
   const [leaderboardSortBy, setLeaderboardSortBy] = useState<'rating' | 'volume' | 'replyRate'>('rating');
+  
+  // Period selector state
+  const [selectedPeriod, setSelectedPeriod] = useState("30days");
 
   // Sorting function for locations table
   const handleSort = (field: string) => {
@@ -892,7 +895,7 @@ export default function ReviewsMVP() {
           <TabsContent value="ozet" className="space-y-6">
             {/* Date Range Selector */}
             <div className="flex justify-end mb-4">
-              <Select defaultValue="30days" onValueChange={() => {}}>
+              <Select value={selectedPeriod} onValueChange={setSelectedPeriod}>
                 <SelectTrigger className="w-48 border-gray-300 rounded-md">
                   <SelectValue />
                 </SelectTrigger>
