@@ -1637,28 +1637,28 @@ export default function ReviewsMVP() {
                           {reviewSource === "locations" ? (
                             // Location Snapshot
                             (<div>
-                              <h4 className="font-medium text-blue-900 mb-1 flex items-center gap-2 text-sm">
+                              <h4 className="font-medium text-gray-900 mb-1 flex items-center gap-2 text-base">
                                 <MapPin className="w-3 h-3" />
                                 Location Snapshot: {selectedReview.location}
                               </h4>
                               <div className="space-y-1">
                                 <div className="flex items-center justify-between">
-                                  <span className="text-sm text-blue-800">Overall Rating:</span>
+                                  <span className="text-base text-gray-700">Overall Rating:</span>
                                   <div className="flex items-center gap-1">
-                                    <span className="font-medium text-blue-900 text-sm">
+                                    <span className="font-medium text-gray-900 text-base">
                                       {locationContextData[selectedReview.location]?.overallRating || 4.0} ★
                                     </span>
                                   </div>
                                 </div>
                                 <div className="flex items-center justify-between">
-                                  <span className="text-sm text-blue-800">Total Reviews:</span>
-                                  <span className="font-medium text-blue-900 text-sm">
+                                  <span className="text-base text-gray-700">Total Reviews:</span>
+                                  <span className="font-medium text-gray-900 text-base">
                                     {locationContextData[selectedReview.location]?.totalReviews || 150} Reviews
                                   </span>
                                 </div>
                                 <div className="flex items-center justify-between">
-                                  <span className="text-sm text-blue-800">Top Issue:</span>
-                                  <span className="font-medium text-blue-900 text-sm">
+                                  <span className="text-base text-gray-700">Top Issue:</span>
+                                  <span className="font-medium text-gray-900 text-base">
                                     {locationContextData[selectedReview.location]?.topNegativeTheme || "Staff Attitude"}
                                   </span>
                                 </div>
@@ -1667,29 +1667,29 @@ export default function ReviewsMVP() {
                           ) : (
                             // Product Snapshot
                             (<div>
-                              <h4 className="font-medium text-blue-900 mb-1 flex items-center gap-2 text-sm">
+                              <h4 className="font-medium text-gray-900 mb-1 flex items-center gap-2 text-base">
                                 <ShoppingBag className="w-3 h-3" />
                                 Product Snapshot: {selectedReview.product}
                               </h4>
                               <div className="grid grid-cols-2 gap-2">
                                 <div className="space-y-1">
                                   <div className="flex items-center justify-between">
-                                    <span className="text-sm text-blue-800">SKU / ID:</span>
-                                    <span className="font-medium text-blue-900 text-sm">
+                                    <span className="text-base text-gray-700">SKU / ID:</span>
+                                    <span className="font-medium text-gray-900 text-base">
                                       {productContextData[selectedReview.product]?.sku || selectedReview.productSku}
                                     </span>
                                   </div>
                                   <div className="flex items-center justify-between">
-                                    <span className="text-sm text-blue-800">Overall Rating:</span>
-                                    <span className="font-medium text-blue-900 text-sm">
+                                    <span className="text-base text-gray-700">Overall Rating:</span>
+                                    <span className="font-medium text-gray-900 text-base">
                                       {productContextData[selectedReview.product]?.overallRating || 4.0} ★
                                     </span>
                                   </div>
                                 </div>
                                 <div className="space-y-1">
                                   <div className="flex items-center justify-between">
-                                    <span className="text-sm text-blue-800">Top Issue:</span>
-                                    <span className="font-medium text-blue-900 text-sm">
+                                    <span className="text-base text-gray-700">Top Issue:</span>
+                                    <span className="font-medium text-gray-900 text-base">
                                       {productContextData[selectedReview.product]?.topNegativeTheme || "Quality"}
                                     </span>
                                   </div>
