@@ -1006,7 +1006,7 @@ export default function ReviewsMVP() {
             </div>
 
             {/* Response Performance Section */}
-            <Card>
+            <Card className="bg-[#f9fafb]">
               <CardHeader>
                 <CardTitle>Response Performance</CardTitle>
               </CardHeader>
@@ -1103,7 +1103,7 @@ export default function ReviewsMVP() {
             </Card>
 
             {/* Weekly Summary - Advantages / Disadvantages Card */}
-            <Card>
+            <Card className="bg-[#f9fafb]">
               <CardHeader className="pb-4 relative">
                 <Sparkles className="absolute top-4 right-4 w-5 h-5 text-blue-500" />
                 <CardTitle className="text-2xl font-bold">Weekly Summary - Advantages / Disadvantages</CardTitle>
@@ -1175,7 +1175,7 @@ export default function ReviewsMVP() {
             </Card>
 
             {/* Location Leaderboard */}
-            <Card>
+            <Card className="bg-[#f9fafb]">
               <CardHeader>
                 <div className="flex items-center justify-between">
                   <CardTitle>Location Leaderboard</CardTitle>
@@ -1300,7 +1300,7 @@ export default function ReviewsMVP() {
             </div>
 
             {/* Desktop Filter Bar */}
-            <Card className="border-gray-200">
+            <Card className="border-gray-200 bg-[#f9fafb]">
               <CardContent className="p-4">
                 <div className="flex items-center gap-6">
                   {/* Review Source Filter */}
@@ -1502,7 +1502,7 @@ export default function ReviewsMVP() {
             <div className="grid grid-cols-3 gap-6">
               {/* Review List */}
               <div className="col-span-1">
-                <Card>
+                <Card className="bg-[#f9fafb]">
                   <CardHeader>
                     <CardTitle className="text-base">Reviews ({recentReviews.length})</CardTitle>
                   </CardHeader>
@@ -1563,7 +1563,7 @@ export default function ReviewsMVP() {
 
               {/* Review Detail & Reply Pane */}
               <div className="col-span-2">
-                <Card>
+                <Card className="bg-[#f9fafb]">
                   <CardHeader>
                     <CardTitle className="text-base">Review Details</CardTitle>
                   </CardHeader>
@@ -1737,7 +1737,7 @@ export default function ReviewsMVP() {
             </div>
 
             {/* Location Filter Bar */}
-            <Card className="border-gray-200">
+            <Card className="border-gray-200 bg-[#f9fafb]">
               <CardContent className="p-4">
                 <div className="flex items-center gap-6">
                   {/* Geographic Hierarchy */}
@@ -1879,7 +1879,7 @@ export default function ReviewsMVP() {
               </CardContent>
             </Card>
             
-            <Card>
+            <Card className="bg-[#f9fafb]">
               <CardContent className="p-0">
                 <div className="overflow-x-auto">
                   <table className="w-full">
