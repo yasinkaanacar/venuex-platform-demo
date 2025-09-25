@@ -1713,8 +1713,7 @@ export default function ReviewsMVP() {
 
           {/* Locations Tab */}
           <TabsContent value="locations" className="space-y-6">
-            <div className="flex items-center justify-between">
-              <h2 className="text-2xl font-bold">Store Locations</h2>
+            <div className="flex items-center justify-end">
               <div className="text-sm text-gray-500">{locationsData.length} locations</div>
             </div>
 
