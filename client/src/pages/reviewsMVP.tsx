@@ -913,7 +913,7 @@ export default function ReviewsMVP() {
                       <div className="text-4xl font-bold text-gray-900">{kpiData.averageRating}</div>
                     </div>
                     <div className="flex items-center gap-2">
-                      <Star className="w-8 h-8 text-yellow-500 fill-yellow-500" />
+                      <MessageSquare className="w-8 h-8 text-blue-500" />
                       <div className="text-4xl font-bold text-gray-900">1247</div>
                     </div>
                   </div>
