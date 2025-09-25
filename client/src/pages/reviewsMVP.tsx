@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -129,6 +129,8 @@ export default function ReviewsMVP() {
 
   // Selected review state
   const [selectedReviewId, setSelectedReviewId] = useState<number | null>(null);
+  const reviewDetailsRef = useRef<HTMLDivElement>(null);
+  const [reviewsCardHeight, setReviewsCardHeight] = useState<number | undefined>(undefined);
 
   // Locations table sorting state
   const [sortField, setSortField] = useState<string | null>(null);
@@ -139,6 +141,24 @@ export default function ReviewsMVP() {
   
   // Period selector state
   const [selectedPeriod, setSelectedPeriod] = useState("30days");
+
+  // Effect to sync Reviews card height with Review Details card
+  useEffect(() => {
+    const updateHeight = () => {
+      if (reviewDetailsRef.current) {
+        const height = reviewDetailsRef.current.offsetHeight;
+        setReviewsCardHeight(height);
+      }
+    };
+
+    updateHeight();
+    const observer = new ResizeObserver(updateHeight);
+    if (reviewDetailsRef.current) {
+      observer.observe(reviewDetailsRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, [selectedReviewId, activeTab]); // Re-run when selection or tab changes
 
   // Sorting function for locations table
   const handleSort = (field: string) => {
@@ -1481,11 +1501,11 @@ export default function ReviewsMVP() {
             <div className="grid grid-cols-3 gap-6">
               {/* Review List */}
               <div className="col-span-1">
-                <Card className="bg-[#f9fafb] h-full flex flex-col">
+                <Card className="bg-[#f9fafb] flex flex-col" style={{ height: reviewsCardHeight || 'auto' }}>
                   <CardHeader>
                     <CardTitle className="text-base">Reviews ({recentReviews.length})</CardTitle>
                   </CardHeader>
-                  <CardContent className="p-0 flex-1 overflow-hidden">
+                  <CardContent className="p-0 flex-1">
                     <div className="space-y-1 h-full overflow-y-auto">
                       {recentReviews.filter(review => {
                         if (inboxFilters.source && review.platform !== inboxFilters.source) return false;
@@ -1545,7 +1565,7 @@ export default function ReviewsMVP() {
 
               {/* Review Detail & Reply Pane */}
               <div className="col-span-2">
-                <Card className="bg-[#f9fafb] h-full">
+                <Card className="bg-[#f9fafb]" ref={reviewDetailsRef}>
                   <CardHeader>
                     <CardTitle className="text-base">Review Details</CardTitle>
                   </CardHeader>
