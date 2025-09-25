@@ -820,9 +820,9 @@ export default function ReviewsMVP() {
   };
 
   return (
-    <div className="min-h-screen bg-[#f9fafb]">
+    <div className="min-h-screen bg-[#ffffff]">
       <Header />
-      <div className="px-6 py-6 bg-[ffffff]">
+      <div className="px-6 py-6 bg-[#ffffff]">
         
 
         {/* Global Settings Header */}
