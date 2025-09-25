@@ -14,6 +14,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { Textarea } from "@/components/ui/textarea";
 import { Separator } from "@/components/ui/separator";
+import { Checkbox } from "@/components/ui/checkbox";
 import { 
   Search, 
   Star, 
@@ -43,7 +44,9 @@ import {
   Trash2,
   ExternalLink,
   Bookmark,
-  Share2
+  Share2,
+  Target,
+  BookOpen
 } from 'lucide-react';
 import Header from '@/components/overview/header';
 
@@ -53,6 +56,12 @@ export default function ReviewsMVP() {
   const [sourceFilter, setSourceFilter] = useState("all");
   const [locationFilter, setLocationFilter] = useState("all");
   const [searchQuery, setSearchQuery] = useState("");
+  const [inboxFilters, setInboxFilters] = useState({
+    source: null,
+    rating: null,
+    week: null,
+    status: null
+  });
 
   // Sample data for MVP
   const kpiData = {
@@ -242,66 +251,201 @@ export default function ReviewsMVP() {
 
           {/* Gelen Kutusu (Inbox) Tab */}
           <TabsContent value="inbox" className="space-y-6">
-            <Card>
-              <CardHeader>
-                <div className="flex items-center justify-between">
-                  <CardTitle>All Reviews</CardTitle>
-                  <div className="flex items-center gap-2">
-                    <div className="relative">
-                      <Search className="w-4 h-4 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
-                      <Input
-                        placeholder="Search reviews..."
-                        value={searchQuery}
-                        onChange={(e) => setSearchQuery(e.target.value)}
-                        className="pl-10 w-64"
-                        data-testid="search-reviews"
-                      />
+            <div className="flex items-center justify-between">
+              <h2 className="text-2xl font-bold">Review Inbox</h2>
+              <div className="flex items-center gap-2">
+                <Badge variant="outline">{recentReviews.filter(r => r.isNew).length} New</Badge>
+                <Button variant="outline" size="sm" onClick={() => setInboxFilters({ source: null, rating: null, week: null, status: null })}>
+                  <Filter className="w-4 h-4 mr-2" />
+                  Clear Filters
+                </Button>
+              </div>
+            </div>
+            
+            {/* Active Filters Display */}
+            {(inboxFilters.source || inboxFilters.rating || inboxFilters.week || inboxFilters.status) && (
+              <div className="flex items-center gap-2 p-3 bg-blue-50 rounded-lg border border-blue-200">
+                <span className="text-sm font-medium text-blue-800">Active Filters:</span>
+                {inboxFilters.source && (
+                  <Badge variant="secondary" className="bg-blue-100 text-blue-800">
+                    Source: {inboxFilters.source}
+                    <button 
+                      onClick={() => setInboxFilters({...inboxFilters, source: null})}
+                      className="ml-1 hover:bg-blue-200 rounded-full p-0.5"
+                    >
+                      ✕
+                    </button>
+                  </Badge>
+                )}
+                {inboxFilters.rating && (
+                  <Badge variant="secondary" className="bg-blue-100 text-blue-800">
+                    Rating: {inboxFilters.rating}★
+                    <button 
+                      onClick={() => setInboxFilters({...inboxFilters, rating: null})}
+                      className="ml-1 hover:bg-blue-200 rounded-full p-0.5"
+                    >
+                      ✕
+                    </button>
+                  </Badge>
+                )}
+                {inboxFilters.week && (
+                  <Badge variant="secondary" className="bg-blue-100 text-blue-800">
+                    Week: {inboxFilters.week}
+                    <button 
+                      onClick={() => setInboxFilters({...inboxFilters, week: null})}
+                      className="ml-1 hover:bg-blue-200 rounded-full p-0.5"
+                    >
+                      ✕
+                    </button>
+                  </Badge>
+                )}
+                {inboxFilters.status && (
+                  <Badge variant="secondary" className="bg-blue-100 text-blue-800">
+                    Status: {inboxFilters.status}
+                    <button 
+                      onClick={() => setInboxFilters({...inboxFilters, status: null})}
+                      className="ml-1 hover:bg-blue-200 rounded-full p-0.5"
+                    >
+                      ✕
+                    </button>
+                  </Badge>
+                )}
+              </div>
+            )}
+
+            <div className="grid grid-cols-3 gap-6">
+              {/* Review List */}
+              <div className="col-span-1">
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="text-base">Reviews ({recentReviews.length})</CardTitle>
+                  </CardHeader>
+                  <CardContent className="p-0">
+                    <div className="space-y-1">
+                      {recentReviews.filter(review => {
+                        if (inboxFilters.source && review.platform !== inboxFilters.source) return false;
+                        if (inboxFilters.rating && review.rating !== inboxFilters.rating) return false;
+                        if (inboxFilters.status) {
+                          // Add status filtering logic here
+                        }
+                        return true;
+                      }).map((review) => (
+                        <div key={review.id} className={`p-4 border-b hover:bg-gray-50 cursor-pointer ${review.isNew ? 'bg-blue-50 border-l-4 border-l-blue-500' : ''}`}>
+                          <div className="flex items-center gap-2 mb-2">
+                            <div className="flex">
+                              {[...Array(5)].map((_, i) => (
+                                <Star
+                                  key={i}
+                                  className={`w-3 h-3 ${i < review.rating ? 'fill-yellow-400 text-yellow-400' : 'text-gray-300'}`}
+                                />
+                              ))}
+                            </div>
+                            <span className="text-xs text-gray-500">{review.platform}</span>
+                            {review.isNew && <Badge variant="destructive" className="text-xs px-1 py-0">YENİ</Badge>}
+                          </div>
+                          <div className="font-medium text-sm mb-1">{review.reviewer}</div>
+                          <div className="text-xs text-gray-600 mb-1">{review.location}</div>
+                          <div className="text-sm text-gray-700 line-clamp-2">{review.text}</div>
+                          <div className="text-xs text-gray-500 mt-2">{review.date}</div>
+                        </div>
+                      ))}
                     </div>
-                    <Button variant="outline" size="sm">
-                      <Download className="w-4 h-4 mr-2" />
-                      Export
-                    </Button>
-                  </div>
-                </div>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  {recentReviews.map((review) => (
-                    <div key={review.id} className="border rounded-lg p-4 hover:bg-gray-50 transition-colors">
-                      <div className="flex items-start justify-between mb-3">
-                        <div className="flex items-center gap-3">
-                          {renderStars(review.rating)}
-                          <Badge variant="outline" className="text-xs">
-                            {review.platform}
-                          </Badge>
-                          {review.isNew && (
-                            <Badge className="bg-green-100 text-green-800 text-xs">
-                              New
-                            </Badge>
-                          )}
-                        </div>
-                        <div className="flex items-center gap-2">
-                          <Button variant="ghost" size="sm">
-                            <Reply className="w-4 h-4" />
-                          </Button>
-                          <Button variant="ghost" size="sm">
-                            <MoreHorizontal className="w-4 h-4" />
-                          </Button>
-                        </div>
-                      </div>
-                      <p className="text-sm text-gray-700 mb-3">{review.text}</p>
-                      <div className="flex items-center justify-between text-xs text-gray-500">
-                        <span>{review.reviewer} • {review.location} • {review.date}</span>
-                        <Button variant="outline" size="sm" className="h-7">
-                          <Reply className="w-3 h-3 mr-1" />
-                          Reply
+                  </CardContent>
+                </Card>
+              </div>
+
+              {/* Review Detail & Reply Pane */}
+              <div className="col-span-2">
+                <Card>
+                  <CardHeader>
+                    <div className="flex items-center justify-between">
+                      <CardTitle className="text-base">Review Details</CardTitle>
+                      <div className="flex gap-2">
+                        <Button variant="outline" size="sm">
+                          <Users className="w-4 h-4 mr-2" />
+                          Ata
+                        </Button>
+                        <Button variant="outline" size="sm">
+                          <Target className="w-4 h-4 mr-2" />
+                          Durumu Değiştir
                         </Button>
                       </div>
                     </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    {/* Selected Review Display */}
+                    <div className="border rounded-lg p-4 bg-gray-50">
+                      <div className="flex items-center gap-2 mb-3">
+                        <div className="flex">
+                          {[...Array(5)].map((_, i) => (
+                            <Star
+                              key={i}
+                              className={`w-4 h-4 ${i < recentReviews[0].rating ? 'fill-yellow-400 text-yellow-400' : 'text-gray-300'}`}
+                            />
+                          ))}
+                        </div>
+                        <span className="font-medium">{recentReviews[0].reviewer}</span>
+                        <span className="text-sm text-gray-500">- {recentReviews[0].location}</span>
+                        <span className="text-sm text-gray-500">- {recentReviews[0].date}</span>
+                      </div>
+                      <p className="text-gray-700">{recentReviews[0].text}</p>
+                    </div>
+
+                    {/* Reply Section */}
+                    <div className="space-y-3">
+                      <div className="flex items-center justify-between">
+                        <h4 className="font-medium">Write Reply</h4>
+                        <div className="flex gap-2">
+                          <Button variant="outline" size="sm">
+                            <BookOpen className="w-4 h-4 mr-2" />
+                            Şablon Seç
+                          </Button>
+                          <Button variant="outline" size="sm">
+                            <Target className="w-4 h-4 mr-2" />
+                            AI Öneri
+                          </Button>
+                        </div>
+                      </div>
+                      
+                      <Textarea
+                        placeholder="Write your reply here..."
+                        className="min-h-[100px]"
+                      />
+                      
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-2">
+                          <Checkbox id="internal-note" />
+                          <label htmlFor="internal-note" className="text-sm">Save as internal note</label>
+                        </div>
+                        <div className="flex gap-2">
+                          <Button variant="outline">Save Draft</Button>
+                          <Button>
+                            <Send className="w-4 h-4 mr-2" />
+                            Gönder
+                          </Button>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Internal Notes */}
+                    <div className="border-t pt-4">
+                      <h4 className="font-medium mb-2">Internal Notes</h4>
+                      <div className="space-y-2">
+                        <div className="text-sm p-2 bg-yellow-50 rounded border-l-4 border-yellow-400">
+                          <div className="font-medium">Ahmet Y. - 2 hours ago</div>
+                          <div>Spoke with this customer by phone, issue resolved.</div>
+                        </div>
+                      </div>
+                      <Textarea
+                        placeholder="Add new internal note..."
+                        className="mt-2"
+                        rows={2}
+                      />
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+            </div>
           </TabsContent>
 
         </Tabs>
