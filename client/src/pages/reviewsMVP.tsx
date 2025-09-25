@@ -1559,7 +1559,7 @@ export default function ReviewsMVP() {
                             {review.isNew && <span className="text-xs px-2 py-1 text-white font-medium rounded-sm" style={{ backgroundColor: '#25c55f' }}>NEW</span>}
                           </div>
                           <div className="font-medium text-sm mb-1">{review.reviewer}</div>
-                          <div className="text-sm text-gray-500 mb-1">
+                          <div className="flex items-center justify-between text-sm text-gray-500 mb-1">
                             {reviewSource === "locations" ? (
                               <span className="inline-flex items-center gap-1 ml-3">
                                 <MapPin className="w-3 h-3" />
@@ -1571,12 +1571,12 @@ export default function ReviewsMVP() {
                                 {review.product} ({review.productSku})
                               </span>
                             )}
+                            <span className="flex items-center gap-1">
+                              <Calendar className="w-3 h-3" />
+                              <span>{review.date}</span>
+                            </span>
                           </div>
                           <div className="text-sm text-gray-700 line-clamp-2">{review.text}</div>
-                          <div className="flex items-center gap-1 text-sm text-gray-500 ml-3 mt-2">
-                            <Calendar className="w-3 h-3" />
-                            <span>{review.date}</span>
-                          </div>
                         </div>
                       ))}
                     </div>
