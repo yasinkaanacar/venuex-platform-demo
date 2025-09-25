@@ -1307,35 +1307,13 @@ export default function ReviewsMVP() {
                         className="min-h-[100px]"
                       />
                       
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-2">
-                          <Checkbox id="internal-note" />
-                          <label htmlFor="internal-note" className="text-sm">Save as internal note</label>
-                        </div>
-                        <div className="flex gap-2">
-                          <Button variant="outline">Save Draft</Button>
-                          <Button>
-                            <Send className="w-4 h-4 mr-2" />
-                            Send
-                          </Button>
-                        </div>
+                      <div className="flex justify-end gap-2">
+                        <Button variant="outline">Save Draft</Button>
+                        <Button>
+                          <Send className="w-4 h-4 mr-2" />
+                          Send
+                        </Button>
                       </div>
-                    </div>
-
-                    {/* Internal Notes */}
-                    <div className="border-t pt-4">
-                      <h4 className="font-medium mb-2">Internal Notes</h4>
-                      <div className="space-y-2">
-                        <div className="text-sm p-2 bg-yellow-50 rounded border-l-4 border-yellow-400">
-                          <div className="font-medium">Ahmet Y. - 2 hours ago</div>
-                          <div>Spoke with this customer by phone, issue resolved.</div>
-                        </div>
-                      </div>
-                      <Textarea
-                        placeholder="Add new internal note..."
-                        className="mt-2"
-                        rows={2}
-                      />
                     </div>
                   </CardContent>
                 </Card>
