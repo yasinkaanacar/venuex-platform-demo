@@ -630,6 +630,43 @@ export default function ReviewsMVP() {
     }
   ];
 
+  // Mock contextual data for locations and products
+  const locationContextData: { [key: string]: { overallRating: number; totalReviews: number; topNegativeTheme: string } } = {
+    "Bağdat Caddesi": { overallRating: 4.2, totalReviews: 287, topNegativeTheme: "Parking Issues" },
+    "Kanyon AVM": { overallRating: 3.8, totalReviews: 412, topNegativeTheme: "Long Wait Times" },
+    "İstinyePark": { overallRating: 4.1, totalReviews: 356, topNegativeTheme: "Staff Attitude" },
+    "Zorlu Center": { overallRating: 3.9, totalReviews: 298, topNegativeTheme: "Product Availability" },
+    "Nişantaşı": { overallRating: 4.5, totalReviews: 189, topNegativeTheme: "Pricing" },
+    "Akasya AVM": { overallRating: 3.7, totalReviews: 223, topNegativeTheme: "Store Layout" },
+    "Cevahir AVM": { overallRating: 3.6, totalReviews: 445, topNegativeTheme: "Crowd Management" },
+    "Emaar AVM": { overallRating: 4.0, totalReviews: 312, topNegativeTheme: "Product Quality" },
+    "Ankamall": { overallRating: 3.5, totalReviews: 156, topNegativeTheme: "Staff Attitude" },
+    "Forum İzmir": { overallRating: 3.9, totalReviews: 278, topNegativeTheme: "Delivery Times" },
+    "Kent Meydanı": { overallRating: 3.8, totalReviews: 167, topNegativeTheme: "Product Selection" },
+    "Migros AVM": { overallRating: 3.4, totalReviews: 134, topNegativeTheme: "Service Speed" },
+    "Optimum": { overallRating: 4.2, totalReviews: 389, topNegativeTheme: "Parking Issues" },
+    "Forum Mersin": { overallRating: 3.7, totalReviews: 145, topNegativeTheme: "Staff Training" },
+    "Sanko Park": { overallRating: 3.9, totalReviews: 198, topNegativeTheme: "Product Availability" },
+    "Kulesite": { overallRating: 3.3, totalReviews: 112, topNegativeTheme: "Accessibility" },
+    "Espark": { overallRating: 3.8, totalReviews: 156, topNegativeTheme: "Maintenance" },
+    "Park AVM": { overallRating: 4.0, totalReviews: 201, topNegativeTheme: "Parking Fees" },
+    "Forum Trabzon": { overallRating: 3.6, totalReviews: 178, topNegativeTheme: "Weather Protection" },
+    "Piazza Samsun": { overallRating: 3.9, totalReviews: 189, topNegativeTheme: "Food Court" }
+  };
+
+  const productContextData: { [key: string]: { overallRating: number; topNegativeTheme: string; sku: string } } = {
+    "Running Shoes": { overallRating: 4.3, topNegativeTheme: "Sizing Issues", sku: "RS-001" },
+    "Winter Coat": { overallRating: 3.8, topNegativeTheme: "Zipper Quality", sku: "WC-045" },
+    "Coffee Maker": { overallRating: 3.2, topNegativeTheme: "Build Quality", sku: "CM-123" },
+    "Wireless Headphones": { overallRating: 4.1, topNegativeTheme: "Connection Issues", sku: "WH-078" },
+    "Laptop Bag": { overallRating: 4.4, topNegativeTheme: "Strap Durability", sku: "LB-256" },
+    "Smartphone Case": { overallRating: 3.9, topNegativeTheme: "Material Quality", sku: "SC-189" },
+    "Yoga Mat": { overallRating: 3.6, topNegativeTheme: "Thickness", sku: "YM-067" },
+    "Kitchen Knife": { overallRating: 4.2, topNegativeTheme: "Handle Comfort", sku: "KK-234" },
+    "Desk Lamp": { overallRating: 3.7, topNegativeTheme: "Brightness Control", sku: "DL-145" },
+    "Bluetooth Speaker": { overallRating: 4.0, topNegativeTheme: "Battery Life", sku: "BS-098" }
+  };
+
   const locationStats = [
     { name: "Bağdat Caddesi", reviews: 234, rating: 4.5, trend: "up" },
     { name: "Kanyon AVM", reviews: 189, rating: 4.2, trend: "stable" },
@@ -1284,6 +1321,76 @@ export default function ReviewsMVP() {
                         <span className="text-sm text-gray-500">- {recentReviews[0].date}</span>
                       </div>
                       <p className="text-gray-700">{recentReviews[0].text}</p>
+                    </div>
+
+                    {/* Contextual Snippet */}
+                    <div className="border border-blue-200 rounded-lg bg-blue-50 p-4">
+                      {reviewSource === "locations" ? (
+                        // Location Snapshot
+                        <div>
+                          <h4 className="font-medium text-blue-900 mb-3 flex items-center gap-2">
+                            <MapPin className="w-4 h-4" />
+                            Location Snapshot: {recentReviews[0].location}
+                          </h4>
+                          <div className="space-y-2">
+                            <div className="flex items-center justify-between">
+                              <span className="text-sm text-blue-800">Overall Rating:</span>
+                              <div className="flex items-center gap-1">
+                                <span className="font-medium text-blue-900">
+                                  {locationContextData[recentReviews[0].location]?.overallRating || 4.0} ★
+                                </span>
+                              </div>
+                            </div>
+                            <div className="flex items-center justify-between">
+                              <span className="text-sm text-blue-800">Total Reviews:</span>
+                              <span className="font-medium text-blue-900">
+                                {locationContextData[recentReviews[0].location]?.totalReviews || 150} Reviews
+                              </span>
+                            </div>
+                            <div className="flex items-center justify-between">
+                              <span className="text-sm text-blue-800">Top Issue:</span>
+                              <span className="font-medium text-blue-900">
+                                {locationContextData[recentReviews[0].location]?.topNegativeTheme || "Staff Attitude"}
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                      ) : (
+                        // Product Snapshot
+                        <div>
+                          <h4 className="font-medium text-blue-900 mb-3 flex items-center gap-2">
+                            <ShoppingBag className="w-4 h-4" />
+                            Product Snapshot: {recentReviews[0].product}
+                          </h4>
+                          <div className="grid grid-cols-2 gap-4">
+                            <div className="space-y-2">
+                              <div className="flex items-center justify-between">
+                                <span className="text-sm text-blue-800">SKU / ID:</span>
+                                <span className="font-medium text-blue-900">
+                                  {productContextData[recentReviews[0].product]?.sku || recentReviews[0].productSku}
+                                </span>
+                              </div>
+                              <div className="flex items-center justify-between">
+                                <span className="text-sm text-blue-800">Overall Rating:</span>
+                                <span className="font-medium text-blue-900">
+                                  {productContextData[recentReviews[0].product]?.overallRating || 4.0} ★
+                                </span>
+                              </div>
+                            </div>
+                            <div className="space-y-2">
+                              <div className="flex items-center justify-between">
+                                <span className="text-sm text-blue-800">Top Issue:</span>
+                                <span className="font-medium text-blue-900">
+                                  {productContextData[recentReviews[0].product]?.topNegativeTheme || "Quality"}
+                                </span>
+                              </div>
+                              <div className="w-12 h-12 bg-white rounded border flex items-center justify-center">
+                                <ShoppingBag className="w-6 h-6 text-gray-400" />
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      )}
                     </div>
 
                     {/* Reply Section */}
