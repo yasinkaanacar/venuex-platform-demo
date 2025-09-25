@@ -1633,7 +1633,7 @@ export default function ReviewsMVP() {
                       if (!selectedReview) return null;
 
                       return (
-                        <div className="border border-blue-200 rounded-lg bg-[#f9fafb] p-2">
+                        <div className="border border-blue-200 rounded-lg bg-[#f9fafb] p-3">
                           {reviewSource === "locations" ? (
                             // Location Snapshot
                             (<div>
