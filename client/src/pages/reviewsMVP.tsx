@@ -1713,10 +1713,6 @@ export default function ReviewsMVP() {
 
           {/* Locations Tab */}
           <TabsContent value="locations" className="space-y-6">
-            <div className="flex items-center justify-end">
-              <div className="text-sm text-gray-500">{locationsData.length} locations</div>
-            </div>
-
             {/* Location Filter Bar */}
             <Card className="border-gray-200 bg-[#f9fafb]">
               <CardContent className="p-4">
