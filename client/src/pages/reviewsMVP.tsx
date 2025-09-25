@@ -1211,7 +1211,7 @@ export default function ReviewsMVP() {
                 <div className="flex items-center justify-between">
                   <CardTitle>Location Leaderboard</CardTitle>
                   <Select value={leaderboardSortBy} onValueChange={(value) => setLeaderboardSortBy(value as 'rating' | 'volume' | 'replyRate')}>
-                    <SelectTrigger className="w-40 border-gray-300 rounded-md">
+                    <SelectTrigger className="w-48 border-gray-300 rounded-md">
                       <SelectValue placeholder="Sort by: Rating" />
                     </SelectTrigger>
                     <SelectContent>
