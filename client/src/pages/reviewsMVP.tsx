@@ -70,7 +70,30 @@ import {
   ChevronUp,
   ChevronDown
 } from 'lucide-react';
+import { SiGoogle, SiFacebook, SiTripadvisor, SiYelp, SiApple, SiAmazon } from 'react-icons/si';
 import Header from '@/components/overview/header';
+
+// Platform icon mapping function
+const getPlatformIcon = (platform: string) => {
+  switch (platform.toLowerCase()) {
+    case 'google':
+      return <SiGoogle className="w-4 h-4 text-blue-600" />;
+    case 'facebook':
+      return <SiFacebook className="w-4 h-4 text-blue-700" />;
+    case 'website':
+      return <ExternalLink className="w-4 h-4 text-gray-600" />;
+    case 'tripadvisor':
+      return <SiTripadvisor className="w-4 h-4 text-green-600" />;
+    case 'yelp':
+      return <SiYelp className="w-4 h-4 text-red-600" />;
+    case 'apple':
+      return <SiApple className="w-4 h-4 text-gray-800" />;
+    case 'amazon':
+      return <SiAmazon className="w-4 h-4 text-orange-500" />;
+    default:
+      return <ExternalLink className="w-4 h-4 text-gray-600" />;
+  }
+};
 
 export default function ReviewsMVP() {
   const [activeTab, setActiveTab] = useState("ozet");
@@ -1476,13 +1499,17 @@ export default function ReviewsMVP() {
                       }).slice(0, 15).map((review) => (
                         <div 
                           key={review.id} 
-                          className={`p-4 border-b hover:bg-[#f9fafb] cursor-pointer transition-colors ${
+                          className={`p-4 border-b hover:bg-[#f9fafb] cursor-pointer transition-colors relative ${
                             review.isNew ? 'bg-[#f9fafb] border-l-4 border-l-blue-500' : ''
                           } ${
                             selectedReviewId === review.id ? 'bg-[#f9fafb] border-l-4 border-l-blue-600' : ''
                           }`}
                           onClick={() => setSelectedReviewId(review.id)}
                         >
+                          {/* Platform Icon - Top Right */}
+                          <div className="absolute top-3 right-3">
+                            {getPlatformIcon(review.platform)}
+                          </div>
                           <div className="flex items-center gap-2 mb-2">
                             <div className="flex">
                               {[...Array(5)].map((_, i) => (
@@ -1492,7 +1519,6 @@ export default function ReviewsMVP() {
                                 />
                               ))}
                             </div>
-                            <span className="text-xs text-gray-500">{review.platform}</span>
                             {review.isNew && <Badge variant="destructive" className="text-xs px-1 py-0">NEW</Badge>}
                           </div>
                           <div className="font-medium text-sm mb-1">{review.reviewer}</div>
