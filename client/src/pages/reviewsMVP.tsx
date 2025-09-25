@@ -986,41 +986,6 @@ export default function ReviewsMVP() {
                 </CardContent>
               </Card>
 
-              {/* Sentiment Analysis Card */}
-              <Card className="rounded-lg border text-card-foreground shadow-sm cursor-pointer hover:shadow-md transition-shadow bg-[#f9fafb] h-full" data-testid="card-sentiment">
-                <CardHeader className="pb-4 relative">
-                  <Sparkles className="absolute top-4 right-4 w-5 h-5 text-blue-500" />
-                  <CardTitle className="tracking-tight text-[#111827] font-semibold text-[18px]">Sentiment Analysis</CardTitle>
-                </CardHeader>
-                <CardContent className="flex items-center justify-center flex-1">
-                  <div className="grid grid-cols-3 gap-4 w-full">
-                    <div className="text-center">
-                      <div className="flex items-center justify-center mb-2">
-                        <ThumbsUp className="w-6 h-6 text-green-500" />
-                      </div>
-                      <div className="text-2xl font-bold text-green-600 mb-1">68%</div>
-                      <div className="text-xs text-gray-600">Positive</div>
-                    </div>
-                    
-                    <div className="text-center">
-                      <div className="flex items-center justify-center mb-2">
-                        <Minus className="w-6 h-6 text-gray-500" />
-                      </div>
-                      <div className="text-2xl font-bold text-gray-600 mb-1">24%</div>
-                      <div className="text-xs text-gray-600">Neutral</div>
-                    </div>
-                    
-                    <div className="text-center">
-                      <div className="flex items-center justify-center mb-2">
-                        <ThumbsDown className="w-6 h-6 text-red-500" />
-                      </div>
-                      <div className="text-2xl font-bold text-red-600 mb-1">8%</div>
-                      <div className="text-xs text-gray-600">Negative</div>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-
               {/* Review Volume Card */}
               <Card className="rounded-lg border text-card-foreground shadow-sm cursor-pointer hover:shadow-md transition-shadow bg-[#f9fafb]" data-testid="card-review-volume">
                 <CardHeader className="pb-3">
@@ -1054,6 +1019,41 @@ export default function ReviewsMVP() {
                         <span className="text-sm text-gray-600 w-8 text-right">{rating.percentage}%</span>
                       </div>
                     ))}
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Sentiment Analysis Card */}
+              <Card className="rounded-lg border text-card-foreground shadow-sm cursor-pointer hover:shadow-md transition-shadow bg-[#f9fafb] h-full" data-testid="card-sentiment">
+                <CardHeader className="pb-4 relative">
+                  <Sparkles className="absolute top-4 right-4 w-5 h-5 text-blue-500" />
+                  <CardTitle className="tracking-tight text-[#111827] font-semibold text-[18px]">Sentiment Analysis</CardTitle>
+                </CardHeader>
+                <CardContent className="flex items-center justify-center flex-1">
+                  <div className="grid grid-cols-3 gap-4 w-full">
+                    <div className="text-center">
+                      <div className="flex items-center justify-center mb-2">
+                        <ThumbsUp className="w-6 h-6 text-green-500" />
+                      </div>
+                      <div className="text-2xl font-bold text-green-600 mb-1">68%</div>
+                      <div className="text-xs text-gray-600">Positive</div>
+                    </div>
+                    
+                    <div className="text-center">
+                      <div className="flex items-center justify-center mb-2">
+                        <Minus className="w-6 h-6 text-gray-500" />
+                      </div>
+                      <div className="text-2xl font-bold text-gray-600 mb-1">24%</div>
+                      <div className="text-xs text-gray-600">Neutral</div>
+                    </div>
+                    
+                    <div className="text-center">
+                      <div className="flex items-center justify-center mb-2">
+                        <ThumbsDown className="w-6 h-6 text-red-500" />
+                      </div>
+                      <div className="text-2xl font-bold text-red-600 mb-1">8%</div>
+                      <div className="text-xs text-gray-600">Negative</div>
+                    </div>
                   </div>
                 </CardContent>
               </Card>
