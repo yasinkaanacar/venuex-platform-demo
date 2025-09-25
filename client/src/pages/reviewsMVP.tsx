@@ -106,6 +106,9 @@ export default function ReviewsMVP() {
   const [sortField, setSortField] = useState<string | null>(null);
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
 
+  // Leaderboard sorting state
+  const [leaderboardSortBy, setLeaderboardSortBy] = useState<'rating' | 'volume' | 'replyRate'>('rating');
+
   // Sorting function for locations table
   const handleSort = (field: string) => {
     if (sortField === field) {
@@ -219,22 +222,37 @@ export default function ReviewsMVP() {
 
   // Location leaderboard data function (migrated from reviewsX)
   const getLocationLeaderboardData = () => {
-    // Mock data for the leaderboard based on actual locations
-    const mockTopPerformers = [
+    // All mock location data for the leaderboard
+    const allLocations = [
       { id: 1, name: "İstinyePark", rating: 4.8, reviewCount: 456, responseRate: 92, trend: "+8%" },
       { id: 2, name: "Bağdat Caddesi", rating: 4.7, reviewCount: 542, responseRate: 85, trend: "+5%" },
-      { id: 3, name: "Nişantaşı", rating: 4.7, reviewCount: 398, responseRate: 88, trend: "+3%" }
-    ];
-
-    const mockNeedsAttention = [
+      { id: 3, name: "Nişantaşı", rating: 4.7, reviewCount: 398, responseRate: 88, trend: "+3%" },
       { id: 4, name: "Emaar AVM", rating: 4.6, reviewCount: 342, responseRate: 76, trend: "-2%" },
       { id: 5, name: "Trabzon Forum", rating: 4.5, reviewCount: 210, responseRate: 68, trend: "-5%" },
       { id: 6, name: "Samsun Piazza", rating: 4.4, reviewCount: 198, responseRate: 62, trend: "-3%" }
     ];
 
+    // Sort locations based on selected criteria
+    const sortedLocations = [...allLocations].sort((a, b) => {
+      switch (leaderboardSortBy) {
+        case 'rating':
+          return b.rating - a.rating;
+        case 'volume':
+          return b.reviewCount - a.reviewCount;
+        case 'replyRate':
+          return b.responseRate - a.responseRate;
+        default:
+          return b.rating - a.rating;
+      }
+    });
+
+    // Split into top performers and needs attention
+    const topPerformers = sortedLocations.slice(0, 3);
+    const needsAttention = sortedLocations.slice(3, 6);
+
     return {
-      topPerformers: mockTopPerformers,
-      needsAttention: mockNeedsAttention
+      topPerformers,
+      needsAttention
     };
   };
 
@@ -1159,7 +1177,22 @@ export default function ReviewsMVP() {
             {/* Location Leaderboard */}
             <Card>
               <CardHeader>
-                <CardTitle>Location Leaderboard</CardTitle>
+                <div className="flex items-center justify-between">
+                  <CardTitle>Location Leaderboard</CardTitle>
+                  <div className="flex items-center gap-2">
+                    <span className="text-sm font-medium text-gray-700">Sort by:</span>
+                    <Select value={leaderboardSortBy} onValueChange={(value) => setLeaderboardSortBy(value as 'rating' | 'volume' | 'replyRate')}>
+                      <SelectTrigger className="w-32 border-gray-300 rounded-md">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="rating">Rating</SelectItem>
+                        <SelectItem value="volume">Volume</SelectItem>
+                        <SelectItem value="replyRate">Reply Rate</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                </div>
               </CardHeader>
               <CardContent>
                 <div className="grid grid-cols-2 gap-6">
