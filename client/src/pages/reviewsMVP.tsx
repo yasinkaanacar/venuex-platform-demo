@@ -46,7 +46,8 @@ import {
   Bookmark,
   Share2,
   Target,
-  BookOpen
+  BookOpen,
+  ShoppingBag
 } from 'lucide-react';
 import Header from '@/components/overview/header';
 
@@ -58,9 +59,11 @@ export default function ReviewsMVP() {
   const [searchQuery, setSearchQuery] = useState("");
   
   // Desktop Filter Bar state
+  const [reviewSource, setReviewSource] = useState("locations"); // New Review Source filter
   const [replyStatusFilter, setReplyStatusFilter] = useState("unreplied");
   const [ratingFilter, setRatingFilter] = useState("all");
   const [themeFilter, setThemeFilter] = useState("all");
+  const [productFilter, setProductFilter] = useState("all"); // New Product filter
   
   // Location Filter Bar state
   const [regionFilter, setRegionFilter] = useState("all");
@@ -152,6 +155,8 @@ export default function ReviewsMVP() {
       reviewer: "Ayşe K.",
       date: "2 hours ago",
       location: "Bağdat Caddesi",
+      product: "Running Shoes",
+      productSku: "RS-001",
       text: "Harika bir deneyim! Personel çok yardımseverdi ve ürün kalitesi mükemmeldi.",
       isNew: true
     },
@@ -162,6 +167,8 @@ export default function ReviewsMVP() {
       reviewer: "Mehmet S.",
       date: "5 hours ago", 
       location: "Kanyon AVM",
+      product: "Winter Coat",
+      productSku: "WC-045",
       text: "Güzel ürünler var ama fiyatlar biraz yüksek. Yine de tavsiye ederim.",
       isNew: true
     },
@@ -172,7 +179,33 @@ export default function ReviewsMVP() {
       reviewer: "Zehra T.",
       date: "1 day ago",
       location: "İstinyePark",
+      product: "Coffee Maker",
+      productSku: "CM-123",
       text: "Ortalama bir deneyim. Beklenti daha yüksekti ama fena değildi.",
+      isNew: false
+    },
+    {
+      id: 4,
+      platform: "Google",
+      rating: 2,
+      reviewer: "Can Y.",
+      date: "3 hours ago",
+      location: "Zorlu Center",
+      product: "Wireless Headphones",
+      productSku: "WH-078",
+      text: "Product quality was disappointing. Sound quality not as expected.",
+      isNew: true
+    },
+    {
+      id: 5,
+      platform: "Website",
+      rating: 5,
+      reviewer: "Selin M.",
+      date: "1 day ago",
+      location: "Nişantaşı",
+      product: "Laptop Bag",
+      productSku: "LB-256",
+      text: "Excellent product! Very durable and stylish design.",
       isNew: false
     }
   ];
@@ -546,23 +579,74 @@ export default function ReviewsMVP() {
             <Card className="border-gray-200">
               <CardContent className="p-4">
                 <div className="flex items-center gap-6">
-                  {/* Location Filter */}
+                  {/* Review Source Filter */}
                   <div className="flex items-center gap-2">
-                    <label className="text-sm font-medium text-gray-700 whitespace-nowrap">Location:</label>
-                    <Select value={locationFilter} onValueChange={setLocationFilter}>
-                      <SelectTrigger className="w-48 border-gray-300 rounded-md">
-                        <SelectValue placeholder="All Locations" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="all">All Locations</SelectItem>
-                        {locationsData.slice(0, 10).map((location) => (
-                          <SelectItem key={location.code} value={location.code}>
-                            {location.name}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
+                    <label className="text-sm font-medium text-gray-700 whitespace-nowrap">Source:</label>
+                    <div className="flex rounded-lg border border-gray-300 overflow-hidden">
+                      <button
+                        className={`px-4 py-2 text-sm font-medium transition-colors ${
+                          reviewSource === "locations" 
+                            ? "bg-slate-800 text-white" 
+                            : "bg-gray-50 text-gray-700 hover:bg-gray-100"
+                        }`}
+                        onClick={() => setReviewSource("locations")}
+                      >
+                        Locations
+                      </button>
+                      <button
+                        className={`px-4 py-2 text-sm font-medium transition-colors border-l border-gray-300 ${
+                          reviewSource === "products" 
+                            ? "bg-slate-800 text-white" 
+                            : "bg-gray-50 text-gray-700 hover:bg-gray-100"
+                        }`}
+                        onClick={() => setReviewSource("products")}
+                      >
+                        Products
+                      </button>
+                    </div>
                   </div>
+
+                  {/* Context-Aware Location/Product Filter */}
+                  {reviewSource === "locations" ? (
+                    <div className="flex items-center gap-2">
+                      <label className="text-sm font-medium text-gray-700 whitespace-nowrap">Location:</label>
+                      <Select value={locationFilter} onValueChange={setLocationFilter}>
+                        <SelectTrigger className="w-48 border-gray-300 rounded-md">
+                          <SelectValue placeholder="All Locations" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="all">All Locations</SelectItem>
+                          {locationsData.slice(0, 10).map((location) => (
+                            <SelectItem key={location.code} value={location.code}>
+                              {location.name}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  ) : (
+                    <div className="flex items-center gap-2">
+                      <label className="text-sm font-medium text-gray-700 whitespace-nowrap">Product:</label>
+                      <Select value={productFilter} onValueChange={setProductFilter}>
+                        <SelectTrigger className="w-48 border-gray-300 rounded-md">
+                          <SelectValue placeholder="All Products" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="all">All Products</SelectItem>
+                          <SelectItem value="running-shoes">Running Shoes</SelectItem>
+                          <SelectItem value="winter-coat">Winter Coat</SelectItem>
+                          <SelectItem value="coffee-maker">Coffee Maker</SelectItem>
+                          <SelectItem value="wireless-headphones">Wireless Headphones</SelectItem>
+                          <SelectItem value="smartphone-case">Smartphone Case</SelectItem>
+                          <SelectItem value="laptop-bag">Laptop Bag</SelectItem>
+                          <SelectItem value="yoga-mat">Yoga Mat</SelectItem>
+                          <SelectItem value="kitchen-knife">Kitchen Knife</SelectItem>
+                          <SelectItem value="desk-lamp">Desk Lamp</SelectItem>
+                          <SelectItem value="bluetooth-speaker">Bluetooth Speaker</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  )}
 
                   {/* Reply Status - Pill Style Buttons */}
                   <div className="flex items-center gap-2">
@@ -722,7 +806,20 @@ export default function ReviewsMVP() {
                             {review.isNew && <Badge variant="destructive" className="text-xs px-1 py-0">NEW</Badge>}
                           </div>
                           <div className="font-medium text-sm mb-1">{review.reviewer}</div>
-                          <div className="text-xs text-gray-600 mb-1">{review.location}</div>
+                          <div className="flex items-center gap-1 text-xs text-gray-600 mb-1">
+                            {reviewSource === "locations" ? (
+                              <>
+                                <MapPin className="w-3 h-3" />
+                                <span>{review.location}</span>
+                              </>
+                            ) : (
+                              <>
+                                <ShoppingBag className="w-3 h-3" />
+                                <span>{review.product}</span>
+                                <span className="text-gray-400">({review.productSku})</span>
+                              </>
+                            )}
+                          </div>
                           <div className="text-sm text-gray-700 line-clamp-2">{review.text}</div>
                           <div className="text-xs text-gray-500 mt-2">{review.date}</div>
                         </div>
@@ -751,7 +848,19 @@ export default function ReviewsMVP() {
                           ))}
                         </div>
                         <span className="font-medium">{recentReviews[0].reviewer}</span>
-                        <span className="text-sm text-gray-500">- {recentReviews[0].location}</span>
+                        <span className="text-sm text-gray-500">- 
+                          {reviewSource === "locations" ? (
+                            <span className="inline-flex items-center gap-1 ml-1">
+                              <MapPin className="w-3 h-3" />
+                              {recentReviews[0].location}
+                            </span>
+                          ) : (
+                            <span className="inline-flex items-center gap-1 ml-1">
+                              <ShoppingBag className="w-3 h-3" />
+                              {recentReviews[0].product} ({recentReviews[0].productSku})
+                            </span>
+                          )}
+                        </span>
                         <span className="text-sm text-gray-500">- {recentReviews[0].date}</span>
                       </div>
                       <p className="text-gray-700">{recentReviews[0].text}</p>
