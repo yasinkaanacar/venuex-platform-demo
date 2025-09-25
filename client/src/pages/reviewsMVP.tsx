@@ -132,6 +132,7 @@ export default function ReviewsMVP() {
   const [selectedReviewId, setSelectedReviewId] = useState<number | null>(null);
   const reviewDetailsRef = useRef<HTMLDivElement>(null);
   const [reviewsCardHeight, setReviewsCardHeight] = useState<number | undefined>(undefined);
+  const filterBarRef = useRef<HTMLDivElement>(null);
 
   // Locations table sorting state
   const [sortField, setSortField] = useState<string | null>(null);
@@ -160,6 +161,18 @@ export default function ReviewsMVP() {
 
     return () => observer.disconnect();
   }, [selectedReviewId, activeTab]); // Re-run when selection or tab changes
+
+  // Effect to smooth scroll to filter bar when switching to inbox tab
+  useEffect(() => {
+    if (activeTab === "inbox" && filterBarRef.current) {
+      setTimeout(() => {
+        filterBarRef.current?.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start'
+        });
+      }, 100); // Small delay to ensure tab content is rendered
+    }
+  }, [activeTab]);
 
   // Sorting function for locations table
   const handleSort = (field: string) => {
@@ -1300,7 +1313,7 @@ export default function ReviewsMVP() {
             </div>
 
             {/* Desktop Filter Bar */}
-            <Card className="border-gray-200 bg-[#f9fafb]">
+            <Card className="border-gray-200 bg-[#f9fafb]" ref={filterBarRef}>
               <CardContent className="p-4">
                 <div className="flex items-center gap-6">
                   {/* Review Source Filter */}
