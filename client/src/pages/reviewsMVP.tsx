@@ -48,7 +48,7 @@ import {
 import Header from '@/components/overview/header';
 
 export default function ReviewsMVP() {
-  const [activeTab, setActiveTab] = useState("dashboard");
+  const [activeTab, setActiveTab] = useState("ozet");
   const [dateRange, setDateRange] = useState("30");
   const [sourceFilter, setSourceFilter] = useState("all");
   const [locationFilter, setLocationFilter] = useState("all");
@@ -62,6 +62,24 @@ export default function ReviewsMVP() {
     avgResponseTime: "2.5 hours",
     newReviews: 23,
     pendingResponses: 12
+  };
+
+  // Themes data for Avantajlar/Dezavantajlar
+  const themesData = {
+    positive: [
+      { theme: "Lezzet", percentage: 91, count: 156, sentiment: "positive" },
+      { theme: "Personel", percentage: 87, count: 142, sentiment: "positive" },
+      { theme: "Temizlik", percentage: 84, count: 128, sentiment: "positive" },
+      { theme: "Atmosfer", percentage: 79, count: 115, sentiment: "positive" },
+      { theme: "Hızlı Servis", percentage: 76, count: 98, sentiment: "positive" }
+    ],
+    negative: [
+      { theme: "Fiyat", percentage: 67, count: 89, sentiment: "negative" },
+      { theme: "Bekleme Süresi", percentage: 58, count: 76, sentiment: "negative" },
+      { theme: "Park Sorunu", percentage: 52, count: 64, sentiment: "negative" },
+      { theme: "Gürültü", percentage: 45, count: 52, sentiment: "negative" },
+      { theme: "Porsiyon", percentage: 41, count: 43, sentiment: "negative" }
+    ]
   };
 
   const recentReviews = [
@@ -136,27 +154,19 @@ export default function ReviewsMVP() {
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
           {/* Tab Navigation */}
-          <TabsList className="grid w-full grid-cols-4 mb-6">
-            <TabsTrigger value="dashboard" data-testid="tab-dashboard">
+          <TabsList className="grid w-full grid-cols-2 mb-6">
+            <TabsTrigger value="ozet" data-testid="tab-ozet">
               <BarChart3 className="w-4 h-4 mr-2" />
-              Dashboard
+              Özet (Overview)
             </TabsTrigger>
-            <TabsTrigger value="reviews" data-testid="tab-reviews">
+            <TabsTrigger value="inbox" data-testid="tab-inbox">
               <MessageSquare className="w-4 h-4 mr-2" />
-              Reviews
-            </TabsTrigger>
-            <TabsTrigger value="locations" data-testid="tab-locations">
-              <MapPin className="w-4 h-4 mr-2" />
-              Locations
-            </TabsTrigger>
-            <TabsTrigger value="analytics" data-testid="tab-analytics">
-              <TrendingUp className="w-4 h-4 mr-2" />
-              Analytics
+              Gelen Kutusu (Inbox)
             </TabsTrigger>
           </TabsList>
 
-          {/* Dashboard Tab */}
-          <TabsContent value="dashboard" className="space-y-6">
+          {/* Özet (Overview) Tab */}
+          <TabsContent value="ozet" className="space-y-6">
             {/* Filter Bar */}
             <Card>
               <CardContent className="pt-6">
@@ -340,8 +350,8 @@ export default function ReviewsMVP() {
             </div>
           </TabsContent>
 
-          {/* Reviews Tab */}
-          <TabsContent value="reviews" className="space-y-6">
+          {/* Gelen Kutusu (Inbox) Tab */}
+          <TabsContent value="inbox" className="space-y-6">
             <Card>
               <CardHeader>
                 <div className="flex items-center justify-between">
@@ -404,149 +414,6 @@ export default function ReviewsMVP() {
             </Card>
           </TabsContent>
 
-          {/* Locations Tab */}
-          <TabsContent value="locations" className="space-y-6">
-            <Card>
-              <CardHeader>
-                <CardTitle>Location Performance Overview</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  {locationStats.map((location, index) => (
-                    <Card key={index} className="border-l-4 border-blue-500">
-                      <CardHeader className="pb-3">
-                        <CardTitle className="text-lg">{location.name}</CardTitle>
-                      </CardHeader>
-                      <CardContent>
-                        <div className="grid grid-cols-2 gap-4">
-                          <div>
-                            <div className="text-sm text-gray-600">Total Reviews</div>
-                            <div className="text-2xl font-bold">{location.reviews}</div>
-                          </div>
-                          <div>
-                            <div className="text-sm text-gray-600">Average Rating</div>
-                            <div className="flex items-center gap-2">
-                              <div className="text-2xl font-bold">{location.rating}</div>
-                              {renderStars(Math.floor(location.rating))}
-                            </div>
-                          </div>
-                        </div>
-                        <Separator className="my-4" />
-                        <div className="flex items-center justify-between">
-                          <span className="text-sm text-gray-600">Trend</span>
-                          <div className="flex items-center gap-1">
-                            {location.trend === "up" && (
-                              <>
-                                <ArrowUp className="w-4 h-4 text-green-600" />
-                                <span className="text-sm text-green-600">Improving</span>
-                              </>
-                            )}
-                            {location.trend === "down" && (
-                              <>
-                                <ArrowDown className="w-4 h-4 text-red-600" />
-                                <span className="text-sm text-red-600">Declining</span>
-                              </>
-                            )}
-                            {location.trend === "stable" && (
-                              <>
-                                <div className="w-4 h-0.5 bg-gray-400"></div>
-                                <span className="text-sm text-gray-600">Stable</span>
-                              </>
-                            )}
-                          </div>
-                        </div>
-                      </CardContent>
-                    </Card>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-          </TabsContent>
-
-          {/* Analytics Tab */}
-          <TabsContent value="analytics" className="space-y-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <Card>
-                <CardHeader>
-                  <CardTitle>Review Volume Trend</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="h-64 flex items-center justify-center text-gray-500">
-                    <div className="text-center">
-                      <BarChart3 className="w-12 h-12 mx-auto mb-2 text-gray-400" />
-                      <p>Chart visualization would go here</p>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-
-              <Card>
-                <CardHeader>
-                  <CardTitle>Rating Distribution</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-3">
-                    {[5, 4, 3, 2, 1].map((stars) => (
-                      <div key={stars} className="flex items-center gap-3">
-                        <div className="flex items-center gap-1 w-12">
-                          <span className="text-sm">{stars}</span>
-                          <Star className="w-4 h-4 text-yellow-400 fill-current" />
-                        </div>
-                        <div className="flex-1 bg-gray-200 rounded-full h-2">
-                          <div 
-                            className="bg-blue-600 h-2 rounded-full" 
-                            style={{ width: `${stars === 5 ? 70 : stars === 4 ? 20 : stars === 3 ? 5 : stars === 2 ? 3 : 2}%` }}
-                          ></div>
-                        </div>
-                        <span className="text-sm text-gray-600 w-12 text-right">
-                          {stars === 5 ? '70%' : stars === 4 ? '20%' : stars === 3 ? '5%' : stars === 2 ? '3%' : '2%'}
-                        </span>
-                      </div>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
-
-            <Card>
-              <CardHeader>
-                <CardTitle>Key Insights</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  <div className="flex items-start gap-3 p-4 bg-green-50 border border-green-200 rounded-lg">
-                    <CheckCircle className="w-5 h-5 text-green-600 mt-0.5" />
-                    <div>
-                      <div className="font-medium text-green-900">Strong Performance</div>
-                      <div className="text-sm text-green-700">
-                        Bağdat Caddesi location showing consistent 4.5+ ratings with positive customer feedback about staff service.
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="flex items-start gap-3 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
-                    <AlertTriangle className="w-5 h-5 text-yellow-600 mt-0.5" />
-                    <div>
-                      <div className="font-medium text-yellow-900">Attention Needed</div>
-                      <div className="text-sm text-yellow-700">
-                        Zorlu Center location has declining ratings. Consider reviewing customer service processes.
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="flex items-start gap-3 p-4 bg-blue-50 border border-blue-200 rounded-lg">
-                    <TrendingUp className="w-5 h-5 text-blue-600 mt-0.5" />
-                    <div>
-                      <div className="font-medium text-blue-900">Opportunity</div>
-                      <div className="text-sm text-blue-700">
-                        Response rate can be improved across all locations. Current rate is 85%, target is 90%+.
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </TabsContent>
         </Tabs>
       </div>
     </div>

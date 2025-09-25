@@ -1,0 +1,66 @@
+Migration & Design Report: VenueX MVP v1.1
+Objective: To migrate the single-page MVP into a more robust, tab-based structure. This evolution will enhance the user experience, improve the presentation of analytics, and create a scalable foundation for future features, all while maintaining a lean MVP scope.
+
+1. Core Principle: What to Keep (The Foundation)
+The core functionality of the initial MVP concept is sound and delivers immediate value. We will preserve these elements as the foundation of the platform.
+
+✅ Keep: Google-Only Integration. The focus on Google Business Profile remains. This is the critical first step for the Turkish market.
+
+✅ Keep: Core Review Workflow. The fundamental user journey of filtering reviews, viewing details, and posting a direct reply is the heart of the product and will be fully retained.
+
+✅ Keep: Lean Analytics Logic. The simple, keyword-based theme tagging (e.g., Lezzet, Personel) and the Positive/Negative sentiment classification are high-value and will be kept. We are only changing how this data is presented.
+
+✅ Keep: Basic User Roles. The distinction between Admin and Manager roles is essential for B2B and will be carried over.
+
+2. The Migration Plan: From Vertical Page to Scalable Tabs
+The single most important change in this migration is moving from a simple vertical layout to a professional, tab-based interface. This immediately makes the application feel more like an enterprise-grade platform and organizes the workspace logically.
+
+Action 1: Introduce a Tabbed Navigation Structure
+REMOVE: The current structure where the "Weekly Summary" stacks vertically on top of the "Live Review Feed".
+
+ADD: A main navigation header at the top of the page. This header will contain two functional tabs for the MVP:
+
+Tab 1: Özet (Overview)
+
+Tab 2: Gelen Kutusu (Inbox)
+
+This change separates the two core jobs-to-be-done—analyzing and acting—into distinct, organized workspaces.
+
+Action 2: Migrate & Redesign the Analytics Module
+MIGRATE: The entire "Haftanın Özeti" (Weekly Summary) module will be moved from the top of the page into the body of the new Özet (Overview) tab.
+
+REDESIGN: The visual presentation of this module will be upgraded to precisely match the "Avantajlar / Dezavantajlar" design from the image you provided. This is a crucial visual enhancement.
+
+New Design Specification:
+
+Layout: Two distinct cards, side-by-side.
+
+Left Card Title: Avantajlar (Advantages)
+
+Right Card Title: Dezavantajlar (Disadvantages)
+
+Functionality: Each card will list the Top 5 positive or negative themes from the last 7 days.
+
+Component Styling:
+
+Theme Name: (e.g., "Lezzet").
+
+Percentage & Count: Displayed clearly next to the name.
+
+Progress Bar: A horizontal bar whose width is proportional to the mention count relative to the top theme. The color will be green (#4ade80) for advantages and red (#f87171) for disadvantages. This provides an instant visual comparison of theme volume.
+
+Action 3: Migrate the Review Feed to the Gelen Kutusu (Inbox) Tab
+MIGRATE: The entire "Canlı Yorum Akışı" (Live Review Feed) — including its filter bar, review list, and reply panel — will be moved into the body of the new Gelen Kutusu (Inbox) tab.
+
+NO DESIGN CHANGES NEEDED: This component's design is already optimized for its core task. The filter buttons, the review card layout with its lean analytics tags, and the slide-in reply panel will be preserved exactly as they are. This ensures the core user workflow remains fast and familiar.
+
+3. What Remains Out of Scope for This MVP Migration
+To maintain focus and speed, the following high-effort features from the full "ReviewsX" report are explicitly excluded from this migration. They are the next logical steps after this refined MVP is launched.
+
+❌ The Geospatial Bubble Map: This is a powerful but complex feature. It is the top candidate for version 2.0, but not for the MVP.
+
+❌ The Products, Insights, and Settings Tabs: These will not be built yet. The navigation will only contain the two functional Özet and Gelen Kutusu tabs.
+
+❌ Advanced AI & Cross-Filtering: The analytics will remain "lean." We will not implement the deep-dive theme analysis or complex cross-filtering (e.g., by location and product) in this version.
+
+❌ Complex Workflows: SLAs, approval queues, and automation rules are enterprise features that will be built on top of this solid MVP foundation.
