@@ -1639,7 +1639,7 @@ export default function ReviewsMVP() {
                             (<div>
                               <h4 className="font-medium text-white mb-1 flex items-center gap-2 text-sm">
                                 <MapPin className="w-3 h-3 text-white" />
-                                Location Snapshot: {selectedReview.location}
+                                {selectedReview.location}
                               </h4>
                               <div className="space-y-1">
                                 <div className="flex items-center justify-between">
@@ -1669,7 +1669,7 @@ export default function ReviewsMVP() {
                             (<div>
                               <h4 className="font-medium text-white mb-1 flex items-center gap-2 text-sm">
                                 <ShoppingBag className="w-3 h-3 text-white" />
-                                Product Snapshot: {selectedReview.product}
+                                {selectedReview.product}
                               </h4>
                               <div className="grid grid-cols-2 gap-2">
                                 <div className="space-y-1">
