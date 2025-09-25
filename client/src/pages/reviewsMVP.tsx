@@ -989,9 +989,7 @@ export default function ReviewsMVP() {
                   <CardTitle className="tracking-tight text-[#111827] font-semibold text-[18px]">Response Rate</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="space-y-3">
-                    
-                  </div>
+                  <div className="text-4xl font-bold text-gray-900">96%</div>
                 </CardContent>
               </Card>
 
