@@ -892,9 +892,9 @@ export default function ReviewsMVP() {
           <TabsContent value="ozet" className="space-y-6">
             {/* Date Range Selector */}
             <div className="flex justify-end mb-4">
-              <Select value="30days" onValueChange={() => {}}>
+              <Select defaultValue="30days" onValueChange={() => {}}>
                 <SelectTrigger className="w-48 border-gray-300 rounded-md">
-                  <SelectValue placeholder="Last 30 Days" />
+                  <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="30days">Last 30 Days</SelectItem>
