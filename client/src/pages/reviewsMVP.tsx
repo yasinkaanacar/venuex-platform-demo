@@ -1556,7 +1556,10 @@ export default function ReviewsMVP() {
                             )}
                           </div>
                           <div className="text-sm text-gray-700 line-clamp-2">{review.text}</div>
-                          <div className="text-xs text-gray-500 mt-2">{review.date}</div>
+                          <div className="flex items-center gap-1 text-xs text-gray-500 mt-2">
+                            <Calendar className="w-3 h-3" />
+                            <span>{review.date}</span>
+                          </div>
                         </div>
                       ))}
                     </div>
@@ -1610,7 +1613,11 @@ export default function ReviewsMVP() {
                                 </span>
                               )}
                             </span>
-                            <span className="text-sm text-gray-500">- {selectedReview.date}</span>
+                            <span className="flex items-center gap-1 text-sm text-gray-500">
+                              <span>-</span>
+                              <Calendar className="w-3 h-3" />
+                              <span>{selectedReview.date}</span>
+                            </span>
                           </div>
                           <p className="text-gray-700">{selectedReview.text}</p>
                         </div>
