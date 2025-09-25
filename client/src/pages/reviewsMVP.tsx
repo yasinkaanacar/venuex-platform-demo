@@ -710,13 +710,12 @@ export default function ReviewsMVP() {
   return (
     <div className="min-h-screen bg-gray-50">
       <Header />
-      
       <div className="px-6 py-6">
         
 
         {/* Global Settings Header */}
         <div className="flex items-center justify-between mb-6">
-          <h2 className="text-xl font-semibold text-gray-900">VenueX Reviews Platform</h2>
+          <h2 className="text-xl font-semibold text-gray-900">Reviews</h2>
           <div className="flex items-center gap-3">
             <Button 
               variant="ghost" 
@@ -1374,7 +1373,7 @@ export default function ReviewsMVP() {
                     <div className="border border-blue-200 rounded-lg bg-blue-50 p-4">
                       {reviewSource === "locations" ? (
                         // Location Snapshot
-                        <div>
+                        (<div>
                           <h4 className="font-medium text-blue-900 mb-3 flex items-center gap-2">
                             <MapPin className="w-4 h-4" />
                             Location Snapshot: {recentReviews[0].location}
@@ -1401,10 +1400,10 @@ export default function ReviewsMVP() {
                               </span>
                             </div>
                           </div>
-                        </div>
+                        </div>)
                       ) : (
                         // Product Snapshot
-                        <div>
+                        (<div>
                           <h4 className="font-medium text-blue-900 mb-3 flex items-center gap-2">
                             <ShoppingBag className="w-4 h-4" />
                             Product Snapshot: {recentReviews[0].product}
@@ -1436,7 +1435,7 @@ export default function ReviewsMVP() {
                               </div>
                             </div>
                           </div>
-                        </div>
+                        </div>)
                       )}
                     </div>
 
@@ -1700,7 +1699,6 @@ export default function ReviewsMVP() {
 
         </Tabs>
       </div>
-
       {/* Alert Settings Modal */}
       <Dialog open={alertSettingsOpen} onOpenChange={setAlertSettingsOpen}>
         <DialogContent className="sm:max-w-[425px]">
@@ -1743,7 +1741,6 @@ export default function ReviewsMVP() {
           </DialogFooter>
         </DialogContent>
       </Dialog>
-
       {/* Review Templates Modal */}
       <Dialog open={templatesOpen} onOpenChange={setTemplatesOpen}>
         <DialogContent className="sm:max-w-[600px]">
@@ -1799,7 +1796,6 @@ export default function ReviewsMVP() {
           </DialogFooter>
         </DialogContent>
       </Dialog>
-
       {/* AI Settings Modal */}
       <Dialog open={aiSettingsOpen} onOpenChange={setAiSettingsOpen}>
         <DialogContent className="sm:max-w-[500px]">
