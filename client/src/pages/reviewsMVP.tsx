@@ -1618,7 +1618,7 @@ export default function ReviewsMVP() {
                               ))}
                             </div>
                             <span className="font-medium">{selectedReview.reviewer}</span>
-                            <span className="text-sm text-gray-500">- 
+                            <span className="text-sm text-gray-500">
                               {reviewSource === "locations" ? (
                                 <span className="inline-flex items-center gap-1 ml-1">
                                   <MapPin className="w-3 h-3" />
@@ -1632,7 +1632,6 @@ export default function ReviewsMVP() {
                               )}
                             </span>
                             <span className="flex items-center gap-1 text-sm text-gray-500">
-                              <span>-</span>
                               <Calendar className="w-3 h-3" />
                               <span>{selectedReview.date}</span>
                             </span>
