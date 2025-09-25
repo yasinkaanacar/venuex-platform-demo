@@ -919,11 +919,9 @@ export default function ReviewsMVP() {
                   <div className="flex items-center justify-between">
                     <div>
                       <CardTitle className="text-lg font-semibold text-gray-900">Average Rating</CardTitle>
-                      <div className="text-sm text-gray-500">(Last 30 days)</div>
                     </div>
                     <div>
                       <CardTitle className="text-lg font-semibold text-gray-900">Total Review</CardTitle>
-                      <div className="text-sm text-gray-500">(Last 30 days)</div>
                     </div>
                   </div>
                 </CardHeader>
@@ -938,7 +936,6 @@ export default function ReviewsMVP() {
                       <div className="text-4xl font-bold text-gray-900">1247</div>
                     </div>
                   </div>
-                  <div className="text-sm text-gray-500 mb-4">(Last 30 days)</div>
                   
                   {/* Rating Distribution with Dual-Purpose Progress Bars */}
                   <div className="space-y-2">
