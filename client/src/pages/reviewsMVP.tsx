@@ -862,7 +862,8 @@ export default function ReviewsMVP() {
 
               {/* Sentiment Analysis Card */}
               <Card className="cursor-pointer hover:shadow-md transition-shadow" data-testid="card-sentiment">
-                <CardHeader className="pb-3">
+                <CardHeader className="pb-3 relative">
+                  <Sparkles className="absolute top-4 right-4 w-5 h-5 text-blue-500" />
                   <CardTitle className="tracking-tight text-[#111827] font-semibold text-[18px]">Sentiment Analysis</CardTitle>
                   <div className="text-sm text-gray-500">(Last 30 Days)</div>
                 </CardHeader>
@@ -870,7 +871,7 @@ export default function ReviewsMVP() {
                   <div className="space-y-3">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
-                        <Sparkles className="w-4 h-4 text-green-500" />
+                        <div className="w-3 h-3 bg-green-500 rounded-full"></div>
                         <span className="text-sm text-gray-600">Positive</span>
                       </div>
                       <span className="text-lg font-bold text-green-600">68%</span>
@@ -878,7 +879,7 @@ export default function ReviewsMVP() {
                     
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
-                        <Sparkles className="w-4 h-4 text-gray-400" />
+                        <div className="w-3 h-3 bg-gray-400 rounded-full"></div>
                         <span className="text-sm text-gray-600">Neutral</span>
                       </div>
                       <span className="text-lg font-bold text-gray-600">24%</span>
@@ -886,7 +887,7 @@ export default function ReviewsMVP() {
                     
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
-                        <Sparkles className="w-4 h-4 text-red-500" />
+                        <div className="w-3 h-3 bg-red-500 rounded-full"></div>
                         <span className="text-sm text-gray-600">Negative</span>
                       </div>
                       <span className="text-lg font-bold text-red-600">8%</span>
@@ -1002,7 +1003,8 @@ export default function ReviewsMVP() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {/* Advantages Card */}
               <Card>
-                <CardHeader className="pb-4">
+                <CardHeader className="pb-4 relative">
+                  <Sparkles className="absolute top-4 right-4 w-5 h-5 text-green-500" />
                   <CardTitle className="text-xl font-semibold text-green-700 flex items-center gap-2">
                     <TrendingUp className="w-5 h-5" />
                     Advantages
@@ -1013,10 +1015,7 @@ export default function ReviewsMVP() {
                   {themesData.positive.map((item, index) => (
                     <div key={index} className="space-y-2">
                       <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-2">
-                          <Sparkles className="w-4 h-4 text-green-500" />
-                          <span className="font-medium text-gray-900">{item.theme}</span>
-                        </div>
+                        <span className="font-medium text-gray-900">{item.theme}</span>
                         <div className="flex items-center gap-2 text-sm text-green-600">
                           <span>{item.percentage}%</span>
                           <span className="text-gray-500">({item.count})</span>
@@ -1037,7 +1036,8 @@ export default function ReviewsMVP() {
 
               {/* Disadvantages Card */}
               <Card>
-                <CardHeader className="pb-4">
+                <CardHeader className="pb-4 relative">
+                  <Sparkles className="absolute top-4 right-4 w-5 h-5 text-red-500" />
                   <CardTitle className="text-xl font-semibold text-red-700 flex items-center gap-2">
                     <TrendingDown className="w-5 h-5" />
                     Disadvantages
@@ -1048,10 +1048,7 @@ export default function ReviewsMVP() {
                   {themesData.negative.map((item, index) => (
                     <div key={index} className="space-y-2">
                       <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-2">
-                          <Sparkles className="w-4 h-4 text-red-500" />
-                          <span className="font-medium text-gray-900">{item.theme}</span>
-                        </div>
+                        <span className="font-medium text-gray-900">{item.theme}</span>
                         <div className="flex items-center gap-2 text-sm text-red-600">
                           <span>{item.percentage}%</span>
                           <span className="text-gray-500">({item.count})</span>
