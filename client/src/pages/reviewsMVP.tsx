@@ -1538,7 +1538,7 @@ export default function ReviewsMVP() {
                                 />
                               ))}
                             </div>
-                            {review.isNew && <Badge variant="destructive" className="text-xs px-1 py-0">NEW</Badge>}
+                            {review.isNew && <Badge className="text-[10px] px-1.5 py-0.5 bg-blue-50 text-blue-600 border-blue-200 font-medium">NEW</Badge>}
                           </div>
                           <div className="font-medium text-sm mb-1">{review.reviewer}</div>
                           <div className="flex items-center gap-1 text-xs text-gray-600 mb-1">
