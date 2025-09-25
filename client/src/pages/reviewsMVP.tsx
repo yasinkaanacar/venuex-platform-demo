@@ -962,6 +962,8 @@ export default function ReviewsMVP() {
                     </div>
                     
                     <div className="grid grid-cols-2 gap-3 pt-1 border-t border-gray-100">
+                      <div></div>
+                      
                       <div>
                         <div className="text-xs text-gray-600 mb-1">Reply Rate</div>
                         <div className="text-base font-bold text-gray-900">{kpiData.responseRate}%</div>
@@ -970,7 +972,6 @@ export default function ReviewsMVP() {
                           +5%
                         </div>
                       </div>
-                      
                     </div>
                     
                   </div>
