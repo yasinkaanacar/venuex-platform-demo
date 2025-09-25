@@ -929,7 +929,7 @@ export default function ReviewsMVP() {
                     </div>
                   </div>
                 </CardHeader>
-                <CardContent className="space-y-12">
+                <CardContent className="space-y-8">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
                       <Star className="w-8 h-8 text-yellow-500 fill-yellow-500" />
@@ -991,7 +991,7 @@ export default function ReviewsMVP() {
                 <CardHeader className="pb-3">
                   <CardTitle className="tracking-tight text-[#111827] font-semibold text-[18px]">Response Rate</CardTitle>
                 </CardHeader>
-                <CardContent className="space-y-12">
+                <CardContent className="space-y-8">
                   <div className="flex items-center gap-2">
                     <Reply className="w-8 h-8 text-blue-500" />
                     <div className="text-4xl font-bold text-gray-900">96%</div>
