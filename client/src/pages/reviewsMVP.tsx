@@ -1051,40 +1051,6 @@ export default function ReviewsMVP() {
               </Card>
             </div>
 
-            {/* Response Performance Section */}
-            <Card className="bg-[#f9fafb]">
-              <CardHeader>
-                <CardTitle>Response Performance</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  <h4 className="font-semibold text-gray-700 border-b pb-2">Response Time</h4>
-                  <div className="flex justify-between items-center">
-                    <span className="text-sm">Within 24 hours</span>
-                    <span className="font-medium">67%</span>
-                  </div>
-                  <div className="w-full bg-[#f9fafb] rounded-full h-2">
-                    <div className="bg-green-600 h-2 rounded-full" style={{width: '67%'}}></div>
-                  </div>
-                  
-                  <div className="flex justify-between items-center">
-                    <span className="text-sm">Within 48 hours</span>
-                    <span className="font-medium">89%</span>
-                  </div>
-                  <div className="w-full bg-[#f9fafb] rounded-full h-2">
-                    <div className="bg-yellow-600 h-2 rounded-full" style={{width: '89%'}}></div>
-                  </div>
-                  
-                  <div className="flex justify-between items-center">
-                    <span className="text-sm">48+ hours</span>
-                    <span className="font-medium text-red-600">11%</span>
-                  </div>
-                  <div className="w-full bg-[#f9fafb] rounded-full h-2">
-                    <div className="bg-red-600 h-2 rounded-full" style={{width: '11%'}}></div>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
 
             {/* Weekly Summary - Advantages / Disadvantages Card */}
             <Card className="bg-[#f9fafb]">
