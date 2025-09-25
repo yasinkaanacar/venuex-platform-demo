@@ -971,16 +971,6 @@ export default function ReviewsMVP() {
                         </div>
                       </div>
                       
-                      <div>
-                        <div className="flex items-center justify-between mb-1">
-                          <div className="text-xs text-gray-600">Response Time</div>
-                        </div>
-                        <div className="text-base font-bold text-gray-900">{kpiData.avgResponseTime}</div>
-                        <div className="flex items-center gap-1 text-xs text-red-600">
-                          <ArrowUp className="w-2 h-2" />
-                          +2h
-                        </div>
-                      </div>
                     </div>
                     
                   </div>
