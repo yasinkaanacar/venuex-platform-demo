@@ -1561,12 +1561,12 @@ export default function ReviewsMVP() {
                           <div className="font-medium text-sm mb-1">{review.reviewer}</div>
                           <div className="flex items-center justify-between text-sm text-gray-500 mb-1">
                             {reviewSource === "locations" ? (
-                              <span className="inline-flex items-center gap-1 ml-3">
+                              <span className="inline-flex items-center gap-1">
                                 <MapPin className="w-3 h-3" />
                                 {review.location}
                               </span>
                             ) : (
-                              <span className="inline-flex items-center gap-1 ml-1">
+                              <span className="inline-flex items-center gap-1">
                                 <ShoppingBag className="w-3 h-3" />
                                 {review.product} ({review.productSku})
                               </span>
