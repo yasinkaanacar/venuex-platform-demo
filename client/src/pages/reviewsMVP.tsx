@@ -970,13 +970,6 @@ export default function ReviewsMVP() {
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-3">
-                    <div>
-                      <div className="text-2xl font-bold text-gray-900">{kpiData.totalReviews.toLocaleString()}</div>
-                      <div className="flex items-center gap-1 text-xs text-green-600">
-                        <ArrowUp className="w-3 h-3" />
-                        +12% vs previous period
-                      </div>
-                    </div>
                     
                     <div className="grid grid-cols-2 gap-3 pt-1 border-t border-gray-100">
                       <div></div>
