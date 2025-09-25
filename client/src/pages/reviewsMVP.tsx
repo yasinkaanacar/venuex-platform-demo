@@ -630,10 +630,6 @@ export default function ReviewsMVP() {
                       <CardTitle className="text-base">Review Details</CardTitle>
                       <div className="flex gap-2">
                         <Button variant="outline" size="sm">
-                          <Users className="w-4 h-4 mr-2" />
-                          Assign
-                        </Button>
-                        <Button variant="outline" size="sm">
                           <Target className="w-4 h-4 mr-2" />
                           Change Status
                         </Button>
