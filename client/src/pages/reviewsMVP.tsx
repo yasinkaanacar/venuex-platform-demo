@@ -881,7 +881,7 @@ export default function ReviewsMVP() {
             {/* KPI Summary Cards */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {/* Average Rating Card */}
-              <Card className="rounded-lg border text-card-foreground shadow-sm cursor-pointer hover:shadow-md transition-shadow bg-[#f9fafb]" data-testid="card-average-rating"></Card>
+              <Card className="rounded-lg border text-card-foreground shadow-sm cursor-pointer hover:shadow-md transition-shadow bg-[#f9fafb]" data-testid="card-average-rating">
                 <CardHeader className="pb-4">
                   <CardTitle className="text-lg font-semibold text-gray-900">Average Rating</CardTitle>
                   <div className="text-sm text-gray-500">(Last 30 days)</div>
@@ -915,7 +915,7 @@ export default function ReviewsMVP() {
               </Card>
 
               {/* Review Volume Card */}
-              <Card className="cursor-pointer hover:shadow-md transition-shadow" data-testid="card-review-volume">
+              <Card className="rounded-lg border text-card-foreground shadow-sm cursor-pointer hover:shadow-md transition-shadow bg-[#f9fafb]" data-testid="card-review-volume">
                 <CardHeader className="pb-3">
                   <CardTitle className="tracking-tight text-[#111827] font-semibold text-[18px]">Review Volume</CardTitle>
                   <div className="text-sm text-gray-500">(Last 30 Days)</div>
@@ -969,7 +969,7 @@ export default function ReviewsMVP() {
               </Card>
 
               {/* Sentiment Analysis Card */}
-              <Card className="cursor-pointer hover:shadow-md transition-shadow" data-testid="card-sentiment">
+              <Card className="rounded-lg border text-card-foreground shadow-sm cursor-pointer hover:shadow-md transition-shadow bg-[#f9fafb]" data-testid="card-sentiment">
                 <CardHeader className="pb-3 relative">
                   <Sparkles className="absolute top-4 right-4 w-5 h-5 text-blue-500" />
                   <CardTitle className="tracking-tight text-[#111827] font-semibold text-[18px]">Sentiment Analysis</CardTitle>
