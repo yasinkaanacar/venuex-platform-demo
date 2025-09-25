@@ -1032,27 +1032,27 @@ export default function ReviewsMVP() {
                 <CardContent className="flex items-center justify-center flex-1">
                   <div className="grid grid-cols-3 gap-4 w-full">
                     <div className="text-center">
-                      <div className="flex items-center justify-center mb-2">
-                        <ThumbsUp className="w-6 h-6 text-green-500" />
+                      <div className="flex items-center justify-center mb-3">
+                        <ThumbsUp className="w-10 h-10 text-green-500" />
                       </div>
-                      <div className="text-2xl font-bold text-green-600 mb-1">68%</div>
-                      <div className="text-xs text-gray-600">Positive</div>
+                      <div className="text-3xl font-bold text-green-600 mb-2">68%</div>
+                      <div className="text-sm text-gray-600">Positive</div>
                     </div>
                     
                     <div className="text-center">
-                      <div className="flex items-center justify-center mb-2">
-                        <Minus className="w-6 h-6 text-gray-500" />
+                      <div className="flex items-center justify-center mb-3">
+                        <Minus className="w-10 h-10 text-gray-500" />
                       </div>
-                      <div className="text-2xl font-bold text-gray-600 mb-1">24%</div>
-                      <div className="text-xs text-gray-600">Neutral</div>
+                      <div className="text-3xl font-bold text-gray-600 mb-2">24%</div>
+                      <div className="text-sm text-gray-600">Neutral</div>
                     </div>
                     
                     <div className="text-center">
-                      <div className="flex items-center justify-center mb-2">
-                        <ThumbsDown className="w-6 h-6 text-red-500" />
+                      <div className="flex items-center justify-center mb-3">
+                        <ThumbsDown className="w-10 h-10 text-red-500" />
                       </div>
-                      <div className="text-2xl font-bold text-red-600 mb-1">8%</div>
-                      <div className="text-xs text-gray-600">Negative</div>
+                      <div className="text-3xl font-bold text-red-600 mb-2">8%</div>
+                      <div className="text-sm text-gray-600">Negative</div>
                     </div>
                   </div>
                 </CardContent>
