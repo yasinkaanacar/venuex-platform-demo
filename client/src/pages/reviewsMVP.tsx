@@ -893,11 +893,11 @@ export default function ReviewsMVP() {
                   {/* Rating Distribution with Dual-Purpose Progress Bars */}
                   <div className="space-y-2">
                     {[
-                      { stars: 5, percentage: 92, replyRate: 95, trackColor: 'bg-green-200', fillColor: 'bg-green-500' },
-                      { stars: 4, percentage: 5, replyRate: 88, trackColor: 'bg-blue-200', fillColor: 'bg-blue-500' },
-                      { stars: 3, percentage: 1, replyRate: 75, trackColor: 'bg-yellow-200', fillColor: 'bg-yellow-500' },
-                      { stars: 2, percentage: 2, replyRate: 82, trackColor: 'bg-orange-200', fillColor: 'bg-orange-500' },
-                      { stars: 1, percentage: 2, replyRate: 68, trackColor: 'bg-red-200', fillColor: 'bg-red-500' }
+                      { stars: 5, percentage: 45, replyRate: 95, trackColor: 'bg-green-200', fillColor: 'bg-green-500' },
+                      { stars: 4, percentage: 28, replyRate: 88, trackColor: 'bg-blue-200', fillColor: 'bg-blue-500' },
+                      { stars: 3, percentage: 15, replyRate: 75, trackColor: 'bg-yellow-200', fillColor: 'bg-yellow-500' },
+                      { stars: 2, percentage: 8, replyRate: 82, trackColor: 'bg-orange-200', fillColor: 'bg-orange-500' },
+                      { stars: 1, percentage: 4, replyRate: 68, trackColor: 'bg-red-200', fillColor: 'bg-red-500' }
                     ].map((rating) => (
                       <div 
                         key={rating.stars} 
