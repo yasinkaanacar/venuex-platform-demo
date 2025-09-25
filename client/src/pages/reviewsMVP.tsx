@@ -890,24 +890,43 @@ export default function ReviewsMVP() {
                   <div className="text-4xl font-bold text-gray-900">{kpiData.averageRating}</div>
                   <div className="text-sm text-gray-500 mb-4">{kpiData.totalReviews.toLocaleString()} reviews</div>
                   
-                  {/* Rating Distribution */}
+                  {/* Rating Distribution with Dual-Purpose Progress Bars */}
                   <div className="space-y-2">
                     {[
-                      { stars: 5, percentage: 92, color: 'bg-yellow-500' },
-                      { stars: 4, percentage: 5, color: 'bg-orange-400' },
-                      { stars: 3, percentage: 1, color: 'bg-orange-400' },
-                      { stars: 2, percentage: 2, color: 'bg-orange-400' },
-                      { stars: 1, percentage: 2, color: 'bg-orange-400' }
+                      { stars: 5, percentage: 92, replyRate: 95, trackColor: 'bg-green-200', fillColor: 'bg-green-500' },
+                      { stars: 4, percentage: 5, replyRate: 88, trackColor: 'bg-blue-200', fillColor: 'bg-blue-500' },
+                      { stars: 3, percentage: 1, replyRate: 75, trackColor: 'bg-yellow-200', fillColor: 'bg-yellow-500' },
+                      { stars: 2, percentage: 2, replyRate: 82, trackColor: 'bg-orange-200', fillColor: 'bg-orange-500' },
+                      { stars: 1, percentage: 2, replyRate: 68, trackColor: 'bg-red-200', fillColor: 'bg-red-500' }
                     ].map((rating) => (
-                      <div key={rating.stars} className="flex items-center gap-3">
+                      <div 
+                        key={rating.stars} 
+                        className="flex items-center gap-3 relative group cursor-pointer"
+                        data-testid={`rating-${rating.stars}-star`}
+                      >
                         <span className="text-sm font-medium w-2">{rating.stars}</span>
-                        <div className="flex-1 bg-[#f9fafb] rounded-full h-2 relative">
+                        <div className="flex-1 bg-gray-100 rounded-full h-2 relative">
+                          {/* Volume track (background) */}
                           <div 
-                            className={`${rating.color} h-2 rounded-full`}
+                            className={`${rating.trackColor} h-2 rounded-full relative`}
                             style={{ width: `${rating.percentage}%` }}
-                          />
+                          >
+                            {/* Reply rate fill (foreground) */}
+                            <div 
+                              className={`${rating.fillColor} h-2 rounded-full`}
+                              style={{ width: `${rating.replyRate}%` }}
+                            />
+                          </div>
                         </div>
                         <span className="text-sm text-gray-600 w-8 text-right">{rating.percentage}%</span>
+                        
+                        {/* Tooltip */}
+                        <div className="absolute left-0 bottom-full mb-2 w-48 bg-gray-900 text-white text-xs rounded-lg p-3 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none z-10">
+                          <div className="font-semibold mb-1">{rating.stars}-Star Reviews</div>
+                          <div>• Make up {rating.percentage}% of all reviews</div>
+                          <div>• {rating.replyRate}% of these have been replied to</div>
+                          <div className="absolute top-full left-4 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-gray-900"></div>
+                        </div>
                       </div>
                     ))}
                   </div>

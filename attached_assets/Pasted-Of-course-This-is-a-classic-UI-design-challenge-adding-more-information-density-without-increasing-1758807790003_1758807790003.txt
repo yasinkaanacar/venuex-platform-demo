@@ -1,0 +1,64 @@
+Of course. This is a classic UI design challenge: adding more information density without increasing clutter. The most elegant and effective way to achieve this is by transforming the existing distribution bars into Dual-Purpose Progress Bars.
+
+This solution requires no extra space and makes the card even more valuable at a glance.
+
+Design Solution: The Dual-Purpose Progress Bar
+1. The Core Concept
+We will modify the existing horizontal bars for each star rating (1-5 stars) so they convey two pieces of information simultaneously:
+
+The Bar's Total Length: Still represents the volume distribution (e.g., "5-star reviews make up 60% of all reviews").
+
+The Bar's Inner Fill: Will now represent the reply rate for that specific star rating (e.g., "92% of those 5-star reviews have been replied to").
+
+This creates an intuitive "progress bar within a progress bar" effect.
+
+2. Visual Mockup & Design Specification
+Here is how the "Average Rating" KPI card will be redesigned:
+
+Component Breakdown:
+
+Title & Avg. Rating: Unchanged. The large "4.2 ★" remains the primary metric.
+
+Star Rating Rows (The Key Change):
+
+Each row (5 ★, 4 ★, etc.) still displays the star label and the volume percentage.
+
+The horizontal bar next to it is now redesigned.
+
+How the New Bar Works:
+
+Styling: We will use a two-tone color scheme for each bar.
+
+The "Track" (Background): A light, low-saturation color (e.g., light green for 5 stars, light red for 1 star). The total length of this track represents the volume percentage.
+
+The "Fill" (Foreground): A solid, saturated version of the same color. The length of this fill represents the reply rate.
+
+Example (for 5-Star Reviews):
+
+Imagine 5-star reviews make up 60% of all reviews. The light green "track" will extend 60% of the available width.
+
+Imagine the reply rate for 5-star reviews is 92%. The solid green "fill" will cover 92% of the light green "track".
+
+3. Interaction Design: The Explanatory Tooltip
+To ensure perfect clarity and eliminate any guesswork for the user, we will add an interactive hover effect.
+
+Functionality: When a user hovers their mouse over any of the star rating rows (e.g., the "5 ★" row), a detailed tooltip will appear.
+
+Tooltip Content: The tooltip will explicitly state both metrics in plain English.
+
+Example Tooltip (when hovering over the 5 ★ row):
+
+5-Star Reviews
+• Make up 60% of all reviews.
+• 92% of these have been replied to.
+
+This interaction is crucial. It provides a "progressive disclosure" of information, keeping the card clean by default but offering deep detail on demand.
+
+4. Why This Solution is Ideal
+Zero Added Space: It perfectly adheres to the primary constraint of not making the card bigger.
+
+High Information Density: It packs two critical data points into a single, elegant visual element.
+
+Instantly Scannable: A user can see at a glance if any reply rates are lagging. An unfilled red bar for 1-star reviews is a powerful and immediate visual alert that critical reviews are being ignored.
+
+Action-Oriented: It doesn't just show a problem (low rating); it shows a potential cause or related operational failure (low reply rate for critical reviews), prompting the user to take action.
