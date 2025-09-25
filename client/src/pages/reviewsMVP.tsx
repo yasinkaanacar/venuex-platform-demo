@@ -61,6 +61,13 @@ export default function ReviewsMVP() {
   const [replyStatusFilter, setReplyStatusFilter] = useState("unreplied");
   const [ratingFilter, setRatingFilter] = useState("all");
   const [themeFilter, setThemeFilter] = useState("all");
+  
+  // Location Filter Bar state
+  const [regionFilter, setRegionFilter] = useState("all");
+  const [cityFilter, setCityFilter] = useState("all");
+  const [avgRatingFilter, setAvgRatingFilter] = useState("all");
+  const [replyRateFilter, setReplyRateFilter] = useState("all");
+  const [locationSearchQuery, setLocationSearchQuery] = useState("");
   const [inboxFilters, setInboxFilters] = useState({
     source: null,
     rating: null,
@@ -813,6 +820,149 @@ export default function ReviewsMVP() {
               <h2 className="text-2xl font-bold">Store Locations</h2>
               <div className="text-sm text-gray-500">{locationsData.length} locations</div>
             </div>
+
+            {/* Location Filter Bar */}
+            <Card className="border-gray-200">
+              <CardContent className="p-4">
+                <div className="flex items-center gap-6">
+                  {/* Geographic Hierarchy */}
+                  <div className="flex items-center gap-4">
+                    {/* Region Filter */}
+                    <div className="flex items-center gap-2">
+                      <label className="text-sm font-medium text-gray-700 whitespace-nowrap">Region:</label>
+                      <Select value={regionFilter} onValueChange={(value) => {
+                        setRegionFilter(value);
+                        setCityFilter("all"); // Reset city when region changes
+                      }}>
+                        <SelectTrigger className="w-40 border-gray-300 rounded-md">
+                          <SelectValue placeholder="All Regions" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="all">All Regions</SelectItem>
+                          <SelectItem value="marmara">Marmara Region</SelectItem>
+                          <SelectItem value="aegean">Aegean Region</SelectItem>
+                          <SelectItem value="central">Central Anatolia</SelectItem>
+                          <SelectItem value="mediterranean">Mediterranean Region</SelectItem>
+                          <SelectItem value="blacksea">Black Sea Region</SelectItem>
+                          <SelectItem value="eastern">Eastern Anatolia</SelectItem>
+                          <SelectItem value="southeastern">Southeastern Anatolia</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+
+                    {/* City Filter */}
+                    <div className="flex items-center gap-2">
+                      <label className="text-sm font-medium text-gray-700 whitespace-nowrap">City:</label>
+                      <Select value={cityFilter} onValueChange={setCityFilter}>
+                        <SelectTrigger className="w-36 border-gray-300 rounded-md">
+                          <SelectValue placeholder="All Cities" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="all">All Cities</SelectItem>
+                          {regionFilter === "all" || regionFilter === "marmara" ? (
+                            <>
+                              <SelectItem value="istanbul">Istanbul</SelectItem>
+                              <SelectItem value="bursa">Bursa</SelectItem>
+                            </>
+                          ) : null}
+                          {regionFilter === "all" || regionFilter === "aegean" ? (
+                            <>
+                              <SelectItem value="izmir">Izmir</SelectItem>
+                              <SelectItem value="manisa">Manisa</SelectItem>
+                              <SelectItem value="aydin">Aydın</SelectItem>
+                              <SelectItem value="mugla">Muğla</SelectItem>
+                              <SelectItem value="denizli">Denizli</SelectItem>
+                            </>
+                          ) : null}
+                          {regionFilter === "all" || regionFilter === "central" ? (
+                            <>
+                              <SelectItem value="ankara">Ankara</SelectItem>
+                              <SelectItem value="konya">Konya</SelectItem>
+                              <SelectItem value="eskisehir">Eskişehir</SelectItem>
+                              <SelectItem value="kayseri">Kayseri</SelectItem>
+                            </>
+                          ) : null}
+                          {regionFilter === "all" || regionFilter === "mediterranean" ? (
+                            <>
+                              <SelectItem value="antalya">Antalya</SelectItem>
+                              <SelectItem value="adana">Adana</SelectItem>
+                              <SelectItem value="mersin">Mersin</SelectItem>
+                            </>
+                          ) : null}
+                          {regionFilter === "all" || regionFilter === "blacksea" ? (
+                            <>
+                              <SelectItem value="trabzon">Trabzon</SelectItem>
+                              <SelectItem value="samsun">Samsun</SelectItem>
+                            </>
+                          ) : null}
+                          {regionFilter === "all" || regionFilter === "eastern" ? (
+                            <SelectItem value="erzurum">Erzurum</SelectItem>
+                          ) : null}
+                          {regionFilter === "all" || regionFilter === "southeastern" ? (
+                            <>
+                              <SelectItem value="gaziantep">Gaziantep</SelectItem>
+                              <SelectItem value="sanliurfa">Şanlıurfa</SelectItem>
+                              <SelectItem value="diyarbakir">Diyarbakır</SelectItem>
+                              <SelectItem value="van">Van</SelectItem>
+                              <SelectItem value="malatya">Malatya</SelectItem>
+                            </>
+                          ) : null}
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  </div>
+
+                  {/* Performance Metrics */}
+                  <div className="flex items-center gap-4">
+                    {/* Average Rating Filter */}
+                    <div className="flex items-center gap-2">
+                      <label className="text-sm font-medium text-gray-700 whitespace-nowrap">Avg. Rating:</label>
+                      <Select value={avgRatingFilter} onValueChange={setAvgRatingFilter}>
+                        <SelectTrigger className="w-44 border-gray-300 rounded-md">
+                          <SelectValue placeholder="All Ratings" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="all">All Ratings</SelectItem>
+                          <SelectItem value="excellent">Excellent (4.5+ ★)</SelectItem>
+                          <SelectItem value="good">Good (4.0 - 4.4 ★)</SelectItem>
+                          <SelectItem value="average">Average (3.5 - 3.9 ★)</SelectItem>
+                          <SelectItem value="poor">Poor (&lt; 3.5 ★)</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+
+                    {/* Reply Rate Filter */}
+                    <div className="flex items-center gap-2">
+                      <label className="text-sm font-medium text-gray-700 whitespace-nowrap">Reply Rate:</label>
+                      <Select value={replyRateFilter} onValueChange={setReplyRateFilter}>
+                        <SelectTrigger className="w-48 border-gray-300 rounded-md">
+                          <SelectValue placeholder="All Reply Rates" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="all">All Reply Rates</SelectItem>
+                          <SelectItem value="excellent">Excellent (&gt; 95%)</SelectItem>
+                          <SelectItem value="good">Good (80-94%)</SelectItem>
+                          <SelectItem value="needs-improvement">Needs Improvement (&lt; 80%)</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  </div>
+
+                  {/* Direct Search */}
+                  <div className="flex items-center gap-2 ml-auto">
+                    <div className="relative">
+                      <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+                      <Input
+                        placeholder="Search by location name..."
+                        value={locationSearchQuery}
+                        onChange={(e) => setLocationSearchQuery(e.target.value)}
+                        className="pl-10 w-56 border-gray-300"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
             
             <Card>
               <CardContent className="p-0">
