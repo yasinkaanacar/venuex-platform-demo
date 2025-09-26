@@ -1020,11 +1020,11 @@ export default function ReviewsMVP() {
                   {/* Rating Distribution */}
                   <div className="space-y-2">
                     {[
-                      { stars: 5, percentage: 45, fillColor: 'bg-green-500' },
-                      { stars: 4, percentage: 28, fillColor: 'bg-blue-500' },
-                      { stars: 3, percentage: 15, fillColor: 'bg-yellow-500' },
-                      { stars: 2, percentage: 8, fillColor: 'bg-orange-500' },
-                      { stars: 1, percentage: 4, fillColor: 'bg-red-500' }
+                      { stars: 5, percentage: 45, count: 561, fillColor: 'bg-green-500' },
+                      { stars: 4, percentage: 28, count: 349, fillColor: 'bg-blue-500' },
+                      { stars: 3, percentage: 15, count: 187, fillColor: 'bg-yellow-500' },
+                      { stars: 2, percentage: 8, count: 100, fillColor: 'bg-orange-500' },
+                      { stars: 1, percentage: 4, count: 50, fillColor: 'bg-red-500' }
                     ].map((rating) => (
                       <div 
                         key={rating.stars} 
@@ -1044,6 +1044,7 @@ export default function ReviewsMVP() {
                         <div className="absolute left-0 bottom-full mb-2 w-48 bg-gray-900 text-white text-xs rounded-lg p-3 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none z-10">
                           <div className="font-semibold mb-1">{rating.stars}-Star Reviews</div>
                           <div>• Make up {rating.percentage}% of all reviews</div>
+                          <div>• {rating.count} reviews total</div>
                           <div className="absolute top-full left-4 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-gray-900"></div>
                         </div>
                       </div>
