@@ -337,6 +337,19 @@ export default function LocationMatch() {
   const [linkSearchQuery, setLinkSearchQuery] = useState('');
   const [recreateSearchQuery, setRecreateSearchQuery] = useState('');
   const locationsPerPage = 20; // Increased for enterprise scale
+
+  // Auto-populate search when a location is selected
+  useEffect(() => {
+    if (selectedUnmatched) {
+      const location = unmatchedLocations.find(loc => loc.id === selectedUnmatched);
+      if (location) {
+        const searchTerm = generateSearchTerms(location);
+        setLinkSearchQuery(searchTerm);
+      }
+    } else {
+      setLinkSearchQuery('');
+    }
+  }, [selectedUnmatched, unmatchedLocations]);
   
   // CSV Export functions
   const exportToCSV = (data: any[], filename: string) => {
@@ -411,17 +424,34 @@ export default function LocationMatch() {
     }
   };
   
-  const bulkAcceptSuggestions = () => {
-    selectedLocations.forEach(locationId => {
-      const location = unmatchedLocations.find(loc => loc.id === locationId);
-      if (location) {
-        const suggestion = getSuggestedMatch(location);
-        if (suggestion) {
-          handleLinkLocation(locationId, suggestion.id);
-        }
+  // Generate pre-populated search terms from location name
+  const generateSearchTerms = (location: PlatformLocation): string => {
+    const name = location.name.toLowerCase();
+    
+    // Extract meaningful terms, focusing on store names and locations
+    let searchTerm = '';
+    
+    // If it contains "boyner", use the part after boyner
+    if (name.includes('boyner')) {
+      const afterBoyner = name.split('boyner')[1]?.trim();
+      if (afterBoyner) {
+        // Remove common words like "store", "branch", "outlet"
+        searchTerm = afterBoyner
+          .replace(/\b(store|branch|outlet|shop|mall)\b/g, '')
+          .trim();
       }
-    });
-    setSelectedLocations([]);
+    }
+    
+    // If no meaningful term found, try to extract location indicators
+    if (!searchTerm) {
+      // Look for city or district names in the address
+      const address = location.address.toLowerCase();
+      const addressParts = address.split(',')[0]; // Take first part before comma
+      searchTerm = addressParts.trim();
+    }
+    
+    // Clean up and return the most relevant term
+    return searchTerm || location.name.split(' ').slice(-1)[0]; // Last word as fallback
   };
   
   const bulkRecreateSelected = () => {
@@ -439,16 +469,8 @@ export default function LocationMatch() {
   const getFilteredLocations = () => {
     return unmatchedLocations.filter(location => {
       // Status filter
-      if (filterStatus !== 'all') {
-        if (filterStatus === 'has-suggestion') {
-          const suggestion = getSuggestedMatch(location);
-          if (!suggestion) return false;
-        } else if (filterStatus === 'no-suggestion') {
-          const suggestion = getSuggestedMatch(location);
-          if (suggestion) return false;
-        } else if (location.status !== filterStatus) {
-          return false;
-        }
+      if (filterStatus !== 'all' && location.status !== filterStatus) {
+        return false;
       }
       
       // City filter
@@ -514,22 +536,28 @@ export default function LocationMatch() {
         )
       : locations;
 
-    return filteredLocations.map(location => ({
+    // Sort locations by relevance to search query
+    const sortedLocations = searchQuery 
+      ? filteredLocations.sort((a, b) => {
+          const aRelevance = a.name.toLowerCase().includes(searchQuery.toLowerCase()) ? 1 : 0;
+          const bRelevance = b.name.toLowerCase().includes(searchQuery.toLowerCase()) ? 1 : 0;
+          return bRelevance - aRelevance;
+        })
+      : filteredLocations;
+
+    return sortedLocations.map(location => ({
       id: location.id,
       label: location.name,
       value: location.id,
       subtitle: location.address,
       badge: location.storeCode,
-      suggested: suggestedMatch?.id === location.id
+      suggested: false // No more automatic suggestions
     }));
   };
 
   // Filter available VenueX locations for linking based on search
   const getFilteredLinkOptions = (searchQuery: string): AutocompleteOption[] => {
-    const selectedLocation = selectedUnmatched ? unmatchedLocations.find(loc => loc.id === selectedUnmatched) : null;
-    const suggestedMatch = selectedLocation ? getSuggestedMatch(selectedLocation) : null;
-    
-    return convertToAutocompleteOptions(availableVenueXLocations, suggestedMatch, searchQuery);
+    return convertToAutocompleteOptions(availableVenueXLocations, null, searchQuery);
   };
 
   // Filter VenueX locations for recreation based on search
@@ -799,8 +827,6 @@ export default function LocationMatch() {
                   <SelectContent>
                     <SelectItem value="all">All Statuses</SelectItem>
                     <SelectItem value="pending">Needs Review</SelectItem>
-                    <SelectItem value="has-suggestion">Suggestion Available</SelectItem>
-                    <SelectItem value="no-suggestion">No Match Found</SelectItem>
                     <SelectItem value="linked">Linked</SelectItem>
                     <SelectItem value="recreate">Set to Re-create</SelectItem>
                   </SelectContent>
@@ -871,13 +897,6 @@ export default function LocationMatch() {
               </div>
               <div className="flex items-center space-x-3">
                 <Button
-                  onClick={bulkAcceptSuggestions}
-                  className="bg-green-600 hover:bg-green-700 text-white"
-                  data-testid="button-bulk-accept-suggestions"
-                >
-                  Accept All Smart Suggestions
-                </Button>
-                <Button
                   onClick={bulkRecreateSelected}
                   variant="outline"
                   className="text-amber-700 border-amber-300 hover:bg-amber-50"
@@ -920,7 +939,7 @@ export default function LocationMatch() {
                       Status
                     </th>
                     <th className="p-4 text-left text-sm font-medium text-gray-900 dark:text-gray-100">
-                      Suggestion
+                      Resolution Method
                     </th>
                     <th className="p-4 text-left text-sm font-medium text-gray-900 dark:text-gray-100">
                       Actions
@@ -929,16 +948,16 @@ export default function LocationMatch() {
                 </thead>
                 <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
                   {currentLocations.map((location) => {
-                    const suggestion = getSuggestedMatch(location);
                     return (
                       <tr
                         key={location.id}
-                        className={`hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors ${
+                        className={`hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors cursor-pointer ${
                           selectedLocations.includes(location.id) ? 'bg-blue-50 dark:bg-blue-900/20' : ''
-                        }`}
+                        } ${selectedUnmatched === location.id ? 'ring-2 ring-blue-500 bg-blue-100 dark:bg-blue-900/30' : ''}`}
+                        onClick={() => location.status === 'pending' ? setSelectedUnmatched(location.id) : null}
                         data-testid={`row-location-${location.id}`}
                       >
-                        <td className="p-4">
+                        <td className="p-4" onClick={(e) => e.stopPropagation()}>
                           <Checkbox
                             checked={selectedLocations.includes(location.id)}
                             onChange={() => handleSelectLocation(location.id)}
@@ -988,46 +1007,20 @@ export default function LocationMatch() {
                           )}
                         </td>
                         <td className="p-4">
-                          {suggestion ? (
-                            <div className="space-y-1">
-                              <div className="text-xs bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-200 px-2 py-1 rounded font-medium">
-                                ✨ SMART SUGGESTION
-                              </div>
-                              <div className="text-sm font-medium text-gray-900 dark:text-gray-100">
-                                {suggestion.name}
-                              </div>
-                              <div className="flex items-center text-xs text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20 px-2 py-1 rounded-md w-fit">
-                                <Building className="w-3 h-3 mr-1" />
-                                {suggestion.storeCode}
-                              </div>
-                            </div>
-                          ) : (
-                            <div className="text-sm text-gray-500 dark:text-gray-400">
-                              No automatic suggestion
-                            </div>
-                          )}
-                        </td>
-                        <td className="p-4">
-                          <div className="flex items-center space-x-2">
-                            {suggestion && location.status === 'pending' && (
-                              <Button
-                                size="sm"
-                                onClick={() => handleLinkLocation(location.id, suggestion.id)}
-                                className="bg-green-600 hover:bg-green-700 text-white"
-                                data-testid={`button-accept-suggestion-${location.id}`}
-                              >
-                                Accept
-                              </Button>
-                            )}
-                            <Button
-                              size="sm"
-                              variant="outline"
-                              onClick={() => setSelectedUnmatched(location.id)}
-                              data-testid={`button-manual-resolve-${location.id}`}
-                            >
-                              Manual
-                            </Button>
+                          <div className="text-sm text-gray-500 dark:text-gray-400">
+                            Click row to resolve manually
                           </div>
+                        </td>
+                        <td className="p-4" onClick={(e) => e.stopPropagation()}>
+                          <Button
+                            size="sm"
+                            variant={selectedUnmatched === location.id ? "default" : "outline"}
+                            onClick={() => setSelectedUnmatched(location.id)}
+                            data-testid={`button-manual-resolve-${location.id}`}
+                            className={selectedUnmatched === location.id ? "bg-blue-600 hover:bg-blue-700 text-white" : ""}
+                          >
+                            {selectedUnmatched === location.id ? 'Selected' : 'Select'}
+                          </Button>
                         </td>
                       </tr>
                     );
@@ -1103,13 +1096,16 @@ export default function LocationMatch() {
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 {/* Selected Location Info */}
                 <div className="space-y-4">
-                  <div className="p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
-                    <h4 className="font-medium mb-2">Selected Location:</h4>
-                    <p className="font-semibold">
+                  <div className="p-4 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-700 rounded-lg">
+                    <h4 className="font-medium mb-2 text-blue-800 dark:text-blue-200">Selected Location for Manual Resolution:</h4>
+                    <p className="font-semibold text-gray-900 dark:text-gray-100">
                       {unmatchedLocations.find(loc => loc.id === selectedUnmatched)?.name}
                     </p>
                     <p className="text-sm text-gray-600 dark:text-gray-400">
                       {unmatchedLocations.find(loc => loc.id === selectedUnmatched)?.address}
+                    </p>
+                    <p className="text-xs text-blue-600 dark:text-blue-400 mt-2">
+                      Search has been pre-populated with relevant terms from the location name.
                     </p>
                   </div>
                 </div>
