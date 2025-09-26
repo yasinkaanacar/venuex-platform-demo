@@ -2557,7 +2557,7 @@ export default function ReviewsX() {
                   {/* Turkey Map */}
                   <div className="h-96 rounded-lg overflow-hidden border bg-white flex items-center justify-center">
                     <img 
-                      src="@assets/tr-02_1758876208184.jpg"
+                      src="@assets/tr-02_1758876643793.jpg"
                       alt="Turkey Map"
                       className="max-w-full max-h-full object-contain"
                       data-testid="turkey-map"
