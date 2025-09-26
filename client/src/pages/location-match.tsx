@@ -302,6 +302,7 @@ export default function LocationMatch() {
   const [autoMatchedOpen, setAutoMatchedOpen] = useState(false);
   const [manualLinkedOpen, setManualLinkedOpen] = useState(true);
   const [recreateOpen, setRecreateOpen] = useState(true);
+  const [showAllMatchesModal, setShowAllMatchesModal] = useState(false);
 
   // Simulate loading on mount
   useEffect(() => {
@@ -432,6 +433,18 @@ export default function LocationMatch() {
                     />
                   ))}
                 </div>
+                {mockAutoMatched.length > 2 && (
+                  <div className="text-center mt-4">
+                    <Button
+                      variant="outline"
+                      onClick={() => setShowAllMatchesModal(true)}
+                      className="text-blue-600 hover:text-blue-800"
+                      data-testid="button-view-all-matches"
+                    >
+                      View All {mockAutoMatched.length} Matched Locations
+                    </Button>
+                  </div>
+                )}
               </div>
 
               {/* Locations Requiring Your Attention */}
@@ -881,6 +894,41 @@ export default function LocationMatch() {
         {currentStep === 2 && renderStep2()}
         {currentStep === 3 && renderStep3()}
       </div>
+
+      {/* View All Matches Modal */}
+      {showAllMatchesModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50" onClick={() => setShowAllMatchesModal(false)}>
+          <div className="bg-white dark:bg-gray-800 rounded-lg p-6 max-w-4xl w-full mx-4 max-h-[80vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
+            <div className="flex items-center justify-between mb-6">
+              <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
+                All {mockAutoMatched.length} High-Confidence Matches
+              </h3>
+              <Button
+                variant="outline"
+                onClick={() => setShowAllMatchesModal(false)}
+                className="text-gray-500 hover:text-gray-700"
+                data-testid="button-close-modal"
+              >
+                ✕
+              </Button>
+            </div>
+            
+            <div className="space-y-4">
+              {mockAutoMatched.map((match, index) => (
+                <ComparisonCard
+                  key={index}
+                  leftLocation={match.venueXLocation}
+                  rightLocation={match.platformLocation}
+                  leftType="venuex"
+                  rightType="platform"
+                  leftLabel="VenueX Location"
+                  rightLabel="Meta Page"
+                />
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
