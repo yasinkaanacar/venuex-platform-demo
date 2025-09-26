@@ -766,14 +766,14 @@ export default function LocationMatch() {
         </Card>
       </div>
 
-      <div className="flex justify-end mt-6">
+      <div className="flex justify-center mt-8 pt-4 border-t border-gray-200 dark:border-gray-700">
         <Button 
           onClick={() => setCurrentStep(3)}
           disabled={!canProceedToStep3}
-          className="bg-amber-600 hover:bg-amber-700 text-white"
+          className="bg-amber-600 hover:bg-amber-700 text-white px-8 py-3 text-lg font-medium"
           data-testid="button-proceed-step3"
         >
-          Review and Confirm
+          Review and Confirm ({pendingCount > 0 ? `${pendingCount} remaining` : 'All resolved'})
         </Button>
       </div>
     </div>
