@@ -1061,9 +1061,15 @@ export default function ReviewsMVP() {
                   </div>
                 </CardHeader>
                 <CardContent className="space-y-8">
-                  <div className="flex items-center gap-2">
-                    <Reply className="w-8 h-8 text-blue-500" />
-                    <div className="text-4xl font-bold text-gray-900">96%</div>
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <Reply className="w-8 h-8 text-blue-500" />
+                      <div className="text-4xl font-bold text-gray-900">96%</div>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <MessageSquare className="w-8 h-8 text-orange-500" />
+                      <div className="text-4xl font-bold text-gray-900">50</div>
+                    </div>
                   </div>
                   
                   <Separator />
