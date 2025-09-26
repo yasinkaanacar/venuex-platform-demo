@@ -337,6 +337,11 @@ export default function LocationMatch() {
   const [linkSearchQuery, setLinkSearchQuery] = useState('');
   const [recreateSearchQuery, setRecreateSearchQuery] = useState('');
   const locationsPerPage = 20; // Increased for enterprise scale
+  
+  // Search state for Step 3 lists
+  const [autoMatchedSearch, setAutoMatchedSearch] = useState('');
+  const [linkedSearch, setLinkedSearch] = useState('');
+  const [recreateSearch, setRecreateSearch] = useState('');
 
   // Auto-populate search when a location is selected
   useEffect(() => {
@@ -1003,6 +1008,10 @@ export default function LocationMatch() {
                       <p className="font-semibold text-gray-900 dark:text-gray-100">
                         {unmatchedLocations.find(loc => loc.id === selectedUnmatched)?.name}
                       </p>
+                      <div className="flex items-center text-sm text-purple-600 dark:text-purple-400 bg-purple-50 dark:bg-purple-900/20 px-2 py-1 rounded-md w-fit mb-2">
+                        <Building className="w-4 h-4 mr-1" />
+                        Code: {unmatchedLocations.find(loc => loc.id === selectedUnmatched)?.storeCode}
+                      </div>
                       <p className="text-sm text-gray-600 dark:text-gray-400">
                         {unmatchedLocations.find(loc => loc.id === selectedUnmatched)?.address}
                       </p>
@@ -1122,10 +1131,6 @@ export default function LocationMatch() {
   };
 
   const renderStep3 = () => {
-    // Add search state for Step 3 lists
-    const [autoMatchedSearch, setAutoMatchedSearch] = useState('');
-    const [linkedSearch, setLinkedSearch] = useState('');
-    const [recreateSearch, setRecreateSearch] = useState('');
 
     // Export Sync Plan functionality
     const exportSyncPlan = () => {
