@@ -330,7 +330,7 @@ export default function LocationMatch() {
   const [recreateOpen, setRecreateOpen] = useState(true);
   const [showAllMatchesModal, setShowAllMatchesModal] = useState(false);
   
-  // Enterprise Step 2 state
+  // Step 2 state
   const [selectedLocations, setSelectedLocations] = useState<string[]>([]);
   const [filterStatus, setFilterStatus] = useState<string>('all');
   const [searchQuery, setSearchQuery] = useState('');
@@ -338,7 +338,7 @@ export default function LocationMatch() {
   // Search state for autocomplete dropdowns
   const [linkSearchQuery, setLinkSearchQuery] = useState('');
   const [recreateSearchQuery, setRecreateSearchQuery] = useState('');
-  const locationsPerPage = 20; // Increased for enterprise scale
+  const locationsPerPage = 20; // Increased page size for better workflow
   
   // Search state for Step 3 lists
   const [autoMatchedSearch, setAutoMatchedSearch] = useState('');
@@ -411,7 +411,7 @@ export default function LocationMatch() {
     exportToCSV(unmatchedData, 'unmatched-locations.csv');
   };
   
-  // Enterprise bulk action functions
+  // Bulk action functions
   const handleSelectLocation = (locationId: string) => {
     setSelectedLocations(prev => 
       prev.includes(locationId) 
@@ -676,12 +676,12 @@ export default function LocationMatch() {
                 The remaining locations need your input to ensure everything is synced correctly.
               </p>
 
-              {/* Enterprise Export Functionality */}
+              {/* Export Functionality */}
               <div className="mb-8">
                 <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4">
                   <h4 className="text-lg font-semibold text-blue-800 dark:text-blue-200 mb-2">Export for Review</h4>
                   <p className="text-sm text-blue-700 dark:text-blue-300 mb-4">
-                    For enterprise transparency, you can export all matching results for offline audit before proceeding.
+                    For transparency, you can export all matching results for offline audit before proceeding.
                   </p>
                   <div className="flex flex-col sm:flex-row gap-3">
                     <Button
@@ -814,7 +814,7 @@ export default function LocationMatch() {
               </div>
             )}
 
-            {/* Enterprise Data Management Table */}
+            {/* Data Management Table */}
             <Card>
           <CardHeader>
             <div className="flex items-center justify-between">
@@ -1235,7 +1235,7 @@ export default function LocationMatch() {
             Step 3 of 3: Review and Confirm Sync
           </h2>
           <p className="text-gray-600 dark:text-gray-400">
-            Enterprise sync plan ready for execution
+            Sync plan ready for execution
           </p>
         </div>
 
@@ -1312,7 +1312,7 @@ export default function LocationMatch() {
           </CardHeader>
           <CardContent className="space-y-4">
             <p className="text-purple-700 dark:text-purple-300 text-sm">
-              Download a comprehensive sync plan for enterprise audit, approval workflows, and documentation.
+              Download a comprehensive sync plan for audit, approval workflows, and documentation.
             </p>
             <div className="flex flex-col sm:flex-row gap-3">
               <Button
@@ -1546,7 +1546,7 @@ export default function LocationMatch() {
                 ⚠️ Final Confirmation Required
               </h3>
               <p className="text-amber-700 dark:text-amber-300">
-                Execute sync for <strong>{mockAutoMatched.length + linkedCount + recreateCount}</strong> locations across your enterprise
+                Execute sync for <strong>{mockAutoMatched.length + linkedCount + recreateCount}</strong> locations
               </p>
             </div>
             
@@ -1586,7 +1586,7 @@ export default function LocationMatch() {
                 className="bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-700 hover:to-orange-700 text-white px-12 py-4 text-lg font-bold shadow-lg"
                 data-testid="button-confirm-sync"
               >
-                🚀 Execute Enterprise Sync
+                🚀 Execute Sync
               </Button>
             </div>
           </CardContent>
@@ -1607,7 +1607,7 @@ export default function LocationMatch() {
           
           <div className="text-center">
             <div className="text-xs text-gray-500 dark:text-gray-400 mb-1">
-              Step 3 of 3 - Enterprise Ready
+              Step 3 of 3 - Ready
             </div>
             <div className="text-sm font-medium text-gray-700 dark:text-gray-300">
               {mockAutoMatched.length + linkedCount + recreateCount} locations ready to sync
