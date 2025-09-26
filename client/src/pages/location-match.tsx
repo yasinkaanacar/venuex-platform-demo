@@ -331,7 +331,6 @@ export default function LocationMatch() {
   // Enterprise Step 2 state
   const [selectedLocations, setSelectedLocations] = useState<string[]>([]);
   const [filterStatus, setFilterStatus] = useState<string>('all');
-  const [filterCity, setFilterCity] = useState<string>('all');
   const [searchQuery, setSearchQuery] = useState('');
   
   // Search state for autocomplete dropdowns
@@ -474,11 +473,6 @@ export default function LocationMatch() {
         return false;
       }
       
-      // City filter
-      if (filterCity !== 'all' && location.city !== filterCity) {
-        return false;
-      }
-      
       // Search query
       if (searchQuery) {
         const query = searchQuery.toLowerCase();
@@ -516,10 +510,6 @@ export default function LocationMatch() {
     
     suggestions.sort((a, b) => b.score - a.score);
     return suggestions.length > 0 && suggestions[0].score > 0 ? suggestions[0].location : null;
-  };
-  
-  const getUniqueCity = () => {
-    return Array.from(new Set(unmatchedLocations.map(loc => loc.city)));
   };
 
   // Convert VenueX locations to AutocompleteOption format
@@ -742,7 +732,6 @@ export default function LocationMatch() {
     const endIndex = startIndex + locationsPerPage;
     const currentLocations = filteredLocations.slice(startIndex, endIndex);
     const resolvedCount = unmatchedLocations.filter(loc => loc.status !== 'pending').length;
-    const uniqueCities = getUniqueCity();
     
     const selectedLocation = selectedUnmatched ? unmatchedLocations.find(loc => loc.id === selectedUnmatched) : null;
     const suggestedMatch = selectedLocation ? getSuggestedMatch(selectedLocation) : null;
@@ -786,101 +775,6 @@ export default function LocationMatch() {
         <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
           {/* Left Panel - Unmatched Locations (2/3 width) */}
           <div className="xl:col-span-2 space-y-6">
-            {/* Enterprise Filter Bar */}
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center space-x-2">
-                  <Filter className="w-5 h-5" />
-                  <span>Filter & Search</span>
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  {/* Search by Name/Store Code */}
-                  <div className="space-y-2">
-                    <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
-                      Search by Name or Store Code
-                    </label>
-                    <div className="relative">
-                      <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
-                      <Input
-                        placeholder="Search locations..."
-                        value={searchQuery}
-                        onChange={(e) => {
-                          setSearchQuery(e.target.value);
-                          setCurrentPage(0); // Reset to first page
-                        }}
-                        className="pl-10"
-                        data-testid="input-search-locations"
-                      />
-                    </div>
-                  </div>
-
-                  {/* Status Filter */}
-                  <div className="space-y-2">
-                    <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
-                      Filter by Status
-                    </label>
-                    <Select value={filterStatus} onValueChange={(value) => {
-                      setFilterStatus(value);
-                      setCurrentPage(0);
-                    }}>
-                      <SelectTrigger data-testid="select-filter-status">
-                        <SelectValue placeholder="All Statuses" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="all">All Statuses</SelectItem>
-                        <SelectItem value="pending">Needs Review</SelectItem>
-                        <SelectItem value="linked">Linked</SelectItem>
-                        <SelectItem value="recreate">Set to Re-create</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-
-                  {/* City Filter */}
-                  <div className="space-y-2">
-                    <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
-                      Filter by City
-                    </label>
-                    <Select value={filterCity} onValueChange={(value) => {
-                      setFilterCity(value);
-                      setCurrentPage(0);
-                    }}>
-                      <SelectTrigger data-testid="select-filter-city">
-                        <SelectValue placeholder="All Cities" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="all">All Cities</SelectItem>
-                        {uniqueCities.map(city => (
-                          <SelectItem key={city} value={city}>{city}</SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </div>
-                </div>
-
-                {/* Clear Filters */}
-                {(searchQuery || filterStatus !== 'all' || filterCity !== 'all') && (
-                  <div className="mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => {
-                        setSearchQuery('');
-                        setFilterStatus('all');
-                        setFilterCity('all');
-                        setCurrentPage(0);
-                      }}
-                      className="flex items-center space-x-2"
-                      data-testid="button-clear-filters"
-                    >
-                      <X className="w-4 h-4" />
-                      <span>Clear All Filters</span>
-                    </Button>
-                  </div>
-                )}
-              </CardContent>
-            </Card>
 
             {/* Bulk Actions Bar */}
             {selectedLocations.length > 0 && (
