@@ -899,32 +899,32 @@ export default function ReviewsMVP() {
 
         {/* Global Settings Header */}
         <div className="flex items-center justify-end mb-6">
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-4">
             <Button 
-              variant="ghost" 
+              variant="outline" 
               size="sm" 
-              className="border border-gray-300 hover:bg-[#f9fafb]"
+              className="border-2 border-gray-300 bg-white hover:bg-gray-50 hover:border-gray-400 shadow-sm"
               onClick={() => setAlertSettingsOpen(true)}
             >
-              <Bell className="w-4 h-4" />
+              <Bell className="w-4 h-4 mr-2" />
               Alert Settings
             </Button>
             <Button 
-              variant="ghost" 
+              variant="outline" 
               size="sm" 
-              className="border border-gray-300 hover:bg-[#f9fafb]"
+              className="border-2 border-gray-300 bg-white hover:bg-gray-50 hover:border-gray-400 shadow-sm"
               onClick={() => setTemplatesOpen(true)}
             >
-              <FileText className="w-4 h-4" />
+              <FileText className="w-4 h-4 mr-2" />
               Review Templates
             </Button>
             <Button 
-              variant="ghost" 
+              variant="outline" 
               size="sm" 
-              className="border border-gray-300 hover:bg-[#f9fafb]"
+              className="border-2 border-gray-300 bg-white hover:bg-gray-50 hover:border-gray-400 shadow-sm"
               onClick={() => setAiSettingsOpen(true)}
             >
-              <Settings className="w-4 h-4" />
+              <Settings className="w-4 h-4 mr-2" />
               AI Settings
             </Button>
           </div>
