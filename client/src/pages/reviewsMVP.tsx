@@ -993,13 +993,25 @@ export default function ReviewsMVP() {
                 </CardHeader>
                 <CardContent className="space-y-8">
                   <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                      <Star className="w-8 h-8 text-yellow-500 fill-yellow-500" />
-                      <div className="text-4xl font-bold text-gray-900">{kpiData.averageRating}</div>
+                    <div className="flex flex-col">
+                      <div className="flex items-center gap-2">
+                        <Star className="w-8 h-8 text-yellow-500 fill-yellow-500" />
+                        <div className="text-4xl font-bold text-gray-900">{kpiData.averageRating}</div>
+                      </div>
+                      <div className="flex items-center gap-1 mt-1">
+                        <TrendingUp className="w-4 h-4 text-green-500" />
+                        <span className="text-sm text-green-600 font-medium">+0.2 (3.1%)</span>
+                      </div>
                     </div>
-                    <div className="flex items-center gap-2">
-                      <MessageSquare className="w-8 h-8 text-blue-500" />
-                      <div className="text-4xl font-bold text-gray-900">1247</div>
+                    <div className="flex flex-col">
+                      <div className="flex items-center gap-2">
+                        <MessageSquare className="w-8 h-8 text-blue-500" />
+                        <div className="text-4xl font-bold text-gray-900">1247</div>
+                      </div>
+                      <div className="flex items-center gap-1 mt-1">
+                        <TrendingUp className="w-4 h-4 text-green-500" />
+                        <span className="text-sm text-green-600 font-medium">+89 (7.7%)</span>
+                      </div>
                     </div>
                   </div>
                   
@@ -1062,13 +1074,25 @@ export default function ReviewsMVP() {
                 </CardHeader>
                 <CardContent className="space-y-8">
                   <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                      <Reply className="w-8 h-8 text-blue-500" />
-                      <div className="text-4xl font-bold text-gray-900">96%</div>
+                    <div className="flex flex-col">
+                      <div className="flex items-center gap-2">
+                        <Reply className="w-8 h-8 text-blue-500" />
+                        <div className="text-4xl font-bold text-gray-900">96%</div>
+                      </div>
+                      <div className="flex items-center gap-1 mt-1">
+                        <TrendingUp className="w-4 h-4 text-green-500" />
+                        <span className="text-sm text-green-600 font-medium">+2.1%</span>
+                      </div>
                     </div>
-                    <div className="flex items-center gap-2">
-                      <MessageSquare className="w-8 h-8 text-orange-500" />
-                      <div className="text-4xl font-bold text-gray-900">50</div>
+                    <div className="flex flex-col">
+                      <div className="flex items-center gap-2">
+                        <MessageSquare className="w-8 h-8 text-orange-500" />
+                        <div className="text-4xl font-bold text-gray-900">50</div>
+                      </div>
+                      <div className="flex items-center gap-1 mt-1">
+                        <TrendingDown className="w-4 h-4 text-red-500" />
+                        <span className="text-sm text-red-600 font-medium">-12 (19%)</span>
+                      </div>
                     </div>
                   </div>
                   
@@ -1111,7 +1135,11 @@ export default function ReviewsMVP() {
                         <ThumbsUp className="w-10 h-10 text-green-500" />
                       </div>
                       <div className="text-3xl font-bold text-green-600 mb-2">68%</div>
-                      <div className="text-sm text-gray-600">Positive</div>
+                      <div className="text-sm text-gray-600 mb-1">Positive</div>
+                      <div className="flex items-center justify-center gap-1">
+                        <TrendingUp className="w-3 h-3 text-green-500" />
+                        <span className="text-xs text-green-600 font-medium">+3.2%</span>
+                      </div>
                     </div>
                     
                     <div className="text-center">
@@ -1119,7 +1147,11 @@ export default function ReviewsMVP() {
                         <Meh className="w-10 h-10 text-gray-500" />
                       </div>
                       <div className="text-3xl font-bold text-gray-600 mb-2">24%</div>
-                      <div className="text-sm text-gray-600">Neutral</div>
+                      <div className="text-sm text-gray-600 mb-1">Neutral</div>
+                      <div className="flex items-center justify-center gap-1">
+                        <TrendingDown className="w-3 h-3 text-red-500" />
+                        <span className="text-xs text-red-600 font-medium">-1.8%</span>
+                      </div>
                     </div>
                     
                     <div className="text-center">
@@ -1127,7 +1159,11 @@ export default function ReviewsMVP() {
                         <ThumbsDown className="w-10 h-10 text-red-500" />
                       </div>
                       <div className="text-3xl font-bold text-red-600 mb-2">8%</div>
-                      <div className="text-sm text-gray-600">Negative</div>
+                      <div className="text-sm text-gray-600 mb-1">Negative</div>
+                      <div className="flex items-center justify-center gap-1">
+                        <TrendingDown className="w-3 h-3 text-red-500" />
+                        <span className="text-xs text-red-600 font-medium">-1.4%</span>
+                      </div>
                     </div>
                   </div>
                 </CardContent>
