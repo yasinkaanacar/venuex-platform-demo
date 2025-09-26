@@ -934,7 +934,7 @@ export default function ReviewsMVP() {
             <TabsTrigger 
               value="ozet" 
               data-testid="tab-ozet"
-              className="px-6 py-3 text-base font-medium rounded-none border-b-2 border-transparent transition-all duration-300 data-[state=active]:border-blue-500 data-[state=active]:text-blue-600 data-[state=active]:bg-transparent hover:text-gray-700 hover:border-gray-300 relative"
+              className="px-6 py-3 text-base rounded-none border-b-2 border-transparent transition-all duration-300 data-[state=active]:border-blue-500 data-[state=active]:text-blue-600 data-[state=active]:bg-transparent hover:text-gray-700 hover:border-gray-300 relative font-semibold"
             >
               <BarChart3 className="w-5 h-5 mr-3" />
               Overview
