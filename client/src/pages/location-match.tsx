@@ -561,24 +561,24 @@ export default function LocationMatch() {
                 <div
                   key={location.id}
                   onClick={() => location.status === 'pending' ? setSelectedUnmatched(location.id) : null}
-                  className={`transition-colors cursor-pointer relative ${
+                  className={`transition-all duration-200 cursor-pointer relative ${
                     selectedUnmatched === location.id 
-                      ? 'ring-2 ring-blue-500' 
+                      ? 'ring-2 ring-blue-500 scale-[1.02]' 
                       : ''
-                  } ${location.status !== 'pending' ? 'opacity-60 cursor-default' : ''}`}
+                  } ${location.status !== 'pending' ? 'opacity-50 cursor-default transform' : 'hover:shadow-md'}`}
                   data-testid={`card-unmatched-${location.id}`}
                 >
                   <div className="relative">
                     <Badge 
-                      className={`absolute top-2 right-2 z-10 ${
-                        location.status === 'pending' ? 'bg-amber-100 text-amber-800' :
-                        location.status === 'linked' ? 'bg-green-100 text-green-800' :
-                        'bg-blue-100 text-blue-800'
+                      className={`absolute top-2 right-2 z-10 font-medium ${
+                        location.status === 'pending' ? 'bg-amber-500 text-white' :
+                        location.status === 'linked' ? 'bg-blue-500 text-white' :
+                        'bg-amber-500 text-white'
                       }`}
                     >
                       {location.status === 'pending' ? 'Pending Action' :
-                       location.status === 'linked' ? 'Manually Linked' :
-                       'To Be Re-created'}
+                       location.status === 'linked' ? 'Linked' :
+                       'Set to Re-create'}
                     </Badge>
                     
                     <LocationDetailCard 
@@ -586,9 +586,11 @@ export default function LocationMatch() {
                       type="platform" 
                       className={`${
                         selectedUnmatched === location.id 
-                          ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/20' 
-                          : 'border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800'
-                      } pt-12`}
+                          ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/20 shadow-lg' 
+                          : location.status !== 'pending'
+                            ? 'border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700'
+                            : 'border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800'
+                      } pt-12 transition-all duration-200`}
                     />
                     
                     {location.linkedTo && (
