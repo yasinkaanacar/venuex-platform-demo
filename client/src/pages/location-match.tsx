@@ -210,6 +210,15 @@ const LocationDetailCard = ({ location, type, className = "" }: {
     <div className="flex items-start justify-between mb-3">
       <div className="flex-1">
         <h4 className="font-semibold text-gray-900 dark:text-white mb-1">{location.name}</h4>
+        
+        {/* Store Code - Positioned directly below name as primary identifier */}
+        {type === 'venuex' && 'storeCode' in location && (
+          <div className="flex items-center text-sm font-medium text-blue-600 dark:text-blue-400 mb-2 bg-blue-50 dark:bg-blue-900/20 px-2 py-1 rounded-md w-fit">
+            <Building className="w-4 h-4 mr-1 flex-shrink-0" />
+            <span>Code: {location.storeCode}</span>
+          </div>
+        )}
+        
         <div className="flex items-center text-sm text-gray-600 dark:text-gray-400 mb-1">
           <MapPin className="w-4 h-4 mr-1 flex-shrink-0" />
           <span>{location.address}</span>
@@ -222,10 +231,12 @@ const LocationDetailCard = ({ location, type, className = "" }: {
           <Tag className="w-4 h-4 mr-1 flex-shrink-0" />
           <span>{location.category}</span>
         </div>
-        {type === 'venuex' && 'storeCode' in location && (
-          <div className="flex items-center text-sm text-gray-600 dark:text-gray-400">
-            <Building className="w-4 h-4 mr-1 flex-shrink-0" />
-            <span>{location.storeCode} • {location.region}</span>
+        
+        {/* Additional VenueX info */}
+        {type === 'venuex' && 'region' in location && (
+          <div className="flex items-center text-sm text-gray-500 dark:text-gray-500">
+            <MapPin className="w-4 h-4 mr-1 flex-shrink-0" />
+            <span>{location.region} • {location.city}</span>
           </div>
         )}
         {type === 'platform' && 'platformUrl' in location && location.platformUrl && (
