@@ -482,6 +482,7 @@ export default function LocationMatch() {
     const startIndex = currentPage * locationsPerPage;
     const endIndex = startIndex + locationsPerPage;
     const currentLocations = unmatchedLocations.slice(startIndex, endIndex);
+    const resolvedCount = unmatchedLocations.filter(loc => loc.status !== 'pending').length;
 
     return (
       <div>
@@ -499,6 +500,24 @@ export default function LocationMatch() {
             Step 2 of 3: Resolve Unmatched Locations
           </h2>
           <div className="w-24"></div> {/* Spacer for centering */}
+        </div>
+
+        {/* Progress Tracker */}
+        <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4 mb-6">
+          <div className="text-center">
+            <div className="text-lg font-semibold text-blue-800 dark:text-blue-200">
+              Progress: {resolvedCount} of {unmatchedLocations.length} Locations Resolved
+            </div>
+            <div className="w-full bg-blue-200 dark:bg-blue-800 rounded-full h-2 mt-2">
+              <div
+                className="bg-blue-600 h-2 rounded-full transition-all duration-300"
+                style={{ width: `${unmatchedLocations.length > 0 ? (resolvedCount / unmatchedLocations.length) * 100 : 0}%` }}
+              ></div>
+            </div>
+            <div className="text-sm text-blue-600 dark:text-blue-300 mt-1">
+              {pendingCount} remaining to resolve
+            </div>
+          </div>
         </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 h-[calc(100vh-300px)]">
