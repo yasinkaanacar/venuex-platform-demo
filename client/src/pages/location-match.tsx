@@ -292,7 +292,12 @@ const ComparisonCard = ({
         <LocationDetailCard location={leftLocation} type={leftType} className="border-none bg-transparent p-0" />
       </div>
       <div className="flex justify-center">
-        {icon}
+        <div className="flex flex-col items-center space-y-2">
+          <div className="bg-green-100 dark:bg-green-900/30 rounded-full p-2">
+            <CheckCircle className="w-6 h-6 text-green-600" />
+          </div>
+          {icon && <div>{icon}</div>}
+        </div>
       </div>
       <div className="space-y-2">
         {rightLabel && <div className="text-xs font-medium text-gray-500 uppercase">{rightLabel}</div>}
