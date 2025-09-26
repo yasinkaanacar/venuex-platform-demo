@@ -1346,13 +1346,10 @@ export default function LocationMatch() {
               {filteredAutoMatched.map((match, index) => (
                 <div key={index} className="bg-gray-50 dark:bg-gray-800 rounded-lg p-4">
                   {/* Match Header */}
-                  <div className="flex items-center justify-between mb-4">
+                  <div className="mb-4">
                     <h4 className="font-medium text-gray-900 dark:text-gray-100">
                       Auto Match #{index + 1}
                     </h4>
-                    <Badge variant="secondary" className="bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">
-                      {(match.confidence * 100).toFixed(1)}% confidence
-                    </Badge>
                   </div>
                   
                   {/* Side by Side Locations */}
