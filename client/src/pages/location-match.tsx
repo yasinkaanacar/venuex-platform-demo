@@ -25,6 +25,7 @@ import {
   AlertTriangle,
   ArrowLeft,
   Link,
+  Plus,
   ChevronDown,
   ChevronRight,
   Trash2,
@@ -782,135 +783,138 @@ export default function LocationMatch() {
           </div>
         </div>
 
-        {/* Enterprise Filter Bar */}
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center space-x-2">
-              <Filter className="w-5 h-5" />
-              <span>Filter & Search</span>
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              {/* Search by Name/Store Code */}
-              <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
-                  Search by Name or Store Code
-                </label>
-                <div className="relative">
-                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
-                  <Input
-                    placeholder="Search locations..."
-                    value={searchQuery}
-                    onChange={(e) => {
-                      setSearchQuery(e.target.value);
-                      setCurrentPage(0); // Reset to first page
-                    }}
-                    className="pl-10"
-                    data-testid="input-search-locations"
-                  />
+        <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
+          {/* Left Panel - Unmatched Locations (2/3 width) */}
+          <div className="xl:col-span-2 space-y-6">
+            {/* Enterprise Filter Bar */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center space-x-2">
+                  <Filter className="w-5 h-5" />
+                  <span>Filter & Search</span>
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  {/* Search by Name/Store Code */}
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                      Search by Name or Store Code
+                    </label>
+                    <div className="relative">
+                      <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
+                      <Input
+                        placeholder="Search locations..."
+                        value={searchQuery}
+                        onChange={(e) => {
+                          setSearchQuery(e.target.value);
+                          setCurrentPage(0); // Reset to first page
+                        }}
+                        className="pl-10"
+                        data-testid="input-search-locations"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Status Filter */}
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                      Filter by Status
+                    </label>
+                    <Select value={filterStatus} onValueChange={(value) => {
+                      setFilterStatus(value);
+                      setCurrentPage(0);
+                    }}>
+                      <SelectTrigger data-testid="select-filter-status">
+                        <SelectValue placeholder="All Statuses" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="all">All Statuses</SelectItem>
+                        <SelectItem value="pending">Needs Review</SelectItem>
+                        <SelectItem value="linked">Linked</SelectItem>
+                        <SelectItem value="recreate">Set to Re-create</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  {/* City Filter */}
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                      Filter by City
+                    </label>
+                    <Select value={filterCity} onValueChange={(value) => {
+                      setFilterCity(value);
+                      setCurrentPage(0);
+                    }}>
+                      <SelectTrigger data-testid="select-filter-city">
+                        <SelectValue placeholder="All Cities" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="all">All Cities</SelectItem>
+                        {uniqueCities.map(city => (
+                          <SelectItem key={city} value={city}>{city}</SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                </div>
+
+                {/* Clear Filters */}
+                {(searchQuery || filterStatus !== 'all' || filterCity !== 'all') && (
+                  <div className="mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => {
+                        setSearchQuery('');
+                        setFilterStatus('all');
+                        setFilterCity('all');
+                        setCurrentPage(0);
+                      }}
+                      className="flex items-center space-x-2"
+                      data-testid="button-clear-filters"
+                    >
+                      <X className="w-4 h-4" />
+                      <span>Clear All Filters</span>
+                    </Button>
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+
+            {/* Bulk Actions Bar */}
+            {selectedLocations.length > 0 && (
+              <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center space-x-4">
+                    <span className="text-blue-800 dark:text-blue-200 font-medium">
+                      {selectedLocations.length} location{selectedLocations.length > 1 ? 's' : ''} selected
+                    </span>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => setSelectedLocations([])}
+                      className="text-blue-700 border-blue-300"
+                    >
+                      Clear Selection
+                    </Button>
+                  </div>
+                  <div className="flex items-center space-x-3">
+                    <Button
+                      onClick={bulkRecreateSelected}
+                      variant="outline"
+                      className="text-amber-700 border-amber-300 hover:bg-amber-50"
+                      data-testid="button-bulk-recreate"
+                    >
+                      Delete and Re-create Selected
+                    </Button>
+                  </div>
                 </div>
               </div>
-
-              {/* Status Filter */}
-              <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
-                  Filter by Status
-                </label>
-                <Select value={filterStatus} onValueChange={(value) => {
-                  setFilterStatus(value);
-                  setCurrentPage(0);
-                }}>
-                  <SelectTrigger data-testid="select-filter-status">
-                    <SelectValue placeholder="All Statuses" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="all">All Statuses</SelectItem>
-                    <SelectItem value="pending">Needs Review</SelectItem>
-                    <SelectItem value="linked">Linked</SelectItem>
-                    <SelectItem value="recreate">Set to Re-create</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-
-              {/* City Filter */}
-              <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
-                  Filter by City
-                </label>
-                <Select value={filterCity} onValueChange={(value) => {
-                  setFilterCity(value);
-                  setCurrentPage(0);
-                }}>
-                  <SelectTrigger data-testid="select-filter-city">
-                    <SelectValue placeholder="All Cities" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="all">All Cities</SelectItem>
-                    {uniqueCities.map(city => (
-                      <SelectItem key={city} value={city}>{city}</SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-            </div>
-
-            {/* Clear Filters */}
-            {(searchQuery || filterStatus !== 'all' || filterCity !== 'all') && (
-              <div className="mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => {
-                    setSearchQuery('');
-                    setFilterStatus('all');
-                    setFilterCity('all');
-                    setCurrentPage(0);
-                  }}
-                  className="flex items-center space-x-2"
-                  data-testid="button-clear-filters"
-                >
-                  <X className="w-4 h-4" />
-                  <span>Clear All Filters</span>
-                </Button>
-              </div>
             )}
-          </CardContent>
-        </Card>
 
-        {/* Bulk Actions Bar */}
-        {selectedLocations.length > 0 && (
-          <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center space-x-4">
-                <span className="text-blue-800 dark:text-blue-200 font-medium">
-                  {selectedLocations.length} location{selectedLocations.length > 1 ? 's' : ''} selected
-                </span>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => setSelectedLocations([])}
-                  className="text-blue-700 border-blue-300"
-                >
-                  Clear Selection
-                </Button>
-              </div>
-              <div className="flex items-center space-x-3">
-                <Button
-                  onClick={bulkRecreateSelected}
-                  variant="outline"
-                  className="text-amber-700 border-amber-300 hover:bg-amber-50"
-                  data-testid="button-bulk-recreate"
-                >
-                  Delete and Re-create Selected
-                </Button>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* Enterprise Data Management Table */}
-        <Card>
+            {/* Enterprise Data Management Table */}
+            <Card>
           <CardHeader>
             <div className="flex items-center justify-between">
               <CardTitle>Unmatched Locations ({filteredLocations.length} of {unmatchedLocations.length})</CardTitle>
@@ -1083,73 +1087,129 @@ export default function LocationMatch() {
                 </div>
               </div>
             </div>
-          </CardContent>
-        </Card>
-
-        {/* Quick Resolution Panel */}
-        {selectedUnmatched && (
-          <Card className="mt-6">
-            <CardHeader>
-              <CardTitle>Quick Resolution</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                {/* Selected Location Info */}
-                <div className="space-y-4">
-                  <div className="p-4 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-700 rounded-lg">
-                    <h4 className="font-medium mb-2 text-blue-800 dark:text-blue-200">Selected Location for Manual Resolution:</h4>
-                    <p className="font-semibold text-gray-900 dark:text-gray-100">
-                      {unmatchedLocations.find(loc => loc.id === selectedUnmatched)?.name}
-                    </p>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">
-                      {unmatchedLocations.find(loc => loc.id === selectedUnmatched)?.address}
-                    </p>
-                    <p className="text-xs text-blue-600 dark:text-blue-400 mt-2">
-                      Search has been pre-populated with relevant terms from the location name.
-                    </p>
-                  </div>
-                </div>
-
-                {/* Resolution Options */}
-                <div className="space-y-4">
-                  <div className="space-y-3">
-                    <h4 className="font-medium">Link to VenueX Location:</h4>
-                    <AutocompleteSelect
-                      placeholder="Search and select VenueX location..."
-                      options={getFilteredLinkOptions(linkSearchQuery)}
-                      onValueChange={(value) => handleLinkLocation(selectedUnmatched, value)}
-                      onSearch={setLinkSearchQuery}
-                      data-testid="autocomplete-link-location-quick"
-                      emptyMessage="No VenueX locations found"
-                      maxResults={20}
-                    />
-                  </div>
-
-                  <div className="space-y-3">
-                    <h4 className="font-medium">Or Re-create with VenueX Data:</h4>
-                    <AutocompleteSelect
-                      placeholder="Search and select VenueX source data..."
-                      options={getFilteredRecreateOptions(recreateSearchQuery)}
-                      onValueChange={(value) => handleRecreateLocation(selectedUnmatched, value)}
-                      onSearch={setRecreateSearchQuery}
-                      data-testid="autocomplete-recreate-location-quick"
-                      emptyMessage="No VenueX source data found"
-                      maxResults={20}
-                    />
-                  </div>
-
-                  <Button
-                    variant="outline"
-                    onClick={() => setSelectedUnmatched(null)}
-                    className="w-full"
-                  >
-                    Close Resolution Panel
-                  </Button>
-                </div>
-              </div>
             </CardContent>
-          </Card>
-        )}
+            </Card>
+          </div>
+
+          {/* Right Panel - Quick Resolution (1/3 width) */}
+          <div className="xl:col-span-1">
+            <Card className="sticky top-6">
+              <CardHeader>
+                <CardTitle className="flex items-center space-x-2">
+                  <Target className="w-5 h-5" />
+                  <span>Quick Resolution</span>
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                {selectedUnmatched ? (
+                  <div className="space-y-6">
+                    {/* Selected Location Info */}
+                    <div className="p-4 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-700 rounded-lg">
+                      <h4 className="font-medium mb-2 text-blue-800 dark:text-blue-200">Selected Location:</h4>
+                      <p className="font-semibold text-gray-900 dark:text-gray-100">
+                        {unmatchedLocations.find(loc => loc.id === selectedUnmatched)?.name}
+                      </p>
+                      <p className="text-sm text-gray-600 dark:text-gray-400">
+                        {unmatchedLocations.find(loc => loc.id === selectedUnmatched)?.address}
+                      </p>
+                      <p className="text-xs text-blue-600 dark:text-blue-400 mt-2">
+                        Search pre-populated with relevant terms.
+                      </p>
+                    </div>
+
+                    {/* Resolution Options */}
+                    <div className="space-y-4">
+                      {/* Link to Existing Location */}
+                      <div className="p-4 border border-green-200 dark:border-green-700 rounded-lg bg-green-50 dark:bg-green-900/20">
+                        <h4 className="font-medium mb-3 text-green-800 dark:text-green-200 flex items-center">
+                          <Link className="w-4 h-4 mr-2" />
+                          Link to Existing
+                        </h4>
+                        <div className="space-y-3">
+                          <AutocompleteSelect
+                            options={getFilteredLinkOptions(linkSearchQuery)}
+                            onSearch={setLinkSearchQuery}
+                            onValueChange={(value) => {
+                              const selectedOption = getFilteredLinkOptions(linkSearchQuery).find(option => option.id === value);
+                              if (selectedOption) {
+                                handleLinkLocation(selectedUnmatched, selectedOption.id);
+                              }
+                            }}
+                            placeholder="Search VenueX locations..."
+                            className="w-full"
+                            data-testid="autocomplete-link-location"
+                          />
+                          <Button
+                            onClick={() => {
+                              const selectedOption = getFilteredLinkOptions(linkSearchQuery).find(
+                                option => option.label.toLowerCase() === linkSearchQuery.toLowerCase() ||
+                                         option.badge?.toLowerCase() === linkSearchQuery.toLowerCase()
+                              );
+                              if (selectedOption) {
+                                handleLinkLocation(selectedUnmatched, selectedOption.id);
+                              }
+                            }}
+                            className="w-full bg-green-600 hover:bg-green-700 text-white"
+                            disabled={!linkSearchQuery}
+                            data-testid="button-confirm-link"
+                          >
+                            Link Location
+                          </Button>
+                        </div>
+                      </div>
+
+                      {/* Re-create Option */}
+                      <div className="p-4 border border-blue-200 dark:border-blue-700 rounded-lg bg-blue-50 dark:bg-blue-900/20">
+                        <h4 className="font-medium mb-3 text-blue-800 dark:text-blue-200 flex items-center">
+                          <Plus className="w-4 h-4 mr-2" />
+                          Re-create as New
+                        </h4>
+                        <div className="space-y-3">
+                          <AutocompleteSelect
+                            options={getFilteredRecreateOptions(recreateSearchQuery)}
+                            onSearch={setRecreateSearchQuery}
+                            onValueChange={(value) => {
+                              const selectedOption = getFilteredRecreateOptions(recreateSearchQuery).find(option => option.id === value);
+                              if (selectedOption) {
+                                handleRecreateLocation(selectedUnmatched, selectedOption.id);
+                              }
+                            }}
+                            placeholder="Search template locations..."
+                            className="w-full"
+                            data-testid="autocomplete-recreate-template"
+                          />
+                          <Button
+                            onClick={() => {
+                              const selectedOption = getFilteredRecreateOptions(recreateSearchQuery).find(
+                                option => option.label.toLowerCase() === recreateSearchQuery.toLowerCase() ||
+                                         option.badge?.toLowerCase() === recreateSearchQuery.toLowerCase()
+                              );
+                              if (selectedOption) {
+                                handleRecreateLocation(selectedUnmatched, selectedOption.id);
+                              }
+                            }}
+                            className="w-full bg-blue-600 hover:bg-blue-700 text-white"
+                            disabled={!recreateSearchQuery}
+                            data-testid="button-confirm-recreate"
+                          >
+                            Set to Re-create
+                          </Button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="text-center py-8">
+                    <Target className="w-12 h-12 text-gray-400 mx-auto mb-4" />
+                    <p className="text-gray-500 dark:text-gray-400">
+                      Select a location from the table to begin manual resolution
+                    </p>
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+          </div>
+        </div>
 
         {/* Final Proceed Button */}
         <div className="flex justify-center mt-8">
