@@ -416,9 +416,9 @@ export default function LocationMatch() {
                 The remaining locations need your input to ensure everything is synced correctly.
               </p>
 
-              {/* Examples of Automatically Matched Locations */}
+              {/* High-Confidence Matches */}
               <div className="mb-8">
-                <h4 className="text-lg font-semibold mb-4 text-left">Examples of Automatically Matched Locations</h4>
+                <h4 className="text-lg font-semibold mb-4 text-left">High-Confidence Matches</h4>
                 <div className="space-y-4">
                   {mockAutoMatched.slice(0, 2).map((match, index) => (
                     <ComparisonCard
@@ -434,9 +434,9 @@ export default function LocationMatch() {
                 </div>
               </div>
 
-              {/* Locations Requiring Manual Review */}
+              {/* Locations Requiring Your Attention */}
               <div className="mb-8">
-                <h4 className="text-lg font-semibold mb-4 text-left">Locations Requiring Manual Review</h4>
+                <h4 className="text-lg font-semibold mb-4 text-left">Locations Requiring Your Attention</h4>
                 <div className="space-y-3">
                   {unmatchedLocations.map((location, index) => (
                     <LocationDetailCard
