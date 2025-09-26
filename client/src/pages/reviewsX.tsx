@@ -2554,24 +2554,14 @@ export default function ReviewsX() {
                     </div>
                   </div>
 
-                  {/* Choropleth Map */}
-                  <div className="h-96 rounded-lg overflow-hidden border">
-                    <MapContainer
-                      center={[39.0, 35.0]}
-                      zoom={6}
-                      style={{ height: '100%', width: '100%' }}
-                      data-testid="choropleth-map"
-                    >
-                      <TileLayer
-                        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                      />
-                      <ChoroplethLayer 
-                        data={hierarchicalData}
-                        currentLevel={currentLevel}
-                        onRegionClick={handleTreemapDrillDown}
-                      />
-                    </MapContainer>
+                  {/* Turkey Map */}
+                  <div className="h-96 rounded-lg overflow-hidden border bg-white flex items-center justify-center">
+                    <img 
+                      src="@assets/tr-02_1758876208184.jpg"
+                      alt="Turkey Map"
+                      className="max-w-full max-h-full object-contain"
+                      data-testid="turkey-map"
+                    />
                   </div>
 
                   {/* Color Legend */}
