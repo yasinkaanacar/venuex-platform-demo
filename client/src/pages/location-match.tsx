@@ -31,7 +31,8 @@ import {
   Phone,
   MapPin,
   Tag,
-  Building
+  Building,
+  Download
 } from 'lucide-react';
 
 interface VenueXLocation {
@@ -318,6 +319,59 @@ export default function LocationMatch() {
   const [manualLinkedOpen, setManualLinkedOpen] = useState(true);
   const [recreateOpen, setRecreateOpen] = useState(true);
   const [showAllMatchesModal, setShowAllMatchesModal] = useState(false);
+  
+  // CSV Export functions
+  const exportToCSV = (data: any[], filename: string) => {
+    if (data.length === 0) return;
+    
+    const headers = Object.keys(data[0]);
+    const csvContent = [
+      headers.join(','),
+      ...data.map(row => headers.map(header => `"${row[header]}"`).join(','))
+    ].join('\n');
+    
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = filename;
+    link.click();
+  };
+  
+  const exportMatchedLocations = () => {
+    const matchedData = mockAutoMatched.map(match => ({
+      'VenueX Name': match.venueXLocation.name,
+      'VenueX Store Code': match.venueXLocation.storeCode,
+      'VenueX Address': match.venueXLocation.address,
+      'VenueX Phone': match.venueXLocation.phone,
+      'VenueX Region': match.venueXLocation.region,
+      'VenueX City': match.venueXLocation.city,
+      'Meta Name': match.platformLocation.name,
+      'Meta Store Code': match.platformLocation.storeCode,
+      'Meta Address': match.platformLocation.address,
+      'Meta Phone': match.platformLocation.phone,
+      'Meta URL': match.platformLocation.platformUrl || '',
+      'Confidence Score': match.confidence,
+      'Match Status': 'Automatically Matched'
+    }));
+    exportToCSV(matchedData, 'matched-locations.csv');
+  };
+  
+  const exportUnmatchedLocations = () => {
+    const unmatchedData = unmatchedLocations.map(location => ({
+      'Name': location.name,
+      'Store Code': location.storeCode,
+      'Address': location.address,
+      'Phone': location.phone,
+      'City': location.city,
+      'Category': location.category,
+      'Platform ID': location.platformId,
+      'Platform URL': location.platformUrl || '',
+      'Status': location.status,
+      'Linked To': location.linkedTo?.name || '',
+      'Recreate With': location.recreateWith?.name || ''
+    }));
+    exportToCSV(unmatchedData, 'unmatched-locations.csv');
+  };
 
   // Simulate loading on mount
   useEffect(() => {
@@ -428,52 +482,49 @@ export default function LocationMatch() {
               </div>
 
               <p className="text-gray-600 dark:text-gray-400 mb-6">
-                We've automatically matched most of your locations based on name and address. 
+                We've automatically matched most of your locations based on name and address similarity. 
                 The remaining locations need your input to ensure everything is synced correctly.
               </p>
 
-              {/* High-Confidence Matches */}
+              {/* Enterprise Export Functionality */}
               <div className="mb-8">
-                <h4 className="text-lg font-semibold mb-4 text-left">High-Confidence Matches</h4>
-                <div className="space-y-4">
-                  {mockAutoMatched.slice(0, 2).map((match, index) => (
-                    <ComparisonCard
-                      key={index}
-                      leftLocation={match.venueXLocation}
-                      rightLocation={match.platformLocation}
-                      leftType="venuex"
-                      rightType="platform"
-                      leftLabel="VenueX Location"
-                      rightLabel="Meta Page"
-                    />
-                  ))}
-                </div>
-                {mockAutoMatched.length > 2 && (
-                  <div className="text-center mt-4">
+                <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4">
+                  <h4 className="text-lg font-semibold text-blue-800 dark:text-blue-200 mb-2">Export for Review</h4>
+                  <p className="text-sm text-blue-700 dark:text-blue-300 mb-4">
+                    For enterprise transparency, you can export all matching results for offline audit before proceeding.
+                  </p>
+                  <div className="flex flex-col sm:flex-row gap-3">
                     <Button
                       variant="outline"
-                      onClick={() => setShowAllMatchesModal(true)}
-                      className="text-blue-600 hover:text-blue-800"
-                      data-testid="button-view-all-matches"
+                      onClick={exportMatchedLocations}
+                      className="flex items-center space-x-2 border-blue-300 text-blue-700 hover:bg-blue-100"
+                      data-testid="button-export-matched"
                     >
-                      View All {mockAutoMatched.length} Matched Locations
+                      <Download className="w-4 h-4" />
+                      <span>Export All Matched ({mockAutoMatched.length}) to CSV</span>
+                    </Button>
+                    <Button
+                      variant="outline"
+                      onClick={exportUnmatchedLocations}
+                      className="flex items-center space-x-2 border-amber-300 text-amber-700 hover:bg-amber-100"
+                      data-testid="button-export-unmatched"
+                    >
+                      <Download className="w-4 h-4" />
+                      <span>Export Unmatched ({unmatchedLocations.length}) to CSV</span>
                     </Button>
                   </div>
-                )}
+                </div>
               </div>
 
-              {/* Locations Requiring Your Attention */}
-              <div className="mb-8">
-                <h4 className="text-lg font-semibold mb-4 text-left">Locations Requiring Your Attention</h4>
-                <div className="space-y-3">
-                  {unmatchedLocations.map((location, index) => (
-                    <LocationDetailCard
-                      key={index}
-                      location={location}
-                      type="platform"
-                      className="border-amber-200 dark:border-amber-800"
-                    />
-                  ))}
+              {/* Expectation Setting */}
+              <div className="mb-8 text-center">
+                <div className="bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-lg p-4">
+                  <p className="text-amber-800 dark:text-amber-200 font-medium">
+                    Next: You will be guided through resolving the {unmatchedLocations.length} unmatched locations step by step.
+                  </p>
+                  <p className="text-sm text-amber-700 dark:text-amber-300 mt-1">
+                    Each location can be linked to an existing VenueX location or recreated using your master data.
+                  </p>
                 </div>
               </div>
 
