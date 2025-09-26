@@ -32,7 +32,13 @@ import {
   MapPin,
   Tag,
   Building,
-  Download
+  Download,
+  Search,
+  Filter,
+  X,
+  ChevronLeft,
+  ChevronsLeft,
+  ChevronsRight
 } from 'lucide-react';
 
 interface VenueXLocation {
@@ -320,6 +326,13 @@ export default function LocationMatch() {
   const [recreateOpen, setRecreateOpen] = useState(true);
   const [showAllMatchesModal, setShowAllMatchesModal] = useState(false);
   
+  // Enterprise Step 2 state
+  const [selectedLocations, setSelectedLocations] = useState<string[]>([]);
+  const [filterStatus, setFilterStatus] = useState<string>('all');
+  const [filterCity, setFilterCity] = useState<string>('all');
+  const [searchQuery, setSearchQuery] = useState('');
+  const locationsPerPage = 20; // Increased for enterprise scale
+  
   // CSV Export functions
   const exportToCSV = (data: any[], filename: string) => {
     if (data.length === 0) return;
@@ -371,6 +384,114 @@ export default function LocationMatch() {
       'Recreate With': location.recreateWith?.name || ''
     }));
     exportToCSV(unmatchedData, 'unmatched-locations.csv');
+  };
+  
+  // Enterprise bulk action functions
+  const handleSelectLocation = (locationId: string) => {
+    setSelectedLocations(prev => 
+      prev.includes(locationId) 
+        ? prev.filter(id => id !== locationId)
+        : [...prev, locationId]
+    );
+  };
+  
+  const handleSelectAll = (pageLocations: UnmatchedLocation[]) => {
+    const pageLocationIds = pageLocations.map(loc => loc.id);
+    const allSelected = pageLocationIds.every(id => selectedLocations.includes(id));
+    
+    if (allSelected) {
+      setSelectedLocations(prev => prev.filter(id => !pageLocationIds.includes(id)));
+    } else {
+      setSelectedLocations(prev => Array.from(new Set([...prev, ...pageLocationIds])));
+    }
+  };
+  
+  const bulkAcceptSuggestions = () => {
+    selectedLocations.forEach(locationId => {
+      const location = unmatchedLocations.find(loc => loc.id === locationId);
+      if (location) {
+        const suggestion = getSuggestedMatch(location);
+        if (suggestion) {
+          handleLinkLocation(locationId, suggestion.id);
+        }
+      }
+    });
+    setSelectedLocations([]);
+  };
+  
+  const bulkRecreateSelected = () => {
+    selectedLocations.forEach(locationId => {
+      const location = unmatchedLocations.find(loc => loc.id === locationId);
+      if (location && mockVenueXLocations.length > 0) {
+        // For bulk recreate, use the first available VenueX location as default
+        handleRecreateLocation(locationId, mockVenueXLocations[0].id);
+      }
+    });
+    setSelectedLocations([]);
+  };
+  
+  // Filtering and search functions
+  const getFilteredLocations = () => {
+    return unmatchedLocations.filter(location => {
+      // Status filter
+      if (filterStatus !== 'all') {
+        if (filterStatus === 'has-suggestion') {
+          const suggestion = getSuggestedMatch(location);
+          if (!suggestion) return false;
+        } else if (filterStatus === 'no-suggestion') {
+          const suggestion = getSuggestedMatch(location);
+          if (suggestion) return false;
+        } else if (location.status !== filterStatus) {
+          return false;
+        }
+      }
+      
+      // City filter
+      if (filterCity !== 'all' && location.city !== filterCity) {
+        return false;
+      }
+      
+      // Search query
+      if (searchQuery) {
+        const query = searchQuery.toLowerCase();
+        return (
+          location.name.toLowerCase().includes(query) ||
+          location.storeCode.toLowerCase().includes(query) ||
+          location.address.toLowerCase().includes(query)
+        );
+      }
+      
+      return true;
+    });
+  };
+  
+  const getSuggestedMatch = (platformLocation: PlatformLocation): VenueXLocation | null => {
+    if (!platformLocation) return null;
+    
+    const suggestions = availableVenueXLocations.map(venueX => {
+      let score = 0;
+      
+      // Name similarity (basic implementation)
+      const platformName = platformLocation.name.toLowerCase();
+      const venueName = venueX.name.toLowerCase();
+      if (platformName.includes('boyner') && venueName.includes('boyner')) score += 5;
+      if (platformName.includes(venueX.city.toLowerCase()) || venueName.includes(platformLocation.city.toLowerCase())) score += 3;
+      
+      // Address similarity (basic check for district/area names)
+      const platformAddr = platformLocation.address.toLowerCase();
+      const venueAddr = venueX.address.toLowerCase();
+      if (platformAddr.includes(venueAddr.split(',')[0].toLowerCase()) || 
+          venueAddr.includes(platformAddr.split(',')[0].toLowerCase())) score += 2;
+      
+      return { location: venueX, score };
+    });
+    
+    suggestions.sort((a, b) => b.score - a.score);
+    return suggestions.length > 0 && suggestions[0].score > 0 ? suggestions[0].location : null;
+  };
+  
+  const getUniqueCity = () => {
+    return Array.from(new Set(unmatchedLocations.map(loc => loc.city)));
   };
 
   // Simulate loading on mount
@@ -543,45 +664,20 @@ export default function LocationMatch() {
   );
 
   const renderStep2 = () => {
-    const locationsPerPage = 5;
-    const totalPages = Math.ceil(unmatchedLocations.length / locationsPerPage);
+    const filteredLocations = getFilteredLocations();
+    const totalPages = Math.ceil(filteredLocations.length / locationsPerPage);
     const startIndex = currentPage * locationsPerPage;
     const endIndex = startIndex + locationsPerPage;
-    const currentLocations = unmatchedLocations.slice(startIndex, endIndex);
+    const currentLocations = filteredLocations.slice(startIndex, endIndex);
     const resolvedCount = unmatchedLocations.filter(loc => loc.status !== 'pending').length;
-
-    // Smart suggestion algorithm - finds best match based on name similarity and location
-    const getSuggestedMatch = (platformLocation: PlatformLocation): VenueXLocation | null => {
-      if (!platformLocation) return null;
-      
-      const suggestions = availableVenueXLocations.map(venueX => {
-        let score = 0;
-        
-        // Name similarity (basic implementation)
-        const platformName = platformLocation.name.toLowerCase();
-        const venueName = venueX.name.toLowerCase();
-        if (platformName.includes('boyner') && venueName.includes('boyner')) score += 5;
-        if (platformName.includes(venueX.city.toLowerCase()) || venueName.includes(platformLocation.city.toLowerCase())) score += 3;
-        
-        // Address similarity (basic check for district/area names)
-        const platformAddr = platformLocation.address.toLowerCase();
-        const venueAddr = venueX.address.toLowerCase();
-        if (platformAddr.includes(venueAddr.split(',')[0].toLowerCase()) || 
-            venueAddr.includes(platformAddr.split(',')[0].toLowerCase())) score += 2;
-        
-        return { location: venueX, score };
-      });
-      
-      suggestions.sort((a, b) => b.score - a.score);
-      return suggestions.length > 0 && suggestions[0].score > 0 ? suggestions[0].location : null;
-    };
-
+    const uniqueCities = getUniqueCity();
+    
     const selectedLocation = selectedUnmatched ? unmatchedLocations.find(loc => loc.id === selectedUnmatched) : null;
     const suggestedMatch = selectedLocation ? getSuggestedMatch(selectedLocation) : null;
 
     return (
-      <div>
-        <div className="flex items-center justify-between mb-8">
+      <div className="space-y-6">
+        <div className="flex items-center justify-between">
           <Button 
             variant="outline" 
             onClick={() => setCurrentStep(1)}
@@ -598,7 +694,7 @@ export default function LocationMatch() {
         </div>
 
         {/* Progress Tracker */}
-        <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4 mb-6">
+        <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4">
           <div className="text-center">
             <div className="text-lg font-semibold text-blue-800 dark:text-blue-200">
               Progress: {resolvedCount} of {unmatchedLocations.length} Locations Resolved
@@ -615,114 +711,355 @@ export default function LocationMatch() {
           </div>
         </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 h-[calc(100vh-300px)]">
-        {/* Left Column: Unmatched Locations */}
-        <Card className="flex flex-col">
+        {/* Enterprise Filter Bar */}
+        <Card>
           <CardHeader>
-            <CardTitle>Unmatched Meta Pages ({pendingCount})</CardTitle>
+            <CardTitle className="flex items-center space-x-2">
+              <Filter className="w-5 h-5" />
+              <span>Filter & Search</span>
+            </CardTitle>
           </CardHeader>
-          <CardContent className="flex-1 flex flex-col">
-            <div className="flex-1 space-y-3 mb-4">
-              {currentLocations.map((location) => (
-                <div
-                  key={location.id}
-                  onClick={() => location.status === 'pending' ? setSelectedUnmatched(location.id) : null}
-                  className={`transition-all duration-200 cursor-pointer relative ${
-                    selectedUnmatched === location.id 
-                      ? 'ring-2 ring-blue-500 scale-[1.02]' 
-                      : ''
-                  } ${location.status !== 'pending' ? 'opacity-50 cursor-default transform' : 'hover:shadow-md'}`}
-                  data-testid={`card-unmatched-${location.id}`}
-                >
-                  <div className="relative">
-                    <Badge 
-                      className={`absolute top-2 right-2 z-10 font-medium ${
-                        location.status === 'pending' ? 'bg-amber-500 text-white' :
-                        location.status === 'linked' ? 'bg-blue-500 text-white' :
-                        'bg-amber-500 text-white'
-                      }`}
-                    >
-                      {location.status === 'pending' ? 'Pending Action' :
-                       location.status === 'linked' ? 'Linked' :
-                       'Set to Re-create'}
-                    </Badge>
-                    
-                    <LocationDetailCard 
-                      location={location} 
-                      type="platform" 
-                      className={`${
-                        selectedUnmatched === location.id 
-                          ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/20 shadow-lg' 
-                          : location.status !== 'pending'
-                            ? 'border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700'
-                            : 'border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800'
-                      } pt-12 transition-all duration-200`}
-                    />
-                    
-                    {location.linkedTo && (
-                      <div className="p-3 mt-2 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg">
-                        <p className="text-sm text-green-800 dark:text-green-200 font-medium">
-                          ✓ Linked to: {location.linkedTo.name}
-                        </p>
-                        <p className="text-xs text-green-600 dark:text-green-300">
-                          {location.linkedTo.address}
-                        </p>
-                      </div>
-                    )}
-                    
-                    {location.recreateWith && (
-                      <div className="p-3 mt-2 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg">
-                        <p className="text-sm text-blue-800 dark:text-blue-200 font-medium">
-                          🔄 Will recreate with: {location.recreateWith.name}
-                        </p>
-                        <p className="text-xs text-blue-600 dark:text-blue-300">
-                          {location.recreateWith.address}
-                        </p>
-                      </div>
-                    )}
-                  </div>
+          <CardContent>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              {/* Search by Name/Store Code */}
+              <div className="space-y-2">
+                <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                  Search by Name or Store Code
+                </label>
+                <div className="relative">
+                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
+                  <Input
+                    placeholder="Search locations..."
+                    value={searchQuery}
+                    onChange={(e) => {
+                      setSearchQuery(e.target.value);
+                      setCurrentPage(0); // Reset to first page
+                    }}
+                    className="pl-10"
+                    data-testid="input-search-locations"
+                  />
                 </div>
-              ))}
-            </div>
-            
-            {/* Pagination Controls */}
-            <div className="flex items-center justify-between pt-4 border-t border-gray-200 dark:border-gray-700">
-              <div className="text-sm text-gray-600 dark:text-gray-400">
-                Showing {startIndex + 1}-{Math.min(endIndex, unmatchedLocations.length)} of {unmatchedLocations.length}
               </div>
-              <div className="flex space-x-2">
+
+              {/* Status Filter */}
+              <div className="space-y-2">
+                <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                  Filter by Status
+                </label>
+                <Select value={filterStatus} onValueChange={(value) => {
+                  setFilterStatus(value);
+                  setCurrentPage(0);
+                }}>
+                  <SelectTrigger data-testid="select-filter-status">
+                    <SelectValue placeholder="All Statuses" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">All Statuses</SelectItem>
+                    <SelectItem value="pending">Needs Review</SelectItem>
+                    <SelectItem value="has-suggestion">Suggestion Available</SelectItem>
+                    <SelectItem value="no-suggestion">No Match Found</SelectItem>
+                    <SelectItem value="linked">Linked</SelectItem>
+                    <SelectItem value="recreate">Set to Re-create</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              {/* City Filter */}
+              <div className="space-y-2">
+                <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                  Filter by City
+                </label>
+                <Select value={filterCity} onValueChange={(value) => {
+                  setFilterCity(value);
+                  setCurrentPage(0);
+                }}>
+                  <SelectTrigger data-testid="select-filter-city">
+                    <SelectValue placeholder="All Cities" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">All Cities</SelectItem>
+                    {uniqueCities.map(city => (
+                      <SelectItem key={city} value={city}>{city}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+
+            {/* Clear Filters */}
+            {(searchQuery || filterStatus !== 'all' || filterCity !== 'all') && (
+              <div className="mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
                 <Button
                   variant="outline"
                   size="sm"
-                  onClick={() => setCurrentPage(currentPage - 1)}
-                  disabled={currentPage === 0}
-                  data-testid="button-prev-page"
+                  onClick={() => {
+                    setSearchQuery('');
+                    setFilterStatus('all');
+                    setFilterCity('all');
+                    setCurrentPage(0);
+                  }}
+                  className="flex items-center space-x-2"
+                  data-testid="button-clear-filters"
                 >
-                  Previous
+                  <X className="w-4 h-4" />
+                  <span>Clear All Filters</span>
                 </Button>
+              </div>
+            )}
+          </CardContent>
+        </Card>
+
+        {/* Bulk Actions Bar */}
+        {selectedLocations.length > 0 && (
+          <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center space-x-4">
+                <span className="text-blue-800 dark:text-blue-200 font-medium">
+                  {selectedLocations.length} location{selectedLocations.length > 1 ? 's' : ''} selected
+                </span>
                 <Button
                   variant="outline"
                   size="sm"
-                  onClick={() => setCurrentPage(currentPage + 1)}
-                  disabled={currentPage >= totalPages - 1}
-                  data-testid="button-next-page"
+                  onClick={() => setSelectedLocations([])}
+                  className="text-blue-700 border-blue-300"
                 >
-                  Next
+                  Clear Selection
                 </Button>
+              </div>
+              <div className="flex items-center space-x-3">
+                <Button
+                  onClick={bulkAcceptSuggestions}
+                  className="bg-green-600 hover:bg-green-700 text-white"
+                  data-testid="button-bulk-accept-suggestions"
+                >
+                  Accept All Smart Suggestions
+                </Button>
+                <Button
+                  onClick={bulkRecreateSelected}
+                  variant="outline"
+                  className="text-amber-700 border-amber-300 hover:bg-amber-50"
+                  data-testid="button-bulk-recreate"
+                >
+                  Delete and Re-create Selected
+                </Button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Enterprise Data Management Table */}
+        <Card>
+          <CardHeader>
+            <div className="flex items-center justify-between">
+              <CardTitle>Unmatched Locations ({filteredLocations.length} of {unmatchedLocations.length})</CardTitle>
+              <div className="text-sm text-gray-600 dark:text-gray-400">
+                Page {currentPage + 1} of {totalPages}
+              </div>
+            </div>
+          </CardHeader>
+          <CardContent className="p-0">
+            {/* Table */}
+            <div className="overflow-x-auto">
+              <table className="w-full">
+                <thead className="bg-gray-50 dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
+                  <tr>
+                    <th className="p-4 text-left">
+                      <Checkbox
+                        checked={currentLocations.length > 0 && currentLocations.every(loc => selectedLocations.includes(loc.id))}
+                        onChange={() => handleSelectAll(currentLocations)}
+                        data-testid="checkbox-select-all"
+                      />
+                    </th>
+                    <th className="p-4 text-left text-sm font-medium text-gray-900 dark:text-gray-100">
+                      Location Details
+                    </th>
+                    <th className="p-4 text-left text-sm font-medium text-gray-900 dark:text-gray-100">
+                      Status
+                    </th>
+                    <th className="p-4 text-left text-sm font-medium text-gray-900 dark:text-gray-100">
+                      Suggestion
+                    </th>
+                    <th className="p-4 text-left text-sm font-medium text-gray-900 dark:text-gray-100">
+                      Actions
+                    </th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
+                  {currentLocations.map((location) => {
+                    const suggestion = getSuggestedMatch(location);
+                    return (
+                      <tr
+                        key={location.id}
+                        className={`hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors ${
+                          selectedLocations.includes(location.id) ? 'bg-blue-50 dark:bg-blue-900/20' : ''
+                        }`}
+                        data-testid={`row-location-${location.id}`}
+                      >
+                        <td className="p-4">
+                          <Checkbox
+                            checked={selectedLocations.includes(location.id)}
+                            onChange={() => handleSelectLocation(location.id)}
+                            data-testid={`checkbox-location-${location.id}`}
+                          />
+                        </td>
+                        <td className="p-4">
+                          <div className="space-y-2">
+                            <div className="font-medium text-gray-900 dark:text-gray-100">
+                              {location.name}
+                            </div>
+                            <div className="flex items-center text-sm text-purple-600 dark:text-purple-400 bg-purple-50 dark:bg-purple-900/20 px-2 py-1 rounded-md w-fit">
+                              <Building className="w-4 h-4 mr-1" />
+                              Code: {location.storeCode}
+                            </div>
+                            <div className="text-sm text-gray-600 dark:text-gray-400">
+                              {location.address}
+                            </div>
+                            <div className="text-sm text-gray-500 dark:text-gray-500">
+                              {location.city} • {location.phone}
+                            </div>
+                          </div>
+                        </td>
+                        <td className="p-4">
+                          <Badge
+                            className={`${
+                              location.status === 'pending' ? 'bg-amber-500 text-white' :
+                              location.status === 'linked' ? 'bg-green-500 text-white' :
+                              location.status === 'recreate' ? 'bg-blue-500 text-white' :
+                              'bg-gray-500 text-white'
+                            }`}
+                          >
+                            {location.status === 'pending' ? 'Needs Review' :
+                             location.status === 'linked' ? 'Linked' :
+                             location.status === 'recreate' ? 'Set to Re-create' :
+                             location.status}
+                          </Badge>
+                          {location.linkedTo && (
+                            <div className="mt-2 text-xs text-green-600 dark:text-green-400">
+                              → {location.linkedTo.name}
+                            </div>
+                          )}
+                          {location.recreateWith && (
+                            <div className="mt-2 text-xs text-blue-600 dark:text-blue-400">
+                              → Will use {location.recreateWith.name}
+                            </div>
+                          )}
+                        </td>
+                        <td className="p-4">
+                          {suggestion ? (
+                            <div className="space-y-1">
+                              <div className="text-xs bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-200 px-2 py-1 rounded font-medium">
+                                ✨ SMART SUGGESTION
+                              </div>
+                              <div className="text-sm font-medium text-gray-900 dark:text-gray-100">
+                                {suggestion.name}
+                              </div>
+                              <div className="flex items-center text-xs text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20 px-2 py-1 rounded-md w-fit">
+                                <Building className="w-3 h-3 mr-1" />
+                                {suggestion.storeCode}
+                              </div>
+                            </div>
+                          ) : (
+                            <div className="text-sm text-gray-500 dark:text-gray-400">
+                              No automatic suggestion
+                            </div>
+                          )}
+                        </td>
+                        <td className="p-4">
+                          <div className="flex items-center space-x-2">
+                            {suggestion && location.status === 'pending' && (
+                              <Button
+                                size="sm"
+                                onClick={() => handleLinkLocation(location.id, suggestion.id)}
+                                className="bg-green-600 hover:bg-green-700 text-white"
+                                data-testid={`button-accept-suggestion-${location.id}`}
+                              >
+                                Accept
+                              </Button>
+                            )}
+                            <Button
+                              size="sm"
+                              variant="outline"
+                              onClick={() => setSelectedUnmatched(location.id)}
+                              data-testid={`button-manual-resolve-${location.id}`}
+                            >
+                              Manual
+                            </Button>
+                          </div>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+
+            {/* Enhanced Pagination */}
+            <div className="px-4 py-4 border-t border-gray-200 dark:border-gray-700">
+              <div className="flex items-center justify-between">
+                <div className="text-sm text-gray-600 dark:text-gray-400">
+                  Showing {startIndex + 1}-{Math.min(endIndex, filteredLocations.length)} of {filteredLocations.length} filtered results
+                  {filteredLocations.length !== unmatchedLocations.length && (
+                    <span className="ml-2 text-blue-600 dark:text-blue-400">
+                      ({unmatchedLocations.length} total)
+                    </span>
+                  )}
+                </div>
+                <div className="flex items-center space-x-2">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => setCurrentPage(0)}
+                    disabled={currentPage === 0}
+                    data-testid="button-first-page"
+                  >
+                    <ChevronsLeft className="w-4 h-4" />
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => setCurrentPage(currentPage - 1)}
+                    disabled={currentPage === 0}
+                    data-testid="button-prev-page"
+                  >
+                    <ChevronLeft className="w-4 h-4" />
+                  </Button>
+                  <span className="text-sm text-gray-600 dark:text-gray-400 px-3">
+                    Page {currentPage + 1} of {totalPages}
+                  </span>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => setCurrentPage(currentPage + 1)}
+                    disabled={currentPage >= totalPages - 1}
+                    data-testid="button-next-page"
+                  >
+                    <ChevronRight className="w-4 h-4" />
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => setCurrentPage(totalPages - 1)}
+                    disabled={currentPage >= totalPages - 1}
+                    data-testid="button-last-page"
+                  >
+                    <ChevronsRight className="w-4 h-4" />
+                  </Button>
+                </div>
               </div>
             </div>
           </CardContent>
         </Card>
 
-        {/* Right Column: Resolution Panel */}
-        <Card className="flex flex-col">
-          <CardHeader>
-            <CardTitle>Resolution Panel</CardTitle>
-          </CardHeader>
-          <CardContent className="flex-1 flex flex-col">
-            <div className="flex-1">
-              {selectedUnmatched ? (
-                <div className="space-y-6">
+        {/* Quick Resolution Panel */}
+        {selectedUnmatched && (
+          <Card className="mt-6">
+            <CardHeader>
+              <CardTitle>Quick Resolution</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                {/* Selected Location Info */}
+                <div className="space-y-4">
                   <div className="p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
                     <h4 className="font-medium mb-2">Selected Location:</h4>
                     <p className="font-semibold">
@@ -732,109 +1069,73 @@ export default function LocationMatch() {
                       {unmatchedLocations.find(loc => loc.id === selectedUnmatched)?.address}
                     </p>
                   </div>
+                </div>
 
-                  {/* Choice 1: Link to Existing Location */}
+                {/* Resolution Options */}
+                <div className="space-y-4">
                   <div className="space-y-3">
-                    <h3 className="text-lg font-semibold">1. Link to an existing VenueX location</h3>
+                    <h4 className="font-medium">Link to VenueX Location:</h4>
                     <Select onValueChange={(value) => handleLinkLocation(selectedUnmatched, value)}>
-                      <SelectTrigger data-testid="select-link-location">
-                        <SelectValue placeholder="Select a VenueX location to link" />
+                      <SelectTrigger data-testid="select-link-location-quick">
+                        <SelectValue placeholder="Select VenueX location..." />
                       </SelectTrigger>
                       <SelectContent>
-                        {/* Suggested Match First */}
                         {suggestedMatch && (
-                          <SelectItem key={`suggested-${suggestedMatch.id}`} value={suggestedMatch.id} className="h-auto p-0">
-                            <div className="w-full p-3 bg-blue-50 dark:bg-blue-900/30 border border-blue-200 dark:border-blue-700 rounded-md">
-                              <div className="flex items-center justify-between mb-2">
-                                <span className="text-xs font-medium bg-blue-600 text-white px-2 py-1 rounded">
-                                  ✨ SUGGESTED MATCH
-                                </span>
-                              </div>
-                              <LocationDetailCard 
-                                location={suggestedMatch} 
-                                type="venuex" 
-                                className="border-none bg-transparent p-0 m-0"
-                              />
-                            </div>
+                          <SelectItem key={`suggested-${suggestedMatch.id}`} value={suggestedMatch.id}>
+                            ✨ {suggestedMatch.name} (Suggested)
                           </SelectItem>
                         )}
-                        
-                        {/* Separator if there's a suggestion */}
-                        {suggestedMatch && availableVenueXLocations.filter(loc => loc.id !== suggestedMatch.id).length > 0 && (
-                          <div className="px-3 py-2 text-xs text-gray-500 border-b border-gray-200 dark:border-gray-700">
-                            Other Available Locations
-                          </div>
-                        )}
-                        
-                        {/* Other Available Locations */}
-                        {availableVenueXLocations.filter(loc => !suggestedMatch || loc.id !== suggestedMatch.id).map((location) => (
-                          <SelectItem key={location.id} value={location.id} className="h-auto p-0">
-                            <div className="w-full p-3">
-                              <LocationDetailCard 
-                                location={location} 
-                                type="venuex" 
-                                className="border-none bg-transparent p-0 m-0"
-                              />
-                            </div>
-                          </SelectItem>
+                        {availableVenueXLocations
+                          .filter(loc => !suggestedMatch || loc.id !== suggestedMatch.id)
+                          .map((location) => (
+                            <SelectItem key={location.id} value={location.id}>
+                              {location.name} - {location.storeCode}
+                            </SelectItem>
                         ))}
                       </SelectContent>
                     </Select>
                   </div>
 
-                  {/* Choice 2: Create from Source of Truth */}
                   <div className="space-y-3">
-                    <h3 className="text-lg font-semibold">2. Re-create this location from VenueX data</h3>
-                    <div className="p-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg">
-                      <div className="flex items-start space-x-2">
-                        <AlertTriangle className="w-5 h-5 text-red-600 mt-0.5 flex-shrink-0" />
-                        <p className="text-sm text-red-800 dark:text-red-200">
-                          <strong>Warning:</strong> This will delete the existing, unmatched Meta Page and create 
-                          a new, synced one using the official data from VenueX.
-                        </p>
-                      </div>
-                    </div>
+                    <h4 className="font-medium">Or Re-create with VenueX Data:</h4>
                     <Select onValueChange={(value) => handleRecreateLocation(selectedUnmatched, value)}>
-                      <SelectTrigger data-testid="select-recreate-location">
-                        <SelectValue placeholder="Select VenueX location data to use" />
+                      <SelectTrigger data-testid="select-recreate-location-quick">
+                        <SelectValue placeholder="Select source data..." />
                       </SelectTrigger>
                       <SelectContent>
                         {mockVenueXLocations.map((location) => (
-                          <SelectItem key={location.id} value={location.id} className="h-auto p-0">
-                            <div className="w-full p-3">
-                              <LocationDetailCard 
-                                location={location} 
-                                type="venuex" 
-                                className="border-none bg-transparent p-0 m-0"
-                              />
-                            </div>
+                          <SelectItem key={location.id} value={location.id}>
+                            {location.name} - {location.storeCode}
                           </SelectItem>
                         ))}
                       </SelectContent>
                     </Select>
                   </div>
+
+                  <Button
+                    variant="outline"
+                    onClick={() => setSelectedUnmatched(null)}
+                    className="w-full"
+                  >
+                    Close Resolution Panel
+                  </Button>
                 </div>
-              ) : (
-                <div className="flex items-center justify-center h-full text-gray-500 dark:text-gray-400">
-                  <p>Select an unmatched location from the left to resolve it</p>
-                </div>
-              )}
-            </div>
-            
-            {/* Confirm Button at Bottom of Right Panel */}
-            <div className="mt-6 pt-4 border-t border-gray-200 dark:border-gray-700">
-              <Button 
-                onClick={() => setCurrentStep(3)}
-                disabled={!canProceedToStep3}
-                className="w-full bg-amber-600 hover:bg-amber-700 text-white py-3 text-lg font-medium"
-                data-testid="button-proceed-step3"
-              >
-                Review and Confirm ({pendingCount > 0 ? `${pendingCount} remaining` : 'All resolved'})
-              </Button>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
+              </div>
+            </CardContent>
+          </Card>
+        )}
+
+        {/* Final Proceed Button */}
+        <div className="flex justify-center mt-8">
+          <Button 
+            onClick={() => setCurrentStep(3)}
+            disabled={!canProceedToStep3}
+            className="bg-amber-600 hover:bg-amber-700 text-white px-8 py-3 text-lg font-medium"
+            data-testid="button-proceed-step3"
+          >
+            Review and Confirm ({pendingCount > 0 ? `${pendingCount} remaining` : 'All resolved'})
+          </Button>
+        </div>
 
     </div>
   );
