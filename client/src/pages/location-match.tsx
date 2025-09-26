@@ -17,6 +17,8 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
+import { AuditAccordion } from "@/components/ui/audit-accordion";
+import { RichLocationCard } from "@/components/ui/rich-location-card";
 import Header from '@/components/overview/header';
 import { 
   Target,
@@ -1328,148 +1330,190 @@ export default function LocationMatch() {
           </CardContent>
         </Card>
 
-        {/* Collapsed Searchable Lists */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* Auto Matched Locations */}
-          <Card className="border-green-200 dark:border-green-700">
-            <Collapsible open={autoMatchedOpen} onOpenChange={setAutoMatchedOpen}>
-              <CollapsibleTrigger className="w-full">
-                <CardHeader className="pb-4 hover:bg-green-50 dark:hover:bg-green-900/20 transition-colors">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center space-x-2">
-                      {autoMatchedOpen ? <ChevronDown className="w-4 h-4 text-green-600" /> : <ChevronRight className="w-4 h-4 text-green-600" />}
-                      <CardTitle className="text-green-800 dark:text-green-200 text-sm">
-                        Auto Matched ({mockAutoMatched.length})
-                      </CardTitle>
+        {/* Interactive Audit Sections */}
+        <div className="space-y-6">
+          {/* Auto Matched Locations Accordion */}
+          <AuditAccordion
+            id="auto-matched"
+            title="Automatically Matched Locations"
+            count={mockAutoMatched.length}
+            searchValue={autoMatchedSearch}
+            onSearchChange={setAutoMatchedSearch}
+            searchPlaceholder="Search auto matched locations..."
+            data-testid="accordion-auto-matched"
+          >
+            <div className="p-4 space-y-4">
+              {filteredAutoMatched.map((match, index) => (
+                <div key={index} className="grid grid-cols-1 md:grid-cols-2 gap-4 items-center">
+                  {/* Platform Location */}
+                  <RichLocationCard
+                    location={{
+                      name: match.platformLocation.name,
+                      storeCode: match.platformLocation.storeCode,
+                      address: `${match.platformLocation.address}, ${match.platformLocation.city}`,
+                      platform: "Platform Location"
+                    }}
+                    data-testid={`platform-location-${index}`}
+                  />
+                  
+                  {/* Link Icon */}
+                  <div className="flex justify-center">
+                    <div className="bg-green-100 dark:bg-green-900 p-2 rounded-full">
+                      <Link className="w-4 h-4 text-green-600 dark:text-green-400" />
                     </div>
-                    <CheckCircle className="w-4 h-4 text-green-600" />
                   </div>
-                </CardHeader>
-              </CollapsibleTrigger>
-              <CollapsibleContent>
-                <CardContent className="pt-0 space-y-3">
-                  <div className="relative">
-                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
-                    <Input
-                      placeholder="Search auto matched..."
-                      value={autoMatchedSearch}
-                      onChange={(e) => setAutoMatchedSearch(e.target.value)}
-                      className="pl-10 text-sm"
-                      data-testid="search-auto-matched"
-                    />
+                  
+                  {/* VenueX Location */}
+                  <RichLocationCard
+                    location={{
+                      name: match.venueXLocation.name,
+                      storeCode: match.venueXLocation.storeCode,
+                      address: `${match.venueXLocation.address}, ${match.venueXLocation.city}`,
+                      platform: "VenueX Location"
+                    }}
+                    data-testid={`venuex-location-${index}`}
+                  />
+                  
+                  {/* Confidence Score */}
+                  <div className="text-center">
+                    <Badge variant="secondary" className="bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">
+                      {(match.confidence * 100).toFixed(1)}% confidence
+                    </Badge>
                   </div>
-                  <div className="max-h-64 overflow-y-auto space-y-2">
-                    {filteredAutoMatched.map((match, index) => (
-                      <div key={index} className="p-3 bg-green-50 dark:bg-green-900/20 rounded-lg border border-green-200 dark:border-green-700">
-                        <div className="text-sm font-medium text-green-800 dark:text-green-200">
-                          {match.platformLocation.name}
-                        </div>
-                        <div className="text-xs text-green-600 dark:text-green-300 flex justify-between">
-                          <span>{match.platformLocation.storeCode}</span>
-                          <span>→ {match.venueXLocation.storeCode}</span>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </CardContent>
-              </CollapsibleContent>
-            </Collapsible>
-          </Card>
+                </div>
+              ))}
+              
+              {filteredAutoMatched.length === 0 && autoMatchedSearch && (
+                <div className="text-center py-8 text-gray-500 dark:text-gray-400">
+                  No matches found for "{autoMatchedSearch}"
+                </div>
+              )}
+            </div>
+          </AuditAccordion>
 
-          {/* Manual Links */}
+          {/* Manual Links Accordion */}
           {linkedCount > 0 && (
-            <Card className="border-blue-200 dark:border-blue-700">
-              <Collapsible open={manualLinkedOpen} onOpenChange={setManualLinkedOpen}>
-                <CollapsibleTrigger className="w-full">
-                  <CardHeader className="pb-4 hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center space-x-2">
-                        {manualLinkedOpen ? <ChevronDown className="w-4 h-4 text-blue-600" /> : <ChevronRight className="w-4 h-4 text-blue-600" />}
-                        <CardTitle className="text-blue-800 dark:text-blue-200 text-sm">
-                          Manual Links ({linkedCount})
-                        </CardTitle>
+            <AuditAccordion
+              id="manual-links"
+              title="Manually Linked Locations"
+              count={linkedCount}
+              searchValue={linkedSearch}
+              onSearchChange={setLinkedSearch}
+              searchPlaceholder="Search manual links..."
+              data-testid="accordion-manual-links"
+            >
+              <div className="p-4 space-y-4">
+                {filteredLinked.map((location) => (
+                  <div key={location.id} className="grid grid-cols-1 md:grid-cols-2 gap-4 items-center">
+                    {/* Platform Location */}
+                    <RichLocationCard
+                      location={{
+                        name: location.name,
+                        storeCode: location.storeCode,
+                        address: `${location.address}, ${location.city}`,
+                        platform: "Platform Location"
+                      }}
+                      data-testid={`manual-platform-${location.id}`}
+                    />
+                    
+                    {/* Link Icon */}
+                    <div className="flex justify-center">
+                      <div className="bg-blue-100 dark:bg-blue-900 p-2 rounded-full">
+                        <Link className="w-4 h-4 text-blue-600 dark:text-blue-400" />
                       </div>
-                      <Link className="w-4 h-4 text-blue-600" />
                     </div>
-                  </CardHeader>
-                </CollapsibleTrigger>
-                <CollapsibleContent>
-                  <CardContent className="pt-0 space-y-3">
-                    <div className="relative">
-                      <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
-                      <Input
-                        placeholder="Search manual links..."
-                        value={linkedSearch}
-                        onChange={(e) => setLinkedSearch(e.target.value)}
-                        className="pl-10 text-sm"
-                        data-testid="search-manual-links"
-                      />
+                    
+                    {/* Linked VenueX Location */}
+                    <RichLocationCard
+                      location={{
+                        name: location.linkedTo!.name,
+                        storeCode: location.linkedTo!.storeCode,
+                        address: `${location.linkedTo!.address}, ${location.linkedTo!.city}`,
+                        platform: "VenueX Location"
+                      }}
+                      data-testid={`manual-venuex-${location.id}`}
+                    />
+                    
+                    {/* Manual Tag */}
+                    <div className="text-center">
+                      <Badge variant="secondary" className="bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200">
+                        Manually Resolved
+                      </Badge>
                     </div>
-                    <div className="max-h-64 overflow-y-auto space-y-2">
-                      {filteredLinked.map((location) => (
-                        <div key={location.id} className="p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg border border-blue-200 dark:border-blue-700">
-                          <div className="text-sm font-medium text-blue-800 dark:text-blue-200">
-                            {location.name}
-                          </div>
-                          <div className="text-xs text-blue-600 dark:text-blue-300 flex justify-between">
-                            <span>{location.storeCode}</span>
-                            <span>→ {location.linkedTo!.storeCode}</span>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </CardContent>
-                </CollapsibleContent>
-              </Collapsible>
-            </Card>
+                  </div>
+                ))}
+                
+                {filteredLinked.length === 0 && linkedSearch && (
+                  <div className="text-center py-8 text-gray-500 dark:text-gray-400">
+                    No matches found for "{linkedSearch}"
+                  </div>
+                )}
+              </div>
+            </AuditAccordion>
           )}
 
-          {/* Recreations */}
+          {/* Recreations Accordion */}
           {recreateCount > 0 && (
-            <Card className="border-amber-200 dark:border-amber-700">
-              <Collapsible open={recreateOpen} onOpenChange={setRecreateOpen}>
-                <CollapsibleTrigger className="w-full">
-                  <CardHeader className="pb-4 hover:bg-amber-50 dark:hover:bg-amber-900/20 transition-colors">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center space-x-2">
-                        {recreateOpen ? <ChevronDown className="w-4 h-4 text-amber-600" /> : <ChevronRight className="w-4 h-4 text-amber-600" />}
-                        <CardTitle className="text-amber-800 dark:text-amber-200 text-sm">
-                          Recreations ({recreateCount})
-                        </CardTitle>
+            <AuditAccordion
+              id="recreations"
+              title="Locations to be Deleted & Re-created"
+              count={recreateCount}
+              variant="warning"
+              searchValue={recreateSearch}
+              onSearchChange={setRecreateSearch}
+              searchPlaceholder="Search recreations..."
+              data-testid="accordion-recreations"
+            >
+              <div className="p-4 space-y-4">
+                {filteredRecreate.map((location) => (
+                  <div key={location.id} className="grid grid-cols-1 md:grid-cols-2 gap-4 items-center">
+                    {/* New Location to Create */}
+                    <RichLocationCard
+                      location={{
+                        name: location.recreateWith!.name,
+                        storeCode: location.recreateWith!.storeCode,
+                        address: `${location.recreateWith!.address}, ${location.recreateWith!.city}`,
+                        platform: "VenueX Location"
+                      }}
+                      variant="create"
+                      data-testid={`recreate-new-${location.id}`}
+                    />
+                    
+                    {/* Delete & Create Icon */}
+                    <div className="flex justify-center">
+                      <div className="bg-red-100 dark:bg-red-900 p-2 rounded-full">
+                        <Trash2 className="w-4 h-4 text-red-600 dark:text-red-400" />
                       </div>
-                      <Trash2 className="w-4 h-4 text-red-600" />
                     </div>
-                  </CardHeader>
-                </CollapsibleTrigger>
-                <CollapsibleContent>
-                  <CardContent className="pt-0 space-y-3">
-                    <div className="relative">
-                      <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
-                      <Input
-                        placeholder="Search recreations..."
-                        value={recreateSearch}
-                        onChange={(e) => setRecreateSearch(e.target.value)}
-                        className="pl-10 text-sm"
-                        data-testid="search-recreations"
-                      />
+                    
+                    {/* Old Location to Delete */}
+                    <RichLocationCard
+                      location={{
+                        name: location.name,
+                        storeCode: location.storeCode,
+                        address: `${location.address}, ${location.city}`,
+                        platform: "Platform Location"
+                      }}
+                      variant="delete"
+                      data-testid={`recreate-old-${location.id}`}
+                    />
+                    
+                    {/* Action Tag */}
+                    <div className="text-center">
+                      <Badge variant="destructive" className="bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200">
+                        Delete & Recreate
+                      </Badge>
                     </div>
-                    <div className="max-h-64 overflow-y-auto space-y-2">
-                      {filteredRecreate.map((location) => (
-                        <div key={location.id} className="p-3 bg-red-50 dark:bg-red-900/20 rounded-lg border border-red-200 dark:border-red-700">
-                          <div className="text-sm font-medium text-red-800 dark:text-red-200">
-                            {location.name}
-                          </div>
-                          <div className="text-xs text-red-600 dark:text-red-300 flex justify-between">
-                            <span>Delete: {location.storeCode}</span>
-                            <span>Create: {location.recreateWith!.storeCode}</span>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </CardContent>
-                </CollapsibleContent>
-              </Collapsible>
-            </Card>
+                  </div>
+                ))}
+                
+                {filteredRecreate.length === 0 && recreateSearch && (
+                  <div className="text-center py-8 text-gray-500 dark:text-gray-400">
+                    No matches found for "{recreateSearch}"
+                  </div>
+                )}
+              </div>
+            </AuditAccordion>
           )}
         </div>
 
