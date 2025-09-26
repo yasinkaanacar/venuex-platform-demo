@@ -63,6 +63,7 @@ import {
 } from 'lucide-react';
 import Header from '@/components/overview/header';
 import { MapContainer, TileLayer, Marker, Popup, Tooltip as LeafletTooltip, GeoJSON } from 'react-leaflet';
+import turkeyMapImage from '@assets/tr-02_1758876643793.jpg';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 import { 
@@ -2557,7 +2558,7 @@ export default function ReviewsX() {
                   {/* Turkey Map */}
                   <div className="h-96 rounded-lg overflow-hidden border bg-white flex items-center justify-center">
                     <img 
-                      src="@assets/tr-02_1758876643793.jpg"
+                      src={turkeyMapImage}
                       alt="Turkey Map"
                       className="max-w-full max-h-full object-contain"
                       data-testid="turkey-map"
