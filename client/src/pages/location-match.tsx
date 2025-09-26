@@ -1171,221 +1171,432 @@ export default function LocationMatch() {
   );
   };
 
-  const renderStep3 = () => (
-    <div className="max-w-4xl mx-auto">
-      <div className="text-center mb-8">
-        <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-2">
-          Step 3 of 3: Review and Confirm Sync
-        </h2>
-      </div>
+  const renderStep3 = () => {
+    // Add search state for Step 3 lists
+    const [autoMatchedSearch, setAutoMatchedSearch] = useState('');
+    const [linkedSearch, setLinkedSearch] = useState('');
+    const [recreateSearch, setRecreateSearch] = useState('');
 
-      <div className="space-y-6">
-        {/* Automatically Matched Locations - Enhanced with Color Coding */}
-        <div className="border-2 border-green-200 dark:border-green-700 bg-green-50 dark:bg-green-900/10 rounded-lg p-1">
-          <Collapsible open={autoMatchedOpen} onOpenChange={setAutoMatchedOpen}>
-            <CollapsibleTrigger className="w-full">
-              <Button variant="ghost" className="w-full justify-between p-4 h-auto hover:bg-green-100 dark:hover:bg-green-900/20">
-                <div className="flex items-center space-x-3">
-                  {autoMatchedOpen ? <ChevronDown className="w-5 h-5 text-green-700 dark:text-green-300" /> : <ChevronRight className="w-5 h-5 text-green-700 dark:text-green-300" />}
-                  <h3 className="text-lg font-semibold text-green-800 dark:text-green-200">✅ Automatically Matched ({mockAutoMatched.length} locations)</h3>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <Badge className="bg-green-600 text-white">Ready to Sync</Badge>
-                  <CheckCircle className="w-5 h-5 text-green-600" />
-                </div>
+    // Export Sync Plan functionality
+    const exportSyncPlan = () => {
+      const syncPlan = {
+        timestamp: new Date().toISOString(),
+        totalLocations: mockAutoMatched.length + linkedCount + recreateCount,
+        summary: {
+          automaticallyMatched: mockAutoMatched.length,
+          manuallyLinked: linkedCount,
+          toBeRecreated: recreateCount
+        },
+        details: {
+          autoMatched: mockAutoMatched.map(match => ({
+            platformName: match.platformLocation.name,
+            platformCode: match.platformLocation.storeCode,
+            venueXName: match.venueXLocation.name,
+            venueXCode: match.venueXLocation.storeCode,
+            confidence: match.confidence,
+            action: 'Link Existing'
+          })),
+          manuallyLinked: unmatchedLocations
+            .filter(loc => loc.status === 'linked')
+            .map(loc => ({
+              platformName: loc.name,
+              platformCode: loc.storeCode,
+              venueXName: loc.linkedTo!.name,
+              venueXCode: loc.linkedTo!.storeCode,
+              action: 'Link Existing'
+            })),
+          toBeRecreated: unmatchedLocations
+            .filter(loc => loc.status === 'recreate')
+            .map(loc => ({
+              platformName: loc.name,
+              platformCode: loc.storeCode,
+              willBeDeletedAndReplacedWith: loc.recreateWith!.name,
+              replacementCode: loc.recreateWith!.storeCode,
+              action: 'Delete and Recreate'
+            }))
+        }
+      };
+
+      const csvContent = [
+        ['Action Type', 'Platform Name', 'Platform Code', 'VenueX Name', 'VenueX Code', 'Notes'],
+        ...syncPlan.details.autoMatched.map(item => [
+          'Auto Link', item.platformName, item.platformCode, item.venueXName, item.venueXCode, `Confidence: ${(item.confidence * 100).toFixed(1)}%`
+        ]),
+        ...syncPlan.details.manuallyLinked.map(item => [
+          'Manual Link', item.platformName, item.platformCode, item.venueXName, item.venueXCode, 'Manually resolved'
+        ]),
+        ...syncPlan.details.toBeRecreated.map(item => [
+          'Delete & Recreate', item.platformName, item.platformCode, item.willBeDeletedAndReplacedWith, item.replacementCode, 'Will delete existing and create new'
+        ])
+      ].map(row => row.join(',')).join('\n');
+
+      const blob = new Blob([csvContent], { type: 'text/csv' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `sync-plan-${new Date().toISOString().split('T')[0]}.csv`;
+      a.click();
+      URL.revokeObjectURL(url);
+    };
+
+    // Filter functions for searchable lists
+    const filteredAutoMatched = autoMatchedSearch 
+      ? mockAutoMatched.filter(match => 
+          match.platformLocation.name.toLowerCase().includes(autoMatchedSearch.toLowerCase()) ||
+          match.venueXLocation.name.toLowerCase().includes(autoMatchedSearch.toLowerCase()) ||
+          match.platformLocation.storeCode.toLowerCase().includes(autoMatchedSearch.toLowerCase()) ||
+          match.venueXLocation.storeCode.toLowerCase().includes(autoMatchedSearch.toLowerCase())
+        )
+      : mockAutoMatched;
+
+    const filteredLinked = linkedSearch
+      ? unmatchedLocations
+          .filter(loc => loc.status === 'linked')
+          .filter(loc => 
+            loc.name.toLowerCase().includes(linkedSearch.toLowerCase()) ||
+            loc.linkedTo!.name.toLowerCase().includes(linkedSearch.toLowerCase()) ||
+            loc.storeCode.toLowerCase().includes(linkedSearch.toLowerCase()) ||
+            loc.linkedTo!.storeCode.toLowerCase().includes(linkedSearch.toLowerCase())
+          )
+      : unmatchedLocations.filter(loc => loc.status === 'linked');
+
+    const filteredRecreate = recreateSearch
+      ? unmatchedLocations
+          .filter(loc => loc.status === 'recreate')
+          .filter(loc => 
+            loc.name.toLowerCase().includes(recreateSearch.toLowerCase()) ||
+            loc.recreateWith!.name.toLowerCase().includes(recreateSearch.toLowerCase()) ||
+            loc.storeCode.toLowerCase().includes(recreateSearch.toLowerCase()) ||
+            loc.recreateWith!.storeCode.toLowerCase().includes(recreateSearch.toLowerCase())
+          )
+      : unmatchedLocations.filter(loc => loc.status === 'recreate');
+
+    return (
+      <div className="max-w-6xl mx-auto space-y-8">
+        <div className="text-center">
+          <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
+            Step 3 of 3: Review and Confirm Sync
+          </h2>
+          <p className="text-gray-600 dark:text-gray-400">
+            Enterprise sync plan ready for execution
+          </p>
+        </div>
+
+        {/* High-Level Summary Dashboard */}
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+          {/* Total Locations KPI */}
+          <Card className="bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-900/20 dark:to-blue-800/30 border-blue-200 dark:border-blue-700">
+            <CardContent className="p-6 text-center">
+              <div className="text-3xl font-bold text-blue-600 dark:text-blue-400 mb-2">
+                {mockAutoMatched.length + linkedCount + recreateCount}
+              </div>
+              <div className="text-sm font-medium text-blue-800 dark:text-blue-200">
+                Total Locations
+              </div>
+              <div className="text-xs text-blue-600 dark:text-blue-300 mt-1">
+                Ready to Sync
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Auto Matched KPI */}
+          <Card className="bg-gradient-to-br from-green-50 to-green-100 dark:from-green-900/20 dark:to-green-800/30 border-green-200 dark:border-green-700">
+            <CardContent className="p-6 text-center">
+              <div className="text-3xl font-bold text-green-600 dark:text-green-400 mb-2">
+                {mockAutoMatched.length}
+              </div>
+              <div className="text-sm font-medium text-green-800 dark:text-green-200">
+                Auto Matched
+              </div>
+              <div className="text-xs text-green-600 dark:text-green-300 mt-1">
+                {mockAutoMatched.length > 0 ? `${((mockAutoMatched.length / (mockAutoMatched.length + linkedCount + recreateCount)) * 100).toFixed(1)}% Success` : '0% Success'}
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Manual Linked KPI */}
+          <Card className="bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-900/20 dark:to-blue-800/30 border-blue-200 dark:border-blue-700">
+            <CardContent className="p-6 text-center">
+              <div className="text-3xl font-bold text-blue-600 dark:text-blue-400 mb-2">
+                {linkedCount}
+              </div>
+              <div className="text-sm font-medium text-blue-800 dark:text-blue-200">
+                Manual Links
+              </div>
+              <div className="text-xs text-blue-600 dark:text-blue-300 mt-1">
+                Resolved Manually
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Recreations KPI */}
+          <Card className="bg-gradient-to-br from-amber-50 to-amber-100 dark:from-amber-900/20 dark:to-amber-800/30 border-amber-200 dark:border-amber-700">
+            <CardContent className="p-6 text-center">
+              <div className="text-3xl font-bold text-amber-600 dark:text-amber-400 mb-2">
+                {recreateCount}
+              </div>
+              <div className="text-sm font-medium text-amber-800 dark:text-amber-200">
+                Recreations
+              </div>
+              <div className="text-xs text-amber-600 dark:text-amber-300 mt-1">
+                Will Delete & Create
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Export Plan Section */}
+        <Card className="bg-gradient-to-r from-purple-50 to-blue-50 dark:from-purple-900/10 dark:to-blue-900/10 border-purple-200 dark:border-purple-700">
+          <CardHeader>
+            <CardTitle className="flex items-center space-x-2 text-purple-800 dark:text-purple-200">
+              <Download className="w-5 h-5" />
+              <span>Export Sync Plan</span>
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <p className="text-purple-700 dark:text-purple-300 text-sm">
+              Download a comprehensive sync plan for enterprise audit, approval workflows, and documentation.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-3">
+              <Button
+                onClick={exportSyncPlan}
+                className="bg-purple-600 hover:bg-purple-700 text-white flex items-center space-x-2"
+                data-testid="button-export-sync-plan"
+              >
+                <Download className="w-4 h-4" />
+                <span>Export Complete Sync Plan (CSV)</span>
               </Button>
-            </CollapsibleTrigger>
-          <CollapsibleContent>
-            <Card>
-              <CardContent className="p-4">
-                <div className="space-y-4">
-                  {mockAutoMatched.map((match, index) => (
-                    <ComparisonCard
-                      key={index}
-                      leftLocation={match.venueXLocation}
-                      rightLocation={match.platformLocation}
-                      leftType="venuex"
-                      rightType="platform"
-                      leftLabel="VenueX Location"
-                      rightLabel="Meta Page"
-                      icon={<Link className="w-6 h-6 text-green-600" />}
-                      className="border-green-200 dark:border-green-800"
+              <div className="text-xs text-purple-600 dark:text-purple-400 py-2">
+                Includes all {mockAutoMatched.length + linkedCount + recreateCount} locations with action details
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Collapsed Searchable Lists */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          {/* Auto Matched Locations */}
+          <Card className="border-green-200 dark:border-green-700">
+            <Collapsible open={autoMatchedOpen} onOpenChange={setAutoMatchedOpen}>
+              <CollapsibleTrigger className="w-full">
+                <CardHeader className="pb-4 hover:bg-green-50 dark:hover:bg-green-900/20 transition-colors">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center space-x-2">
+                      {autoMatchedOpen ? <ChevronDown className="w-4 h-4 text-green-600" /> : <ChevronRight className="w-4 h-4 text-green-600" />}
+                      <CardTitle className="text-green-800 dark:text-green-200 text-sm">
+                        Auto Matched ({mockAutoMatched.length})
+                      </CardTitle>
+                    </div>
+                    <CheckCircle className="w-4 h-4 text-green-600" />
+                  </div>
+                </CardHeader>
+              </CollapsibleTrigger>
+              <CollapsibleContent>
+                <CardContent className="pt-0 space-y-3">
+                  <div className="relative">
+                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
+                    <Input
+                      placeholder="Search auto matched..."
+                      value={autoMatchedSearch}
+                      onChange={(e) => setAutoMatchedSearch(e.target.value)}
+                      className="pl-10 text-sm"
+                      data-testid="search-auto-matched"
                     />
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-          </CollapsibleContent>
-          </Collapsible>
-        </div>
+                  </div>
+                  <div className="max-h-64 overflow-y-auto space-y-2">
+                    {filteredAutoMatched.map((match, index) => (
+                      <div key={index} className="p-3 bg-green-50 dark:bg-green-900/20 rounded-lg border border-green-200 dark:border-green-700">
+                        <div className="text-sm font-medium text-green-800 dark:text-green-200">
+                          {match.platformLocation.name}
+                        </div>
+                        <div className="text-xs text-green-600 dark:text-green-300 flex justify-between">
+                          <span>{match.platformLocation.storeCode}</span>
+                          <span>→ {match.venueXLocation.storeCode}</span>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </CardContent>
+              </CollapsibleContent>
+            </Collapsible>
+          </Card>
 
-        {/* Manually Resolved Locations - Enhanced with Color Coding */}
-        <div className="border-2 border-blue-200 dark:border-blue-700 bg-blue-50 dark:bg-blue-900/10 rounded-lg p-4 space-y-4">
-          <h3 className="text-lg font-semibold flex items-center space-x-2 text-blue-800 dark:text-blue-200">
-            <span>🔧 Manually Resolved ({linkedCount + recreateCount} locations)</span>
-          </h3>
-
-          {/* Manually Linked */}
+          {/* Manual Links */}
           {linkedCount > 0 && (
-            <Collapsible open={manualLinkedOpen} onOpenChange={setManualLinkedOpen}>
-              <CollapsibleTrigger className="w-full">
-                <Button variant="ghost" className="w-full justify-between p-3 h-auto bg-blue-100 dark:bg-blue-900/30 hover:bg-blue-200 dark:hover:bg-blue-900/50 border border-blue-300 dark:border-blue-600 rounded-lg">
-                  <div className="flex items-center space-x-3">
-                    {manualLinkedOpen ? <ChevronDown className="w-4 h-4 text-blue-700 dark:text-blue-300" /> : <ChevronRight className="w-4 h-4 text-blue-700 dark:text-blue-300" />}
-                    <span className="font-semibold text-blue-800 dark:text-blue-200">🔗 Manually Linked ({linkedCount})</span>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <Badge className="bg-blue-600 text-white">Linked</Badge>
-                    <Link className="w-4 h-4 text-blue-600" />
-                  </div>
-                </Button>
-              </CollapsibleTrigger>
-              <CollapsibleContent>
-                <Card>
-                  <CardContent className="p-4">
-                    <div className="space-y-4">
-                      {unmatchedLocations
-                        .filter(loc => loc.status === 'linked')
-                        .map((location) => (
-                          <ComparisonCard
-                            key={location.id}
-                            leftLocation={location.linkedTo!}
-                            rightLocation={location}
-                            leftType="venuex"
-                            rightType="platform"
-                            leftLabel="VenueX Location"
-                            rightLabel="Meta Page"
-                            icon={<Link className="w-6 h-6 text-blue-600" />}
-                            className="border-blue-200 dark:border-blue-800"
-                          />
-                        ))}
+            <Card className="border-blue-200 dark:border-blue-700">
+              <Collapsible open={manualLinkedOpen} onOpenChange={setManualLinkedOpen}>
+                <CollapsibleTrigger className="w-full">
+                  <CardHeader className="pb-4 hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center space-x-2">
+                        {manualLinkedOpen ? <ChevronDown className="w-4 h-4 text-blue-600" /> : <ChevronRight className="w-4 h-4 text-blue-600" />}
+                        <CardTitle className="text-blue-800 dark:text-blue-200 text-sm">
+                          Manual Links ({linkedCount})
+                        </CardTitle>
+                      </div>
+                      <Link className="w-4 h-4 text-blue-600" />
+                    </div>
+                  </CardHeader>
+                </CollapsibleTrigger>
+                <CollapsibleContent>
+                  <CardContent className="pt-0 space-y-3">
+                    <div className="relative">
+                      <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
+                      <Input
+                        placeholder="Search manual links..."
+                        value={linkedSearch}
+                        onChange={(e) => setLinkedSearch(e.target.value)}
+                        className="pl-10 text-sm"
+                        data-testid="search-manual-links"
+                      />
+                    </div>
+                    <div className="max-h-64 overflow-y-auto space-y-2">
+                      {filteredLinked.map((location) => (
+                        <div key={location.id} className="p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg border border-blue-200 dark:border-blue-700">
+                          <div className="text-sm font-medium text-blue-800 dark:text-blue-200">
+                            {location.name}
+                          </div>
+                          <div className="text-xs text-blue-600 dark:text-blue-300 flex justify-between">
+                            <span>{location.storeCode}</span>
+                            <span>→ {location.linkedTo!.storeCode}</span>
+                          </div>
+                        </div>
+                      ))}
                     </div>
                   </CardContent>
-                </Card>
-              </CollapsibleContent>
-            </Collapsible>
+                </CollapsibleContent>
+              </Collapsible>
+            </Card>
           )}
 
-          {/* To Be Re-created */}
+          {/* Recreations */}
           {recreateCount > 0 && (
-            <Collapsible open={recreateOpen} onOpenChange={setRecreateOpen}>
-              <CollapsibleTrigger className="w-full">
-                <Button variant="ghost" className="w-full justify-between p-3 h-auto bg-amber-100 dark:bg-amber-900/30 hover:bg-amber-200 dark:hover:bg-amber-900/50 border border-amber-300 dark:border-amber-600 rounded-lg">
-                  <div className="flex items-center space-x-3">
-                    {recreateOpen ? <ChevronDown className="w-4 h-4 text-amber-700 dark:text-amber-300" /> : <ChevronRight className="w-4 h-4 text-amber-700 dark:text-amber-300" />}
-                    <span className="font-semibold text-amber-800 dark:text-amber-200">🔄 To Be Re-created ({recreateCount})</span>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <Badge className="bg-amber-600 text-white">Will Delete & Recreate</Badge>
-                    <Trash2 className="w-4 h-4 text-red-600" />
-                  </div>
-                </Button>
-              </CollapsibleTrigger>
-              <CollapsibleContent>
-                <Card className="border-red-200 dark:border-red-800">
-                  <CardContent className="p-4">
-                    <div className="space-y-4">
-                      {unmatchedLocations
-                        .filter(loc => loc.status === 'recreate')
-                        .map((location) => (
-                          <ComparisonCard
-                            key={location.id}
-                            leftLocation={location.recreateWith!}
-                            rightLocation={location}
-                            leftType="venuex"
-                            rightType="platform"
-                            leftLabel="TO BE CREATED"
-                            rightLabel="TO BE DELETED"
-                            icon={<Trash2 className="w-6 h-6 text-red-600" />}
-                            className="border-red-300 dark:border-red-700 bg-red-50 dark:bg-red-900/20"
-                          />
-                        ))}
+            <Card className="border-amber-200 dark:border-amber-700">
+              <Collapsible open={recreateOpen} onOpenChange={setRecreateOpen}>
+                <CollapsibleTrigger className="w-full">
+                  <CardHeader className="pb-4 hover:bg-amber-50 dark:hover:bg-amber-900/20 transition-colors">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center space-x-2">
+                        {recreateOpen ? <ChevronDown className="w-4 h-4 text-amber-600" /> : <ChevronRight className="w-4 h-4 text-amber-600" />}
+                        <CardTitle className="text-amber-800 dark:text-amber-200 text-sm">
+                          Recreations ({recreateCount})
+                        </CardTitle>
+                      </div>
+                      <Trash2 className="w-4 h-4 text-red-600" />
+                    </div>
+                  </CardHeader>
+                </CollapsibleTrigger>
+                <CollapsibleContent>
+                  <CardContent className="pt-0 space-y-3">
+                    <div className="relative">
+                      <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
+                      <Input
+                        placeholder="Search recreations..."
+                        value={recreateSearch}
+                        onChange={(e) => setRecreateSearch(e.target.value)}
+                        className="pl-10 text-sm"
+                        data-testid="search-recreations"
+                      />
+                    </div>
+                    <div className="max-h-64 overflow-y-auto space-y-2">
+                      {filteredRecreate.map((location) => (
+                        <div key={location.id} className="p-3 bg-red-50 dark:bg-red-900/20 rounded-lg border border-red-200 dark:border-red-700">
+                          <div className="text-sm font-medium text-red-800 dark:text-red-200">
+                            {location.name}
+                          </div>
+                          <div className="text-xs text-red-600 dark:text-red-300 flex justify-between">
+                            <span>Delete: {location.storeCode}</span>
+                            <span>Create: {location.recreateWith!.storeCode}</span>
+                          </div>
+                        </div>
+                      ))}
                     </div>
                   </CardContent>
-                </Card>
-              </CollapsibleContent>
-            </Collapsible>
+                </CollapsibleContent>
+              </Collapsible>
+            </Card>
           )}
         </div>
 
-        {/* Final Confirmation - Enhanced with Dynamic Counts */}
-        <Card className="border-2 border-amber-500 dark:border-amber-600 bg-amber-50 dark:bg-amber-900/10">
-          <CardContent className="p-6">
-            <div className="space-y-6">
-              <div className="text-center">
-                <h3 className="text-xl font-semibold text-amber-800 dark:text-amber-200 mb-2">
-                  ⚠️ Final Confirmation Required
-                </h3>
-                <div className="text-sm text-amber-700 dark:text-amber-300">
-                  You are about to sync <strong>{mockAutoMatched.length + linkedCount + recreateCount}</strong> locations
-                </div>
+        {/* Final Confirmation */}
+        <Card className="border-2 border-amber-500 dark:border-amber-600 bg-gradient-to-r from-amber-50 to-orange-50 dark:from-amber-900/10 dark:to-orange-900/10">
+          <CardContent className="p-8 space-y-6">
+            <div className="text-center">
+              <h3 className="text-2xl font-bold text-amber-800 dark:text-amber-200 mb-2">
+                ⚠️ Final Confirmation Required
+              </h3>
+              <p className="text-amber-700 dark:text-amber-300">
+                Execute sync for <strong>{mockAutoMatched.length + linkedCount + recreateCount}</strong> locations across your enterprise
+              </p>
+            </div>
+            
+            <div className="grid grid-cols-3 gap-4 text-center">
+              <div className="bg-white dark:bg-gray-800 rounded-lg p-4 border border-amber-200 dark:border-amber-700">
+                <div className="text-2xl font-bold text-green-600 dark:text-green-400">{mockAutoMatched.length}</div>
+                <div className="text-sm text-green-700 dark:text-green-300">Auto Links</div>
               </div>
-              
-              <div className="bg-white dark:bg-gray-800 border border-amber-200 dark:border-amber-700 rounded-lg p-4">
-                <div className="text-sm space-y-2">
-                  <div className="flex justify-between">
-                    <span className="text-green-700 dark:text-green-300">• Automatically matched locations:</span>
-                    <span className="font-semibold text-green-800 dark:text-green-200">{mockAutoMatched.length}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-blue-700 dark:text-blue-300">• Manually linked locations:</span>
-                    <span className="font-semibold text-blue-800 dark:text-blue-200">{linkedCount}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-amber-700 dark:text-amber-300">• Locations to be deleted & recreated:</span>
-                    <span className="font-semibold text-amber-800 dark:text-amber-200">{recreateCount}</span>
-                  </div>
-                </div>
+              <div className="bg-white dark:bg-gray-800 rounded-lg p-4 border border-amber-200 dark:border-amber-700">
+                <div className="text-2xl font-bold text-blue-600 dark:text-blue-400">{linkedCount}</div>
+                <div className="text-sm text-blue-700 dark:text-blue-300">Manual Links</div>
               </div>
-              
-              <div className="flex items-start space-x-3 p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-700 rounded-lg">
-                <Checkbox 
-                  id="confirmation"
-                  checked={confirmationChecked}
-                  onChange={(e) => setConfirmationChecked(e.target.checked)}
-                  data-testid="checkbox-confirmation"
-                  className="mt-1"
-                />
-                <label htmlFor="confirmation" className="text-sm text-red-800 dark:text-red-200 cursor-pointer font-medium">
-                  I understand that {recreateCount > 0 ? `${recreateCount} locations will be permanently deleted and recreated, and` : ''} these changes cannot be undone. I am ready to proceed with the sync.
-                </label>
+              <div className="bg-white dark:bg-gray-800 rounded-lg p-4 border border-amber-200 dark:border-amber-700">
+                <div className="text-2xl font-bold text-red-600 dark:text-red-400">{recreateCount}</div>
+                <div className="text-sm text-red-700 dark:text-red-300">Recreations</div>
               </div>
+            </div>
+            
+            <div className="flex items-start space-x-3 p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-700 rounded-lg">
+              <Checkbox 
+                id="confirmation"
+                checked={confirmationChecked}
+                onChange={(e) => setConfirmationChecked(e.target.checked)}
+                data-testid="checkbox-confirmation"
+                className="mt-1"
+              />
+              <label htmlFor="confirmation" className="text-sm text-red-800 dark:text-red-200 cursor-pointer font-medium">
+                I understand this sync will execute {mockAutoMatched.length + linkedCount + recreateCount} location changes
+                {recreateCount > 0 && `, including ${recreateCount} permanent deletions,`} and these changes cannot be undone. 
+                I have reviewed the sync plan and authorize execution.
+              </label>
+            </div>
 
+            <div className="flex justify-center">
               <Button 
                 disabled={!confirmationChecked}
-                className="w-full bg-amber-600 hover:bg-amber-700 text-white py-3 text-lg"
+                className="bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-700 hover:to-orange-700 text-white px-12 py-4 text-lg font-bold shadow-lg"
                 data-testid="button-confirm-sync"
               >
-                Confirm and Sync Locations
+                🚀 Execute Enterprise Sync
               </Button>
             </div>
           </CardContent>
         </Card>
 
+        {/* Navigation */}
         <div className="flex justify-between items-center">
           <Button 
             variant="outline"
             size="lg"
             onClick={() => setCurrentStep(2)}
             data-testid="button-back-step2"
-            className="flex items-center space-x-2 px-6 py-3 border-2 border-gray-400 dark:border-gray-500 hover:border-gray-600 dark:hover:border-gray-400"
+            className="flex items-center space-x-2 px-6 py-3 border-2"
           >
             <ArrowLeft className="w-4 h-4" />
-            <span className="font-medium">Back to Edit</span>
+            <span className="font-medium">Back to Manual Resolution</span>
           </Button>
           
           <div className="text-center">
             <div className="text-xs text-gray-500 dark:text-gray-400 mb-1">
-              Step 3 of 3
+              Step 3 of 3 - Enterprise Ready
             </div>
             <div className="text-sm font-medium text-gray-700 dark:text-gray-300">
-              Ready to sync {mockAutoMatched.length + linkedCount + recreateCount} locations
+              {mockAutoMatched.length + linkedCount + recreateCount} locations ready to sync
             </div>
           </div>
         </div>
       </div>
-    </div>
-  );
+    );
+  };
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
