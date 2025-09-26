@@ -1,24 +1,543 @@
+import { useState, useEffect } from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Checkbox } from "@/components/ui/checkbox";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@/components/ui/collapsible";
 import Header from '@/components/overview/header';
-import { Target } from 'lucide-react';
+import { 
+  Target,
+  Loader2,
+  CheckCircle,
+  AlertTriangle,
+  Link,
+  ChevronDown,
+  ChevronRight,
+  Trash2,
+  ExternalLink
+} from 'lucide-react';
+
+interface VenueXLocation {
+  id: string;
+  name: string;
+  address: string;
+  storeCode: string;
+  region: string;
+}
+
+interface PlatformLocation {
+  id: string;
+  name: string;
+  address: string;
+  platformId: string;
+}
+
+interface MatchedLocation {
+  platformLocation: PlatformLocation;
+  venueXLocation: VenueXLocation;
+  confidence: number;
+}
+
+interface UnmatchedLocation extends PlatformLocation {
+  status: 'pending' | 'linked' | 'recreate';
+  linkedTo?: VenueXLocation;
+  recreateWith?: VenueXLocation;
+}
+
+const mockVenueXLocations: VenueXLocation[] = [
+  { id: 'vx1', name: 'Boyner Akasya AVM', address: 'Acıbadem Mahallesi, Akasya AVM, Istanbul', storeCode: 'BYN001', region: 'Istanbul - Anadolu' },
+  { id: 'vx2', name: 'Boyner İstinye Park', address: 'İstinye Park AVM, Sarıyer, Istanbul', storeCode: 'BYN045', region: 'Istanbul - Avrupa' },
+  { id: 'vx3', name: 'Boyner Forum İstanbul', address: 'Forum İstanbul AVM, Bayrampaşa, Istanbul', storeCode: 'BYN023', region: 'Istanbul - Avrupa' },
+  { id: 'vx4', name: 'Boyner Zorlu Center', address: 'Zorlu Center, Beşiktaş, Istanbul', storeCode: 'BYN067', region: 'Istanbul - Avrupa' },
+  { id: 'vx5', name: 'Boyner Kanyon AVM', address: 'Kanyon AVM, Levent, Istanbul', storeCode: 'BYN089', region: 'Istanbul - Avrupa' },
+];
+
+const mockAutoMatched: MatchedLocation[] = [
+  { platformLocation: { id: 'meta1', name: 'Boyner Akasya', address: 'Akasya AVM, Istanbul', platformId: 'meta_001' }, venueXLocation: mockVenueXLocations[0], confidence: 0.95 },
+  { platformLocation: { id: 'meta2', name: 'Boyner Istinye', address: 'İstinye Park, Istanbul', platformId: 'meta_002' }, venueXLocation: mockVenueXLocations[1], confidence: 0.92 }
+];
+
+const mockUnmatched: UnmatchedLocation[] = [
+  { id: 'meta3', name: 'Boyner Mall Store', address: 'Shopping Center, Istanbul', platformId: 'meta_003', status: 'pending' },
+  { id: 'meta4', name: 'Boyner City Branch', address: 'Downtown Location, Istanbul', platformId: 'meta_004', status: 'pending' },
+  { id: 'meta5', name: 'Boyner Outlet', address: 'Outlet Mall, Istanbul', platformId: 'meta_005', status: 'pending' },
+];
 
 export default function LocationMatch() {
+  const [currentStep, setCurrentStep] = useState(1);
+  const [isLoading, setIsLoading] = useState(true);
+  const [unmatchedLocations, setUnmatchedLocations] = useState<UnmatchedLocation[]>(mockUnmatched);
+  const [selectedUnmatched, setSelectedUnmatched] = useState<string | null>(null);
+  const [confirmationChecked, setConfirmationChecked] = useState(false);
+  const [autoMatchedOpen, setAutoMatchedOpen] = useState(false);
+  const [manualLinkedOpen, setManualLinkedOpen] = useState(true);
+  const [recreateOpen, setRecreateOpen] = useState(true);
+
+  // Simulate loading on mount
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 3000);
+    return () => clearTimeout(timer);
+  }, []);
+
+  const availableVenueXLocations = mockVenueXLocations.filter(loc => {
+    // Exclude already matched locations
+    const isAutoMatched = mockAutoMatched.some(match => match.venueXLocation.id === loc.id);
+    const isManuallyLinked = unmatchedLocations.some(unmatched => unmatched.linkedTo?.id === loc.id);
+    return !isAutoMatched && !isManuallyLinked;
+  });
+
+  const handleLinkLocation = (unmatchedId: string, venueXLocationId: string) => {
+    const venueXLocation = mockVenueXLocations.find(loc => loc.id === venueXLocationId);
+    if (!venueXLocation) return;
+
+    setUnmatchedLocations(prev => 
+      prev.map(loc => 
+        loc.id === unmatchedId 
+          ? { ...loc, status: 'linked', linkedTo: venueXLocation }
+          : loc
+      )
+    );
+    setSelectedUnmatched(null);
+  };
+
+  const handleRecreateLocation = (unmatchedId: string, venueXLocationId: string) => {
+    const venueXLocation = mockVenueXLocations.find(loc => loc.id === venueXLocationId);
+    if (!venueXLocation) return;
+
+    setUnmatchedLocations(prev => 
+      prev.map(loc => 
+        loc.id === unmatchedId 
+          ? { ...loc, status: 'recreate', recreateWith: venueXLocation }
+          : loc
+      )
+    );
+    setSelectedUnmatched(null);
+  };
+
+  const canProceedToStep3 = unmatchedLocations.every(loc => loc.status !== 'pending');
+  const pendingCount = unmatchedLocations.filter(loc => loc.status === 'pending').length;
+  const linkedCount = unmatchedLocations.filter(loc => loc.status === 'linked').length;
+  const recreateCount = unmatchedLocations.filter(loc => loc.status === 'recreate').length;
+
+  const renderStep1 = () => (
+    <div className="max-w-2xl mx-auto">
+      <div className="text-center mb-8">
+        <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-2">
+          Step 1 of 3: Automatic Matching
+        </h2>
+      </div>
+
+      <Card className="text-center">
+        <CardContent className="p-8">
+          {isLoading ? (
+            <div>
+              <Loader2 className="w-12 h-12 animate-spin mx-auto mb-4 text-blue-600" />
+              <h3 className="text-xl font-semibold mb-2">Analyzing your Meta Pages...</h3>
+              <p className="text-gray-600 dark:text-gray-400 mb-2">Connecting to Meta...</p>
+              <p className="text-gray-600 dark:text-gray-400">Comparing with VenueX locations...</p>
+            </div>
+          ) : (
+            <div>
+              <CheckCircle className="w-12 h-12 mx-auto mb-4 text-green-600" />
+              <h3 className="text-xl font-semibold mb-4">Matching Complete!</h3>
+              
+              <div className="space-y-3 mb-6">
+                <div className="flex justify-between items-center py-2">
+                  <span className="font-medium">Found on Meta:</span>
+                  <span className="text-2xl font-bold text-blue-600">
+                    {mockAutoMatched.length + unmatchedLocations.length} Pages
+                  </span>
+                </div>
+                <div className="flex justify-between items-center py-2">
+                  <span className="font-medium">Automatically Matched:</span>
+                  <span className="text-2xl font-bold text-green-600">{mockAutoMatched.length} Pages</span>
+                </div>
+                <div className="flex justify-between items-center py-2">
+                  <span className="font-medium">Requiring Manual Review:</span>
+                  <span className="text-2xl font-bold text-amber-600">{unmatchedLocations.length} Pages</span>
+                </div>
+              </div>
+
+              <p className="text-gray-600 dark:text-gray-400 mb-6">
+                We've automatically matched most of your locations based on name and address. 
+                The remaining locations need your input to ensure everything is synced correctly.
+              </p>
+
+              <Button 
+                onClick={() => setCurrentStep(2)}
+                className="bg-amber-600 hover:bg-amber-700 text-white px-8 py-3 text-lg"
+                data-testid="button-resolve-unmatched"
+              >
+                Resolve {unmatchedLocations.length} Unmatched Locations
+              </Button>
+            </div>
+          )}
+        </CardContent>
+      </Card>
+    </div>
+  );
+
+  const renderStep2 = () => (
+    <div>
+      <div className="text-center mb-8">
+        <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-2">
+          Step 2 of 3: Resolve Unmatched Locations
+        </h2>
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 h-[calc(100vh-300px)]">
+        {/* Left Column: Unmatched Locations */}
+        <Card className="flex flex-col">
+          <CardHeader>
+            <CardTitle>Unmatched Meta Pages ({pendingCount})</CardTitle>
+          </CardHeader>
+          <CardContent className="flex-1 overflow-y-auto">
+            <div className="space-y-3">
+              {unmatchedLocations.map((location) => (
+                <div
+                  key={location.id}
+                  onClick={() => location.status === 'pending' ? setSelectedUnmatched(location.id) : null}
+                  className={`p-4 border rounded-lg transition-colors cursor-pointer ${
+                    selectedUnmatched === location.id 
+                      ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/20' 
+                      : 'border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800'
+                  } ${location.status !== 'pending' ? 'opacity-60 cursor-default' : ''}`}
+                  data-testid={`card-unmatched-${location.id}`}
+                >
+                  <div className="flex justify-between items-start mb-2">
+                    <h4 className="font-medium text-gray-900 dark:text-white">{location.name}</h4>
+                    <Badge 
+                      className={`${
+                        location.status === 'pending' ? 'bg-amber-100 text-amber-800' :
+                        location.status === 'linked' ? 'bg-green-100 text-green-800' :
+                        'bg-blue-100 text-blue-800'
+                      }`}
+                    >
+                      {location.status === 'pending' ? 'Pending Action' :
+                       location.status === 'linked' ? 'Manually Linked' :
+                       'To Be Re-created'}
+                    </Badge>
+                  </div>
+                  <p className="text-sm text-gray-600 dark:text-gray-400">{location.address}</p>
+                  {location.linkedTo && (
+                    <p className="text-sm text-green-600 mt-2">
+                      Linked to: {location.linkedTo.name}
+                    </p>
+                  )}
+                  {location.recreateWith && (
+                    <p className="text-sm text-blue-600 mt-2">
+                      Will recreate with: {location.recreateWith.name}
+                    </p>
+                  )}
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Right Column: Resolution Panel */}
+        <Card className="flex flex-col">
+          <CardHeader>
+            <CardTitle>Resolution Panel</CardTitle>
+          </CardHeader>
+          <CardContent className="flex-1">
+            {selectedUnmatched ? (
+              <div className="space-y-6">
+                <div className="p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
+                  <h4 className="font-medium mb-2">Selected Location:</h4>
+                  <p className="font-semibold">
+                    {unmatchedLocations.find(loc => loc.id === selectedUnmatched)?.name}
+                  </p>
+                  <p className="text-sm text-gray-600 dark:text-gray-400">
+                    {unmatchedLocations.find(loc => loc.id === selectedUnmatched)?.address}
+                  </p>
+                </div>
+
+                {/* Choice 1: Link to Existing Location */}
+                <div className="space-y-3">
+                  <h3 className="text-lg font-semibold">1. Link to an existing VenueX location</h3>
+                  <Select onValueChange={(value) => handleLinkLocation(selectedUnmatched, value)}>
+                    <SelectTrigger data-testid="select-link-location">
+                      <SelectValue placeholder="Select a VenueX location to link" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {availableVenueXLocations.map((location) => (
+                        <SelectItem key={location.id} value={location.id}>
+                          {location.name} - {location.storeCode}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                {/* Choice 2: Create from Source of Truth */}
+                <div className="space-y-3">
+                  <h3 className="text-lg font-semibold">2. Re-create this location from VenueX data</h3>
+                  <div className="p-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg">
+                    <div className="flex items-start space-x-2">
+                      <AlertTriangle className="w-5 h-5 text-red-600 mt-0.5 flex-shrink-0" />
+                      <p className="text-sm text-red-800 dark:text-red-200">
+                        <strong>Warning:</strong> This will delete the existing, unmatched Meta Page and create 
+                        a new, synced one using the official data from VenueX.
+                      </p>
+                    </div>
+                  </div>
+                  <Select onValueChange={(value) => handleRecreateLocation(selectedUnmatched, value)}>
+                    <SelectTrigger data-testid="select-recreate-location">
+                      <SelectValue placeholder="Select VenueX location data to use" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {mockVenueXLocations.map((location) => (
+                        <SelectItem key={location.id} value={location.id}>
+                          {location.name} - {location.storeCode}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+              </div>
+            ) : (
+              <div className="flex items-center justify-center h-full text-gray-500 dark:text-gray-400">
+                <p>Select an unmatched location from the left to resolve it</p>
+              </div>
+            )}
+          </CardContent>
+        </Card>
+      </div>
+
+      <div className="flex justify-between mt-6">
+        <Button 
+          variant="outline" 
+          onClick={() => setCurrentStep(1)}
+          data-testid="button-back-step1"
+        >
+          Back
+        </Button>
+        <Button 
+          onClick={() => setCurrentStep(3)}
+          disabled={!canProceedToStep3}
+          className="bg-amber-600 hover:bg-amber-700 text-white"
+          data-testid="button-proceed-step3"
+        >
+          Review and Confirm
+        </Button>
+      </div>
+    </div>
+  );
+
+  const renderStep3 = () => (
+    <div className="max-w-4xl mx-auto">
+      <div className="text-center mb-8">
+        <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-2">
+          Step 3 of 3: Review and Confirm Sync
+        </h2>
+      </div>
+
+      <div className="space-y-6">
+        {/* Automatically Matched Locations */}
+        <Collapsible open={autoMatchedOpen} onOpenChange={setAutoMatchedOpen}>
+          <CollapsibleTrigger className="w-full">
+            <Button variant="ghost" className="w-full justify-between p-4 h-auto">
+              <div className="flex items-center space-x-3">
+                {autoMatchedOpen ? <ChevronDown className="w-5 h-5" /> : <ChevronRight className="w-5 h-5" />}
+                <h3 className="text-lg font-semibold">Automatically Matched Locations ({mockAutoMatched.length})</h3>
+              </div>
+              <CheckCircle className="w-5 h-5 text-green-600" />
+            </Button>
+          </CollapsibleTrigger>
+          <CollapsibleContent>
+            <Card>
+              <CardContent className="p-4">
+                <div className="space-y-3">
+                  {mockAutoMatched.map((match, index) => (
+                    <div key={index} className="flex items-center justify-between py-2 border-b border-gray-100 dark:border-gray-800 last:border-b-0">
+                      <span className="text-sm">{match.platformLocation.name}</span>
+                      <div className="flex items-center space-x-2">
+                        <Link className="w-4 h-4 text-blue-600" />
+                        <span className="text-sm font-medium">{match.venueXLocation.name}</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+          </CollapsibleContent>
+        </Collapsible>
+
+        {/* Manually Resolved Locations */}
+        <div className="space-y-4">
+          <h3 className="text-lg font-semibold flex items-center space-x-2">
+            <span>Manually Resolved Locations ({linkedCount + recreateCount})</span>
+          </h3>
+
+          {/* Manually Linked */}
+          {linkedCount > 0 && (
+            <Collapsible open={manualLinkedOpen} onOpenChange={setManualLinkedOpen}>
+              <CollapsibleTrigger className="w-full">
+                <Button variant="ghost" className="w-full justify-between p-4 h-auto">
+                  <div className="flex items-center space-x-3">
+                    {manualLinkedOpen ? <ChevronDown className="w-5 h-5" /> : <ChevronRight className="w-5 h-5" />}
+                    <span className="font-medium">Manually Linked ({linkedCount})</span>
+                  </div>
+                  <Link className="w-5 h-5 text-blue-600" />
+                </Button>
+              </CollapsibleTrigger>
+              <CollapsibleContent>
+                <Card>
+                  <CardContent className="p-4">
+                    <div className="space-y-3">
+                      {unmatchedLocations
+                        .filter(loc => loc.status === 'linked')
+                        .map((location) => (
+                          <div key={location.id} className="flex items-center justify-between py-2 border-b border-gray-100 dark:border-gray-800 last:border-b-0">
+                            <span className="text-sm">{location.name}</span>
+                            <div className="flex items-center space-x-2">
+                              <Link className="w-4 h-4 text-blue-600" />
+                              <span className="text-sm font-medium">{location.linkedTo?.name}</span>
+                            </div>
+                          </div>
+                        ))}
+                    </div>
+                  </CardContent>
+                </Card>
+              </CollapsibleContent>
+            </Collapsible>
+          )}
+
+          {/* To Be Re-created */}
+          {recreateCount > 0 && (
+            <Collapsible open={recreateOpen} onOpenChange={setRecreateOpen}>
+              <CollapsibleTrigger className="w-full">
+                <Button variant="ghost" className="w-full justify-between p-4 h-auto">
+                  <div className="flex items-center space-x-3">
+                    {recreateOpen ? <ChevronDown className="w-5 h-5" /> : <ChevronRight className="w-5 h-5" />}
+                    <span className="font-medium">To Be Re-created ({recreateCount})</span>
+                  </div>
+                  <Trash2 className="w-5 h-5 text-red-600" />
+                </Button>
+              </CollapsibleTrigger>
+              <CollapsibleContent>
+                <Card className="border-red-200 dark:border-red-800">
+                  <CardContent className="p-4">
+                    <div className="space-y-4">
+                      {unmatchedLocations
+                        .filter(loc => loc.status === 'recreate')
+                        .map((location) => (
+                          <div key={location.id} className="p-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg">
+                            <div className="flex items-start space-x-2 mb-2">
+                              <AlertTriangle className="w-5 h-5 text-red-600 mt-0.5 flex-shrink-0" />
+                              <div className="flex-1">
+                                <p className="text-sm font-medium text-red-800 dark:text-red-200">
+                                  Will delete: {location.name}
+                                </p>
+                                <p className="text-xs text-red-600 dark:text-red-300 mb-2">
+                                  Platform ID: {location.platformId}
+                                </p>
+                                <p className="text-sm text-gray-700 dark:text-gray-300">
+                                  Will create new page using: <strong>{location.recreateWith?.name}</strong>
+                                </p>
+                                <p className="text-xs text-gray-600 dark:text-gray-400">
+                                  {location.recreateWith?.address}
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                        ))}
+                    </div>
+                  </CardContent>
+                </Card>
+              </CollapsibleContent>
+            </Collapsible>
+          )}
+        </div>
+
+        {/* Final Confirmation */}
+        <Card className="border-amber-200 dark:border-amber-800">
+          <CardContent className="p-6">
+            <div className="space-y-4">
+              <div className="flex items-start space-x-3">
+                <Checkbox 
+                  id="confirmation"
+                  checked={confirmationChecked}
+                  onChange={(e) => setConfirmationChecked(e.target.checked)}
+                  data-testid="checkbox-confirmation"
+                />
+                <label htmlFor="confirmation" className="text-sm text-gray-700 dark:text-gray-300 cursor-pointer">
+                  I understand that these changes, including deletions, will be permanent.
+                </label>
+              </div>
+
+              <Button 
+                disabled={!confirmationChecked}
+                className="w-full bg-amber-600 hover:bg-amber-700 text-white py-3 text-lg"
+                data-testid="button-confirm-sync"
+              >
+                Confirm and Sync Locations
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+
+        <div className="flex justify-between">
+          <Button 
+            variant="outline" 
+            onClick={() => setCurrentStep(2)}
+            data-testid="button-back-step2"
+          >
+            Back
+          </Button>
+        </div>
+      </div>
+    </div>
+  );
+
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
-      <Header title="Location Match" />
+      <Header title="Location Sync" />
       
       <div className="p-6">
-        {/* Header Section */}
-        <div className="mb-6">
-          <div className="flex items-center space-x-3 mb-2">
-            <Target className="w-6 h-6 text-blue-600" />
-            <h1 className="text-2xl font-semibold text-gray-900 dark:text-white">
-              Location Matching Tool
-            </h1>
+        {/* Progress Indicator */}
+        <div className="max-w-4xl mx-auto mb-8">
+          <div className="flex items-center justify-center space-x-4">
+            {[1, 2, 3].map((step) => (
+              <div key={step} className="flex items-center">
+                <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${
+                  step === currentStep 
+                    ? 'bg-blue-600 text-white' 
+                    : step < currentStep 
+                      ? 'bg-green-600 text-white' 
+                      : 'bg-gray-300 text-gray-600'
+                }`}>
+                  {step < currentStep ? <CheckCircle className="w-5 h-5" /> : step}
+                </div>
+                {step < 3 && (
+                  <div className={`w-16 h-1 mx-2 ${
+                    step < currentStep ? 'bg-green-600' : 'bg-gray-300'
+                  }`} />
+                )}
+              </div>
+            ))}
           </div>
-          <p className="text-gray-600 dark:text-gray-400">
-            Debug and validate location matching algorithms for Boyner stores
-          </p>
         </div>
+
+        {/* Step Content */}
+        {currentStep === 1 && renderStep1()}
+        {currentStep === 2 && renderStep2()}
+        {currentStep === 3 && renderStep3()}
       </div>
     </div>
   );

@@ -1,0 +1,156 @@
+Design Report: Location Sync & Resolution Flow
+Objective: To provide a guided, three-step user experience for syncing locations from VenueX (as the source of truth) to third-party platforms like Meta Pages and Apple Business Connect, including a clear process for resolving unmatched locations.
+
+Core Principles
+Clarity: The user must understand what the system is doing, what it has found, and what actions they are being asked to take at all times.
+
+Confidence: The design must build user confidence by clearly explaining the consequences of each choice (e.g., "This will delete the existing Meta Page").
+
+Control: While automation is prioritized, the user must have final, explicit control over resolving ambiguities and confirming the final sync.
+
+Page 1: Automatic Matching & Initial Results
+This first page handles the initial connection and automated matching, setting the stage for the manual work to follow.
+
+Functionality & Workflow
+Initiation: The user arrives here after successfully authorizing a new platform (e.g., Meta).
+
+Progress State: The page first displays a "loading" state. It communicates that the system is actively fetching data from the connected platform and comparing it against the VenueX location list. This state should include reassuring text like "Analyzing your Meta Pages..." and "Comparing with VenueX locations...".
+
+Results Summary: Once the analysis is complete, the loading indicator is replaced with a clear, quantitative summary of the results. This is not an interactive step; it is purely informational.
+
+Visual Design & Components
+Layout: A single, centered content card.
+
+Header: A clear title, such as Step 1 of 3: Automatic Matching.
+
+Progress Indicator (During Analysis):
+
+A large spinner or progress animation.
+
+Text below: Connecting to Meta... Fetching your Pages...
+
+Results Summary Card (After Analysis):
+
+Title: Matching Complete!
+
+Key Metrics: A list of clear, bold statistics:
+
+Found on Meta: 28 Pages
+
+Automatically Matched: 21 Pages
+
+Requiring Manual Review: 7 Pages
+
+Explanatory Text: A brief paragraph explaining the next step: "We've automatically matched most of your locations based on name and address. The remaining locations need your input to ensure everything is synced correctly."
+
+Primary Action Button:
+
+Text: Resolve 7 Unmatched Locations
+
+Style: A large, solid amber primary button. This is the only path forward.
+
+Page 2: Manual Resolution of Unmatched Locations
+This is the core "working" page where the user resolves all ambiguities. The split-view design is critical for allowing easy comparison and action.
+
+Functionality & Workflow
+User arrives after clicking the "Resolve..." button on Page 1.
+
+The user is presented with a list of all locations found on the target platform (e.g., Meta) that could not be automatically matched.
+
+For each unmatched location, the user must make one of two choices.
+
+Once all locations have been resolved, the "Next" button becomes active.
+
+Visual Design & Components
+Layout: A two-column split view.
+
+Header: Step 2 of 3: Resolve Unmatched Locations.
+
+Left Column: Unmatched Platform Locations
+
+Title: Unmatched Meta Pages (7)
+
+Component: A scrollable list of "action cards." Each card represents an unmatched location from the platform.
+
+Card Content:
+
+Location Name and Address from Meta.
+
+A status badge: Pending Action.
+
+Interaction: Clicking a card in this list makes it "active" and populates the right-hand panel with its resolution options. The active card should have a distinct visual style (e.g., a colored border).
+
+Right Column: Resolution Panel
+
+Functionality: This panel is context-sensitive and populates based on the selected card from the left column.
+
+Components:
+
+Choice 1: Link to Existing Location
+
+Header: 1. Link to an existing VenueX location
+
+UI: A searchable dropdown menu.
+
+Content: This dropdown will only contain the list of VenueX locations that have not yet been matched. This prevents a user from linking to an already-matched location.
+
+Action Button: Link Location (Secondary, outline style).
+
+Choice 2: Create from Source of Truth
+
+Header: 2. Re-create this location from VenueX data
+
+Explanatory Text (Crucial): "This will delete the existing, unmatched Meta Page and create a new, synced one using the official data from VenueX."
+
+UI: A dropdown to select which VenueX location's data to use for the new creation.
+
+Action Button: Delete and Re-create (Destructive action style, e.g., red outline).
+
+Feedback: Once an action is taken (e.g., "Link Location" is clicked), the corresponding card on the left updates its status badge to Manually Linked or To Be Re-created and becomes non-interactive. The right panel then clears, prompting the user to select the next "Pending" location.
+
+Page 3: Review and Final Confirmation
+This final page provides a comprehensive, read-only summary of all pending changes before the user commits. Clarity and confidence are paramount here.
+
+Functionality & Workflow
+The user arrives after resolving all locations on Page 2.
+
+The user reviews the categorized lists of actions.
+
+The user gives final approval by clicking the "Confirm and Sync" button.
+
+Visual Design & Components
+Layout: A single-column layout with collapsible sections for easy review.
+
+Header: Step 3 of 3: Review and Confirm Sync.
+
+Summary Sections:
+
+Automatically Matched Locations (21)
+
+A collapsible section.
+
+When expanded, it shows a simple list of pairings: [Platform Location Name] <i class="fa fa-link"></i> [VenueX Location Name].
+
+Manually Resolved Locations (7)
+
+Another collapsible section, broken into the two action types.
+
+Sub-section: Manually Linked (4): Shows the list of manual pairings made by the user.
+
+Sub-section: To Be Re-created (3): This is the most critical section. It clearly lists:
+
+The VenueX location data that will be used to create a new page.
+
+The old, unmatched Meta Page that will be deleted. This must be explicitly stated with a warning icon <i class="fa fa-triangle-exclamation"></i>.
+
+Final Confirmation:
+
+Checkbox: I understand that these changes, including deletions, will be permanent. The main action button remains disabled until this is checked.
+
+Primary Action Button:
+
+Text: Confirm and Sync Locations
+
+Style: A large, solid amber primary button.
+
+Functionality: Clicking this initiates the final API calls to sync the data and takes the user to a "Sync in Progress" or "Success" screen.
