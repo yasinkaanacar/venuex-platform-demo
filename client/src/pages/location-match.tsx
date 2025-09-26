@@ -484,6 +484,35 @@ export default function LocationMatch() {
     const currentLocations = unmatchedLocations.slice(startIndex, endIndex);
     const resolvedCount = unmatchedLocations.filter(loc => loc.status !== 'pending').length;
 
+    // Smart suggestion algorithm - finds best match based on name similarity and location
+    const getSuggestedMatch = (platformLocation: PlatformLocation): VenueXLocation | null => {
+      if (!platformLocation) return null;
+      
+      const suggestions = availableVenueXLocations.map(venueX => {
+        let score = 0;
+        
+        // Name similarity (basic implementation)
+        const platformName = platformLocation.name.toLowerCase();
+        const venueName = venueX.name.toLowerCase();
+        if (platformName.includes('boyner') && venueName.includes('boyner')) score += 5;
+        if (platformName.includes(venueX.city.toLowerCase()) || venueName.includes(platformLocation.city.toLowerCase())) score += 3;
+        
+        // Address similarity (basic check for district/area names)
+        const platformAddr = platformLocation.address.toLowerCase();
+        const venueAddr = venueX.address.toLowerCase();
+        if (platformAddr.includes(venueAddr.split(',')[0].toLowerCase()) || 
+            venueAddr.includes(platformAddr.split(',')[0].toLowerCase())) score += 2;
+        
+        return { location: venueX, score };
+      });
+      
+      suggestions.sort((a, b) => b.score - a.score);
+      return suggestions.length > 0 && suggestions[0].score > 0 ? suggestions[0].location : null;
+    };
+
+    const selectedLocation = selectedUnmatched ? unmatchedLocations.find(loc => loc.id === selectedUnmatched) : null;
+    const suggestedMatch = selectedLocation ? getSuggestedMatch(selectedLocation) : null;
+
     return (
       <div>
         <div className="flex items-center justify-between mb-8">
@@ -643,7 +672,33 @@ export default function LocationMatch() {
                       <SelectValue placeholder="Select a VenueX location to link" />
                     </SelectTrigger>
                     <SelectContent>
-                      {availableVenueXLocations.map((location) => (
+                      {/* Suggested Match First */}
+                      {suggestedMatch && (
+                        <SelectItem key={`suggested-${suggestedMatch.id}`} value={suggestedMatch.id} className="h-auto p-0">
+                          <div className="w-full p-3 bg-blue-50 dark:bg-blue-900/30 border border-blue-200 dark:border-blue-700 rounded-md">
+                            <div className="flex items-center justify-between mb-2">
+                              <span className="text-xs font-medium bg-blue-600 text-white px-2 py-1 rounded">
+                                ✨ SUGGESTED MATCH
+                              </span>
+                            </div>
+                            <LocationDetailCard 
+                              location={suggestedMatch} 
+                              type="venuex" 
+                              className="border-none bg-transparent p-0 m-0"
+                            />
+                          </div>
+                        </SelectItem>
+                      )}
+                      
+                      {/* Separator if there's a suggestion */}
+                      {suggestedMatch && availableVenueXLocations.filter(loc => loc.id !== suggestedMatch.id).length > 0 && (
+                        <div className="px-3 py-2 text-xs text-gray-500 border-b border-gray-200 dark:border-gray-700">
+                          Other Available Locations
+                        </div>
+                      )}
+                      
+                      {/* Other Available Locations */}
+                      {availableVenueXLocations.filter(loc => !suggestedMatch || loc.id !== suggestedMatch.id).map((location) => (
                         <SelectItem key={location.id} value={location.id} className="h-auto p-0">
                           <div className="w-full p-3">
                             <LocationDetailCard 
