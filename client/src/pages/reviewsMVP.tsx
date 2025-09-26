@@ -113,6 +113,7 @@ export default function ReviewsMVP() {
   // Location Filter Bar state
   const [regionFilter, setRegionFilter] = useState("all");
   const [cityFilter, setCityFilter] = useState("all");
+  const [storeSetFilter, setStoreSetFilter] = useState("all");
   const [avgRatingFilter, setAvgRatingFilter] = useState("all");
   const [replyRateFilter, setReplyRateFilter] = useState("all");
   const [locationSearchQuery, setLocationSearchQuery] = useState("");
@@ -1885,6 +1886,24 @@ export default function ReviewsMVP() {
                               <SelectItem value="malatya">Malatya</SelectItem>
                             </>
                           ) : null}
+                        </SelectContent>
+                      </Select>
+                    </div>
+
+                    {/* Store Set Filter */}
+                    <div className="flex items-center gap-2">
+                      <label className="text-sm font-medium text-gray-700 whitespace-nowrap">Store Set:</label>
+                      <Select value={storeSetFilter} onValueChange={setStoreSetFilter}>
+                        <SelectTrigger className="w-40 border-gray-300 rounded-md">
+                          <SelectValue placeholder="All Store Sets" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="all">All Store Sets</SelectItem>
+                          <SelectItem value="smr">SMR</SelectItem>
+                          <SelectItem value="premium">Premium</SelectItem>
+                          <SelectItem value="express">Express</SelectItem>
+                          <SelectItem value="standard">Standard</SelectItem>
+                          <SelectItem value="regional">Regional</SelectItem>
                         </SelectContent>
                       </Select>
                     </div>
