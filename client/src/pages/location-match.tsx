@@ -779,17 +779,21 @@ export default function LocationMatch() {
       </div>
 
       <div className="space-y-6">
-        {/* Automatically Matched Locations */}
-        <Collapsible open={autoMatchedOpen} onOpenChange={setAutoMatchedOpen}>
-          <CollapsibleTrigger className="w-full">
-            <Button variant="ghost" className="w-full justify-between p-4 h-auto">
-              <div className="flex items-center space-x-3">
-                {autoMatchedOpen ? <ChevronDown className="w-5 h-5" /> : <ChevronRight className="w-5 h-5" />}
-                <h3 className="text-lg font-semibold">Automatically Matched Locations ({mockAutoMatched.length})</h3>
-              </div>
-              <CheckCircle className="w-5 h-5 text-green-600" />
-            </Button>
-          </CollapsibleTrigger>
+        {/* Automatically Matched Locations - Enhanced with Color Coding */}
+        <div className="border-2 border-green-200 dark:border-green-700 bg-green-50 dark:bg-green-900/10 rounded-lg p-1">
+          <Collapsible open={autoMatchedOpen} onOpenChange={setAutoMatchedOpen}>
+            <CollapsibleTrigger className="w-full">
+              <Button variant="ghost" className="w-full justify-between p-4 h-auto hover:bg-green-100 dark:hover:bg-green-900/20">
+                <div className="flex items-center space-x-3">
+                  {autoMatchedOpen ? <ChevronDown className="w-5 h-5 text-green-700 dark:text-green-300" /> : <ChevronRight className="w-5 h-5 text-green-700 dark:text-green-300" />}
+                  <h3 className="text-lg font-semibold text-green-800 dark:text-green-200">✅ Automatically Matched ({mockAutoMatched.length} locations)</h3>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <Badge className="bg-green-600 text-white">Ready to Sync</Badge>
+                  <CheckCircle className="w-5 h-5 text-green-600" />
+                </div>
+              </Button>
+            </CollapsibleTrigger>
           <CollapsibleContent>
             <Card>
               <CardContent className="p-4">
@@ -811,24 +815,28 @@ export default function LocationMatch() {
               </CardContent>
             </Card>
           </CollapsibleContent>
-        </Collapsible>
+          </Collapsible>
+        </div>
 
-        {/* Manually Resolved Locations */}
-        <div className="space-y-4">
-          <h3 className="text-lg font-semibold flex items-center space-x-2">
-            <span>Manually Resolved Locations ({linkedCount + recreateCount})</span>
+        {/* Manually Resolved Locations - Enhanced with Color Coding */}
+        <div className="border-2 border-blue-200 dark:border-blue-700 bg-blue-50 dark:bg-blue-900/10 rounded-lg p-4 space-y-4">
+          <h3 className="text-lg font-semibold flex items-center space-x-2 text-blue-800 dark:text-blue-200">
+            <span>🔧 Manually Resolved ({linkedCount + recreateCount} locations)</span>
           </h3>
 
           {/* Manually Linked */}
           {linkedCount > 0 && (
             <Collapsible open={manualLinkedOpen} onOpenChange={setManualLinkedOpen}>
               <CollapsibleTrigger className="w-full">
-                <Button variant="ghost" className="w-full justify-between p-4 h-auto">
+                <Button variant="ghost" className="w-full justify-between p-3 h-auto bg-blue-100 dark:bg-blue-900/30 hover:bg-blue-200 dark:hover:bg-blue-900/50 border border-blue-300 dark:border-blue-600 rounded-lg">
                   <div className="flex items-center space-x-3">
-                    {manualLinkedOpen ? <ChevronDown className="w-5 h-5" /> : <ChevronRight className="w-5 h-5" />}
-                    <span className="font-medium">Manually Linked ({linkedCount})</span>
+                    {manualLinkedOpen ? <ChevronDown className="w-4 h-4 text-blue-700 dark:text-blue-300" /> : <ChevronRight className="w-4 h-4 text-blue-700 dark:text-blue-300" />}
+                    <span className="font-semibold text-blue-800 dark:text-blue-200">🔗 Manually Linked ({linkedCount})</span>
                   </div>
-                  <Link className="w-5 h-5 text-blue-600" />
+                  <div className="flex items-center space-x-2">
+                    <Badge className="bg-blue-600 text-white">Linked</Badge>
+                    <Link className="w-4 h-4 text-blue-600" />
+                  </div>
                 </Button>
               </CollapsibleTrigger>
               <CollapsibleContent>
@@ -861,12 +869,15 @@ export default function LocationMatch() {
           {recreateCount > 0 && (
             <Collapsible open={recreateOpen} onOpenChange={setRecreateOpen}>
               <CollapsibleTrigger className="w-full">
-                <Button variant="ghost" className="w-full justify-between p-4 h-auto">
+                <Button variant="ghost" className="w-full justify-between p-3 h-auto bg-amber-100 dark:bg-amber-900/30 hover:bg-amber-200 dark:hover:bg-amber-900/50 border border-amber-300 dark:border-amber-600 rounded-lg">
                   <div className="flex items-center space-x-3">
-                    {recreateOpen ? <ChevronDown className="w-5 h-5" /> : <ChevronRight className="w-5 h-5" />}
-                    <span className="font-medium">To Be Re-created ({recreateCount})</span>
+                    {recreateOpen ? <ChevronDown className="w-4 h-4 text-amber-700 dark:text-amber-300" /> : <ChevronRight className="w-4 h-4 text-amber-700 dark:text-amber-300" />}
+                    <span className="font-semibold text-amber-800 dark:text-amber-200">🔄 To Be Re-created ({recreateCount})</span>
                   </div>
-                  <Trash2 className="w-5 h-5 text-red-600" />
+                  <div className="flex items-center space-x-2">
+                    <Badge className="bg-amber-600 text-white">Will Delete & Recreate</Badge>
+                    <Trash2 className="w-4 h-4 text-red-600" />
+                  </div>
                 </Button>
               </CollapsibleTrigger>
               <CollapsibleContent>
@@ -896,19 +907,46 @@ export default function LocationMatch() {
           )}
         </div>
 
-        {/* Final Confirmation */}
-        <Card className="border-amber-200 dark:border-amber-800">
+        {/* Final Confirmation - Enhanced with Dynamic Counts */}
+        <Card className="border-2 border-amber-500 dark:border-amber-600 bg-amber-50 dark:bg-amber-900/10">
           <CardContent className="p-6">
-            <div className="space-y-4">
-              <div className="flex items-start space-x-3">
+            <div className="space-y-6">
+              <div className="text-center">
+                <h3 className="text-xl font-semibold text-amber-800 dark:text-amber-200 mb-2">
+                  ⚠️ Final Confirmation Required
+                </h3>
+                <div className="text-sm text-amber-700 dark:text-amber-300">
+                  You are about to sync <strong>{mockAutoMatched.length + linkedCount + recreateCount}</strong> locations
+                </div>
+              </div>
+              
+              <div className="bg-white dark:bg-gray-800 border border-amber-200 dark:border-amber-700 rounded-lg p-4">
+                <div className="text-sm space-y-2">
+                  <div className="flex justify-between">
+                    <span className="text-green-700 dark:text-green-300">• Automatically matched locations:</span>
+                    <span className="font-semibold text-green-800 dark:text-green-200">{mockAutoMatched.length}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-blue-700 dark:text-blue-300">• Manually linked locations:</span>
+                    <span className="font-semibold text-blue-800 dark:text-blue-200">{linkedCount}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-amber-700 dark:text-amber-300">• Locations to be deleted & recreated:</span>
+                    <span className="font-semibold text-amber-800 dark:text-amber-200">{recreateCount}</span>
+                  </div>
+                </div>
+              </div>
+              
+              <div className="flex items-start space-x-3 p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-700 rounded-lg">
                 <Checkbox 
                   id="confirmation"
                   checked={confirmationChecked}
                   onChange={(e) => setConfirmationChecked(e.target.checked)}
                   data-testid="checkbox-confirmation"
+                  className="mt-1"
                 />
-                <label htmlFor="confirmation" className="text-sm text-gray-700 dark:text-gray-300 cursor-pointer">
-                  I understand that these changes, including deletions, will be permanent.
+                <label htmlFor="confirmation" className="text-sm text-red-800 dark:text-red-200 cursor-pointer font-medium">
+                  I understand that {recreateCount > 0 ? `${recreateCount} locations will be permanently deleted and recreated, and` : ''} these changes cannot be undone. I am ready to proceed with the sync.
                 </label>
               </div>
 
@@ -923,14 +961,26 @@ export default function LocationMatch() {
           </CardContent>
         </Card>
 
-        <div className="flex justify-between">
+        <div className="flex justify-between items-center">
           <Button 
-            variant="outline" 
+            variant="outline"
+            size="lg"
             onClick={() => setCurrentStep(2)}
             data-testid="button-back-step2"
+            className="flex items-center space-x-2 px-6 py-3 border-2 border-gray-400 dark:border-gray-500 hover:border-gray-600 dark:hover:border-gray-400"
           >
-            Back
+            <ArrowLeft className="w-4 h-4" />
+            <span className="font-medium">Back to Edit</span>
           </Button>
+          
+          <div className="text-center">
+            <div className="text-xs text-gray-500 dark:text-gray-400 mb-1">
+              Step 3 of 3
+            </div>
+            <div className="text-sm font-medium text-gray-700 dark:text-gray-300">
+              Ready to sync {mockAutoMatched.length + linkedCount + recreateCount} locations
+            </div>
+          </div>
         </div>
       </div>
     </div>
