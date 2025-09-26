@@ -663,119 +663,123 @@ export default function LocationMatch() {
           <CardHeader>
             <CardTitle>Resolution Panel</CardTitle>
           </CardHeader>
-          <CardContent className="flex-1">
-            {selectedUnmatched ? (
-              <div className="space-y-6">
-                <div className="p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
-                  <h4 className="font-medium mb-2">Selected Location:</h4>
-                  <p className="font-semibold">
-                    {unmatchedLocations.find(loc => loc.id === selectedUnmatched)?.name}
-                  </p>
-                  <p className="text-sm text-gray-600 dark:text-gray-400">
-                    {unmatchedLocations.find(loc => loc.id === selectedUnmatched)?.address}
-                  </p>
-                </div>
-
-                {/* Choice 1: Link to Existing Location */}
-                <div className="space-y-3">
-                  <h3 className="text-lg font-semibold">1. Link to an existing VenueX location</h3>
-                  <Select onValueChange={(value) => handleLinkLocation(selectedUnmatched, value)}>
-                    <SelectTrigger data-testid="select-link-location">
-                      <SelectValue placeholder="Select a VenueX location to link" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {/* Suggested Match First */}
-                      {suggestedMatch && (
-                        <SelectItem key={`suggested-${suggestedMatch.id}`} value={suggestedMatch.id} className="h-auto p-0">
-                          <div className="w-full p-3 bg-blue-50 dark:bg-blue-900/30 border border-blue-200 dark:border-blue-700 rounded-md">
-                            <div className="flex items-center justify-between mb-2">
-                              <span className="text-xs font-medium bg-blue-600 text-white px-2 py-1 rounded">
-                                ✨ SUGGESTED MATCH
-                              </span>
-                            </div>
-                            <LocationDetailCard 
-                              location={suggestedMatch} 
-                              type="venuex" 
-                              className="border-none bg-transparent p-0 m-0"
-                            />
-                          </div>
-                        </SelectItem>
-                      )}
-                      
-                      {/* Separator if there's a suggestion */}
-                      {suggestedMatch && availableVenueXLocations.filter(loc => loc.id !== suggestedMatch.id).length > 0 && (
-                        <div className="px-3 py-2 text-xs text-gray-500 border-b border-gray-200 dark:border-gray-700">
-                          Other Available Locations
-                        </div>
-                      )}
-                      
-                      {/* Other Available Locations */}
-                      {availableVenueXLocations.filter(loc => !suggestedMatch || loc.id !== suggestedMatch.id).map((location) => (
-                        <SelectItem key={location.id} value={location.id} className="h-auto p-0">
-                          <div className="w-full p-3">
-                            <LocationDetailCard 
-                              location={location} 
-                              type="venuex" 
-                              className="border-none bg-transparent p-0 m-0"
-                            />
-                          </div>
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                {/* Choice 2: Create from Source of Truth */}
-                <div className="space-y-3">
-                  <h3 className="text-lg font-semibold">2. Re-create this location from VenueX data</h3>
-                  <div className="p-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg">
-                    <div className="flex items-start space-x-2">
-                      <AlertTriangle className="w-5 h-5 text-red-600 mt-0.5 flex-shrink-0" />
-                      <p className="text-sm text-red-800 dark:text-red-200">
-                        <strong>Warning:</strong> This will delete the existing, unmatched Meta Page and create 
-                        a new, synced one using the official data from VenueX.
-                      </p>
-                    </div>
+          <CardContent className="flex-1 flex flex-col">
+            <div className="flex-1">
+              {selectedUnmatched ? (
+                <div className="space-y-6">
+                  <div className="p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
+                    <h4 className="font-medium mb-2">Selected Location:</h4>
+                    <p className="font-semibold">
+                      {unmatchedLocations.find(loc => loc.id === selectedUnmatched)?.name}
+                    </p>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">
+                      {unmatchedLocations.find(loc => loc.id === selectedUnmatched)?.address}
+                    </p>
                   </div>
-                  <Select onValueChange={(value) => handleRecreateLocation(selectedUnmatched, value)}>
-                    <SelectTrigger data-testid="select-recreate-location">
-                      <SelectValue placeholder="Select VenueX location data to use" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {mockVenueXLocations.map((location) => (
-                        <SelectItem key={location.id} value={location.id} className="h-auto p-0">
-                          <div className="w-full p-3">
-                            <LocationDetailCard 
-                              location={location} 
-                              type="venuex" 
-                              className="border-none bg-transparent p-0 m-0"
-                            />
+
+                  {/* Choice 1: Link to Existing Location */}
+                  <div className="space-y-3">
+                    <h3 className="text-lg font-semibold">1. Link to an existing VenueX location</h3>
+                    <Select onValueChange={(value) => handleLinkLocation(selectedUnmatched, value)}>
+                      <SelectTrigger data-testid="select-link-location">
+                        <SelectValue placeholder="Select a VenueX location to link" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {/* Suggested Match First */}
+                        {suggestedMatch && (
+                          <SelectItem key={`suggested-${suggestedMatch.id}`} value={suggestedMatch.id} className="h-auto p-0">
+                            <div className="w-full p-3 bg-blue-50 dark:bg-blue-900/30 border border-blue-200 dark:border-blue-700 rounded-md">
+                              <div className="flex items-center justify-between mb-2">
+                                <span className="text-xs font-medium bg-blue-600 text-white px-2 py-1 rounded">
+                                  ✨ SUGGESTED MATCH
+                                </span>
+                              </div>
+                              <LocationDetailCard 
+                                location={suggestedMatch} 
+                                type="venuex" 
+                                className="border-none bg-transparent p-0 m-0"
+                              />
+                            </div>
+                          </SelectItem>
+                        )}
+                        
+                        {/* Separator if there's a suggestion */}
+                        {suggestedMatch && availableVenueXLocations.filter(loc => loc.id !== suggestedMatch.id).length > 0 && (
+                          <div className="px-3 py-2 text-xs text-gray-500 border-b border-gray-200 dark:border-gray-700">
+                            Other Available Locations
                           </div>
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
+                        )}
+                        
+                        {/* Other Available Locations */}
+                        {availableVenueXLocations.filter(loc => !suggestedMatch || loc.id !== suggestedMatch.id).map((location) => (
+                          <SelectItem key={location.id} value={location.id} className="h-auto p-0">
+                            <div className="w-full p-3">
+                              <LocationDetailCard 
+                                location={location} 
+                                type="venuex" 
+                                className="border-none bg-transparent p-0 m-0"
+                              />
+                            </div>
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  {/* Choice 2: Create from Source of Truth */}
+                  <div className="space-y-3">
+                    <h3 className="text-lg font-semibold">2. Re-create this location from VenueX data</h3>
+                    <div className="p-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg">
+                      <div className="flex items-start space-x-2">
+                        <AlertTriangle className="w-5 h-5 text-red-600 mt-0.5 flex-shrink-0" />
+                        <p className="text-sm text-red-800 dark:text-red-200">
+                          <strong>Warning:</strong> This will delete the existing, unmatched Meta Page and create 
+                          a new, synced one using the official data from VenueX.
+                        </p>
+                      </div>
+                    </div>
+                    <Select onValueChange={(value) => handleRecreateLocation(selectedUnmatched, value)}>
+                      <SelectTrigger data-testid="select-recreate-location">
+                        <SelectValue placeholder="Select VenueX location data to use" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {mockVenueXLocations.map((location) => (
+                          <SelectItem key={location.id} value={location.id} className="h-auto p-0">
+                            <div className="w-full p-3">
+                              <LocationDetailCard 
+                                location={location} 
+                                type="venuex" 
+                                className="border-none bg-transparent p-0 m-0"
+                              />
+                            </div>
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
                 </div>
-              </div>
-            ) : (
-              <div className="flex items-center justify-center h-full text-gray-500 dark:text-gray-400">
-                <p>Select an unmatched location from the left to resolve it</p>
-              </div>
-            )}
+              ) : (
+                <div className="flex items-center justify-center h-full text-gray-500 dark:text-gray-400">
+                  <p>Select an unmatched location from the left to resolve it</p>
+                </div>
+              )}
+            </div>
+            
+            {/* Confirm Button at Bottom of Right Panel */}
+            <div className="mt-6 pt-4 border-t border-gray-200 dark:border-gray-700">
+              <Button 
+                onClick={() => setCurrentStep(3)}
+                disabled={!canProceedToStep3}
+                className="w-full bg-amber-600 hover:bg-amber-700 text-white py-3 text-lg font-medium"
+                data-testid="button-proceed-step3"
+              >
+                Review and Confirm ({pendingCount > 0 ? `${pendingCount} remaining` : 'All resolved'})
+              </Button>
+            </div>
           </CardContent>
         </Card>
       </div>
 
-      <div className="flex justify-center mt-8 pt-4 border-t border-gray-200 dark:border-gray-700">
-        <Button 
-          onClick={() => setCurrentStep(3)}
-          disabled={!canProceedToStep3}
-          className="bg-amber-600 hover:bg-amber-700 text-white px-8 py-3 text-lg font-medium"
-          data-testid="button-proceed-step3"
-        >
-          Review and Confirm ({pendingCount > 0 ? `${pendingCount} remaining` : 'All resolved'})
-        </Button>
-      </div>
     </div>
   );
   };
