@@ -1342,43 +1342,55 @@ export default function LocationMatch() {
             searchPlaceholder="Search auto matched locations..."
             data-testid="accordion-auto-matched"
           >
-            <div className="p-4 space-y-4">
+            <div className="p-4 space-y-6">
               {filteredAutoMatched.map((match, index) => (
-                <div key={index} className="grid grid-cols-1 md:grid-cols-2 gap-4 items-center">
-                  {/* Platform Location */}
-                  <RichLocationCard
-                    location={{
-                      name: match.platformLocation.name,
-                      storeCode: match.platformLocation.storeCode,
-                      address: `${match.platformLocation.address}, ${match.platformLocation.city}`,
-                      platform: "Platform Location"
-                    }}
-                    data-testid={`platform-location-${index}`}
-                  />
-                  
-                  {/* Link Icon */}
-                  <div className="flex justify-center">
-                    <div className="bg-green-100 dark:bg-green-900 p-2 rounded-full">
-                      <Link className="w-4 h-4 text-green-600 dark:text-green-400" />
-                    </div>
-                  </div>
-                  
-                  {/* VenueX Location */}
-                  <RichLocationCard
-                    location={{
-                      name: match.venueXLocation.name,
-                      storeCode: match.venueXLocation.storeCode,
-                      address: `${match.venueXLocation.address}, ${match.venueXLocation.city}`,
-                      platform: "VenueX Location"
-                    }}
-                    data-testid={`venuex-location-${index}`}
-                  />
-                  
-                  {/* Confidence Score */}
-                  <div className="text-center">
+                <div key={index} className="bg-gray-50 dark:bg-gray-800 rounded-lg p-4">
+                  {/* Match Header */}
+                  <div className="flex items-center justify-between mb-4">
+                    <h4 className="font-medium text-gray-900 dark:text-gray-100">
+                      Auto Match #{index + 1}
+                    </h4>
                     <Badge variant="secondary" className="bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">
                       {(match.confidence * 100).toFixed(1)}% confidence
                     </Badge>
+                  </div>
+                  
+                  {/* Side by Side Locations */}
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 items-center">
+                    {/* Platform Location */}
+                    <div>
+                      <div className="text-sm font-medium text-gray-600 dark:text-gray-400 mb-2">Platform Location</div>
+                      <RichLocationCard
+                        location={{
+                          name: match.platformLocation.name,
+                          storeCode: match.platformLocation.storeCode,
+                          address: `${match.platformLocation.address}, ${match.platformLocation.city}`,
+                          platform: "Platform Location"
+                        }}
+                        data-testid={`platform-location-${index}`}
+                      />
+                    </div>
+                    
+                    {/* VenueX Location */}
+                    <div>
+                      <div className="text-sm font-medium text-gray-600 dark:text-gray-400 mb-2">VenueX Location</div>
+                      <RichLocationCard
+                        location={{
+                          name: match.venueXLocation.name,
+                          storeCode: match.venueXLocation.storeCode,
+                          address: `${match.venueXLocation.address}, ${match.venueXLocation.city}`,
+                          platform: "VenueX Location"
+                        }}
+                        data-testid={`venuex-location-${index}`}
+                      />
+                    </div>
+                  </div>
+                  
+                  {/* Connection Indicator */}
+                  <div className="flex justify-center mt-4">
+                    <div className="bg-green-100 dark:bg-green-900 p-2 rounded-full">
+                      <Link className="w-4 h-4 text-green-600 dark:text-green-400" />
+                    </div>
                   </div>
                 </div>
               ))}
@@ -1402,43 +1414,55 @@ export default function LocationMatch() {
               searchPlaceholder="Search manual links..."
               data-testid="accordion-manual-links"
             >
-              <div className="p-4 space-y-4">
-                {filteredLinked.map((location) => (
-                  <div key={location.id} className="grid grid-cols-1 md:grid-cols-2 gap-4 items-center">
-                    {/* Platform Location */}
-                    <RichLocationCard
-                      location={{
-                        name: location.name,
-                        storeCode: location.storeCode,
-                        address: `${location.address}, ${location.city}`,
-                        platform: "Platform Location"
-                      }}
-                      data-testid={`manual-platform-${location.id}`}
-                    />
-                    
-                    {/* Link Icon */}
-                    <div className="flex justify-center">
-                      <div className="bg-blue-100 dark:bg-blue-900 p-2 rounded-full">
-                        <Link className="w-4 h-4 text-blue-600 dark:text-blue-400" />
-                      </div>
-                    </div>
-                    
-                    {/* Linked VenueX Location */}
-                    <RichLocationCard
-                      location={{
-                        name: location.linkedTo!.name,
-                        storeCode: location.linkedTo!.storeCode,
-                        address: `${location.linkedTo!.address}, ${location.linkedTo!.city}`,
-                        platform: "VenueX Location"
-                      }}
-                      data-testid={`manual-venuex-${location.id}`}
-                    />
-                    
-                    {/* Manual Tag */}
-                    <div className="text-center">
+              <div className="p-4 space-y-6">
+                {filteredLinked.map((location, index) => (
+                  <div key={location.id} className="bg-gray-50 dark:bg-gray-800 rounded-lg p-4">
+                    {/* Match Header */}
+                    <div className="flex items-center justify-between mb-4">
+                      <h4 className="font-medium text-gray-900 dark:text-gray-100">
+                        Manual Link #{index + 1}
+                      </h4>
                       <Badge variant="secondary" className="bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200">
                         Manually Resolved
                       </Badge>
+                    </div>
+                    
+                    {/* Side by Side Locations */}
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 items-center">
+                      {/* Platform Location */}
+                      <div>
+                        <div className="text-sm font-medium text-gray-600 dark:text-gray-400 mb-2">Platform Location</div>
+                        <RichLocationCard
+                          location={{
+                            name: location.name,
+                            storeCode: location.storeCode,
+                            address: `${location.address}, ${location.city}`,
+                            platform: "Platform Location"
+                          }}
+                          data-testid={`manual-platform-${location.id}`}
+                        />
+                      </div>
+                      
+                      {/* VenueX Location */}
+                      <div>
+                        <div className="text-sm font-medium text-gray-600 dark:text-gray-400 mb-2">VenueX Location</div>
+                        <RichLocationCard
+                          location={{
+                            name: location.linkedTo!.name,
+                            storeCode: location.linkedTo!.storeCode,
+                            address: `${location.linkedTo!.address}, ${location.linkedTo!.city}`,
+                            platform: "VenueX Location"
+                          }}
+                          data-testid={`manual-venuex-${location.id}`}
+                        />
+                      </div>
+                    </div>
+                    
+                    {/* Connection Indicator */}
+                    <div className="flex justify-center mt-4">
+                      <div className="bg-blue-100 dark:bg-blue-900 p-2 rounded-full">
+                        <Link className="w-4 h-4 text-blue-600 dark:text-blue-400" />
+                      </div>
                     </div>
                   </div>
                 ))}
