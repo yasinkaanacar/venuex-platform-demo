@@ -1121,7 +1121,7 @@ export default function ReviewsMVP() {
               <Card className="rounded-lg border text-card-foreground shadow-sm cursor-pointer hover:shadow-md transition-shadow bg-[#f9fafb] h-full flex flex-col" data-testid="card-sentiment">
                 <CardHeader className="pb-3 relative">
                   <Sparkles className="absolute top-4 right-4 w-5 h-5 text-blue-500" />
-                  <CardTitle className="tracking-tight text-[#111827] font-semibold text-[18px]">Sentiment Analysis</CardTitle>
+                  <CardTitle className="tracking-tight text-[#111827] font-semibold text-[18px] -mt-2">Sentiment Analysis</CardTitle>
                 </CardHeader>
                 <CardContent className="flex items-center justify-center flex-1">
                   <div className="grid grid-cols-3 gap-4 w-full">
