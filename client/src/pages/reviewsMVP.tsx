@@ -1017,14 +1017,14 @@ export default function ReviewsMVP() {
                   
                   <Separator />
                   
-                  {/* Rating Distribution with Dual-Purpose Progress Bars */}
+                  {/* Rating Distribution */}
                   <div className="space-y-2">
                     {[
-                      { stars: 5, percentage: 45, replyRate: 95, trackColor: 'bg-green-200', fillColor: 'bg-green-500' },
-                      { stars: 4, percentage: 28, replyRate: 88, trackColor: 'bg-blue-200', fillColor: 'bg-blue-500' },
-                      { stars: 3, percentage: 15, replyRate: 75, trackColor: 'bg-yellow-200', fillColor: 'bg-yellow-500' },
-                      { stars: 2, percentage: 8, replyRate: 82, trackColor: 'bg-orange-200', fillColor: 'bg-orange-500' },
-                      { stars: 1, percentage: 4, replyRate: 68, trackColor: 'bg-red-200', fillColor: 'bg-red-500' }
+                      { stars: 5, percentage: 45, fillColor: 'bg-green-500' },
+                      { stars: 4, percentage: 28, fillColor: 'bg-blue-500' },
+                      { stars: 3, percentage: 15, fillColor: 'bg-yellow-500' },
+                      { stars: 2, percentage: 8, fillColor: 'bg-orange-500' },
+                      { stars: 1, percentage: 4, fillColor: 'bg-red-500' }
                     ].map((rating) => (
                       <div 
                         key={rating.stars} 
@@ -1032,18 +1032,11 @@ export default function ReviewsMVP() {
                         data-testid={`rating-${rating.stars}-star`}
                       >
                         <span className="text-sm font-medium w-2">{rating.stars}</span>
-                        <div className="flex-1 bg-gray-100 rounded-full h-2 relative">
-                          {/* Volume track (background) */}
+                        <div className="flex-1 bg-gray-100 rounded-full h-2">
                           <div 
-                            className={`${rating.trackColor} h-2 rounded-full relative`}
+                            className={`${rating.fillColor} h-2 rounded-full`}
                             style={{ width: `${rating.percentage}%` }}
-                          >
-                            {/* Reply rate fill (foreground) */}
-                            <div 
-                              className={`${rating.fillColor} h-2 rounded-full`}
-                              style={{ width: `${rating.replyRate}%` }}
-                            />
-                          </div>
+                          />
                         </div>
                         <span className="text-sm text-gray-600 w-8 text-right">{rating.percentage}%</span>
                         
@@ -1051,7 +1044,6 @@ export default function ReviewsMVP() {
                         <div className="absolute left-0 bottom-full mb-2 w-48 bg-gray-900 text-white text-xs rounded-lg p-3 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none z-10">
                           <div className="font-semibold mb-1">{rating.stars}-Star Reviews</div>
                           <div>• Make up {rating.percentage}% of all reviews</div>
-                          <div>• {rating.replyRate}% of these have been replied to</div>
                           <div className="absolute top-full left-4 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-gray-900"></div>
                         </div>
                       </div>
