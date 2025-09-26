@@ -22,6 +22,7 @@ import {
   Loader2,
   CheckCircle,
   AlertTriangle,
+  ArrowLeft,
   Link,
   ChevronDown,
   ChevronRight,
@@ -429,13 +430,31 @@ export default function LocationMatch() {
     </div>
   );
 
-  const renderStep2 = () => (
-    <div>
-      <div className="text-center mb-8">
-        <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-2">
-          Step 2 of 3: Resolve Unmatched Locations
-        </h2>
-      </div>
+  const renderStep2 = () => {
+    const locationsPerPage = 5;
+    const [currentPage, setCurrentPage] = useState(0);
+    const totalPages = Math.ceil(unmatchedLocations.length / locationsPerPage);
+    const startIndex = currentPage * locationsPerPage;
+    const endIndex = startIndex + locationsPerPage;
+    const currentLocations = unmatchedLocations.slice(startIndex, endIndex);
+
+    return (
+      <div>
+        <div className="flex items-center justify-between mb-8">
+          <Button 
+            variant="outline" 
+            onClick={() => setCurrentStep(1)}
+            data-testid="button-back-step1"
+            className="flex items-center space-x-2"
+          >
+            <ArrowLeft className="w-4 h-4" />
+            <span>Back</span>
+          </Button>
+          <h2 className="text-2xl font-semibold text-gray-900 dark:text-white">
+            Step 2 of 3: Resolve Unmatched Locations
+          </h2>
+          <div className="w-24"></div> {/* Spacer for centering */}
+        </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 h-[calc(100vh-300px)]">
         {/* Left Column: Unmatched Locations */}
@@ -443,9 +462,9 @@ export default function LocationMatch() {
           <CardHeader>
             <CardTitle>Unmatched Meta Pages ({pendingCount})</CardTitle>
           </CardHeader>
-          <CardContent className="flex-1 overflow-y-auto">
-            <div className="space-y-3">
-              {unmatchedLocations.map((location) => (
+          <CardContent className="flex-1 flex flex-col">
+            <div className="flex-1 space-y-3 mb-4">
+              {currentLocations.map((location) => (
                 <div
                   key={location.id}
                   onClick={() => location.status === 'pending' ? setSelectedUnmatched(location.id) : null}
@@ -503,6 +522,33 @@ export default function LocationMatch() {
                   </div>
                 </div>
               ))}
+            </div>
+            
+            {/* Pagination Controls */}
+            <div className="flex items-center justify-between pt-4 border-t border-gray-200 dark:border-gray-700">
+              <div className="text-sm text-gray-600 dark:text-gray-400">
+                Showing {startIndex + 1}-{Math.min(endIndex, unmatchedLocations.length)} of {unmatchedLocations.length}
+              </div>
+              <div className="flex space-x-2">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setCurrentPage(currentPage - 1)}
+                  disabled={currentPage === 0}
+                  data-testid="button-prev-page"
+                >
+                  Previous
+                </Button>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setCurrentPage(currentPage + 1)}
+                  disabled={currentPage >= totalPages - 1}
+                  data-testid="button-next-page"
+                >
+                  Next
+                </Button>
+              </div>
             </div>
           </CardContent>
         </Card>
@@ -589,14 +635,7 @@ export default function LocationMatch() {
         </Card>
       </div>
 
-      <div className="flex justify-between mt-6">
-        <Button 
-          variant="outline" 
-          onClick={() => setCurrentStep(1)}
-          data-testid="button-back-step1"
-        >
-          Back
-        </Button>
+      <div className="flex justify-end mt-6">
         <Button 
           onClick={() => setCurrentStep(3)}
           disabled={!canProceedToStep3}
@@ -608,6 +647,7 @@ export default function LocationMatch() {
       </div>
     </div>
   );
+  };
 
   const renderStep3 = () => (
     <div className="max-w-4xl mx-auto">
