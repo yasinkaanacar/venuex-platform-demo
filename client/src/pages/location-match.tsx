@@ -532,7 +532,7 @@ export default function LocationMatch() {
                     <SelectTrigger data-testid="select-link-location">
                       <SelectValue placeholder="Select a VenueX location to link" />
                     </SelectTrigger>
-                    <SelectContent className="max-h-96">
+                    <SelectContent>
                       {availableVenueXLocations.map((location) => (
                         <SelectItem key={location.id} value={location.id} className="h-auto p-0">
                           <div className="w-full p-3">
@@ -564,7 +564,7 @@ export default function LocationMatch() {
                     <SelectTrigger data-testid="select-recreate-location">
                       <SelectValue placeholder="Select VenueX location data to use" />
                     </SelectTrigger>
-                    <SelectContent className="max-h-96">
+                    <SelectContent>
                       {mockVenueXLocations.map((location) => (
                         <SelectItem key={location.id} value={location.id} className="h-auto p-0">
                           <div className="w-full p-3">
@@ -632,15 +632,19 @@ export default function LocationMatch() {
           <CollapsibleContent>
             <Card>
               <CardContent className="p-4">
-                <div className="space-y-3">
+                <div className="space-y-4">
                   {mockAutoMatched.map((match, index) => (
-                    <div key={index} className="flex items-center justify-between py-2 border-b border-gray-100 dark:border-gray-800 last:border-b-0">
-                      <span className="text-sm">{match.platformLocation.name}</span>
-                      <div className="flex items-center space-x-2">
-                        <Link className="w-4 h-4 text-blue-600" />
-                        <span className="text-sm font-medium">{match.venueXLocation.name}</span>
-                      </div>
-                    </div>
+                    <ComparisonCard
+                      key={index}
+                      leftLocation={match.venueXLocation}
+                      rightLocation={match.platformLocation}
+                      leftType="venuex"
+                      rightType="platform"
+                      leftLabel="VenueX Location"
+                      rightLabel="Meta Page"
+                      icon={<Link className="w-6 h-6 text-green-600" />}
+                      className="border-green-200 dark:border-green-800"
+                    />
                   ))}
                 </div>
               </CardContent>
@@ -669,17 +673,21 @@ export default function LocationMatch() {
               <CollapsibleContent>
                 <Card>
                   <CardContent className="p-4">
-                    <div className="space-y-3">
+                    <div className="space-y-4">
                       {unmatchedLocations
                         .filter(loc => loc.status === 'linked')
                         .map((location) => (
-                          <div key={location.id} className="flex items-center justify-between py-2 border-b border-gray-100 dark:border-gray-800 last:border-b-0">
-                            <span className="text-sm">{location.name}</span>
-                            <div className="flex items-center space-x-2">
-                              <Link className="w-4 h-4 text-blue-600" />
-                              <span className="text-sm font-medium">{location.linkedTo?.name}</span>
-                            </div>
-                          </div>
+                          <ComparisonCard
+                            key={location.id}
+                            leftLocation={location.linkedTo!}
+                            rightLocation={location}
+                            leftType="venuex"
+                            rightType="platform"
+                            leftLabel="VenueX Location"
+                            rightLabel="Meta Page"
+                            icon={<Link className="w-6 h-6 text-blue-600" />}
+                            className="border-blue-200 dark:border-blue-800"
+                          />
                         ))}
                     </div>
                   </CardContent>
@@ -707,25 +715,17 @@ export default function LocationMatch() {
                       {unmatchedLocations
                         .filter(loc => loc.status === 'recreate')
                         .map((location) => (
-                          <div key={location.id} className="p-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg">
-                            <div className="flex items-start space-x-2 mb-2">
-                              <AlertTriangle className="w-5 h-5 text-red-600 mt-0.5 flex-shrink-0" />
-                              <div className="flex-1">
-                                <p className="text-sm font-medium text-red-800 dark:text-red-200">
-                                  Will delete: {location.name}
-                                </p>
-                                <p className="text-xs text-red-600 dark:text-red-300 mb-2">
-                                  Platform ID: {location.platformId}
-                                </p>
-                                <p className="text-sm text-gray-700 dark:text-gray-300">
-                                  Will create new page using: <strong>{location.recreateWith?.name}</strong>
-                                </p>
-                                <p className="text-xs text-gray-600 dark:text-gray-400">
-                                  {location.recreateWith?.address}
-                                </p>
-                              </div>
-                            </div>
-                          </div>
+                          <ComparisonCard
+                            key={location.id}
+                            leftLocation={location.recreateWith!}
+                            rightLocation={location}
+                            leftType="venuex"
+                            rightType="platform"
+                            leftLabel="TO BE CREATED"
+                            rightLabel="TO BE DELETED"
+                            icon={<Trash2 className="w-6 h-6 text-red-600" />}
+                            className="border-red-300 dark:border-red-700 bg-red-50 dark:bg-red-900/20"
+                          />
                         ))}
                     </div>
                   </CardContent>
