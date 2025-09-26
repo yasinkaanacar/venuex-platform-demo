@@ -942,7 +942,7 @@ export default function ReviewsMVP() {
             <TabsTrigger 
               value="inbox" 
               data-testid="tab-inbox"
-              className="px-6 py-3 text-base font-medium rounded-none border-b-2 border-transparent transition-all duration-300 data-[state=active]:border-blue-500 data-[state=active]:text-blue-600 data-[state=active]:bg-transparent hover:text-gray-700 hover:border-gray-300 relative"
+              className="px-6 py-3 text-base rounded-none border-b-2 border-transparent transition-all duration-300 data-[state=active]:border-blue-500 data-[state=active]:text-blue-600 data-[state=active]:bg-transparent hover:text-gray-700 hover:border-gray-300 relative font-semibold"
             >
               <MessageSquare className="w-5 h-5 mr-3" />
               Inbox
@@ -950,7 +950,7 @@ export default function ReviewsMVP() {
             <TabsTrigger 
               value="locations" 
               data-testid="tab-locations"
-              className="px-6 py-3 text-base font-medium rounded-none border-b-2 border-transparent transition-all duration-300 data-[state=active]:border-blue-500 data-[state=active]:text-blue-600 data-[state=active]:bg-transparent hover:text-gray-700 hover:border-gray-300 relative"
+              className="px-6 py-3 text-base rounded-none border-b-2 border-transparent transition-all duration-300 data-[state=active]:border-blue-500 data-[state=active]:text-blue-600 data-[state=active]:bg-transparent hover:text-gray-700 hover:border-gray-300 relative font-semibold"
             >
               <MapPin className="w-5 h-5 mr-3" />
               Locations
@@ -1051,7 +1051,14 @@ export default function ReviewsMVP() {
               {/* Review Volume Card */}
               <Card className="rounded-lg border text-card-foreground shadow-sm cursor-pointer hover:shadow-md transition-shadow bg-[#f9fafb]" data-testid="card-review-volume">
                 <CardHeader className="pb-3">
-                  <CardTitle className="tracking-tight text-[#111827] font-semibold text-[18px]">Response Rate</CardTitle>
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <CardTitle className="tracking-tight text-[#111827] font-semibold text-[18px]">Response Rate</CardTitle>
+                    </div>
+                    <div>
+                      <CardTitle className="tracking-tight text-[#111827] font-semibold text-[18px]">Unanswered</CardTitle>
+                    </div>
+                  </div>
                 </CardHeader>
                 <CardContent className="space-y-8">
                   <div className="flex items-center gap-2">
