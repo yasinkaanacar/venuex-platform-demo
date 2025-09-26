@@ -114,6 +114,7 @@ export default function ReviewsMVP() {
   const [regionFilter, setRegionFilter] = useState("all");
   const [cityFilter, setCityFilter] = useState("all");
   const [storeSetFilter, setStoreSetFilter] = useState("all");
+  const [sentimentFilter, setSentimentFilter] = useState("all");
   const [avgRatingFilter, setAvgRatingFilter] = useState("all");
   const [replyRateFilter, setReplyRateFilter] = useState("all");
   const [locationSearchQuery, setLocationSearchQuery] = useState("");
@@ -1904,6 +1905,22 @@ export default function ReviewsMVP() {
                           <SelectItem value="express">Express</SelectItem>
                           <SelectItem value="standard">Standard</SelectItem>
                           <SelectItem value="regional">Regional</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+
+                    {/* Sentiment Filter */}
+                    <div className="flex items-center gap-2">
+                      <label className="text-sm font-medium text-gray-700 whitespace-nowrap">Sentiment:</label>
+                      <Select value={sentimentFilter} onValueChange={setSentimentFilter}>
+                        <SelectTrigger className="w-40 border-gray-300 rounded-md">
+                          <SelectValue placeholder="All Sentiments" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="all">All Sentiments</SelectItem>
+                          <SelectItem value="positive">Positive</SelectItem>
+                          <SelectItem value="neutral">Neutral</SelectItem>
+                          <SelectItem value="negative">Negative</SelectItem>
                         </SelectContent>
                       </Select>
                     </div>
