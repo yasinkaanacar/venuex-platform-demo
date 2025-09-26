@@ -56,6 +56,7 @@ interface PlatformLocation {
   platformUrl?: string;
   city: string;
   postalCode: string;
+  storeCode: string;
 }
 
 interface MatchedLocation {
@@ -139,7 +140,8 @@ const mockAutoMatched: MatchedLocation[] = [
       platformId: 'meta_001',
       platformUrl: 'https://facebook.com/boyner.akasya',
       city: 'Istanbul',
-      postalCode: '34660'
+      postalCode: '34660',
+      storeCode: 'META001'
     }, 
     venueXLocation: mockVenueXLocations[0], 
     confidence: 0.95 
@@ -154,7 +156,8 @@ const mockAutoMatched: MatchedLocation[] = [
       platformId: 'meta_002',
       platformUrl: 'https://facebook.com/boyner.istinye',
       city: 'Istanbul',
-      postalCode: '34460'
+      postalCode: '34460',
+      storeCode: 'META002'
     }, 
     venueXLocation: mockVenueXLocations[1], 
     confidence: 0.92 
@@ -172,6 +175,7 @@ const mockUnmatched: UnmatchedLocation[] = [
     platformUrl: 'https://facebook.com/boyner.istiklal',
     city: 'Istanbul',
     postalCode: '34433',
+    storeCode: 'META003',
     status: 'pending' 
   },
   { 
@@ -184,6 +188,7 @@ const mockUnmatched: UnmatchedLocation[] = [
     platformUrl: 'https://facebook.com/boyner.bagdat',
     city: 'Istanbul',
     postalCode: '34728',
+    storeCode: 'META004',
     status: 'pending' 
   },
   { 
@@ -196,6 +201,7 @@ const mockUnmatched: UnmatchedLocation[] = [
     platformUrl: 'https://facebook.com/boyner.outlet',
     city: 'Istanbul',
     postalCode: '34025',
+    storeCode: 'META005',
     status: 'pending' 
   },
 ];
@@ -212,8 +218,12 @@ const LocationDetailCard = ({ location, type, className = "" }: {
         <h4 className="font-semibold text-gray-900 dark:text-white mb-1">{location.name}</h4>
         
         {/* Store Code - Positioned directly below name as primary identifier */}
-        {type === 'venuex' && 'storeCode' in location && (
-          <div className="flex items-center text-sm font-medium text-blue-600 dark:text-blue-400 mb-2 bg-blue-50 dark:bg-blue-900/20 px-2 py-1 rounded-md w-fit">
+        {'storeCode' in location && (
+          <div className={`flex items-center text-sm font-medium mb-2 px-2 py-1 rounded-md w-fit ${
+            type === 'venuex' 
+              ? 'text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20' 
+              : 'text-purple-600 dark:text-purple-400 bg-purple-50 dark:bg-purple-900/20'
+          }`}>
             <Building className="w-4 h-4 mr-1 flex-shrink-0" />
             <span>Code: {location.storeCode}</span>
           </div>
