@@ -287,6 +287,7 @@ export default function LocationMatch() {
   const [unmatchedLocations, setUnmatchedLocations] = useState<UnmatchedLocation[]>(mockUnmatched);
   const [selectedUnmatched, setSelectedUnmatched] = useState<string | null>(null);
   const [confirmationChecked, setConfirmationChecked] = useState(false);
+  const [currentPage, setCurrentPage] = useState(0);
   const [autoMatchedOpen, setAutoMatchedOpen] = useState(false);
   const [manualLinkedOpen, setManualLinkedOpen] = useState(true);
   const [recreateOpen, setRecreateOpen] = useState(true);
@@ -432,7 +433,6 @@ export default function LocationMatch() {
 
   const renderStep2 = () => {
     const locationsPerPage = 5;
-    const [currentPage, setCurrentPage] = useState(0);
     const totalPages = Math.ceil(unmatchedLocations.length / locationsPerPage);
     const startIndex = currentPage * locationsPerPage;
     const endIndex = startIndex + locationsPerPage;
