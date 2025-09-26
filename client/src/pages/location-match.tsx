@@ -11,6 +11,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { AutocompleteSelect, AutocompleteOption } from "@/components/ui/autocomplete-select";
 import {
   Collapsible,
   CollapsibleContent,
@@ -331,6 +332,10 @@ export default function LocationMatch() {
   const [filterStatus, setFilterStatus] = useState<string>('all');
   const [filterCity, setFilterCity] = useState<string>('all');
   const [searchQuery, setSearchQuery] = useState('');
+  
+  // Search state for autocomplete dropdowns
+  const [linkSearchQuery, setLinkSearchQuery] = useState('');
+  const [recreateSearchQuery, setRecreateSearchQuery] = useState('');
   const locationsPerPage = 20; // Increased for enterprise scale
   
   // CSV Export functions
@@ -492,6 +497,44 @@ export default function LocationMatch() {
   
   const getUniqueCity = () => {
     return Array.from(new Set(unmatchedLocations.map(loc => loc.city)));
+  };
+
+  // Convert VenueX locations to AutocompleteOption format
+  const convertToAutocompleteOptions = (
+    locations: VenueXLocation[], 
+    suggestedMatch?: VenueXLocation | null,
+    searchQuery?: string
+  ): AutocompleteOption[] => {
+    const filteredLocations = searchQuery 
+      ? locations.filter(location => 
+          location.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          location.storeCode.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          location.city.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          location.address.toLowerCase().includes(searchQuery.toLowerCase())
+        )
+      : locations;
+
+    return filteredLocations.map(location => ({
+      id: location.id,
+      label: location.name,
+      value: location.id,
+      subtitle: location.address,
+      badge: location.storeCode,
+      suggested: suggestedMatch?.id === location.id
+    }));
+  };
+
+  // Filter available VenueX locations for linking based on search
+  const getFilteredLinkOptions = (searchQuery: string): AutocompleteOption[] => {
+    const selectedLocation = selectedUnmatched ? unmatchedLocations.find(loc => loc.id === selectedUnmatched) : null;
+    const suggestedMatch = selectedLocation ? getSuggestedMatch(selectedLocation) : null;
+    
+    return convertToAutocompleteOptions(availableVenueXLocations, suggestedMatch, searchQuery);
+  };
+
+  // Filter VenueX locations for recreation based on search
+  const getFilteredRecreateOptions = (searchQuery: string): AutocompleteOption[] => {
+    return convertToAutocompleteOptions(mockVenueXLocations, null, searchQuery);
   };
 
   // Simulate loading on mount
@@ -1075,41 +1118,28 @@ export default function LocationMatch() {
                 <div className="space-y-4">
                   <div className="space-y-3">
                     <h4 className="font-medium">Link to VenueX Location:</h4>
-                    <Select onValueChange={(value) => handleLinkLocation(selectedUnmatched, value)}>
-                      <SelectTrigger data-testid="select-link-location-quick">
-                        <SelectValue placeholder="Select VenueX location..." />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {suggestedMatch && (
-                          <SelectItem key={`suggested-${suggestedMatch.id}`} value={suggestedMatch.id}>
-                            ✨ {suggestedMatch.name} (Suggested)
-                          </SelectItem>
-                        )}
-                        {availableVenueXLocations
-                          .filter(loc => !suggestedMatch || loc.id !== suggestedMatch.id)
-                          .map((location) => (
-                            <SelectItem key={location.id} value={location.id}>
-                              {location.name} - {location.storeCode}
-                            </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
+                    <AutocompleteSelect
+                      placeholder="Search and select VenueX location..."
+                      options={getFilteredLinkOptions(linkSearchQuery)}
+                      onValueChange={(value) => handleLinkLocation(selectedUnmatched, value)}
+                      onSearch={setLinkSearchQuery}
+                      data-testid="autocomplete-link-location-quick"
+                      emptyMessage="No VenueX locations found"
+                      maxResults={20}
+                    />
                   </div>
 
                   <div className="space-y-3">
                     <h4 className="font-medium">Or Re-create with VenueX Data:</h4>
-                    <Select onValueChange={(value) => handleRecreateLocation(selectedUnmatched, value)}>
-                      <SelectTrigger data-testid="select-recreate-location-quick">
-                        <SelectValue placeholder="Select source data..." />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {mockVenueXLocations.map((location) => (
-                          <SelectItem key={location.id} value={location.id}>
-                            {location.name} - {location.storeCode}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
+                    <AutocompleteSelect
+                      placeholder="Search and select VenueX source data..."
+                      options={getFilteredRecreateOptions(recreateSearchQuery)}
+                      onValueChange={(value) => handleRecreateLocation(selectedUnmatched, value)}
+                      onSearch={setRecreateSearchQuery}
+                      data-testid="autocomplete-recreate-location-quick"
+                      emptyMessage="No VenueX source data found"
+                      maxResults={20}
+                    />
                   </div>
 
                   <Button
