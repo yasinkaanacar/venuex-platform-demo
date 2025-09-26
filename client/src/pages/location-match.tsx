@@ -26,22 +26,35 @@ import {
   ChevronDown,
   ChevronRight,
   Trash2,
-  ExternalLink
+  ExternalLink,
+  Phone,
+  MapPin,
+  Tag,
+  Building
 } from 'lucide-react';
 
 interface VenueXLocation {
   id: string;
   name: string;
   address: string;
+  phone: string;
+  category: string;
   storeCode: string;
   region: string;
+  city: string;
+  postalCode: string;
 }
 
 interface PlatformLocation {
   id: string;
   name: string;
   address: string;
+  phone: string;
+  category: string;
   platformId: string;
+  platformUrl?: string;
+  city: string;
+  postalCode: string;
 }
 
 interface MatchedLocation {
@@ -57,23 +70,215 @@ interface UnmatchedLocation extends PlatformLocation {
 }
 
 const mockVenueXLocations: VenueXLocation[] = [
-  { id: 'vx1', name: 'Boyner Akasya AVM', address: 'Acıbadem Mahallesi, Akasya AVM, Istanbul', storeCode: 'BYN001', region: 'Istanbul - Anadolu' },
-  { id: 'vx2', name: 'Boyner İstinye Park', address: 'İstinye Park AVM, Sarıyer, Istanbul', storeCode: 'BYN045', region: 'Istanbul - Avrupa' },
-  { id: 'vx3', name: 'Boyner Forum İstanbul', address: 'Forum İstanbul AVM, Bayrampaşa, Istanbul', storeCode: 'BYN023', region: 'Istanbul - Avrupa' },
-  { id: 'vx4', name: 'Boyner Zorlu Center', address: 'Zorlu Center, Beşiktaş, Istanbul', storeCode: 'BYN067', region: 'Istanbul - Avrupa' },
-  { id: 'vx5', name: 'Boyner Kanyon AVM', address: 'Kanyon AVM, Levent, Istanbul', storeCode: 'BYN089', region: 'Istanbul - Avrupa' },
+  { 
+    id: 'vx1', 
+    name: 'Boyner Akasya AVM', 
+    address: 'Acıbadem Mahallesi, Akasya AVM Kat:1 No:112', 
+    phone: '+90 216 123 4567',
+    category: 'Department Store',
+    storeCode: 'BYN001', 
+    region: 'Istanbul - Anadolu',
+    city: 'Istanbul',
+    postalCode: '34660'
+  },
+  { 
+    id: 'vx2', 
+    name: 'Boyner İstinye Park', 
+    address: 'İstinye Park AVM, Pınar Mahallesi, Katar Caddesi No:11', 
+    phone: '+90 212 345 6789',
+    category: 'Department Store',
+    storeCode: 'BYN045', 
+    region: 'Istanbul - Avrupa',
+    city: 'Istanbul',
+    postalCode: '34460'
+  },
+  { 
+    id: 'vx3', 
+    name: 'Boyner Forum İstanbul', 
+    address: 'Forum İstanbul AVM, Kocatepe Mahallesi, Paşa Caddesi No:5-5A', 
+    phone: '+90 212 987 6543',
+    category: 'Department Store',
+    storeCode: 'BYN023', 
+    region: 'Istanbul - Avrupa',
+    city: 'Istanbul',
+    postalCode: '34045'
+  },
+  { 
+    id: 'vx4', 
+    name: 'Boyner Zorlu Center', 
+    address: 'Zorlu Center, Levazım Mahallesi, Koru Sokak No:2', 
+    phone: '+90 212 456 7890',
+    category: 'Department Store',
+    storeCode: 'BYN067', 
+    region: 'Istanbul - Avrupa',
+    city: 'Istanbul',
+    postalCode: '34340'
+  },
+  { 
+    id: 'vx5', 
+    name: 'Boyner Kanyon AVM', 
+    address: 'Kanyon AVM, Büyükdere Caddesi No:185', 
+    phone: '+90 212 567 8901',
+    category: 'Department Store',
+    storeCode: 'BYN089', 
+    region: 'Istanbul - Avrupa',
+    city: 'Istanbul',
+    postalCode: '34394'
+  },
 ];
 
 const mockAutoMatched: MatchedLocation[] = [
-  { platformLocation: { id: 'meta1', name: 'Boyner Akasya', address: 'Akasya AVM, Istanbul', platformId: 'meta_001' }, venueXLocation: mockVenueXLocations[0], confidence: 0.95 },
-  { platformLocation: { id: 'meta2', name: 'Boyner Istinye', address: 'İstinye Park, Istanbul', platformId: 'meta_002' }, venueXLocation: mockVenueXLocations[1], confidence: 0.92 }
+  { 
+    platformLocation: { 
+      id: 'meta1', 
+      name: 'Boyner Akasya', 
+      address: 'Acıbadem, Akasya AVM Kat:1', 
+      phone: '+90 216 123 4567',
+      category: 'Clothing Store',
+      platformId: 'meta_001',
+      platformUrl: 'https://facebook.com/boyner.akasya',
+      city: 'Istanbul',
+      postalCode: '34660'
+    }, 
+    venueXLocation: mockVenueXLocations[0], 
+    confidence: 0.95 
+  },
+  { 
+    platformLocation: { 
+      id: 'meta2', 
+      name: 'Boyner İstinye Park', 
+      address: 'İstinye Park AVM, Pınar Mahallesi', 
+      phone: '+90 212 345 6789',
+      category: 'Department Store',
+      platformId: 'meta_002',
+      platformUrl: 'https://facebook.com/boyner.istinye',
+      city: 'Istanbul',
+      postalCode: '34460'
+    }, 
+    venueXLocation: mockVenueXLocations[1], 
+    confidence: 0.92 
+  }
 ];
 
 const mockUnmatched: UnmatchedLocation[] = [
-  { id: 'meta3', name: 'Boyner Mall Store', address: 'Shopping Center, Istanbul', platformId: 'meta_003', status: 'pending' },
-  { id: 'meta4', name: 'Boyner City Branch', address: 'Downtown Location, Istanbul', platformId: 'meta_004', status: 'pending' },
-  { id: 'meta5', name: 'Boyner Outlet', address: 'Outlet Mall, Istanbul', platformId: 'meta_005', status: 'pending' },
+  { 
+    id: 'meta3', 
+    name: 'Boyner Mall Store', 
+    address: 'İstiklal Caddesi No:112, Beyoğlu', 
+    phone: '+90 212 111 2233',
+    category: 'Fashion Store',
+    platformId: 'meta_003',
+    platformUrl: 'https://facebook.com/boyner.istiklal',
+    city: 'Istanbul',
+    postalCode: '34433',
+    status: 'pending' 
+  },
+  { 
+    id: 'meta4', 
+    name: 'Boyner City Branch', 
+    address: 'Bağdat Caddesi No:342, Kadıköy', 
+    phone: '+90 216 444 5566',
+    category: 'Clothing Store',
+    platformId: 'meta_004',
+    platformUrl: 'https://facebook.com/boyner.bagdat',
+    city: 'Istanbul',
+    postalCode: '34728',
+    status: 'pending' 
+  },
+  { 
+    id: 'meta5', 
+    name: 'Boyner Outlet', 
+    address: 'Olivium Outlet Center, Zeytinburnu', 
+    phone: '+90 212 777 8899',
+    category: 'Outlet Store',
+    platformId: 'meta_005',
+    platformUrl: 'https://facebook.com/boyner.outlet',
+    city: 'Istanbul',
+    postalCode: '34025',
+    status: 'pending' 
+  },
 ];
+
+// Location Detail Card Component
+const LocationDetailCard = ({ location, type, className = "" }: { 
+  location: VenueXLocation | PlatformLocation, 
+  type: 'venuex' | 'platform',
+  className?: string 
+}) => (
+  <div className={`p-4 border rounded-lg bg-white dark:bg-gray-800 ${className}`}>
+    <div className="flex items-start justify-between mb-3">
+      <div className="flex-1">
+        <h4 className="font-semibold text-gray-900 dark:text-white mb-1">{location.name}</h4>
+        <div className="flex items-center text-sm text-gray-600 dark:text-gray-400 mb-1">
+          <MapPin className="w-4 h-4 mr-1 flex-shrink-0" />
+          <span>{location.address}</span>
+        </div>
+        <div className="flex items-center text-sm text-gray-600 dark:text-gray-400 mb-1">
+          <Phone className="w-4 h-4 mr-1 flex-shrink-0" />
+          <span>{location.phone}</span>
+        </div>
+        <div className="flex items-center text-sm text-gray-600 dark:text-gray-400 mb-1">
+          <Tag className="w-4 h-4 mr-1 flex-shrink-0" />
+          <span>{location.category}</span>
+        </div>
+        {type === 'venuex' && 'storeCode' in location && (
+          <div className="flex items-center text-sm text-gray-600 dark:text-gray-400">
+            <Building className="w-4 h-4 mr-1 flex-shrink-0" />
+            <span>{location.storeCode} • {location.region}</span>
+          </div>
+        )}
+        {type === 'platform' && 'platformUrl' in location && location.platformUrl && (
+          <a 
+            href={location.platformUrl} 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="inline-flex items-center text-sm text-blue-600 hover:text-blue-800 mt-2"
+          >
+            <ExternalLink className="w-4 h-4 mr-1" />
+            View on Meta
+          </a>
+        )}
+      </div>
+    </div>
+  </div>
+);
+
+// Two-sided comparison card
+const ComparisonCard = ({ 
+  leftLocation, 
+  rightLocation, 
+  leftType, 
+  rightType, 
+  leftLabel = "", 
+  rightLabel = "",
+  icon = <Link className="w-6 h-6 text-blue-600" />,
+  className = ""
+}: {
+  leftLocation: VenueXLocation | PlatformLocation;
+  rightLocation: VenueXLocation | PlatformLocation;
+  leftType: 'venuex' | 'platform';
+  rightType: 'venuex' | 'platform';
+  leftLabel?: string;
+  rightLabel?: string;
+  icon?: React.ReactNode;
+  className?: string;
+}) => (
+  <div className={`border rounded-lg p-4 bg-gray-50 dark:bg-gray-800 ${className}`}>
+    <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 items-center">
+      <div className="space-y-2">
+        {leftLabel && <div className="text-xs font-medium text-gray-500 uppercase">{leftLabel}</div>}
+        <LocationDetailCard location={leftLocation} type={leftType} className="border-none bg-transparent p-0" />
+      </div>
+      <div className="flex justify-center">
+        {icon}
+      </div>
+      <div className="space-y-2">
+        {rightLabel && <div className="text-xs font-medium text-gray-500 uppercase">{rightLabel}</div>}
+        <LocationDetailCard location={rightLocation} type={rightType} className="border-none bg-transparent p-0" />
+      </div>
+    </div>
+  </div>
+);
 
 export default function LocationMatch() {
   const [currentStep, setCurrentStep] = useState(1);
@@ -176,6 +381,39 @@ export default function LocationMatch() {
                 We've automatically matched most of your locations based on name and address. 
                 The remaining locations need your input to ensure everything is synced correctly.
               </p>
+
+              {/* Examples of Automatically Matched Locations */}
+              <div className="mb-8">
+                <h4 className="text-lg font-semibold mb-4 text-left">Examples of Automatically Matched Locations</h4>
+                <div className="space-y-4">
+                  {mockAutoMatched.slice(0, 2).map((match, index) => (
+                    <ComparisonCard
+                      key={index}
+                      leftLocation={match.venueXLocation}
+                      rightLocation={match.platformLocation}
+                      leftType="venuex"
+                      rightType="platform"
+                      leftLabel="VenueX Location"
+                      rightLabel="Meta Page"
+                    />
+                  ))}
+                </div>
+              </div>
+
+              {/* Locations Requiring Manual Review */}
+              <div className="mb-8">
+                <h4 className="text-lg font-semibold mb-4 text-left">Locations Requiring Manual Review</h4>
+                <div className="space-y-3">
+                  {unmatchedLocations.map((location, index) => (
+                    <LocationDetailCard
+                      key={index}
+                      location={location}
+                      type="platform"
+                      className="border-amber-200 dark:border-amber-800"
+                    />
+                  ))}
+                </div>
+              </div>
 
               <Button 
                 onClick={() => setCurrentStep(2)}
