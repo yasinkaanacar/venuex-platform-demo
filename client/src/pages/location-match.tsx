@@ -371,22 +371,43 @@ export default function LocationMatch() {
           ) : (
             <div>
               <CheckCircle className="w-12 h-12 mx-auto mb-4 text-green-600" />
-              <h3 className="text-xl font-semibold mb-4">Matching Complete!</h3>
+              <h3 className="text-xl font-semibold mb-6">Matching Complete!</h3>
               
-              <div className="space-y-3 mb-6">
-                <div className="flex justify-between items-center py-2">
-                  <span className="font-medium">Found on Meta:</span>
-                  <span className="text-2xl font-bold text-blue-600">
-                    {mockAutoMatched.length + unmatchedLocations.length} Pages
-                  </span>
+              {/* Visual Results Bar */}
+              <div className="mb-6">
+                <div className="flex items-center justify-center space-x-4 mb-4">
+                  <div className="text-center">
+                    <div className="text-2xl font-bold text-green-600">{mockAutoMatched.length}</div>
+                    <div className="text-sm text-gray-600 dark:text-gray-400">Matched</div>
+                  </div>
+                  <div className="text-center">
+                    <div className="text-2xl font-bold text-amber-600">{unmatchedLocations.length}</div>
+                    <div className="text-sm text-gray-600 dark:text-gray-400">Need Review</div>
+                  </div>
                 </div>
-                <div className="flex justify-between items-center py-2">
-                  <span className="font-medium">Automatically Matched:</span>
-                  <span className="text-2xl font-bold text-green-600">{mockAutoMatched.length} Pages</span>
+                
+                {/* Progress Bar */}
+                <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-lg h-6 overflow-hidden">
+                  <div className="h-full flex">
+                    {/* Green segment for matched */}
+                    <div 
+                      className="bg-green-500 flex items-center justify-center text-white text-sm font-medium"
+                      style={{ width: `${(mockAutoMatched.length / (mockAutoMatched.length + unmatchedLocations.length)) * 100}%` }}
+                    >
+                      {mockAutoMatched.length > 0 && `${mockAutoMatched.length} Matched`}
+                    </div>
+                    {/* Amber segment for unmatched */}
+                    <div 
+                      className="bg-amber-500 flex items-center justify-center text-white text-sm font-medium"
+                      style={{ width: `${(unmatchedLocations.length / (mockAutoMatched.length + unmatchedLocations.length)) * 100}%` }}
+                    >
+                      {unmatchedLocations.length > 0 && `${unmatchedLocations.length} Need Review`}
+                    </div>
+                  </div>
                 </div>
-                <div className="flex justify-between items-center py-2">
-                  <span className="font-medium">Requiring Manual Review:</span>
-                  <span className="text-2xl font-bold text-amber-600">{unmatchedLocations.length} Pages</span>
+                
+                <div className="text-center mt-2 text-sm text-gray-600 dark:text-gray-400">
+                  Total: {mockAutoMatched.length + unmatchedLocations.length} Meta Pages Found
                 </div>
               </div>
 
