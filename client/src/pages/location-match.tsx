@@ -449,17 +449,16 @@ export default function LocationMatch() {
                 <div
                   key={location.id}
                   onClick={() => location.status === 'pending' ? setSelectedUnmatched(location.id) : null}
-                  className={`p-4 border rounded-lg transition-colors cursor-pointer ${
+                  className={`transition-colors cursor-pointer relative ${
                     selectedUnmatched === location.id 
-                      ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/20' 
-                      : 'border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800'
+                      ? 'ring-2 ring-blue-500' 
+                      : ''
                   } ${location.status !== 'pending' ? 'opacity-60 cursor-default' : ''}`}
                   data-testid={`card-unmatched-${location.id}`}
                 >
-                  <div className="flex justify-between items-start mb-2">
-                    <h4 className="font-medium text-gray-900 dark:text-white">{location.name}</h4>
+                  <div className="relative">
                     <Badge 
-                      className={`${
+                      className={`absolute top-2 right-2 z-10 ${
                         location.status === 'pending' ? 'bg-amber-100 text-amber-800' :
                         location.status === 'linked' ? 'bg-green-100 text-green-800' :
                         'bg-blue-100 text-blue-800'
@@ -469,18 +468,39 @@ export default function LocationMatch() {
                        location.status === 'linked' ? 'Manually Linked' :
                        'To Be Re-created'}
                     </Badge>
+                    
+                    <LocationDetailCard 
+                      location={location} 
+                      type="platform" 
+                      className={`${
+                        selectedUnmatched === location.id 
+                          ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/20' 
+                          : 'border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800'
+                      } pt-12`}
+                    />
+                    
+                    {location.linkedTo && (
+                      <div className="p-3 mt-2 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg">
+                        <p className="text-sm text-green-800 dark:text-green-200 font-medium">
+                          ✓ Linked to: {location.linkedTo.name}
+                        </p>
+                        <p className="text-xs text-green-600 dark:text-green-300">
+                          {location.linkedTo.address}
+                        </p>
+                      </div>
+                    )}
+                    
+                    {location.recreateWith && (
+                      <div className="p-3 mt-2 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg">
+                        <p className="text-sm text-blue-800 dark:text-blue-200 font-medium">
+                          🔄 Will recreate with: {location.recreateWith.name}
+                        </p>
+                        <p className="text-xs text-blue-600 dark:text-blue-300">
+                          {location.recreateWith.address}
+                        </p>
+                      </div>
+                    )}
                   </div>
-                  <p className="text-sm text-gray-600 dark:text-gray-400">{location.address}</p>
-                  {location.linkedTo && (
-                    <p className="text-sm text-green-600 mt-2">
-                      Linked to: {location.linkedTo.name}
-                    </p>
-                  )}
-                  {location.recreateWith && (
-                    <p className="text-sm text-blue-600 mt-2">
-                      Will recreate with: {location.recreateWith.name}
-                    </p>
-                  )}
                 </div>
               ))}
             </div>
@@ -512,10 +532,16 @@ export default function LocationMatch() {
                     <SelectTrigger data-testid="select-link-location">
                       <SelectValue placeholder="Select a VenueX location to link" />
                     </SelectTrigger>
-                    <SelectContent>
+                    <SelectContent className="max-h-96">
                       {availableVenueXLocations.map((location) => (
-                        <SelectItem key={location.id} value={location.id}>
-                          {location.name} - {location.storeCode}
+                        <SelectItem key={location.id} value={location.id} className="h-auto p-0">
+                          <div className="w-full p-3">
+                            <LocationDetailCard 
+                              location={location} 
+                              type="venuex" 
+                              className="border-none bg-transparent p-0 m-0"
+                            />
+                          </div>
                         </SelectItem>
                       ))}
                     </SelectContent>
@@ -538,10 +564,16 @@ export default function LocationMatch() {
                     <SelectTrigger data-testid="select-recreate-location">
                       <SelectValue placeholder="Select VenueX location data to use" />
                     </SelectTrigger>
-                    <SelectContent>
+                    <SelectContent className="max-h-96">
                       {mockVenueXLocations.map((location) => (
-                        <SelectItem key={location.id} value={location.id}>
-                          {location.name} - {location.storeCode}
+                        <SelectItem key={location.id} value={location.id} className="h-auto p-0">
+                          <div className="w-full p-3">
+                            <LocationDetailCard 
+                              location={location} 
+                              type="venuex" 
+                              className="border-none bg-transparent p-0 m-0"
+                            />
+                          </div>
                         </SelectItem>
                       ))}
                     </SelectContent>
