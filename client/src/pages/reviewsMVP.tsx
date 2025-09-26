@@ -893,7 +893,7 @@ export default function ReviewsMVP() {
 
   return (
     <div className="min-h-screen bg-[#ffffff]">
-      <Header />
+      <Header title="Reviews" />
       <div className="px-6 py-6 bg-[#ffffff]">
         
 
