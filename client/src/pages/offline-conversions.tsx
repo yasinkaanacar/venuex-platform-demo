@@ -4,6 +4,8 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import DataQualityEnrichment from '@/components/overview/data-quality-enrichment';
+import DataHealthCard from '@/components/overview/data-health-card';
 import { 
   TrendingUp, 
   DollarSign, 
@@ -341,6 +343,16 @@ export default function OfflineConversions() {
             </div>
           </CardContent>
         </Card>
+
+        {/* Data Quality Assessment */}
+        <div className="mt-8">
+          <DataQualityEnrichment context="dashboard" />
+        </div>
+
+        {/* Data Health & Flow - Last Section */}
+        <div className="mt-8">
+          <DataHealthCard />
+        </div>
       </div>
     </div>
   );
