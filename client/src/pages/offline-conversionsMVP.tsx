@@ -4,11 +4,6 @@ import { TrendingUp, TrendingDown } from 'lucide-react';
 import { LineChart, Line, ResponsiveContainer } from "recharts";
 
 // Mock sparkline data for each KPI
-const roasSparklineData = [
-  { value: 4.2 }, { value: 4.1 }, { value: 4.3 }, { value: 4.5 }, 
-  { value: 4.4 }, { value: 4.6 }, { value: 4.7 }, { value: 4.6 }
-];
-
 const revenueSparklineData = [
   { value: 1100000 }, { value: 1050000 }, { value: 1150000 }, { value: 1200000 }, 
   { value: 1180000 }, { value: 1220000 }, { value: 1250000 }, { value: 1200000 }
@@ -19,9 +14,14 @@ const conversionsSparklineData = [
   { value: 2080 }, { value: 2150 }, { value: 2200 }, { value: 2150 }
 ];
 
-const costSparklineData = [
-  { value: 48.5 }, { value: 49.2 }, { value: 47.8 }, { value: 46.5 }, 
-  { value: 47.1 }, { value: 45.8 }, { value: 45.2 }, { value: 45.5 }
+const roasSparklineData = [
+  { value: 4.2 }, { value: 4.1 }, { value: 4.3 }, { value: 4.5 }, 
+  { value: 4.4 }, { value: 4.6 }, { value: 4.7 }, { value: 4.6 }
+];
+
+const contributionSparklineData = [
+  { value: 32 }, { value: 31 }, { value: 33 }, { value: 34 }, 
+  { value: 34 }, { value: 35 }, { value: 36 }, { value: 35 }
 ];
 
 interface KPICardProps {
@@ -47,8 +47,8 @@ function KPICard({ title, primaryMetric, changePercent, isPositiveChange, sparkl
 
   const tooltipTitle = (
     <div className="text-left">
-      <div className="font-medium mb-2">{title} by Platform</div>
-      {tooltipContent.map((line, index) => (
+      <div className="font-medium mb-2">{tooltipContent[0]}</div>
+      {tooltipContent.slice(1).map((line, index) => (
         <div key={index} className="text-sm">{line}</div>
       ))}
     </div>
@@ -110,51 +110,53 @@ function KPICard({ title, primaryMetric, changePercent, isPositiveChange, sparkl
 export default function OfflineConversionsMVP() {
   const kpiData = [
     {
-      title: "Offline ROAS",
-      primaryMetric: "4.6x",
-      changePercent: 15,
-      isPositiveChange: true,
-      sparklineData: roasSparklineData,
-      tooltipContent: [
-        "• Google Ads: 5.2x",
-        "• Meta: 4.1x", 
-        "• TikTok: 3.8x"
-      ]
-    },
-    {
       title: "Attributed Offline Revenue",
       primaryMetric: "₺1.2M",
       changePercent: 8,
       isPositiveChange: true,
       sparklineData: revenueSparklineData,
       tooltipContent: [
+        "Revenue by Platform",
         "• Google Ads: ₺700,000",
         "• Meta: ₺450,000",
         "• TikTok: ₺50,000"
       ]
     },
     {
-      title: "Attributed Conversions",
+      title: "Attributed Offline Conversions",
       primaryMetric: "2,150",
       changePercent: 12,
       isPositiveChange: true,
       sparklineData: conversionsSparklineData,
       tooltipContent: [
+        "Conversions by Platform",
         "• Google Ads: 1,290",
         "• Meta: 720",
         "• TikTok: 140"
       ]
     },
     {
-      title: "Cost Per Store Conversion",
-      primaryMetric: "₺45.50",
-      changePercent: 5,
-      isPositiveChange: true, // Decrease in cost is positive
-      sparklineData: costSparklineData,
+      title: "Attributed Offline ROAS",
+      primaryMetric: "4.6x",
+      changePercent: 15,
+      isPositiveChange: true,
+      sparklineData: roasSparklineData,
       tooltipContent: [
-        "• Google Ads: ₺42.30",
-        "• Meta: ₺48.90",
-        "• TikTok: ₺52.10"
+        "Calculation Method",
+        "This ROAS is calculated using the total ad spend for campaigns driving both online and offline outcomes. It represents the return generated from the attributed in-store sales portion of the investment."
+      ]
+    },
+    {
+      title: "Offline Revenue Contribution",
+      primaryMetric: "35%",
+      changePercent: 5,
+      isPositiveChange: true,
+      sparklineData: contributionSparklineData,
+      tooltipContent: [
+        "Revenue Breakdown",
+        "• Attributed Offline: ₺1.2M",
+        "• Attributed Online: ₺2.2M",
+        "Total Attributed: ₺3.4M"
       ]
     }
   ];

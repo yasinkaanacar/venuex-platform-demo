@@ -1,0 +1,90 @@
+Design Solution: The Offline Contribution KPI Row
+1. The Core Concept
+
+The purpose of this KPI row is to quantify the precise in-store value that VenueX has measured and attributed to digital advertising. Since the ad spend is shared with online objectives, we cannot create a methodologically pure "offline-only" ROAS without making assumptions.
+
+Therefore, the solution is to frame the KPIs around Contribution and Attribution. We will present the absolute offline results clearly and introduce a powerful ratio metric that shows the proportion of total success that comes from in-store sales. This directly answers the user's question: "How significant is the offline impact that was previously unmeasured?"
+
+2. Visual Mockup & Design Specification
+
+The component will be a row of four Card elements. Each card is designed to be clear, scannable, and focused on a single aspect of offline performance.
+
+The Four Cards:
+
+Card 1: Attributed Offline Revenue (The Core Value Metric)
+
+Purpose: This is the hero metric. It shows the total monetary value of in-store sales that VenueX has successfully attributed to digital campaigns. It is the most direct measure of the platform's value.
+
+Title: Attributed Offline Revenue
+
+Primary Metric: ₺1.2M
+
+Comparison Metric: ▲ 8% vs. previous 30 days
+
+Card 2: Attributed Offline Conversions (The Volume Metric)
+
+Purpose: This card shows the total volume of in-store transactions attributed to digital campaigns, providing context to the revenue figure.
+
+Title: Attributed Offline Conversions
+
+Primary Metric: 2,150
+
+Comparison Metric: ▲ 12% vs. previous 30 days
+
+Card 3: Attributed Offline ROAS (The Efficiency Indicator)
+
+Purpose: This card provides a directional measure of efficiency. It is intentionally named "Attributed Offline ROAS" to be transparent about its calculation. It answers the question, "Based on our total ad spend, what was the return from the offline portion we measured?"
+
+Title: Attributed Offline ROAS
+
+Formula: (Attributed Offline Revenue) / (Total Ad Spend)
+
+Primary Metric: 4.6x
+
+Comparison Metric: ▲ 15% vs. previous 30 days
+
+Card 4: Offline Revenue Contribution (The Strategic Metric)
+
+Purpose: This is the key strategic insight. It shows what percentage of the total measured revenue (online + offline) came from in-store sales. This metric elegantly solves the shared cost problem by focusing on the composition of the outcome, not the allocation of the input. It powerfully demonstrates the scale of the "attribution gap" that VenueX is closing.
+
+Title: Offline Revenue Contribution
+
+Formula: (Offline Revenue) / (Online Revenue + Offline Revenue)
+
+Primary Metric: 35%
+
+Comparison Metric: ▲ 5% vs. previous 30 days
+
+3. Interaction Design: The Clarity Tooltip
+
+To ensure absolute transparency and build user trust, the tooltips are essential, especially for the calculated metrics.
+
+Functionality: Hovering over any card reveals a Tooltip with a breakdown or explanation.
+
+Tooltip for "Attributed Offline ROAS": This is the most important one.
+
+Calculation Method
+This ROAS is calculated using the total ad spend for campaigns driving both online and offline outcomes. It represents the return generated from the attributed in-store sales portion of the investment.
+
+Tooltip for "Offline Revenue Contribution":
+
+Revenue Breakdown
+• Attributed Offline: ₺1.2M
+• Attributed Online: ₺2.2M
+Total Attributed: ₺3.4M
+
+Tooltips for Revenue & Conversions: These would show a simple breakdown by platform.
+
+Revenue by Platform
+• Google Ads: ₺700,000
+• Meta: ₺450,000
+
+4. Why This Solution is Ideal
+
+Highlights the Core Value Proposition: This design relentlessly focuses on the offline numbers that VenueX uncovers, making the platform's contribution the central story.
+
+Intellectually Honest: It avoids misleading metrics. The Attributed Offline ROAS is carefully named and explained in a tooltip, while the Offline Revenue Contribution metric provides a mathematically sound and powerful way to contextualize the offline impact.
+
+Strategically Insightful: The Offline Revenue Contribution card is a brilliant tool for a CMO. Seeing that "35% of all revenue from digital ads actually happens in my stores" is a paradigm-shifting insight that justifies both the marketing spend and the investment in VenueX.
+
+Clean and Unambiguous: By focusing strictly on the offline story as requested, the cards provide a clear, uncluttered view that directly serves the user's goal of isolating and understanding in-store performance.
