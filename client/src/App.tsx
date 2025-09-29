@@ -4,6 +4,7 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import Sidebar from "@/components/layout/sidebar";
 import Overview from "@/pages/overview";
 import OfflineConversions from "@/pages/offline-conversions";
+import OfflineConversionsMVP from "@/pages/offline-conversionsMVP";
 import Locations from "@/pages/locations";
 import Reviews from "@/pages/reviews";
 import ReviewsX from "@/pages/reviewsX";
@@ -29,6 +30,7 @@ function Router() {
         <Switch>
           <Route path="/" component={Overview} />
           <Route path="/offline-conversions" component={OfflineConversions} />
+          <Route path="/offline-conversionsMVP" component={OfflineConversionsMVP} />
           <Route path="/locations" component={Locations} />
           <Route path="/locations/posts" component={Locations} />
           <Route path="/reviews" component={Reviews} />
