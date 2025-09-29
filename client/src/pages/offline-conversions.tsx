@@ -142,6 +142,165 @@ export default function OfflineConversions() {
           </CardContent>
         </Card>
 
+        {/* Executive Summary for C-Suite Reporting */}
+        <Card className="mb-8 bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900/50 dark:to-slate-800/50 border-slate-200 dark:border-slate-700">
+          <CardHeader className="pb-4">
+            <div className="flex items-center justify-between">
+              <div>
+                <CardTitle className="text-lg font-bold text-slate-900 dark:text-white flex items-center space-x-2">
+                  <Users className="w-5 h-5 text-slate-600" />
+                  <span>Executive Summary</span>
+                </CardTitle>
+                <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">
+                  Strategic financial impact of digital advertising on in-store revenue performance
+                </p>
+              </div>
+              <Badge variant="secondary" className="bg-slate-200 text-slate-800 dark:bg-slate-700 dark:text-slate-200">
+                CFO Report Ready
+              </Badge>
+            </div>
+          </CardHeader>
+          <CardContent>
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+              {/* Financial Performance Overview */}
+              <div className="lg:col-span-2 space-y-6">
+                {/* Key Financial Metrics */}
+                <div>
+                  <h3 className="font-semibold text-slate-800 dark:text-slate-200 mb-4 flex items-center space-x-2">
+                    <DollarSign className="w-4 h-4" />
+                    <span>Financial Performance Summary</span>
+                  </h3>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="bg-white dark:bg-slate-800 rounded-lg p-4 border border-slate-200 dark:border-slate-600">
+                      <div className="text-2xl font-bold text-slate-900 dark:text-white">{formatCurrency(2847500)}</div>
+                      <div className="text-sm font-medium text-slate-600 dark:text-slate-400">Total Attributed Revenue</div>
+                      <div className="flex items-center space-x-2 mt-2">
+                        <div className="flex items-center space-x-1 text-green-600">
+                          <ArrowUpRight className="w-3 h-3" />
+                          <span className="text-xs font-semibold">+27.5%</span>
+                        </div>
+                        <span className="text-xs text-slate-500">vs previous period</span>
+                      </div>
+                    </div>
+                    <div className="bg-white dark:bg-slate-800 rounded-lg p-4 border border-slate-200 dark:border-slate-600">
+                      <div className="text-2xl font-bold text-slate-900 dark:text-white">4.23:1</div>
+                      <div className="text-sm font-medium text-slate-600 dark:text-slate-400">Average ROAS</div>
+                      <div className="flex items-center space-x-2 mt-2">
+                        <div className="flex items-center space-x-1 text-green-600">
+                          <ArrowUpRight className="w-3 h-3" />
+                          <span className="text-xs font-semibold">+9.3%</span>
+                        </div>
+                        <span className="text-xs text-slate-500">above target (4:1)</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Strategic Insights */}
+                <div>
+                  <h3 className="font-semibold text-slate-800 dark:text-slate-200 mb-4 flex items-center space-x-2">
+                    <Target className="w-4 h-4" />
+                    <span>Strategic Performance Insights</span>
+                  </h3>
+                  <div className="space-y-3">
+                    <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4">
+                      <div className="flex items-start space-x-3">
+                        <div className="w-2 h-2 bg-blue-500 rounded-full mt-2"></div>
+                        <div>
+                          <div className="font-medium text-blue-800 dark:text-blue-300 text-sm">Platform Diversification Success</div>
+                          <div className="text-blue-700 dark:text-blue-400 text-xs mt-1">
+                            Google Ads leads with 43.8% revenue share, while Facebook (35.1%) and Microsoft (13.6%) provide balanced risk distribution across platforms.
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg p-4">
+                      <div className="flex items-start space-x-3">
+                        <div className="w-2 h-2 bg-green-500 rounded-full mt-2"></div>
+                        <div>
+                          <div className="font-medium text-green-800 dark:text-green-300 text-sm">Store Performance Excellence</div>
+                          <div className="text-green-700 dark:text-green-400 text-xs mt-1">
+                            Istanbul Zorlu Center generates ₺487,200 in attributed revenue with 3.8% conversion rate, establishing it as the flagship digital-to-physical performance leader.
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="bg-orange-50 dark:bg-orange-900/20 border border-orange-200 dark:border-orange-800 rounded-lg p-4">
+                      <div className="flex items-start space-x-3">
+                        <div className="w-2 h-2 bg-orange-500 rounded-full mt-2"></div>
+                        <div>
+                          <div className="font-medium text-orange-800 dark:text-orange-300 text-sm">Temporal Optimization Opportunity</div>
+                          <div className="text-orange-700 dark:text-orange-400 text-xs mt-1">
+                            Evening hours (19:00-21:00) show 23% higher conversion rates. Budget reallocation could yield additional ₺156K monthly revenue.
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Executive Action Items */}
+              <div>
+                <h3 className="font-semibold text-slate-800 dark:text-slate-200 mb-4 flex items-center space-x-2">
+                  <BarChart3 className="w-4 h-4" />
+                  <span>Executive Action Items</span>
+                </h3>
+                <div className="space-y-4">
+                  {/* Priority Actions */}
+                  <div className="bg-white dark:bg-slate-800 rounded-lg p-4 border border-slate-200 dark:border-slate-600">
+                    <div className="flex items-center justify-between mb-3">
+                      <Badge className="bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-400 text-xs">
+                        High Priority
+                      </Badge>
+                      <span className="text-xs text-slate-500">Est. Impact: +₺156K/mo</span>
+                    </div>
+                    <div className="font-medium text-slate-900 dark:text-white text-sm mb-2">Budget Reallocation Strategy</div>
+                    <div className="text-slate-600 dark:text-slate-400 text-xs">
+                      Shift 15% of morning budgets to evening hours (19:00-21:00) based on 23% higher conversion performance.
+                    </div>
+                  </div>
+
+                  <div className="bg-white dark:bg-slate-800 rounded-lg p-4 border border-slate-200 dark:border-slate-600">
+                    <div className="flex items-center justify-between mb-3">
+                      <Badge className="bg-blue-100 text-blue-800 dark:bg-blue-900/20 dark:text-blue-400 text-xs">
+                        Medium Priority
+                      </Badge>
+                      <span className="text-xs text-slate-500">Est. Impact: +₺89K/mo</span>
+                    </div>
+                    <div className="font-medium text-slate-900 dark:text-white text-sm mb-2">Weekend Campaign Focus</div>
+                    <div className="text-slate-600 dark:text-slate-400 text-xs">
+                      Develop weekend-specific campaigns targeting Saturday's 22% revenue premium over weekday average.
+                    </div>
+                  </div>
+
+                  <div className="bg-white dark:bg-slate-800 rounded-lg p-4 border border-slate-200 dark:border-slate-600">
+                    <div className="flex items-center justify-between mb-3">
+                      <Badge className="bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400 text-xs">
+                        Strategic
+                      </Badge>
+                      <span className="text-xs text-slate-500">Long-term ROI</span>
+                    </div>
+                    <div className="font-medium text-slate-900 dark:text-white text-sm mb-2">Data Attribution Enhancement</div>
+                    <div className="text-slate-600 dark:text-slate-400 text-xs">
+                      Implement advanced attribution modeling to capture 54% more revenue attribution vs first-touch model.
+                    </div>
+                  </div>
+                </div>
+
+                {/* Financial Confidence Indicator */}
+                <div className="mt-6 bg-slate-100 dark:bg-slate-800 rounded-lg p-4">
+                  <div className="text-center">
+                    <div className="text-lg font-bold text-slate-900 dark:text-white">94%</div>
+                    <div className="text-sm font-medium text-slate-600 dark:text-slate-400">Data Confidence</div>
+                    <div className="text-xs text-slate-500 mt-1">Attribution accuracy level</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
         {/* CFO-Credible KPI Dashboard */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           {/* Attributed Offline Revenue */}
