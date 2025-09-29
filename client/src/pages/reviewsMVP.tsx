@@ -118,6 +118,7 @@ export default function ReviewsMVP() {
   const [avgRatingFilter, setAvgRatingFilter] = useState("all");
   const [replyRateFilter, setReplyRateFilter] = useState("all");
   const [locationSearchQuery, setLocationSearchQuery] = useState("");
+  const [locationsDateRange, setLocationsDateRange] = useState("30");
   const [inboxFilters, setInboxFilters] = useState({
     source: null,
     rating: null,
@@ -903,7 +904,7 @@ export default function ReviewsMVP() {
             <Button 
               variant="outline" 
               size="sm" 
-              className="border-2 border-gray-300 bg-white hover:bg-gray-50 hover:border-gray-400 shadow-sm"
+              className="border-2 border-gray-300 hover:bg-gray-50 hover:border-gray-400 shadow-sm bg-[#e7e5e4]"
               onClick={() => setAlertSettingsOpen(true)}
             >
               <Bell className="w-4 h-4 mr-2" />
@@ -1818,6 +1819,24 @@ export default function ReviewsMVP() {
 
           {/* Locations Tab */}
           <TabsContent value="locations" className="space-y-6">
+            {/* Date Range Selector for Locations */}
+            <div className="flex justify-end mb-4">
+              <div className="w-fit">
+                <button 
+                  data-testid="button-locations-date-picker"
+                  className="border border-gray-200 focus:border-gray-300 w-40 pl-3 pr-10 py-2 rounded-md text-sm appearance-none bg-no-repeat bg-right text-left"
+                  style={{ 
+                    backgroundColor: '#f9fafb',
+                    backgroundImage: 'url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHZpZXdCb3g9IjAgMCAxNiAxNiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0ibTQgNiA0IDQgNC00IiBzdHJva2U9IiM2NjY2NjYiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+Cjwvc3ZnPg==")',
+                    backgroundPosition: 'right 8px center',
+                    backgroundSize: '16px 16px'
+                  }}
+                >
+                  Last 30 Days
+                </button>
+              </div>
+            </div>
+
             {/* Location Filter Bar */}
             <Card className="border-gray-200 bg-[#f9fafb]">
               <CardContent className="p-4">
