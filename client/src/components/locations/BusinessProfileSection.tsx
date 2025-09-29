@@ -31,11 +31,11 @@ const platformData = [
 ];
 
 const searchTerms = [
-  { term: 'boyner', count: '920,816' },
+  { term: 'demo', count: '920,816' },
   { term: 'calvin klein', count: '16,075' },
   { term: 'avm', count: '11,985' },
-  { term: 'boyner mağazaları', count: '10,335' },
-  { term: 'boyner outlet', count: '10,049' },
+  { term: 'demo mağazaları', count: '10,335' },
+  { term: 'demo outlet', count: '10,049' },
   { term: 'tommy hilfiger', count: '9,373' }
 ];
 

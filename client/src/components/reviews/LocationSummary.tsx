@@ -42,26 +42,26 @@ export default function LocationSummary() {
 
   // Location data for table
   const locationData = [
-    { name: "Boyner Eskişehir Kanatlı", rating: 4.2, reviews: 847, responseRate: 78, sentiment: "Positive" },
-    { name: "Boyner İstanbul AVM", rating: 3.8, reviews: 1243, responseRate: 45, sentiment: "Neutral" },
-    { name: "Boyner Ankara Kızılay", rating: 4.5, reviews: 692, responseRate: 92, sentiment: "Positive" },
-    { name: "Boyner Bursa Kent Meydanı", rating: 3.2, reviews: 528, responseRate: 38, sentiment: "Negative" },
-    { name: "Boyner İzmir Konak", rating: 4.1, reviews: 934, responseRate: 67, sentiment: "Positive" },
-    { name: "Boyner Adana Optimum", rating: 3.9, reviews: 421, responseRate: 58, sentiment: "Neutral" },
-    { name: "Boyner Antalya MarkAntalya", rating: 4.3, reviews: 756, responseRate: 82, sentiment: "Positive" },
-    { name: "Boyner Trabzon Forum", rating: 3.6, reviews: 389, responseRate: 55, sentiment: "Neutral" },
-    { name: "Boyner Samsun Piazza", rating: 4.0, reviews: 623, responseRate: 71, sentiment: "Positive" },
-    { name: "Boyner Gaziantep Forum", rating: 3.4, reviews: 445, responseRate: 42, sentiment: "Negative" },
-    { name: "Boyner Kayseri Forum", rating: 4.2, reviews: 567, responseRate: 76, sentiment: "Positive" },
-    { name: "Boyner Konya M1", rating: 3.7, reviews: 398, responseRate: 63, sentiment: "Neutral" },
-    { name: "Boyner Denizli Forum", rating: 4.4, reviews: 312, responseRate: 88, sentiment: "Positive" },
-    { name: "Boyner Mersin Marina", rating: 3.5, reviews: 478, responseRate: 47, sentiment: "Negative" },
-    { name: "Boyner Diyarbakır Kay", rating: 3.9, reviews: 234, responseRate: 69, sentiment: "Positive" },
-    { name: "Boyner Erzurum Palandöken", rating: 4.1, reviews: 189, responseRate: 74, sentiment: "Positive" },
-    { name: "Boyner Malatya Arasta Park", rating: 3.8, reviews: 267, responseRate: 52, sentiment: "Neutral" },
-    { name: "Boyner Van 100. Yıl", rating: 3.3, reviews: 156, responseRate: 39, sentiment: "Negative" },
-    { name: "Boyner Şanlıurfa Piazza", rating: 4.0, reviews: 298, responseRate: 65, sentiment: "Positive" },
-    { name: "Boyner Batman Park", rating: 3.6, reviews: 134, responseRate: 44, sentiment: "Negative" }
+    { name: "Demo Eskişehir Kanatlı", rating: 4.2, reviews: 847, responseRate: 78, sentiment: "Positive" },
+    { name: "Demo İstanbul AVM", rating: 3.8, reviews: 1243, responseRate: 45, sentiment: "Neutral" },
+    { name: "Demo Ankara Kızılay", rating: 4.5, reviews: 692, responseRate: 92, sentiment: "Positive" },
+    { name: "Demo Bursa Kent Meydanı", rating: 3.2, reviews: 528, responseRate: 38, sentiment: "Negative" },
+    { name: "Demo İzmir Konak", rating: 4.1, reviews: 934, responseRate: 67, sentiment: "Positive" },
+    { name: "Demo Adana Optimum", rating: 3.9, reviews: 421, responseRate: 58, sentiment: "Neutral" },
+    { name: "Demo Antalya MarkAntalya", rating: 4.3, reviews: 756, responseRate: 82, sentiment: "Positive" },
+    { name: "Demo Trabzon Forum", rating: 3.6, reviews: 389, responseRate: 55, sentiment: "Neutral" },
+    { name: "Demo Samsun Piazza", rating: 4.0, reviews: 623, responseRate: 71, sentiment: "Positive" },
+    { name: "Demo Gaziantep Forum", rating: 3.4, reviews: 445, responseRate: 42, sentiment: "Negative" },
+    { name: "Demo Kayseri Forum", rating: 4.2, reviews: 567, responseRate: 76, sentiment: "Positive" },
+    { name: "Demo Konya M1", rating: 3.7, reviews: 398, responseRate: 63, sentiment: "Neutral" },
+    { name: "Demo Denizli Forum", rating: 4.4, reviews: 312, responseRate: 88, sentiment: "Positive" },
+    { name: "Demo Mersin Marina", rating: 3.5, reviews: 478, responseRate: 47, sentiment: "Negative" },
+    { name: "Demo Diyarbakır Kay", rating: 3.9, reviews: 234, responseRate: 69, sentiment: "Positive" },
+    { name: "Demo Erzurum Palandöken", rating: 4.1, reviews: 189, responseRate: 74, sentiment: "Positive" },
+    { name: "Demo Malatya Arasta Park", rating: 3.8, reviews: 267, responseRate: 52, sentiment: "Neutral" },
+    { name: "Demo Van 100. Yıl", rating: 3.3, reviews: 156, responseRate: 39, sentiment: "Negative" },
+    { name: "Demo Şanlıurfa Piazza", rating: 4.0, reviews: 298, responseRate: 65, sentiment: "Positive" },
+    { name: "Demo Batman Park", rating: 3.6, reviews: 134, responseRate: 44, sentiment: "Negative" }
   ];
 
   // Sorting function

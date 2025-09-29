@@ -94,7 +94,7 @@ export default function Reviews() {
   const reviews = [
     {
       id: 1,
-      name: "Boyner Eskişehir Kanatlı",
+      name: "Demo Eskişehir Kanatlı",
       rating: 3,
       date: "4 days ago",
       comment: "İyi hizmet veriyorlar ama alan çok daraltılmış. Personel çok ilgili ancak mağaza çok küçük.",
@@ -104,7 +104,7 @@ export default function Reviews() {
     },
     {
       id: 2,
-      name: "Boyner Eskişehir Kanatlı",
+      name: "Demo Eskişehir Kanatlı",
       rating: 4,
       date: "7 days ago", 
       comment: "3.95 ⭐⭐⭐⭐ 1017 Reviews\nTepebaşı Mh, İsmet İnönü Cd. No:15, Eskişehir",
@@ -124,27 +124,27 @@ export default function Reviews() {
     },
     {
       id: 4,
-      name: "Boyner Espark Kanatli",
+      name: "Demo Espark Kanatli",
       rating: 1,
       date: "11 May 2023 8:07 AM",
-      comment: "Spor giyim rafik yeterli, çalışan personelin hiç başpara etiketi yoktu. Boyner Eskişehir Kanatlı spor bölümünde kocası bu da rahat güzeldi aracıya iken gizli çekilmiş personel büyük ihtimalle. Ayrıca raflardaki ürünlerin hangi bed",
+      comment: "Spor giyim rafik yeterli, çalışan personelin hiç başpara etiketi yoktu. Demo Eskişehir Kanatlı spor bölümünde kocası bu da rahat güzeldi aracıya iken gizli çekilmiş personel büyük ihtimalle. Ayrıca raflardaki ürünlerin hangi bed",
       location: "",
       status: "Delete",
       hasPhoto: false
     },
     {
       id: 5,
-      name: "Boyner Ankara Karum",
+      name: "Demo Ankara Karum",
       rating: 5,
       date: "",
-      comment: "Dur bir... İsmail Hakki Tonguç, thank you for your valuable feedback. At Boyner Eskişehir Kanatli, we value our guests' feedback and you with a better shopping experience. For all your inquiries, please contact us at info@boynergroup.com.tr or call center at +444 0 6 67. Thank you once again.",
+      comment: "Dur bir... İsmail Hakki Tonguç, thank you for your valuable feedback. At Demo Eskişehir Kanatli, we value our guests' feedback and you with a better shopping experience. For all your inquiries, please contact us at info@demogroup.com.tr or call center at +444 0 6 67. Thank you once again.",
       location: "",
       status: "Reply",
       hasPhoto: false
     },
     {
       id: 6,
-      name: "Boyner Dynamic Çerkezköy",
+      name: "Demo Dynamic Çerkezköy",
       rating: 3,
       date: "",
       comment: "Bayley personel çağırdığında çok 30-35 çalıştırıyor",
@@ -154,7 +154,7 @@ export default function Reviews() {
     },
     {
       id: 7,
-      name: "Boyner Aydin Forum",
+      name: "Demo Aydin Forum",
       rating: 5,
       date: "",
       comment: "Ayvalık tekstil mağazası ANTIKA!\nBir çalışanı olmasa mağazalarda satış yapması zorlaşacak.",
@@ -164,17 +164,17 @@ export default function Reviews() {
     },
     {
       id: 8,
-      name: "Boyner Antalia",
+      name: "Demo Antalia",
       rating: 1,
       date: "",
-      comment: "Boyner Antalya Kapalı şu ana kadar tesadüfen.",
+      comment: "Demo Antalya Kapalı şu ana kadar tesadüfen.",
       location: "",
       status: "Reply", 
       hasPhoto: false
     },
     {
       id: 9,
-      name: "Boyner Ankara Migros", 
+      name: "Demo Ankara Migros", 
       rating: 5,
       date: "",
       comment: "Mağazadan mağazaya geç çok güzelmiş ve tekliflerim de sayesinde memnun kalıyor, diyor çok.",
@@ -184,7 +184,7 @@ export default function Reviews() {
     },
     {
       id: 10,
-      name: "Boyner İnan Ayvacıklık",
+      name: "Demo İnan Ayvacıklık",
       rating: 3,
       date: "",
       comment: "Çalışanlar mağaza açış dışında yardımcı olmuyorlar Yeterki mağazalara satin alım sayfalinde de mağazada olanrak.",
@@ -194,10 +194,10 @@ export default function Reviews() {
     },
     {
       id: 11,
-      name: "Boyner Gebze Center",
+      name: "Demo Gebze Center",
       rating: 4,
       date: "",
-      comment: "Beğendiğim boyner çok yakala olmak...",
+      comment: "Beğendiğim demo çok yakala olmak...",
       location: "",
       status: "Reply",
       hasPhoto: false
@@ -872,7 +872,7 @@ export default function Reviews() {
                                   B
                                 </div>
                                 <div>
-                                  <div className="font-medium text-gray-900">Boyner Eskişehir Kanatlı</div>
+                                  <div className="font-medium text-gray-900">Demo Eskişehir Kanatlı</div>
                                   <div className="text-xs text-gray-500">Write a reply</div>
                                 </div>
                               </div>
@@ -1004,7 +1004,7 @@ export default function Reviews() {
                           
                           <div className="grid grid-cols-4 gap-2 text-sm py-2 border-b">
                             <div className="text-gray-600">M175</div>
-                            <div className="font-medium">Boyner Eskişehir</div>
+                            <div className="font-medium">Demo Eskişehir</div>
                             <div>847</div>
                             <div className="flex items-center gap-1">
                               <Star className="w-3 h-3 fill-yellow-400 text-yellow-400" />
@@ -1014,7 +1014,7 @@ export default function Reviews() {
                           
                           <div className="grid grid-cols-4 gap-2 text-sm py-2 border-b">
                             <div className="text-gray-600">M180</div>
-                            <div className="font-medium">Boyner İstanbul AVM</div>
+                            <div className="font-medium">Demo İstanbul AVM</div>
                             <div>1243</div>
                             <div className="flex items-center gap-1">
                               <Star className="w-3 h-3 fill-yellow-400 text-yellow-400" />

@@ -80,13 +80,13 @@ export default function Sidebar({ collapsed, onToggle }: SidebarProps) {
               <div className="flex items-center space-x-3">
                 <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center shadow-sm">
                   <img 
-                    src="https://venuex-cdn.s3.eu-central-1.amazonaws.com/images/brands/logo/boyner.png" 
-                    alt="Boyner Logo" 
+                    src="https://venuex-cdn.s3.eu-central-1.amazonaws.com/images/brands/logo/demo.png" 
+                    alt="Demo Logo" 
                     className="w-9 h-9 object-contain"
                   />
                 </div>
                 <span className="text-sm font-medium text-gray-900 dark:text-white">
-                  Boyner
+                  Demo
                 </span>
               </div>
               <ChevronDown className="w-4 h-4 text-gray-500" />

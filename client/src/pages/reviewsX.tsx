@@ -114,11 +114,11 @@ export default function ReviewsX() {
     setActiveTab("inbox");
   };
 
-  // Boyner store locations data for Turkey map
+  // Demo store locations data for Turkey map
   const storeLocations = [
     {
       id: 1,
-      name: "Boyner Nişantaşı",
+      name: "Demo Nişantaşı",
       city: "Istanbul",
       coordinates: [41.0482, 28.9942] as [number, number],
       reviewCount: 324,
@@ -127,7 +127,7 @@ export default function ReviewsX() {
     },
     {
       id: 2,
-      name: "Boyner Bağdat Caddesi",
+      name: "Demo Bağdat Caddesi",
       city: "Istanbul", 
       coordinates: [40.9673, 29.0815] as [number, number],
       reviewCount: 289,
@@ -136,7 +136,7 @@ export default function ReviewsX() {
     },
     {
       id: 3,
-      name: "Boyner Zorlu Center",
+      name: "Demo Zorlu Center",
       city: "Istanbul",
       coordinates: [41.0766, 29.0142] as [number, number],
       reviewCount: 412,
@@ -145,7 +145,7 @@ export default function ReviewsX() {
     },
     {
       id: 4,
-      name: "Boyner Kızılay",
+      name: "Demo Kızılay",
       city: "Ankara",
       coordinates: [39.9208, 32.8541] as [number, number],
       reviewCount: 198,
@@ -154,7 +154,7 @@ export default function ReviewsX() {
     },
     {
       id: 5,
-      name: "Boyner Tunalı",
+      name: "Demo Tunalı",
       city: "Ankara",
       coordinates: [39.9075, 32.8597] as [number, number],
       reviewCount: 156,
@@ -163,7 +163,7 @@ export default function ReviewsX() {
     },
     {
       id: 6,
-      name: "Boyner Konak",
+      name: "Demo Konak",
       city: "Izmir",
       coordinates: [38.4189, 27.1287] as [number, number],
       reviewCount: 267,
@@ -172,7 +172,7 @@ export default function ReviewsX() {
     },
     {
       id: 7,
-      name: "Boyner Alsancak",
+      name: "Demo Alsancak",
       city: "Izmir",
       coordinates: [38.4392, 27.1514] as [number, number],
       reviewCount: 203,
@@ -181,7 +181,7 @@ export default function ReviewsX() {
     },
     {
       id: 8,
-      name: "Boyner Forum Bornova",
+      name: "Demo Forum Bornova",
       city: "Izmir",
       coordinates: [38.4618, 27.2065] as [number, number],
       reviewCount: 189,
@@ -206,7 +206,7 @@ export default function ReviewsX() {
         totalReviews: 1025,
         children: [
           {
-            name: "Boyner Nişantaşı",
+            name: "Demo Nişantaşı",
             value: 324,
             avgRating: 4.2,
             sentiment: 0.85,
@@ -216,7 +216,7 @@ export default function ReviewsX() {
             children: []
           },
           {
-            name: "Boyner Bağdat Caddesi", 
+            name: "Demo Bağdat Caddesi", 
             value: 289,
             avgRating: 4.1,
             sentiment: 0.78,
@@ -226,7 +226,7 @@ export default function ReviewsX() {
             children: []
           },
           {
-            name: "Boyner Zorlu Center",
+            name: "Demo Zorlu Center",
             value: 412,
             avgRating: 4.4,
             sentiment: 0.88,
@@ -245,7 +245,7 @@ export default function ReviewsX() {
         totalReviews: 354,
         children: [
           {
-            name: "Boyner Kızılay",
+            name: "Demo Kızılay",
             value: 198,
             avgRating: 3.8,
             sentiment: 0.62,
@@ -255,7 +255,7 @@ export default function ReviewsX() {
             children: []
           },
           {
-            name: "Boyner Tunalı",
+            name: "Demo Tunalı",
             value: 156,
             avgRating: 3.9,
             sentiment: 0.68,
@@ -274,7 +274,7 @@ export default function ReviewsX() {
         totalReviews: 659,
         children: [
           {
-            name: "Boyner Konak",
+            name: "Demo Konak",
             value: 267,
             avgRating: 4.0,
             sentiment: 0.75,
@@ -284,7 +284,7 @@ export default function ReviewsX() {
             children: []
           },
           {
-            name: "Boyner Alsancak",
+            name: "Demo Alsancak",
             value: 203,
             avgRating: 3.7,
             sentiment: 0.68,
@@ -294,7 +294,7 @@ export default function ReviewsX() {
             children: []
           },
           {
-            name: "Boyner Forum Bornova",
+            name: "Demo Forum Bornova",
             value: 189,
             avgRating: 4.1,
             sentiment: 0.76,
@@ -1151,25 +1151,25 @@ export default function ReviewsX() {
         { 
           snippet: "The **fabric quality** is exceptional - much better than expected for the price point.",
           sentiment: "positive",
-          location: "Boyner Nişantaşı",
+          location: "Demo Nişantaşı",
           date: "2024-03-20"
         },
         { 
           snippet: "**Material feels cheap** and started showing wear after just a few washes.",
           sentiment: "negative",
-          location: "Boyner Zorlu Center",
+          location: "Demo Zorlu Center",
           date: "2024-03-18"
         },
         { 
           snippet: "Good **construction** and **attention to detail** in the stitching and finishing.",
           sentiment: "positive",
-          location: "Boyner Ankara Kızılay",
+          location: "Demo Ankara Kızılay",
           date: "2024-03-17"
         },
         { 
           snippet: "The **durability** is questionable - seams came apart after minimal use.",
           sentiment: "negative",
-          location: "Boyner Izmir Bornova",
+          location: "Demo Izmir Bornova",
           date: "2024-03-15"
         }
       ],
@@ -1177,25 +1177,25 @@ export default function ReviewsX() {
         { 
           snippet: "Staff was **incredibly helpful** and went out of their way to find my size.",
           sentiment: "positive",
-          location: "Boyner Nişantaşı",
+          location: "Demo Nişantaşı",
           date: "2024-03-21"
         },
         { 
           snippet: "**Waited 20 minutes** for someone to help me and they seemed disinterested.",
           sentiment: "negative",
-          location: "Boyner Bağdat Caddesi",
+          location: "Demo Bağdat Caddesi",
           date: "2024-03-19"
         },
         { 
           snippet: "Excellent **product knowledge** and great **style recommendations** from the team.",
           sentiment: "positive",
-          location: "Boyner Zorlu Center",
+          location: "Demo Zorlu Center",
           date: "2024-03-18"
         },
         { 
           snippet: "**Unfriendly** service at checkout - felt rushed and unwelcome.",
           sentiment: "negative",
-          location: "Boyner Ankara Tunalı",
+          location: "Demo Ankara Tunalı",
           date: "2024-03-16"
         }
       ],
@@ -1203,25 +1203,25 @@ export default function ReviewsX() {
         { 
           snippet: "Beautiful **store layout** and **clean environment** - really pleasant shopping experience.",
           sentiment: "positive",
-          location: "Boyner Zorlu Center",
+          location: "Demo Zorlu Center",
           date: "2024-03-20"
         },
         { 
           snippet: "Store was **messy** and **disorganized** - couldn't find anything easily.",
           sentiment: "negative",
-          location: "Boyner Izmir Bornova",
+          location: "Demo Izmir Bornova",
           date: "2024-03-17"
         },
         { 
           snippet: "Great **ambiance** and **modern design** - feels like a premium shopping destination.",
           sentiment: "positive",
-          location: "Boyner Nişantaşı",
+          location: "Demo Nişantaşı",
           date: "2024-03-19"
         },
         { 
           snippet: "**Too crowded** and **noisy** - difficult to browse comfortably.",
           sentiment: "negative",
-          location: "Boyner Ankara Kızılay",
+          location: "Demo Ankara Kızılay",
           date: "2024-03-15"
         }
       ],
@@ -1229,25 +1229,25 @@ export default function ReviewsX() {
         { 
           snippet: "**Great value for money** - quality exceeds the price point significantly.",
           sentiment: "positive",
-          location: "Boyner Bağdat Caddesi",
+          location: "Demo Bağdat Caddesi",
           date: "2024-03-21"
         },
         { 
           snippet: "**Overpriced** for what you get - similar items available elsewhere for less.",
           sentiment: "negative",
-          location: "Boyner Zorlu Center",
+          location: "Demo Zorlu Center",
           date: "2024-03-18"
         },
         { 
           snippet: "**Fair pricing** considering the brand quality and design aesthetics.",
           sentiment: "positive",
-          location: "Boyner Nişantaşı",
+          location: "Demo Nişantaşı",
           date: "2024-03-16"
         },
         { 
           snippet: "Expected **better quality** at this price range - disappointing value.",
           sentiment: "negative",
-          location: "Boyner Ankara Tunalı",
+          location: "Demo Ankara Tunalı",
           date: "2024-03-14"
         }
       ],
@@ -1255,25 +1255,25 @@ export default function ReviewsX() {
         { 
           snippet: "**Amazing selection** - found exactly what I was looking for and more options.",
           sentiment: "positive",
-          location: "Boyner Zorlu Center",
+          location: "Demo Zorlu Center",
           date: "2024-03-20"
         },
         { 
           snippet: "**Limited sizes** available in most styles - frustrating shopping experience.",
           sentiment: "negative",
-          location: "Boyner Izmir Bornova",
+          location: "Demo Izmir Bornova",
           date: "2024-03-17"
         },
         { 
           snippet: "**Wide range of styles** and **current fashion trends** well represented.",
           sentiment: "positive",
-          location: "Boyner Nişantaşı",
+          location: "Demo Nişantaşı",
           date: "2024-03-19"
         },
         { 
           snippet: "**Outdated collection** - most items look like they're from last season.",
           sentiment: "negative",
-          location: "Boyner Ankara Kızılay",
+          location: "Demo Ankara Kızılay",
           date: "2024-03-15"
         }
       ]
@@ -1284,11 +1284,11 @@ export default function ReviewsX() {
   // Location breakdown for selected theme
   const getThemeLocationBreakdown = (themeId: string) => {
     return [
-      { location: "Boyner Nişantaşı", mentions: 89, positive: 85, neutral: 10, negative: 5 },
-      { location: "Boyner Zorlu Center", mentions: 76, positive: 78, neutral: 15, negative: 7 },
-      { location: "Boyner Bağdat Caddesi", mentions: 64, positive: 72, neutral: 18, negative: 10 },
-      { location: "Boyner Ankara Kızılay", mentions: 52, positive: 69, neutral: 20, negative: 11 },
-      { location: "Boyner Izmir Bornova", mentions: 43, positive: 65, neutral: 22, negative: 13 }
+      { location: "Demo Nişantaşı", mentions: 89, positive: 85, neutral: 10, negative: 5 },
+      { location: "Demo Zorlu Center", mentions: 76, positive: 78, neutral: 15, negative: 7 },
+      { location: "Demo Bağdat Caddesi", mentions: 64, positive: 72, neutral: 18, negative: 10 },
+      { location: "Demo Ankara Kızılay", mentions: 52, positive: 69, neutral: 20, negative: 11 },
+      { location: "Demo Izmir Bornova", mentions: 43, positive: 65, neutral: 22, negative: 13 }
     ];
   };
 
@@ -1870,26 +1870,26 @@ export default function ReviewsX() {
                       <div className="text-sm text-gray-600 mb-4">Rating distribution for top 20 locations by review volume</div>
                       <div className="space-y-2 max-h-96 overflow-y-auto">
                         {[
-                          {name: "Boyner Bağdat Caddesi", total: 542, ratings: {5: 420, 4: 75, 3: 28, 2: 12, 1: 7}, avg: 4.7},
-                          {name: "Boyner Kanyon AVM", total: 489, ratings: {5: 380, 4: 68, 3: 25, 2: 10, 1: 6}, avg: 4.6},
-                          {name: "Boyner İstinyePark", total: 456, ratings: {5: 345, 4: 78, 3: 22, 2: 8, 1: 3}, avg: 4.8},
-                          {name: "Boyner Zorlu Center", total: 423, ratings: {5: 310, 4: 72, 3: 25, 2: 11, 1: 5}, avg: 4.6},
-                          {name: "Boyner Nişantaşı", total: 398, ratings: {5: 295, 4: 68, 3: 20, 2: 10, 1: 5}, avg: 4.7},
-                          {name: "Boyner Akasya AVM", total: 376, ratings: {5: 275, 4: 65, 3: 22, 2: 9, 1: 5}, avg: 4.6},
-                          {name: "Boyner Cevahir AVM", total: 365, ratings: {5: 270, 4: 58, 3: 25, 2: 8, 1: 4}, avg: 4.7},
-                          {name: "Boyner Emaar AVM", total: 342, ratings: {5: 245, 4: 62, 3: 20, 2: 10, 1: 5}, avg: 4.6},
-                          {name: "Boyner Ankara Ankamall", total: 325, ratings: {5: 235, 4: 55, 3: 22, 2: 8, 1: 5}, avg: 4.6},
-                          {name: "Boyner İzmir Forum", total: 312, ratings: {5: 220, 4: 58, 3: 20, 2: 9, 1: 5}, avg: 4.5},
-                          {name: "Boyner Bursa Kent Meydanı", total: 298, ratings: {5: 210, 4: 52, 3: 23, 2: 8, 1: 5}, avg: 4.5},
-                          {name: "Boyner Antalya Migros AVM", total: 287, ratings: {5: 200, 4: 55, 3: 20, 2: 7, 1: 5}, avg: 4.5},
-                          {name: "Boyner Adana Optimum", total: 276, ratings: {5: 195, 4: 48, 3: 22, 2: 7, 1: 4}, avg: 4.5},
-                          {name: "Boyner Mersin Forum", total: 265, ratings: {5: 185, 4: 52, 3: 18, 2: 6, 1: 4}, avg: 4.6},
-                          {name: "Boyner Gaziantep Sanko Park", total: 254, ratings: {5: 175, 4: 48, 3: 20, 2: 7, 1: 4}, avg: 4.5},
-                          {name: "Boyner Konya Kulesite", total: 243, ratings: {5: 165, 4: 45, 3: 22, 2: 7, 1: 4}, avg: 4.4},
-                          {name: "Boyner Eskişehir Espark", total: 232, ratings: {5: 155, 4: 48, 3: 18, 2: 7, 1: 4}, avg: 4.5},
-                          {name: "Boyner Kayseri Park", total: 221, ratings: {5: 145, 4: 44, 3: 20, 2: 8, 1: 4}, avg: 4.4},
-                          {name: "Boyner Trabzon Forum", total: 210, ratings: {5: 140, 4: 42, 3: 18, 2: 6, 1: 4}, avg: 4.5},
-                          {name: "Boyner Samsun Piazza", total: 198, ratings: {5: 130, 4: 38, 3: 20, 2: 6, 1: 4}, avg: 4.4}
+                          {name: "Demo Bağdat Caddesi", total: 542, ratings: {5: 420, 4: 75, 3: 28, 2: 12, 1: 7}, avg: 4.7},
+                          {name: "Demo Kanyon AVM", total: 489, ratings: {5: 380, 4: 68, 3: 25, 2: 10, 1: 6}, avg: 4.6},
+                          {name: "Demo İstinyePark", total: 456, ratings: {5: 345, 4: 78, 3: 22, 2: 8, 1: 3}, avg: 4.8},
+                          {name: "Demo Zorlu Center", total: 423, ratings: {5: 310, 4: 72, 3: 25, 2: 11, 1: 5}, avg: 4.6},
+                          {name: "Demo Nişantaşı", total: 398, ratings: {5: 295, 4: 68, 3: 20, 2: 10, 1: 5}, avg: 4.7},
+                          {name: "Demo Akasya AVM", total: 376, ratings: {5: 275, 4: 65, 3: 22, 2: 9, 1: 5}, avg: 4.6},
+                          {name: "Demo Cevahir AVM", total: 365, ratings: {5: 270, 4: 58, 3: 25, 2: 8, 1: 4}, avg: 4.7},
+                          {name: "Demo Emaar AVM", total: 342, ratings: {5: 245, 4: 62, 3: 20, 2: 10, 1: 5}, avg: 4.6},
+                          {name: "Demo Ankara Ankamall", total: 325, ratings: {5: 235, 4: 55, 3: 22, 2: 8, 1: 5}, avg: 4.6},
+                          {name: "Demo İzmir Forum", total: 312, ratings: {5: 220, 4: 58, 3: 20, 2: 9, 1: 5}, avg: 4.5},
+                          {name: "Demo Bursa Kent Meydanı", total: 298, ratings: {5: 210, 4: 52, 3: 23, 2: 8, 1: 5}, avg: 4.5},
+                          {name: "Demo Antalya Migros AVM", total: 287, ratings: {5: 200, 4: 55, 3: 20, 2: 7, 1: 5}, avg: 4.5},
+                          {name: "Demo Adana Optimum", total: 276, ratings: {5: 195, 4: 48, 3: 22, 2: 7, 1: 4}, avg: 4.5},
+                          {name: "Demo Mersin Forum", total: 265, ratings: {5: 185, 4: 52, 3: 18, 2: 6, 1: 4}, avg: 4.6},
+                          {name: "Demo Gaziantep Sanko Park", total: 254, ratings: {5: 175, 4: 48, 3: 20, 2: 7, 1: 4}, avg: 4.5},
+                          {name: "Demo Konya Kulesite", total: 243, ratings: {5: 165, 4: 45, 3: 22, 2: 7, 1: 4}, avg: 4.4},
+                          {name: "Demo Eskişehir Espark", total: 232, ratings: {5: 155, 4: 48, 3: 18, 2: 7, 1: 4}, avg: 4.5},
+                          {name: "Demo Kayseri Park", total: 221, ratings: {5: 145, 4: 44, 3: 20, 2: 8, 1: 4}, avg: 4.4},
+                          {name: "Demo Trabzon Forum", total: 210, ratings: {5: 140, 4: 42, 3: 18, 2: 6, 1: 4}, avg: 4.5},
+                          {name: "Demo Samsun Piazza", total: 198, ratings: {5: 130, 4: 38, 3: 20, 2: 6, 1: 4}, avg: 4.4}
                         ].map((location, index) => (
                           <div key={index} className="flex items-center gap-4 p-2 hover:bg-gray-50 rounded">
                             <div className="w-8 text-xs text-gray-500 font-mono">#{index + 1}</div>

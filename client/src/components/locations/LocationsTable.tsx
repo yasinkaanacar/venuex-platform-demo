@@ -29,7 +29,7 @@ const mockLocationData = [
   {
     id: "1",
     storeCode: "CB06",
-    locationName: "Boyner Eskişehir Kanatlı",
+    locationName: "Demo Eskişehir Kanatlı",
     businessStatus: "Open" as const,
     platformStatus: "Looks Good!",
     poiStatus: "92%",
@@ -38,7 +38,7 @@ const mockLocationData = [
   {
     id: "2",
     storeCode: "CB08",
-    locationName: "Boyner Denizli Forum",
+    locationName: "Demo Denizli Forum",
     businessStatus: "Open" as const,
     platformStatus: "Looks Good!",
     poiStatus: "68%",
@@ -47,7 +47,7 @@ const mockLocationData = [
   {
     id: "3",
     storeCode: "CB13",
-    locationName: "Boyner Çanakkale 17 Burda",
+    locationName: "Demo Çanakkale 17 Burda",
     businessStatus: "Open" as const,
     platformStatus: "Looks Good!",
     poiStatus: "45%",
@@ -56,7 +56,7 @@ const mockLocationData = [
   {
     id: "4",
     storeCode: "CB14",
-    locationName: "Boyner Adapazarı Agora",
+    locationName: "Demo Adapazarı Agora",
     businessStatus: "Open" as const,
     platformStatus: "Looks Good!",
     poiStatus: "87%",
@@ -65,7 +65,7 @@ const mockLocationData = [
   {
     id: "5",
     storeCode: "CB15",
-    locationName: "Boyner Forum Diyarbakır",
+    locationName: "Demo Forum Diyarbakır",
     businessStatus: "Open" as const,
     platformStatus: "Looks Good!",
     poiStatus: "75%",
@@ -74,7 +74,7 @@ const mockLocationData = [
   {
     id: "6",
     storeCode: "CB21",
-    locationName: "Boyner Van",
+    locationName: "Demo Van",
     businessStatus: "Open" as const,
     platformStatus: "Looks Good!",
     poiStatus: "33%",
@@ -83,7 +83,7 @@ const mockLocationData = [
   {
     id: "7",
     storeCode: "CB22",
-    locationName: "Boyner Adapazarı Serdivan",
+    locationName: "Demo Adapazarı Serdivan",
     businessStatus: "Open" as const,
     platformStatus: "Looks Good!",
     poiStatus: "95%",
@@ -92,7 +92,7 @@ const mockLocationData = [
   {
     id: "8",
     storeCode: "CB23",
-    locationName: "Boyner Antalya Alanyum",
+    locationName: "Demo Antalya Alanyum",
     businessStatus: "Open" as const,
     platformStatus: "Looks Good!",
     poiStatus: "62%",
@@ -101,7 +101,7 @@ const mockLocationData = [
   {
     id: "9",
     storeCode: "CB27",
-    locationName: "Boyner Şanlıurfa Piazza",
+    locationName: "Demo Şanlıurfa Piazza",
     businessStatus: "Open" as const,
     platformStatus: "Looks Good!",
     poiStatus: "81%",
@@ -110,7 +110,7 @@ const mockLocationData = [
   {
     id: "10",
     storeCode: "CB28",
-    locationName: "Boyner Tekirdağ Orion",
+    locationName: "Demo Tekirdağ Orion",
     businessStatus: "Open" as const,
     platformStatus: "Looks Good!",
     poiStatus: "52%",
@@ -145,11 +145,11 @@ const platformData = [
 ];
 
 const searchTerms = [
-  { term: "boyner", count: "920,816" },
+  { term: "demo", count: "920,816" },
   { term: "calvin klein", count: "16,075" },
   { term: "avm", count: "11,985" },
-  { term: "boyner mağazaları", count: "10,335" },
-  { term: "boyner outlet", count: "10,049" },
+  { term: "demo mağazaları", count: "10,335" },
+  { term: "demo outlet", count: "10,049" },
   { term: "tommy hilfiger", count: "9,373" },
 ];
 

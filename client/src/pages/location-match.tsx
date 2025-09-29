@@ -85,7 +85,7 @@ interface UnmatchedLocation extends PlatformLocation {
 const mockVenueXLocations: VenueXLocation[] = [
   { 
     id: 'vx1', 
-    name: 'Boyner Akasya AVM', 
+    name: 'Demo Akasya AVM', 
     address: 'Acıbadem Mahallesi, Akasya AVM Kat:1 No:112', 
     phone: '+90 216 123 4567',
     category: 'Department Store',
@@ -96,7 +96,7 @@ const mockVenueXLocations: VenueXLocation[] = [
   },
   { 
     id: 'vx2', 
-    name: 'Boyner İstinye Park', 
+    name: 'Demo İstinye Park', 
     address: 'İstinye Park AVM, Pınar Mahallesi, Katar Caddesi No:11', 
     phone: '+90 212 345 6789',
     category: 'Department Store',
@@ -107,7 +107,7 @@ const mockVenueXLocations: VenueXLocation[] = [
   },
   { 
     id: 'vx3', 
-    name: 'Boyner Forum İstanbul', 
+    name: 'Demo Forum İstanbul', 
     address: 'Forum İstanbul AVM, Kocatepe Mahallesi, Paşa Caddesi No:5-5A', 
     phone: '+90 212 987 6543',
     category: 'Department Store',
@@ -118,7 +118,7 @@ const mockVenueXLocations: VenueXLocation[] = [
   },
   { 
     id: 'vx4', 
-    name: 'Boyner Zorlu Center', 
+    name: 'Demo Zorlu Center', 
     address: 'Zorlu Center, Levazım Mahallesi, Koru Sokak No:2', 
     phone: '+90 212 456 7890',
     category: 'Department Store',
@@ -129,7 +129,7 @@ const mockVenueXLocations: VenueXLocation[] = [
   },
   { 
     id: 'vx5', 
-    name: 'Boyner Kanyon AVM', 
+    name: 'Demo Kanyon AVM', 
     address: 'Kanyon AVM, Büyükdere Caddesi No:185', 
     phone: '+90 212 567 8901',
     category: 'Department Store',
@@ -144,12 +144,12 @@ const mockAutoMatched: MatchedLocation[] = [
   { 
     platformLocation: { 
       id: 'meta1', 
-      name: 'Boyner Akasya', 
+      name: 'Demo Akasya', 
       address: 'Acıbadem, Akasya AVM Kat:1', 
       phone: '+90 216 123 4567',
       category: 'Clothing Store',
       platformId: 'meta_001',
-      platformUrl: 'https://facebook.com/boyner.akasya',
+      platformUrl: 'https://facebook.com/demo.akasya',
       city: 'Istanbul',
       postalCode: '34660',
       storeCode: 'META001'
@@ -160,12 +160,12 @@ const mockAutoMatched: MatchedLocation[] = [
   { 
     platformLocation: { 
       id: 'meta2', 
-      name: 'Boyner İstinye Park', 
+      name: 'Demo İstinye Park', 
       address: 'İstinye Park AVM, Pınar Mahallesi', 
       phone: '+90 212 345 6789',
       category: 'Department Store',
       platformId: 'meta_002',
-      platformUrl: 'https://facebook.com/boyner.istinye',
+      platformUrl: 'https://facebook.com/demo.istinye',
       city: 'Istanbul',
       postalCode: '34460',
       storeCode: 'META002'
@@ -178,12 +178,12 @@ const mockAutoMatched: MatchedLocation[] = [
 const mockUnmatched: UnmatchedLocation[] = [
   { 
     id: 'meta3', 
-    name: 'Boyner Mall Store', 
+    name: 'Demo Mall Store', 
     address: 'İstiklal Caddesi No:112, Beyoğlu', 
     phone: '+90 212 111 2233',
     category: 'Fashion Store',
     platformId: 'meta_003',
-    platformUrl: 'https://facebook.com/boyner.istiklal',
+    platformUrl: 'https://facebook.com/demo.istiklal',
     city: 'Istanbul',
     postalCode: '34433',
     storeCode: 'META003',
@@ -191,12 +191,12 @@ const mockUnmatched: UnmatchedLocation[] = [
   },
   { 
     id: 'meta4', 
-    name: 'Boyner City Branch', 
+    name: 'Demo City Branch', 
     address: 'Bağdat Caddesi No:342, Kadıköy', 
     phone: '+90 216 444 5566',
     category: 'Clothing Store',
     platformId: 'meta_004',
-    platformUrl: 'https://facebook.com/boyner.bagdat',
+    platformUrl: 'https://facebook.com/demo.bagdat',
     city: 'Istanbul',
     postalCode: '34728',
     storeCode: 'META004',
@@ -204,12 +204,12 @@ const mockUnmatched: UnmatchedLocation[] = [
   },
   { 
     id: 'meta5', 
-    name: 'Boyner Outlet', 
+    name: 'Demo Outlet', 
     address: 'Olivium Outlet Center, Zeytinburnu', 
     phone: '+90 212 777 8899',
     category: 'Outlet Store',
     platformId: 'meta_005',
-    platformUrl: 'https://facebook.com/boyner.outlet',
+    platformUrl: 'https://facebook.com/demo.outlet',
     city: 'Istanbul',
     postalCode: '34025',
     storeCode: 'META005',
@@ -438,12 +438,12 @@ export default function LocationMatch() {
     // Extract meaningful terms, focusing on store names and locations
     let searchTerm = '';
     
-    // If it contains "boyner", use the part after boyner
-    if (name.includes('boyner')) {
-      const afterBoyner = name.split('boyner')[1]?.trim();
-      if (afterBoyner) {
+    // If it contains "demo", use the part after demo
+    if (name.includes('demo')) {
+      const afterDemo = name.split('demo')[1]?.trim();
+      if (afterDemo) {
         // Remove common words like "store", "branch", "outlet"
-        searchTerm = afterBoyner
+        searchTerm = afterDemo
           .replace(/\b(store|branch|outlet|shop|mall)\b/g, '')
           .trim();
       }
@@ -503,7 +503,7 @@ export default function LocationMatch() {
       // Name similarity (basic implementation)
       const platformName = platformLocation.name.toLowerCase();
       const venueName = venueX.name.toLowerCase();
-      if (platformName.includes('boyner') && venueName.includes('boyner')) score += 5;
+      if (platformName.includes('demo') && venueName.includes('demo')) score += 5;
       if (platformName.includes(venueX.city.toLowerCase()) || venueName.includes(platformLocation.city.toLowerCase())) score += 3;
       
       // Address similarity (basic check for district/area names)
