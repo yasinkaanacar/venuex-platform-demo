@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import DataQualityEnrichment from '@/components/overview/data-quality-enrichment';
-import DataHealthCard from '@/components/overview/data-health-card';
+import DataHealthAlerts from '@/components/overview/data-health-alerts';
 import { 
   TrendingUp, 
   DollarSign, 
@@ -351,7 +351,10 @@ export default function OfflineConversions() {
 
         {/* Data Health & Flow - Last Section */}
         <div className="mt-8">
-          <DataHealthCard />
+          <DataHealthAlerts 
+            bannerMode={false}
+            alwaysExpanded={true}
+          />
         </div>
       </div>
     </div>
