@@ -129,7 +129,7 @@ export default function OfflineConversions() {
                   <SelectContent>
                     <SelectItem value="all">All Platforms</SelectItem>
                     <SelectItem value="google">Google Ads</SelectItem>
-                    <SelectItem value="facebook">Facebook Ads</SelectItem>
+                    <SelectItem value="meta">Meta Ads</SelectItem>
                     <SelectItem value="tiktok">TikTok Ads</SelectItem>
                   </SelectContent>
                 </Select>
@@ -209,7 +209,7 @@ export default function OfflineConversions() {
                         <div>
                           <div className="font-medium text-blue-800 dark:text-blue-300 text-sm">Platform Diversification Success</div>
                           <div className="text-blue-700 dark:text-blue-400 text-xs mt-1">
-                            Google Ads leads with 43.8% revenue share, while Facebook (35.1%) and TikTok (13.6%) provide balanced risk distribution across platforms.
+                            Google Ads leads with 43.8% revenue share, while Meta (35.1%) and TikTok (13.6%) provide balanced risk distribution across platforms.
                           </div>
                         </div>
                       </div>
@@ -525,9 +525,9 @@ export default function OfflineConversions() {
         </div>
 
         {/* Strategic Insights Section */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+        <div className="space-y-8 mb-8">
           {/* Revenue Attribution Analysis */}
-          <Card className="lg:col-span-2">
+          <Card>
             <CardHeader>
               <CardTitle className="flex items-center justify-between">
                 <div className="flex items-center space-x-2">
@@ -548,7 +548,7 @@ export default function OfflineConversions() {
                   <div className="space-y-4">
                     {[
                       { platform: 'Google Ads', revenue: 1247800, percentage: 43.8, color: 'bg-blue-500', conversions: 672 },
-                      { platform: 'Facebook Ads', revenue: 998600, percentage: 35.1, color: 'bg-green-500', conversions: 534 },
+                      { platform: 'Meta Ads', revenue: 998600, percentage: 35.1, color: 'bg-green-500', conversions: 534 },
                       { platform: 'TikTok Ads', revenue: 387200, percentage: 13.6, color: 'bg-purple-500', conversions: 221 },
                       { platform: 'Direct/Organic', revenue: 213900, percentage: 7.5, color: 'bg-gray-500', conversions: 142 }
                     ].map((item, index) => (
@@ -602,136 +602,136 @@ export default function OfflineConversions() {
 
           {/* Store-Level Conversion Insights */}
           <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center justify-between">
-                <div className="flex items-center space-x-2">
-                  <MapPin className="w-5 h-5 text-green-600" />
-                  <span>Store-Level Conversion Insights</span>
-                </div>
-                <Badge variant="outline" className="text-green-700 border-green-300">
-                  Revenue Leaders
-                </Badge>
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-5">
-                {[
-                  {
-                    store: 'Istanbul Zorlu Center',
-                    city: 'Istanbul',
-                    attributedRevenue: 487200,
-                    digitalOrders: 142,
-                    conversionRate: 3.8,
-                    avgOrderValue: 3431,
-                    topChannel: 'Google Ads',
-                    channelShare: 67,
-                    performance: 'excellent'
-                  },
-                  {
-                    store: 'Ankara Ankamall',
-                    city: 'Ankara', 
-                    attributedRevenue: 356800,
-                    digitalOrders: 124,
-                    conversionRate: 3.2,
-                    avgOrderValue: 2877,
-                    topChannel: 'Facebook Ads',
-                    channelShare: 54,
-                    performance: 'excellent'
-                  },
-                  {
-                    store: 'Izmir Optimum',
-                    city: 'Izmir',
-                    attributedRevenue: 298600,
-                    digitalOrders: 96,
-                    conversionRate: 2.9,
-                    avgOrderValue: 3110,
-                    topChannel: 'Google Ads',
-                    channelShare: 61,
-                    performance: 'good'
-                  },
-                  {
-                    store: 'Bursa Kent Meydanı',
-                    city: 'Bursa',
-                    attributedRevenue: 189400,
-                    digitalOrders: 67,
-                    conversionRate: 2.4,
-                    avgOrderValue: 2827,
-                    topChannel: 'Facebook Ads',
-                    channelShare: 48,
-                    performance: 'good'
-                  },
-                  {
-                    store: 'Antalya Terracity',
-                    city: 'Antalya',
-                    attributedRevenue: 156700,
-                    digitalOrders: 53,
-                    conversionRate: 2.1,
-                    avgOrderValue: 2957,
-                    topChannel: 'TikTok Ads',
-                    channelShare: 42,
-                    performance: 'moderate'
-                  }
-                ].map((location, index) => {
-                  const performanceColor = location.performance === 'excellent' ? 'border-l-green-500 bg-green-50 dark:bg-green-900/10' :
-                                         location.performance === 'good' ? 'border-l-blue-500 bg-blue-50 dark:bg-blue-900/10' :
-                                         'border-l-orange-500 bg-orange-50 dark:bg-orange-900/10';
-                  
-                  return (
-                    <div key={location.store} className={`border-l-4 ${performanceColor} rounded-lg p-4`}>
-                      <div className="flex items-start justify-between mb-3">
-                        <div>
-                          <div className="font-bold text-gray-900 dark:text-white text-sm">{location.store}</div>
-                          <div className="text-xs text-gray-600 dark:text-gray-400">{location.city} • #{index + 1} Revenue Performance</div>
-                        </div>
-                        <div className="text-right">
-                          <div className="font-bold text-lg text-gray-900 dark:text-white">{formatCurrency(location.attributedRevenue)}</div>
-                          <div className="text-xs text-gray-500">Digital Attribution</div>
-                        </div>
-                      </div>
-                      
-                      <div className="grid grid-cols-2 gap-4 mt-4">
-                        <div className="space-y-2">
-                          <div className="flex items-center justify-between">
-                            <span className="text-xs text-gray-600 dark:text-gray-400">Digital Orders:</span>
-                            <span className="font-medium text-gray-900 dark:text-white">{formatNumber(location.digitalOrders)}</span>
-                          </div>
-                          <div className="flex items-center justify-between">
-                            <span className="text-xs text-gray-600 dark:text-gray-400">Conversion Rate:</span>
-                            <span className="font-medium text-gray-900 dark:text-white">{location.conversionRate}%</span>
-                          </div>
-                        </div>
-                        <div className="space-y-2">
-                          <div className="flex items-center justify-between">
-                            <span className="text-xs text-gray-600 dark:text-gray-400">Avg Order Value:</span>
-                            <span className="font-medium text-gray-900 dark:text-white">{formatCurrency(location.avgOrderValue)}</span>
-                          </div>
-                          <div className="flex items-center justify-between">
-                            <span className="text-xs text-gray-600 dark:text-gray-400">Top Channel:</span>
-                            <span className="font-medium text-gray-900 dark:text-white">{location.topChannel} ({location.channelShare}%)</span>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  );
-                })}
+          <CardHeader>
+            <CardTitle className="flex items-center justify-between">
+              <div className="flex items-center space-x-2">
+                <MapPin className="w-5 h-5 text-green-600" />
+                <span>Store-Level Conversion Insights</span>
+              </div>
+              <Badge variant="outline" className="text-green-700 border-green-300">
+                Revenue Leaders
+              </Badge>
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-5">
+              {[
+                {
+                  store: 'Istanbul Zorlu Center',
+                  city: 'Istanbul',
+                  attributedRevenue: 487200,
+                  digitalOrders: 142,
+                  conversionRate: 3.8,
+                  avgOrderValue: 3431,
+                  topChannel: 'Google Ads',
+                  channelShare: 67,
+                  performance: 'excellent'
+                },
+                {
+                  store: 'Ankara Ankamall',
+                  city: 'Ankara', 
+                  attributedRevenue: 356800,
+                  digitalOrders: 124,
+                  conversionRate: 3.2,
+                  avgOrderValue: 2877,
+                  topChannel: 'Meta Ads',
+                  channelShare: 54,
+                  performance: 'excellent'
+                },
+                {
+                  store: 'Izmir Optimum',
+                  city: 'Izmir',
+                  attributedRevenue: 298600,
+                  digitalOrders: 96,
+                  conversionRate: 2.9,
+                  avgOrderValue: 3110,
+                  topChannel: 'Google Ads',
+                  channelShare: 61,
+                  performance: 'good'
+                },
+                {
+                  store: 'Bursa Kent Meydanı',
+                  city: 'Bursa',
+                  attributedRevenue: 189400,
+                  digitalOrders: 67,
+                  conversionRate: 2.4,
+                  avgOrderValue: 2827,
+                  topChannel: 'Meta Ads',
+                  channelShare: 48,
+                  performance: 'good'
+                },
+                {
+                  store: 'Antalya Terracity',
+                  city: 'Antalya',
+                  attributedRevenue: 156700,
+                  digitalOrders: 53,
+                  conversionRate: 2.1,
+                  avgOrderValue: 2957,
+                  topChannel: 'TikTok Ads',
+                  channelShare: 42,
+                  performance: 'moderate'
+                }
+              ].map((location, index) => {
+                const performanceColor = location.performance === 'excellent' ? 'border-l-green-500 bg-green-50 dark:bg-green-900/10' :
+                                       location.performance === 'good' ? 'border-l-blue-500 bg-blue-50 dark:bg-blue-900/10' :
+                                       'border-l-orange-500 bg-orange-50 dark:bg-orange-900/10';
                 
-                {/* Store Performance Summary */}
-                <div className="border-t pt-5 mt-6">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-4">
-                      <div className="text-lg font-bold text-gray-900 dark:text-white">{formatCurrency(1488700)}</div>
-                      <div className="text-sm font-medium text-gray-700 dark:text-gray-300">Total Store Revenue</div>
-                      <div className="text-xs text-gray-600 dark:text-gray-400 mt-1">From digital attribution across 5 locations</div>
+                return (
+                  <div key={location.store} className={`border-l-4 ${performanceColor} rounded-lg p-4`}>
+                    <div className="flex items-start justify-between mb-3">
+                      <div>
+                        <div className="font-bold text-gray-900 dark:text-white text-sm">{location.store}</div>
+                        <div className="text-xs text-gray-600 dark:text-gray-400">{location.city} • #{index + 1} Revenue Performance</div>
+                      </div>
+                      <div className="text-right">
+                        <div className="font-bold text-lg text-gray-900 dark:text-white">{formatCurrency(location.attributedRevenue)}</div>
+                        <div className="text-xs text-gray-500">Digital Attribution</div>
+                      </div>
                     </div>
-                    <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-4">
-                      <div className="text-lg font-bold text-gray-900 dark:text-white">2.87%</div>
-                      <div className="text-sm font-medium text-gray-700 dark:text-gray-300">Avg Store Conversion Rate</div>
-                      <div className="text-xs text-gray-600 dark:text-gray-400 mt-1">Digital campaign to in-store purchase</div>
+                    
+                    <div className="grid grid-cols-2 gap-4 mt-4">
+                      <div className="space-y-2">
+                        <div className="flex items-center justify-between">
+                          <span className="text-xs text-gray-600 dark:text-gray-400">Digital Orders:</span>
+                          <span className="font-medium text-gray-900 dark:text-white">{formatNumber(location.digitalOrders)}</span>
+                        </div>
+                        <div className="flex items-center justify-between">
+                          <span className="text-xs text-gray-600 dark:text-gray-400">Conversion Rate:</span>
+                          <span className="font-medium text-gray-900 dark:text-white">{location.conversionRate}%</span>
+                        </div>
+                      </div>
+                      <div className="space-y-2">
+                        <div className="flex items-center justify-between">
+                          <span className="text-xs text-gray-600 dark:text-gray-400">Avg Order Value:</span>
+                          <span className="font-medium text-gray-900 dark:text-white">{formatCurrency(location.avgOrderValue)}</span>
+                        </div>
+                        <div className="flex items-center justify-between">
+                          <span className="text-xs text-gray-600 dark:text-gray-400">Top Channel:</span>
+                          <span className="font-medium text-gray-900 dark:text-white">{location.topChannel} ({location.channelShare}%)</span>
+                        </div>
+                      </div>
                     </div>
+                  </div>
+                );
+              })}
+              
+              {/* Store Performance Summary */}
+              <div className="border-t pt-5 mt-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-4">
+                    <div className="text-lg font-bold text-gray-900 dark:text-white">{formatCurrency(1488700)}</div>
+                    <div className="text-sm font-medium text-gray-700 dark:text-gray-300">Total Store Revenue</div>
+                    <div className="text-xs text-gray-600 dark:text-gray-400 mt-1">From digital attribution across 5 locations</div>
+                  </div>
+                  <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-4">
+                    <div className="text-lg font-bold text-gray-900 dark:text-white">2.87%</div>
+                    <div className="text-sm font-medium text-gray-700 dark:text-gray-300">Avg Store Conversion Rate</div>
+                    <div className="text-xs text-gray-600 dark:text-gray-400 mt-1">Digital campaign to in-store purchase</div>
                   </div>
                 </div>
               </div>
-            </CardContent>
+            </div>
+          </CardContent>
           </Card>
         </div>
 
@@ -780,7 +780,7 @@ export default function OfflineConversions() {
                   },
                   {
                     name: 'Men\'s Casual Wear',
-                    platform: 'Facebook Ads',
+                    platform: 'Meta Ads',
                     spend: 89200,
                     revenue: 445600,
                     roas: 4.99,
@@ -810,7 +810,7 @@ export default function OfflineConversions() {
                   },
                   {
                     name: 'Accessories Campaign',
-                    platform: 'Facebook Ads',
+                    platform: 'Meta Ads',
                     spend: 32100,
                     revenue: 89400,
                     roas: 2.78,
@@ -1010,7 +1010,7 @@ export default function OfflineConversions() {
                   <div className="space-y-3">
                     {[
                       { platform: 'Google Ads', peakTime: '19:00-21:00', peakRate: 5.8, color: 'text-blue-600' },
-                      { platform: 'Facebook Ads', peakTime: '20:00-22:00', peakRate: 4.9, color: 'text-green-600' },
+                      { platform: 'Meta Ads', peakTime: '20:00-22:00', peakRate: 4.9, color: 'text-green-600' },
                       { platform: 'TikTok Ads', peakTime: '10:00-12:00', peakRate: 3.7, color: 'text-purple-600' }
                     ].map((platform, index) => (
                       <div key={index} className="flex items-center justify-between p-2 bg-gray-50 dark:bg-gray-800 rounded-md">
