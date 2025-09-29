@@ -1,11 +1,11 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { Tooltip } from '@mui/material';
-import { TrendingUp, TrendingDown, Calendar, Filter, X, Search } from 'lucide-react';
+import { TrendingUp, TrendingDown, Calendar, Filter, X, Search, ChevronDown, Check } from 'lucide-react';
 import { LineChart, Line, ResponsiveContainer } from "recharts";
 
 // Mock sparkline data for each KPI
@@ -178,6 +178,29 @@ export default function OfflineConversionsMVP() {
   });
 
   const [campaignSearch, setCampaignSearch] = useState("");
+  const [platformSearch, setPlatformSearch] = useState("");
+  const [locationSearch, setLocationSearch] = useState("");
+  const [openDropdown, setOpenDropdown] = useState<string | null>(null);
+  
+  const platformDropdownRef = useRef<HTMLDivElement>(null);
+  const campaignDropdownRef = useRef<HTMLDivElement>(null);
+  const locationDropdownRef = useRef<HTMLDivElement>(null);
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        platformDropdownRef.current && !platformDropdownRef.current.contains(event.target as Node) &&
+        campaignDropdownRef.current && !campaignDropdownRef.current.contains(event.target as Node) &&
+        locationDropdownRef.current && !locationDropdownRef.current.contains(event.target as Node)
+      ) {
+        setOpenDropdown(null);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   // Get available campaigns based on selected platforms
   const getAvailableCampaigns = () => {
@@ -196,6 +219,31 @@ export default function OfflineConversionsMVP() {
     return availableCampaigns.filter(campaign => 
       campaign.toLowerCase().includes(campaignSearch.toLowerCase())
     );
+  };
+
+  // Filter platforms by search term
+  const getFilteredPlatforms = () => {
+    if (!platformSearch) return platformOptions;
+    return platformOptions.filter(platform => 
+      platform.label.toLowerCase().includes(platformSearch.toLowerCase())
+    );
+  };
+
+  // Filter locations by search term
+  const getFilteredLocations = () => {
+    if (!locationSearch) return locationOptions;
+    return locationOptions.map(region => ({
+      ...region,
+      stores: region.stores.filter(store => 
+        store.toLowerCase().includes(locationSearch.toLowerCase()) ||
+        region.region.toLowerCase().includes(locationSearch.toLowerCase())
+      )
+    })).filter(region => region.stores.length > 0);
+  };
+
+  // Get all location store names as flat array
+  const getAllLocationStores = () => {
+    return locationOptions.flatMap(region => region.stores);
   };
 
   // Handle filter changes
@@ -241,6 +289,64 @@ export default function OfflineConversionsMVP() {
     }));
   };
 
+  // Handle select/deselect all functions
+  const handleSelectAllPlatforms = () => {
+    const filteredPlatforms = getFilteredPlatforms();
+    setFilters(prev => {
+      const newPlatforms = new Set([...prev.platforms, ...filteredPlatforms.map(p => p.value)]);
+      return {
+        ...prev,
+        platforms: Array.from(newPlatforms)
+      };
+    });
+  };
+
+  const handleDeselectAllPlatforms = () => {
+    const filteredPlatforms = getFilteredPlatforms();
+    setFilters(prev => ({
+      ...prev,
+      platforms: prev.platforms.filter(p => !filteredPlatforms.some(fp => fp.value === p))
+    }));
+  };
+
+  const handleSelectAllCampaigns = () => {
+    const filteredCampaigns = getFilteredCampaigns();
+    setFilters(prev => {
+      const newCampaigns = new Set([...prev.campaigns, ...filteredCampaigns]);
+      return {
+        ...prev,
+        campaigns: Array.from(newCampaigns)
+      };
+    });
+  };
+
+  const handleDeselectAllCampaigns = () => {
+    const filteredCampaigns = getFilteredCampaigns();
+    setFilters(prev => ({
+      ...prev,
+      campaigns: prev.campaigns.filter(c => !filteredCampaigns.includes(c))
+    }));
+  };
+
+  const handleSelectAllLocations = () => {
+    const filteredStores = getFilteredLocations().flatMap(region => region.stores);
+    setFilters(prev => {
+      const newLocations = new Set([...prev.locations, ...filteredStores]);
+      return {
+        ...prev,
+        locations: Array.from(newLocations)
+      };
+    });
+  };
+
+  const handleDeselectAllLocations = () => {
+    const filteredStores = getFilteredLocations().flatMap(region => region.stores);
+    setFilters(prev => ({
+      ...prev,
+      locations: prev.locations.filter(l => !filteredStores.includes(l))
+    }));
+  };
+
   const resetFilters = () => {
     setFilters({
       dateRange: "30d",
@@ -249,6 +355,9 @@ export default function OfflineConversionsMVP() {
       locations: []
     });
     setCampaignSearch("");
+    setPlatformSearch("");
+    setLocationSearch("");
+    setOpenDropdown(null);
   };
 
   // Get active filter count
@@ -368,86 +477,233 @@ export default function OfflineConversionsMVP() {
             </div>
 
             {/* Platform Filter */}
-            <div className="flex flex-col">
+            <div className="flex flex-col relative" ref={platformDropdownRef}>
               <label className="text-xs font-medium text-gray-700 mb-1">Platforms</label>
-              <div className="flex gap-2">
-                {platformOptions.map(platform => (
-                  <Button
-                    key={platform.value}
-                    variant={filters.platforms.includes(platform.value) ? "default" : "outline"}
-                    size="sm"
-                    onClick={() => handlePlatformToggle(platform.value)}
-                    className="text-xs"
-                    data-testid={`filter-platform-${platform.value}`}
-                  >
-                    <span className="mr-1">{platform.icon}</span>
-                    {platform.label}
-                  </Button>
-                ))}
-              </div>
+              <Button
+                variant="outline"
+                onClick={() => setOpenDropdown(openDropdown === 'platforms' ? null : 'platforms')}
+                className="w-[200px] justify-between text-xs h-8"
+                data-testid="filter-platforms-dropdown"
+              >
+                <span>
+                  {filters.platforms.length === 0 
+                    ? "Select platforms..." 
+                    : `${filters.platforms.length} selected`}
+                </span>
+                <ChevronDown className="w-3 h-3" />
+              </Button>
+              
+              {openDropdown === 'platforms' && (
+                <div className="absolute top-full left-0 mt-1 w-[280px] bg-white border border-gray-200 rounded-md shadow-lg z-50 max-h-[300px] overflow-hidden">
+                  <div className="p-2 border-b border-gray-100">
+                    <div className="relative">
+                      <Search className="absolute left-2 top-1/2 transform -translate-y-1/2 w-3 h-3 text-gray-400" />
+                      <Input
+                        placeholder="Search platforms..."
+                        value={platformSearch}
+                        onChange={(e) => setPlatformSearch(e.target.value)}
+                        className="pl-8 h-7 text-xs"
+                        size="small"
+                      />
+                    </div>
+                  </div>
+                  
+                  <div className="p-1 border-b border-gray-100 bg-gray-50">
+                    <div className="flex gap-1">
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={handleSelectAllPlatforms}
+                        className="text-xs h-6 flex-1"
+                      >
+                        Select All
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={handleDeselectAllPlatforms}
+                        className="text-xs h-6 flex-1"
+                      >
+                        Deselect All
+                      </Button>
+                    </div>
+                  </div>
+                  
+                  <div className="max-h-[200px] overflow-y-auto">
+                    {getFilteredPlatforms().map(platform => (
+                      <div
+                        key={platform.value}
+                        className="flex items-center gap-2 px-3 py-2 hover:bg-gray-50 cursor-pointer text-xs"
+                        onClick={() => handlePlatformToggle(platform.value)}
+                      >
+                        <div className="w-4 h-4 border border-gray-300 rounded flex items-center justify-center">
+                          {filters.platforms.includes(platform.value) && (
+                            <Check className="w-3 h-3 text-blue-600" />
+                          )}
+                        </div>
+                        <span className="mr-2">{platform.icon}</span>
+                        <span>{platform.label}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
 
             {/* Campaign Filter */}
-            <div className="flex flex-col">
+            <div className="flex flex-col relative" ref={campaignDropdownRef}>
               <label className="text-xs font-medium text-gray-700 mb-1">Campaigns</label>
-              <div className="relative">
-                <div className="flex items-center gap-2 mb-2">
-                  <div className="relative">
-                    <Search className="absolute left-2 top-1/2 transform -translate-y-1/2 w-3 h-3 text-gray-400" />
-                    <Input
-                      placeholder="Search campaigns..."
-                      value={campaignSearch}
-                      onChange={(e) => setCampaignSearch(e.target.value)}
-                      className="pl-8 w-[200px] h-8"
-                      size="small"
-                      data-testid="filter-campaign-search"
-                    />
+              <Button
+                variant="outline"
+                onClick={() => setOpenDropdown(openDropdown === 'campaigns' ? null : 'campaigns')}
+                className="w-[200px] justify-between text-xs h-8"
+                data-testid="filter-campaigns-dropdown"
+              >
+                <span>
+                  {filters.campaigns.length === 0 
+                    ? "Select campaigns..." 
+                    : `${filters.campaigns.length} selected`}
+                </span>
+                <ChevronDown className="w-3 h-3" />
+              </Button>
+              
+              {openDropdown === 'campaigns' && (
+                <div className="absolute top-full left-0 mt-1 w-[320px] bg-white border border-gray-200 rounded-md shadow-lg z-50 max-h-[350px] overflow-hidden">
+                  <div className="p-2 border-b border-gray-100">
+                    <div className="relative">
+                      <Search className="absolute left-2 top-1/2 transform -translate-y-1/2 w-3 h-3 text-gray-400" />
+                      <Input
+                        placeholder="Search campaigns..."
+                        value={campaignSearch}
+                        onChange={(e) => setCampaignSearch(e.target.value)}
+                        className="pl-8 h-7 text-xs"
+                        size="small"
+                        data-testid="filter-campaign-search"
+                      />
+                    </div>
+                  </div>
+                  
+                  <div className="p-1 border-b border-gray-100 bg-gray-50">
+                    <div className="flex gap-1">
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={handleSelectAllCampaigns}
+                        className="text-xs h-6 flex-1"
+                      >
+                        Select All
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={handleDeselectAllCampaigns}
+                        className="text-xs h-6 flex-1"
+                      >
+                        Deselect All
+                      </Button>
+                    </div>
+                  </div>
+                  
+                  <div className="max-h-[250px] overflow-y-auto">
+                    {getFilteredCampaigns().map(campaign => (
+                      <div
+                        key={campaign}
+                        className="flex items-center gap-2 px-3 py-2 hover:bg-gray-50 cursor-pointer text-xs"
+                        onClick={() => handleCampaignToggle(campaign)}
+                        data-testid={`filter-campaign-${campaign.replace(/\s+/g, '-').toLowerCase()}`}
+                      >
+                        <div className="w-4 h-4 border border-gray-300 rounded flex items-center justify-center">
+                          {filters.campaigns.includes(campaign) && (
+                            <Check className="w-3 h-3 text-blue-600" />
+                          )}
+                        </div>
+                        <span className="truncate">{campaign}</span>
+                      </div>
+                    ))}
                   </div>
                 </div>
-                <div className="flex flex-wrap gap-1 max-w-[250px]">
-                  {getFilteredCampaigns().slice(0, 4).map(campaign => (
-                    <Button
-                      key={campaign}
-                      variant={filters.campaigns.includes(campaign) ? "default" : "outline"}
-                      size="sm"
-                      onClick={() => handleCampaignToggle(campaign)}
-                      className="text-xs px-2 py-1 h-6"
-                      data-testid={`filter-campaign-${campaign.replace(/\s+/g, '-').toLowerCase()}`}
-                    >
-                      {campaign}
-                    </Button>
-                  ))}
-                  {getFilteredCampaigns().length > 4 && (
-                    <span className="text-xs text-gray-500 self-center">+{getFilteredCampaigns().length - 4} more</span>
-                  )}
-                </div>
-              </div>
+              )}
             </div>
 
             {/* Location Filter */}
-            <div className="flex flex-col">
+            <div className="flex flex-col relative" ref={locationDropdownRef}>
               <label className="text-xs font-medium text-gray-700 mb-1">Locations</label>
-              <div className="flex flex-wrap gap-1 max-w-[250px]">
-                {locationOptions.map(region => (
-                  <div key={region.region} className="space-y-1">
-                    <div className="text-xs font-medium text-gray-600">{region.region}:</div>
-                    <div className="flex flex-wrap gap-1">
-                      {region.stores.map(store => (
-                        <Button
-                          key={store}
-                          variant={filters.locations.includes(store) ? "default" : "outline"}
-                          size="sm"
-                          onClick={() => handleLocationToggle(store)}
-                          className="text-xs px-2 py-1 h-6"
-                          data-testid={`filter-location-${store.replace(/\s+/g, '-').toLowerCase()}`}
-                        >
-                          {store.replace("Demo ", "")}
-                        </Button>
-                      ))}
+              <Button
+                variant="outline"
+                onClick={() => setOpenDropdown(openDropdown === 'locations' ? null : 'locations')}
+                className="w-[200px] justify-between text-xs h-8"
+                data-testid="filter-locations-dropdown"
+              >
+                <span>
+                  {filters.locations.length === 0 
+                    ? "Select locations..." 
+                    : `${filters.locations.length} selected`}
+                </span>
+                <ChevronDown className="w-3 h-3" />
+              </Button>
+              
+              {openDropdown === 'locations' && (
+                <div className="absolute top-full left-0 mt-1 w-[300px] bg-white border border-gray-200 rounded-md shadow-lg z-50 max-h-[350px] overflow-hidden">
+                  <div className="p-2 border-b border-gray-100">
+                    <div className="relative">
+                      <Search className="absolute left-2 top-1/2 transform -translate-y-1/2 w-3 h-3 text-gray-400" />
+                      <Input
+                        placeholder="Search locations..."
+                        value={locationSearch}
+                        onChange={(e) => setLocationSearch(e.target.value)}
+                        className="pl-8 h-7 text-xs"
+                        size="small"
+                      />
                     </div>
                   </div>
-                ))}
-              </div>
+                  
+                  <div className="p-1 border-b border-gray-100 bg-gray-50">
+                    <div className="flex gap-1">
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={handleSelectAllLocations}
+                        className="text-xs h-6 flex-1"
+                      >
+                        Select All
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={handleDeselectAllLocations}
+                        className="text-xs h-6 flex-1"
+                      >
+                        Deselect All
+                      </Button>
+                    </div>
+                  </div>
+                  
+                  <div className="max-h-[250px] overflow-y-auto">
+                    {getFilteredLocations().map(region => (
+                      <div key={region.region}>
+                        <div className="px-3 py-1 bg-gray-100 text-xs font-medium text-gray-700">
+                          {region.region}
+                        </div>
+                        {region.stores.map(store => (
+                          <div
+                            key={store}
+                            className="flex items-center gap-2 px-3 py-2 hover:bg-gray-50 cursor-pointer text-xs ml-2"
+                            onClick={() => handleLocationToggle(store)}
+                            data-testid={`filter-location-${store.replace(/\s+/g, '-').toLowerCase()}`}
+                          >
+                            <div className="w-4 h-4 border border-gray-300 rounded flex items-center justify-center">
+                              {filters.locations.includes(store) && (
+                                <Check className="w-3 h-3 text-blue-600" />
+                              )}
+                            </div>
+                            <span className="truncate">{store.replace("Demo ", "")}</span>
+                          </div>
+                        ))}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
 
             {/* Reset Button */}
