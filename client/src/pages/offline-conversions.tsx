@@ -145,141 +145,221 @@ export default function OfflineConversions() {
         {/* CFO-Credible KPI Dashboard */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           {/* Attributed Offline Revenue */}
-          <Card className="border-l-4 border-l-blue-500">
-            <CardHeader className="pb-3">
+          <Card className="relative overflow-hidden bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-900/10 dark:to-blue-800/10 border-blue-200 dark:border-blue-800">
+            <CardHeader className="pb-2">
               <div className="flex items-center justify-between">
-                <CardTitle className="text-sm font-medium text-gray-600 dark:text-gray-400">
+                <CardTitle className="text-xs font-semibold text-blue-700 dark:text-blue-300 uppercase tracking-wider">
                   Attributed Offline Revenue
                 </CardTitle>
-                <DollarSign className="w-4 h-4 text-blue-500" />
+                <div className="p-2 bg-blue-500 rounded-lg">
+                  <DollarSign className="w-4 h-4 text-white" />
+                </div>
               </div>
             </CardHeader>
-            <CardContent>
-              <div className="space-y-2">
-                <div className="text-2xl font-bold text-gray-900 dark:text-white">
-                  {formatCurrency(kpiData.attributedRevenue.current)}
+            <CardContent className="pt-0">
+              {/* Primary Metric */}
+              <div className="text-3xl font-bold text-gray-900 dark:text-white mb-3">
+                {formatCurrency(kpiData.attributedRevenue.current)}
+              </div>
+              
+              {/* Variance Indicator */}
+              <div className="flex items-center justify-between mb-4">
+                <div className={`flex items-center space-x-2 px-3 py-1 rounded-full text-sm font-semibold ${
+                  kpiData.attributedRevenue.change > 0 
+                    ? 'bg-green-100 text-green-700 dark:bg-green-900/20 dark:text-green-400' 
+                    : 'bg-red-100 text-red-700 dark:bg-red-900/20 dark:text-red-400'
+                }`}>
+                  {kpiData.attributedRevenue.change > 0 ? (
+                    <ArrowUpRight className="w-4 h-4" />
+                  ) : (
+                    <ArrowDownRight className="w-4 h-4" />
+                  )}
+                  <span>{formatPercent(kpiData.attributedRevenue.change)}</span>
                 </div>
-                <div className="flex items-center space-x-2">
-                  <div className={`flex items-center space-x-1 text-sm ${
-                    kpiData.attributedRevenue.change > 0 ? 'text-green-600' : 'text-red-600'
-                  }`}>
-                    {kpiData.attributedRevenue.change > 0 ? (
-                      <ArrowUpRight className="w-3 h-3" />
-                    ) : (
-                      <ArrowDownRight className="w-3 h-3" />
-                    )}
-                    <span>{formatPercent(kpiData.attributedRevenue.change)}</span>
-                  </div>
-                  <span className="text-xs text-gray-500">vs last period</span>
-                </div>
-                <div className="text-xs text-gray-500">
-                  Previous: {formatCurrency(kpiData.attributedRevenue.previous)}
-                </div>
+                <div className="text-xs text-gray-500 font-medium">vs last period</div>
+              </div>
+              
+              {/* Comparison Value */}
+              <div className="text-sm text-gray-600 dark:text-gray-400 bg-white/60 dark:bg-gray-800/60 rounded-md px-3 py-2">
+                <span className="font-medium">Previous:</span> {formatCurrency(kpiData.attributedRevenue.previous)}
+              </div>
+              
+              {/* Mini Trendline */}
+              <div className="absolute bottom-0 right-0 w-24 h-12 opacity-20">
+                <svg className="w-full h-full" viewBox="0 0 96 48" preserveAspectRatio="none">
+                  <path 
+                    d="M0,40 Q24,32 48,24 T96,8" 
+                    stroke="currentColor" 
+                    strokeWidth="2" 
+                    fill="none" 
+                    className="text-blue-600"
+                  />
+                </svg>
               </div>
             </CardContent>
           </Card>
 
           {/* Offline ROAS */}
-          <Card className="border-l-4 border-l-green-500">
-            <CardHeader className="pb-3">
+          <Card className="relative overflow-hidden bg-gradient-to-br from-green-50 to-green-100 dark:from-green-900/10 dark:to-green-800/10 border-green-200 dark:border-green-800">
+            <CardHeader className="pb-2">
               <div className="flex items-center justify-between">
-                <CardTitle className="text-sm font-medium text-gray-600 dark:text-gray-400">
+                <CardTitle className="text-xs font-semibold text-green-700 dark:text-green-300 uppercase tracking-wider">
                   Offline ROAS
                 </CardTitle>
-                <Target className="w-4 h-4 text-green-500" />
+                <div className="p-2 bg-green-500 rounded-lg">
+                  <Target className="w-4 h-4 text-white" />
+                </div>
               </div>
             </CardHeader>
-            <CardContent>
-              <div className="space-y-2">
-                <div className="text-2xl font-bold text-gray-900 dark:text-white">
-                  {kpiData.offlineROAS.current.toFixed(2)}:1
+            <CardContent className="pt-0">
+              {/* Primary Metric */}
+              <div className="text-3xl font-bold text-gray-900 dark:text-white mb-3">
+                {kpiData.offlineROAS.current.toFixed(2)}:1
+              </div>
+              
+              {/* Variance Indicator */}
+              <div className="flex items-center justify-between mb-4">
+                <div className={`flex items-center space-x-2 px-3 py-1 rounded-full text-sm font-semibold ${
+                  kpiData.offlineROAS.change > 0 
+                    ? 'bg-green-100 text-green-700 dark:bg-green-900/20 dark:text-green-400' 
+                    : 'bg-red-100 text-red-700 dark:bg-red-900/20 dark:text-red-400'
+                }`}>
+                  {kpiData.offlineROAS.change > 0 ? (
+                    <ArrowUpRight className="w-4 h-4" />
+                  ) : (
+                    <ArrowDownRight className="w-4 h-4" />
+                  )}
+                  <span>{formatPercent(kpiData.offlineROAS.change)}</span>
                 </div>
-                <div className="flex items-center space-x-2">
-                  <div className={`flex items-center space-x-1 text-sm ${
-                    kpiData.offlineROAS.change > 0 ? 'text-green-600' : 'text-red-600'
-                  }`}>
-                    {kpiData.offlineROAS.change > 0 ? (
-                      <ArrowUpRight className="w-3 h-3" />
-                    ) : (
-                      <ArrowDownRight className="w-3 h-3" />
-                    )}
-                    <span>{formatPercent(kpiData.offlineROAS.change)}</span>
-                  </div>
-                  <span className="text-xs text-gray-500">vs last period</span>
-                </div>
-                <div className="text-xs text-gray-500">
-                  Previous: {kpiData.offlineROAS.previous.toFixed(2)}:1
-                </div>
+                <div className="text-xs text-gray-500 font-medium">vs last period</div>
+              </div>
+              
+              {/* Comparison Value */}
+              <div className="text-sm text-gray-600 dark:text-gray-400 bg-white/60 dark:bg-gray-800/60 rounded-md px-3 py-2">
+                <span className="font-medium">Previous:</span> {kpiData.offlineROAS.previous.toFixed(2)}:1
+              </div>
+              
+              {/* Mini Trendline */}
+              <div className="absolute bottom-0 right-0 w-24 h-12 opacity-20">
+                <svg className="w-full h-full" viewBox="0 0 96 48" preserveAspectRatio="none">
+                  <path 
+                    d="M0,36 Q24,30 48,20 T96,12" 
+                    stroke="currentColor" 
+                    strokeWidth="2" 
+                    fill="none" 
+                    className="text-green-600"
+                  />
+                </svg>
               </div>
             </CardContent>
           </Card>
 
           {/* Total Conversions */}
-          <Card className="border-l-4 border-l-purple-500">
-            <CardHeader className="pb-3">
+          <Card className="relative overflow-hidden bg-gradient-to-br from-purple-50 to-purple-100 dark:from-purple-900/10 dark:to-purple-800/10 border-purple-200 dark:border-purple-800">
+            <CardHeader className="pb-2">
               <div className="flex items-center justify-between">
-                <CardTitle className="text-sm font-medium text-gray-600 dark:text-gray-400">
+                <CardTitle className="text-xs font-semibold text-purple-700 dark:text-purple-300 uppercase tracking-wider">
                   Store Conversions
                 </CardTitle>
-                <Store className="w-4 h-4 text-purple-500" />
+                <div className="p-2 bg-purple-500 rounded-lg">
+                  <Store className="w-4 h-4 text-white" />
+                </div>
               </div>
             </CardHeader>
-            <CardContent>
-              <div className="space-y-2">
-                <div className="text-2xl font-bold text-gray-900 dark:text-white">
-                  {formatNumber(kpiData.totalConversions.current)}
+            <CardContent className="pt-0">
+              {/* Primary Metric */}
+              <div className="text-3xl font-bold text-gray-900 dark:text-white mb-3">
+                {formatNumber(kpiData.totalConversions.current)}
+              </div>
+              
+              {/* Variance Indicator */}
+              <div className="flex items-center justify-between mb-4">
+                <div className={`flex items-center space-x-2 px-3 py-1 rounded-full text-sm font-semibold ${
+                  kpiData.totalConversions.change > 0 
+                    ? 'bg-green-100 text-green-700 dark:bg-green-900/20 dark:text-green-400' 
+                    : 'bg-red-100 text-red-700 dark:bg-red-900/20 dark:text-red-400'
+                }`}>
+                  {kpiData.totalConversions.change > 0 ? (
+                    <ArrowUpRight className="w-4 h-4" />
+                  ) : (
+                    <ArrowDownRight className="w-4 h-4" />
+                  )}
+                  <span>{formatPercent(kpiData.totalConversions.change)}</span>
                 </div>
-                <div className="flex items-center space-x-2">
-                  <div className={`flex items-center space-x-1 text-sm ${
-                    kpiData.totalConversions.change > 0 ? 'text-green-600' : 'text-red-600'
-                  }`}>
-                    {kpiData.totalConversions.change > 0 ? (
-                      <ArrowUpRight className="w-3 h-3" />
-                    ) : (
-                      <ArrowDownRight className="w-3 h-3" />
-                    )}
-                    <span>{formatPercent(kpiData.totalConversions.change)}</span>
-                  </div>
-                  <span className="text-xs text-gray-500">vs last period</span>
-                </div>
-                <div className="text-xs text-gray-500">
-                  Previous: {formatNumber(kpiData.totalConversions.previous)}
-                </div>
+                <div className="text-xs text-gray-500 font-medium">vs last period</div>
+              </div>
+              
+              {/* Comparison Value */}
+              <div className="text-sm text-gray-600 dark:text-gray-400 bg-white/60 dark:bg-gray-800/60 rounded-md px-3 py-2">
+                <span className="font-medium">Previous:</span> {formatNumber(kpiData.totalConversions.previous)}
+              </div>
+              
+              {/* Mini Trendline */}
+              <div className="absolute bottom-0 right-0 w-24 h-12 opacity-20">
+                <svg className="w-full h-full" viewBox="0 0 96 48" preserveAspectRatio="none">
+                  <path 
+                    d="M0,42 Q24,38 48,28 T96,16" 
+                    stroke="currentColor" 
+                    strokeWidth="2" 
+                    fill="none" 
+                    className="text-purple-600"
+                  />
+                </svg>
               </div>
             </CardContent>
           </Card>
 
           {/* Average Order Value */}
-          <Card className="border-l-4 border-l-orange-500">
-            <CardHeader className="pb-3">
+          <Card className="relative overflow-hidden bg-gradient-to-br from-orange-50 to-orange-100 dark:from-orange-900/10 dark:to-orange-800/10 border-orange-200 dark:border-orange-800">
+            <CardHeader className="pb-2">
               <div className="flex items-center justify-between">
-                <CardTitle className="text-sm font-medium text-gray-600 dark:text-gray-400">
+                <CardTitle className="text-xs font-semibold text-orange-700 dark:text-orange-300 uppercase tracking-wider">
                   Avg Order Value
                 </CardTitle>
-                <TrendingUp className="w-4 h-4 text-orange-500" />
+                <div className="p-2 bg-orange-500 rounded-lg">
+                  <TrendingUp className="w-4 h-4 text-white" />
+                </div>
               </div>
             </CardHeader>
-            <CardContent>
-              <div className="space-y-2">
-                <div className="text-2xl font-bold text-gray-900 dark:text-white">
-                  {formatCurrency(kpiData.avgOrderValue.current)}
+            <CardContent className="pt-0">
+              {/* Primary Metric */}
+              <div className="text-3xl font-bold text-gray-900 dark:text-white mb-3">
+                {formatCurrency(kpiData.avgOrderValue.current)}
+              </div>
+              
+              {/* Variance Indicator */}
+              <div className="flex items-center justify-between mb-4">
+                <div className={`flex items-center space-x-2 px-3 py-1 rounded-full text-sm font-semibold ${
+                  kpiData.avgOrderValue.change > 0 
+                    ? 'bg-green-100 text-green-700 dark:bg-green-900/20 dark:text-green-400' 
+                    : 'bg-red-100 text-red-700 dark:bg-red-900/20 dark:text-red-400'
+                }`}>
+                  {kpiData.avgOrderValue.change > 0 ? (
+                    <ArrowUpRight className="w-4 h-4" />
+                  ) : (
+                    <ArrowDownRight className="w-4 h-4" />
+                  )}
+                  <span>{formatPercent(kpiData.avgOrderValue.change)}</span>
                 </div>
-                <div className="flex items-center space-x-2">
-                  <div className={`flex items-center space-x-1 text-sm ${
-                    kpiData.avgOrderValue.change > 0 ? 'text-green-600' : 'text-red-600'
-                  }`}>
-                    {kpiData.avgOrderValue.change > 0 ? (
-                      <ArrowUpRight className="w-3 h-3" />
-                    ) : (
-                      <ArrowDownRight className="w-3 h-3" />
-                    )}
-                    <span>{formatPercent(kpiData.avgOrderValue.change)}</span>
-                  </div>
-                  <span className="text-xs text-gray-500">vs last period</span>
-                </div>
-                <div className="text-xs text-gray-500">
-                  Previous: {formatCurrency(kpiData.avgOrderValue.previous)}
-                </div>
+                <div className="text-xs text-gray-500 font-medium">vs last period</div>
+              </div>
+              
+              {/* Comparison Value */}
+              <div className="text-sm text-gray-600 dark:text-gray-400 bg-white/60 dark:bg-gray-800/60 rounded-md px-3 py-2">
+                <span className="font-medium">Previous:</span> {formatCurrency(kpiData.avgOrderValue.previous)}
+              </div>
+              
+              {/* Mini Trendline */}
+              <div className="absolute bottom-0 right-0 w-24 h-12 opacity-20">
+                <svg className="w-full h-full" viewBox="0 0 96 48" preserveAspectRatio="none">
+                  <path 
+                    d="M0,44 Q24,38 48,26 T96,14" 
+                    stroke="currentColor" 
+                    strokeWidth="2" 
+                    fill="none" 
+                    className="text-orange-600"
+                  />
+                </svg>
               </div>
             </CardContent>
           </Card>
@@ -290,14 +370,73 @@ export default function OfflineConversions() {
           {/* Revenue Attribution Analysis */}
           <Card className="lg:col-span-2">
             <CardHeader>
-              <CardTitle className="flex items-center space-x-2">
-                <PieChart className="w-5 h-5 text-blue-600" />
-                <span>Revenue Attribution Analysis</span>
+              <CardTitle className="flex items-center justify-between">
+                <div className="flex items-center space-x-2">
+                  <PieChart className="w-5 h-5 text-blue-600" />
+                  <span>Revenue Attribution Analysis</span>
+                </div>
+                <Badge variant="outline" className="text-blue-700 border-blue-300">
+                  Last 30 Days
+                </Badge>
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="h-64 flex items-center justify-center text-gray-500 dark:text-gray-400">
-                Revenue attribution chart will be implemented here
+              {/* Attribution Breakdown */}
+              <div className="space-y-6">
+                {/* Platform Attribution */}
+                <div>
+                  <h4 className="font-semibold text-sm text-gray-700 dark:text-gray-300 mb-4">Digital Platform Attribution</h4>
+                  <div className="space-y-4">
+                    {[
+                      { platform: 'Google Ads', revenue: 1247800, percentage: 43.8, color: 'bg-blue-500', conversions: 672 },
+                      { platform: 'Facebook Ads', revenue: 998600, percentage: 35.1, color: 'bg-green-500', conversions: 534 },
+                      { platform: 'Microsoft Ads', revenue: 387200, percentage: 13.6, color: 'bg-purple-500', conversions: 221 },
+                      { platform: 'Direct/Organic', revenue: 213900, percentage: 7.5, color: 'bg-gray-500', conversions: 142 }
+                    ].map((item, index) => (
+                      <div key={item.platform} className="flex items-center space-x-4">
+                        <div className="w-3 h-3 rounded-full" style={{ backgroundColor: item.color.replace('bg-', '') === 'blue-500' ? '#3B82F6' : item.color.replace('bg-', '') === 'green-500' ? '#10B981' : item.color.replace('bg-', '') === 'purple-500' ? '#8B5CF6' : '#6B7280' }}></div>
+                        <div className="flex-1">
+                          <div className="flex items-center justify-between mb-1">
+                            <span className="text-sm font-medium text-gray-900 dark:text-white">{item.platform}</span>
+                            <span className="text-sm font-bold text-gray-900 dark:text-white">{formatCurrency(item.revenue)}</span>
+                          </div>
+                          <div className="flex items-center justify-between">
+                            <div className="flex-1 bg-gray-200 dark:bg-gray-700 rounded-full h-2 mr-4">
+                              <div 
+                                className={`h-2 rounded-full ${item.color}`} 
+                                style={{ width: `${item.percentage}%` }}
+                              ></div>
+                            </div>
+                            <div className="text-xs text-gray-500 min-w-0 flex space-x-3">
+                              <span>{item.percentage}%</span>
+                              <span>{item.conversions} orders</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Attribution Model Impact */}
+                <div className="border-t pt-6">
+                  <h4 className="font-semibold text-sm text-gray-700 dark:text-gray-300 mb-4">Attribution Model Impact</h4>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-4">
+                      <div className="text-2xl font-bold text-blue-600 dark:text-blue-400">{formatCurrency(1847500)}</div>
+                      <div className="text-sm text-blue-700 dark:text-blue-300 font-medium">First-Touch Attribution</div>
+                      <div className="text-xs text-gray-600 dark:text-gray-400 mt-1">Credits first interaction</div>
+                    </div>
+                    <div className="bg-green-50 dark:bg-green-900/20 rounded-lg p-4">
+                      <div className="text-2xl font-bold text-green-600 dark:text-green-400">{formatCurrency(2847500)}</div>
+                      <div className="text-sm text-green-700 dark:text-green-300 font-medium">Data-Driven Attribution</div>
+                      <div className="text-xs text-gray-600 dark:text-gray-400 mt-1">AI-powered model (current)</div>
+                    </div>
+                  </div>
+                  <div className="mt-3 text-xs text-gray-600 dark:text-gray-400">
+                    <span className="font-medium text-green-600 dark:text-green-400">+54.1%</span> revenue attribution improvement using data-driven model vs first-touch
+                  </div>
+                </div>
               </div>
             </CardContent>
           </Card>
@@ -332,14 +471,143 @@ export default function OfflineConversions() {
         {/* Campaign Performance Matrix */}
         <Card>
           <CardHeader>
-            <CardTitle className="flex items-center space-x-2">
-              <BarChart3 className="w-5 h-5 text-purple-600" />
-              <span>Campaign Performance Matrix</span>
+            <CardTitle className="flex items-center justify-between">
+              <div className="flex items-center space-x-2">
+                <BarChart3 className="w-5 h-5 text-purple-600" />
+                <span>Campaign Performance Matrix</span>
+              </div>
+              <div className="flex items-center space-x-2">
+                <Badge variant="outline" className="text-purple-700 border-purple-300">
+                  Financial Impact
+                </Badge>
+                <Button variant="outline" size="sm" className="text-xs">
+                  Export Data
+                </Button>
+              </div>
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="h-96 flex items-center justify-center text-gray-500 dark:text-gray-400">
-              Campaign performance matrix and detailed analytics will be implemented here
+            <div className="space-y-6">
+              {/* Performance Table Header */}
+              <div className="grid grid-cols-6 gap-4 px-4 py-3 bg-gray-50 dark:bg-gray-800 rounded-lg text-sm font-semibold text-gray-700 dark:text-gray-300">
+                <div>Campaign</div>
+                <div className="text-right">Ad Spend</div>
+                <div className="text-right">Store Revenue</div>
+                <div className="text-right">ROAS</div>
+                <div className="text-right">Conversions</div>
+                <div className="text-right">Revenue/Conv</div>
+              </div>
+
+              {/* Campaign Performance Rows */}
+              <div className="space-y-3">
+                {[
+                  {
+                    name: 'Spring Fashion Collection',
+                    platform: 'Google Ads',
+                    spend: 125400,
+                    revenue: 672800,
+                    roas: 5.36,
+                    conversions: 284,
+                    revenuePerConv: 2369,
+                    performance: 'excellent'
+                  },
+                  {
+                    name: 'Men\'s Casual Wear',
+                    platform: 'Facebook Ads',
+                    spend: 89200,
+                    revenue: 445600,
+                    roas: 4.99,
+                    conversions: 198,
+                    revenuePerConv: 2251,
+                    performance: 'excellent'
+                  },
+                  {
+                    name: 'Women\'s Summer Sale',
+                    platform: 'Google Ads',
+                    spend: 67800,
+                    revenue: 298300,
+                    roas: 4.40,
+                    conversions: 156,
+                    revenuePerConv: 1912,
+                    performance: 'good'
+                  },
+                  {
+                    name: 'Footwear Collection',
+                    platform: 'Microsoft Ads',
+                    spend: 45600,
+                    revenue: 167200,
+                    roas: 3.67,
+                    conversions: 89,
+                    revenuePerConv: 1879,
+                    performance: 'good'
+                  },
+                  {
+                    name: 'Accessories Campaign',
+                    platform: 'Facebook Ads',
+                    spend: 32100,
+                    revenue: 89400,
+                    roas: 2.78,
+                    conversions: 52,
+                    revenuePerConv: 1719,
+                    performance: 'moderate'
+                  }
+                ].map((campaign, index) => {
+                  const performanceColor = campaign.performance === 'excellent' ? 'text-green-600 bg-green-50 dark:bg-green-900/20' :
+                                         campaign.performance === 'good' ? 'text-blue-600 bg-blue-50 dark:bg-blue-900/20' :
+                                         'text-orange-600 bg-orange-50 dark:bg-orange-900/20';
+                  
+                  return (
+                    <div key={index} className="grid grid-cols-6 gap-4 px-4 py-4 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors">
+                      <div>
+                        <div className="font-medium text-gray-900 dark:text-white text-sm">{campaign.name}</div>
+                        <div className="text-xs text-gray-500">{campaign.platform}</div>
+                      </div>
+                      <div className="text-right">
+                        <div className="font-medium text-gray-900 dark:text-white">{formatCurrency(campaign.spend)}</div>
+                        <div className="text-xs text-gray-500">Budget</div>
+                      </div>
+                      <div className="text-right">
+                        <div className="font-bold text-blue-600 dark:text-blue-400">{formatCurrency(campaign.revenue)}</div>
+                        <div className="text-xs text-gray-500">Attributed</div>
+                      </div>
+                      <div className="text-right">
+                        <div className={`font-bold text-sm px-2 py-1 rounded-full ${performanceColor}`}>
+                          {campaign.roas.toFixed(2)}:1
+                        </div>
+                      </div>
+                      <div className="text-right">
+                        <div className="font-medium text-gray-900 dark:text-white">{formatNumber(campaign.conversions)}</div>
+                        <div className="text-xs text-gray-500">Orders</div>
+                      </div>
+                      <div className="text-right">
+                        <div className="font-medium text-gray-900 dark:text-white">{formatCurrency(campaign.revenuePerConv)}</div>
+                        <div className="text-xs text-gray-500">Avg Value</div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+
+              {/* Summary Insights */}
+              <div className="border-t pt-6">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div className="bg-green-50 dark:bg-green-900/20 rounded-lg p-4">
+                    <div className="text-lg font-bold text-green-600 dark:text-green-400">4.54:1</div>
+                    <div className="text-sm font-medium text-green-700 dark:text-green-300">Avg Campaign ROAS</div>
+                    <div className="text-xs text-gray-600 dark:text-gray-400 mt-1">Above 4:1 target threshold</div>
+                  </div>
+                  <div className="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-4">
+                    <div className="text-lg font-bold text-blue-600 dark:text-blue-400">{formatCurrency(1673300)}</div>
+                    <div className="text-sm font-medium text-blue-700 dark:text-blue-300">Total Attributed Revenue</div>
+                    <div className="text-xs text-gray-600 dark:text-gray-400 mt-1">From active campaigns</div>
+                  </div>
+                  <div className="bg-purple-50 dark:bg-purple-900/20 rounded-lg p-4">
+                    <div className="text-lg font-bold text-purple-600 dark:text-purple-400">779</div>
+                    <div className="text-sm font-medium text-purple-700 dark:text-purple-300">Total Store Conversions</div>
+                    <div className="text-xs text-gray-600 dark:text-gray-400 mt-1">Digital-driven purchases</div>
+                  </div>
+                </div>
+              </div>
             </div>
           </CardContent>
         </Card>
