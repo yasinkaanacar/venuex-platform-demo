@@ -7,6 +7,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import DataQualityEnrichment from '@/components/overview/data-quality-enrichment';
 import DataHealthAlerts from '@/components/overview/data-health-alerts';
 import WeeklySalesChart from '../components/overview/weekly-sales-chart';
+import PerformanceChart from '../components/overview/performance-chart';
 import { 
   TrendingUp, 
   DollarSign, 
@@ -527,6 +528,9 @@ export default function OfflineConversions() {
 
         {/* Online-to-Offline Conversion Funnel */}
         <WeeklySalesChart />
+
+        {/* Performance Chart - Funnel Visualization */}
+        <PerformanceChart filters={{platform: platform, dateRange: dateRange, compareMode: false}} onFiltersChange={() => {}} />
 
         {/* Strategic Insights Section */}
         <div className="space-y-8 mb-8">
