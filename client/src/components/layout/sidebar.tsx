@@ -30,7 +30,8 @@ const navigationGroups = [
     title: "SATIŞLAR", 
     items: [
       { name: 'Satışlar', href: '/sales', icon: TrendingUp },
-      { name: 'Katalog', href: '/catalog', icon: Package }
+      { name: 'Katalog', href: '/catalog', icon: Package },
+      { name: 'Offline Conversions', href: '/offline-conversions', icon: ArrowRightLeft }
     ]
   },
   {
