@@ -1,4 +1,5 @@
 import EnrichmentSuggestions from './enrichment-suggestions';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 type DataQualityContext = 'dashboard' | 'locations';
 
@@ -8,19 +9,21 @@ interface DataQualityEnrichmentProps {
 
 export default function DataQualityEnrichment({ context = 'dashboard' }: DataQualityEnrichmentProps) {
   return (
-    <div className="bg-[#fcfcfc] rounded-lg border border-gray-200 overflow-hidden">
-      <div className="bg-[#f9fafb] py-2 px-6 flex justify-between items-center border-b border-gray-200">
-        <div>
-          <h3 className="text-lg font-semibold text-foreground">Data Quality Assessment</h3>
-          <p className="text-sm text-muted-foreground">
-            Overall Score: <span className="text-green-600 font-semibold">97%</span>
-          </p>
+    <Card>
+      <CardHeader>
+        <div className="flex justify-between items-center">
+          <div>
+            <CardTitle>Data Quality Assessment</CardTitle>
+            <p className="text-sm text-muted-foreground">
+              Overall Score: <span className="text-green-600 font-semibold">97%</span>
+            </p>
+          </div>
+          <button className="text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:hover:text-white font-medium bg-transparent border-none cursor-pointer" data-testid="button-view-all-data-quality">
+            View All →
+          </button>
         </div>
-        <button className="text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:hover:text-white font-medium bg-transparent border-none cursor-pointer" data-testid="button-view-all-data-quality">
-          View All →
-        </button>
-      </div>
-      <div className="bg-[#f9fafb] p-6 space-y-8">
+      </CardHeader>
+      <CardContent className="space-y-8">
         {context === 'locations' ? (
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {/* Location Data */}
@@ -343,7 +346,7 @@ export default function DataQualityEnrichment({ context = 'dashboard' }: DataQua
         <div className="pt-8 border-t border-border">
           <EnrichmentSuggestions context={context} />
         </div>
-      </div>
-    </div>
+      </CardContent>
+    </Card>
   );
 }
