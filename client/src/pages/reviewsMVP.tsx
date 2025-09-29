@@ -1348,18 +1348,7 @@ export default function ReviewsMVP() {
 
           {/* Inbox Tab */}
           <TabsContent value="inbox" className="space-y-6">
-            <div className="flex items-center justify-end">
-              <div className="flex items-center gap-2">
-                <Button variant="outline" size="sm">
-                  <Filter className="w-4 h-4" />
-                  Bulk Actions
-                </Button>
-                <Button variant="outline" size="sm">
-                  <Download className="w-4 h-4" />
-                  Export
-                </Button>
-              </div>
-            </div>
+            
 
             {/* Desktop Filter Bar */}
             <Card className="border-gray-200 bg-[#f9fafb]" ref={filterBarRef}>
