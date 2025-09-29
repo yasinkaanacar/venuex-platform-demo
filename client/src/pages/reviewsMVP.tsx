@@ -107,7 +107,6 @@ export default function ReviewsMVP() {
   const [reviewSource, setReviewSource] = useState("locations"); // New Review Source filter
   const [replyStatusFilter, setReplyStatusFilter] = useState("unreplied");
   const [ratingFilter, setRatingFilter] = useState("all");
-  const [selectedRatings, setSelectedRatings] = useState<number[]>([]);
   const [sortOrder, setSortOrder] = useState<"latest" | "oldest">("latest");
   const [themeFilter, setThemeFilter] = useState("all");
   const [productFilter, setProductFilter] = useState("all"); // New Product filter
@@ -1465,31 +1464,19 @@ export default function ReviewsMVP() {
                   {/* Rating Filter */}
                   <div className="flex items-center gap-2">
                     <label className="text-sm font-medium text-gray-700 whitespace-nowrap">Rating:</label>
-                    <div className="flex items-center gap-3 p-2 border border-gray-300 rounded-md bg-white">
-                      {[1, 2, 3, 4, 5].map((rating) => (
-                        <label key={rating} className="flex items-center gap-2 cursor-pointer">
-                          <Checkbox
-                            checked={selectedRatings.includes(rating)}
-                            onChange={(event) => {
-                              const checked = event.target.checked;
-                              if (checked) {
-                                setSelectedRatings([...selectedRatings, rating]);
-                              } else {
-                                setSelectedRatings(selectedRatings.filter(r => r !== rating));
-                              }
-                            }}
-                          />
-                          <div className="flex">
-                            {[...Array(5)].map((_, i) => (
-                              <Star
-                                key={i}
-                                className={`w-3 h-3 ${i < rating ? 'fill-yellow-400 text-yellow-400' : 'text-gray-300'}`}
-                              />
-                            ))}
-                          </div>
-                        </label>
-                      ))}
-                    </div>
+                    <Select value={ratingFilter} onValueChange={setRatingFilter}>
+                      <SelectTrigger className="w-36 border-gray-300 rounded-md">
+                        <SelectValue placeholder="All Ratings" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="all">All Ratings</SelectItem>
+                        <SelectItem value="1">1 Star ★</SelectItem>
+                        <SelectItem value="2">2 Stars ★★</SelectItem>
+                        <SelectItem value="3">3 Stars ★★★</SelectItem>
+                        <SelectItem value="4">4 Stars ★★★★</SelectItem>
+                        <SelectItem value="5">5 Stars ★★★★★</SelectItem>
+                      </SelectContent>
+                    </Select>
                   </div>
 
                   {/* Sort Order */}
@@ -1623,7 +1610,7 @@ export default function ReviewsMVP() {
                       {recentReviews.filter(review => {
                         if (inboxFilters.source && review.platform !== inboxFilters.source) return false;
                         if (inboxFilters.rating && review.rating !== inboxFilters.rating) return false;
-                        if (selectedRatings.length > 0 && !selectedRatings.includes(review.rating)) return false;
+                        if (ratingFilter !== "all" && review.rating !== parseInt(ratingFilter)) return false;
                         if (inboxFilters.status) {
                           // Add status filtering logic here
                         }
