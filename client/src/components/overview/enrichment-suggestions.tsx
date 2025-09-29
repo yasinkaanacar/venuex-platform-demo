@@ -85,35 +85,35 @@ export default function EnrichmentSuggestions({ context = 'dashboard' }: Enrichm
   const dashboardSuggestions = [
     {
       id: '1',
-      type: 'hours_update',
-      title: 'Add missing business hours',
-      description: '23 locations missing accurate operating hours. This can improve local search visibility by up to 15%.',
-      impact: 'medium',
-      estimatedImprovement: '+15%',
-      itemsAffected: '23 items affected',
-      timeToFix: '~2 hours to fix',
+      type: 'description_optimization',
+      title: 'Complete customer email hashing',
+      description: '22% of customer email addresses are not properly hashed. Enhanced privacy compliance can improve data security and ad platform performance.',
+      impact: 'high',
+      estimatedImprovement: '+18%',
+      itemsAffected: '1,847 records affected',
+      timeToFix: '~3 hours to fix',
       buttonType: 'apply'
     },
     {
       id: '2',
-      type: 'description_optimization',
-      title: 'Optimize product descriptions',
-      description: '89 products have incomplete or poorly optimized descriptions. Enhanced descriptions can improve conversion rates by 25%.',
+      type: 'hours_update',
+      title: 'Standardize content brand data',
+      description: '33% of content entries missing brand information. Complete brand data improves audience targeting and conversion attribution.',
       impact: 'high',
-      estimatedImprovement: '+25%',
-      itemsAffected: '89 items affected',
-      timeToFix: '~6 hours to fix',
+      estimatedImprovement: '+22%',
+      itemsAffected: '2,134 items affected',
+      timeToFix: '~4 hours to fix',
       buttonType: 'info'
     },
     {
       id: '3',
       type: 'location_extension',
-      title: 'Update location categories',
-      description: '8 locations using outdated category classifications. Updated categories improve discovery and targeting accuracy.',
-      impact: 'low',
-      estimatedImprovement: '+8%',
-      itemsAffected: '8 items affected',
-      timeToFix: '~30 minutes to fix',
+      title: 'Enhance conversion time tracking',
+      description: 'Conversion timestamps missing timezone data for offline purchases. Accurate timing improves attribution accuracy by 12%.',
+      impact: 'medium',
+      estimatedImprovement: '+12%',
+      itemsAffected: '634 conversions affected',
+      timeToFix: '~2 hours to fix',
       buttonType: 'apply'
     }
   ];
@@ -123,33 +123,33 @@ export default function EnrichmentSuggestions({ context = 'dashboard' }: Enrichm
     {
       id: '4',
       type: 'location_extension',
-      title: 'Update store hours for 15 locations',
-      description: '15 locations have outdated or missing business hours. This affects local search performance and customer experience.',
+      title: 'Complete customer gender data collection',
+      description: '57% of customer profiles missing gender information. Enhanced demographic data improves targeting precision for location-based campaigns.',
       impact: 'high',
-      estimatedImprovement: '+22%',
-      itemsAffected: '15 locations affected',
-      timeToFix: '~1 hour to fix',
+      estimatedImprovement: '+19%',
+      itemsAffected: '3,247 customer records affected',
+      timeToFix: '~2 hours to fix',
       buttonType: 'apply'
     },
     {
       id: '5',
       type: 'hours_update',
-      title: 'Add missing phone numbers',
-      description: '7 locations are missing phone numbers. This reduces customer contact opportunities and local SEO effectiveness.',
+      title: 'Validate store code mapping',
+      description: 'Content data missing proper store code associations. Complete mapping improves conversion attribution accuracy across locations.',
       impact: 'medium',
-      estimatedImprovement: '+12%',
-      itemsAffected: '7 locations affected',
-      timeToFix: '~45 minutes to fix',
+      estimatedImprovement: '+14%',
+      itemsAffected: '1,756 content items affected',
+      timeToFix: '~1.5 hours to fix',
       buttonType: 'apply'
     },
     {
       id: '6',
       type: 'description_optimization',
-      title: 'Optimize location descriptions',
-      description: '32 locations have generic or incomplete descriptions. Enhanced descriptions improve discovery and customer engagement.',
+      title: 'Standardize content quantity tracking',
+      description: '13% of purchase contents missing quantity data. Complete quantity information enhances conversion value calculations.',
       impact: 'medium',
-      estimatedImprovement: '+18%',
-      itemsAffected: '32 locations affected',
+      estimatedImprovement: '+16%',
+      itemsAffected: '892 transaction items affected',
       timeToFix: '~3 hours to fix',
       buttonType: 'info'
     }
@@ -241,9 +241,9 @@ export default function EnrichmentSuggestions({ context = 'dashboard' }: Enrichm
         <div className="mt-6 pt-4 border-t-2 border-border flex items-center justify-between">
           <div className="text-sm text-muted-foreground">
             {context === 'locations' ? (
-              <>3 suggestions shown • Potential impact: <span className="font-medium">+52.0% overall performance</span></>
+              <>3 suggestions shown • Potential impact: <span className="font-medium">+49.0% overall performance</span></>
             ) : (
-              <>3 suggestions shown • Potential impact: <span className="font-medium">+48.0% overall performance</span></>
+              <>3 suggestions shown • Potential impact: <span className="font-medium">+52.0% overall performance</span></>
             )}
           </div>
           <Button variant="outlined" size="small" className="text-gray-700 dark:text-gray-200 border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-800 font-medium">
