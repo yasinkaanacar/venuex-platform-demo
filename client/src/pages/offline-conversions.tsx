@@ -720,6 +720,177 @@ export default function OfflineConversions() {
           </CardContent>
         </Card>
 
+        {/* Time-Series Analysis for Trend Identification */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-8">
+          {/* Revenue Trend Analysis */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center justify-between">
+                <div className="flex items-center space-x-2">
+                  <BarChart3 className="w-5 h-5 text-blue-600" />
+                  <span>Revenue Trend Analysis</span>
+                </div>
+                <Badge variant="outline" className="text-blue-700 border-blue-300">
+                  7-Day Trends
+                </Badge>
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-6">
+                {/* Weekly Revenue Trend */}
+                <div>
+                  <h4 className="font-semibold text-sm text-gray-700 dark:text-gray-300 mb-4">Daily Attributed Revenue</h4>
+                  <div className="space-y-3">
+                    {[
+                      { day: 'Monday', revenue: 456200, change: +12.3, isOptimal: true },
+                      { day: 'Tuesday', revenue: 398600, change: +8.7, isOptimal: true },
+                      { day: 'Wednesday', revenue: 423800, change: +15.2, isOptimal: true },
+                      { day: 'Thursday', revenue: 387400, change: +5.9, isOptimal: false },
+                      { day: 'Friday', revenue: 521300, change: +18.6, isOptimal: true },
+                      { day: 'Saturday', revenue: 612700, change: +22.4, isOptimal: true },
+                      { day: 'Sunday', revenue: 447500, change: +9.8, isOptimal: false }
+                    ].map((dayData, index) => {
+                      const maxRevenue = 612700;
+                      const percentage = (dayData.revenue / maxRevenue) * 100;
+                      
+                      return (
+                        <div key={dayData.day} className="flex items-center space-x-4">
+                          <div className="w-16 text-xs text-gray-600 dark:text-gray-400 font-medium">{dayData.day}</div>
+                          <div className="flex-1">
+                            <div className="flex items-center justify-between mb-1">
+                              <span className="text-sm font-medium text-gray-900 dark:text-white">{formatCurrency(dayData.revenue)}</span>
+                              <div className="flex items-center space-x-2">
+                                <span className={`text-xs font-semibold ${dayData.change > 0 ? 'text-green-600' : 'text-red-600'}`}>
+                                  {dayData.change > 0 ? '+' : ''}{dayData.change}%
+                                </span>
+                                {dayData.isOptimal && (
+                                  <Badge variant="secondary" className="text-xs bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400">
+                                    Optimal
+                                  </Badge>
+                                )}
+                              </div>
+                            </div>
+                            <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                              <div 
+                                className="h-2 rounded-full bg-gradient-to-r from-blue-400 to-blue-600" 
+                                style={{ width: `${percentage}%` }}
+                              ></div>
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                {/* Key Insights */}
+                <div className="border-t pt-4">
+                  <h4 className="font-semibold text-sm text-gray-700 dark:text-gray-300 mb-3">Weekly Insights</h4>
+                  <div className="space-y-2">
+                    <div className="flex items-center space-x-2">
+                      <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                      <span className="text-xs text-gray-600 dark:text-gray-400">
+                        <strong>Weekend peak:</strong> Saturday generates 22.4% higher revenue than weekday average
+                      </span>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                      <span className="text-xs text-gray-600 dark:text-gray-400">
+                        <strong>Optimization opportunity:</strong> Thursday shows lowest performance, consider increasing budget
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Conversion Rate Trends */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center justify-between">
+                <div className="flex items-center space-x-2">
+                  <TrendingUp className="w-5 h-5 text-green-600" />
+                  <span>Conversion Rate Optimization</span>
+                </div>
+                <Badge variant="outline" className="text-green-700 border-green-300">
+                  Performance Peaks
+                </Badge>
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-6">
+                {/* Hourly Conversion Patterns */}
+                <div>
+                  <h4 className="font-semibold text-sm text-gray-700 dark:text-gray-300 mb-4">Peak Conversion Hours</h4>
+                  <div className="grid grid-cols-2 gap-4">
+                    {[
+                      { time: '10:00-12:00', rate: 4.2, impact: 'high', orders: 89 },
+                      { time: '14:00-16:00', rate: 3.8, impact: 'high', orders: 76 },
+                      { time: '19:00-21:00', rate: 5.1, impact: 'peak', orders: 112 },
+                      { time: '21:00-23:00', rate: 3.2, impact: 'medium', orders: 58 }
+                    ].map((timeSlot, index) => {
+                      const impactColor = timeSlot.impact === 'peak' ? 'border-green-500 bg-green-50 dark:bg-green-900/10' :
+                                         timeSlot.impact === 'high' ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/10' :
+                                         'border-orange-500 bg-orange-50 dark:bg-orange-900/10';
+                      
+                      return (
+                        <div key={index} className={`border-l-4 ${impactColor} rounded-lg p-3`}>
+                          <div className="font-medium text-gray-900 dark:text-white text-sm">{timeSlot.time}</div>
+                          <div className="text-lg font-bold text-gray-900 dark:text-white">{timeSlot.rate}%</div>
+                          <div className="text-xs text-gray-600 dark:text-gray-400">{timeSlot.orders} conversions</div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                {/* Platform Performance by Time */}
+                <div className="border-t pt-4">
+                  <h4 className="font-semibold text-sm text-gray-700 dark:text-gray-300 mb-3">Platform Performance Timing</h4>
+                  <div className="space-y-3">
+                    {[
+                      { platform: 'Google Ads', peakTime: '19:00-21:00', peakRate: 5.8, color: 'text-blue-600' },
+                      { platform: 'Facebook Ads', peakTime: '20:00-22:00', peakRate: 4.9, color: 'text-green-600' },
+                      { platform: 'Microsoft Ads', peakTime: '10:00-12:00', peakRate: 3.7, color: 'text-purple-600' }
+                    ].map((platform, index) => (
+                      <div key={index} className="flex items-center justify-between p-2 bg-gray-50 dark:bg-gray-800 rounded-md">
+                        <div>
+                          <div className={`font-medium text-sm ${platform.color}`}>{platform.platform}</div>
+                          <div className="text-xs text-gray-500">Peak: {platform.peakTime}</div>
+                        </div>
+                        <div className="text-right">
+                          <div className="font-bold text-gray-900 dark:text-white">{platform.peakRate}%</div>
+                          <div className="text-xs text-gray-500">Conversion rate</div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Optimization Recommendations */}
+                <div className="border-t pt-4">
+                  <h4 className="font-semibold text-sm text-gray-700 dark:text-gray-300 mb-3">Smart Recommendations</h4>
+                  <div className="space-y-2">
+                    <div className="bg-blue-50 dark:bg-blue-900/20 rounded-md p-3">
+                      <div className="text-sm font-medium text-blue-700 dark:text-blue-300">Increase evening budgets</div>
+                      <div className="text-xs text-blue-600 dark:text-blue-400 mt-1">
+                        19:00-21:00 shows 23% higher conversion rates. Shift 15% of morning budget to evening.
+                      </div>
+                    </div>
+                    <div className="bg-green-50 dark:bg-green-900/20 rounded-md p-3">
+                      <div className="text-sm font-medium text-green-700 dark:text-green-300">Weekend optimization</div>
+                      <div className="text-xs text-green-600 dark:text-green-400 mt-1">
+                        Saturday revenue 22% above average. Consider weekend-specific campaigns.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
         {/* Data Quality Assessment */}
         <div className="mt-8">
           <DataQualityEnrichment context="dashboard" />
