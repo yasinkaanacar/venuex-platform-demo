@@ -441,28 +441,136 @@ export default function OfflineConversions() {
             </CardContent>
           </Card>
 
-          {/* Top Converting Stores */}
+          {/* Store-Level Conversion Insights */}
           <Card>
             <CardHeader>
-              <CardTitle className="flex items-center space-x-2">
-                <MapPin className="w-5 h-5 text-green-600" />
-                <span>Top Converting Stores</span>
+              <CardTitle className="flex items-center justify-between">
+                <div className="flex items-center space-x-2">
+                  <MapPin className="w-5 h-5 text-green-600" />
+                  <span>Store-Level Conversion Insights</span>
+                </div>
+                <Badge variant="outline" className="text-green-700 border-green-300">
+                  Revenue Leaders
+                </Badge>
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="space-y-4">
-                {['Istanbul Zorlu Center', 'Ankara Ankamall', 'Izmir Optimum'].map((store, index) => (
-                  <div key={store} className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-800 rounded-lg">
-                    <div>
-                      <div className="font-medium text-sm">{store}</div>
-                      <div className="text-xs text-gray-500">#{index + 1} performer</div>
+              <div className="space-y-5">
+                {[
+                  {
+                    store: 'Istanbul Zorlu Center',
+                    city: 'Istanbul',
+                    attributedRevenue: 487200,
+                    digitalOrders: 142,
+                    conversionRate: 3.8,
+                    avgOrderValue: 3431,
+                    topChannel: 'Google Ads',
+                    channelShare: 67,
+                    performance: 'excellent'
+                  },
+                  {
+                    store: 'Ankara Ankamall',
+                    city: 'Ankara', 
+                    attributedRevenue: 356800,
+                    digitalOrders: 124,
+                    conversionRate: 3.2,
+                    avgOrderValue: 2877,
+                    topChannel: 'Facebook Ads',
+                    channelShare: 54,
+                    performance: 'excellent'
+                  },
+                  {
+                    store: 'Izmir Optimum',
+                    city: 'Izmir',
+                    attributedRevenue: 298600,
+                    digitalOrders: 96,
+                    conversionRate: 2.9,
+                    avgOrderValue: 3110,
+                    topChannel: 'Google Ads',
+                    channelShare: 61,
+                    performance: 'good'
+                  },
+                  {
+                    store: 'Bursa Kent Meydanı',
+                    city: 'Bursa',
+                    attributedRevenue: 189400,
+                    digitalOrders: 67,
+                    conversionRate: 2.4,
+                    avgOrderValue: 2827,
+                    topChannel: 'Facebook Ads',
+                    channelShare: 48,
+                    performance: 'good'
+                  },
+                  {
+                    store: 'Antalya Terracity',
+                    city: 'Antalya',
+                    attributedRevenue: 156700,
+                    digitalOrders: 53,
+                    conversionRate: 2.1,
+                    avgOrderValue: 2957,
+                    topChannel: 'Microsoft Ads',
+                    channelShare: 42,
+                    performance: 'moderate'
+                  }
+                ].map((location, index) => {
+                  const performanceColor = location.performance === 'excellent' ? 'border-l-green-500 bg-green-50 dark:bg-green-900/10' :
+                                         location.performance === 'good' ? 'border-l-blue-500 bg-blue-50 dark:bg-blue-900/10' :
+                                         'border-l-orange-500 bg-orange-50 dark:bg-orange-900/10';
+                  
+                  return (
+                    <div key={location.store} className={`border-l-4 ${performanceColor} rounded-lg p-4`}>
+                      <div className="flex items-start justify-between mb-3">
+                        <div>
+                          <div className="font-bold text-gray-900 dark:text-white text-sm">{location.store}</div>
+                          <div className="text-xs text-gray-600 dark:text-gray-400">{location.city} • #{index + 1} Revenue Performance</div>
+                        </div>
+                        <div className="text-right">
+                          <div className="font-bold text-lg text-gray-900 dark:text-white">{formatCurrency(location.attributedRevenue)}</div>
+                          <div className="text-xs text-gray-500">Digital Attribution</div>
+                        </div>
+                      </div>
+                      
+                      <div className="grid grid-cols-2 gap-4 mt-4">
+                        <div className="space-y-2">
+                          <div className="flex items-center justify-between">
+                            <span className="text-xs text-gray-600 dark:text-gray-400">Digital Orders:</span>
+                            <span className="font-medium text-gray-900 dark:text-white">{formatNumber(location.digitalOrders)}</span>
+                          </div>
+                          <div className="flex items-center justify-between">
+                            <span className="text-xs text-gray-600 dark:text-gray-400">Conversion Rate:</span>
+                            <span className="font-medium text-gray-900 dark:text-white">{location.conversionRate}%</span>
+                          </div>
+                        </div>
+                        <div className="space-y-2">
+                          <div className="flex items-center justify-between">
+                            <span className="text-xs text-gray-600 dark:text-gray-400">Avg Order Value:</span>
+                            <span className="font-medium text-gray-900 dark:text-white">{formatCurrency(location.avgOrderValue)}</span>
+                          </div>
+                          <div className="flex items-center justify-between">
+                            <span className="text-xs text-gray-600 dark:text-gray-400">Top Channel:</span>
+                            <span className="font-medium text-gray-900 dark:text-white">{location.topChannel} ({location.channelShare}%)</span>
+                          </div>
+                        </div>
+                      </div>
                     </div>
-                    <div className="text-right">
-                      <div className="font-bold text-green-600">{formatCurrency((850 - index * 150) * 1000)}</div>
-                      <div className="text-xs text-gray-500">{120 - index * 15} orders</div>
+                  );
+                })}
+                
+                {/* Store Performance Summary */}
+                <div className="border-t pt-5 mt-6">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-4">
+                      <div className="text-lg font-bold text-gray-900 dark:text-white">{formatCurrency(1488700)}</div>
+                      <div className="text-sm font-medium text-gray-700 dark:text-gray-300">Total Store Revenue</div>
+                      <div className="text-xs text-gray-600 dark:text-gray-400 mt-1">From digital attribution across 5 locations</div>
+                    </div>
+                    <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-4">
+                      <div className="text-lg font-bold text-gray-900 dark:text-white">2.87%</div>
+                      <div className="text-sm font-medium text-gray-700 dark:text-gray-300">Avg Store Conversion Rate</div>
+                      <div className="text-xs text-gray-600 dark:text-gray-400 mt-1">Digital campaign to in-store purchase</div>
                     </div>
                   </div>
-                ))}
+                </div>
               </div>
             </CardContent>
           </Card>
