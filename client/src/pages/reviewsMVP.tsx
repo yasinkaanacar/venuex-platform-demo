@@ -108,6 +108,7 @@ export default function ReviewsMVP() {
   const [replyStatusFilter, setReplyStatusFilter] = useState("unreplied");
   const [ratingFilter, setRatingFilter] = useState("all");
   const [sortOrder, setSortOrder] = useState<"latest" | "oldest">("latest");
+  const [commentFilter, setCommentFilter] = useState("all");
   const [themeFilter, setThemeFilter] = useState("all");
   const [productFilter, setProductFilter] = useState("all"); // New Product filter
   
@@ -1506,6 +1507,21 @@ export default function ReviewsMVP() {
                     </div>
                   </div>
 
+                  {/* Select By Comment Filter */}
+                  <div className="flex items-center gap-2">
+                    <label className="text-sm font-medium text-gray-700 whitespace-nowrap">Select By Comment:</label>
+                    <Select value={commentFilter} onValueChange={setCommentFilter}>
+                      <SelectTrigger className="w-40 border-gray-300 rounded-md">
+                        <SelectValue placeholder="All" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="all">All</SelectItem>
+                        <SelectItem value="rating-only">Rating Only</SelectItem>
+                        <SelectItem value="with-comment">With Comment</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+
                   {/* Theme Filter */}
                   <div className="flex items-center gap-2">
                     <label className="text-sm font-medium text-gray-700 whitespace-nowrap">Theme:</label>
@@ -1611,6 +1627,10 @@ export default function ReviewsMVP() {
                         if (inboxFilters.source && review.platform !== inboxFilters.source) return false;
                         if (inboxFilters.rating && review.rating !== inboxFilters.rating) return false;
                         if (ratingFilter !== "all" && review.rating !== parseInt(ratingFilter)) return false;
+                        if (commentFilter !== "all") {
+                          if (commentFilter === "rating-only" && review.text.length > 50) return false;
+                          if (commentFilter === "with-comment" && review.text.length <= 50) return false;
+                        }
                         if (inboxFilters.status) {
                           // Add status filtering logic here
                         }
