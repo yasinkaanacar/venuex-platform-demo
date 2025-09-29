@@ -142,9 +142,9 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
           {/* Vertical VenueX alignment guide */}
           <div className="absolute left-1/2 top-0 bottom-0 w-px bg-primary/20 transform -translate-x-1/2 z-0"></div>
           
-          <div className="relative bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-700 py-8 px-6">
+          <div className="relative bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-700 py-4 px-6">
             {/* Clean Data Flow Layout */}
-            <div className="relative w-full h-[500px]">
+            <div className="relative w-full h-[300px]">
               
               {/* Connection Lines SVG */}
               <svg className="absolute inset-0 w-full h-full" viewBox="0 0 1000 400" preserveAspectRatio="xMidYMid meet">
@@ -270,10 +270,10 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
 
               {/* Data Sources - Left Side */}
               <div className="absolute left-0 top-1/2 transform -translate-y-1/2">
-                <div className="bg-white dark:bg-gray-800 rounded-xl p-4 shadow-sm border border-gray-100 dark:border-gray-700 w-64">
+                <div className="bg-white dark:bg-gray-800 rounded-xl p-3 shadow-sm border border-gray-100 dark:border-gray-700 w-56">
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 bg-green-100 dark:bg-green-900/50 rounded-lg flex items-center justify-center">
-                      <Receipt className="w-5 h-5 text-green-600" />
+                    <div className="w-8 h-8 bg-green-100 dark:bg-green-900/50 rounded-lg flex items-center justify-center">
+                      <Receipt className="w-4 h-4 text-green-600" />
                     </div>
                     <div className="flex-1">
                       <div className="font-medium text-foreground">Store Sales</div>
@@ -288,12 +288,12 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
 
               {/* Central VenueX Hub */}
               <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2">
-                <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-lg border-2 border-blue-200 dark:border-blue-800">
+                <div className="bg-white dark:bg-gray-800 rounded-2xl p-4 shadow-lg border-2 border-blue-200 dark:border-blue-800">
                   <div className="flex flex-col items-center text-center">
-                    <div className="w-16 h-16 bg-white rounded-xl flex items-center justify-center shadow-sm">
-                      <img src={vxLogo} alt="VenueX" className="w-12 h-12 object-contain" />
+                    <div className="w-12 h-12 bg-white rounded-xl flex items-center justify-center shadow-sm">
+                      <img src={vxLogo} alt="VenueX" className="w-8 h-8 object-contain" />
                     </div>
-                    <div className="mt-3 font-semibold text-foreground">VenueX</div>
+                    <div className="mt-2 font-semibold text-foreground">VenueX</div>
                     <div className="text-xs text-muted-foreground">Data Processing Hub</div>
                   </div>
                 </div>
@@ -302,7 +302,7 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
               {/* Destination Categories - Right Side */}
               <div className="absolute right-8 top-1/2 transform -translate-y-1/2">
                 {/* Ad Platforms Only */}
-                <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-2.5 shadow-sm border border-gray-200 dark:border-gray-700 w-56">
+                <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-2 shadow-sm border border-gray-200 dark:border-gray-700 w-48">
                   <div className="text-xs font-semibold text-purple-600 mb-1.5">Ad Platforms</div>
                   <div className="space-y-0.5">
                     <div className="flex items-center gap-1.5 p-1 rounded hover:bg-gray-100 dark:hover:bg-gray-700">
