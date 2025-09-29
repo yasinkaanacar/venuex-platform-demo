@@ -21,15 +21,12 @@ const navigationGroups = [
     title: "LOKASYONLAR",
     items: [
       { name: 'Lokasyonlar', href: '/locations', icon: MapPin },
-      { name: 'Yorumlar', href: '/reviews', icon: MessageSquare },
-      { name: 'ReviewsX', href: '/reviewsX', icon: MessageSquare },
       { name: 'ReviewsMVP', href: '/reviewsMVP', icon: MessageSquare }
     ]
   },
   {
     title: "SATIŞLAR", 
     items: [
-      { name: 'Satışlar', href: '/sales', icon: TrendingUp },
       { name: 'Katalog', href: '/catalog', icon: Package },
       { name: 'Offline Conversions', href: '/offline-conversions', icon: ArrowRightLeft }
     ]
@@ -37,7 +34,9 @@ const navigationGroups = [
   {
     title: "DEV",
     items: [
-      { name: 'Location Match', href: '/location-match', icon: Target }
+      { name: 'Location Match', href: '/location-match', icon: Target },
+      { name: 'Yorumlar', href: '/reviews', icon: MessageSquare },
+      { name: 'ReviewsX', href: '/reviewsX', icon: MessageSquare }
     ]
   }
 ];
