@@ -904,7 +904,7 @@ export default function ReviewsMVP() {
             <Button 
               variant="outline" 
               size="sm" 
-              className="border-2 border-gray-300 bg-white hover:bg-gray-50 hover:border-gray-400 shadow-sm"
+              className="border-2 border-gray-300 bg-[#e7e5e4] hover:bg-gray-50 hover:border-gray-400 shadow-sm"
               onClick={() => setAlertSettingsOpen(true)}
             >
               <Bell className="w-4 h-4 mr-2" />
