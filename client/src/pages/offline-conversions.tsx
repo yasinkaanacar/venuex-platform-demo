@@ -130,7 +130,7 @@ export default function OfflineConversions() {
                     <SelectItem value="all">All Platforms</SelectItem>
                     <SelectItem value="google">Google Ads</SelectItem>
                     <SelectItem value="facebook">Facebook Ads</SelectItem>
-                    <SelectItem value="microsoft">Microsoft Ads</SelectItem>
+                    <SelectItem value="tiktok">TikTok Ads</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -209,7 +209,7 @@ export default function OfflineConversions() {
                         <div>
                           <div className="font-medium text-blue-800 dark:text-blue-300 text-sm">Platform Diversification Success</div>
                           <div className="text-blue-700 dark:text-blue-400 text-xs mt-1">
-                            Google Ads leads with 43.8% revenue share, while Facebook (35.1%) and Microsoft (13.6%) provide balanced risk distribution across platforms.
+                            Google Ads leads with 43.8% revenue share, while Facebook (35.1%) and TikTok (13.6%) provide balanced risk distribution across platforms.
                           </div>
                         </div>
                       </div>
@@ -549,7 +549,7 @@ export default function OfflineConversions() {
                     {[
                       { platform: 'Google Ads', revenue: 1247800, percentage: 43.8, color: 'bg-blue-500', conversions: 672 },
                       { platform: 'Facebook Ads', revenue: 998600, percentage: 35.1, color: 'bg-green-500', conversions: 534 },
-                      { platform: 'Microsoft Ads', revenue: 387200, percentage: 13.6, color: 'bg-purple-500', conversions: 221 },
+                      { platform: 'TikTok Ads', revenue: 387200, percentage: 13.6, color: 'bg-purple-500', conversions: 221 },
                       { platform: 'Direct/Organic', revenue: 213900, percentage: 7.5, color: 'bg-gray-500', conversions: 142 }
                     ].map((item, index) => (
                       <div key={item.platform} className="flex items-center space-x-4">
@@ -667,7 +667,7 @@ export default function OfflineConversions() {
                     digitalOrders: 53,
                     conversionRate: 2.1,
                     avgOrderValue: 2957,
-                    topChannel: 'Microsoft Ads',
+                    topChannel: 'TikTok Ads',
                     channelShare: 42,
                     performance: 'moderate'
                   }
@@ -800,7 +800,7 @@ export default function OfflineConversions() {
                   },
                   {
                     name: 'Footwear Collection',
-                    platform: 'Microsoft Ads',
+                    platform: 'TikTok Ads',
                     spend: 45600,
                     revenue: 167200,
                     roas: 3.67,
@@ -1011,7 +1011,7 @@ export default function OfflineConversions() {
                     {[
                       { platform: 'Google Ads', peakTime: '19:00-21:00', peakRate: 5.8, color: 'text-blue-600' },
                       { platform: 'Facebook Ads', peakTime: '20:00-22:00', peakRate: 4.9, color: 'text-green-600' },
-                      { platform: 'Microsoft Ads', peakTime: '10:00-12:00', peakRate: 3.7, color: 'text-purple-600' }
+                      { platform: 'TikTok Ads', peakTime: '10:00-12:00', peakRate: 3.7, color: 'text-purple-600' }
                     ].map((platform, index) => (
                       <div key={index} className="flex items-center justify-between p-2 bg-gray-50 dark:bg-gray-800 rounded-md">
                         <div>
