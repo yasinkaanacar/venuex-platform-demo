@@ -138,6 +138,149 @@ const mockVenueXLocations: VenueXLocation[] = [
     city: 'Istanbul',
     postalCode: '34394'
   },
+  { 
+    id: 'vx6', 
+    name: 'Demo Optimum AVM', 
+    address: 'Optimum AVM, Yeşilköy Mahallesi, Atatürk Caddesi No:12', 
+    phone: '+90 212 234 5678',
+    category: 'Department Store',
+    storeCode: 'BYN012', 
+    region: 'Istanbul - Avrupa',
+    city: 'Istanbul',
+    postalCode: '34149'
+  },
+  { 
+    id: 'vx7', 
+    name: 'Demo Marmara Forum', 
+    address: 'Marmara Forum AVM, Tahılpazarı Mahallesi, Forum Caddesi No:4', 
+    phone: '+90 212 345 1234',
+    category: 'Department Store',
+    storeCode: 'BYN034', 
+    region: 'Istanbul - Avrupa',
+    city: 'Istanbul',
+    postalCode: '34840'
+  },
+  { 
+    id: 'vx8', 
+    name: 'Demo Capacity AVM', 
+    address: 'Capacity AVM, Mahmutbey Mahallesi, Taşocağı Caddesi No:22', 
+    phone: '+90 212 456 2345',
+    category: 'Department Store',
+    storeCode: 'BYN056', 
+    region: 'Istanbul - Avrupa',
+    city: 'Istanbul',
+    postalCode: '34218'
+  },
+  { 
+    id: 'vx9', 
+    name: 'Demo Carousel AVM', 
+    address: 'Carousel AVM, Atatürk Mahallesi, Çevre Yolu No:15', 
+    phone: '+90 212 567 3456',
+    category: 'Department Store',
+    storeCode: 'BYN078', 
+    region: 'Istanbul - Avrupa',
+    city: 'Istanbul',
+    postalCode: '34522'
+  },
+  { 
+    id: 'vx10', 
+    name: 'Demo Vadistanbul', 
+    address: 'Vadistanbul AVM, Ayazağa Mahallesi, Cendere Caddesi No:109F', 
+    phone: '+90 212 678 4567',
+    category: 'Department Store',
+    storeCode: 'BYN090', 
+    region: 'Istanbul - Avrupa',
+    city: 'Istanbul',
+    postalCode: '34485'
+  },
+  { 
+    id: 'vx11', 
+    name: 'Demo Özdilek Park', 
+    address: 'Özdilek Park AVM, Nilüfer Mahallesi, Uludağ Bulvarı No:68', 
+    phone: '+90 224 123 4567',
+    category: 'Department Store',
+    storeCode: 'BYN103', 
+    region: 'Marmara',
+    city: 'Bursa',
+    postalCode: '16110'
+  },
+  { 
+    id: 'vx12', 
+    name: 'Demo Westpark AVM', 
+    address: 'Westpark AVM, İhsaniye Mahallesi, Akpınar Caddesi No:10', 
+    phone: '+90 232 234 5678',
+    category: 'Department Store',
+    storeCode: 'BYN125', 
+    region: 'Aegean',
+    city: 'Izmir',
+    postalCode: '35170'
+  },
+  { 
+    id: 'vx13', 
+    name: 'Demo Agora AVM', 
+    address: 'Agora AVM, Balçova Mahallesi, Mithatpaşa Caddesi No:1348', 
+    phone: '+90 232 345 6789',
+    category: 'Department Store',
+    storeCode: 'BYN147', 
+    region: 'Aegean',
+    city: 'Izmir',
+    postalCode: '35330'
+  },
+  { 
+    id: 'vx14', 
+    name: 'Demo Ankamall AVM', 
+    address: 'Ankamall AVM, Akköprü Mahallesi, Fatih Sultan Mehmet Bulvarı No:3', 
+    phone: '+90 312 456 7890',
+    category: 'Department Store',
+    storeCode: 'BYN169', 
+    region: 'Central Anatolia',
+    city: 'Ankara',
+    postalCode: '06490'
+  },
+  { 
+    id: 'vx15', 
+    name: 'Demo Terracity AVM', 
+    address: 'Terracity AVM, Turan Güneş Bulvarı, Yaşamkent Mahallesi No:182', 
+    phone: '+90 312 567 8901',
+    category: 'Department Store',
+    storeCode: 'BYN181', 
+    region: 'Central Anatolia',
+    city: 'Ankara',
+    postalCode: '06810'
+  },
+  { 
+    id: 'vx16', 
+    name: 'Demo MarkAntalya AVM', 
+    address: 'MarkAntalya AVM, Fener Mahallesi, Tekelioğlu Caddesi No:56', 
+    phone: '+90 242 123 4567',
+    category: 'Department Store',
+    storeCode: 'BYN203', 
+    region: 'Mediterranean',
+    city: 'Antalya',
+    postalCode: '07160'
+  },
+  { 
+    id: 'vx17', 
+    name: 'Demo Deepo Outlet Center', 
+    address: 'Deepo Outlet Center, Şemsettin Günaltay Caddesi No:265', 
+    phone: '+90 224 234 5678',
+    category: 'Outlet Store',
+    storeCode: 'BYN225', 
+    region: 'Marmara',
+    city: 'Bursa',
+    postalCode: '16250'
+  },
+  { 
+    id: 'vx18', 
+    name: 'Demo Korupark AVM', 
+    address: 'Korupark AVM, Galip Erdem Caddesi No:3', 
+    phone: '+90 224 345 6789',
+    category: 'Department Store',
+    storeCode: 'BYN247', 
+    region: 'Marmara',
+    city: 'Bursa',
+    postalCode: '16160'
+  },
 ];
 
 const mockAutoMatched: MatchedLocation[] = [
@@ -172,50 +315,218 @@ const mockAutoMatched: MatchedLocation[] = [
     }, 
     venueXLocation: mockVenueXLocations[1], 
     confidence: 0.92 
+  },
+  { 
+    platformLocation: { 
+      id: 'meta3', 
+      name: 'Demo Forum İstanbul', 
+      address: 'Forum İstanbul AVM, Kocatepe Mahallesi', 
+      phone: '+90 212 987 6543',
+      category: 'Department Store',
+      platformId: 'meta_003',
+      platformUrl: 'https://facebook.com/demo.forum',
+      city: 'Istanbul',
+      postalCode: '34045',
+      storeCode: 'META003'
+    }, 
+    venueXLocation: mockVenueXLocations[2], 
+    confidence: 0.94 
+  },
+  { 
+    platformLocation: { 
+      id: 'meta4', 
+      name: 'Demo Zorlu Center', 
+      address: 'Zorlu Center, Levazım Mahallesi', 
+      phone: '+90 212 456 7890',
+      category: 'Department Store',
+      platformId: 'meta_004',
+      platformUrl: 'https://facebook.com/demo.zorlu',
+      city: 'Istanbul',
+      postalCode: '34340',
+      storeCode: 'META004'
+    }, 
+    venueXLocation: mockVenueXLocations[3], 
+    confidence: 0.93 
+  },
+  { 
+    platformLocation: { 
+      id: 'meta5', 
+      name: 'Demo Kanyon', 
+      address: 'Kanyon AVM, Büyükdere Caddesi', 
+      phone: '+90 212 567 8901',
+      category: 'Department Store',
+      platformId: 'meta_005',
+      platformUrl: 'https://facebook.com/demo.kanyon',
+      city: 'Istanbul',
+      postalCode: '34394',
+      storeCode: 'META005'
+    }, 
+    venueXLocation: mockVenueXLocations[4], 
+    confidence: 0.91 
+  },
+  { 
+    platformLocation: { 
+      id: 'meta6', 
+      name: 'Demo Optimum', 
+      address: 'Optimum AVM, Yeşilköy Mahallesi', 
+      phone: '+90 212 234 5678',
+      category: 'Department Store',
+      platformId: 'meta_006',
+      platformUrl: 'https://facebook.com/demo.optimum',
+      city: 'Istanbul',
+      postalCode: '34149',
+      storeCode: 'META006'
+    }, 
+    venueXLocation: mockVenueXLocations[5], 
+    confidence: 0.96 
+  },
+  { 
+    platformLocation: { 
+      id: 'meta7', 
+      name: 'Demo Marmara Forum', 
+      address: 'Marmara Forum AVM, Tahılpazarı Mahallesi', 
+      phone: '+90 212 345 1234',
+      category: 'Department Store',
+      platformId: 'meta_007',
+      platformUrl: 'https://facebook.com/demo.marmaraforum',
+      city: 'Istanbul',
+      postalCode: '34840',
+      storeCode: 'META007'
+    }, 
+    venueXLocation: mockVenueXLocations[6], 
+    confidence: 0.89 
+  },
+  { 
+    platformLocation: { 
+      id: 'meta8', 
+      name: 'Demo Capacity', 
+      address: 'Capacity AVM, Mahmutbey Mahallesi', 
+      phone: '+90 212 456 2345',
+      category: 'Department Store',
+      platformId: 'meta_008',
+      platformUrl: 'https://facebook.com/demo.capacity',
+      city: 'Istanbul',
+      postalCode: '34218',
+      storeCode: 'META008'
+    }, 
+    venueXLocation: mockVenueXLocations[7], 
+    confidence: 0.90 
+  },
+  { 
+    platformLocation: { 
+      id: 'meta9', 
+      name: 'Demo Carousel', 
+      address: 'Carousel AVM, Atatürk Mahallesi', 
+      phone: '+90 212 567 3456',
+      category: 'Department Store',
+      platformId: 'meta_009',
+      platformUrl: 'https://facebook.com/demo.carousel',
+      city: 'Istanbul',
+      postalCode: '34522',
+      storeCode: 'META009'
+    }, 
+    venueXLocation: mockVenueXLocations[8], 
+    confidence: 0.88 
+  },
+  { 
+    platformLocation: { 
+      id: 'meta10', 
+      name: 'Demo Vadistanbul', 
+      address: 'Vadistanbul AVM, Ayazağa Mahallesi', 
+      phone: '+90 212 678 4567',
+      category: 'Department Store',
+      platformId: 'meta_010',
+      platformUrl: 'https://facebook.com/demo.vadistanbul',
+      city: 'Istanbul',
+      postalCode: '34485',
+      storeCode: 'META010'
+    }, 
+    venueXLocation: mockVenueXLocations[9], 
+    confidence: 0.97 
+  },
+  { 
+    platformLocation: { 
+      id: 'meta11', 
+      name: 'Demo Özdilek Park', 
+      address: 'Özdilek Park AVM, Nilüfer Mahallesi', 
+      phone: '+90 224 123 4567',
+      category: 'Department Store',
+      platformId: 'meta_011',
+      platformUrl: 'https://facebook.com/demo.ozdilek',
+      city: 'Bursa',
+      postalCode: '16110',
+      storeCode: 'META011'
+    }, 
+    venueXLocation: mockVenueXLocations[10], 
+    confidence: 0.92 
+  },
+  { 
+    platformLocation: { 
+      id: 'meta12', 
+      name: 'Demo Westpark', 
+      address: 'Westpark AVM, İhsaniye Mahallesi', 
+      phone: '+90 232 234 5678',
+      category: 'Department Store',
+      platformId: 'meta_012',
+      platformUrl: 'https://facebook.com/demo.westpark',
+      city: 'Izmir',
+      postalCode: '35170',
+      storeCode: 'META012'
+    }, 
+    venueXLocation: mockVenueXLocations[11], 
+    confidence: 0.91 
+  },
+  { 
+    platformLocation: { 
+      id: 'meta13', 
+      name: 'Demo Agora', 
+      address: 'Agora AVM, Balçova Mahallesi', 
+      phone: '+90 232 345 6789',
+      category: 'Department Store',
+      platformId: 'meta_013',
+      platformUrl: 'https://facebook.com/demo.agora',
+      city: 'Izmir',
+      postalCode: '35330',
+      storeCode: 'META013'
+    }, 
+    venueXLocation: mockVenueXLocations[12], 
+    confidence: 0.94 
+  },
+  { 
+    platformLocation: { 
+      id: 'meta14', 
+      name: 'Demo Ankamall', 
+      address: 'Ankamall AVM, Akköprü Mahallesi', 
+      phone: '+90 312 456 7890',
+      category: 'Department Store',
+      platformId: 'meta_014',
+      platformUrl: 'https://facebook.com/demo.ankamall',
+      city: 'Ankara',
+      postalCode: '06490',
+      storeCode: 'META014'
+    }, 
+    venueXLocation: mockVenueXLocations[13], 
+    confidence: 0.93 
+  },
+  { 
+    platformLocation: { 
+      id: 'meta15', 
+      name: 'Demo Terracity', 
+      address: 'Terracity AVM, Turan Güneş Bulvarı', 
+      phone: '+90 312 567 8901',
+      category: 'Department Store',
+      platformId: 'meta_015',
+      platformUrl: 'https://facebook.com/demo.terracity',
+      city: 'Ankara',
+      postalCode: '06810',
+      storeCode: 'META015'
+    }, 
+    venueXLocation: mockVenueXLocations[14], 
+    confidence: 0.95 
   }
 ];
 
-const mockUnmatched: UnmatchedLocation[] = [
-  { 
-    id: 'meta3', 
-    name: 'Demo Mall Store', 
-    address: 'İstiklal Caddesi No:112, Beyoğlu', 
-    phone: '+90 212 111 2233',
-    category: 'Fashion Store',
-    platformId: 'meta_003',
-    platformUrl: 'https://facebook.com/demo.istiklal',
-    city: 'Istanbul',
-    postalCode: '34433',
-    storeCode: 'META003',
-    status: 'pending' 
-  },
-  { 
-    id: 'meta4', 
-    name: 'Demo City Branch', 
-    address: 'Bağdat Caddesi No:342, Kadıköy', 
-    phone: '+90 216 444 5566',
-    category: 'Clothing Store',
-    platformId: 'meta_004',
-    platformUrl: 'https://facebook.com/demo.bagdat',
-    city: 'Istanbul',
-    postalCode: '34728',
-    storeCode: 'META004',
-    status: 'pending' 
-  },
-  { 
-    id: 'meta5', 
-    name: 'Demo Outlet', 
-    address: 'Olivium Outlet Center, Zeytinburnu', 
-    phone: '+90 212 777 8899',
-    category: 'Outlet Store',
-    platformId: 'meta_005',
-    platformUrl: 'https://facebook.com/demo.outlet',
-    city: 'Istanbul',
-    postalCode: '34025',
-    storeCode: 'META005',
-    status: 'pending' 
-  },
-];
+const mockUnmatched: UnmatchedLocation[] = [];
 
 // Location Detail Card Component
 const LocationDetailCard = ({ location, type, className = "" }: { 
