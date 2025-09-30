@@ -83,8 +83,9 @@ interface UnmatchedLocation extends PlatformLocation {
 }
 
 interface UnmatchedVenueXLocation extends VenueXLocation {
-  status: 'pending' | 'linked';
+  status: 'pending' | 'linked' | 'will_create';
   linkedPlatformPage?: PlatformLocation;
+  willBeCreated?: boolean;
 }
 
 const mockVenueXLocations: VenueXLocation[] = [
@@ -957,9 +958,20 @@ export default function LocationMatch() {
     );
   };
 
+  const handleCreatePlatformPage = (venueXLocationId: string) => {
+    setUnmatchedVenueXLocations(prev => 
+      prev.map(loc => 
+        loc.id === venueXLocationId 
+          ? { ...loc, status: 'will_create' as const, willBeCreated: true }
+          : loc
+      )
+    );
+  };
+
   const canProceedToStep3 = unmatchedVenueXLocations.every(loc => loc.status !== 'pending');
   const pendingCount = unmatchedVenueXLocations.filter(loc => loc.status === 'pending').length;
   const linkedCount = unmatchedVenueXLocations.filter(loc => loc.status === 'linked').length;
+  const createCount = unmatchedVenueXLocations.filter(loc => loc.status === 'will_create').length;
   const recreateCount = unmatchedLocations.filter(loc => loc.status === 'recreate').length;
 
   const renderStep1 = () => (
@@ -1207,25 +1219,37 @@ export default function LocationMatch() {
                         )}
                       </td>
                       <td className="p-4">
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          className="text-blue-700 border-blue-300 hover:bg-blue-50"
-                          data-testid={`button-create-${location.id}`}
-                        >
-                          <Plus className="w-4 h-4 mr-1" />
-                          Create New
-                        </Button>
+                        {location.willBeCreated ? (
+                          <div className="text-sm text-blue-600 dark:text-blue-400 font-medium flex items-center gap-1">
+                            <CheckCircle className="w-4 h-4" />
+                            Will be created in Meta
+                          </div>
+                        ) : (
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            className="text-blue-700 border-blue-300 hover:bg-blue-50"
+                            onClick={() => handleCreatePlatformPage(location.id)}
+                            data-testid={`button-create-${location.id}`}
+                          >
+                            <Plus className="w-4 h-4 mr-1" />
+                            Create New
+                          </Button>
+                        )}
                       </td>
                       <td className="p-4">
                         <Badge
                           className={`${
                             location.status === 'pending' ? 'bg-amber-500 text-white' :
                             location.status === 'linked' ? 'bg-green-500 text-white' :
+                            location.status === 'will_create' ? 'bg-blue-500 text-white' :
                             'bg-gray-500 text-white'
                           }`}
                         >
-                          {location.status === 'pending' ? 'Pending' : 'Linked'}
+                          {location.status === 'pending' ? 'Pending' : 
+                           location.status === 'linked' ? 'Linked' :
+                           location.status === 'will_create' ? 'Will Create' :
+                           location.status}
                         </Badge>
                       </td>
                     </tr>
