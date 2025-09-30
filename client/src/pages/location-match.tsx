@@ -989,7 +989,10 @@ export default function LocationMatch() {
   };
 
   const handleLinkPlatformPage = (venueXLocationId: string, platformPageId: string) => {
-    const platformPage = mockAvailablePlatformPages.find(page => page.id === platformPageId);
+    // Search in both available platform pages and unmatched platform locations
+    const platformPage = [...mockAvailablePlatformPages, ...unmatchedPlatformLocations].find(
+      page => page.id === platformPageId
+    );
     if (!platformPage) return;
 
     setUnmatchedVenueXLocations(prev => 
@@ -999,6 +1002,11 @@ export default function LocationMatch() {
           : loc
       )
     );
+
+    // If linking to an unmatched platform location, remove it from the unmatched list
+    if (unmatchedPlatformLocations.some(loc => loc.id === platformPageId)) {
+      setUnmatchedPlatformLocations(prev => prev.filter(loc => loc.id !== platformPageId));
+    }
   };
 
   const handleCreatePlatformPage = (venueXLocationId: string) => {
@@ -1249,7 +1257,7 @@ export default function LocationMatch() {
                             <SelectValue placeholder="Select platform page..." />
                           </SelectTrigger>
                           <SelectContent>
-                            {mockAvailablePlatformPages.map((page) => {
+                            {[...mockAvailablePlatformPages, ...unmatchedPlatformLocations].map((page) => {
                               const isLinkedToOther = unmatchedVenueXLocations.some(
                                 loc => loc.id !== location.id && loc.linkedPlatformPage?.id === page.id
                               );

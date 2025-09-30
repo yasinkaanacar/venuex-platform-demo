@@ -33,8 +33,12 @@ Preferred communication style: Simple, everyday language.
 - **Data Ratios**: Exact location counts maintained - 18 VenueX locations, 15 Platform locations (12 matched, 3 available for linking)
 - **Step 3 Improvements**: Fixed manually linked locations display using correct data structure (unmatchedVenueXLocations with linkedPlatformPage)
 - **Terminology Update**: All "Meta" and "Apple" references replaced with generic "Platform" terminology
-- **Unmatched Platform Locations**: Added 3 platform locations without VenueX counterparts, displayed in Step 3 with delete functionality
-- **Platform Location Management**: New accordion section in Step 3 shows platform locations that have no corresponding VenueX location, with individual delete buttons
+- **Unmatched Platform Locations**: Added 3 platform locations without VenueX counterparts (Demo Test Location A, B, C)
+- **Platform Location Management**: 
+  - New accordion section in Step 3 shows unmatched platform locations with individual delete buttons
+  - Unmatched platform locations available in Step 2 dropdowns for manual linking
+  - When linked in Step 2, they are automatically removed from the unmatched platform locations list
+  - Can be deleted from Step 3 if they remain unlinked
 
 # System Architecture
 
