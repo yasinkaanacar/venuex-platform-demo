@@ -1123,7 +1123,7 @@ export default function LocationMatch() {
         </div>
 
         {/* Progress Tracker */}
-        <div className="sticky top-0 z-10 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4">
+        <div className="sticky top-0 z-20 bg-blue-50 dark:bg-gray-900 border border-blue-200 dark:border-blue-800 rounded-lg p-4 shadow-md">
           <div className="text-center">
             <div className="text-lg font-semibold text-blue-800 dark:text-blue-200">
               Progress: {resolvedCount} of {unmatchedVenueXLocations.length} Locations Linked
