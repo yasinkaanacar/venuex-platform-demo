@@ -1108,7 +1108,7 @@ export default function LocationMatch() {
                   <p className="text-sm text-blue-700 dark:text-blue-300 mb-4">
                     For transparency, you can export all matching results for offline audit before proceeding.
                   </p>
-                  <div className="flex flex-col sm:flex-row gap-3">
+                  <div className="flex justify-center">
                     <Button
                       variant="outline"
                       onClick={exportMatchedLocations}
