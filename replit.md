@@ -28,6 +28,14 @@ Preferred communication style: Simple, everyday language.
 - **Platform Independence**: Each component maintains independent platform state for consistent UX
 - **Mock Data Service**: Comprehensive service with realistic analytics data, KPIs, locations, campaigns, and enrichment suggestions
 
+## V3 State (September 30, 2025)
+**Location-Match Enhancements:**
+- **Data Ratios**: Exact location counts maintained - 18 VenueX locations, 15 Platform locations (12 matched, 3 available for linking)
+- **Step 3 Improvements**: Fixed manually linked locations display using correct data structure (unmatchedVenueXLocations with linkedPlatformPage)
+- **Terminology Update**: All "Meta" and "Apple" references replaced with generic "Platform" terminology
+- **Unmatched Platform Locations**: Added 3 platform locations without VenueX counterparts, displayed in Step 3 with delete functionality
+- **Platform Location Management**: New accordion section in Step 3 shows platform locations that have no corresponding VenueX location, with individual delete buttons
+
 # System Architecture
 
 ## Frontend Architecture

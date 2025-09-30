@@ -526,6 +526,46 @@ const mockAvailablePlatformPages: PlatformLocation[] = [
   },
 ];
 
+// Platform locations without VenueX counterparts (unmatched platform locations)
+const mockUnmatchedPlatformLocations: PlatformLocation[] = [
+  { 
+    id: 'meta16', 
+    name: 'Demo Test Location A', 
+    address: 'Test Street 123, Kadıköy', 
+    phone: '+90 216 111 2222',
+    category: 'Department Store',
+    platformId: 'meta_016',
+    platformUrl: 'https://facebook.com/demo.test.a',
+    city: 'Istanbul',
+    postalCode: '34710',
+    storeCode: 'META016'
+  },
+  { 
+    id: 'meta17', 
+    name: 'Demo Test Location B', 
+    address: 'Test Avenue 456, Çankaya', 
+    phone: '+90 312 222 3333',
+    category: 'Department Store',
+    platformId: 'meta_017',
+    platformUrl: 'https://facebook.com/demo.test.b',
+    city: 'Ankara',
+    postalCode: '06680',
+    storeCode: 'META017'
+  },
+  { 
+    id: 'meta18', 
+    name: 'Demo Test Location C', 
+    address: 'Test Boulevard 789, Bornova', 
+    phone: '+90 232 333 4444',
+    category: 'Department Store',
+    platformId: 'meta_018',
+    platformUrl: 'https://facebook.com/demo.test.c',
+    city: 'Izmir',
+    postalCode: '35040',
+    storeCode: 'META018'
+  },
+];
+
 // Unmatched VenueX locations that need platform pages (18 total - 12 matched = 6 unmatched)
 const mockUnmatchedVenueX: UnmatchedVenueXLocation[] = [
   {
@@ -660,6 +700,7 @@ export default function LocationMatch() {
   const [isLoading, setIsLoading] = useState(true);
   const [unmatchedLocations, setUnmatchedLocations] = useState<UnmatchedLocation[]>(mockUnmatched);
   const [unmatchedVenueXLocations, setUnmatchedVenueXLocations] = useState<UnmatchedVenueXLocation[]>(mockUnmatchedVenueX);
+  const [unmatchedPlatformLocations, setUnmatchedPlatformLocations] = useState<PlatformLocation[]>(mockUnmatchedPlatformLocations);
   const [selectedUnmatched, setSelectedUnmatched] = useState<string | null>(null);
   const [confirmationChecked, setConfirmationChecked] = useState(false);
   const [currentPage, setCurrentPage] = useState(0);
@@ -684,6 +725,7 @@ export default function LocationMatch() {
   const [linkedSearch, setLinkedSearch] = useState('');
   const [recreateSearch, setRecreateSearch] = useState('');
   const [createSearch, setCreateSearch] = useState('');
+  const [unmatchedPlatformSearch, setUnmatchedPlatformSearch] = useState('');
 
   // Auto-populate search when a location is selected
   useEffect(() => {
@@ -1385,6 +1427,19 @@ export default function LocationMatch() {
           )
       : unmatchedVenueXLocations.filter(loc => loc.status === 'will_create');
 
+    const filteredUnmatchedPlatform = unmatchedPlatformSearch
+      ? unmatchedPlatformLocations.filter(loc => 
+          loc.name.toLowerCase().includes(unmatchedPlatformSearch.toLowerCase()) ||
+          loc.storeCode.toLowerCase().includes(unmatchedPlatformSearch.toLowerCase()) ||
+          loc.address.toLowerCase().includes(unmatchedPlatformSearch.toLowerCase())
+        )
+      : unmatchedPlatformLocations;
+
+    // Delete handler for unmatched platform locations
+    const handleDeleteUnmatchedPlatform = (locationId: string) => {
+      setUnmatchedPlatformLocations(prev => prev.filter(loc => loc.id !== locationId));
+    };
+
     return (
       <div className="max-w-6xl mx-auto space-y-8">
         <div className="text-center">
@@ -1687,6 +1742,69 @@ export default function LocationMatch() {
                 {filteredCreated.length === 0 && createSearch && (
                   <div className="text-center py-8 text-gray-500 dark:text-gray-400">
                     No matches found for "{createSearch}"
+                  </div>
+                )}
+              </div>
+            </AuditAccordion>
+          )}
+
+          {/* Unmatched Platform Locations Accordion */}
+          {unmatchedPlatformLocations.length > 0 && (
+            <AuditAccordion
+              id="unmatched-platform"
+              title="Unmatched Platform Locations"
+              count={unmatchedPlatformLocations.length}
+              searchValue={unmatchedPlatformSearch}
+              onSearchChange={setUnmatchedPlatformSearch}
+              searchPlaceholder="Search unmatched platform locations..."
+              data-testid="accordion-unmatched-platform"
+            >
+              <div className="p-4 space-y-4">
+                {filteredUnmatchedPlatform.map((location, index) => (
+                  <div key={location.id} className="bg-gray-50 dark:bg-gray-800 rounded-lg p-4">
+                    {/* Header */}
+                    <div className="flex items-center justify-between mb-4">
+                      <h4 className="font-medium text-gray-900 dark:text-gray-100">
+                        Unmatched Platform Location #{index + 1}
+                      </h4>
+                      <Badge variant="secondary" className="bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200">
+                        No VenueX Match
+                      </Badge>
+                    </div>
+                    
+                    {/* Platform Location Details */}
+                    <div className="mb-4">
+                      <div className="text-sm font-medium text-gray-600 dark:text-gray-400 mb-2">Platform Location</div>
+                      <RichLocationCard
+                        location={{
+                          name: location.name,
+                          storeCode: location.storeCode,
+                          address: `${location.address}, ${location.city}`,
+                          platform: "Platform Location"
+                        }}
+                        data-testid={`unmatched-platform-${location.id}`}
+                      />
+                    </div>
+                    
+                    {/* Delete Button */}
+                    <div className="flex justify-end">
+                      <Button
+                        variant="destructive"
+                        size="sm"
+                        onClick={() => handleDeleteUnmatchedPlatform(location.id)}
+                        className="bg-red-600 hover:bg-red-700 text-white"
+                        data-testid={`button-delete-${location.id}`}
+                      >
+                        <Trash2 className="w-4 h-4 mr-1" />
+                        Delete
+                      </Button>
+                    </div>
+                  </div>
+                ))}
+                
+                {filteredUnmatchedPlatform.length === 0 && unmatchedPlatformSearch && (
+                  <div className="text-center py-8 text-gray-500 dark:text-gray-400">
+                    No matches found for "{unmatchedPlatformSearch}"
                   </div>
                 )}
               </div>
