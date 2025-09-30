@@ -1118,15 +1118,6 @@ export default function LocationMatch() {
                       <Download className="w-4 h-4" />
                       <span>Export All Matched ({mockAutoMatched.length}) to CSV</span>
                     </Button>
-                    <Button
-                      variant="outline"
-                      onClick={exportUnmatchedLocations}
-                      className="flex items-center space-x-2 border-amber-300 text-amber-700 hover:bg-amber-100"
-                      data-testid="button-export-unmatched"
-                    >
-                      <Download className="w-4 h-4" />
-                      <span>Export Unmatched ({unmatchedLocations.length}) to CSV</span>
-                    </Button>
                   </div>
                 </div>
               </div>
