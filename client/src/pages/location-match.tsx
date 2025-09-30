@@ -1190,7 +1190,7 @@ export default function LocationMatch() {
         {/* VenueX Locations Table */}
         <Card>
           <CardHeader>
-            <CardTitle>VenueX Locations Needing Meta Pages ({unmatchedVenueXLocations.length})</CardTitle>
+            <CardTitle>VenueX Locations to be Reviewed ({unmatchedVenueXLocations.length})</CardTitle>
           </CardHeader>
           <CardContent className="p-0">
             <div className="overflow-x-auto">
