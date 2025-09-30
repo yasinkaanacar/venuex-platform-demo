@@ -605,7 +605,7 @@ const LocationDetailCard = ({ location, type, className = "" }: {
             className="inline-flex items-center text-sm text-blue-600 hover:text-blue-800 mt-2"
           >
             <ExternalLink className="w-4 h-4 mr-1" />
-            View on Meta
+            View on Platform
           </a>
         )}
       </div>
@@ -723,11 +723,11 @@ export default function LocationMatch() {
       'VenueX Phone': match.venueXLocation.phone,
       'VenueX Region': match.venueXLocation.region,
       'VenueX City': match.venueXLocation.city,
-      'Meta Name': match.platformLocation.name,
-      'Meta Store Code': match.platformLocation.storeCode,
-      'Meta Address': match.platformLocation.address,
-      'Meta Phone': match.platformLocation.phone,
-      'Meta URL': match.platformLocation.platformUrl || '',
+      'Platform Name': match.platformLocation.name,
+      'Platform Store Code': match.platformLocation.storeCode,
+      'Platform Address': match.platformLocation.address,
+      'Platform Phone': match.platformLocation.phone,
+      'Platform URL': match.platformLocation.platformUrl || '',
       'Confidence Score': match.confidence,
       'Match Status': 'Automatically Matched'
     }));
@@ -988,12 +988,12 @@ export default function LocationMatch() {
           {isLoading ? (
             <div>
               <Loader2 className="w-12 h-12 animate-spin mx-auto mb-4 text-blue-600" />
-              <h3 className="text-xl font-semibold mb-2">Analyzing your Meta Pages...</h3>
+              <h3 className="text-xl font-semibold mb-2">Analyzing your Platform Pages...</h3>
               <p className="text-gray-600 dark:text-gray-400 mb-2">
                 {mockVenueXLocations.length} locations in VenueX
               </p>
               <p className="text-gray-600 dark:text-gray-400 mb-2">
-                {mockAutoMatched.length + mockAvailablePlatformPages.length} locations imported from Meta
+                {mockAutoMatched.length + mockAvailablePlatformPages.length} locations imported from Platform
               </p>
               <p className="text-gray-600 dark:text-gray-400">Comparing locations...</p>
             </div>
@@ -1036,7 +1036,7 @@ export default function LocationMatch() {
                 </div>
                 
                 <div className="text-center mt-2 text-sm text-gray-600 dark:text-gray-400">
-                  {mockVenueXLocations.length} locations in VenueX • {mockAutoMatched.length + mockAvailablePlatformPages.length} locations imported from Meta
+                  {mockVenueXLocations.length} locations in VenueX • {mockAutoMatched.length + mockAvailablePlatformPages.length} locations imported from Platform
                 </div>
               </div>
 
@@ -1079,7 +1079,7 @@ export default function LocationMatch() {
               <div className="mb-8 text-center">
                 <div className="bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-lg p-4">
                   <p className="text-amber-800 dark:text-amber-200 font-medium">
-                    Next: You will link {unmatchedVenueXLocations.length} VenueX locations to their Meta/Apple Business Connect pages.
+                    Next: You will link {unmatchedVenueXLocations.length} VenueX locations to their Platform pages.
                   </p>
                   <p className="text-sm text-amber-700 dark:text-amber-300 mt-1">
                     Each VenueX location needs a corresponding platform page to enable tracking.
@@ -1157,7 +1157,7 @@ export default function LocationMatch() {
                       Region & Details
                     </th>
                     <th className="p-4 text-left text-sm font-medium text-gray-900 dark:text-gray-100 min-w-[300px]">
-                      Select Meta/Apple Page
+                      Select Platform Page
                     </th>
                     <th className="p-4 text-left text-sm font-medium text-gray-900 dark:text-gray-100">
                       Create
@@ -1239,7 +1239,7 @@ export default function LocationMatch() {
                         {location.willBeCreated ? (
                           <div className="text-sm text-blue-600 dark:text-blue-400 font-medium flex items-center gap-1">
                             <CheckCircle className="w-4 h-4" />
-                            Will be created in Meta
+                            Will be created on Platform
                           </div>
                         ) : (
                           <Button
@@ -1342,7 +1342,7 @@ export default function LocationMatch() {
           'Manual Link', item.platformName, item.platformCode, item.venueXName, item.venueXCode, 'Manually resolved'
         ]),
         ...syncPlan.details.toBeCreated.map(item => [
-          'Create New', '', '', item.venueXName, item.venueXCode, 'Will create new Meta page'
+          'Create New', '', '', item.venueXName, item.venueXCode, 'Will create new Platform page'
         ])
       ].map(row => row.join(',')).join('\n');
 
@@ -1453,7 +1453,7 @@ export default function LocationMatch() {
                 Created
               </div>
               <div className="text-xs text-cyan-600 dark:text-cyan-300 mt-1">
-                New Meta Pages
+                New Platform Pages
               </div>
             </CardContent>
           </Card>
@@ -1636,7 +1636,7 @@ export default function LocationMatch() {
           {createCount > 0 && (
             <AuditAccordion
               id="created-locations"
-              title="Locations to be Created in Meta"
+              title="Locations to be Created on Platform"
               count={createCount}
               searchValue={createSearch}
               onSearchChange={setCreateSearch}
@@ -1652,7 +1652,7 @@ export default function LocationMatch() {
                         Created Location #{index + 1}
                       </h4>
                       <Badge className="bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200">
-                        Will Create in Meta
+                        Will Create on Platform
                       </Badge>
                     </div>
                     
@@ -1679,7 +1679,7 @@ export default function LocationMatch() {
                     </div>
                     
                     <div className="text-center text-sm text-blue-600 dark:text-blue-400 mt-2">
-                      New Meta page will be created
+                      New Platform page will be created
                     </div>
                   </div>
                 ))}
@@ -1836,7 +1836,7 @@ export default function LocationMatch() {
                   leftType="venuex"
                   rightType="platform"
                   leftLabel="VenueX Location"
-                  rightLabel="Meta Page"
+                  rightLabel="Platform Page"
                 />
               ))}
             </div>
