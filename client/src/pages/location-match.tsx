@@ -683,6 +683,7 @@ export default function LocationMatch() {
   const [autoMatchedSearch, setAutoMatchedSearch] = useState('');
   const [linkedSearch, setLinkedSearch] = useState('');
   const [recreateSearch, setRecreateSearch] = useState('');
+  const [createSearch, setCreateSearch] = useState('');
 
   // Auto-populate search when a location is selected
   useEffect(() => {
@@ -1282,10 +1283,11 @@ export default function LocationMatch() {
     const exportSyncPlan = () => {
       const syncPlan = {
         timestamp: new Date().toISOString(),
-        totalLocations: mockAutoMatched.length + linkedCount + recreateCount,
+        totalLocations: mockAutoMatched.length + linkedCount + createCount + recreateCount,
         summary: {
           automaticallyMatched: mockAutoMatched.length,
           manuallyLinked: linkedCount,
+          toBeCreated: createCount,
           toBeRecreated: recreateCount
         },
         details: {
@@ -1306,6 +1308,13 @@ export default function LocationMatch() {
               venueXCode: loc.linkedTo!.storeCode,
               action: 'Link Existing'
             })),
+          toBeCreated: unmatchedVenueXLocations
+            .filter(loc => loc.status === 'will_create')
+            .map(loc => ({
+              venueXName: loc.name,
+              venueXCode: loc.storeCode,
+              action: 'Create New'
+            })),
           toBeRecreated: unmatchedLocations
             .filter(loc => loc.status === 'recreate')
             .map(loc => ({
@@ -1325,6 +1334,9 @@ export default function LocationMatch() {
         ]),
         ...syncPlan.details.manuallyLinked.map(item => [
           'Manual Link', item.platformName, item.platformCode, item.venueXName, item.venueXCode, 'Manually resolved'
+        ]),
+        ...syncPlan.details.toBeCreated.map(item => [
+          'Create New', '', '', item.venueXName, item.venueXCode, 'Will create new Meta page'
         ]),
         ...syncPlan.details.toBeRecreated.map(item => [
           'Delete & Recreate', item.platformName, item.platformCode, item.willBeDeletedAndReplacedWith, item.replacementCode, 'Will delete existing and create new'
@@ -1372,6 +1384,15 @@ export default function LocationMatch() {
           )
       : unmatchedLocations.filter(loc => loc.status === 'recreate');
 
+    const filteredCreated = createSearch
+      ? unmatchedVenueXLocations
+          .filter(loc => loc.status === 'will_create')
+          .filter(loc => 
+            loc.name.toLowerCase().includes(createSearch.toLowerCase()) ||
+            loc.storeCode.toLowerCase().includes(createSearch.toLowerCase())
+          )
+      : unmatchedVenueXLocations.filter(loc => loc.status === 'will_create');
+
     return (
       <div className="max-w-6xl mx-auto space-y-8">
         <div className="text-center">
@@ -1384,12 +1405,12 @@ export default function LocationMatch() {
         </div>
 
         {/* High-Level Summary Dashboard */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6">
           {/* Total Locations KPI */}
           <Card className="bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-900/20 dark:to-blue-800/30 border-blue-200 dark:border-blue-700">
             <CardContent className="p-6 text-center">
               <div className="text-3xl font-bold text-blue-600 dark:text-blue-400 mb-2">
-                {mockAutoMatched.length + linkedCount + recreateCount}
+                {mockAutoMatched.length + linkedCount + createCount + recreateCount}
               </div>
               <div className="text-sm font-medium text-blue-800 dark:text-blue-200">
                 Total Locations
@@ -1410,7 +1431,7 @@ export default function LocationMatch() {
                 Auto Matched
               </div>
               <div className="text-xs text-green-600 dark:text-green-300 mt-1">
-                {mockAutoMatched.length > 0 ? `${((mockAutoMatched.length / (mockAutoMatched.length + linkedCount + recreateCount)) * 100).toFixed(1)}% Success` : '0% Success'}
+                {mockAutoMatched.length > 0 ? `${((mockAutoMatched.length / (mockAutoMatched.length + linkedCount + createCount + recreateCount)) * 100).toFixed(1)}% Success` : '0% Success'}
               </div>
             </CardContent>
           </Card>
@@ -1426,6 +1447,21 @@ export default function LocationMatch() {
               </div>
               <div className="text-xs text-blue-600 dark:text-blue-300 mt-1">
                 Resolved Manually
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Created KPI */}
+          <Card className="bg-gradient-to-br from-cyan-50 to-cyan-100 dark:from-cyan-900/20 dark:to-cyan-800/30 border-cyan-200 dark:border-cyan-700">
+            <CardContent className="p-6 text-center">
+              <div className="text-3xl font-bold text-cyan-600 dark:text-cyan-400 mb-2">
+                {createCount}
+              </div>
+              <div className="text-sm font-medium text-cyan-800 dark:text-cyan-200">
+                Created
+              </div>
+              <div className="text-xs text-cyan-600 dark:text-cyan-300 mt-1">
+                New Meta Pages
               </div>
             </CardContent>
           </Card>
@@ -1468,7 +1504,7 @@ export default function LocationMatch() {
                 <span>Export Complete Sync Plan (CSV)</span>
               </Button>
               <div className="text-xs text-purple-600 dark:text-purple-400 py-2">
-                Includes all {mockAutoMatched.length + linkedCount + recreateCount} locations with action details
+                Includes all {mockAutoMatched.length + linkedCount + createCount + recreateCount} locations with action details
               </div>
             </div>
           </CardContent>
@@ -1611,6 +1647,67 @@ export default function LocationMatch() {
                 {filteredLinked.length === 0 && linkedSearch && (
                   <div className="text-center py-8 text-gray-500 dark:text-gray-400">
                     No matches found for "{linkedSearch}"
+                  </div>
+                )}
+              </div>
+            </AuditAccordion>
+          )}
+
+          {/* Created Locations Accordion */}
+          {createCount > 0 && (
+            <AuditAccordion
+              id="created-locations"
+              title="Locations to be Created in Meta"
+              count={createCount}
+              searchValue={createSearch}
+              onSearchChange={setCreateSearch}
+              searchPlaceholder="Search created locations..."
+              data-testid="accordion-created-locations"
+            >
+              <div className="p-4 space-y-6">
+                {filteredCreated.map((location, index) => (
+                  <div key={location.id} className="bg-gray-50 dark:bg-gray-800 rounded-lg p-4">
+                    {/* Header */}
+                    <div className="flex items-center justify-between mb-4">
+                      <h4 className="font-medium text-gray-900 dark:text-gray-100">
+                        Created Location #{index + 1}
+                      </h4>
+                      <Badge className="bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200">
+                        Will Create in Meta
+                      </Badge>
+                    </div>
+                    
+                    {/* VenueX Location to be Created */}
+                    <div>
+                      <div className="text-sm font-medium text-gray-600 dark:text-gray-400 mb-2">VenueX Location</div>
+                      <RichLocationCard
+                        location={{
+                          name: location.name,
+                          storeCode: location.storeCode,
+                          address: `${location.address}, ${location.city}`,
+                          platform: "VenueX Location"
+                        }}
+                        variant="create"
+                        data-testid={`created-location-${location.id}`}
+                      />
+                    </div>
+                    
+                    {/* Create Indicator */}
+                    <div className="flex justify-center mt-4">
+                      <div className="bg-blue-100 dark:bg-blue-900 p-2 rounded-full">
+                        <Plus className="w-4 h-4 text-blue-600 dark:text-blue-400" />
+                      </div>
+                    </div>
+                    
+                    <div className="text-center text-sm text-blue-600 dark:text-blue-400 mt-2">
+                      New Meta page will be created
+                    </div>
+                  </div>
+                ))}
+                
+                {filteredCreated.length === 0 && createSearch && (
+                  <div className="text-center py-8 text-gray-500 dark:text-gray-400">
+                    No matches found for "{createSearch}"
                   </div>
                 )}
               </div>
