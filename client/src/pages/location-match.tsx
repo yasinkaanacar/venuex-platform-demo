@@ -82,6 +82,11 @@ interface UnmatchedLocation extends PlatformLocation {
   recreateWith?: VenueXLocation;
 }
 
+interface UnmatchedVenueXLocation extends VenueXLocation {
+  status: 'pending' | 'linked';
+  linkedPlatformPage?: PlatformLocation;
+}
+
 const mockVenueXLocations: VenueXLocation[] = [
   { 
     id: 'vx1', 
@@ -526,7 +531,10 @@ const mockAutoMatched: MatchedLocation[] = [
   }
 ];
 
-const mockUnmatched: UnmatchedLocation[] = [
+const mockUnmatched: UnmatchedLocation[] = [];
+
+// Available platform pages that aren't matched yet
+const mockAvailablePlatformPages: PlatformLocation[] = [
   { 
     id: 'meta16', 
     name: 'Demo MarkAntalya', 
@@ -537,8 +545,7 @@ const mockUnmatched: UnmatchedLocation[] = [
     platformUrl: 'https://facebook.com/demo.markantalya',
     city: 'Antalya',
     postalCode: '07160',
-    storeCode: 'META016',
-    status: 'pending' 
+    storeCode: 'META016'
   },
   { 
     id: 'meta17', 
@@ -550,8 +557,7 @@ const mockUnmatched: UnmatchedLocation[] = [
     platformUrl: 'https://facebook.com/demo.deepo',
     city: 'Bursa',
     postalCode: '16250',
-    storeCode: 'META017',
-    status: 'pending' 
+    storeCode: 'META017'
   },
   { 
     id: 'meta18', 
@@ -563,8 +569,23 @@ const mockUnmatched: UnmatchedLocation[] = [
     platformUrl: 'https://facebook.com/demo.korupark',
     city: 'Bursa',
     postalCode: '16160',
-    storeCode: 'META018',
-    status: 'pending' 
+    storeCode: 'META018'
+  },
+];
+
+// Unmatched VenueX locations that need platform pages
+const mockUnmatchedVenueX: UnmatchedVenueXLocation[] = [
+  {
+    ...mockVenueXLocations[15], // Demo MarkAntalya AVM
+    status: 'pending'
+  },
+  {
+    ...mockVenueXLocations[16], // Demo Deepo Outlet Center
+    status: 'pending'
+  },
+  {
+    ...mockVenueXLocations[17], // Demo Korupark AVM
+    status: 'pending'
   },
 ];
 
@@ -673,6 +694,7 @@ export default function LocationMatch() {
   const [currentStep, setCurrentStep] = useState(1);
   const [isLoading, setIsLoading] = useState(true);
   const [unmatchedLocations, setUnmatchedLocations] = useState<UnmatchedLocation[]>(mockUnmatched);
+  const [unmatchedVenueXLocations, setUnmatchedVenueXLocations] = useState<UnmatchedVenueXLocation[]>(mockUnmatchedVenueX);
   const [selectedUnmatched, setSelectedUnmatched] = useState<string | null>(null);
   const [confirmationChecked, setConfirmationChecked] = useState(false);
   const [currentPage, setCurrentPage] = useState(0);
@@ -685,6 +707,7 @@ export default function LocationMatch() {
   const [selectedLocations, setSelectedLocations] = useState<string[]>([]);
   const [filterStatus, setFilterStatus] = useState<string>('all');
   const [searchQuery, setSearchQuery] = useState('');
+  const [platformPageSelections, setPlatformPageSelections] = useState<Record<string, string>>({});
   
   // Search state for autocomplete dropdowns
   const [linkSearchQuery, setLinkSearchQuery] = useState('');
@@ -957,9 +980,22 @@ export default function LocationMatch() {
     setSelectedUnmatched(null);
   };
 
-  const canProceedToStep3 = unmatchedLocations.every(loc => loc.status !== 'pending');
-  const pendingCount = unmatchedLocations.filter(loc => loc.status === 'pending').length;
-  const linkedCount = unmatchedLocations.filter(loc => loc.status === 'linked').length;
+  const handleLinkPlatformPage = (venueXLocationId: string, platformPageId: string) => {
+    const platformPage = mockAvailablePlatformPages.find(page => page.id === platformPageId);
+    if (!platformPage) return;
+
+    setUnmatchedVenueXLocations(prev => 
+      prev.map(loc => 
+        loc.id === venueXLocationId 
+          ? { ...loc, status: 'linked' as const, linkedPlatformPage: platformPage }
+          : loc
+      )
+    );
+  };
+
+  const canProceedToStep3 = unmatchedVenueXLocations.every(loc => loc.status !== 'pending');
+  const pendingCount = unmatchedVenueXLocations.filter(loc => loc.status === 'pending').length;
+  const linkedCount = unmatchedVenueXLocations.filter(loc => loc.status === 'linked').length;
   const recreateCount = unmatchedLocations.filter(loc => loc.status === 'recreate').length;
 
   const renderStep1 = () => (
@@ -992,7 +1028,7 @@ export default function LocationMatch() {
                     <div className="text-sm text-gray-600 dark:text-gray-400">Matched</div>
                   </div>
                   <div className="text-center">
-                    <div className="text-2xl font-bold text-amber-600">{unmatchedLocations.length}</div>
+                    <div className="text-2xl font-bold text-amber-600">{unmatchedVenueXLocations.length}</div>
                     <div className="text-sm text-gray-600 dark:text-gray-400">Need Review</div>
                   </div>
                 </div>
@@ -1003,22 +1039,22 @@ export default function LocationMatch() {
                     {/* Green segment for matched */}
                     <div 
                       className="bg-green-500 flex items-center justify-center text-white text-sm font-medium"
-                      style={{ width: `${(mockAutoMatched.length / (mockAutoMatched.length + unmatchedLocations.length)) * 100}%` }}
+                      style={{ width: `${(mockAutoMatched.length / (mockAutoMatched.length + unmatchedVenueXLocations.length)) * 100}%` }}
                     >
                       {mockAutoMatched.length > 0 && `${mockAutoMatched.length} Matched`}
                     </div>
                     {/* Amber segment for unmatched */}
                     <div 
                       className="bg-amber-500 flex items-center justify-center text-white text-sm font-medium"
-                      style={{ width: `${(unmatchedLocations.length / (mockAutoMatched.length + unmatchedLocations.length)) * 100}%` }}
+                      style={{ width: `${(unmatchedVenueXLocations.length / (mockAutoMatched.length + unmatchedVenueXLocations.length)) * 100}%` }}
                     >
-                      {unmatchedLocations.length > 0 && `${unmatchedLocations.length} Need Review`}
+                      {unmatchedVenueXLocations.length > 0 && `${unmatchedVenueXLocations.length} Need Review`}
                     </div>
                   </div>
                 </div>
                 
                 <div className="text-center mt-2 text-sm text-gray-600 dark:text-gray-400">
-                  Total: {mockAutoMatched.length + unmatchedLocations.length} Meta Pages Found
+                  Total: {mockAutoMatched.length + unmatchedVenueXLocations.length} Locations
                 </div>
               </div>
 
@@ -1061,10 +1097,10 @@ export default function LocationMatch() {
               <div className="mb-8 text-center">
                 <div className="bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-lg p-4">
                   <p className="text-amber-800 dark:text-amber-200 font-medium">
-                    Next: You will be guided through resolving the {unmatchedLocations.length} unmatched locations step by step.
+                    Next: You will link {unmatchedVenueXLocations.length} VenueX locations to their Meta/Apple Business Connect pages.
                   </p>
                   <p className="text-sm text-amber-700 dark:text-amber-300 mt-1">
-                    Each location can be linked to an existing VenueX location or recreated using your master data.
+                    Each VenueX location needs a corresponding platform page to enable tracking.
                   </p>
                 </div>
               </div>
@@ -1074,7 +1110,7 @@ export default function LocationMatch() {
                 className="bg-amber-600 hover:bg-amber-700 text-white px-8 py-3 text-lg"
                 data-testid="button-resolve-unmatched"
               >
-                Resolve {unmatchedLocations.length} Unmatched Locations
+                Link {unmatchedVenueXLocations.length} VenueX Locations
               </Button>
             </div>
           )}
@@ -1084,15 +1120,7 @@ export default function LocationMatch() {
   );
 
   const renderStep2 = () => {
-    const filteredLocations = getFilteredLocations();
-    const totalPages = Math.ceil(filteredLocations.length / locationsPerPage);
-    const startIndex = currentPage * locationsPerPage;
-    const endIndex = startIndex + locationsPerPage;
-    const currentLocations = filteredLocations.slice(startIndex, endIndex);
-    const resolvedCount = unmatchedLocations.filter(loc => loc.status !== 'pending').length;
-    
-    const selectedLocation = selectedUnmatched ? unmatchedLocations.find(loc => loc.id === selectedUnmatched) : null;
-    const suggestedMatch = selectedLocation ? getSuggestedMatch(selectedLocation) : null;
+    const resolvedCount = unmatchedVenueXLocations.filter(loc => loc.status !== 'pending').length;
 
     return (
       <div className="space-y-6">
@@ -1107,7 +1135,7 @@ export default function LocationMatch() {
             <span>Back</span>
           </Button>
           <h2 className="text-2xl font-semibold text-gray-900 dark:text-white">
-            Step 2 of 3: Resolve Unmatched Locations
+            Step 2 of 3: Link VenueX Locations to Platform Pages
           </h2>
           <div className="w-24"></div> {/* Spacer for centering */}
         </div>
@@ -1116,358 +1144,121 @@ export default function LocationMatch() {
         <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4">
           <div className="text-center">
             <div className="text-lg font-semibold text-blue-800 dark:text-blue-200">
-              Progress: {resolvedCount} of {unmatchedLocations.length} Locations Resolved
+              Progress: {resolvedCount} of {unmatchedVenueXLocations.length} Locations Linked
             </div>
             <div className="w-full bg-blue-200 dark:bg-blue-800 rounded-full h-2 mt-2">
               <div
                 className="bg-blue-600 h-2 rounded-full transition-all duration-300"
-                style={{ width: `${unmatchedLocations.length > 0 ? (resolvedCount / unmatchedLocations.length) * 100 : 0}%` }}
+                style={{ width: `${unmatchedVenueXLocations.length > 0 ? (resolvedCount / unmatchedVenueXLocations.length) * 100 : 0}%` }}
               ></div>
             </div>
             <div className="text-sm text-blue-600 dark:text-blue-300 mt-1">
-              {pendingCount} remaining to resolve
+              {pendingCount} remaining to link
             </div>
           </div>
         </div>
 
-        <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
-          {/* Left Panel - Unmatched Locations (2/3 width) */}
-          <div className="xl:col-span-2 space-y-6">
-
-            {/* Bulk Actions Bar */}
-            {selectedLocations.length > 0 && (
-              <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center space-x-4">
-                    <span className="text-blue-800 dark:text-blue-200 font-medium">
-                      {selectedLocations.length} location{selectedLocations.length > 1 ? 's' : ''} selected
-                    </span>
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => setSelectedLocations([])}
-                      className="text-blue-700 border-blue-300"
-                    >
-                      Clear Selection
-                    </Button>
-                  </div>
-                  <div className="flex items-center space-x-3">
-                    <Button
-                      onClick={bulkRecreateSelected}
-                      variant="outline"
-                      className="text-amber-700 border-amber-300 hover:bg-amber-50"
-                      data-testid="button-bulk-recreate"
-                    >
-                      Delete and Re-create Selected
-                    </Button>
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {/* Data Management Table */}
-            <Card>
+        {/* VenueX Locations Table */}
+        <Card>
           <CardHeader>
-            <div className="flex items-center justify-between">
-              <CardTitle>Unmatched Locations ({filteredLocations.length} of {unmatchedLocations.length})</CardTitle>
-              <div className="text-sm text-gray-600 dark:text-gray-400">
-                Page {currentPage + 1} of {totalPages}
-              </div>
-            </div>
+            <CardTitle>VenueX Locations Needing Platform Pages ({unmatchedVenueXLocations.length})</CardTitle>
           </CardHeader>
           <CardContent className="p-0">
-            {/* Table */}
             <div className="overflow-x-auto">
               <table className="w-full">
                 <thead className="bg-gray-50 dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
                   <tr>
-                    <th className="p-4 text-left">
-                      <Checkbox
-                        checked={currentLocations.length > 0 && currentLocations.every(loc => selectedLocations.includes(loc.id))}
-                        onChange={() => handleSelectAll(currentLocations)}
-                        data-testid="checkbox-select-all"
-                      />
+                    <th className="p-4 text-left text-sm font-medium text-gray-900 dark:text-gray-100">
+                      VenueX Location
                     </th>
                     <th className="p-4 text-left text-sm font-medium text-gray-900 dark:text-gray-100">
-                      Location Details
+                      Region & Details
+                    </th>
+                    <th className="p-4 text-left text-sm font-medium text-gray-900 dark:text-gray-100 min-w-[300px]">
+                      Select Meta/Apple Page
                     </th>
                     <th className="p-4 text-left text-sm font-medium text-gray-900 dark:text-gray-100">
                       Status
                     </th>
-                    <th className="p-4 text-left text-sm font-medium text-gray-900 dark:text-gray-100">
-                      Resolution Method
-                    </th>
-                    <th className="p-4 text-left text-sm font-medium text-gray-900 dark:text-gray-100">
-                      Actions
-                    </th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
-                  {currentLocations.map((location) => {
-                    return (
-                      <tr
-                        key={location.id}
-                        className={`hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors cursor-pointer ${
-                          selectedLocations.includes(location.id) ? 'bg-blue-50 dark:bg-blue-900/20' : ''
-                        } ${selectedUnmatched === location.id ? 'ring-2 ring-blue-500 bg-blue-100 dark:bg-blue-900/30' : ''}`}
-                        onClick={() => location.status === 'pending' ? setSelectedUnmatched(location.id) : null}
-                        data-testid={`row-location-${location.id}`}
-                      >
-                        <td className="p-4" onClick={(e) => e.stopPropagation()}>
-                          <Checkbox
-                            checked={selectedLocations.includes(location.id)}
-                            onChange={() => handleSelectLocation(location.id)}
-                            data-testid={`checkbox-location-${location.id}`}
-                          />
-                        </td>
-                        <td className="p-4">
-                          <div className="space-y-2">
-                            <div className="font-medium text-gray-900 dark:text-gray-100">
-                              {location.name}
-                            </div>
-                            <div className="flex items-center text-sm text-purple-600 dark:text-purple-400 bg-purple-50 dark:bg-purple-900/20 px-2 py-1 rounded-md w-fit">
-                              <Building className="w-4 h-4 mr-1" />
-                              Code: {location.storeCode}
-                            </div>
-                            <div className="text-sm text-gray-600 dark:text-gray-400">
-                              {location.address}
-                            </div>
-                            <div className="text-sm text-gray-500 dark:text-gray-500">
-                              {location.city} • {location.phone}
-                            </div>
+                  {unmatchedVenueXLocations.map((location) => (
+                    <tr
+                      key={location.id}
+                      className="hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
+                      data-testid={`row-venuex-${location.id}`}
+                    >
+                      <td className="p-4">
+                        <div className="space-y-2">
+                          <div className="font-medium text-gray-900 dark:text-gray-100">
+                            {location.name}
                           </div>
-                        </td>
-                        <td className="p-4">
-                          <Badge
-                            className={`${
-                              location.status === 'pending' ? 'bg-amber-500 text-white' :
-                              location.status === 'linked' ? 'bg-green-500 text-white' :
-                              location.status === 'recreate' ? 'bg-blue-500 text-white' :
-                              'bg-gray-500 text-white'
-                            }`}
-                          >
-                            {location.status === 'pending' ? 'Needs Review' :
-                             location.status === 'linked' ? 'Linked' :
-                             location.status === 'recreate' ? 'Set to Re-create' :
-                             location.status}
-                          </Badge>
-                          {location.linkedTo && (
-                            <div className="mt-2 text-xs text-green-600 dark:text-green-400">
-                              → {location.linkedTo.name}
-                            </div>
-                          )}
-                          {location.recreateWith && (
-                            <div className="mt-2 text-xs text-blue-600 dark:text-blue-400">
-                              → Will use {location.recreateWith.name}
-                            </div>
-                          )}
-                        </td>
-                        <td className="p-4">
-                          <div className="text-sm text-gray-500 dark:text-gray-400">
-                            Click row to resolve manually
+                          <div className="flex items-center text-sm text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20 px-2 py-1 rounded-md w-fit">
+                            <Building className="w-4 h-4 mr-1" />
+                            Code: {location.storeCode}
                           </div>
-                        </td>
-                        <td className="p-4" onClick={(e) => e.stopPropagation()}>
-                          <Button
-                            size="sm"
-                            variant={selectedUnmatched === location.id ? "default" : "outline"}
-                            onClick={() => setSelectedUnmatched(location.id)}
-                            data-testid={`button-manual-resolve-${location.id}`}
-                            className={selectedUnmatched === location.id ? "bg-blue-600 hover:bg-blue-700 text-white" : ""}
-                          >
-                            {selectedUnmatched === location.id ? 'Selected' : 'Select'}
-                          </Button>
-                        </td>
-                      </tr>
-                    );
-                  })}
+                        </div>
+                      </td>
+                      <td className="p-4">
+                        <div className="space-y-1 text-sm">
+                          <div className="text-gray-900 dark:text-gray-100">{location.region}</div>
+                          <div className="text-gray-600 dark:text-gray-400">{location.city}</div>
+                          <div className="text-gray-500 dark:text-gray-500">{location.phone}</div>
+                        </div>
+                      </td>
+                      <td className="p-4">
+                        <Select
+                          value={platformPageSelections[location.id] || ""}
+                          onValueChange={(value) => {
+                            setPlatformPageSelections(prev => ({ ...prev, [location.id]: value }));
+                            if (value) {
+                              handleLinkPlatformPage(location.id, value);
+                            }
+                          }}
+                          data-testid={`select-platform-${location.id}`}
+                        >
+                          <SelectTrigger className="w-full">
+                            <SelectValue placeholder="Select platform page..." />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {mockAvailablePlatformPages.map((page) => (
+                              <SelectItem key={page.id} value={page.id}>
+                                <div className="flex flex-col">
+                                  <span className="font-medium">{page.name}</span>
+                                  <span className="text-xs text-gray-500">{page.storeCode} • {page.city}</span>
+                                </div>
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                        {location.linkedPlatformPage && (
+                          <div className="mt-2 text-xs text-green-600 dark:text-green-400 flex items-center gap-1">
+                            <CheckCircle className="w-3 h-3" />
+                            Linked to: {location.linkedPlatformPage.name}
+                          </div>
+                        )}
+                      </td>
+                      <td className="p-4">
+                        <Badge
+                          className={`${
+                            location.status === 'pending' ? 'bg-amber-500 text-white' :
+                            location.status === 'linked' ? 'bg-green-500 text-white' :
+                            'bg-gray-500 text-white'
+                          }`}
+                        >
+                          {location.status === 'pending' ? 'Pending' : 'Linked'}
+                        </Badge>
+                      </td>
+                    </tr>
+                  ))}
                 </tbody>
               </table>
             </div>
+          </CardContent>
+        </Card>
 
-            {/* Enhanced Pagination */}
-            <div className="px-4 py-4 border-t border-gray-200 dark:border-gray-700">
-              <div className="flex items-center justify-between">
-                <div className="text-sm text-gray-600 dark:text-gray-400">
-                  Showing {startIndex + 1}-{Math.min(endIndex, filteredLocations.length)} of {filteredLocations.length} filtered results
-                  {filteredLocations.length !== unmatchedLocations.length && (
-                    <span className="ml-2 text-blue-600 dark:text-blue-400">
-                      ({unmatchedLocations.length} total)
-                    </span>
-                  )}
-                </div>
-                <div className="flex items-center space-x-2">
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => setCurrentPage(0)}
-                    disabled={currentPage === 0}
-                    data-testid="button-first-page"
-                  >
-                    <ChevronsLeft className="w-4 h-4" />
-                  </Button>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => setCurrentPage(currentPage - 1)}
-                    disabled={currentPage === 0}
-                    data-testid="button-prev-page"
-                  >
-                    <ChevronLeft className="w-4 h-4" />
-                  </Button>
-                  <span className="text-sm text-gray-600 dark:text-gray-400 px-3">
-                    Page {currentPage + 1} of {totalPages}
-                  </span>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => setCurrentPage(currentPage + 1)}
-                    disabled={currentPage >= totalPages - 1}
-                    data-testid="button-next-page"
-                  >
-                    <ChevronRight className="w-4 h-4" />
-                  </Button>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => setCurrentPage(totalPages - 1)}
-                    disabled={currentPage >= totalPages - 1}
-                    data-testid="button-last-page"
-                  >
-                    <ChevronsRight className="w-4 h-4" />
-                  </Button>
-                </div>
-              </div>
-            </div>
-            </CardContent>
-            </Card>
-          </div>
-
-          {/* Right Panel - Quick Resolution (1/3 width) */}
-          <div className="xl:col-span-1">
-            <Card className="sticky top-6">
-              <CardHeader>
-                <CardTitle className="flex items-center space-x-2">
-                  <Target className="w-5 h-5" />
-                  <span>Quick Resolution</span>
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                {selectedUnmatched ? (
-                  <div className="space-y-6">
-                    {/* Selected Location Info */}
-                    <div className="p-4 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-700 rounded-lg">
-                      <h4 className="font-medium mb-2 text-blue-800 dark:text-blue-200">Selected Location:</h4>
-                      <p className="font-semibold text-gray-900 dark:text-gray-100">
-                        {unmatchedLocations.find(loc => loc.id === selectedUnmatched)?.name}
-                      </p>
-                      <div className="flex items-center text-sm text-purple-600 dark:text-purple-400 bg-purple-50 dark:bg-purple-900/20 px-2 py-1 rounded-md w-fit mb-2">
-                        <Building className="w-4 h-4 mr-1" />
-                        Code: {unmatchedLocations.find(loc => loc.id === selectedUnmatched)?.storeCode}
-                      </div>
-                      <p className="text-sm text-gray-600 dark:text-gray-400">
-                        {unmatchedLocations.find(loc => loc.id === selectedUnmatched)?.address}
-                      </p>
-                      <p className="text-xs text-blue-600 dark:text-blue-400 mt-2">
-                        Search pre-populated with relevant terms.
-                      </p>
-                    </div>
-
-                    {/* Resolution Options */}
-                    <div className="space-y-4">
-                      {/* Link to Existing Location */}
-                      <div className="p-4 border border-green-200 dark:border-green-700 rounded-lg bg-green-50 dark:bg-green-900/20">
-                        <h4 className="font-medium mb-3 text-green-800 dark:text-green-200 flex items-center">
-                          <Link className="w-4 h-4 mr-2" />
-                          Link to Existing
-                        </h4>
-                        <div className="space-y-3">
-                          <AutocompleteSelect
-                            options={getFilteredLinkOptions(linkSearchQuery)}
-                            onSearch={setLinkSearchQuery}
-                            onValueChange={(value) => {
-                              const selectedOption = getFilteredLinkOptions(linkSearchQuery).find(option => option.id === value);
-                              if (selectedOption) {
-                                handleLinkLocation(selectedUnmatched, selectedOption.id);
-                              }
-                            }}
-                            placeholder="Search VenueX locations..."
-                            className="w-full"
-                            data-testid="autocomplete-link-location"
-                          />
-                          <Button
-                            onClick={() => {
-                              const selectedOption = getFilteredLinkOptions(linkSearchQuery).find(
-                                option => option.label.toLowerCase() === linkSearchQuery.toLowerCase() ||
-                                         option.badge?.toLowerCase() === linkSearchQuery.toLowerCase()
-                              );
-                              if (selectedOption) {
-                                handleLinkLocation(selectedUnmatched, selectedOption.id);
-                              }
-                            }}
-                            className="w-full bg-green-600 hover:bg-green-700 text-white"
-                            disabled={!linkSearchQuery}
-                            data-testid="button-confirm-link"
-                          >
-                            Link Location
-                          </Button>
-                        </div>
-                      </div>
-
-                      {/* Re-create Option */}
-                      <div className="p-4 border border-blue-200 dark:border-blue-700 rounded-lg bg-blue-50 dark:bg-blue-900/20">
-                        <h4 className="font-medium mb-3 text-blue-800 dark:text-blue-200 flex items-center">
-                          <Plus className="w-4 h-4 mr-2" />
-                          Re-create as New
-                        </h4>
-                        <div className="space-y-3">
-                          <AutocompleteSelect
-                            options={getFilteredRecreateOptions(recreateSearchQuery)}
-                            onSearch={setRecreateSearchQuery}
-                            onValueChange={(value) => {
-                              const selectedOption = getFilteredRecreateOptions(recreateSearchQuery).find(option => option.id === value);
-                              if (selectedOption) {
-                                handleRecreateLocation(selectedUnmatched, selectedOption.id);
-                              }
-                            }}
-                            placeholder="Search template locations..."
-                            className="w-full"
-                            data-testid="autocomplete-recreate-template"
-                          />
-                          <Button
-                            onClick={() => {
-                              const selectedOption = getFilteredRecreateOptions(recreateSearchQuery).find(
-                                option => option.label.toLowerCase() === recreateSearchQuery.toLowerCase() ||
-                                         option.badge?.toLowerCase() === recreateSearchQuery.toLowerCase()
-                              );
-                              if (selectedOption) {
-                                handleRecreateLocation(selectedUnmatched, selectedOption.id);
-                              }
-                            }}
-                            className="w-full bg-blue-600 hover:bg-blue-700 text-white"
-                            disabled={!recreateSearchQuery}
-                            data-testid="button-confirm-recreate"
-                          >
-                            Set to Re-create
-                          </Button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                ) : (
-                  <div className="text-center py-8">
-                    <Target className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-                    <p className="text-gray-500 dark:text-gray-400">
-                      Select a location from the table to begin manual resolution
-                    </p>
-                  </div>
-                )}
-              </CardContent>
-            </Card>
-          </div>
-        </div>
-
-        {/* Final Proceed Button */}
+        {/* Proceed Button */}
         <div className="flex justify-center mt-8">
           <Button 
             onClick={() => setCurrentStep(3)}
@@ -1475,7 +1266,7 @@ export default function LocationMatch() {
             className="bg-amber-600 hover:bg-amber-700 text-white px-8 py-3 text-lg font-medium"
             data-testid="button-proceed-step3"
           >
-            Review and Confirm ({pendingCount > 0 ? `${pendingCount} remaining` : 'All resolved'})
+            Review and Confirm ({pendingCount > 0 ? `${pendingCount} remaining` : 'All linked'})
           </Button>
         </div>
 
