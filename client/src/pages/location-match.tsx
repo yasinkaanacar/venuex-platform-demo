@@ -1283,12 +1283,11 @@ export default function LocationMatch() {
     const exportSyncPlan = () => {
       const syncPlan = {
         timestamp: new Date().toISOString(),
-        totalLocations: mockAutoMatched.length + linkedCount + createCount + recreateCount,
+        totalLocations: mockAutoMatched.length + linkedCount + createCount,
         summary: {
           automaticallyMatched: mockAutoMatched.length,
           manuallyLinked: linkedCount,
-          toBeCreated: createCount,
-          toBeRecreated: recreateCount
+          toBeCreated: createCount
         },
         details: {
           autoMatched: mockAutoMatched.map(match => ({
@@ -1314,15 +1313,6 @@ export default function LocationMatch() {
               venueXName: loc.name,
               venueXCode: loc.storeCode,
               action: 'Create New'
-            })),
-          toBeRecreated: unmatchedLocations
-            .filter(loc => loc.status === 'recreate')
-            .map(loc => ({
-              platformName: loc.name,
-              platformCode: loc.storeCode,
-              willBeDeletedAndReplacedWith: loc.recreateWith!.name,
-              replacementCode: loc.recreateWith!.storeCode,
-              action: 'Delete and Recreate'
             }))
         }
       };
@@ -1337,9 +1327,6 @@ export default function LocationMatch() {
         ]),
         ...syncPlan.details.toBeCreated.map(item => [
           'Create New', '', '', item.venueXName, item.venueXCode, 'Will create new Meta page'
-        ]),
-        ...syncPlan.details.toBeRecreated.map(item => [
-          'Delete & Recreate', item.platformName, item.platformCode, item.willBeDeletedAndReplacedWith, item.replacementCode, 'Will delete existing and create new'
         ])
       ].map(row => row.join(',')).join('\n');
 
@@ -1373,17 +1360,6 @@ export default function LocationMatch() {
           )
       : unmatchedLocations.filter(loc => loc.status === 'linked');
 
-    const filteredRecreate = recreateSearch
-      ? unmatchedLocations
-          .filter(loc => loc.status === 'recreate')
-          .filter(loc => 
-            loc.name.toLowerCase().includes(recreateSearch.toLowerCase()) ||
-            loc.recreateWith!.name.toLowerCase().includes(recreateSearch.toLowerCase()) ||
-            loc.storeCode.toLowerCase().includes(recreateSearch.toLowerCase()) ||
-            loc.recreateWith!.storeCode.toLowerCase().includes(recreateSearch.toLowerCase())
-          )
-      : unmatchedLocations.filter(loc => loc.status === 'recreate');
-
     const filteredCreated = createSearch
       ? unmatchedVenueXLocations
           .filter(loc => loc.status === 'will_create')
@@ -1405,12 +1381,12 @@ export default function LocationMatch() {
         </div>
 
         {/* High-Level Summary Dashboard */}
-        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
           {/* Total Locations KPI */}
           <Card className="bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-900/20 dark:to-blue-800/30 border-blue-200 dark:border-blue-700">
             <CardContent className="p-6 text-center">
               <div className="text-3xl font-bold text-blue-600 dark:text-blue-400 mb-2">
-                {mockAutoMatched.length + linkedCount + createCount + recreateCount}
+                {mockAutoMatched.length + linkedCount + createCount}
               </div>
               <div className="text-sm font-medium text-blue-800 dark:text-blue-200">
                 Total Locations
@@ -1431,7 +1407,7 @@ export default function LocationMatch() {
                 Auto Matched
               </div>
               <div className="text-xs text-green-600 dark:text-green-300 mt-1">
-                {mockAutoMatched.length > 0 ? `${((mockAutoMatched.length / (mockAutoMatched.length + linkedCount + createCount + recreateCount)) * 100).toFixed(1)}% Success` : '0% Success'}
+                {mockAutoMatched.length > 0 ? `${((mockAutoMatched.length / (mockAutoMatched.length + linkedCount + createCount)) * 100).toFixed(1)}% Success` : '0% Success'}
               </div>
             </CardContent>
           </Card>
@@ -1465,21 +1441,6 @@ export default function LocationMatch() {
               </div>
             </CardContent>
           </Card>
-
-          {/* Recreations KPI */}
-          <Card className="bg-gradient-to-br from-amber-50 to-amber-100 dark:from-amber-900/20 dark:to-amber-800/30 border-amber-200 dark:border-amber-700">
-            <CardContent className="p-6 text-center">
-              <div className="text-3xl font-bold text-amber-600 dark:text-amber-400 mb-2">
-                {recreateCount}
-              </div>
-              <div className="text-sm font-medium text-amber-800 dark:text-amber-200">
-                Recreations
-              </div>
-              <div className="text-xs text-amber-600 dark:text-amber-300 mt-1">
-                Will Delete & Create
-              </div>
-            </CardContent>
-          </Card>
         </div>
 
         {/* Export Plan Section */}
@@ -1504,7 +1465,7 @@ export default function LocationMatch() {
                 <span>Export Complete Sync Plan (CSV)</span>
               </Button>
               <div className="text-xs text-purple-600 dark:text-purple-400 py-2">
-                Includes all {mockAutoMatched.length + linkedCount + createCount + recreateCount} locations with action details
+                Includes all {mockAutoMatched.length + linkedCount + createCount} locations with action details
               </div>
             </div>
           </CardContent>
@@ -1714,69 +1675,6 @@ export default function LocationMatch() {
             </AuditAccordion>
           )}
 
-          {/* Recreations Accordion */}
-          {recreateCount > 0 && (
-            <AuditAccordion
-              id="recreations"
-              title="Locations to be Deleted & Re-created"
-              count={recreateCount}
-              variant="warning"
-              searchValue={recreateSearch}
-              onSearchChange={setRecreateSearch}
-              searchPlaceholder="Search recreations..."
-              data-testid="accordion-recreations"
-            >
-              <div className="p-4 space-y-4">
-                {filteredRecreate.map((location) => (
-                  <div key={location.id} className="grid grid-cols-1 md:grid-cols-2 gap-4 items-center">
-                    {/* New Location to Create */}
-                    <RichLocationCard
-                      location={{
-                        name: location.recreateWith!.name,
-                        storeCode: location.recreateWith!.storeCode,
-                        address: `${location.recreateWith!.address}, ${location.recreateWith!.city}`,
-                        platform: "VenueX Location"
-                      }}
-                      variant="create"
-                      data-testid={`recreate-new-${location.id}`}
-                    />
-                    
-                    {/* Delete & Create Icon */}
-                    <div className="flex justify-center">
-                      <div className="bg-red-100 dark:bg-red-900 p-2 rounded-full">
-                        <Trash2 className="w-4 h-4 text-red-600 dark:text-red-400" />
-                      </div>
-                    </div>
-                    
-                    {/* Old Location to Delete */}
-                    <RichLocationCard
-                      location={{
-                        name: location.name,
-                        storeCode: location.storeCode,
-                        address: `${location.address}, ${location.city}`,
-                        platform: "Platform Location"
-                      }}
-                      variant="delete"
-                      data-testid={`recreate-old-${location.id}`}
-                    />
-                    
-                    {/* Action Tag */}
-                    <div className="text-center">
-                      <Badge variant="destructive" className="bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200">
-                        Delete & Recreate
-                      </Badge>
-                    </div>
-                  </div>
-                ))}
-                
-                {filteredRecreate.length === 0 && recreateSearch && (
-                  <div className="text-center py-8 text-gray-500 dark:text-gray-400">
-                    No matches found for "{recreateSearch}"
-                  </div>
-                )}
-              </div>
-            </AuditAccordion>
-          )}
         </div>
 
         {/* Final Confirmation */}
@@ -1787,7 +1685,7 @@ export default function LocationMatch() {
                 ⚠️ Final Confirmation Required
               </h3>
               <p className="text-amber-700 dark:text-amber-300">
-                Execute sync for <strong>{mockAutoMatched.length + linkedCount + recreateCount}</strong> locations
+                Execute sync for <strong>{mockAutoMatched.length + linkedCount + createCount}</strong> locations
               </p>
             </div>
             
@@ -1801,12 +1699,12 @@ export default function LocationMatch() {
                 <div className="text-sm text-blue-700 dark:text-blue-300">Manual Links</div>
               </div>
               <div className="bg-white dark:bg-gray-800 rounded-lg p-4 border border-amber-200 dark:border-amber-700">
-                <div className="text-2xl font-bold text-red-600 dark:text-red-400">{recreateCount}</div>
-                <div className="text-sm text-red-700 dark:text-red-300">Recreations</div>
+                <div className="text-2xl font-bold text-cyan-600 dark:text-cyan-400">{createCount}</div>
+                <div className="text-sm text-cyan-700 dark:text-cyan-300">Created</div>
               </div>
             </div>
             
-            <div className="flex items-start space-x-3 p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-700 rounded-lg">
+            <div className="flex items-start space-x-3 p-4 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-700 rounded-lg">
               <Checkbox 
                 id="confirmation"
                 checked={confirmationChecked}
@@ -1814,9 +1712,8 @@ export default function LocationMatch() {
                 data-testid="checkbox-confirmation"
                 className="mt-1"
               />
-              <label htmlFor="confirmation" className="text-sm text-red-800 dark:text-red-200 cursor-pointer font-medium">
-                I understand this sync will execute {mockAutoMatched.length + linkedCount + recreateCount} location changes
-                {recreateCount > 0 && `, including ${recreateCount} permanent deletions,`} and these changes cannot be undone. 
+              <label htmlFor="confirmation" className="text-sm text-amber-800 dark:text-amber-200 cursor-pointer font-medium">
+                I understand this sync will execute {mockAutoMatched.length + linkedCount + createCount} location changes and these changes cannot be undone. 
                 I have reviewed the sync plan and authorize execution.
               </label>
             </div>
@@ -1851,7 +1748,7 @@ export default function LocationMatch() {
               Step 3 of 3 - Ready
             </div>
             <div className="text-sm font-medium text-gray-700 dark:text-gray-300">
-              {mockAutoMatched.length + linkedCount + recreateCount} locations ready to sync
+              {mockAutoMatched.length + linkedCount + createCount} locations ready to sync
             </div>
           </div>
         </div>
