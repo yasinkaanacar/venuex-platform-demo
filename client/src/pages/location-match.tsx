@@ -1207,14 +1207,25 @@ export default function LocationMatch() {
                             <SelectValue placeholder="Select platform page..." />
                           </SelectTrigger>
                           <SelectContent>
-                            {mockAvailablePlatformPages.map((page) => (
-                              <SelectItem key={page.id} value={page.id}>
-                                <div className="flex flex-col">
-                                  <span className="font-medium">{page.name}</span>
-                                  <span className="text-xs text-gray-500">{page.storeCode} • {page.city}</span>
-                                </div>
-                              </SelectItem>
-                            ))}
+                            {mockAvailablePlatformPages.map((page) => {
+                              const isLinkedToOther = unmatchedVenueXLocations.some(
+                                loc => loc.id !== location.id && loc.linkedPlatformPage?.id === page.id
+                              );
+                              return (
+                                <SelectItem 
+                                  key={page.id} 
+                                  value={isLinkedToOther ? `disabled-${page.id}` : page.id}
+                                  className={isLinkedToOther ? "opacity-50 cursor-not-allowed pointer-events-none" : ""}
+                                >
+                                  <div className="flex flex-col">
+                                    <span className={`font-medium ${isLinkedToOther ? 'text-gray-400 dark:text-gray-600' : ''}`}>
+                                      {page.name} {isLinkedToOther && '(Already linked)'}
+                                    </span>
+                                    <span className="text-xs text-gray-500">{page.storeCode} • {page.city}</span>
+                                  </div>
+                                </SelectItem>
+                              );
+                            })}
                           </SelectContent>
                         </Select>
                         {location.linkedPlatformPage && (
