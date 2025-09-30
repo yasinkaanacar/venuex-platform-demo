@@ -1458,7 +1458,7 @@ export default function LocationMatch() {
         </div>
 
         {/* High-Level Summary Dashboard */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-5 gap-6">
           {/* Total Locations KPI */}
           <Card className="bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-900/20 dark:to-blue-800/30 border-blue-200 dark:border-blue-700">
             <CardContent className="p-6 text-center">
@@ -1515,6 +1515,21 @@ export default function LocationMatch() {
               </div>
               <div className="text-xs text-cyan-600 dark:text-cyan-300 mt-1">
                 New Meta Pages
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Unmatched Locations KPI */}
+          <Card className="bg-gradient-to-br from-orange-50 to-orange-100 dark:from-orange-900/20 dark:to-orange-800/30 border-orange-200 dark:border-orange-700">
+            <CardContent className="p-6 text-center">
+              <div className="text-3xl font-bold text-orange-600 dark:text-orange-400 mb-2">
+                {unmatchedPlatformLocations.length}
+              </div>
+              <div className="text-sm font-medium text-orange-800 dark:text-orange-200">
+                Unmatched
+              </div>
+              <div className="text-xs text-orange-600 dark:text-orange-300 mt-1">
+                Meta Locations
               </div>
             </CardContent>
           </Card>
