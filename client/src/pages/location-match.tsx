@@ -1580,23 +1580,9 @@ export default function LocationMatch() {
                   </div>
                   
                   {/* Side by Side Locations */}
-                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 items-center">
-                    {/* Meta Location */}
-                    <div>
-                      <div className="text-sm font-medium text-gray-600 dark:text-gray-400 mb-2">Meta Location</div>
-                      <RichLocationCard
-                        location={{
-                          name: match.platformLocation.name,
-                          storeCode: match.platformLocation.storeCode,
-                          address: `${match.platformLocation.address}, ${match.platformLocation.city}`,
-                          platform: "Meta Location"
-                        }}
-                        data-testid={`platform-location-${index}`}
-                      />
-                    </div>
-                    
+                  <div className="flex flex-col lg:flex-row gap-4 items-center">
                     {/* VenueX Location */}
-                    <div>
+                    <div className="flex-1 w-full">
                       <div className="text-sm font-medium text-gray-600 dark:text-gray-400 mb-2">VenueX Location</div>
                       <RichLocationCard
                         location={{
@@ -1608,12 +1594,26 @@ export default function LocationMatch() {
                         data-testid={`venuex-location-${index}`}
                       />
                     </div>
-                  </div>
-                  
-                  {/* Connection Indicator */}
-                  <div className="flex justify-center mt-4">
-                    <div className="bg-green-100 dark:bg-green-900 p-2 rounded-full">
-                      <Link className="w-4 h-4 text-green-600 dark:text-green-400" />
+                    
+                    {/* Connection Indicator */}
+                    <div className="flex-shrink-0">
+                      <div className="bg-green-100 dark:bg-green-900 p-3 rounded-full">
+                        <Link className="w-5 h-5 text-green-600 dark:text-green-400" />
+                      </div>
+                    </div>
+                    
+                    {/* Meta Location */}
+                    <div className="flex-1 w-full">
+                      <div className="text-sm font-medium text-gray-600 dark:text-gray-400 mb-2">Meta Location</div>
+                      <RichLocationCard
+                        location={{
+                          name: match.platformLocation.name,
+                          storeCode: match.platformLocation.storeCode,
+                          address: `${match.platformLocation.address}, ${match.platformLocation.city}`,
+                          platform: "Meta Location"
+                        }}
+                        data-testid={`platform-location-${index}`}
+                      />
                     </div>
                   </div>
                 </div>
