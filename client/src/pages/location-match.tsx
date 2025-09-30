@@ -647,7 +647,7 @@ const LocationDetailCard = ({ location, type, className = "" }: {
             className="inline-flex items-center text-sm text-blue-600 hover:text-blue-800 mt-2"
           >
             <ExternalLink className="w-4 h-4 mr-1" />
-            View on Platform
+            View on Meta
           </a>
         )}
       </div>
@@ -767,11 +767,11 @@ export default function LocationMatch() {
       'VenueX Phone': match.venueXLocation.phone,
       'VenueX Region': match.venueXLocation.region,
       'VenueX City': match.venueXLocation.city,
-      'Platform Name': match.platformLocation.name,
-      'Platform Store Code': match.platformLocation.storeCode,
-      'Platform Address': match.platformLocation.address,
-      'Platform Phone': match.platformLocation.phone,
-      'Platform URL': match.platformLocation.platformUrl || '',
+      'Meta Name': match.platformLocation.name,
+      'Meta Store Code': match.platformLocation.storeCode,
+      'Meta Address': match.platformLocation.address,
+      'Meta Phone': match.platformLocation.phone,
+      'Meta URL': match.platformLocation.platformUrl || '',
       'Confidence Score': match.confidence,
       'Match Status': 'Automatically Matched'
     }));
@@ -786,8 +786,8 @@ export default function LocationMatch() {
       'Phone': location.phone,
       'City': location.city,
       'Category': location.category,
-      'Platform ID': location.platformId,
-      'Platform URL': location.platformUrl || '',
+      'Meta ID': location.platformId,
+      'Meta URL': location.platformUrl || '',
       'Status': location.status,
       'Linked To': location.linkedTo?.name || '',
       'Recreate With': location.recreateWith?.name || ''
@@ -1040,12 +1040,12 @@ export default function LocationMatch() {
           {isLoading ? (
             <div>
               <Loader2 className="w-12 h-12 animate-spin mx-auto mb-4 text-blue-600" />
-              <h3 className="text-xl font-semibold mb-2">Analyzing your Platform Pages...</h3>
+              <h3 className="text-xl font-semibold mb-2">Analyzing your Meta Pages...</h3>
               <p className="text-gray-600 dark:text-gray-400 mb-2">
                 {mockVenueXLocations.length} locations in VenueX
               </p>
               <p className="text-gray-600 dark:text-gray-400 mb-2">
-                {mockAutoMatched.length + mockAvailablePlatformPages.length} locations imported from Platform
+                {mockAutoMatched.length + mockAvailablePlatformPages.length} locations imported from Meta
               </p>
               <p className="text-gray-600 dark:text-gray-400">Comparing locations...</p>
             </div>
@@ -1092,7 +1092,7 @@ export default function LocationMatch() {
                 </div>
                 
                 <div className="text-center mt-2 text-sm text-gray-600 dark:text-gray-400">
-                  {mockVenueXLocations.length} locations in VenueX • {mockAutoMatched.length + mockAvailablePlatformPages.length} locations imported from Platform
+                  {mockVenueXLocations.length} locations in VenueX • {mockAutoMatched.length + mockAvailablePlatformPages.length} locations imported from Meta
                 </div>
               </div>
 
@@ -1135,10 +1135,10 @@ export default function LocationMatch() {
               <div className="mb-8 text-center">
                 <div className="bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-lg p-4">
                   <p className="text-amber-800 dark:text-amber-200 font-medium">
-                    Next: You will link {unmatchedVenueXLocations.length} VenueX locations to their Platform pages.
+                    Next: You will link {unmatchedVenueXLocations.length} VenueX locations to their Meta Pages.
                   </p>
                   <p className="text-sm text-amber-700 dark:text-amber-300 mt-1">
-                    Each VenueX location needs a corresponding platform page to enable tracking.
+                    Each VenueX location needs a corresponding Meta page to enable tracking.
                   </p>
                 </div>
               </div>
@@ -1173,7 +1173,7 @@ export default function LocationMatch() {
             <span>Back</span>
           </Button>
           <h2 className="text-2xl font-semibold text-gray-900 dark:text-white">
-            Step 2 of 3: Link VenueX Locations to Platform Pages
+            Step 2 of 3: Link VenueX Locations to Meta Pages
           </h2>
           <div className="w-24"></div> {/* Spacer for centering */}
         </div>
@@ -1199,7 +1199,7 @@ export default function LocationMatch() {
         {/* VenueX Locations Table */}
         <Card>
           <CardHeader>
-            <CardTitle>VenueX Locations Needing Platform Pages ({unmatchedVenueXLocations.length})</CardTitle>
+            <CardTitle>VenueX Locations Needing Meta Pages ({unmatchedVenueXLocations.length})</CardTitle>
           </CardHeader>
           <CardContent className="p-0">
             <div className="overflow-x-auto">
@@ -1213,7 +1213,7 @@ export default function LocationMatch() {
                       Region & Details
                     </th>
                     <th className="p-4 text-left text-sm font-medium text-gray-900 dark:text-gray-100 min-w-[300px]">
-                      Select Platform Page
+                      Select Meta Page
                     </th>
                     <th className="p-4 text-left text-sm font-medium text-gray-900 dark:text-gray-100">
                       Create
@@ -1260,7 +1260,7 @@ export default function LocationMatch() {
                           data-testid={`select-platform-${location.id}`}
                         >
                           <SelectTrigger className="w-full">
-                            <SelectValue placeholder="Select platform page..." />
+                            <SelectValue placeholder="Select Meta page..." />
                           </SelectTrigger>
                           <SelectContent>
                             {[...mockAvailablePlatformPages, ...unmatchedPlatformLocations].map((page) => {
@@ -1295,7 +1295,7 @@ export default function LocationMatch() {
                         {location.willBeCreated ? (
                           <div className="text-sm text-blue-600 dark:text-blue-400 font-medium flex items-center gap-1">
                             <CheckCircle className="w-4 h-4" />
-                            Will be created on Platform
+                            Will be created on Meta
                           </div>
                         ) : (
                           <Button
@@ -1390,7 +1390,7 @@ export default function LocationMatch() {
       };
 
       const csvContent = [
-        ['Action Type', 'Platform Name', 'Platform Code', 'VenueX Name', 'VenueX Code', 'Notes'],
+        ['Action Type', 'Meta Name', 'Meta Code', 'VenueX Name', 'VenueX Code', 'Notes'],
         ...syncPlan.details.autoMatched.map(item => [
           'Auto Link', item.platformName, item.platformCode, item.venueXName, item.venueXCode, `Confidence: ${(item.confidence * 100).toFixed(1)}%`
         ]),
@@ -1398,7 +1398,7 @@ export default function LocationMatch() {
           'Manual Link', item.platformName, item.platformCode, item.venueXName, item.venueXCode, 'Manually resolved'
         ]),
         ...syncPlan.details.toBeCreated.map(item => [
-          'Create New', '', '', item.venueXName, item.venueXCode, 'Will create new Platform page'
+          'Create New', '', '', item.venueXName, item.venueXCode, 'Will create new Meta page'
         ])
       ].map(row => row.join(',')).join('\n');
 
@@ -1522,7 +1522,7 @@ export default function LocationMatch() {
                 Created
               </div>
               <div className="text-xs text-cyan-600 dark:text-cyan-300 mt-1">
-                New Platform Pages
+                New Meta Pages
               </div>
             </CardContent>
           </Card>
@@ -1580,15 +1580,15 @@ export default function LocationMatch() {
                   
                   {/* Side by Side Locations */}
                   <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 items-center">
-                    {/* Platform Location */}
+                    {/* Meta Location */}
                     <div>
-                      <div className="text-sm font-medium text-gray-600 dark:text-gray-400 mb-2">Platform Location</div>
+                      <div className="text-sm font-medium text-gray-600 dark:text-gray-400 mb-2">Meta Location</div>
                       <RichLocationCard
                         location={{
                           name: match.platformLocation.name,
                           storeCode: match.platformLocation.storeCode,
                           address: `${match.platformLocation.address}, ${match.platformLocation.city}`,
-                          platform: "Platform Location"
+                          platform: "Meta Location"
                         }}
                         data-testid={`platform-location-${index}`}
                       />
@@ -1666,16 +1666,16 @@ export default function LocationMatch() {
                         />
                       </div>
                       
-                      {/* Platform Location */}
+                      {/* Meta Location */}
                       <div>
-                        <div className="text-sm font-medium text-gray-600 dark:text-gray-400 mb-2">Platform Location</div>
+                        <div className="text-sm font-medium text-gray-600 dark:text-gray-400 mb-2">Meta Location</div>
                         {location.linkedPlatformPage && (
                           <RichLocationCard
                             location={{
                               name: location.linkedPlatformPage.name,
                               storeCode: location.linkedPlatformPage.storeCode,
                               address: `${location.linkedPlatformPage.address}, ${location.linkedPlatformPage.city}`,
-                              platform: "Platform Location"
+                              platform: "Meta Location"
                             }}
                             data-testid={`manual-platform-${location.id}`}
                           />
@@ -1705,7 +1705,7 @@ export default function LocationMatch() {
           {createCount > 0 && (
             <AuditAccordion
               id="created-locations"
-              title="Locations to be Created on Platform"
+              title="Locations to be Created on Meta"
               count={createCount}
               searchValue={createSearch}
               onSearchChange={setCreateSearch}
@@ -1721,7 +1721,7 @@ export default function LocationMatch() {
                         Created Location #{index + 1}
                       </h4>
                       <Badge className="bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200">
-                        Will Create on Platform
+                        Will Create on Meta
                       </Badge>
                     </div>
                     
@@ -1748,7 +1748,7 @@ export default function LocationMatch() {
                     </div>
                     
                     <div className="text-center text-sm text-blue-600 dark:text-blue-400 mt-2">
-                      New Platform page will be created
+                      New Meta page will be created
                     </div>
                   </div>
                 ))}
@@ -1762,15 +1762,15 @@ export default function LocationMatch() {
             </AuditAccordion>
           )}
 
-          {/* Unmatched Platform Locations Accordion */}
+          {/* Unmatched Meta Locations Accordion */}
           {unmatchedPlatformLocations.length > 0 && (
             <AuditAccordion
               id="unmatched-platform"
-              title="Unmatched Platform Locations"
+              title="Unmatched Meta Locations"
               count={unmatchedPlatformLocations.length}
               searchValue={unmatchedPlatformSearch}
               onSearchChange={setUnmatchedPlatformSearch}
-              searchPlaceholder="Search unmatched platform locations..."
+              searchPlaceholder="Search unmatched Meta locations..."
               data-testid="accordion-unmatched-platform"
             >
               <div className="p-4 space-y-4">
@@ -1779,22 +1779,22 @@ export default function LocationMatch() {
                     {/* Header */}
                     <div className="flex items-center justify-between mb-4">
                       <h4 className="font-medium text-gray-900 dark:text-gray-100">
-                        Unmatched Platform Location #{index + 1}
+                        Unmatched Meta Location #{index + 1}
                       </h4>
                       <Badge variant="secondary" className="bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200">
                         No VenueX Match
                       </Badge>
                     </div>
                     
-                    {/* Platform Location Details */}
+                    {/* Meta Location Details */}
                     <div className="mb-4">
-                      <div className="text-sm font-medium text-gray-600 dark:text-gray-400 mb-2">Platform Location</div>
+                      <div className="text-sm font-medium text-gray-600 dark:text-gray-400 mb-2">Meta Location</div>
                       <RichLocationCard
                         location={{
                           name: location.name,
                           storeCode: location.storeCode,
                           address: `${location.address}, ${location.city}`,
-                          platform: "Platform Location"
+                          platform: "Meta Location"
                         }}
                         data-testid={`unmatched-platform-${location.id}`}
                       />
@@ -1968,7 +1968,7 @@ export default function LocationMatch() {
                   leftType="venuex"
                   rightType="platform"
                   leftLabel="VenueX Location"
-                  rightLabel="Platform Page"
+                  rightLabel="Meta Page"
                 />
               ))}
             </div>
