@@ -612,7 +612,7 @@ const LocationDetailCard = ({ location, type, className = "" }: {
           <div className={`flex items-center text-sm font-medium mb-2 px-2 py-1 rounded-md w-fit ${
             type === 'venuex' 
               ? 'text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20' 
-              : 'text-purple-600 dark:text-purple-400 bg-purple-50 dark:bg-purple-900/20'
+              : 'text-slate-600 dark:text-slate-400 bg-slate-50 dark:bg-slate-900/20'
           }`}>
             <Building className="w-4 h-4 mr-1 flex-shrink-0" />
             <span>Code: {location.storeCode}</span>
@@ -1536,27 +1536,27 @@ export default function LocationMatch() {
         </div>
 
         {/* Export Plan Section */}
-        <Card className="bg-gradient-to-r from-purple-50 to-blue-50 dark:from-purple-900/10 dark:to-blue-900/10 border-purple-200 dark:border-purple-700">
+        <Card className="bg-gradient-to-r from-slate-50 to-gray-50 dark:from-slate-900/10 dark:to-gray-900/10 border-slate-200 dark:border-slate-700">
           <CardHeader>
-            <CardTitle className="flex items-center space-x-2 text-purple-800 dark:text-purple-200">
+            <CardTitle className="flex items-center space-x-2 text-slate-800 dark:text-slate-200">
               <Download className="w-5 h-5" />
               <span>Export Sync Plan</span>
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
-            <p className="text-purple-700 dark:text-purple-300 text-sm">
+            <p className="text-slate-700 dark:text-slate-300 text-sm">
               Download a comprehensive sync plan for audit, approval workflows, and documentation.
             </p>
             <div className="flex flex-col sm:flex-row gap-3">
               <Button
                 onClick={exportSyncPlan}
-                className="bg-purple-600 hover:bg-purple-700 text-white flex items-center space-x-2"
+                className="bg-slate-600 hover:bg-slate-700 text-white flex items-center space-x-2"
                 data-testid="button-export-sync-plan"
               >
                 <Download className="w-4 h-4" />
                 <span>Export Complete Sync Plan (CSV)</span>
               </Button>
-              <div className="text-xs text-purple-600 dark:text-purple-400 py-2">
+              <div className="text-xs text-slate-600 dark:text-slate-400 py-2">
                 Includes all {mockAutoMatched.length + linkedCount + createCount} locations with action details
               </div>
             </div>
