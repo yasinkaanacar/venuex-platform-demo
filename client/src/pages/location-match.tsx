@@ -526,7 +526,47 @@ const mockAutoMatched: MatchedLocation[] = [
   }
 ];
 
-const mockUnmatched: UnmatchedLocation[] = [];
+const mockUnmatched: UnmatchedLocation[] = [
+  { 
+    id: 'meta16', 
+    name: 'Demo MarkAntalya', 
+    address: 'MarkAntalya AVM, Fener Mahallesi', 
+    phone: '+90 242 123 4567',
+    category: 'Department Store',
+    platformId: 'meta_016',
+    platformUrl: 'https://facebook.com/demo.markantalya',
+    city: 'Antalya',
+    postalCode: '07160',
+    storeCode: 'META016',
+    status: 'pending' 
+  },
+  { 
+    id: 'meta17', 
+    name: 'Demo Deepo Outlet', 
+    address: 'Deepo Outlet Center, Şemsettin Günaltay Caddesi', 
+    phone: '+90 224 234 5678',
+    category: 'Outlet Store',
+    platformId: 'meta_017',
+    platformUrl: 'https://facebook.com/demo.deepo',
+    city: 'Bursa',
+    postalCode: '16250',
+    storeCode: 'META017',
+    status: 'pending' 
+  },
+  { 
+    id: 'meta18', 
+    name: 'Demo Korupark', 
+    address: 'Korupark AVM, Galip Erdem Caddesi', 
+    phone: '+90 224 345 6789',
+    category: 'Department Store',
+    platformId: 'meta_018',
+    platformUrl: 'https://facebook.com/demo.korupark',
+    city: 'Bursa',
+    postalCode: '16160',
+    storeCode: 'META018',
+    status: 'pending' 
+  },
+];
 
 // Location Detail Card Component
 const LocationDetailCard = ({ location, type, className = "" }: { 
