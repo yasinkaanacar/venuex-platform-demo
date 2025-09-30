@@ -1781,20 +1781,7 @@ export default function LocationMatch() {
                       />
                     </div>
                     
-                    {/* Delete Button */}
-                    <div className="flex justify-end">
-                      <Button
-                        variant="destructive"
-                        size="sm"
-                        onClick={() => handleDeleteUnmatchedPlatform(location.id)}
-                        className="bg-red-600 hover:bg-red-700 text-white"
-                        data-testid={`button-delete-${location.id}`}
-                      >
-                        <Trash2 className="w-4 h-4 mr-1" />
-                        Delete
-                      </Button>
                     </div>
-                  </div>
                 ))}
                 
                 {filteredUnmatchedPlatform.length === 0 && unmatchedPlatformSearch && (
