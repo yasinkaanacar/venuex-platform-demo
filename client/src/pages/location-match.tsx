@@ -989,7 +989,9 @@ export default function LocationMatch() {
             <div>
               <Loader2 className="w-12 h-12 animate-spin mx-auto mb-4 text-blue-600" />
               <h3 className="text-xl font-semibold mb-2">Analyzing your Meta Pages...</h3>
-              <p className="text-gray-600 dark:text-gray-400 mb-2">Connecting to Meta...</p>
+              <p className="text-gray-600 dark:text-gray-400 mb-2">
+                {mockAvailablePlatformPages.length} locations imported from Meta
+              </p>
               <p className="text-gray-600 dark:text-gray-400">Comparing with VenueX locations...</p>
             </div>
           ) : (
@@ -1031,7 +1033,7 @@ export default function LocationMatch() {
                 </div>
                 
                 <div className="text-center mt-2 text-sm text-gray-600 dark:text-gray-400">
-                  Total: {mockAutoMatched.length + unmatchedVenueXLocations.length} Locations
+                  {mockAvailablePlatformPages.length} locations imported from Meta
                 </div>
               </div>
 
