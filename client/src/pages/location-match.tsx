@@ -1303,6 +1303,7 @@ export default function LocationMatch() {
                             size="sm"
                             className="text-blue-700 border-blue-300 hover:bg-blue-50"
                             onClick={() => handleCreatePlatformPage(location.id)}
+                            disabled={location.status === 'linked'}
                             data-testid={`button-create-${location.id}`}
                           >
                             <Plus className="w-4 h-4 mr-1" />
