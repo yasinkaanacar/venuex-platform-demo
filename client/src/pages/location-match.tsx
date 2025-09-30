@@ -44,6 +44,8 @@ import {
   ChevronsLeft,
   ChevronsRight
 } from 'lucide-react';
+import { SiMeta } from 'react-icons/si';
+import venuexLogo from '@assets/vx-logo-1000x1000_1756824361260.png';
 
 interface VenueXLocation {
   id: string;
@@ -1049,7 +1051,11 @@ export default function LocationMatch() {
             </div>
           ) : (
             <div>
-              <CheckCircle className="w-12 h-12 mx-auto mb-4 text-green-600" />
+              <div className="flex items-center justify-center gap-8 mb-4">
+                <img src={venuexLogo} alt="VenueX" className="w-12 h-12" />
+                <CheckCircle className="w-12 h-12 text-green-600" />
+                <SiMeta className="w-12 h-12 text-blue-600" />
+              </div>
               <h3 className="text-xl font-semibold mb-6">Matching Complete!</h3>
               
               {/* Visual Results Bar */}
