@@ -1314,13 +1314,13 @@ export default function LocationMatch() {
             confidence: match.confidence,
             action: 'Link Existing'
           })),
-          manuallyLinked: unmatchedLocations
-            .filter(loc => loc.status === 'linked')
+          manuallyLinked: unmatchedVenueXLocations
+            .filter(loc => loc.status === 'linked' && loc.linkedPlatformPage)
             .map(loc => ({
-              platformName: loc.name,
-              platformCode: loc.storeCode,
-              venueXName: loc.linkedTo!.name,
-              venueXCode: loc.linkedTo!.storeCode,
+              platformName: loc.linkedPlatformPage!.name,
+              platformCode: loc.linkedPlatformPage!.storeCode,
+              venueXName: loc.name,
+              venueXCode: loc.storeCode,
               action: 'Link Existing'
             })),
           toBeCreated: unmatchedVenueXLocations
@@ -1366,15 +1366,15 @@ export default function LocationMatch() {
       : mockAutoMatched;
 
     const filteredLinked = linkedSearch
-      ? unmatchedLocations
-          .filter(loc => loc.status === 'linked')
+      ? unmatchedVenueXLocations
+          .filter(loc => loc.status === 'linked' && loc.linkedPlatformPage)
           .filter(loc => 
             loc.name.toLowerCase().includes(linkedSearch.toLowerCase()) ||
-            loc.linkedTo!.name.toLowerCase().includes(linkedSearch.toLowerCase()) ||
+            loc.linkedPlatformPage!.name.toLowerCase().includes(linkedSearch.toLowerCase()) ||
             loc.storeCode.toLowerCase().includes(linkedSearch.toLowerCase()) ||
-            loc.linkedTo!.storeCode.toLowerCase().includes(linkedSearch.toLowerCase())
+            loc.linkedPlatformPage!.storeCode.toLowerCase().includes(linkedSearch.toLowerCase())
           )
-      : unmatchedLocations.filter(loc => loc.status === 'linked');
+      : unmatchedVenueXLocations.filter(loc => loc.status === 'linked' && loc.linkedPlatformPage);
 
     const filteredCreated = createSearch
       ? unmatchedVenueXLocations
@@ -1583,32 +1583,34 @@ export default function LocationMatch() {
                     
                     {/* Side by Side Locations */}
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 items-center">
-                      {/* Platform Location */}
-                      <div>
-                        <div className="text-sm font-medium text-gray-600 dark:text-gray-400 mb-2">Platform Location</div>
-                        <RichLocationCard
-                          location={{
-                            name: location.name,
-                            storeCode: location.storeCode,
-                            address: `${location.address}, ${location.city}`,
-                            platform: "Platform Location"
-                          }}
-                          data-testid={`manual-platform-${location.id}`}
-                        />
-                      </div>
-                      
                       {/* VenueX Location */}
                       <div>
                         <div className="text-sm font-medium text-gray-600 dark:text-gray-400 mb-2">VenueX Location</div>
                         <RichLocationCard
                           location={{
-                            name: location.linkedTo!.name,
-                            storeCode: location.linkedTo!.storeCode,
-                            address: `${location.linkedTo!.address}, ${location.linkedTo!.city}`,
+                            name: location.name,
+                            storeCode: location.storeCode,
+                            address: `${location.address}, ${location.city}`,
                             platform: "VenueX Location"
                           }}
                           data-testid={`manual-venuex-${location.id}`}
                         />
+                      </div>
+                      
+                      {/* Platform Location */}
+                      <div>
+                        <div className="text-sm font-medium text-gray-600 dark:text-gray-400 mb-2">Platform Location</div>
+                        {location.linkedPlatformPage && (
+                          <RichLocationCard
+                            location={{
+                              name: location.linkedPlatformPage.name,
+                              storeCode: location.linkedPlatformPage.storeCode,
+                              address: `${location.linkedPlatformPage.address}, ${location.linkedPlatformPage.city}`,
+                              platform: "Platform Location"
+                            }}
+                            data-testid={`manual-platform-${location.id}`}
+                          />
+                        )}
                       </div>
                     </div>
                     
