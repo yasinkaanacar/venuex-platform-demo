@@ -993,7 +993,7 @@ export default function LocationMatch() {
                 {mockVenueXLocations.length} locations in VenueX
               </p>
               <p className="text-gray-600 dark:text-gray-400 mb-2">
-                {mockAvailablePlatformPages.length} locations imported from Meta
+                {mockAutoMatched.length + mockAvailablePlatformPages.length} locations imported from Meta
               </p>
               <p className="text-gray-600 dark:text-gray-400">Comparing locations...</p>
             </div>
@@ -1036,7 +1036,7 @@ export default function LocationMatch() {
                 </div>
                 
                 <div className="text-center mt-2 text-sm text-gray-600 dark:text-gray-400">
-                  {mockVenueXLocations.length} locations in VenueX • {mockAvailablePlatformPages.length} locations imported from Meta
+                  {mockVenueXLocations.length} locations in VenueX • {mockAutoMatched.length + mockAvailablePlatformPages.length} locations imported from Meta
                 </div>
               </div>
 
