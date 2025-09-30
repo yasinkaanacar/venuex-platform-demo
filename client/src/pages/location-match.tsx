@@ -480,101 +480,65 @@ const mockAutoMatched: MatchedLocation[] = [
     }, 
     venueXLocation: mockVenueXLocations[11], 
     confidence: 0.91 
-  },
-  { 
-    platformLocation: { 
-      id: 'meta13', 
-      name: 'Demo Agora', 
-      address: 'Agora AVM, Balçova Mahallesi', 
-      phone: '+90 232 345 6789',
-      category: 'Department Store',
-      platformId: 'meta_013',
-      platformUrl: 'https://facebook.com/demo.agora',
-      city: 'Izmir',
-      postalCode: '35330',
-      storeCode: 'META013'
-    }, 
-    venueXLocation: mockVenueXLocations[12], 
-    confidence: 0.94 
-  },
-  { 
-    platformLocation: { 
-      id: 'meta14', 
-      name: 'Demo Ankamall', 
-      address: 'Ankamall AVM, Akköprü Mahallesi', 
-      phone: '+90 312 456 7890',
-      category: 'Department Store',
-      platformId: 'meta_014',
-      platformUrl: 'https://facebook.com/demo.ankamall',
-      city: 'Ankara',
-      postalCode: '06490',
-      storeCode: 'META014'
-    }, 
-    venueXLocation: mockVenueXLocations[13], 
-    confidence: 0.93 
-  },
-  { 
-    platformLocation: { 
-      id: 'meta15', 
-      name: 'Demo Terracity', 
-      address: 'Terracity AVM, Turan Güneş Bulvarı', 
-      phone: '+90 312 567 8901',
-      category: 'Department Store',
-      platformId: 'meta_015',
-      platformUrl: 'https://facebook.com/demo.terracity',
-      city: 'Ankara',
-      postalCode: '06810',
-      storeCode: 'META015'
-    }, 
-    venueXLocation: mockVenueXLocations[14], 
-    confidence: 0.95 
   }
 ];
 
 const mockUnmatched: UnmatchedLocation[] = [];
 
-// Available platform pages that aren't matched yet
+// Available platform pages that aren't matched yet (15 total platform pages - 12 matched = 3 unmatched)
 const mockAvailablePlatformPages: PlatformLocation[] = [
   { 
-    id: 'meta16', 
-    name: 'Demo MarkAntalya', 
-    address: 'MarkAntalya AVM, Fener Mahallesi', 
-    phone: '+90 242 123 4567',
+    id: 'meta13', 
+    name: 'Demo Agora', 
+    address: 'Agora AVM, Balçova Mahallesi', 
+    phone: '+90 232 345 6789',
     category: 'Department Store',
-    platformId: 'meta_016',
-    platformUrl: 'https://facebook.com/demo.markantalya',
-    city: 'Antalya',
-    postalCode: '07160',
-    storeCode: 'META016'
+    platformId: 'meta_013',
+    platformUrl: 'https://facebook.com/demo.agora',
+    city: 'Izmir',
+    postalCode: '35330',
+    storeCode: 'META013'
   },
   { 
-    id: 'meta17', 
-    name: 'Demo Deepo Outlet', 
-    address: 'Deepo Outlet Center, Şemsettin Günaltay Caddesi', 
-    phone: '+90 224 234 5678',
-    category: 'Outlet Store',
-    platformId: 'meta_017',
-    platformUrl: 'https://facebook.com/demo.deepo',
-    city: 'Bursa',
-    postalCode: '16250',
-    storeCode: 'META017'
+    id: 'meta14', 
+    name: 'Demo Ankamall', 
+    address: 'Ankamall AVM, Akköprü Mahallesi', 
+    phone: '+90 312 456 7890',
+    category: 'Department Store',
+    platformId: 'meta_014',
+    platformUrl: 'https://facebook.com/demo.ankamall',
+    city: 'Ankara',
+    postalCode: '06490',
+    storeCode: 'META014'
   },
   { 
-    id: 'meta18', 
-    name: 'Demo Korupark', 
-    address: 'Korupark AVM, Galip Erdem Caddesi', 
-    phone: '+90 224 345 6789',
+    id: 'meta15', 
+    name: 'Demo Terracity', 
+    address: 'Terracity AVM, Turan Güneş Bulvarı', 
+    phone: '+90 312 567 8901',
     category: 'Department Store',
-    platformId: 'meta_018',
-    platformUrl: 'https://facebook.com/demo.korupark',
-    city: 'Bursa',
-    postalCode: '16160',
-    storeCode: 'META018'
+    platformId: 'meta_015',
+    platformUrl: 'https://facebook.com/demo.terracity',
+    city: 'Ankara',
+    postalCode: '06810',
+    storeCode: 'META015'
   },
 ];
 
-// Unmatched VenueX locations that need platform pages
+// Unmatched VenueX locations that need platform pages (18 total - 12 matched = 6 unmatched)
 const mockUnmatchedVenueX: UnmatchedVenueXLocation[] = [
+  {
+    ...mockVenueXLocations[12], // Demo Agora AVM
+    status: 'pending'
+  },
+  {
+    ...mockVenueXLocations[13], // Demo Ankamall AVM
+    status: 'pending'
+  },
+  {
+    ...mockVenueXLocations[14], // Demo Terracity AVM
+    status: 'pending'
+  },
   {
     ...mockVenueXLocations[15], // Demo MarkAntalya AVM
     status: 'pending'
@@ -1178,6 +1142,9 @@ export default function LocationMatch() {
                       Select Meta/Apple Page
                     </th>
                     <th className="p-4 text-left text-sm font-medium text-gray-900 dark:text-gray-100">
+                      Create
+                    </th>
+                    <th className="p-4 text-left text-sm font-medium text-gray-900 dark:text-gray-100">
                       Status
                     </th>
                   </tr>
@@ -1238,6 +1205,17 @@ export default function LocationMatch() {
                             Linked to: {location.linkedPlatformPage.name}
                           </div>
                         )}
+                      </td>
+                      <td className="p-4">
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          className="text-blue-700 border-blue-300 hover:bg-blue-50"
+                          data-testid={`button-create-${location.id}`}
+                        >
+                          <Plus className="w-4 h-4 mr-1" />
+                          Create New
+                        </Button>
                       </td>
                       <td className="p-4">
                         <Badge
