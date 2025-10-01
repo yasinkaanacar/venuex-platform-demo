@@ -143,10 +143,10 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
           
           <div className="relative bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-700 py-4 px-6">
             {/* Clean Data Flow Layout */}
-            <div className="relative w-full h-[300px]">
+            <div className="relative w-full h-[400px]">
               
               {/* Connection Lines SVG */}
-              <svg className="absolute inset-0 w-full h-full" viewBox="0 0 1000 400" preserveAspectRatio="xMidYMid meet">
+              <svg className="absolute inset-0 w-full h-full" viewBox="0 0 1000 500" preserveAspectRatio="xMidYMid meet">
                 <defs>
                   {/* Clean modern arrowheads */}
                   <marker id="arrow-primary" markerWidth="8" markerHeight="6" 
@@ -224,61 +224,120 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
                 
                 {/* Base connection lines - always visible */}
                 <g opacity="0.3">
-                  {/* Store Sales to VenueX */}
-                  <path d="M 280 200 L 460 200" stroke="#9ca3af" strokeWidth="2" fill="none" strokeDasharray="5,5" />
+                  {/* Location Data to VenueX */}
+                  <path d="M 280 150 L 460 250" stroke="#9ca3af" strokeWidth="2" fill="none" strokeDasharray="5,5" />
+                  {/* Inventory Data to VenueX */}
+                  <path d="M 280 250 L 460 250" stroke="#9ca3af" strokeWidth="2" fill="none" strokeDasharray="5,5" />
+                  {/* Sales Data to VenueX */}
+                  <path d="M 280 350 L 460 250" stroke="#9ca3af" strokeWidth="2" fill="none" strokeDasharray="5,5" />
                   {/* VenueX to Ad Platforms */}
-                  <path d="M 540 200 L 720 200" stroke="#9ca3af" strokeWidth="2" fill="none" strokeDasharray="5,5" />
+                  <path d="M 540 250 L 720 250" stroke="#9ca3af" strokeWidth="2" fill="none" strokeDasharray="5,5" />
                 </g>
                 
                 {/* Status-based colored lines */}
                 <g>
-                  {/* Store Sales (Online - green line) */}
-                  <path d="M 280 200 L 460 200" stroke="#10b981" strokeWidth="3" fill="none" markerEnd="url(#arrow-success)" opacity="0.8" />
+                  {/* Location Data (Active - blue/green line) */}
+                  <path d="M 280 150 L 460 250" stroke="#10b981" strokeWidth="3" fill="none" markerEnd="url(#arrow-success)" opacity="0.8" />
+                  {/* Inventory Data (Syncing - yellow line) */}
+                  <path d="M 280 250 L 460 250" stroke="#f59e0b" strokeWidth="3" fill="none" markerEnd="url(#arrow-warning)" opacity="0.8" />
+                  {/* Sales Data (Active - green line) */}
+                  <path d="M 280 350 L 460 250" stroke="#10b981" strokeWidth="3" fill="none" markerEnd="url(#arrow-success)" opacity="0.8" />
                   {/* VenueX to Ad Platforms (Good sync status - green) */}
-                  <path d="M 540 200 L 720 200" stroke="#10b981" strokeWidth="3" fill="none" markerEnd="url(#arrow-success)" opacity="0.8" />
+                  <path d="M 540 250 L 720 250" stroke="#10b981" strokeWidth="3" fill="none" markerEnd="url(#arrow-success)" opacity="0.8" />
                 </g>
                 
                 {/* Status-based animated flow overlays */}
                 <g>
-                  {/* Store Sales active flow - healthy animation */}
-                  <path d="M 280 200 L 460 200" stroke="url(#flowActive)" strokeWidth="2" fill="none" opacity="0.8">
-                    <animate attributeName="opacity" values="0.4;0.8;0.4" dur="2s" begin="0.5s" repeatCount="indefinite"/>
+                  {/* Location Data flow */}
+                  <path d="M 280 150 L 460 250" stroke="url(#flowActive)" strokeWidth="2" fill="none" opacity="0.8">
+                    <animate attributeName="opacity" values="0.4;0.8;0.4" dur="2s" begin="0s" repeatCount="indefinite"/>
+                  </path>
+                  {/* Inventory Data flow */}
+                  <path d="M 280 250 L 460 250" stroke="url(#flowWarning)" strokeWidth="2" fill="none" opacity="0.8">
+                    <animate attributeName="opacity" values="0.4;0.8;0.4" dur="2.5s" begin="0.3s" repeatCount="indefinite"/>
+                  </path>
+                  {/* Sales Data flow */}
+                  <path d="M 280 350 L 460 250" stroke="url(#flowActive)" strokeWidth="2" fill="none" opacity="0.8">
+                    <animate attributeName="opacity" values="0.4;0.8;0.4" dur="2s" begin="0.6s" repeatCount="indefinite"/>
                   </path>
                   {/* VenueX to Ad Platforms flow */}
-                  <path d="M 540 200 L 720 200" stroke="url(#flowActive)" strokeWidth="2" fill="none" opacity="0.9">
+                  <path d="M 540 250 L 720 250" stroke="url(#flowActive)" strokeWidth="2" fill="none" opacity="0.9">
                     <animate attributeName="opacity" values="0.5;0.9;0.5" dur="1.8s" begin="0.2s" repeatCount="indefinite"/>
                   </path>
                 </g>
                 
                 {/* Data pulse indicators */}
                 <g>
-                  <circle cx="375" cy="200" r="3" fill="#10b981" opacity="0.8">
+                  <circle cx="370" cy="200" r="3" fill="#10b981" opacity="0.8">
                     <animate attributeName="r" values="2;5;2" dur="2s" begin="0s" repeatCount="indefinite"/>
                     <animate attributeName="opacity" values="0.8;0.3;0.8" dur="2s" begin="0s" repeatCount="indefinite"/>
                   </circle>
-                  <circle cx="625" cy="200" r="3" fill="#10b981" opacity="0.8">
+                  <circle cx="370" cy="250" r="3" fill="#f59e0b" opacity="0.8">
+                    <animate attributeName="r" values="2;5;2" dur="2.5s" begin="0.5s" repeatCount="indefinite"/>
+                    <animate attributeName="opacity" values="0.8;0.3;0.8" dur="2.5s" begin="0.5s" repeatCount="indefinite"/>
+                  </circle>
+                  <circle cx="370" cy="300" r="3" fill="#10b981" opacity="0.8">
                     <animate attributeName="r" values="2;5;2" dur="2s" begin="1s" repeatCount="indefinite"/>
                     <animate attributeName="opacity" values="0.8;0.3;0.8" dur="2s" begin="1s" repeatCount="indefinite"/>
+                  </circle>
+                  <circle cx="625" cy="250" r="3" fill="#10b981" opacity="0.8">
+                    <animate attributeName="r" values="2;5;2" dur="2s" begin="1.5s" repeatCount="indefinite"/>
+                    <animate attributeName="opacity" values="0.8;0.3;0.8" dur="2s" begin="1.5s" repeatCount="indefinite"/>
                   </circle>
                 </g>
                 
                 {/* Connection nodes */}
-                <circle cx="460" cy="200" r="4" fill="#3b82f6" opacity="0.9" stroke="#ffffff" strokeWidth="2"/>
-                <circle cx="540" cy="200" r="4" fill="#3b82f6" opacity="0.9" stroke="#ffffff" strokeWidth="2"/>
+                <circle cx="460" cy="250" r="4" fill="#3b82f6" opacity="0.9" stroke="#ffffff" strokeWidth="2"/>
+                <circle cx="540" cy="250" r="4" fill="#3b82f6" opacity="0.9" stroke="#ffffff" strokeWidth="2"/>
               </svg>
 
               {/* Data Sources - Left Side */}
               <div className="absolute left-0 top-1/2 transform -translate-y-1/2">
-                <div className="bg-white dark:bg-gray-800 rounded-xl p-3 shadow-sm border border-gray-100 dark:border-gray-700 w-56">
-                  <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 bg-green-100 dark:bg-green-900/50 rounded-lg flex items-center justify-center">
-                      <Receipt className="w-4 h-4 text-green-600" />
+                <div className="space-y-3">
+                  {/* Location Data */}
+                  <div className="bg-white dark:bg-gray-800 rounded-xl p-3 shadow-sm border border-gray-100 dark:border-gray-700 w-56">
+                    <div className="flex items-center gap-3">
+                      <div className="w-8 h-8 bg-blue-100 dark:bg-blue-900/50 rounded-lg flex items-center justify-center">
+                        <MapPin className="w-4 h-4 text-blue-600" />
+                      </div>
+                      <div className="flex-1">
+                        <div className="font-medium text-foreground">Location Data</div>
+                        <div className="flex items-center gap-2 mt-1">
+                          <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                          <span className="text-xs text-green-600">Active</span>
+                        </div>
+                      </div>
                     </div>
-                    <div className="flex-1">
-                      <div className="font-medium text-foreground">Store Sales</div>
-                      <div className="flex items-center gap-2 mt-1">
-                        <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                        <span className="text-xs text-green-600">Online - Updated 30s ago</span>
+                  </div>
+
+                  {/* Inventory Data */}
+                  <div className="bg-white dark:bg-gray-800 rounded-xl p-3 shadow-sm border border-gray-100 dark:border-gray-700 w-56">
+                    <div className="flex items-center gap-3">
+                      <div className="w-8 h-8 bg-green-100 dark:bg-green-900/50 rounded-lg flex items-center justify-center">
+                        <Package className="w-4 h-4 text-green-600" />
+                      </div>
+                      <div className="flex-1">
+                        <div className="font-medium text-foreground">Inventory Data</div>
+                        <div className="flex items-center gap-2 mt-1">
+                          <div className="w-2 h-2 bg-yellow-500 rounded-full"></div>
+                          <span className="text-xs text-yellow-600">Syncing</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* In-Store Sales Data */}
+                  <div className="bg-white dark:bg-gray-800 rounded-xl p-3 shadow-sm border border-gray-100 dark:border-gray-700 w-56">
+                    <div className="flex items-center gap-3">
+                      <div className="w-8 h-8 bg-purple-100 dark:bg-purple-900/50 rounded-lg flex items-center justify-center">
+                        <Receipt className="w-4 h-4 text-purple-600" />
+                      </div>
+                      <div className="flex-1">
+                        <div className="font-medium text-foreground">In-Store Sales</div>
+                        <div className="flex items-center gap-2 mt-1">
+                          <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                          <span className="text-xs text-green-600">Active</span>
+                        </div>
                       </div>
                     </div>
                   </div>
