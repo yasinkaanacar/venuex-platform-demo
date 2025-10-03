@@ -42,11 +42,9 @@ interface KPICardProps {
   isPositiveChange: boolean;
   sparklineData: { value: number }[];
   tooltipContent: string[];
-  selectedPlatform: string;
-  onPlatformChange: (platform: string) => void;
 }
 
-function KPICard({ title, primaryMetric, changePercent, isPositiveChange, sparklineData, tooltipContent, selectedPlatform, onPlatformChange }: KPICardProps) {
+function KPICard({ title, primaryMetric, changePercent, isPositiveChange, sparklineData, tooltipContent }: KPICardProps) {
   const formatChange = (percent: number, isPositive: boolean) => {
     const icon = isPositive ? <TrendingUp className="w-3 h-3" /> : <TrendingDown className="w-3 h-3" />;
     const color = isPositive ? "text-green-600" : "text-red-600";
@@ -88,56 +86,6 @@ function KPICard({ title, primaryMetric, changePercent, isPositiveChange, sparkl
           {/* Title */}
           <div className="text-sm font-medium text-gray-600 mb-3" data-testid={`text-${title.toLowerCase().replace(/\s+/g, '-')}-title`}>
             {title}
-          </div>
-          
-          {/* Platform Selection Buttons */}
-          <div className="mb-4 flex justify-center">
-            <div className="flex items-center dark:bg-gray-800 p-1 rounded-lg border shadow-inner w-fit bg-[#ffffff]">
-              <button
-                onClick={() => onPlatformChange('Google')}
-                className={`flex items-center gap-1.5 px-3 py-2 rounded-md text-xs font-semibold transition-all duration-200 ${
-                  selectedPlatform === 'Google'
-                    ? 'bg-white dark:bg-gray-700 text-foreground shadow-md border border-gray-200 dark:border-gray-600'
-                    : 'text-gray-500 dark:text-gray-400 hover:text-foreground hover:bg-white/50 dark:hover:bg-gray-700/50'
-                }`}
-                data-testid={`${title.toLowerCase().replace(/\s+/g, '-')}-tab-google`}
-              >
-                <div className="w-3.5 h-3.5 bg-[#EA4335] rounded flex items-center justify-center">
-                  <SiGoogle className="w-2.5 h-2.5 text-white" />
-                </div>
-                Google
-              </button>
-              
-              <button
-                onClick={() => onPlatformChange('Meta')}
-                className={`flex items-center gap-1.5 px-3 py-2 rounded-md text-xs font-semibold transition-all duration-200 ${
-                  selectedPlatform === 'Meta'
-                    ? 'bg-white dark:bg-gray-700 text-foreground shadow-md border border-gray-200 dark:border-gray-600'
-                    : 'text-gray-500 dark:text-gray-400 hover:text-foreground hover:bg-white/50 dark:hover:bg-gray-700/50'
-                }`}
-                data-testid={`${title.toLowerCase().replace(/\s+/g, '-')}-tab-meta`}
-              >
-                <div className="w-3.5 h-3.5 bg-[#1877F2] rounded flex items-center justify-center">
-                  <SiMeta className="w-2.5 h-2.5 text-white" />
-                </div>
-                Meta
-              </button>
-              
-              <button
-                onClick={() => onPlatformChange('TikTok')}
-                className={`flex items-center gap-1.5 px-3 py-2 rounded-md text-xs font-semibold transition-all duration-200 ${
-                  selectedPlatform === 'TikTok'
-                    ? 'bg-white dark:bg-gray-700 text-foreground shadow-md border border-gray-200 dark:border-gray-600'
-                    : 'text-gray-500 dark:text-gray-400 hover:text-foreground hover:bg-white/50 dark:hover:bg-gray-700/50'
-                }`}
-                data-testid={`${title.toLowerCase().replace(/\s+/g, '-')}-tab-tiktok`}
-              >
-                <div className="w-3.5 h-3.5 bg-black rounded flex items-center justify-center">
-                  <SiTiktok className="w-2.5 h-2.5 text-white" />
-                </div>
-                TikTok
-              </button>
-            </div>
           </div>
           
           {/* Primary Metric */}
@@ -240,12 +188,6 @@ export default function OfflineConversionsMVP() {
   const [locationSearch, setLocationSearch] = useState("");
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const [performanceChartPlatform, setPerformanceChartPlatform] = useState<string>('Google');
-  
-  // KPI Card Platform Selection States
-  const [kpiRevenuePlatform, setKpiRevenuePlatform] = useState<string>('Google');
-  const [kpiConversionsPlatform, setKpiConversionsPlatform] = useState<string>('Google');
-  const [kpiRoasPlatform, setKpiRoasPlatform] = useState<string>('Google');
-  const [kpiContributionPlatform, setKpiContributionPlatform] = useState<string>('Google');
   
   // Weekly Sales Chart Platform Selection State
   const [weeklySalesPlatform, setWeeklySalesPlatform] = useState<string>('Google');
@@ -884,8 +826,6 @@ export default function OfflineConversionsMVP() {
               isPositiveChange={kpiData[0].isPositiveChange}
               sparklineData={kpiData[0].sparklineData}
               tooltipContent={kpiData[0].tooltipContent}
-              selectedPlatform={kpiRevenuePlatform}
-              onPlatformChange={setKpiRevenuePlatform}
             />
             <KPICard
               title={kpiData[1].title}
@@ -894,8 +834,6 @@ export default function OfflineConversionsMVP() {
               isPositiveChange={kpiData[1].isPositiveChange}
               sparklineData={kpiData[1].sparklineData}
               tooltipContent={kpiData[1].tooltipContent}
-              selectedPlatform={kpiConversionsPlatform}
-              onPlatformChange={setKpiConversionsPlatform}
             />
             <KPICard
               title={kpiData[2].title}
@@ -904,8 +842,6 @@ export default function OfflineConversionsMVP() {
               isPositiveChange={kpiData[2].isPositiveChange}
               sparklineData={kpiData[2].sparklineData}
               tooltipContent={kpiData[2].tooltipContent}
-              selectedPlatform={kpiRoasPlatform}
-              onPlatformChange={setKpiRoasPlatform}
             />
             <KPICard
               title={kpiData[3].title}
@@ -914,8 +850,6 @@ export default function OfflineConversionsMVP() {
               isPositiveChange={kpiData[3].isPositiveChange}
               sparklineData={kpiData[3].sparklineData}
               tooltipContent={kpiData[3].tooltipContent}
-              selectedPlatform={kpiContributionPlatform}
-              onPlatformChange={setKpiContributionPlatform}
             />
           </div>
           
