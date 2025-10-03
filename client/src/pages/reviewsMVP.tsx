@@ -69,7 +69,8 @@ import {
   X,
   Sparkles,
   ChevronUp,
-  ChevronDown
+  ChevronDown,
+  Flag
 } from 'lucide-react';
 import { SiGoogle, SiFacebook, SiTripadvisor, SiYelp, SiApple, SiAmazon } from 'react-icons/si';
 import Header from '@/components/overview/header';
@@ -1913,6 +1914,15 @@ export default function ReviewsMVP() {
                       <div className="flex items-center justify-between mt-6 pt-4">
                         <h4 className="font-medium">Write Reply</h4>
                         <div className="flex gap-2">
+                          <Button 
+                            variant="outline" 
+                            size="sm"
+                            className="bg-red-500 hover:bg-red-600 text-white border-red-500 hover:border-red-600"
+                            data-testid="button-report"
+                          >
+                            <Flag className="w-4 h-4 mr-2" />
+                            Report
+                          </Button>
                           <Button variant="outline" size="sm">
                             <BookOpen className="w-4 h-4 mr-2" />
                             Select Template
