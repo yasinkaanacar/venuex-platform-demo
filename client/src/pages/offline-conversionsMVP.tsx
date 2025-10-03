@@ -246,6 +246,9 @@ export default function OfflineConversionsMVP() {
   const [kpiConversionsPlatform, setKpiConversionsPlatform] = useState<string>('Google');
   const [kpiRoasPlatform, setKpiRoasPlatform] = useState<string>('Google');
   const [kpiContributionPlatform, setKpiContributionPlatform] = useState<string>('Google');
+  
+  // Weekly Sales Chart Platform Selection State
+  const [weeklySalesPlatform, setWeeklySalesPlatform] = useState<string>('Google');
 
   // Mock system alerts data
   const systemAlerts = [
@@ -988,7 +991,10 @@ export default function OfflineConversionsMVP() {
 
           {/* Weekly Sales Chart */}
           <div className="mt-6">
-            <WeeklySalesChart />
+            <WeeklySalesChart 
+              selectedPlatform={weeklySalesPlatform}
+              onPlatformChange={setWeeklySalesPlatform}
+            />
           </div>
           
           {/* Data Health & Flow Card */}
