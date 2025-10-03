@@ -1917,7 +1917,7 @@ export default function ReviewsMVP() {
                           <Button 
                             variant="outline"
                             size="sm"
-                            className="border-red-600 text-red-600 hover:bg-red-600 hover:text-white hover:border-red-600 [&_svg]:text-red-600 hover:[&_svg]:text-white"
+                            className="!border-red-600 !text-red-600 hover:!bg-red-600 hover:!text-white hover:!border-red-600 [&_svg]:text-red-600 hover:[&_svg]:text-white"
                             data-testid="button-report"
                           >
                             <Flag className="w-4 h-4 mr-2" />
