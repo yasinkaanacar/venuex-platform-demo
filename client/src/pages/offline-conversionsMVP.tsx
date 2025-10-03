@@ -227,6 +227,270 @@ interface FilterState {
   locations: string[];
 }
 
+// Campaign data interface
+interface Campaign {
+  id: string;
+  name: string;
+  status: 'active' | 'paused' | 'error';
+  platform: 'google' | 'meta' | 'tiktok';
+  adSpend: number;
+  offlineRevenue: number;
+  offlineConversions: number;
+  offlineROAS: number;
+  blendedROAS: number;
+}
+
+// Mock campaign data
+const mockCampaigns: Campaign[] = [
+  {
+    id: '1',
+    name: 'Holiday Sale Campaign',
+    status: 'active',
+    platform: 'google',
+    adSpend: 45000,
+    offlineRevenue: 234000,
+    offlineConversions: 456,
+    offlineROAS: 5.2,
+    blendedROAS: 6.8
+  },
+  {
+    id: '2',
+    name: 'Social Commerce Push',
+    status: 'active',
+    platform: 'meta',
+    adSpend: 32000,
+    offlineRevenue: 128000,
+    offlineConversions: 289,
+    offlineROAS: 4.0,
+    blendedROAS: 5.5
+  },
+  {
+    id: '3',
+    name: 'Brand Awareness Q4',
+    status: 'active',
+    platform: 'google',
+    adSpend: 28000,
+    offlineRevenue: 89600,
+    offlineConversions: 167,
+    offlineROAS: 3.2,
+    blendedROAS: 4.1
+  },
+  {
+    id: '4',
+    name: 'Gen Z Fashion Trends',
+    status: 'active',
+    platform: 'tiktok',
+    adSpend: 18000,
+    offlineRevenue: 108000,
+    offlineConversions: 201,
+    offlineROAS: 6.0,
+    blendedROAS: 7.2
+  },
+  {
+    id: '5',
+    name: 'Product Launch - Denim',
+    status: 'paused',
+    platform: 'google',
+    adSpend: 22000,
+    offlineRevenue: 44000,
+    offlineConversions: 89,
+    offlineROAS: 2.0,
+    blendedROAS: 3.5
+  },
+  {
+    id: '6',
+    name: 'Video Content Campaign',
+    status: 'active',
+    platform: 'meta',
+    adSpend: 25000,
+    offlineRevenue: 125000,
+    offlineConversions: 234,
+    offlineROAS: 5.0,
+    blendedROAS: 6.3
+  },
+  {
+    id: '7',
+    name: 'Influencer Collaborations',
+    status: 'active',
+    platform: 'tiktok',
+    adSpend: 15000,
+    offlineRevenue: 52500,
+    offlineConversions: 98,
+    offlineROAS: 3.5,
+    blendedROAS: 4.8
+  },
+  {
+    id: '8',
+    name: 'Retargeting - Website',
+    status: 'error',
+    platform: 'google',
+    adSpend: 12000,
+    offlineRevenue: 36000,
+    offlineConversions: 67,
+    offlineROAS: 3.0,
+    blendedROAS: 5.2
+  }
+];
+
+// Campaign Table Component
+function CampaignTable({ filters }: { filters: FilterState }) {
+  const [sortColumn, setSortColumn] = useState<keyof Campaign | null>('offlineROAS');
+  const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('desc');
+
+  const handleSort = (column: keyof Campaign) => {
+    if (sortColumn === column) {
+      setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc');
+    } else {
+      setSortColumn(column);
+      setSortDirection('desc');
+    }
+  };
+
+  const getROASColor = (roas: number) => {
+    if (roas >= 5) return 'text-green-600 bg-green-50';
+    if (roas >= 3) return 'text-yellow-600 bg-yellow-50';
+    return 'text-red-600 bg-red-50';
+  };
+
+  const getStatusColor = (status: Campaign['status']) => {
+    switch (status) {
+      case 'active': return 'bg-green-500';
+      case 'paused': return 'bg-gray-400';
+      case 'error': return 'bg-red-500';
+    }
+  };
+
+  const getPlatformBadge = (platform: Campaign['platform']) => {
+    switch (platform) {
+      case 'google':
+        return (
+          <Badge className="bg-[#EA4335] text-white hover:bg-[#EA4335]">
+            <SiGoogle className="w-3 h-3 mr-1" />
+            Google
+          </Badge>
+        );
+      case 'meta':
+        return (
+          <Badge className="bg-[#1877F2] text-white hover:bg-[#1877F2]">
+            <SiMeta className="w-3 h-3 mr-1" />
+            Meta
+          </Badge>
+        );
+      case 'tiktok':
+        return (
+          <Badge className="bg-black text-white hover:bg-black">
+            <SiTiktok className="w-3 h-3 mr-1" />
+            TikTok
+          </Badge>
+        );
+    }
+  };
+
+  // Filter campaigns based on filter state
+  const filteredCampaigns = mockCampaigns.filter(campaign => {
+    if (filters.platforms.length > 0 && !filters.platforms.includes(campaign.platform)) {
+      return false;
+    }
+    if (filters.campaigns.length > 0 && !filters.campaigns.includes(campaign.name)) {
+      return false;
+    }
+    return true;
+  });
+
+  // Sort campaigns
+  const sortedCampaigns = [...filteredCampaigns].sort((a, b) => {
+    if (!sortColumn) return 0;
+    
+    const aVal = a[sortColumn];
+    const bVal = b[sortColumn];
+    
+    if (typeof aVal === 'number' && typeof bVal === 'number') {
+      return sortDirection === 'asc' ? aVal - bVal : bVal - aVal;
+    }
+    
+    if (typeof aVal === 'string' && typeof bVal === 'string') {
+      return sortDirection === 'asc' 
+        ? aVal.localeCompare(bVal)
+        : bVal.localeCompare(aVal);
+    }
+    
+    return 0;
+  });
+
+  const formatCurrency = (amount: number) => {
+    return `₺${(amount / 1000).toFixed(0)}K`;
+  };
+
+  return (
+    <div className="overflow-x-auto">
+      <table className="w-full">
+        <thead>
+          <tr className="border-b border-gray-200">
+            <th className="text-left py-3 px-4 text-xs font-semibold text-gray-600 cursor-pointer hover:bg-gray-100" onClick={() => handleSort('name')}>
+              Campaign Name {sortColumn === 'name' && (sortDirection === 'asc' ? '↑' : '↓')}
+            </th>
+            <th className="text-left py-3 px-4 text-xs font-semibold text-gray-600 cursor-pointer hover:bg-gray-100" onClick={() => handleSort('platform')}>
+              Platform {sortColumn === 'platform' && (sortDirection === 'asc' ? '↑' : '↓')}
+            </th>
+            <th className="text-right py-3 px-4 text-xs font-semibold text-gray-600 cursor-pointer hover:bg-gray-100" onClick={() => handleSort('adSpend')}>
+              Ad Spend {sortColumn === 'adSpend' && (sortDirection === 'asc' ? '↑' : '↓')}
+            </th>
+            <th className="text-right py-3 px-4 text-xs font-semibold text-gray-600 cursor-pointer hover:bg-gray-100" onClick={() => handleSort('offlineRevenue')}>
+              Offline Revenue {sortColumn === 'offlineRevenue' && (sortDirection === 'asc' ? '↑' : '↓')}
+            </th>
+            <th className="text-right py-3 px-4 text-xs font-semibold text-gray-600 cursor-pointer hover:bg-gray-100" onClick={() => handleSort('offlineConversions')}>
+              Offline Conversions {sortColumn === 'offlineConversions' && (sortDirection === 'asc' ? '↑' : '↓')}
+            </th>
+            <th className="text-right py-3 px-4 text-xs font-semibold text-gray-600 cursor-pointer hover:bg-gray-100" onClick={() => handleSort('offlineROAS')}>
+              Offline ROAS {sortColumn === 'offlineROAS' && (sortDirection === 'asc' ? '↑' : '↓')}
+            </th>
+            <th className="text-right py-3 px-4 text-xs font-semibold text-gray-600 cursor-pointer hover:bg-gray-100" onClick={() => handleSort('blendedROAS')}>
+              Blended ROAS {sortColumn === 'blendedROAS' && (sortDirection === 'asc' ? '↑' : '↓')}
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          {sortedCampaigns.map((campaign) => (
+            <tr key={campaign.id} className="border-b border-gray-100 hover:bg-gray-50 cursor-pointer" data-testid={`campaign-row-${campaign.id}`}>
+              <td className="py-3 px-4">
+                <div className="flex items-center gap-2">
+                  <div className={`w-2 h-2 rounded-full ${getStatusColor(campaign.status)}`} />
+                  <span className="text-sm font-medium text-gray-900">{campaign.name}</span>
+                </div>
+              </td>
+              <td className="py-3 px-4">
+                {getPlatformBadge(campaign.platform)}
+              </td>
+              <td className="py-3 px-4 text-right text-sm text-gray-900">
+                {formatCurrency(campaign.adSpend)}
+              </td>
+              <td className="py-3 px-4 text-right text-sm font-medium text-gray-900">
+                {formatCurrency(campaign.offlineRevenue)}
+              </td>
+              <td className="py-3 px-4 text-right text-sm text-gray-900">
+                {campaign.offlineConversions.toLocaleString()}
+              </td>
+              <td className="py-3 px-4 text-right">
+                <span className={`inline-block px-2 py-1 rounded text-sm font-semibold ${getROASColor(campaign.offlineROAS)}`}>
+                  {campaign.offlineROAS.toFixed(1)}x
+                </span>
+              </td>
+              <td className="py-3 px-4 text-right text-sm font-medium text-gray-900">
+                {campaign.blendedROAS.toFixed(1)}x
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      {sortedCampaigns.length === 0 && (
+        <div className="text-center py-8 text-gray-500">
+          No campaigns match the selected filters
+        </div>
+      )}
+    </div>
+  );
+}
+
 export default function OfflineConversionsMVP() {
   const [filters, setFilters] = useState<FilterState>({
     dateRange: "30d",
@@ -985,6 +1249,21 @@ export default function OfflineConversionsMVP() {
                   alt="Customer Journey Funnel" 
                   className="w-full rounded-lg shadow-sm"
                 />
+              </div>
+            </div>
+          </div>
+
+          {/* Campaign Performance Table */}
+          <div className="mt-6">
+            <div className="bg-[#fcfcfc] rounded-lg border border-gray-200 overflow-hidden">
+              <div className="bg-[#f9fafb] p-6 flex justify-between items-center border-b border-gray-200">
+                <div>
+                  <h3 className="text-lg font-semibold text-foreground">Campaign Performance</h3>
+                  <p className="text-sm text-muted-foreground">Detailed offline attribution metrics by campaign</p>
+                </div>
+              </div>
+              <div className="bg-[#f9fafb] p-6">
+                <CampaignTable filters={filters} />
               </div>
             </div>
           </div>
