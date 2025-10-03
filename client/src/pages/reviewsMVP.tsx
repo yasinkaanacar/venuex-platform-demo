@@ -964,8 +964,89 @@ export default function ReviewsMVP() {
 
           {/* Overview Tab */}
           <TabsContent value="ozet" className="space-y-6">
-            {/* Date Range Selector */}
-            <div className="flex justify-end mb-4">
+            {/* Date Range and Filters */}
+            <div className="flex justify-between items-center mb-4 gap-4">
+              <div className="flex items-center gap-3">
+                {/* Store Set Filter */}
+                <div className="flex items-center gap-2">
+                  <label className="text-sm font-medium text-gray-700 whitespace-nowrap">Store Set:</label>
+                  <Select value={storeSetFilter} onValueChange={setStoreSetFilter}>
+                    <SelectTrigger 
+                      className="w-40 border-gray-200 rounded-md bg-[#f9fafb]"
+                      data-testid="select-store-set"
+                    >
+                      <SelectValue placeholder="All Store Sets" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="all">All Store Sets</SelectItem>
+                      <SelectItem value="BOY">BOY</SelectItem>
+                      <SelectItem value="premium">Premium</SelectItem>
+                      <SelectItem value="standard">Standard</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                {/* City Filter */}
+                <div className="flex items-center gap-2">
+                  <label className="text-sm font-medium text-gray-700 whitespace-nowrap">City:</label>
+                  <Select value={cityFilter} onValueChange={setCityFilter}>
+                    <SelectTrigger 
+                      className="w-40 border-gray-200 rounded-md bg-[#f9fafb]"
+                      data-testid="select-city"
+                    >
+                      <SelectValue placeholder="All Cities" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="all">All Cities</SelectItem>
+                      <SelectItem value="Istanbul">Istanbul</SelectItem>
+                      <SelectItem value="Ankara">Ankara</SelectItem>
+                      <SelectItem value="Izmir">Izmir</SelectItem>
+                      <SelectItem value="Bursa">Bursa</SelectItem>
+                      <SelectItem value="Antalya">Antalya</SelectItem>
+                      <SelectItem value="Adana">Adana</SelectItem>
+                      <SelectItem value="Mersin">Mersin</SelectItem>
+                      <SelectItem value="Gaziantep">Gaziantep</SelectItem>
+                      <SelectItem value="Konya">Konya</SelectItem>
+                      <SelectItem value="Eskişehir">Eskişehir</SelectItem>
+                      <SelectItem value="Kayseri">Kayseri</SelectItem>
+                      <SelectItem value="Trabzon">Trabzon</SelectItem>
+                      <SelectItem value="Samsun">Samsun</SelectItem>
+                      <SelectItem value="Erzurum">Erzurum</SelectItem>
+                      <SelectItem value="Malatya">Malatya</SelectItem>
+                      <SelectItem value="Van">Van</SelectItem>
+                      <SelectItem value="Şanlıurfa">Şanlıurfa</SelectItem>
+                      <SelectItem value="Diyarbakır">Diyarbakır</SelectItem>
+                      <SelectItem value="Denizli">Denizli</SelectItem>
+                      <SelectItem value="Manisa">Manisa</SelectItem>
+                      <SelectItem value="Aydın">Aydın</SelectItem>
+                      <SelectItem value="Muğla">Muğla</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                {/* Location Filter */}
+                <div className="flex items-center gap-2">
+                  <label className="text-sm font-medium text-gray-700 whitespace-nowrap">Location:</label>
+                  <Select value={locationFilter} onValueChange={setLocationFilter}>
+                    <SelectTrigger 
+                      className="w-48 border-gray-200 rounded-md bg-[#f9fafb]"
+                      data-testid="select-location"
+                    >
+                      <SelectValue placeholder="All Locations" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="all">All Locations</SelectItem>
+                      {locationsData.slice(0, 10).map((location) => (
+                        <SelectItem key={location.code} value={location.code}>
+                          {location.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+              </div>
+
+              {/* Date Range Selector */}
               <div className="w-fit">
                 <button 
                   data-testid="button-date-picker"
