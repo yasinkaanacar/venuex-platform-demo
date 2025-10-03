@@ -504,7 +504,7 @@ export default function OfflineConversionsMVP() {
       ]
     },
     {
-      title: "Attributed Offline Conversions",
+      title: "Attributed In-Store Sales",
       primaryMetric: "2,150",
       changePercent: 12,
       isPositiveChange: true,
