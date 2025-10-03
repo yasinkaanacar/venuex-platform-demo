@@ -898,6 +898,11 @@ export default function OfflineConversionsMVP() {
               </div>
             </div>
           </div>
+
+          {/* Weekly Sales Chart */}
+          <div className="mt-6">
+            <WeeklySalesChart />
+          </div>
           
           {/* Data Health & Flow Card */}
           <div className="mt-6">
@@ -1363,11 +1368,6 @@ export default function OfflineConversionsMVP() {
                 </div>
               </CardContent>
             </Card>
-          </div>
-
-          {/* Weekly Sales Chart */}
-          <div className="mt-6">
-            <WeeklySalesChart />
           </div>
         </div>
       </div>
