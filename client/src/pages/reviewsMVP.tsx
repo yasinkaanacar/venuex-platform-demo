@@ -1915,7 +1915,6 @@ export default function ReviewsMVP() {
                         <h4 className="font-medium">Write Reply</h4>
                         <div className="flex gap-2">
                           <Button 
-                            variant="outline" 
                             size="sm"
                             className="bg-red-500 hover:bg-red-600 text-white border-red-500 hover:border-red-600"
                             data-testid="button-report"
