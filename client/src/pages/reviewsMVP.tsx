@@ -986,7 +986,7 @@ export default function ReviewsMVP() {
               {/* City Filter */}
               <Select value={cityFilter} onValueChange={setCityFilter}>
                 <SelectTrigger 
-                  className="h-10 w-40 border-gray-200 rounded-md bg-[#f9fafb]"
+                  className="h-10 w-48 border-gray-200 rounded-md bg-[#f9fafb]"
                   data-testid="select-city"
                 >
                   <SelectValue placeholder="City" />
@@ -1039,7 +1039,7 @@ export default function ReviewsMVP() {
               {/* Date Range Selector */}
               <button 
                 data-testid="button-date-picker"
-                className="h-10 border border-gray-200 focus:border-gray-300 w-40 pl-3 pr-10 rounded-md text-sm appearance-none bg-no-repeat bg-right text-left"
+                className="h-10 w-48 border border-gray-200 focus:border-gray-300 pl-3 pr-10 rounded-md text-sm appearance-none bg-no-repeat bg-right text-left truncate"
                 style={{ 
                   backgroundColor: '#f9fafb',
                   backgroundImage: 'url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHZpZXdCb3g9IjAgMCAxNiAxNiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0ibTQgNiA0IDQgNC00IiBzdHJva2U9IiM2NjY2NjYiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+Cjwvc3ZnPg==")',
