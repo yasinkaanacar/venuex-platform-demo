@@ -91,11 +91,11 @@ function KPICard({ title, primaryMetric, changePercent, isPositiveChange, sparkl
           </div>
           
           {/* Platform Selection Buttons */}
-          <div className="mb-4 flex justify-center">
-            <div className="flex items-center dark:bg-gray-800 p-1 rounded-lg border shadow-inner w-fit bg-[#ffffff]">
+          <div className="mb-4 px-4">
+            <div className="flex items-center dark:bg-gray-800 p-1 rounded-lg border shadow-inner w-full bg-[#ffffff]">
               <button
                 onClick={() => onPlatformChange('Google')}
-                className={`flex items-center gap-1.5 px-3 py-2 rounded-md text-xs font-semibold transition-all duration-200 ${
+                className={`flex-1 flex items-center justify-center gap-1.5 px-3 py-2 rounded-md text-xs font-semibold transition-all duration-200 ${
                   selectedPlatform === 'Google'
                     ? 'bg-white dark:bg-gray-700 text-foreground shadow-md border border-gray-200 dark:border-gray-600'
                     : 'text-gray-500 dark:text-gray-400 hover:text-foreground hover:bg-white/50 dark:hover:bg-gray-700/50'
@@ -110,7 +110,7 @@ function KPICard({ title, primaryMetric, changePercent, isPositiveChange, sparkl
               
               <button
                 onClick={() => onPlatformChange('Meta')}
-                className={`flex items-center gap-1.5 px-3 py-2 rounded-md text-xs font-semibold transition-all duration-200 ${
+                className={`flex-1 flex items-center justify-center gap-1.5 px-3 py-2 rounded-md text-xs font-semibold transition-all duration-200 ${
                   selectedPlatform === 'Meta'
                     ? 'bg-white dark:bg-gray-700 text-foreground shadow-md border border-gray-200 dark:border-gray-600'
                     : 'text-gray-500 dark:text-gray-400 hover:text-foreground hover:bg-white/50 dark:hover:bg-gray-700/50'
@@ -125,7 +125,7 @@ function KPICard({ title, primaryMetric, changePercent, isPositiveChange, sparkl
               
               <button
                 onClick={() => onPlatformChange('TikTok')}
-                className={`flex items-center gap-1.5 px-3 py-2 rounded-md text-xs font-semibold transition-all duration-200 ${
+                className={`flex-1 flex items-center justify-center gap-1.5 px-3 py-2 rounded-md text-xs font-semibold transition-all duration-200 ${
                   selectedPlatform === 'TikTok'
                     ? 'bg-white dark:bg-gray-700 text-foreground shadow-md border border-gray-200 dark:border-gray-600'
                     : 'text-gray-500 dark:text-gray-400 hover:text-foreground hover:bg-white/50 dark:hover:bg-gray-700/50'
