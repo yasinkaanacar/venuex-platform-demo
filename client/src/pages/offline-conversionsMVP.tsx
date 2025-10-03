@@ -1253,21 +1253,6 @@ export default function OfflineConversionsMVP() {
             </div>
           </div>
 
-          {/* Campaign Performance Table */}
-          <div className="mt-6">
-            <div className="bg-[#fcfcfc] rounded-lg border border-gray-200 overflow-hidden">
-              <div className="bg-[#f9fafb] p-6 flex justify-between items-center border-b border-gray-200">
-                <div>
-                  <h3 className="text-lg font-semibold text-foreground">Campaign Performance</h3>
-                  <p className="text-sm text-muted-foreground">Detailed offline attribution metrics by campaign</p>
-                </div>
-              </div>
-              <div className="bg-[#f9fafb] p-6">
-                <CampaignTable filters={filters} />
-              </div>
-            </div>
-          </div>
-
           {/* Weekly Sales Chart */}
           <div className="mt-6">
             <WeeklySalesChart 
