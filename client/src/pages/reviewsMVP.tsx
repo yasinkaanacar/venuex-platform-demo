@@ -100,7 +100,7 @@ export default function ReviewsMVP() {
   const [activeTab, setActiveTab] = useState("ozet");
   const [dateRange, setDateRange] = useState("30");
   const [sourceFilter, setSourceFilter] = useState("all");
-  const [locationFilter, setLocationFilter] = useState("all");
+  const [locationFilter, setLocationFilter] = useState("BOY007");
   const [searchQuery, setSearchQuery] = useState("");
   
   // Desktop Filter Bar state
@@ -114,8 +114,8 @@ export default function ReviewsMVP() {
   
   // Location Filter Bar state
   const [regionFilter, setRegionFilter] = useState("all");
-  const [cityFilter, setCityFilter] = useState("all");
-  const [storeSetFilter, setStoreSetFilter] = useState("all");
+  const [cityFilter, setCityFilter] = useState("Istanbul");
+  const [storeSetFilter, setStoreSetFilter] = useState("marmara");
   const [sentimentFilter, setSentimentFilter] = useState("all");
   const [avgRatingFilter, setAvgRatingFilter] = useState("all");
   const [replyRateFilter, setReplyRateFilter] = useState("all");
@@ -965,102 +965,90 @@ export default function ReviewsMVP() {
           {/* Overview Tab */}
           <TabsContent value="ozet" className="space-y-6">
             {/* Date Range and Filters */}
-            <div className="flex justify-between items-center mb-4 gap-4">
-              <div className="flex items-center gap-3">
-                {/* Store Set Filter */}
-                <div className="flex items-center gap-2">
-                  <label className="text-sm font-medium text-gray-700 whitespace-nowrap">Store Set:</label>
-                  <Select value={storeSetFilter} onValueChange={setStoreSetFilter}>
-                    <SelectTrigger 
-                      className="w-40 border-gray-200 rounded-md bg-[#f9fafb]"
-                      data-testid="select-store-set"
-                    >
-                      <SelectValue placeholder="All Store Sets" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="all">All Store Sets</SelectItem>
-                      <SelectItem value="BOY">BOY</SelectItem>
-                      <SelectItem value="premium">Premium</SelectItem>
-                      <SelectItem value="standard">Standard</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
+            <div className="flex justify-end items-center mb-4 gap-3">
+              {/* Store Set Filter */}
+              <Select value={storeSetFilter} onValueChange={setStoreSetFilter}>
+                <SelectTrigger 
+                  className="w-48 border-gray-200 rounded-md bg-[#f9fafb]"
+                  data-testid="select-store-set"
+                >
+                  <SelectValue placeholder="Store Set" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">All Store Sets</SelectItem>
+                  <SelectItem value="marmara">Marmara Region</SelectItem>
+                  <SelectItem value="BOY">BOY</SelectItem>
+                  <SelectItem value="premium">Premium</SelectItem>
+                  <SelectItem value="standard">Standard</SelectItem>
+                </SelectContent>
+              </Select>
 
-                {/* City Filter */}
-                <div className="flex items-center gap-2">
-                  <label className="text-sm font-medium text-gray-700 whitespace-nowrap">City:</label>
-                  <Select value={cityFilter} onValueChange={setCityFilter}>
-                    <SelectTrigger 
-                      className="w-40 border-gray-200 rounded-md bg-[#f9fafb]"
-                      data-testid="select-city"
-                    >
-                      <SelectValue placeholder="All Cities" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="all">All Cities</SelectItem>
-                      <SelectItem value="Istanbul">Istanbul</SelectItem>
-                      <SelectItem value="Ankara">Ankara</SelectItem>
-                      <SelectItem value="Izmir">Izmir</SelectItem>
-                      <SelectItem value="Bursa">Bursa</SelectItem>
-                      <SelectItem value="Antalya">Antalya</SelectItem>
-                      <SelectItem value="Adana">Adana</SelectItem>
-                      <SelectItem value="Mersin">Mersin</SelectItem>
-                      <SelectItem value="Gaziantep">Gaziantep</SelectItem>
-                      <SelectItem value="Konya">Konya</SelectItem>
-                      <SelectItem value="Eskişehir">Eskişehir</SelectItem>
-                      <SelectItem value="Kayseri">Kayseri</SelectItem>
-                      <SelectItem value="Trabzon">Trabzon</SelectItem>
-                      <SelectItem value="Samsun">Samsun</SelectItem>
-                      <SelectItem value="Erzurum">Erzurum</SelectItem>
-                      <SelectItem value="Malatya">Malatya</SelectItem>
-                      <SelectItem value="Van">Van</SelectItem>
-                      <SelectItem value="Şanlıurfa">Şanlıurfa</SelectItem>
-                      <SelectItem value="Diyarbakır">Diyarbakır</SelectItem>
-                      <SelectItem value="Denizli">Denizli</SelectItem>
-                      <SelectItem value="Manisa">Manisa</SelectItem>
-                      <SelectItem value="Aydın">Aydın</SelectItem>
-                      <SelectItem value="Muğla">Muğla</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
+              {/* City Filter */}
+              <Select value={cityFilter} onValueChange={setCityFilter}>
+                <SelectTrigger 
+                  className="w-40 border-gray-200 rounded-md bg-[#f9fafb]"
+                  data-testid="select-city"
+                >
+                  <SelectValue placeholder="City" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">All Cities</SelectItem>
+                  <SelectItem value="Istanbul">İstanbul</SelectItem>
+                  <SelectItem value="Ankara">Ankara</SelectItem>
+                  <SelectItem value="Izmir">İzmir</SelectItem>
+                  <SelectItem value="Bursa">Bursa</SelectItem>
+                  <SelectItem value="Antalya">Antalya</SelectItem>
+                  <SelectItem value="Adana">Adana</SelectItem>
+                  <SelectItem value="Mersin">Mersin</SelectItem>
+                  <SelectItem value="Gaziantep">Gaziantep</SelectItem>
+                  <SelectItem value="Konya">Konya</SelectItem>
+                  <SelectItem value="Eskişehir">Eskişehir</SelectItem>
+                  <SelectItem value="Kayseri">Kayseri</SelectItem>
+                  <SelectItem value="Trabzon">Trabzon</SelectItem>
+                  <SelectItem value="Samsun">Samsun</SelectItem>
+                  <SelectItem value="Erzurum">Erzurum</SelectItem>
+                  <SelectItem value="Malatya">Malatya</SelectItem>
+                  <SelectItem value="Van">Van</SelectItem>
+                  <SelectItem value="Şanlıurfa">Şanlıurfa</SelectItem>
+                  <SelectItem value="Diyarbakır">Diyarbakır</SelectItem>
+                  <SelectItem value="Denizli">Denizli</SelectItem>
+                  <SelectItem value="Manisa">Manisa</SelectItem>
+                  <SelectItem value="Aydın">Aydın</SelectItem>
+                  <SelectItem value="Muğla">Muğla</SelectItem>
+                </SelectContent>
+              </Select>
 
-                {/* Location Filter */}
-                <div className="flex items-center gap-2">
-                  <label className="text-sm font-medium text-gray-700 whitespace-nowrap">Location:</label>
-                  <Select value={locationFilter} onValueChange={setLocationFilter}>
-                    <SelectTrigger 
-                      className="w-48 border-gray-200 rounded-md bg-[#f9fafb]"
-                      data-testid="select-location"
-                    >
-                      <SelectValue placeholder="All Locations" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="all">All Locations</SelectItem>
-                      {locationsData.slice(0, 10).map((location) => (
-                        <SelectItem key={location.code} value={location.code}>
-                          {location.name}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-              </div>
+              {/* Location Filter */}
+              <Select value={locationFilter} onValueChange={setLocationFilter}>
+                <SelectTrigger 
+                  className="w-48 border-gray-200 rounded-md bg-[#f9fafb]"
+                  data-testid="select-location"
+                >
+                  <SelectValue placeholder="Location" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">All Locations</SelectItem>
+                  {locationsData.map((location) => (
+                    <SelectItem key={location.code} value={location.code}>
+                      {location.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
 
               {/* Date Range Selector */}
-              <div className="w-fit">
-                <button 
-                  data-testid="button-date-picker"
-                  className="border border-gray-200 focus:border-gray-300 w-40 pl-3 pr-10 py-2 rounded-md text-sm appearance-none bg-no-repeat bg-right text-left"
-                  style={{ 
-                    backgroundColor: '#f9fafb',
-                    backgroundImage: 'url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHZpZXdCb3g9IjAgMCAxNiAxNiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0ibTQgNiA0IDQgNC00IiBzdHJva2U9IiM2NjY2NjYiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+Cjwvc3ZnPg==")',
-                    backgroundPosition: 'right 8px center',
-                    backgroundSize: '16px 16px'
-                  }}
-                >
-                  Last 30 Days
-                </button>
-              </div>
+              <button 
+                data-testid="button-date-picker"
+                className="border border-gray-200 focus:border-gray-300 w-40 pl-3 pr-10 py-2 rounded-md text-sm appearance-none bg-no-repeat bg-right text-left"
+                style={{ 
+                  backgroundColor: '#f9fafb',
+                  backgroundImage: 'url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHZpZXdCb3g9IjAgMCAxNiAxNiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0ibTQgNiA0IDQgNC00IiBzdHJva2U9IiM2NjY2NjYiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+Cjwvc3ZnPg==")',
+                  backgroundPosition: 'right 8px center',
+                  backgroundSize: '16px 16px'
+                }}
+              >
+                Last 30 Days
+              </button>
             </div>
 
             {/* KPI Summary Cards */}
