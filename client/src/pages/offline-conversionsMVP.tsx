@@ -1535,26 +1535,26 @@ export default function OfflineConversionsMVP() {
                     {/* Connection Lines SVG */}
                     <svg className="absolute inset-0 w-full h-full" viewBox="0 0 1000 600" preserveAspectRatio="xMidYMid meet">
                       <defs>
-                        {/* Clean modern arrowheads */}
-                        <marker id="arrow-primary" markerWidth="8" markerHeight="6" 
+                        {/* Clean modern arrowheads - unique IDs for offline-conversions page */}
+                        <marker id="oc-arrow-primary" markerWidth="8" markerHeight="6" 
                           refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
                           <polygon points="0,0 0,6 8,3" fill="#3b82f6" />
                         </marker>
-                        <marker id="arrow-success" markerWidth="8" markerHeight="6" 
+                        <marker id="oc-arrow-success" markerWidth="8" markerHeight="6" 
                           refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
                           <polygon points="0,0 0,6 8,3" fill="#10b981" />
                         </marker>
-                        <marker id="arrow-warning" markerWidth="8" markerHeight="6" 
+                        <marker id="oc-arrow-warning" markerWidth="8" markerHeight="6" 
                           refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
                           <polygon points="0,0 0,6 8,3" fill="#f59e0b" />
                         </marker>
-                        <marker id="arrow-error" markerWidth="8" markerHeight="6" 
+                        <marker id="oc-arrow-error" markerWidth="8" markerHeight="6" 
                           refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
                           <polygon points="0,0 0,6 8,3" fill="#ef4444" />
                         </marker>
                         
-                        {/* Smooth animated gradients for data flow */}
-                        <linearGradient id="flowActive" x1="0%" y1="0%" x2="100%" y2="0%">
+                        {/* Smooth animated gradients for data flow - unique IDs for offline-conversions page */}
+                        <linearGradient id="oc-flowActive" x1="0%" y1="0%" x2="100%" y2="0%">
                           <stop offset="0%" stopColor="transparent" />
                           <stop offset="20%" stopColor="#10b981" stopOpacity="0.3" />
                           <stop offset="50%" stopColor="#10b981" stopOpacity="0.8" />
@@ -1569,7 +1569,7 @@ export default function OfflineConversionsMVP() {
                           />
                         </linearGradient>
                         
-                        <linearGradient id="flowError" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <linearGradient id="oc-flowError" x1="0%" y1="0%" x2="100%" y2="0%">
                           <stop offset="0%" stopColor="transparent" />
                           <stop offset="20%" stopColor="#ef4444" stopOpacity="0.3" />
                           <stop offset="50%" stopColor="#ef4444" stopOpacity="0.7" />
@@ -1584,7 +1584,7 @@ export default function OfflineConversionsMVP() {
                           />
                         </linearGradient>
                         
-                        <linearGradient id="flowWarning" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <linearGradient id="oc-flowWarning" x1="0%" y1="0%" x2="100%" y2="0%">
                           <stop offset="0%" stopColor="transparent" />
                           <stop offset="20%" stopColor="#f59e0b" stopOpacity="0.3" />
                           <stop offset="50%" stopColor="#f59e0b" stopOpacity="0.7" />
@@ -1599,8 +1599,8 @@ export default function OfflineConversionsMVP() {
                           />
                         </linearGradient>
                         
-                        {/* Subtle shadow filter */}
-                        <filter id="glow">
+                        {/* Subtle shadow filter - unique ID for offline-conversions page */}
+                        <filter id="oc-glow">
                           <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
                           <feMerge> 
                             <feMergeNode in="coloredBlur"/>
@@ -1625,43 +1625,43 @@ export default function OfflineConversionsMVP() {
                       {/* Status-based colored lines */}
                       <g>
                         {/* Inventory to VenueX (yellow/warning) */}
-                        <path d="M 280 180 L 350 180 Q 375 180 375 200 L 375 290 Q 375 300 395 300 L 460 300" stroke="#f59e0b" strokeWidth="3" fill="none" markerEnd="url(#arrow-warning)" opacity="0.8" />
+                        <path d="M 280 180 L 350 180 Q 375 180 375 200 L 375 290 Q 375 300 395 300 L 460 300" stroke="#f59e0b" strokeWidth="3" fill="none" markerEnd="url(#oc-arrow-warning)" opacity="0.8" />
                         {/* Store Sales to VenueX (green) */}
-                        <path d="M 280 300 L 460 300" stroke="#10b981" strokeWidth="3" fill="none" markerEnd="url(#arrow-success)" opacity="0.8" />
+                        <path d="M 280 300 L 460 300" stroke="#10b981" strokeWidth="3" fill="none" markerEnd="url(#oc-arrow-success)" opacity="0.8" />
                         {/* Location to VenueX (green) */}
-                        <path d="M 280 420 L 350 420 Q 375 420 375 390 L 375 310 Q 375 300 395 300 L 460 300" stroke="#10b981" strokeWidth="3" fill="none" markerEnd="url(#arrow-success)" opacity="0.8" />
+                        <path d="M 280 420 L 350 420 Q 375 420 375 390 L 375 310 Q 375 300 395 300 L 460 300" stroke="#10b981" strokeWidth="3" fill="none" markerEnd="url(#oc-arrow-success)" opacity="0.8" />
                         
                         {/* VenueX to Merchant Platforms (green) */}
-                        <path d="M 540 295 L 605 295 Q 625 295 625 265 L 625 180 Q 625 150 645 150 L 720 150" stroke="#10b981" strokeWidth="3" fill="none" markerEnd="url(#arrow-success)" opacity="0.8" />
+                        <path d="M 540 295 L 605 295 Q 625 295 625 265 L 625 180 Q 625 150 645 150 L 720 150" stroke="#10b981" strokeWidth="3" fill="none" markerEnd="url(#oc-arrow-success)" opacity="0.8" />
                         {/* VenueX to Ad Platforms (green) */}
-                        <path d="M 540 300 L 720 300" stroke="#10b981" strokeWidth="3" fill="none" markerEnd="url(#arrow-success)" opacity="0.8" />
+                        <path d="M 540 300 L 720 300" stroke="#10b981" strokeWidth="3" fill="none" markerEnd="url(#oc-arrow-success)" opacity="0.8" />
                         {/* VenueX to Location Platforms (green) */}
-                        <path d="M 540 305 L 605 305 Q 625 305 625 335 L 625 420 Q 625 450 645 450 L 720 450" stroke="#10b981" strokeWidth="3" fill="none" markerEnd="url(#arrow-success)" opacity="0.8" />
+                        <path d="M 540 305 L 605 305 Q 625 305 625 335 L 625 420 Q 625 450 645 450 L 720 450" stroke="#10b981" strokeWidth="3" fill="none" markerEnd="url(#oc-arrow-success)" opacity="0.8" />
                       </g>
                       
                       {/* Status-based animated flow overlays */}
                       <g>
                         {/* Inventory warning flow */}
-                        <path d="M 280 180 L 350 180 Q 375 180 375 200 L 375 290 Q 375 300 395 300 L 460 300" stroke="url(#flowWarning)" strokeWidth="2" fill="none" opacity="0.7">
+                        <path d="M 280 180 L 350 180 Q 375 180 375 200 L 375 290 Q 375 300 395 300 L 460 300" stroke="url(#oc-flowWarning)" strokeWidth="2" fill="none" opacity="0.7">
                           <animate attributeName="opacity" values="0.3;0.7;0.3" dur="2.5s" begin="0.1s" repeatCount="indefinite"/>
                         </path>
                         {/* Store Sales active flow */}
-                        <path d="M 280 300 L 460 300" stroke="url(#flowActive)" strokeWidth="2" fill="none" opacity="0.8">
+                        <path d="M 280 300 L 460 300" stroke="url(#oc-flowActive)" strokeWidth="2" fill="none" opacity="0.8">
                           <animate attributeName="opacity" values="0.4;0.8;0.4" dur="2s" begin="0.5s" repeatCount="indefinite"/>
                         </path>
                         {/* Location active flow */}
-                        <path d="M 280 420 L 350 420 Q 375 420 375 390 L 375 310 Q 375 300 395 300 L 460 300" stroke="url(#flowActive)" strokeWidth="2" fill="none" opacity="0.9">
+                        <path d="M 280 420 L 350 420 Q 375 420 375 390 L 375 310 Q 375 300 395 300 L 460 300" stroke="url(#oc-flowActive)" strokeWidth="2" fill="none" opacity="0.9">
                           <animate attributeName="opacity" values="0.5;0.9;0.5" dur="2s" begin="0.3s" repeatCount="indefinite"/>
                         </path>
                         
                         {/* VenueX to destinations flows */}
-                        <path d="M 540 295 L 605 295 Q 625 295 625 265 L 625 180 Q 625 150 645 150 L 720 150" stroke="url(#flowActive)" strokeWidth="2" fill="none" opacity="0.8">
+                        <path d="M 540 295 L 605 295 Q 625 295 625 265 L 625 180 Q 625 150 645 150 L 720 150" stroke="url(#oc-flowActive)" strokeWidth="2" fill="none" opacity="0.8">
                           <animate attributeName="opacity" values="0.4;0.8;0.4" dur="2s" begin="0.8s" repeatCount="indefinite"/>
                         </path>
-                        <path d="M 540 300 L 720 300" stroke="url(#flowActive)" strokeWidth="2" fill="none" opacity="0.9">
+                        <path d="M 540 300 L 720 300" stroke="url(#oc-flowActive)" strokeWidth="2" fill="none" opacity="0.9">
                           <animate attributeName="opacity" values="0.5;0.9;0.5" dur="1.8s" begin="0.2s" repeatCount="indefinite"/>
                         </path>
-                        <path d="M 540 305 L 605 305 Q 625 305 625 335 L 625 420 Q 625 450 645 450 L 720 450" stroke="url(#flowActive)" strokeWidth="2" fill="none" opacity="0.8">
+                        <path d="M 540 305 L 605 305 Q 625 305 625 335 L 625 420 Q 625 450 645 450 L 720 450" stroke="url(#oc-flowActive)" strokeWidth="2" fill="none" opacity="0.8">
                           <animate attributeName="opacity" values="0.4;0.8;0.4" dur="2.2s" begin="1.2s" repeatCount="indefinite"/>
                         </path>
                       </g>
