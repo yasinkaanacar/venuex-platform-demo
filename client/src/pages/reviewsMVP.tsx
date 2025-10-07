@@ -1242,7 +1242,7 @@ export default function ReviewsMVP() {
             <Card className="bg-[#f9fafb]">
               <CardHeader className="pb-4 relative">
                 <Sparkles className="absolute top-4 right-4 w-5 h-5 text-blue-500" />
-                <CardTitle className="text-2xl font-semibold">Weekly Summary - Advantages / Disadvantages</CardTitle>
+                <CardTitle className="text-2xl font-semibold">Advantages / Disadvantages</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
