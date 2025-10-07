@@ -722,16 +722,6 @@ export default function OfflineConversionsMVP() {
   const [platformSearch, setPlatformSearch] = useState("");
   const [locationSearch, setLocationSearch] = useState("");
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
-  const [performanceChartPlatform, setPerformanceChartPlatform] = useState<string>('Google');
-  
-  // KPI Card Platform Selection States
-  const [kpiRevenuePlatform, setKpiRevenuePlatform] = useState<string>('Google');
-  const [kpiConversionsPlatform, setKpiConversionsPlatform] = useState<string>('Google');
-  const [kpiRoasPlatform, setKpiRoasPlatform] = useState<string>('Google');
-  const [kpiContributionPlatform, setKpiContributionPlatform] = useState<string>('Google');
-  
-  // Weekly Sales Chart Platform Selection State
-  const [weeklySalesPlatform, setWeeklySalesPlatform] = useState<string>('Google');
   
   // Geographic Performance Dashboard State
   const [geoCountry, setGeoCountry] = useState<string>("turkey");
@@ -1372,8 +1362,6 @@ export default function OfflineConversionsMVP() {
               isPositiveChange={kpiData[0].isPositiveChange}
               sparklineData={kpiData[0].sparklineData}
               tooltipContent={kpiData[0].tooltipContent}
-              selectedPlatform={kpiRevenuePlatform}
-              onPlatformChange={setKpiRevenuePlatform}
             />
             <KPICard
               title={kpiData[1].title}
@@ -1382,8 +1370,6 @@ export default function OfflineConversionsMVP() {
               isPositiveChange={kpiData[1].isPositiveChange}
               sparklineData={kpiData[1].sparklineData}
               tooltipContent={kpiData[1].tooltipContent}
-              selectedPlatform={kpiConversionsPlatform}
-              onPlatformChange={setKpiConversionsPlatform}
             />
             <KPICard
               title={kpiData[2].title}
@@ -1392,8 +1378,6 @@ export default function OfflineConversionsMVP() {
               isPositiveChange={kpiData[2].isPositiveChange}
               sparklineData={kpiData[2].sparklineData}
               tooltipContent={kpiData[2].tooltipContent}
-              selectedPlatform={kpiRoasPlatform}
-              onPlatformChange={setKpiRoasPlatform}
             />
             <KPICard
               title={kpiData[3].title}
@@ -1402,8 +1386,6 @@ export default function OfflineConversionsMVP() {
               isPositiveChange={kpiData[3].isPositiveChange}
               sparklineData={kpiData[3].sparklineData}
               tooltipContent={kpiData[3].tooltipContent}
-              selectedPlatform={kpiContributionPlatform}
-              onPlatformChange={setKpiContributionPlatform}
             />
           </div>
           
@@ -1431,10 +1413,7 @@ export default function OfflineConversionsMVP() {
 
           {/* Weekly Sales Chart */}
           <div className="mt-6">
-            <WeeklySalesChart 
-              selectedPlatform={weeklySalesPlatform}
-              onPlatformChange={setWeeklySalesPlatform}
-            />
+            <WeeklySalesChart />
           </div>
 
           {/* Top Performing Campaigns */}
