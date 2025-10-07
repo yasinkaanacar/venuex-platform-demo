@@ -24,6 +24,11 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Switch } from "@/components/ui/switch";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import { 
   Search, 
   Star, 
@@ -146,6 +151,7 @@ export default function ReviewsMVP() {
 
   // Leaderboard sorting state
   const [leaderboardSortBy, setLeaderboardSortBy] = useState<'rating' | 'volume' | 'replyRate'>('rating');
+  const [leaderboardDateRange, setLeaderboardDateRange] = useState("30");
   
   // Period selector state
   const [selectedPeriod, setSelectedPeriod] = useState("30days");
@@ -1314,18 +1320,72 @@ export default function ReviewsMVP() {
               <CardHeader>
                 <div className="flex items-center justify-between">
                   <CardTitle>Location Leaderboard</CardTitle>
-                  <div className="flex items-center gap-2">
-                    <span className="text-sm font-medium text-gray-700 whitespace-nowrap">Sort by:</span>
-                    <Select value={leaderboardSortBy} onValueChange={(value) => setLeaderboardSortBy(value as 'rating' | 'volume' | 'replyRate')}>
-                      <SelectTrigger className="w-40 border-gray-300 rounded-md">
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="rating">Rating</SelectItem>
-                        <SelectItem value="volume">Volume</SelectItem>
-                        <SelectItem value="replyRate">Reply Rate</SelectItem>
-                      </SelectContent>
-                    </Select>
+                  <div className="flex items-center gap-4">
+                    <div className="flex items-center gap-2">
+                      <span className="text-sm font-medium text-gray-700 whitespace-nowrap">Sort by:</span>
+                      <Select value={leaderboardSortBy} onValueChange={(value) => setLeaderboardSortBy(value as 'rating' | 'volume' | 'replyRate')}>
+                        <SelectTrigger className="w-40 border-gray-300 rounded-md">
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="rating">Rating</SelectItem>
+                          <SelectItem value="volume">Volume</SelectItem>
+                          <SelectItem value="replyRate">Reply Rate</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <span className="text-sm font-medium text-gray-700 whitespace-nowrap">Date:</span>
+                      <Popover>
+                        <PopoverTrigger asChild>
+                          <Button variant="outline" className="w-40 border-gray-300 rounded-md justify-between" data-testid="button-leaderboard-date-filter">
+                            <span className="text-sm">
+                              {leaderboardDateRange === "7" && "Last 7 Days"}
+                              {leaderboardDateRange === "30" && "Last 30 Days"}
+                              {leaderboardDateRange === "90" && "Last 90 Days"}
+                              {leaderboardDateRange === "365" && "Last Year"}
+                            </span>
+                            <Calendar className="ml-2 h-4 w-4 text-gray-500" />
+                          </Button>
+                        </PopoverTrigger>
+                        <PopoverContent className="w-48 p-2" align="end">
+                          <div className="space-y-1">
+                            <Button
+                              variant={leaderboardDateRange === "7" ? "default" : "ghost"}
+                              className="w-full justify-start text-sm"
+                              onClick={() => setLeaderboardDateRange("7")}
+                              data-testid="button-leaderboard-7days"
+                            >
+                              Last 7 Days
+                            </Button>
+                            <Button
+                              variant={leaderboardDateRange === "30" ? "default" : "ghost"}
+                              className="w-full justify-start text-sm"
+                              onClick={() => setLeaderboardDateRange("30")}
+                              data-testid="button-leaderboard-30days"
+                            >
+                              Last 30 Days
+                            </Button>
+                            <Button
+                              variant={leaderboardDateRange === "90" ? "default" : "ghost"}
+                              className="w-full justify-start text-sm"
+                              onClick={() => setLeaderboardDateRange("90")}
+                              data-testid="button-leaderboard-90days"
+                            >
+                              Last 90 Days
+                            </Button>
+                            <Button
+                              variant={leaderboardDateRange === "365" ? "default" : "ghost"}
+                              className="w-full justify-start text-sm"
+                              onClick={() => setLeaderboardDateRange("365")}
+                              data-testid="button-leaderboard-365days"
+                            >
+                              Last Year
+                            </Button>
+                          </div>
+                        </PopoverContent>
+                      </Popover>
+                    </div>
                   </div>
                 </div>
               </CardHeader>
