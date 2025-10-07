@@ -228,12 +228,7 @@ const getWeekOverWeekGrowth = () => {
   return calculateTrend(lastWeekTotal, previousWeekTotal);
 };
 
-interface WeeklySalesChartProps {
-  selectedPlatform: string;
-  onPlatformChange: (platform: string) => void;
-}
-
-export default function WeeklySalesChart({ selectedPlatform, onPlatformChange }: WeeklySalesChartProps) {
+export default function WeeklySalesChart() {
   const totalSales = getTotalSales();
   const averageROAS = getAverageROAS();
   const averageOnlineROAS = getAverageOnlineROAS();
@@ -278,56 +273,6 @@ export default function WeeklySalesChart({ selectedPlatform, onPlatformChange }:
           </div>
         }
       />
-      
-      {/* Platform Selection Buttons */}
-      <div className="mb-4 flex justify-center px-6">
-        <div className="flex items-center dark:bg-gray-800 p-1 rounded-lg border shadow-inner w-fit bg-[#ffffff]">
-          <button
-            onClick={() => onPlatformChange('Google')}
-            className={`flex items-center gap-1.5 px-3 py-2 rounded-md text-xs font-semibold transition-all duration-200 ${
-              selectedPlatform === 'Google'
-                ? 'bg-white dark:bg-gray-700 text-foreground shadow-md border border-gray-200 dark:border-gray-600'
-                : 'text-gray-500 dark:text-gray-400 hover:text-foreground hover:bg-white/50 dark:hover:bg-gray-700/50'
-            }`}
-            data-testid="weekly-sales-tab-google"
-          >
-            <div className="w-3.5 h-3.5 bg-[#EA4335] rounded flex items-center justify-center">
-              <SiGoogle className="w-2.5 h-2.5 text-white" />
-            </div>
-            Google
-          </button>
-          
-          <button
-            onClick={() => onPlatformChange('Meta')}
-            className={`flex items-center gap-1.5 px-3 py-2 rounded-md text-xs font-semibold transition-all duration-200 ${
-              selectedPlatform === 'Meta'
-                ? 'bg-white dark:bg-gray-700 text-foreground shadow-md border border-gray-200 dark:border-gray-600'
-                : 'text-gray-500 dark:text-gray-400 hover:text-foreground hover:bg-white/50 dark:hover:bg-gray-700/50'
-            }`}
-            data-testid="weekly-sales-tab-meta"
-          >
-            <div className="w-3.5 h-3.5 bg-[#1877F2] rounded flex items-center justify-center">
-              <SiMeta className="w-2.5 h-2.5 text-white" />
-            </div>
-            Meta
-          </button>
-          
-          <button
-            onClick={() => onPlatformChange('TikTok')}
-            className={`flex items-center gap-1.5 px-3 py-2 rounded-md text-xs font-semibold transition-all duration-200 ${
-              selectedPlatform === 'TikTok'
-                ? 'bg-white dark:bg-gray-700 text-foreground shadow-md border border-gray-200 dark:border-gray-600'
-                : 'text-gray-500 dark:text-gray-400 hover:text-foreground hover:bg-white/50 dark:hover:bg-gray-700/50'
-            }`}
-            data-testid="weekly-sales-tab-tiktok"
-          >
-            <div className="w-3.5 h-3.5 bg-black rounded flex items-center justify-center">
-              <SiTiktok className="w-2.5 h-2.5 text-white" />
-            </div>
-            TikTok
-          </button>
-        </div>
-      </div>
       
       <div className="flex items-center gap-2 px-6 pb-4">
         <Chip 
