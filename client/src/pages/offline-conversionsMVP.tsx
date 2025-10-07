@@ -1800,11 +1800,8 @@ export default function OfflineConversionsMVP() {
                           <th className="text-right py-3 px-4 font-semibold text-gray-700">Interactions</th>
                           <th className="text-right py-3 px-4 font-semibold text-gray-700">Store Visits</th>
                           <th className="text-right py-3 px-4 font-semibold text-gray-700">Website Visits</th>
-                          <th className="text-right py-3 px-4 font-semibold text-gray-700">Online Trans.</th>
                           <th className="text-right py-3 px-4 font-semibold text-gray-700">Offline Trans.</th>
-                          <th className="text-right py-3 px-4 font-semibold text-gray-700">Online Revenue</th>
                           <th className="text-right py-3 px-4 font-semibold text-gray-700">Offline Revenue</th>
-                          <th className="text-right py-3 px-4 font-semibold text-gray-700">Online ROAS</th>
                           <th className="text-right py-3 px-4 font-semibold text-gray-700">Offline ROAS</th>
                           <th className="text-right py-3 px-4 font-semibold text-gray-700">AOV</th>
                           <th className="text-right py-3 px-4 font-semibold text-gray-700">Multiplier</th>
@@ -1825,11 +1822,8 @@ export default function OfflineConversionsMVP() {
                             <td className="py-3 px-4 text-right text-gray-700 dark:text-gray-300">{item.interactions.toLocaleString()}</td>
                             <td className="py-3 px-4 text-right text-gray-700 dark:text-gray-300">{item.storeVisits.toLocaleString()}</td>
                             <td className="py-3 px-4 text-right text-gray-700 dark:text-gray-300">{item.websiteVisits.toLocaleString()}</td>
-                            <td className="py-3 px-4 text-right text-gray-700 dark:text-gray-300">{item.onlineTransactions.toLocaleString()}</td>
                             <td className="py-3 px-4 text-right text-gray-700 dark:text-gray-300">{item.offlineTransactions.toLocaleString()}</td>
-                            <td className="py-3 px-4 text-right font-medium text-gray-900 dark:text-gray-100">₺{(item.onlineRevenue / 1000000).toFixed(1)}M</td>
                             <td className="py-3 px-4 text-right font-medium text-gray-900 dark:text-gray-100">₺{(item.offlineRevenue / 1000000).toFixed(1)}M</td>
-                            <td className="py-3 px-4 text-right font-semibold text-green-600">{item.onlineROAS.toFixed(1)}x</td>
                             <td className="py-3 px-4 text-right font-semibold text-green-600">{item.offlineROAS.toFixed(1)}x</td>
                             <td className="py-3 px-4 text-right text-gray-700 dark:text-gray-300">₺{(item.aov / 1000).toFixed(1)}K</td>
                             <td className="py-3 px-4 text-right text-gray-700 dark:text-gray-300">{item.multiplier.toFixed(1)}x</td>
