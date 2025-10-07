@@ -11,8 +11,8 @@ import { LineChart, Line, ResponsiveContainer } from "recharts";
 import { SiGoogle, SiMeta, SiTiktok, SiApple } from 'react-icons/si';
 import funnelImage from '@assets/Screenshot 2025-08-29 at 18.31.46_1756481891401.png';
 import vxLogo from '@assets/vx-logo-1000x1000_1756824361260.png';
-import EnrichmentSuggestions from '../components/overview/enrichment-suggestions';
-import WeeklySalesChart from '../components/overview/weekly-sales-chart';
+import EnrichmentSuggestions from '../components/offline-conversions/enrichment-suggestions';
+import WeeklySalesChart from '../components/offline-conversions/weekly-sales-chart';
 
 // Mock sparkline data for each KPI
 const revenueSparklineData = [
