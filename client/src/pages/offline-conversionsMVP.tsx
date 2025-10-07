@@ -240,6 +240,78 @@ interface Campaign {
   blendedROAS: number;
 }
 
+// Geographic Performance Data Interface
+interface GeoPerformanceData {
+  country: string;
+  state: string;
+  spends: number;
+  interactions: number;
+  storeVisits: number;
+  websiteVisits: number;
+  onlineTransactions: number;
+  offlineTransactions: number;
+  onlineRevenue: number;
+  offlineRevenue: number;
+  onlineROAS: number;
+  offlineROAS: number;
+  aov: number;
+  multiplier: number;
+}
+
+// Mock geographic performance data for Turkish states
+const mockGeoData: GeoPerformanceData[] = [
+  {
+    country: "Turkey", state: "Istanbul", spends: 450000, interactions: 125000, storeVisits: 45000, 
+    websiteVisits: 95000, onlineTransactions: 12500, offlineTransactions: 8900, 
+    onlineRevenue: 89000000, offlineRevenue: 80173725, onlineROAS: 87.6, offlineROAS: 78.8, aov: 9800, multiplier: 1.8
+  },
+  {
+    country: "Turkey", state: "Ankara", spends: 280000, interactions: 78000, storeVisits: 28000, 
+    websiteVisits: 62000, onlineTransactions: 8200, offlineTransactions: 5600, 
+    onlineRevenue: 54000000, offlineRevenue: 48960000, onlineROAS: 85.2, offlineROAS: 77.3, aov: 9200, multiplier: 1.7
+  },
+  {
+    country: "Turkey", state: "Izmir", spends: 320000, interactions: 89000, storeVisits: 32000, 
+    websiteVisits: 71000, onlineTransactions: 9400, offlineTransactions: 6400, 
+    onlineRevenue: 62000000, offlineRevenue: 55360000, onlineROAS: 85.8, offlineROAS: 76.5, aov: 9400, multiplier: 1.75
+  },
+  {
+    country: "Turkey", state: "Antalya", spends: 180000, interactions: 52000, storeVisits: 19000, 
+    websiteVisits: 42000, onlineTransactions: 5600, offlineTransactions: 3800, 
+    onlineRevenue: 36000000, offlineRevenue: 32400000, onlineROAS: 88.4, offlineROAS: 79.6, aov: 10200, multiplier: 1.9
+  },
+  {
+    country: "Turkey", state: "Bursa", spends: 220000, interactions: 61000, storeVisits: 22000, 
+    websiteVisits: 49000, onlineTransactions: 6500, offlineTransactions: 4400, 
+    onlineRevenue: 42000000, offlineRevenue: 37800000, onlineROAS: 84.4, offlineROAS: 76.0, aov: 9100, multiplier: 1.7
+  },
+  {
+    country: "Turkey", state: "Adana", spends: 150000, interactions: 42000, storeVisits: 15000, 
+    websiteVisits: 34000, onlineTransactions: 4500, offlineTransactions: 3000, 
+    onlineRevenue: 28000000, offlineRevenue: 25200000, onlineROAS: 82.5, offlineROAS: 74.2, aov: 8900, multiplier: 1.6
+  },
+  {
+    country: "Turkey", state: "Konya", spends: 95000, interactions: 27000, storeVisits: 9800, 
+    websiteVisits: 22000, onlineTransactions: 2900, offlineTransactions: 1950, 
+    onlineRevenue: 18000000, offlineRevenue: 16200000, onlineROAS: 83.8, offlineROAS: 75.4, aov: 9300, multiplier: 1.65
+  },
+  {
+    country: "Turkey", state: "Gaziantep", spends: 78000, interactions: 22000, storeVisits: 8000, 
+    websiteVisits: 18000, onlineTransactions: 2400, offlineTransactions: 1600, 
+    onlineRevenue: 15000000, offlineRevenue: 13500000, onlineROAS: 85.0, offlineROAS: 76.5, aov: 9500, multiplier: 1.7
+  },
+  {
+    country: "Turkey", state: "Kocaeli", spends: 125000, interactions: 35000, storeVisits: 12800, 
+    websiteVisits: 28000, onlineTransactions: 3700, offlineTransactions: 2550, 
+    onlineRevenue: 23000000, offlineRevenue: 20700000, onlineROAS: 81.3, offlineROAS: 73.2, aov: 8800, multiplier: 1.6
+  },
+  {
+    country: "Turkey", state: "Mersin", spends: 68000, interactions: 19000, storeVisits: 6900, 
+    websiteVisits: 15000, onlineTransactions: 2000, offlineTransactions: 1380, 
+    onlineRevenue: 12500000, offlineRevenue: 11250000, onlineROAS: 81.2, offlineROAS: 73.2, aov: 8900, multiplier: 1.62
+  }
+];
+
 // Mock campaign data
 const mockCampaigns: Campaign[] = [
   {
@@ -762,6 +834,11 @@ export default function OfflineConversionsMVP() {
   
   // Weekly Sales Chart Platform Selection State
   const [weeklySalesPlatform, setWeeklySalesPlatform] = useState<string>('Google');
+  
+  // Geographic Performance Dashboard State
+  const [geoCountry, setGeoCountry] = useState<string>("turkey");
+  const [geoState, setGeoState] = useState<string>("all");
+  const [selectedMapState, setSelectedMapState] = useState<string | null>(null);
 
   // Mock system alerts data
   const systemAlerts = [
@@ -1513,6 +1590,216 @@ export default function OfflineConversionsMVP() {
           {/* Top Performing Campaigns */}
           <div className="mt-6">
             <TopPerformingCampaigns />
+          </div>
+          
+          {/* Geographic Performance Dashboard */}
+          <div className="mt-6">
+            <Card className="bg-[#f9fafb]">
+              <CardHeader>
+                <div className="flex items-center justify-between">
+                  <CardTitle>Geographic Performance</CardTitle>
+                  <div className="flex items-center gap-4">
+                    <div className="flex items-center gap-2">
+                      <label className="text-sm font-medium text-gray-700">Country:</label>
+                      <Select value={geoCountry} onValueChange={setGeoCountry}>
+                        <SelectTrigger className="w-36 border-gray-300" data-testid="select-geo-country">
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="turkey">Turkey</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <label className="text-sm font-medium text-gray-700">State:</label>
+                      <Select value={geoState} onValueChange={(value) => {
+                        setGeoState(value);
+                        setSelectedMapState(value === "all" ? null : value);
+                      }}>
+                        <SelectTrigger className="w-40 border-gray-300" data-testid="select-geo-state">
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="all">All States</SelectItem>
+                          {mockGeoData.map(item => (
+                            <SelectItem key={item.state} value={item.state}>{item.state}</SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  </div>
+                </div>
+              </CardHeader>
+              <CardContent>
+                {/* Maps Visualization */}
+                <div className="grid grid-cols-2 gap-6 mb-6">
+                  {/* Omni Revenue Distribution Map */}
+                  <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 p-4">
+                    <h3 className="text-sm font-semibold text-foreground mb-3">Omni Revenue Distribution</h3>
+                    <div className="relative h-96 bg-gray-100 dark:bg-gray-700 rounded-lg flex items-center justify-center overflow-hidden">
+                      <div className="grid grid-cols-3 gap-2 w-full h-full p-4">
+                        {mockGeoData.map((item, index) => {
+                          const totalRevenue = item.onlineRevenue + item.offlineRevenue;
+                          const maxRevenue = Math.max(...mockGeoData.map(d => d.onlineRevenue + d.offlineRevenue));
+                          const intensity = (totalRevenue / maxRevenue);
+                          const isSelected = selectedMapState === item.state;
+                          
+                          return (
+                            <Tooltip 
+                              key={item.state}
+                              title={
+                                <div className="text-left">
+                                  <div className="font-medium">{item.state}</div>
+                                  <div className="text-sm">Revenue: ₺{(totalRevenue / 1000000).toFixed(1)}M</div>
+                                </div>
+                              }
+                              arrow
+                            >
+                              <div 
+                                className={`relative rounded cursor-pointer transition-all duration-200 hover:scale-105 ${isSelected ? 'ring-2 ring-blue-500' : ''}`}
+                                style={{ 
+                                  backgroundColor: `rgba(59, 130, 246, ${0.3 + intensity * 0.7})`,
+                                  minHeight: '60px'
+                                }}
+                                onClick={() => {
+                                  setGeoState(item.state);
+                                  setSelectedMapState(item.state);
+                                }}
+                                data-testid={`map-revenue-${item.state.toLowerCase()}`}
+                              >
+                                <span className="absolute inset-0 flex items-center justify-center text-xs font-medium text-white drop-shadow">
+                                  {item.state}
+                                </span>
+                              </div>
+                            </Tooltip>
+                          );
+                        })}
+                      </div>
+                    </div>
+                    <div className="mt-3 flex items-center justify-between text-xs text-gray-600">
+                      <span>₺37,956</span>
+                      <div className="flex-1 mx-3 h-4 bg-gradient-to-r from-blue-200 via-blue-400 to-blue-600 rounded"></div>
+                      <span>₺169,173,725</span>
+                    </div>
+                  </div>
+                  
+                  {/* Omni ROAS Distribution Map */}
+                  <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 p-4">
+                    <h3 className="text-sm font-semibold text-foreground mb-3">Omni ROAS Distribution</h3>
+                    <div className="relative h-96 bg-gray-100 dark:bg-gray-700 rounded-lg flex items-center justify-center overflow-hidden">
+                      <div className="grid grid-cols-3 gap-2 w-full h-full p-4">
+                        {mockGeoData.map((item) => {
+                          const avgROAS = (item.onlineROAS + item.offlineROAS) / 2;
+                          const maxROAS = Math.max(...mockGeoData.map(d => (d.onlineROAS + d.offlineROAS) / 2));
+                          const intensity = (avgROAS / maxROAS);
+                          const isSelected = selectedMapState === item.state;
+                          
+                          return (
+                            <Tooltip 
+                              key={item.state}
+                              title={
+                                <div className="text-left">
+                                  <div className="font-medium">{item.state}</div>
+                                  <div className="text-sm">ROAS: {avgROAS.toFixed(1)}x</div>
+                                </div>
+                              }
+                              arrow
+                            >
+                              <div 
+                                className={`relative rounded cursor-pointer transition-all duration-200 hover:scale-105 ${isSelected ? 'ring-2 ring-green-500' : ''}`}
+                                style={{ 
+                                  backgroundColor: `rgba(34, 197, 94, ${0.3 + intensity * 0.7})`,
+                                  minHeight: '60px'
+                                }}
+                                onClick={() => {
+                                  setGeoState(item.state);
+                                  setSelectedMapState(item.state);
+                                }}
+                                data-testid={`map-roas-${item.state.toLowerCase()}`}
+                              >
+                                <span className="absolute inset-0 flex items-center justify-center text-xs font-medium text-white drop-shadow">
+                                  {item.state}
+                                </span>
+                              </div>
+                            </Tooltip>
+                          );
+                        })}
+                      </div>
+                    </div>
+                    <div className="mt-3 flex items-center justify-between text-xs text-gray-600">
+                      <span>15.4x</span>
+                      <div className="flex-1 mx-3 h-4 bg-gradient-to-r from-green-200 via-green-400 to-green-600 rounded"></div>
+                      <span>158.4x</span>
+                    </div>
+                  </div>
+                </div>
+                
+                {/* Geographic Performance Table */}
+                <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 overflow-hidden">
+                  <div className="overflow-x-auto">
+                    <table className="w-full text-sm" data-testid="table-geo-performance">
+                      <thead className="bg-gray-50 dark:bg-gray-900 border-b border-gray-200">
+                        <tr>
+                          <th className="text-left py-3 px-4 font-semibold text-gray-700">Country</th>
+                          <th className="text-left py-3 px-4 font-semibold text-gray-700">State</th>
+                          <th className="text-right py-3 px-4 font-semibold text-gray-700">Spends</th>
+                          <th className="text-right py-3 px-4 font-semibold text-gray-700">Interactions</th>
+                          <th className="text-right py-3 px-4 font-semibold text-gray-700">Store Visits</th>
+                          <th className="text-right py-3 px-4 font-semibold text-gray-700">Website Visits</th>
+                          <th className="text-right py-3 px-4 font-semibold text-gray-700">Online Trans.</th>
+                          <th className="text-right py-3 px-4 font-semibold text-gray-700">Offline Trans.</th>
+                          <th className="text-right py-3 px-4 font-semibold text-gray-700">Online Revenue</th>
+                          <th className="text-right py-3 px-4 font-semibold text-gray-700">Offline Revenue</th>
+                          <th className="text-right py-3 px-4 font-semibold text-gray-700">Online ROAS</th>
+                          <th className="text-right py-3 px-4 font-semibold text-gray-700">Offline ROAS</th>
+                          <th className="text-right py-3 px-4 font-semibold text-gray-700">AOV</th>
+                          <th className="text-right py-3 px-4 font-semibold text-gray-700">Multiplier</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {mockGeoData
+                          .filter(item => selectedMapState === null || item.state === selectedMapState)
+                          .map((item) => (
+                          <tr 
+                            key={item.state} 
+                            className="border-b border-gray-100 hover:bg-gray-50 dark:hover:bg-gray-700/50 cursor-pointer transition-colors"
+                            data-testid={`geo-row-${item.state.toLowerCase()}`}
+                          >
+                            <td className="py-3 px-4 text-gray-900 dark:text-gray-100">{item.country}</td>
+                            <td className="py-3 px-4 font-medium text-gray-900 dark:text-gray-100">{item.state}</td>
+                            <td className="py-3 px-4 text-right text-gray-700 dark:text-gray-300">₺{(item.spends / 1000).toFixed(0)}K</td>
+                            <td className="py-3 px-4 text-right text-gray-700 dark:text-gray-300">{item.interactions.toLocaleString()}</td>
+                            <td className="py-3 px-4 text-right text-gray-700 dark:text-gray-300">{item.storeVisits.toLocaleString()}</td>
+                            <td className="py-3 px-4 text-right text-gray-700 dark:text-gray-300">{item.websiteVisits.toLocaleString()}</td>
+                            <td className="py-3 px-4 text-right text-gray-700 dark:text-gray-300">{item.onlineTransactions.toLocaleString()}</td>
+                            <td className="py-3 px-4 text-right text-gray-700 dark:text-gray-300">{item.offlineTransactions.toLocaleString()}</td>
+                            <td className="py-3 px-4 text-right font-medium text-gray-900 dark:text-gray-100">₺{(item.onlineRevenue / 1000000).toFixed(1)}M</td>
+                            <td className="py-3 px-4 text-right font-medium text-gray-900 dark:text-gray-100">₺{(item.offlineRevenue / 1000000).toFixed(1)}M</td>
+                            <td className="py-3 px-4 text-right font-semibold text-green-600">{item.onlineROAS.toFixed(1)}x</td>
+                            <td className="py-3 px-4 text-right font-semibold text-green-600">{item.offlineROAS.toFixed(1)}x</td>
+                            <td className="py-3 px-4 text-right text-gray-700 dark:text-gray-300">₺{(item.aov / 1000).toFixed(1)}K</td>
+                            <td className="py-3 px-4 text-right text-gray-700 dark:text-gray-300">{item.multiplier.toFixed(1)}x</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                  <div className="px-4 py-3 bg-gray-50 dark:bg-gray-900 border-t border-gray-200 flex items-center justify-between">
+                    <div className="text-sm text-gray-600">
+                      1 - {mockGeoData.filter(item => selectedMapState === null || item.state === selectedMapState).length} / {mockGeoData.length}
+                    </div>
+                    <div className="flex gap-2">
+                      <Button variant="outline" size="sm" disabled className="h-8">
+                        &lt;
+                      </Button>
+                      <Button variant="outline" size="sm" disabled className="h-8">
+                        &gt;
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
           </div>
           
           {/* Data Health & Flow Card */}
