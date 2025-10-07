@@ -1636,13 +1636,30 @@ export default function OfflineConversionsMVP() {
                   {/* Omni Revenue Distribution Map */}
                   <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 p-4">
                     <h3 className="text-sm font-semibold text-foreground mb-3">Omni Revenue Distribution</h3>
-                    <div className="relative h-96 bg-gray-100 dark:bg-gray-700 rounded-lg flex items-center justify-center overflow-hidden">
-                      <div className="grid grid-cols-3 gap-2 w-full h-full p-4">
-                        {mockGeoData.map((item, index) => {
+                    <div className="relative h-96 bg-gray-100 dark:bg-gray-700 rounded-lg overflow-hidden">
+                      {/* Turkey Heatmap - Geographic Layout */}
+                      <div className="relative w-full h-full">
+                        {mockGeoData.map((item) => {
                           const totalRevenue = item.onlineRevenue + item.offlineRevenue;
                           const maxRevenue = Math.max(...mockGeoData.map(d => d.onlineRevenue + d.offlineRevenue));
                           const intensity = (totalRevenue / maxRevenue);
                           const isSelected = selectedMapState === item.state;
+                          
+                          // Geographic positioning for Turkish states
+                          const positions: Record<string, { top: string; left: string; width: string; height: string }> = {
+                            'Istanbul': { top: '15%', left: '15%', width: '90px', height: '60px' },
+                            'Kocaeli': { top: '20%', left: '28%', width: '70px', height: '50px' },
+                            'Bursa': { top: '32%', left: '12%', width: '85px', height: '55px' },
+                            'Izmir': { top: '48%', left: '5%', width: '80px', height: '65px' },
+                            'Ankara': { top: '28%', left: '42%', width: '95px', height: '70px' },
+                            'Konya': { top: '48%', left: '38%', width: '100px', height: '75px' },
+                            'Antalya': { top: '65%', left: '22%', width: '85px', height: '60px' },
+                            'Mersin': { top: '62%', left: '45%', width: '75px', height: '55px' },
+                            'Adana': { top: '58%', left: '58%', width: '80px', height: '58px' },
+                            'Gaziantep': { top: '52%', left: '72%', width: '85px', height: '62px' }
+                          };
+                          
+                          const position = positions[item.state] || { top: '50%', left: '50%', width: '80px', height: '60px' };
                           
                           return (
                             <Tooltip 
@@ -1656,10 +1673,13 @@ export default function OfflineConversionsMVP() {
                               arrow
                             >
                               <div 
-                                className={`relative rounded cursor-pointer transition-all duration-200 hover:scale-105 ${isSelected ? 'ring-2 ring-blue-500' : ''}`}
+                                className={`absolute rounded-lg cursor-pointer transition-all duration-200 hover:scale-105 hover:z-10 ${isSelected ? 'ring-2 ring-blue-500 z-10' : ''}`}
                                 style={{ 
+                                  top: position.top,
+                                  left: position.left,
+                                  width: position.width,
+                                  height: position.height,
                                   backgroundColor: `rgba(59, 130, 246, ${0.3 + intensity * 0.7})`,
-                                  minHeight: '60px'
                                 }}
                                 onClick={() => {
                                   setGeoState(item.state);
@@ -1667,7 +1687,7 @@ export default function OfflineConversionsMVP() {
                                 }}
                                 data-testid={`map-revenue-${item.state.toLowerCase()}`}
                               >
-                                <span className="absolute inset-0 flex items-center justify-center text-xs font-medium text-white drop-shadow">
+                                <span className="absolute inset-0 flex items-center justify-center text-xs font-semibold text-white drop-shadow-lg">
                                   {item.state}
                                 </span>
                               </div>
@@ -1686,13 +1706,30 @@ export default function OfflineConversionsMVP() {
                   {/* Omni ROAS Distribution Map */}
                   <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 p-4">
                     <h3 className="text-sm font-semibold text-foreground mb-3">Omni ROAS Distribution</h3>
-                    <div className="relative h-96 bg-gray-100 dark:bg-gray-700 rounded-lg flex items-center justify-center overflow-hidden">
-                      <div className="grid grid-cols-3 gap-2 w-full h-full p-4">
+                    <div className="relative h-96 bg-gray-100 dark:bg-gray-700 rounded-lg overflow-hidden">
+                      {/* Turkey Heatmap - Geographic Layout */}
+                      <div className="relative w-full h-full">
                         {mockGeoData.map((item) => {
                           const avgROAS = (item.onlineROAS + item.offlineROAS) / 2;
                           const maxROAS = Math.max(...mockGeoData.map(d => (d.onlineROAS + d.offlineROAS) / 2));
                           const intensity = (avgROAS / maxROAS);
                           const isSelected = selectedMapState === item.state;
+                          
+                          // Geographic positioning for Turkish states (same as revenue map)
+                          const positions: Record<string, { top: string; left: string; width: string; height: string }> = {
+                            'Istanbul': { top: '15%', left: '15%', width: '90px', height: '60px' },
+                            'Kocaeli': { top: '20%', left: '28%', width: '70px', height: '50px' },
+                            'Bursa': { top: '32%', left: '12%', width: '85px', height: '55px' },
+                            'Izmir': { top: '48%', left: '5%', width: '80px', height: '65px' },
+                            'Ankara': { top: '28%', left: '42%', width: '95px', height: '70px' },
+                            'Konya': { top: '48%', left: '38%', width: '100px', height: '75px' },
+                            'Antalya': { top: '65%', left: '22%', width: '85px', height: '60px' },
+                            'Mersin': { top: '62%', left: '45%', width: '75px', height: '55px' },
+                            'Adana': { top: '58%', left: '58%', width: '80px', height: '58px' },
+                            'Gaziantep': { top: '52%', left: '72%', width: '85px', height: '62px' }
+                          };
+                          
+                          const position = positions[item.state] || { top: '50%', left: '50%', width: '80px', height: '60px' };
                           
                           return (
                             <Tooltip 
@@ -1706,10 +1743,13 @@ export default function OfflineConversionsMVP() {
                               arrow
                             >
                               <div 
-                                className={`relative rounded cursor-pointer transition-all duration-200 hover:scale-105 ${isSelected ? 'ring-2 ring-green-500' : ''}`}
+                                className={`absolute rounded-lg cursor-pointer transition-all duration-200 hover:scale-105 hover:z-10 ${isSelected ? 'ring-2 ring-green-500 z-10' : ''}`}
                                 style={{ 
+                                  top: position.top,
+                                  left: position.left,
+                                  width: position.width,
+                                  height: position.height,
                                   backgroundColor: `rgba(34, 197, 94, ${0.3 + intensity * 0.7})`,
-                                  minHeight: '60px'
                                 }}
                                 onClick={() => {
                                   setGeoState(item.state);
@@ -1717,7 +1757,7 @@ export default function OfflineConversionsMVP() {
                                 }}
                                 data-testid={`map-roas-${item.state.toLowerCase()}`}
                               >
-                                <span className="absolute inset-0 flex items-center justify-center text-xs font-medium text-white drop-shadow">
+                                <span className="absolute inset-0 flex items-center justify-center text-xs font-semibold text-white drop-shadow-lg">
                                   {item.state}
                                 </span>
                               </div>
