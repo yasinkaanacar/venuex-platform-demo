@@ -502,9 +502,6 @@ function TopPerformingCampaigns() {
           <h3 className="text-lg font-semibold text-foreground">Top Performing Campaigns</h3>
           <p className="text-sm text-muted-foreground">Spend, Roas, Visits, Purchase by campaign</p>
         </div>
-        <button className="text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:hover:text-white font-medium bg-transparent border-none cursor-pointer" data-testid="button-view-all-campaigns">
-          View All →
-        </button>
       </div>
       <div className="bg-[#f9fafb] p-6">
         <div className="overflow-x-auto">
