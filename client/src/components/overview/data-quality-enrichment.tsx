@@ -211,91 +211,12 @@ export default function DataQualityEnrichment({ context = 'dashboard' }: DataQua
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {/* Customer Data (Hashed) */}
+            {/* Location Data */}
             <div>
-              <h4 className="text-sm font-medium text-foreground mb-4">Customer Data (Hashed)</h4>
+              <h4 className="text-sm font-medium text-foreground mb-4">Location Data</h4>
               <div className="space-y-3">
                 <div className="flex items-center justify-between">
-                  <span className="text-sm text-muted-foreground">First Name</span>
-                  <div className="flex items-center gap-2 ml-4">
-                    <div className="w-20 sm:w-24 lg:w-32 xl:w-40 bg-gray-200 dark:bg-gray-700 rounded-full h-3 shadow-inner border border-gray-300 dark:border-gray-600">
-                      <div className="bg-gradient-to-r from-green-500 to-green-600 h-3 rounded-full shadow-sm transition-all duration-300" style={{ width: '92%' }}></div>
-                    </div>
-                    <span className="text-sm font-medium text-foreground w-8">92%</span>
-                  </div>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-sm text-muted-foreground">Last Name</span>
-                  <div className="flex items-center gap-2 ml-4">
-                    <div className="w-20 sm:w-24 lg:w-32 xl:w-40 bg-gray-200 dark:bg-gray-700 rounded-full h-3 shadow-inner border border-gray-300 dark:border-gray-600">
-                      <div className="bg-gradient-to-r from-green-500 to-green-600 h-3 rounded-full shadow-sm transition-all duration-300" style={{ width: '89%' }}></div>
-                    </div>
-                    <span className="text-sm font-medium text-foreground w-8">89%</span>
-                  </div>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-sm text-muted-foreground">E-mail</span>
-                  <div className="flex items-center gap-2 ml-4">
-                    <div className="w-20 sm:w-24 lg:w-32 xl:w-40 bg-gray-200 dark:bg-gray-700 rounded-full h-3 shadow-inner border border-gray-300 dark:border-gray-600">
-                      <div className="bg-gradient-to-r from-yellow-500 to-yellow-600 h-3 rounded-full shadow-sm transition-all duration-300" style={{ width: '78%' }}></div>
-                    </div>
-                    <span className="text-sm font-medium text-foreground w-8">78%</span>
-                  </div>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-sm text-muted-foreground">Phone Number</span>
-                  <div className="flex items-center gap-2 ml-4">
-                    <div className="w-20 sm:w-24 lg:w-32 xl:w-40 bg-gray-200 dark:bg-gray-700 rounded-full h-3 shadow-inner border border-gray-300 dark:border-gray-600">
-                      <div className="bg-gradient-to-r from-yellow-500 to-yellow-600 h-3 rounded-full shadow-sm transition-all duration-300" style={{ width: '71%' }}></div>
-                    </div>
-                    <span className="text-sm font-medium text-foreground w-8">71%</span>
-                  </div>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-sm text-muted-foreground">Gender</span>
-                  <div className="flex items-center gap-2 ml-4">
-                    <div className="w-20 sm:w-24 lg:w-32 xl:w-40 bg-gray-200 dark:bg-gray-700 rounded-full h-3 shadow-inner border border-gray-300 dark:border-gray-600">
-                      <div className="bg-gradient-to-r from-red-500 to-red-600 h-3 rounded-full shadow-sm transition-all duration-300" style={{ width: '43%' }}></div>
-                    </div>
-                    <span className="text-sm font-medium text-foreground w-8">43%</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Conversion Data */}
-            <div>
-              <h4 className="text-sm font-medium text-foreground mb-4">Conversion Data</h4>
-              <div className="space-y-3">
-                <div className="flex items-center justify-between">
-                  <span className="text-sm text-muted-foreground">City</span>
-                  <div className="flex items-center gap-2 ml-4">
-                    <div className="w-20 sm:w-24 lg:w-32 xl:w-40 bg-gray-200 dark:bg-gray-700 rounded-full h-3 shadow-inner border border-gray-300 dark:border-gray-600">
-                      <div className="bg-gradient-to-r from-green-500 to-green-600 h-3 rounded-full shadow-sm transition-all duration-300" style={{ width: '96%' }}></div>
-                    </div>
-                    <span className="text-sm font-medium text-foreground w-8">96%</span>
-                  </div>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-sm text-muted-foreground">Zip</span>
-                  <div className="flex items-center gap-2 ml-4">
-                    <div className="w-20 sm:w-24 lg:w-32 xl:w-40 bg-gray-200 dark:bg-gray-700 rounded-full h-3 shadow-inner border border-gray-300 dark:border-gray-600">
-                      <div className="bg-gradient-to-r from-green-500 to-green-600 h-3 rounded-full shadow-sm transition-all duration-300" style={{ width: '94%' }}></div>
-                    </div>
-                    <span className="text-sm font-medium text-foreground w-8">94%</span>
-                  </div>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-sm text-muted-foreground">Country</span>
-                  <div className="flex items-center gap-2 ml-4">
-                    <div className="w-20 sm:w-24 lg:w-32 xl:w-40 bg-gray-200 dark:bg-gray-700 rounded-full h-3 shadow-inner border border-gray-300 dark:border-gray-600">
-                      <div className="bg-gradient-to-r from-green-500 to-green-600 h-3 rounded-full shadow-sm transition-all duration-300" style={{ width: '99%' }}></div>
-                    </div>
-                    <span className="text-sm font-medium text-foreground w-8">99%</span>
-                  </div>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-sm text-muted-foreground">Store Code</span>
+                  <span className="text-sm text-muted-foreground">Store Name</span>
                   <div className="flex items-center gap-2 ml-4">
                     <div className="w-20 sm:w-24 lg:w-32 xl:w-40 bg-gray-200 dark:bg-gray-700 rounded-full h-3 shadow-inner border border-gray-300 dark:border-gray-600">
                       <div className="bg-gradient-to-r from-green-500 to-green-600 h-3 rounded-full shadow-sm transition-all duration-300" style={{ width: '100%' }}></div>
@@ -304,16 +225,7 @@ export default function DataQualityEnrichment({ context = 'dashboard' }: DataQua
                   </div>
                 </div>
                 <div className="flex items-center justify-between">
-                  <span className="text-sm text-muted-foreground">Conversion Value</span>
-                  <div className="flex items-center gap-2 ml-4">
-                    <div className="w-20 sm:w-24 lg:w-32 xl:w-40 bg-gray-200 dark:bg-gray-700 rounded-full h-3 shadow-inner border border-gray-300 dark:border-gray-600">
-                      <div className="bg-gradient-to-r from-green-500 to-green-600 h-3 rounded-full shadow-sm transition-all duration-300" style={{ width: '97%' }}></div>
-                    </div>
-                    <span className="text-sm font-medium text-foreground w-8">97%</span>
-                  </div>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-sm text-muted-foreground">Conversion Time</span>
+                  <span className="text-sm text-muted-foreground">Full Address</span>
                   <div className="flex items-center gap-2 ml-4">
                     <div className="w-20 sm:w-24 lg:w-32 xl:w-40 bg-gray-200 dark:bg-gray-700 rounded-full h-3 shadow-inner border border-gray-300 dark:border-gray-600">
                       <div className="bg-gradient-to-r from-green-500 to-green-600 h-3 rounded-full shadow-sm transition-all duration-300" style={{ width: '98%' }}></div>
@@ -321,15 +233,17 @@ export default function DataQualityEnrichment({ context = 'dashboard' }: DataQua
                     <span className="text-sm font-medium text-foreground w-8">98%</span>
                   </div>
                 </div>
-              </div>
-            </div>
-
-            {/* Content Data */}
-            <div>
-              <h4 className="text-sm font-medium text-foreground mb-4">Content Data</h4>
-              <div className="space-y-3">
                 <div className="flex items-center justify-between">
-                  <span className="text-sm text-muted-foreground">Contents</span>
+                  <span className="text-sm text-muted-foreground">Latitude & Longitude</span>
+                  <div className="flex items-center gap-2 ml-4">
+                    <div className="w-20 sm:w-24 lg:w-32 xl:w-40 bg-gray-200 dark:bg-gray-700 rounded-full h-3 shadow-inner border border-gray-300 dark:border-gray-600">
+                      <div className="bg-gradient-to-r from-green-500 to-green-600 h-3 rounded-full shadow-sm transition-all duration-300" style={{ width: '96%' }}></div>
+                    </div>
+                    <span className="text-sm font-medium text-foreground w-8">96%</span>
+                  </div>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-sm text-muted-foreground">Primary Category</span>
                   <div className="flex items-center gap-2 ml-4">
                     <div className="w-20 sm:w-24 lg:w-32 xl:w-40 bg-gray-200 dark:bg-gray-700 rounded-full h-3 shadow-inner border border-gray-300 dark:border-gray-600">
                       <div className="bg-gradient-to-r from-green-500 to-green-600 h-3 rounded-full shadow-sm transition-all duration-300" style={{ width: '94%' }}></div>
@@ -338,16 +252,7 @@ export default function DataQualityEnrichment({ context = 'dashboard' }: DataQua
                   </div>
                 </div>
                 <div className="flex items-center justify-between">
-                  <span className="text-sm text-muted-foreground">Contents_ID_#</span>
-                  <div className="flex items-center gap-2 ml-4">
-                    <div className="w-20 sm:w-24 lg:w-32 xl:w-40 bg-gray-200 dark:bg-gray-700 rounded-full h-3 shadow-inner border border-gray-300 dark:border-gray-600">
-                      <div className="bg-gradient-to-r from-green-500 to-green-600 h-3 rounded-full shadow-sm transition-all duration-300" style={{ width: '91%' }}></div>
-                    </div>
-                    <span className="text-sm font-medium text-foreground w-8">91%</span>
-                  </div>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-sm text-muted-foreground">Contents_Quantity_#</span>
+                  <span className="text-sm text-muted-foreground">Business Hours</span>
                   <div className="flex items-center gap-2 ml-4">
                     <div className="w-20 sm:w-24 lg:w-32 xl:w-40 bg-gray-200 dark:bg-gray-700 rounded-full h-3 shadow-inner border border-gray-300 dark:border-gray-600">
                       <div className="bg-gradient-to-r from-yellow-500 to-yellow-600 h-3 rounded-full shadow-sm transition-all duration-300" style={{ width: '87%' }}></div>
@@ -355,31 +260,108 @@ export default function DataQualityEnrichment({ context = 'dashboard' }: DataQua
                     <span className="text-sm font-medium text-foreground w-8">87%</span>
                   </div>
                 </div>
+              </div>
+            </div>
+
+            {/* Inventory Data */}
+            <div>
+              <h4 className="text-sm font-medium text-foreground mb-4">Inventory Data</h4>
+              <div className="space-y-3">
                 <div className="flex items-center justify-between">
-                  <span className="text-sm text-muted-foreground">Contents_Price_#</span>
+                  <span className="text-sm text-muted-foreground">SKU ID</span>
                   <div className="flex items-center gap-2 ml-4">
                     <div className="w-20 sm:w-24 lg:w-32 xl:w-40 bg-gray-200 dark:bg-gray-700 rounded-full h-3 shadow-inner border border-gray-300 dark:border-gray-600">
-                      <div className="bg-gradient-to-r from-yellow-500 to-yellow-600 h-3 rounded-full shadow-sm transition-all duration-300" style={{ width: '84%' }}></div>
+                      <div className="bg-gradient-to-r from-green-500 to-green-600 h-3 rounded-full shadow-sm transition-all duration-300" style={{ width: '99%' }}></div>
                     </div>
-                    <span className="text-sm font-medium text-foreground w-8">84%</span>
+                    <span className="text-sm font-medium text-foreground w-8">99%</span>
                   </div>
                 </div>
                 <div className="flex items-center justify-between">
-                  <span className="text-sm text-muted-foreground">Contents_Category_#</span>
+                  <span className="text-sm text-muted-foreground">Store ID</span>
                   <div className="flex items-center gap-2 ml-4">
                     <div className="w-20 sm:w-24 lg:w-32 xl:w-40 bg-gray-200 dark:bg-gray-700 rounded-full h-3 shadow-inner border border-gray-300 dark:border-gray-600">
-                      <div className="bg-gradient-to-r from-yellow-500 to-yellow-600 h-3 rounded-full shadow-sm transition-all duration-300" style={{ width: '79%' }}></div>
+                      <div className="bg-gradient-to-r from-green-500 to-green-600 h-3 rounded-full shadow-sm transition-all duration-300" style={{ width: '100%' }}></div>
                     </div>
-                    <span className="text-sm font-medium text-foreground w-8">79%</span>
+                    <span className="text-sm font-medium text-foreground w-8">100%</span>
                   </div>
                 </div>
                 <div className="flex items-center justify-between">
-                  <span className="text-sm text-muted-foreground">Contents_Brand_#</span>
+                  <span className="text-sm text-muted-foreground">Availability Status</span>
                   <div className="flex items-center gap-2 ml-4">
                     <div className="w-20 sm:w-24 lg:w-32 xl:w-40 bg-gray-200 dark:bg-gray-700 rounded-full h-3 shadow-inner border border-gray-300 dark:border-gray-600">
-                      <div className="bg-gradient-to-r from-red-500 to-red-600 h-3 rounded-full shadow-sm transition-all duration-300" style={{ width: '67%' }}></div>
+                      <div className="bg-gradient-to-r from-green-500 to-green-600 h-3 rounded-full shadow-sm transition-all duration-300" style={{ width: '95%' }}></div>
                     </div>
-                    <span className="text-sm font-medium text-foreground w-8">67%</span>
+                    <span className="text-sm font-medium text-foreground w-8">95%</span>
+                  </div>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-sm text-muted-foreground">Current Price</span>
+                  <div className="flex items-center gap-2 ml-4">
+                    <div className="w-20 sm:w-24 lg:w-32 xl:w-40 bg-gray-200 dark:bg-gray-700 rounded-full h-3 shadow-inner border border-gray-300 dark:border-gray-600">
+                      <div className="bg-gradient-to-r from-green-500 to-green-600 h-3 rounded-full shadow-sm transition-all duration-300" style={{ width: '97%' }}></div>
+                    </div>
+                    <span className="text-sm font-medium text-foreground w-8">97%</span>
+                  </div>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-sm text-muted-foreground">Last Updated</span>
+                  <div className="flex items-center gap-2 ml-4">
+                    <div className="w-20 sm:w-24 lg:w-32 xl:w-40 bg-gray-200 dark:bg-gray-700 rounded-full h-3 shadow-inner border border-gray-300 dark:border-gray-600">
+                      <div className="bg-gradient-to-r from-green-500 to-green-600 h-3 rounded-full shadow-sm transition-all duration-300" style={{ width: '92%' }}></div>
+                    </div>
+                    <span className="text-sm font-medium text-foreground w-8">92%</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* In-Store Sales Data */}
+            <div>
+              <h4 className="text-sm font-medium text-foreground mb-4">In-Store Sales Data</h4>
+              <div className="space-y-3">
+                <div className="flex items-center justify-between">
+                  <span className="text-sm text-muted-foreground">Store ID</span>
+                  <div className="flex items-center gap-2 ml-4">
+                    <div className="w-20 sm:w-24 lg:w-32 xl:w-40 bg-gray-200 dark:bg-gray-700 rounded-full h-3 shadow-inner border border-gray-300 dark:border-gray-600">
+                      <div className="bg-gradient-to-r from-green-500 to-green-600 h-3 rounded-full shadow-sm transition-all duration-300" style={{ width: '100%' }}></div>
+                    </div>
+                    <span className="text-sm font-medium text-foreground w-8">100%</span>
+                  </div>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-sm text-muted-foreground">Transaction ID</span>
+                  <div className="flex items-center gap-2 ml-4">
+                    <div className="w-20 sm:w-24 lg:w-32 xl:w-40 bg-gray-200 dark:bg-gray-700 rounded-full h-3 shadow-inner border border-gray-300 dark:border-gray-600">
+                      <div className="bg-gradient-to-r from-green-500 to-green-600 h-3 rounded-full shadow-sm transition-all duration-300" style={{ width: '98%' }}></div>
+                    </div>
+                    <span className="text-sm font-medium text-foreground w-8">98%</span>
+                  </div>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-sm text-muted-foreground">Transaction Value</span>
+                  <div className="flex items-center gap-2 ml-4">
+                    <div className="w-20 sm:w-24 lg:w-32 xl:w-40 bg-gray-200 dark:bg-gray-700 rounded-full h-3 shadow-inner border border-gray-300 dark:border-gray-600">
+                      <div className="bg-gradient-to-r from-green-500 to-green-600 h-3 rounded-full shadow-sm transition-all duration-300" style={{ width: '96%' }}></div>
+                    </div>
+                    <span className="text-sm font-medium text-foreground w-8">96%</span>
+                  </div>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-sm text-muted-foreground">Transaction Timestamp</span>
+                  <div className="flex items-center gap-2 ml-4">
+                    <div className="w-20 sm:w-24 lg:w-32 xl:w-40 bg-gray-200 dark:bg-gray-700 rounded-full h-3 shadow-inner border border-gray-300 dark:border-gray-600">
+                      <div className="bg-gradient-to-r from-green-500 to-green-600 h-3 rounded-full shadow-sm transition-all duration-300" style={{ width: '94%' }}></div>
+                    </div>
+                    <span className="text-sm font-medium text-foreground w-8">94%</span>
+                  </div>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-sm text-muted-foreground">Customer Phone (Hashed)</span>
+                  <div className="flex items-center gap-2 ml-4">
+                    <div className="w-20 sm:w-24 lg:w-32 xl:w-40 bg-gray-200 dark:bg-gray-700 rounded-full h-3 shadow-inner border border-gray-300 dark:border-gray-600">
+                      <div className="bg-gradient-to-r from-yellow-500 to-yellow-600 h-3 rounded-full shadow-sm transition-all duration-300" style={{ width: '78%' }}></div>
+                    </div>
+                    <span className="text-sm font-medium text-foreground w-8">78%</span>
                   </div>
                 </div>
               </div>
