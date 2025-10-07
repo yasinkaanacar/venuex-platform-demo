@@ -1633,14 +1633,14 @@ export default function OfflineConversionsMVP() {
               <CardContent>
                 {/* Maps Visualization */}
                 <div className="grid grid-cols-2 gap-6 mb-6">
-                  {/* Omni Revenue Distribution Map */}
+                  {/* Offline Revenue Distribution Map */}
                   <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 p-4">
-                    <h3 className="text-sm font-semibold text-foreground mb-3">Omni Revenue Distribution</h3>
+                    <h3 className="text-sm font-semibold text-foreground mb-3">Offline Revenue Distribution</h3>
                     <div className="relative h-96 bg-gray-100 dark:bg-gray-700 rounded-lg overflow-hidden flex items-center justify-center p-4">
                       <svg viewBox="0 0 1000 600" className="w-full h-full" preserveAspectRatio="xMidYMid meet">
                         {mockGeoData.map((item) => {
-                          const totalRevenue = item.onlineRevenue + item.offlineRevenue;
-                          const maxRevenue = Math.max(...mockGeoData.map(d => d.onlineRevenue + d.offlineRevenue));
+                          const totalRevenue = item.offlineRevenue;
+                          const maxRevenue = Math.max(...mockGeoData.map(d => d.offlineRevenue));
                           const intensity = (totalRevenue / maxRevenue);
                           const isSelected = selectedMapState === item.state;
                           const fillColor = `rgba(59, 130, 246, ${0.3 + intensity * 0.7})`;
@@ -1710,14 +1710,14 @@ export default function OfflineConversionsMVP() {
                     </div>
                   </div>
                   
-                  {/* Omni ROAS Distribution Map */}
+                  {/* Offline ROAS Distribution Map */}
                   <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 p-4">
-                    <h3 className="text-sm font-semibold text-foreground mb-3">Omni ROAS Distribution</h3>
+                    <h3 className="text-sm font-semibold text-foreground mb-3">Offline ROAS Distribution</h3>
                     <div className="relative h-96 bg-gray-100 dark:bg-gray-700 rounded-lg overflow-hidden flex items-center justify-center p-4">
                       <svg viewBox="0 0 1000 600" className="w-full h-full" preserveAspectRatio="xMidYMid meet">
                         {mockGeoData.map((item) => {
-                          const avgROAS = (item.onlineROAS + item.offlineROAS) / 2;
-                          const maxROAS = Math.max(...mockGeoData.map(d => (d.onlineROAS + d.offlineROAS) / 2));
+                          const avgROAS = item.offlineROAS;
+                          const maxROAS = Math.max(...mockGeoData.map(d => d.offlineROAS));
                           const intensity = (avgROAS / maxROAS);
                           const isSelected = selectedMapState === item.state;
                           const fillColor = `rgba(34, 197, 94, ${0.3 + intensity * 0.7})`;
@@ -1745,7 +1745,7 @@ export default function OfflineConversionsMVP() {
                               title={
                                 <div className="text-left">
                                   <div className="font-medium">{item.state}</div>
-                                  <div className="text-sm">ROAS: {avgROAS.toFixed(1)}x</div>
+                                  <div className="text-sm">ROAS: {item.offlineROAS.toFixed(1)}x</div>
                                 </div>
                               }
                               arrow
