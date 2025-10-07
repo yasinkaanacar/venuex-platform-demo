@@ -1395,9 +1395,6 @@ export default function OfflineConversionsMVP() {
                 <h3 className="text-lg font-semibold text-foreground">Online-to-Offline Conversion Funnel</h3>
                 <p className="text-sm text-muted-foreground">Conversion metrics from digital channels to physical store</p>
               </div>
-              <button className="text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:hover:text-white font-medium bg-transparent border-none cursor-pointer" data-testid="button-view-all-funnel">
-                View All →
-              </button>
             </div>
             <div className="bg-[#f9fafb] p-6">
               <div className="relative" data-testid="chart-performance">
