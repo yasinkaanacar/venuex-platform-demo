@@ -988,7 +988,7 @@ export default function OfflineConversionsMVP() {
       previousValue: "4.0x"
     },
     {
-      title: "Offline Revenue Contribution",
+      title: "Attributed Revenue Share",
       primaryMetric: "35%",
       changePercent: 5,
       isPositiveChange: true,
