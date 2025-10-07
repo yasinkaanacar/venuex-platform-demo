@@ -6,7 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { Tooltip } from '@mui/material';
-import { TrendingUp, TrendingDown, Calendar, Filter, X, Search, ChevronDown, Check, CheckCircle, Receipt, AlertTriangle, AlertCircle, ArrowUpDown, Package, MapPin } from 'lucide-react';
+import { TrendingUp, TrendingDown, Calendar, Filter, X, Search, ChevronDown, Check, CheckCircle, Receipt, AlertTriangle, AlertCircle, ArrowUpDown, Package, MapPin, DollarSign, ShoppingCart } from 'lucide-react';
 import { LineChart, Line, ResponsiveContainer } from "recharts";
 import { SiGoogle, SiMeta, SiTiktok, SiApple } from 'react-icons/si';
 import funnelImage from '@assets/Screenshot 2025-08-29 at 18.31.46_1756481891401.png';
@@ -42,79 +42,49 @@ interface KPICardProps {
   isPositiveChange: boolean;
   sparklineData: { value: number }[];
   tooltipContent: string[];
+  icon: any;
+  iconColor: string;
+  iconBg: string;
+  previousValue?: string;
 }
 
-function KPICard({ title, primaryMetric, changePercent, isPositiveChange, sparklineData, tooltipContent }: KPICardProps) {
-  const formatChange = (percent: number, isPositive: boolean) => {
-    const icon = isPositive ? <TrendingUp className="w-3 h-3" /> : <TrendingDown className="w-3 h-3" />;
-    const color = isPositive ? "text-green-600" : "text-red-600";
-    return (
-      <div className={`flex items-center gap-1 ${color}`}>
-        {icon}
-        <span className="text-sm font-medium">{Math.abs(percent)}% vs. previous 30 days</span>
-      </div>
-    );
+function KPICard({ title, primaryMetric, changePercent, isPositiveChange, icon: Icon, iconColor, iconBg, previousValue }: KPICardProps) {
+  const getTrendColor = (isPositive: boolean) => {
+    return isPositive ? "text-green-600" : "text-red-600";
   };
 
-  const tooltipTitle = (
-    <div className="text-left">
-      <div className="font-medium mb-2">{tooltipContent[0]}</div>
-      {tooltipContent.slice(1).map((line, index) => (
-        <div key={index} className="text-sm">{line}</div>
-      ))}
-    </div>
-  );
+  const TrendIcon = isPositiveChange ? TrendingUp : TrendingDown;
 
   return (
-    <Tooltip 
-      title={tooltipTitle} 
-      arrow 
-      componentsProps={{ 
-        tooltip: { 
-          sx: { 
-            fontSize: '14px',
-            backgroundColor: '#1f2937',
-            '& .MuiTooltip-arrow': {
-              color: '#1f2937',
-            }
-          } 
-        } 
-      }}
+    <div 
+      className="bg-[#f9fafb] shadow-none hover:shadow-sm transition-all duration-200 cursor-pointer hover:scale-105 rounded-lg border border-gray-200" 
+      data-testid={`kpi-card-${title.toLowerCase().replace(/\s+/g, '-')}`}
     >
-      <Card className="cursor-pointer hover:shadow-md transition-shadow duration-200 overflow-hidden" data-testid={`kpi-card-${title.toLowerCase().replace(/\s+/g, '-')}`}>
-        <CardContent className="p-6 bg-[#f9fafb]">
-          {/* Title */}
-          <div className="text-sm font-medium text-gray-600 mb-3" data-testid={`text-${title.toLowerCase().replace(/\s+/g, '-')}-title`}>
-            {title}
+      <div className="p-6 pt-3 bg-[#f9fafb] rounded-b-lg">
+        <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center space-x-2">
+            <div className={`w-10 h-10 ${iconBg} rounded-lg flex items-center justify-center`}>
+              <Icon className={`w-5 h-5 ${iconColor}`} />
+            </div>
+            <h3 className="text-sm font-medium text-muted-foreground whitespace-nowrap">{title}</h3>
           </div>
-          
-          {/* Primary Metric */}
-          <div className="text-3xl font-bold text-gray-900 mb-2" data-testid={`text-${title.toLowerCase().replace(/\s+/g, '-')}-metric`}>
+        </div>
+        
+        <div className="flex items-center justify-between mb-2">
+          <div className="text-2xl font-bold text-foreground" data-testid={`text-${title.toLowerCase().replace(/\s+/g, '-')}-metric`}>
             {primaryMetric}
           </div>
-          
-          {/* Comparison Metric */}
-          <div className="mb-4">
-            {formatChange(changePercent, isPositiveChange)}
+          <div className={`flex items-center space-x-1 text-xs ${getTrendColor(isPositiveChange)}`}>
+            <TrendIcon className="w-3 h-3" />
+            <span data-testid={`text-trend-${title.toLowerCase().replace(/\s+/g, '-')}`}>{isPositiveChange ? '+' : ''}{changePercent}%</span>
           </div>
-          
-          {/* Sparkline Chart */}
-          <div className="h-12 w-full" data-testid={`chart-${title.toLowerCase().replace(/\s+/g, '-')}-sparkline`}>
-            <ResponsiveContainer width="100%" height="100%">
-              <LineChart data={sparklineData}>
-                <Line 
-                  type="monotone" 
-                  dataKey="value" 
-                  stroke={isPositiveChange ? "#16a34a" : "#dc2626"} 
-                  strokeWidth={2}
-                  dot={false}
-                />
-              </LineChart>
-            </ResponsiveContainer>
-          </div>
-        </CardContent>
-      </Card>
-    </Tooltip>
+        </div>
+        
+        <div className="text-xs text-muted-foreground">
+          vs {previousValue || primaryMetric} previous period
+        </div>
+      </div>
+    </div>
   );
 }
 
@@ -982,7 +952,11 @@ export default function OfflineConversionsMVP() {
         "• Google Ads: ₺700,000",
         "• Meta: ₺450,000",
         "• TikTok: ₺50,000"
-      ]
+      ],
+      icon: DollarSign,
+      iconColor: "text-red-600",
+      iconBg: "bg-red-100",
+      previousValue: "₺1.1M"
     },
     {
       title: "Attributed In-Store Sales",
@@ -995,7 +969,11 @@ export default function OfflineConversionsMVP() {
         "• Google Ads: 1,290",
         "• Meta: 720",
         "• TikTok: 140"
-      ]
+      ],
+      icon: ShoppingCart,
+      iconColor: "text-blue-600",
+      iconBg: "bg-blue-100",
+      previousValue: "1,920"
     },
     {
       title: "Attributed Offline ROAS",
@@ -1006,7 +984,11 @@ export default function OfflineConversionsMVP() {
       tooltipContent: [
         "Calculation Method",
         "This ROAS is calculated using the total ad spend for campaigns driving both online and offline outcomes. It represents the return generated from the attributed in-store sales portion of the investment."
-      ]
+      ],
+      icon: TrendingUp,
+      iconColor: "text-green-600",
+      iconBg: "bg-green-100",
+      previousValue: "4.0x"
     },
     {
       title: "Offline Revenue Contribution",
@@ -1019,7 +1001,11 @@ export default function OfflineConversionsMVP() {
         "• Attributed Offline: ₺1.2M",
         "• Attributed Online: ₺2.2M",
         "Total Attributed: ₺3.4M"
-      ]
+      ],
+      icon: Receipt,
+      iconColor: "text-purple-600",
+      iconBg: "bg-purple-100",
+      previousValue: "33%"
     }
   ];
 
@@ -1362,6 +1348,10 @@ export default function OfflineConversionsMVP() {
               isPositiveChange={kpiData[0].isPositiveChange}
               sparklineData={kpiData[0].sparklineData}
               tooltipContent={kpiData[0].tooltipContent}
+              icon={kpiData[0].icon}
+              iconColor={kpiData[0].iconColor}
+              iconBg={kpiData[0].iconBg}
+              previousValue={kpiData[0].previousValue}
             />
             <KPICard
               title={kpiData[1].title}
@@ -1370,6 +1360,10 @@ export default function OfflineConversionsMVP() {
               isPositiveChange={kpiData[1].isPositiveChange}
               sparklineData={kpiData[1].sparklineData}
               tooltipContent={kpiData[1].tooltipContent}
+              icon={kpiData[1].icon}
+              iconColor={kpiData[1].iconColor}
+              iconBg={kpiData[1].iconBg}
+              previousValue={kpiData[1].previousValue}
             />
             <KPICard
               title={kpiData[2].title}
@@ -1378,6 +1372,10 @@ export default function OfflineConversionsMVP() {
               isPositiveChange={kpiData[2].isPositiveChange}
               sparklineData={kpiData[2].sparklineData}
               tooltipContent={kpiData[2].tooltipContent}
+              icon={kpiData[2].icon}
+              iconColor={kpiData[2].iconColor}
+              iconBg={kpiData[2].iconBg}
+              previousValue={kpiData[2].previousValue}
             />
             <KPICard
               title={kpiData[3].title}
@@ -1386,6 +1384,10 @@ export default function OfflineConversionsMVP() {
               isPositiveChange={kpiData[3].isPositiveChange}
               sparklineData={kpiData[3].sparklineData}
               tooltipContent={kpiData[3].tooltipContent}
+              icon={kpiData[3].icon}
+              iconColor={kpiData[3].iconColor}
+              iconBg={kpiData[3].iconBg}
+              previousValue={kpiData[3].previousValue}
             />
           </div>
           
