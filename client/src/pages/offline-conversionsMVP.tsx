@@ -1636,30 +1636,31 @@ export default function OfflineConversionsMVP() {
                   {/* Omni Revenue Distribution Map */}
                   <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 p-4">
                     <h3 className="text-sm font-semibold text-foreground mb-3">Omni Revenue Distribution</h3>
-                    <div className="relative h-96 bg-gray-100 dark:bg-gray-700 rounded-lg overflow-hidden">
-                      {/* Turkey Heatmap - Geographic Layout */}
-                      <div className="relative w-full h-full">
+                    <div className="relative h-96 bg-gray-100 dark:bg-gray-700 rounded-lg overflow-hidden flex items-center justify-center p-4">
+                      <svg viewBox="0 0 1000 600" className="w-full h-full" preserveAspectRatio="xMidYMid meet">
                         {mockGeoData.map((item) => {
                           const totalRevenue = item.onlineRevenue + item.offlineRevenue;
                           const maxRevenue = Math.max(...mockGeoData.map(d => d.onlineRevenue + d.offlineRevenue));
                           const intensity = (totalRevenue / maxRevenue);
                           const isSelected = selectedMapState === item.state;
+                          const fillColor = `rgba(59, 130, 246, ${0.3 + intensity * 0.7})`;
                           
-                          // Geographic positioning for Turkish states
-                          const positions: Record<string, { top: string; left: string; width: string; height: string }> = {
-                            'Istanbul': { top: '15%', left: '15%', width: '90px', height: '60px' },
-                            'Kocaeli': { top: '20%', left: '28%', width: '70px', height: '50px' },
-                            'Bursa': { top: '32%', left: '12%', width: '85px', height: '55px' },
-                            'Izmir': { top: '48%', left: '5%', width: '80px', height: '65px' },
-                            'Ankara': { top: '28%', left: '42%', width: '95px', height: '70px' },
-                            'Konya': { top: '48%', left: '38%', width: '100px', height: '75px' },
-                            'Antalya': { top: '65%', left: '22%', width: '85px', height: '60px' },
-                            'Mersin': { top: '62%', left: '45%', width: '75px', height: '55px' },
-                            'Adana': { top: '58%', left: '58%', width: '80px', height: '58px' },
-                            'Gaziantep': { top: '52%', left: '72%', width: '85px', height: '62px' }
+                          // SVG paths for Turkish provinces (simplified shapes)
+                          const provincePaths: Record<string, string> = {
+                            'Istanbul': 'M150,120 L180,110 L200,115 L210,130 L200,150 L170,155 L140,145 Z',
+                            'Kocaeli': 'M215,125 L245,120 L260,135 L255,155 L235,160 L210,150 Z',
+                            'Bursa': 'M140,160 L170,160 L190,175 L185,200 L160,210 L130,195 Z',
+                            'Izmir': 'M50,280 L90,275 L110,290 L105,320 L80,335 L45,320 Z',
+                            'Ankara': 'M350,180 L410,175 L435,195 L430,230 L395,245 L340,230 Z',
+                            'Konya': 'M340,280 L410,275 L440,295 L435,340 L390,360 L330,345 Z',
+                            'Antalya': 'M180,380 L230,375 L255,390 L250,425 L215,440 L175,425 Z',
+                            'Mersin': 'M360,370 L410,365 L435,380 L430,415 L395,430 L355,415 Z',
+                            'Adana': 'M445,355 L495,350 L520,365 L515,400 L480,415 L440,400 Z',
+                            'Gaziantep': 'M600,320 L650,315 L675,330 L670,365 L635,380 L595,365 Z'
                           };
                           
-                          const position = positions[item.state] || { top: '50%', left: '50%', width: '80px', height: '60px' };
+                          const path = provincePaths[item.state];
+                          if (!path) return null;
                           
                           return (
                             <Tooltip 
@@ -1672,29 +1673,35 @@ export default function OfflineConversionsMVP() {
                               }
                               arrow
                             >
-                              <div 
-                                className={`absolute rounded-lg cursor-pointer transition-all duration-200 hover:scale-105 hover:z-10 ${isSelected ? 'ring-2 ring-blue-500 z-10' : ''}`}
-                                style={{ 
-                                  top: position.top,
-                                  left: position.left,
-                                  width: position.width,
-                                  height: position.height,
-                                  backgroundColor: `rgba(59, 130, 246, ${0.3 + intensity * 0.7})`,
-                                }}
-                                onClick={() => {
-                                  setGeoState(item.state);
-                                  setSelectedMapState(item.state);
-                                }}
-                                data-testid={`map-revenue-${item.state.toLowerCase()}`}
-                              >
-                                <span className="absolute inset-0 flex items-center justify-center text-xs font-semibold text-white drop-shadow-lg">
+                              <g>
+                                <path
+                                  d={path}
+                                  fill={fillColor}
+                                  stroke={isSelected ? '#3b82f6' : '#9ca3af'}
+                                  strokeWidth={isSelected ? '3' : '1'}
+                                  className="cursor-pointer transition-all duration-200 hover:opacity-80"
+                                  onClick={() => {
+                                    setGeoState(item.state);
+                                    setSelectedMapState(item.state);
+                                  }}
+                                  data-testid={`map-revenue-${item.state.toLowerCase()}`}
+                                />
+                                <text
+                                  x={path.includes('Istanbul') ? 175 : path.includes('Ankara') ? 385 : path.includes('Izmir') ? 77 : path.includes('Konya') ? 385 : path.includes('Bursa') ? 160 : path.includes('Kocaeli') ? 237 : path.includes('Antalya') ? 212 : path.includes('Mersin') ? 397 : path.includes('Adana') ? 477 : 632}
+                                  y={path.includes('Istanbul') ? 135 : path.includes('Ankara') ? 210 : path.includes('Izmir') ? 305 : path.includes('Konya') ? 315 : path.includes('Bursa') ? 185 : path.includes('Kocaeli') ? 142 : path.includes('Antalya') ? 407 : path.includes('Mersin') ? 397 : path.includes('Adana') ? 382 : 347}
+                                  fill="white"
+                                  fontSize="11"
+                                  fontWeight="600"
+                                  textAnchor="middle"
+                                  className="pointer-events-none drop-shadow-lg"
+                                >
                                   {item.state}
-                                </span>
-                              </div>
+                                </text>
+                              </g>
                             </Tooltip>
                           );
                         })}
-                      </div>
+                      </svg>
                     </div>
                     <div className="mt-3 flex items-center justify-between text-xs text-gray-600">
                       <span>₺37,956</span>
@@ -1706,30 +1713,31 @@ export default function OfflineConversionsMVP() {
                   {/* Omni ROAS Distribution Map */}
                   <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 p-4">
                     <h3 className="text-sm font-semibold text-foreground mb-3">Omni ROAS Distribution</h3>
-                    <div className="relative h-96 bg-gray-100 dark:bg-gray-700 rounded-lg overflow-hidden">
-                      {/* Turkey Heatmap - Geographic Layout */}
-                      <div className="relative w-full h-full">
+                    <div className="relative h-96 bg-gray-100 dark:bg-gray-700 rounded-lg overflow-hidden flex items-center justify-center p-4">
+                      <svg viewBox="0 0 1000 600" className="w-full h-full" preserveAspectRatio="xMidYMid meet">
                         {mockGeoData.map((item) => {
                           const avgROAS = (item.onlineROAS + item.offlineROAS) / 2;
                           const maxROAS = Math.max(...mockGeoData.map(d => (d.onlineROAS + d.offlineROAS) / 2));
                           const intensity = (avgROAS / maxROAS);
                           const isSelected = selectedMapState === item.state;
+                          const fillColor = `rgba(34, 197, 94, ${0.3 + intensity * 0.7})`;
                           
-                          // Geographic positioning for Turkish states (same as revenue map)
-                          const positions: Record<string, { top: string; left: string; width: string; height: string }> = {
-                            'Istanbul': { top: '15%', left: '15%', width: '90px', height: '60px' },
-                            'Kocaeli': { top: '20%', left: '28%', width: '70px', height: '50px' },
-                            'Bursa': { top: '32%', left: '12%', width: '85px', height: '55px' },
-                            'Izmir': { top: '48%', left: '5%', width: '80px', height: '65px' },
-                            'Ankara': { top: '28%', left: '42%', width: '95px', height: '70px' },
-                            'Konya': { top: '48%', left: '38%', width: '100px', height: '75px' },
-                            'Antalya': { top: '65%', left: '22%', width: '85px', height: '60px' },
-                            'Mersin': { top: '62%', left: '45%', width: '75px', height: '55px' },
-                            'Adana': { top: '58%', left: '58%', width: '80px', height: '58px' },
-                            'Gaziantep': { top: '52%', left: '72%', width: '85px', height: '62px' }
+                          // SVG paths for Turkish provinces (same as revenue map)
+                          const provincePaths: Record<string, string> = {
+                            'Istanbul': 'M150,120 L180,110 L200,115 L210,130 L200,150 L170,155 L140,145 Z',
+                            'Kocaeli': 'M215,125 L245,120 L260,135 L255,155 L235,160 L210,150 Z',
+                            'Bursa': 'M140,160 L170,160 L190,175 L185,200 L160,210 L130,195 Z',
+                            'Izmir': 'M50,280 L90,275 L110,290 L105,320 L80,335 L45,320 Z',
+                            'Ankara': 'M350,180 L410,175 L435,195 L430,230 L395,245 L340,230 Z',
+                            'Konya': 'M340,280 L410,275 L440,295 L435,340 L390,360 L330,345 Z',
+                            'Antalya': 'M180,380 L230,375 L255,390 L250,425 L215,440 L175,425 Z',
+                            'Mersin': 'M360,370 L410,365 L435,380 L430,415 L395,430 L355,415 Z',
+                            'Adana': 'M445,355 L495,350 L520,365 L515,400 L480,415 L440,400 Z',
+                            'Gaziantep': 'M600,320 L650,315 L675,330 L670,365 L635,380 L595,365 Z'
                           };
                           
-                          const position = positions[item.state] || { top: '50%', left: '50%', width: '80px', height: '60px' };
+                          const path = provincePaths[item.state];
+                          if (!path) return null;
                           
                           return (
                             <Tooltip 
@@ -1742,29 +1750,35 @@ export default function OfflineConversionsMVP() {
                               }
                               arrow
                             >
-                              <div 
-                                className={`absolute rounded-lg cursor-pointer transition-all duration-200 hover:scale-105 hover:z-10 ${isSelected ? 'ring-2 ring-green-500 z-10' : ''}`}
-                                style={{ 
-                                  top: position.top,
-                                  left: position.left,
-                                  width: position.width,
-                                  height: position.height,
-                                  backgroundColor: `rgba(34, 197, 94, ${0.3 + intensity * 0.7})`,
-                                }}
-                                onClick={() => {
-                                  setGeoState(item.state);
-                                  setSelectedMapState(item.state);
-                                }}
-                                data-testid={`map-roas-${item.state.toLowerCase()}`}
-                              >
-                                <span className="absolute inset-0 flex items-center justify-center text-xs font-semibold text-white drop-shadow-lg">
+                              <g>
+                                <path
+                                  d={path}
+                                  fill={fillColor}
+                                  stroke={isSelected ? '#22c55e' : '#9ca3af'}
+                                  strokeWidth={isSelected ? '3' : '1'}
+                                  className="cursor-pointer transition-all duration-200 hover:opacity-80"
+                                  onClick={() => {
+                                    setGeoState(item.state);
+                                    setSelectedMapState(item.state);
+                                  }}
+                                  data-testid={`map-roas-${item.state.toLowerCase()}`}
+                                />
+                                <text
+                                  x={path.includes('Istanbul') ? 175 : path.includes('Ankara') ? 385 : path.includes('Izmir') ? 77 : path.includes('Konya') ? 385 : path.includes('Bursa') ? 160 : path.includes('Kocaeli') ? 237 : path.includes('Antalya') ? 212 : path.includes('Mersin') ? 397 : path.includes('Adana') ? 477 : 632}
+                                  y={path.includes('Istanbul') ? 135 : path.includes('Ankara') ? 210 : path.includes('Izmir') ? 305 : path.includes('Konya') ? 315 : path.includes('Bursa') ? 185 : path.includes('Kocaeli') ? 142 : path.includes('Antalya') ? 407 : path.includes('Mersin') ? 397 : path.includes('Adana') ? 382 : 347}
+                                  fill="white"
+                                  fontSize="11"
+                                  fontWeight="600"
+                                  textAnchor="middle"
+                                  className="pointer-events-none drop-shadow-lg"
+                                >
                                   {item.state}
-                                </span>
-                              </div>
+                                </text>
+                              </g>
                             </Tooltip>
                           );
                         })}
-                      </div>
+                      </svg>
                     </div>
                     <div className="mt-3 flex items-center justify-between text-xs text-gray-600">
                       <span>15.4x</span>
