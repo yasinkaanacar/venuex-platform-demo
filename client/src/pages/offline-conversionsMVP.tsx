@@ -60,7 +60,7 @@ function KPICard({ title, primaryMetric, changePercent, isPositiveChange, icon: 
       className="bg-[#f9fafb] shadow-none hover:shadow-sm transition-all duration-200 cursor-pointer hover:scale-105 rounded-lg border border-gray-200" 
       data-testid={`kpi-card-${title.toLowerCase().replace(/\s+/g, '-')}`}
     >
-      <div className="p-6 pt-3 bg-[#f9fafb] rounded-b-lg">
+      <div className="p-6 pt-3 bg-[#f9fafb]">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center space-x-2">
             <div className={`w-10 h-10 ${iconBg} rounded-lg flex items-center justify-center`}>
