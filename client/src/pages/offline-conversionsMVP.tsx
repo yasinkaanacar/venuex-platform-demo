@@ -491,10 +491,46 @@ function CampaignTable({ filters }: { filters: FilterState }) {
   );
 }
 
+// Campaign data type
+interface CampaignData {
+  id: string;
+  name: string;
+  platform: string;
+  campaignType: string;
+  impressions: number;
+  ctv: number;
+  spend: number;
+  roas: number;
+  visits: number;
+  purchases: number;
+}
+
+// Complete campaign dataset
+const allCampaignsData: CampaignData[] = [
+  { id: '1', name: 'Holiday Sale Campaign', platform: 'google', campaignType: 'conversion', impressions: 245000, ctv: 3.8, spend: 18500, roas: 5.2, visits: 32400, purchases: 1650 },
+  { id: '2', name: 'Brand Awareness Q4', platform: 'google', campaignType: 'awareness', impressions: 890000, ctv: 1.2, spend: 12000, roas: 2.1, visits: 18900, purchases: 420 },
+  { id: '3', name: 'Product Launch - Denim', platform: 'google', campaignType: 'consideration', impressions: 156000, ctv: 4.2, spend: 22000, roas: 4.8, visits: 28500, purchases: 1320 },
+  { id: '4', name: 'Retargeting - Website', platform: 'google', campaignType: 'conversion', impressions: 98000, ctv: 6.5, spend: 15000, roas: 6.2, visits: 24000, purchases: 1580 },
+  { id: '5', name: 'Social Commerce Push', platform: 'meta', campaignType: 'conversion', impressions: 178000, ctv: 3.4, spend: 16800, roas: 4.5, visits: 26700, purchases: 1240 },
+  { id: '6', name: 'Video Content Campaign', platform: 'meta', campaignType: 'awareness', impressions: 720000, ctv: 1.8, spend: 9500, roas: 2.8, visits: 15200, purchases: 380 },
+  { id: '7', name: 'Lookalike Audiences', platform: 'meta', campaignType: 'consideration', impressions: 134000, ctv: 4.8, spend: 19200, roas: 5.4, visits: 30100, purchases: 1450 },
+  { id: '8', name: 'Dynamic Product Ads', platform: 'meta', campaignType: 'conversion', impressions: 112000, ctv: 5.2, spend: 21500, roas: 5.8, visits: 28900, purchases: 1620 },
+  { id: '9', name: 'Gen Z Fashion Trends', platform: 'tiktok', campaignType: 'awareness', impressions: 450000, ctv: 2.4, spend: 8200, roas: 3.2, visits: 14800, purchases: 340 },
+  { id: '10', name: 'Influencer Collaborations', platform: 'tiktok', campaignType: 'consideration', impressions: 280000, ctv: 3.6, spend: 11500, roas: 4.1, visits: 19200, purchases: 780 },
+  { id: '11', name: 'Short Video Ads', platform: 'tiktok', campaignType: 'conversion', impressions: 165000, ctv: 4.5, spend: 14800, roas: 4.9, visits: 22600, purchases: 1120 },
+  { id: '12', name: 'Summer Sale 2024', platform: 'google', campaignType: 'conversion', impressions: 142580, ctv: 3.4, spend: 16350, roas: 4.2, visits: 24387, purchases: 1247 },
+  { id: '13', name: 'Local Shopping Campaign', platform: 'google', campaignType: 'performance', impressions: 118420, ctv: 2.9, spend: 15420, roas: 3.8, visits: 18652, purchases: 923 },
+  { id: '14', name: 'Local Store Promo', platform: 'meta', campaignType: 'awareness', impressions: 89670, ctv: 4.1, spend: 12840, roas: 5.1, visits: 16234, purchases: 785 },
+  { id: '15', name: 'Store Visit Drive', platform: 'meta', campaignType: 'consideration', impressions: 135240, ctv: 3.7, spend: 18960, roas: 3.6, visits: 21089, purchases: 634 },
+  { id: '16', name: 'Gen Z Store Discovery', platform: 'tiktok', campaignType: 'awareness', impressions: 78950, ctv: 2.8, spend: 8920, roas: 2.9, visits: 12473, purchases: 298 },
+];
+
 // Top Performing Campaigns Component
-function TopPerformingCampaigns() {
-  const [sortColumn, setSortColumn] = useState<string | null>(null);
-  const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
+function TopPerformingCampaigns({ filters }: { filters: FilterState }) {
+  const [sortColumn, setSortColumn] = useState<string>('roas');
+  const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('desc');
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
 
   const handleSort = (column: string) => {
     if (sortColumn === column) {
@@ -505,12 +541,84 @@ function TopPerformingCampaigns() {
     }
   };
 
+  // Apply filters to campaign data
+  const getFilteredCampaigns = () => {
+    let filtered = [...allCampaignsData];
+
+    // Filter by platform
+    if (filters.platforms.length > 0) {
+      filtered = filtered.filter(campaign => filters.platforms.includes(campaign.platform));
+    }
+
+    // Filter by campaign name
+    if (filters.campaigns.length > 0) {
+      filtered = filtered.filter(campaign => filters.campaigns.includes(campaign.name));
+    }
+
+    // Filter by campaign type
+    if (filters.campaignTypes.length > 0) {
+      filtered = filtered.filter(campaign => filters.campaignTypes.includes(campaign.campaignType));
+    }
+
+    return filtered;
+  };
+
+  // Sort campaigns
+  const getSortedCampaigns = () => {
+    const filtered = getFilteredCampaigns();
+    
+    if (!sortColumn) return filtered;
+
+    return [...filtered].sort((a, b) => {
+      let aVal: any = a[sortColumn as keyof CampaignData];
+      let bVal: any = b[sortColumn as keyof CampaignData];
+
+      if (sortColumn === 'name') {
+        aVal = aVal.toLowerCase();
+        bVal = bVal.toLowerCase();
+      }
+
+      if (sortDirection === 'asc') {
+        return aVal > bVal ? 1 : -1;
+      } else {
+        return aVal < bVal ? 1 : -1;
+      }
+    });
+  };
+
+  const sortedCampaigns = getSortedCampaigns();
+  const totalPages = Math.ceil(sortedCampaigns.length / itemsPerPage);
+  const paginatedCampaigns = sortedCampaigns.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
+
+  // Reset to page 1 when filters change
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [filters]);
+
+  const getPlatformIcon = (platform: string) => {
+    switch (platform) {
+      case 'google':
+        return <div className="w-6 h-6 bg-[#EA4335] rounded flex items-center justify-center flex-shrink-0"><SiGoogle className="w-3 h-3 text-white" /></div>;
+      case 'meta':
+        return <div className="w-6 h-6 bg-blue-600 rounded flex items-center justify-center flex-shrink-0"><span className="text-xs text-white font-bold">f</span></div>;
+      case 'tiktok':
+        return <div className="w-6 h-6 bg-black rounded flex items-center justify-center flex-shrink-0"><SiTiktok className="w-3.5 h-3.5 text-white" /></div>;
+      default:
+        return null;
+    }
+  };
+
   return (
     <div className="bg-[#fcfcfc] rounded-lg border border-gray-200 overflow-hidden">
       <div className="bg-[#f9fafb] p-6 flex justify-between items-center border-b border-gray-200">
         <div>
           <h3 className="text-lg font-semibold text-foreground">Top Performing Campaigns</h3>
-          <p className="text-sm text-muted-foreground">Spend, Roas, Visits, Purchase by campaign</p>
+          <p className="text-sm text-muted-foreground">
+            Showing {paginatedCampaigns.length} of {sortedCampaigns.length} campaigns
+          </p>
         </div>
       </div>
       <div className="bg-[#f9fafb] p-6">
@@ -520,7 +628,7 @@ function TopPerformingCampaigns() {
               <tr className="border-b-2 border-border">
                 <th className="text-left py-3 px-4 text-xs font-medium text-muted-foreground uppercase tracking-wider border-r border-border/30">
                   <button 
-                    onClick={() => handleSort('campaign')}
+                    onClick={() => handleSort('name')}
                     className="flex items-center gap-1 hover:text-foreground transition-colors"
                   >
                     Campaign
@@ -541,7 +649,7 @@ function TopPerformingCampaigns() {
                     onClick={() => handleSort('ctv')}
                     className="flex items-center justify-center gap-1 hover:text-foreground transition-colors w-full"
                   >
-                    CTV (Click to Visit)
+                    CTV
                     <ArrowUpDown className="w-3 h-3" />
                   </button>
                 </th>
@@ -584,104 +692,77 @@ function TopPerformingCampaigns() {
               </tr>
             </thead>
             <tbody className="divide-y-2 divide-border">
-              <tr className="hover:bg-muted/50" data-testid="row-campaign-summer-sale">
-                <td className="py-4 px-4 border-r border-border/30">
-                  <div className="flex items-center gap-3">
-                    <div className="w-6 h-6 bg-[#EA4335] rounded flex items-center justify-center flex-shrink-0">
-                      <SiGoogle className="w-3 h-3 text-white" />
+              {paginatedCampaigns.map((campaign) => (
+                <tr key={campaign.id} className="hover:bg-muted/50" data-testid={`row-campaign-${campaign.id}`}>
+                  <td className="py-4 px-4 border-r border-border/30">
+                    <div className="flex items-center gap-3">
+                      {getPlatformIcon(campaign.platform)}
+                      <div>
+                        <div className="font-medium text-foreground">{campaign.name}</div>
+                        <div className="text-sm text-muted-foreground">{campaign.platform}-ads</div>
+                      </div>
                     </div>
-                    <div>
-                      <div className="font-medium text-foreground">Summer Sale 2024</div>
-                      <div className="text-sm text-muted-foreground">google-ads</div>
-                    </div>
-                  </div>
-                </td>
-                <td className="text-center py-4 px-4 text-foreground font-medium border-r border-border/30">142,580</td>
-                <td className="text-center py-4 px-4 text-muted-foreground border-r border-border/30">3.4%</td>
-                <td className="text-center py-4 px-4 text-foreground font-medium border-r border-border/30">$16,350</td>
-                <td className="text-center py-4 px-4 text-foreground font-medium border-r border-border/30">4.2x</td>
-                <td className="text-center py-4 px-4 text-foreground font-medium border-r border-border/30">24,387</td>
-                <td className="text-center py-4 px-4 text-foreground font-medium">1,247</td>
-              </tr>
-              <tr className="hover:bg-muted/50" data-testid="row-campaign-local-shopping">
-                <td className="py-4 px-4 border-r border-border/30">
-                  <div className="flex items-center gap-3">
-                    <div className="w-6 h-6 bg-[#EA4335] rounded flex items-center justify-center flex-shrink-0">
-                      <SiGoogle className="w-3 h-3 text-white" />
-                    </div>
-                    <div>
-                      <div className="font-medium text-foreground">Local Shopping Campaign</div>
-                      <div className="text-sm text-muted-foreground">google-ads</div>
-                    </div>
-                  </div>
-                </td>
-                <td className="text-center py-4 px-4 text-foreground font-medium border-r border-border/30">118,420</td>
-                <td className="text-center py-4 px-4 text-muted-foreground border-r border-border/30">2.9%</td>
-                <td className="text-center py-4 px-4 text-foreground font-medium border-r border-border/30">$15,420</td>
-                <td className="text-center py-4 px-4 text-foreground font-medium border-r border-border/30">3.8x</td>
-                <td className="text-center py-4 px-4 text-foreground font-medium border-r border-border/30">18,652</td>
-                <td className="text-center py-4 px-4 text-foreground font-medium">923</td>
-              </tr>
-              <tr className="hover:bg-muted/50" data-testid="row-campaign-store-promo">
-                <td className="py-4 px-4 border-r border-border/30">
-                  <div className="flex items-center gap-3">
-                    <div className="w-6 h-6 bg-blue-600 rounded flex items-center justify-center flex-shrink-0">
-                      <span className="text-xs text-white font-bold">f</span>
-                    </div>
-                    <div>
-                      <div className="font-medium text-foreground">Local Store Promo</div>
-                      <div className="text-sm text-muted-foreground">meta-ads</div>
-                    </div>
-                  </div>
-                </td>
-                <td className="text-center py-4 px-4 text-foreground font-medium border-r border-border/30">89,670</td>
-                <td className="text-center py-4 px-4 text-muted-foreground border-r border-border/30">4.1%</td>
-                <td className="text-center py-4 px-4 text-foreground font-medium border-r border-border/30">$12,840</td>
-                <td className="text-center py-4 px-4 text-foreground font-medium border-r border-border/30">5.1x</td>
-                <td className="text-center py-4 px-4 text-foreground font-medium border-r border-border/30">16,234</td>
-                <td className="text-center py-4 px-4 text-foreground font-medium">785</td>
-              </tr>
-              <tr className="hover:bg-muted/50" data-testid="row-campaign-visit-drive">
-                <td className="py-4 px-4 border-r border-border/30">
-                  <div className="flex items-center gap-3">
-                    <div className="w-6 h-6 bg-blue-600 rounded flex items-center justify-center flex-shrink-0">
-                      <span className="text-xs text-white font-bold">f</span>
-                    </div>
-                    <div>
-                      <div className="font-medium text-foreground">Store Visit Drive</div>
-                      <div className="text-sm text-muted-foreground">meta-ads</div>
-                    </div>
-                  </div>
-                </td>
-                <td className="text-center py-4 px-4 text-foreground font-medium border-r border-border/30">135,240</td>
-                <td className="text-center py-4 px-4 text-muted-foreground border-r border-border/30">3.7%</td>
-                <td className="text-center py-4 px-4 text-foreground font-medium border-r border-border/30">$18,960</td>
-                <td className="text-center py-4 px-4 text-foreground font-medium border-r border-border/30">3.6x</td>
-                <td className="text-center py-4 px-4 text-foreground font-medium border-r border-border/30">21,089</td>
-                <td className="text-center py-4 px-4 text-foreground font-medium">634</td>
-              </tr>
-              <tr className="hover:bg-muted/50" data-testid="row-campaign-gen-z">
-                <td className="py-4 px-4 border-r border-border/30">
-                  <div className="flex items-center gap-3">
-                    <div className="w-6 h-6 bg-black rounded flex items-center justify-center flex-shrink-0">
-                      <SiTiktok className="w-3.5 h-3.5 text-white" />
-                    </div>
-                    <div>
-                      <div className="font-medium text-foreground">Gen Z Store Discovery</div>
-                      <div className="text-sm text-muted-foreground">tiktok-ads</div>
-                    </div>
-                  </div>
-                </td>
-                <td className="text-center py-4 px-4 text-foreground font-medium border-r border-border/30">78,950</td>
-                <td className="text-center py-4 px-4 text-muted-foreground border-r border-border/30">2.8%</td>
-                <td className="text-center py-4 px-4 text-foreground font-medium border-r border-border/30">$8,920</td>
-                <td className="text-center py-4 px-4 text-foreground font-medium border-r border-border/30">2.9x</td>
-                <td className="text-center py-4 px-4 text-foreground font-medium border-r border-border/30">12,473</td>
-                <td className="text-center py-4 px-4 text-foreground font-medium">298</td>
-              </tr>
+                  </td>
+                  <td className="text-center py-4 px-4 text-foreground font-medium border-r border-border/30">
+                    {campaign.impressions.toLocaleString()}
+                  </td>
+                  <td className="text-center py-4 px-4 text-muted-foreground border-r border-border/30">
+                    {campaign.ctv}%
+                  </td>
+                  <td className="text-center py-4 px-4 text-foreground font-medium border-r border-border/30">
+                    ${campaign.spend.toLocaleString()}
+                  </td>
+                  <td className="text-center py-4 px-4 text-foreground font-medium border-r border-border/30">
+                    {campaign.roas}x
+                  </td>
+                  <td className="text-center py-4 px-4 text-foreground font-medium border-r border-border/30">
+                    {campaign.visits.toLocaleString()}
+                  </td>
+                  <td className="text-center py-4 px-4 text-foreground font-medium">
+                    {campaign.purchases.toLocaleString()}
+                  </td>
+                </tr>
+              ))}
             </tbody>
           </table>
+
+          {paginatedCampaigns.length === 0 && (
+            <div className="text-center py-8 text-muted-foreground">
+              No campaigns match the selected filters
+            </div>
+          )}
         </div>
+
+        {/* Pagination Controls */}
+        {totalPages > 1 && (
+          <div className="mt-4 flex items-center justify-between border-t border-gray-200 pt-4">
+            <div className="text-sm text-gray-600">
+              Page {currentPage} of {totalPages} ({sortedCampaigns.length} total campaigns)
+            </div>
+            <div className="flex gap-2">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
+                disabled={currentPage === 1}
+                className="h-8"
+                data-testid="button-prev-page"
+              >
+                &lt; Previous
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}
+                disabled={currentPage === totalPages}
+                className="h-8"
+                data-testid="button-next-page"
+              >
+                Next &gt;
+              </Button>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
@@ -1470,7 +1551,7 @@ export default function OfflineConversionsMVP() {
 
           {/* Top Performing Campaigns */}
           <div className="mt-6">
-            <TopPerformingCampaigns />
+            <TopPerformingCampaigns filters={filters} />
           </div>
           
           {/* Geographic Performance Dashboard */}
