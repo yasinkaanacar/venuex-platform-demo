@@ -742,6 +742,7 @@ export default function OfflineConversionsMVP() {
     }
   ];
   
+  const dateRangeDropdownRef = useRef<HTMLDivElement>(null);
   const platformDropdownRef = useRef<HTMLDivElement>(null);
   const campaignDropdownRef = useRef<HTMLDivElement>(null);
   const campaignTypeDropdownRef = useRef<HTMLDivElement>(null);
@@ -756,6 +757,7 @@ export default function OfflineConversionsMVP() {
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
+        dateRangeDropdownRef.current && !dateRangeDropdownRef.current.contains(event.target as Node) &&
         platformDropdownRef.current && !platformDropdownRef.current.contains(event.target as Node) &&
         campaignDropdownRef.current && !campaignDropdownRef.current.contains(event.target as Node) &&
         campaignTypeDropdownRef.current && !campaignTypeDropdownRef.current.contains(event.target as Node)
@@ -1066,20 +1068,46 @@ export default function OfflineConversionsMVP() {
         <div className="px-6 py-4 border-b border-gray-200">
           <div className="flex items-center justify-end gap-3 mb-4">
             {/* Date Range Picker */}
-            <div className="relative">
-              <Select value={filters.dateRange} onValueChange={handleDateRangeChange} data-testid="filter-date-range">
-                <SelectTrigger className="h-9 px-4 !border-gray-300 !bg-gray-100 hover:!bg-gray-200 !text-black">
-                  <Calendar className="w-4 h-4 mr-2" />
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  {dateRangeOptions.map(option => (
-                    <SelectItem key={option.value} value={option.value}>
-                      {option.label}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+            <div className="relative" ref={dateRangeDropdownRef}>
+              <Button
+                variant="outline"
+                onClick={() => setOpenDropdown(openDropdown === 'dateRange' ? null : 'dateRange')}
+                className="h-9 px-4 justify-between !border-gray-300 !bg-gray-100 hover:!bg-gray-200 !text-black"
+                data-testid="filter-date-range"
+              >
+                <span className="text-sm flex items-center gap-2">
+                  <Calendar className="w-4 h-4" />
+                  {dateRangeOptions.find(d => d.value === filters.dateRange)?.label}
+                </span>
+                <ChevronDown className="w-4 h-4 ml-2" />
+              </Button>
+              
+              {openDropdown === 'dateRange' && (
+                <div className="absolute top-full left-0 mt-1 w-[180px] bg-white border border-gray-200 rounded-md shadow-lg z-50 overflow-hidden">
+                  <div className="max-h-[250px] overflow-y-auto">
+                    {dateRangeOptions.map(option => (
+                      <div
+                        key={option.value}
+                        className={`flex items-center gap-2 px-3 py-2 hover:bg-gray-50 cursor-pointer text-xs ${
+                          filters.dateRange === option.value ? 'bg-gray-100' : ''
+                        }`}
+                        onClick={() => {
+                          handleDateRangeChange(option.value);
+                          setOpenDropdown(null);
+                        }}
+                        data-testid={`filter-date-${option.value}`}
+                      >
+                        <div className="w-4 h-4 border border-gray-300 rounded flex items-center justify-center">
+                          {filters.dateRange === option.value && (
+                            <Check className="w-3 h-3 text-blue-600" />
+                          )}
+                        </div>
+                        <span>{option.label}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
 
             {/* Platform Filter */}
