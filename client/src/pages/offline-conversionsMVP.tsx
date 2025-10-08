@@ -1068,7 +1068,7 @@ export default function OfflineConversionsMVP() {
             {/* Date Range Picker */}
             <div className="relative">
               <Select value={filters.dateRange} onValueChange={handleDateRangeChange} data-testid="filter-date-range">
-                <SelectTrigger className="h-9 px-4 border-gray-300 bg-white hover:bg-gray-50">
+                <SelectTrigger className="h-9 px-4 border-gray-300 bg-gray-100 hover:bg-gray-200 text-black">
                   <Calendar className="w-4 h-4 mr-2" />
                   <SelectValue />
                 </SelectTrigger>
@@ -1087,7 +1087,7 @@ export default function OfflineConversionsMVP() {
               <Button
                 variant="outline"
                 onClick={() => setOpenDropdown(openDropdown === 'platforms' ? null : 'platforms')}
-                className="h-9 px-4 justify-between border-gray-300 bg-white hover:bg-gray-50"
+                className="h-9 px-4 justify-between border-gray-300 bg-gray-100 hover:bg-gray-200 text-black"
                 data-testid="filter-platforms-dropdown"
               >
                 <span className="text-sm">
@@ -1160,7 +1160,7 @@ export default function OfflineConversionsMVP() {
               <Button
                 variant="outline"
                 onClick={() => setOpenDropdown(openDropdown === 'campaigns' ? null : 'campaigns')}
-                className="h-9 px-4 justify-between border-gray-300 bg-white hover:bg-gray-50"
+                className="h-9 px-4 justify-between border-gray-300 bg-gray-100 hover:bg-gray-200 text-black"
                 data-testid="filter-campaigns-dropdown"
               >
                 <span className="text-sm">
@@ -1234,7 +1234,7 @@ export default function OfflineConversionsMVP() {
               <Button
                 variant="outline"
                 onClick={() => setOpenDropdown(openDropdown === 'campaignTypes' ? null : 'campaignTypes')}
-                className="h-9 px-4 justify-between border-gray-300 bg-white hover:bg-gray-50"
+                className="h-9 px-4 justify-between border-gray-300 bg-gray-100 hover:bg-gray-200 text-black"
                 data-testid="filter-campaign-types-dropdown"
               >
                 <span className="text-sm">
@@ -1305,9 +1305,9 @@ export default function OfflineConversionsMVP() {
 
             {/* Reset Button */}
             <Button
-              variant="ghost"
+              variant="outline"
               onClick={resetFilters}
-              className="h-9 px-4 text-sm"
+              className="h-9 px-4 text-sm border-gray-300 bg-gray-100 hover:bg-gray-200 text-black"
               data-testid="filter-reset"
             >
               <X className="w-4 h-4 mr-2" />
