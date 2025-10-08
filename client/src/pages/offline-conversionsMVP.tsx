@@ -1064,12 +1064,11 @@ export default function OfflineConversionsMVP() {
 
         {/* Filter Bar */}
         <div className="px-6 py-4 border-b border-gray-200 bg-gray-50">
-          <div className="flex flex-wrap items-center gap-4 mb-4">
+          <div className="flex items-center justify-end gap-3 mb-4">
             {/* Date Range Picker */}
-            <div className="flex flex-col">
-              <label className="text-xs font-medium text-gray-700 mb-1">Date Range</label>
+            <div className="relative">
               <Select value={filters.dateRange} onValueChange={handleDateRangeChange} data-testid="filter-date-range">
-                <SelectTrigger className="w-[180px]">
+                <SelectTrigger className="h-9 px-4 border-gray-300 bg-white hover:bg-gray-50">
                   <Calendar className="w-4 h-4 mr-2" />
                   <SelectValue />
                 </SelectTrigger>
@@ -1084,20 +1083,19 @@ export default function OfflineConversionsMVP() {
             </div>
 
             {/* Platform Filter */}
-            <div className="flex flex-col relative" ref={platformDropdownRef}>
-              <label className="text-xs font-medium text-gray-700 mb-1">Platforms</label>
+            <div className="relative" ref={platformDropdownRef}>
               <Button
                 variant="outline"
                 onClick={() => setOpenDropdown(openDropdown === 'platforms' ? null : 'platforms')}
-                className="w-[200px] justify-between text-xs h-8"
+                className="h-9 px-4 justify-between border-gray-300 bg-white hover:bg-gray-50"
                 data-testid="filter-platforms-dropdown"
               >
-                <span>
+                <span className="text-sm">
                   {filters.platforms.length === 0 
-                    ? "Select platforms..." 
-                    : `${filters.platforms.length} selected`}
+                    ? "Platforms" 
+                    : `Platforms (${filters.platforms.length})`}
                 </span>
-                <ChevronDown className="w-3 h-3" />
+                <ChevronDown className="w-4 h-4 ml-2" />
               </Button>
               
               {openDropdown === 'platforms' && (
@@ -1158,20 +1156,19 @@ export default function OfflineConversionsMVP() {
             </div>
 
             {/* Campaign Filter */}
-            <div className="flex flex-col relative" ref={campaignDropdownRef}>
-              <label className="text-xs font-medium text-gray-700 mb-1">Campaigns</label>
+            <div className="relative" ref={campaignDropdownRef}>
               <Button
                 variant="outline"
                 onClick={() => setOpenDropdown(openDropdown === 'campaigns' ? null : 'campaigns')}
-                className="w-[200px] justify-between text-xs h-8"
+                className="h-9 px-4 justify-between border-gray-300 bg-white hover:bg-gray-50"
                 data-testid="filter-campaigns-dropdown"
               >
-                <span>
+                <span className="text-sm">
                   {filters.campaigns.length === 0 
-                    ? "Select campaigns..." 
-                    : `${filters.campaigns.length} selected`}
+                    ? "Campaigns" 
+                    : `Campaigns (${filters.campaigns.length})`}
                 </span>
-                <ChevronDown className="w-3 h-3" />
+                <ChevronDown className="w-4 h-4 ml-2" />
               </Button>
               
               {openDropdown === 'campaigns' && (
@@ -1233,20 +1230,19 @@ export default function OfflineConversionsMVP() {
             </div>
 
             {/* Campaign Type Filter */}
-            <div className="flex flex-col relative" ref={campaignTypeDropdownRef}>
-              <label className="text-xs font-medium text-gray-700 mb-1">Campaign Type</label>
+            <div className="relative" ref={campaignTypeDropdownRef}>
               <Button
                 variant="outline"
                 onClick={() => setOpenDropdown(openDropdown === 'campaignTypes' ? null : 'campaignTypes')}
-                className="w-[200px] justify-between text-xs h-8"
+                className="h-9 px-4 justify-between border-gray-300 bg-white hover:bg-gray-50"
                 data-testid="filter-campaign-types-dropdown"
               >
-                <span>
+                <span className="text-sm">
                   {filters.campaignTypes.length === 0 
-                    ? "Select types..." 
-                    : `${filters.campaignTypes.length} selected`}
+                    ? "Campaign Type" 
+                    : `Campaign Type (${filters.campaignTypes.length})`}
                 </span>
-                <ChevronDown className="w-3 h-3" />
+                <ChevronDown className="w-4 h-4 ml-2" />
               </Button>
               
               {openDropdown === 'campaignTypes' && (
@@ -1308,18 +1304,15 @@ export default function OfflineConversionsMVP() {
             </div>
 
             {/* Reset Button */}
-            <div className="flex flex-col justify-end">
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={resetFilters}
-                className="text-xs"
-                data-testid="filter-reset"
-              >
-                <X className="w-3 h-3 mr-1" />
-                Reset Filters
-              </Button>
-            </div>
+            <Button
+              variant="ghost"
+              onClick={resetFilters}
+              className="h-9 px-4 text-sm"
+              data-testid="filter-reset"
+            >
+              <X className="w-4 h-4 mr-2" />
+              Reset
+            </Button>
           </div>
 
           {/* Active Filter Indicators */}
