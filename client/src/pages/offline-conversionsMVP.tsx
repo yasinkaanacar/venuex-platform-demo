@@ -57,7 +57,7 @@ function KPICard({ title, primaryMetric, changePercent, isPositiveChange, icon: 
 
   return (
     <div 
-      className="bg-[#f9fafb] shadow-none hover:shadow-sm transition-all duration-200 cursor-pointer hover:scale-105 rounded-lg border border-gray-200" 
+      className="bg-[#f9fafb] shadow-none hover:shadow-sm transition-all duration-200 cursor-pointer hover:scale-105 rounded-lg border border-gray-200 overflow-hidden" 
       data-testid={`kpi-card-${title.toLowerCase().replace(/\s+/g, '-')}`}
     >
       <div className="p-6 pt-3 bg-[#f9fafb]">

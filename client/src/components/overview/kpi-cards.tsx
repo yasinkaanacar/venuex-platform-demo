@@ -116,7 +116,7 @@ export default function KpiCards({ kpis, filters, onFiltersChange }: KpiCardsPro
         const Icon = card.icon;
         
         return (
-        <div key={card.id} className="bg-[#f9fafb] shadow-none hover:shadow-sm transition-all duration-200 cursor-pointer hover:scale-105 rounded-lg border border-gray-200" data-testid={`card-${card.id}`}>
+        <div key={card.id} className="bg-[#f9fafb] shadow-none hover:shadow-sm transition-all duration-200 cursor-pointer hover:scale-105 rounded-lg border border-gray-200 overflow-hidden" data-testid={`card-${card.id}`}>
                 {/* Platform tabs at the top */}
                 {card.id === 'offline-roas' && (
                   <div className="p-3 pb-0 flex justify-center bg-[#f9fafb] rounded-t-lg">
