@@ -163,7 +163,10 @@ interface GeoPerformanceData {
   country: string;
   state: string;
   spends: number;
+  impressions: number;
   interactions: number;
+  directionRequests: number;
+  callsMade: number;
   storeVisits: number;
   websiteVisits: number;
   onlineTransactions: number;
@@ -179,52 +182,52 @@ interface GeoPerformanceData {
 // Mock geographic performance data for Turkish states
 const mockGeoData: GeoPerformanceData[] = [
   {
-    country: "Turkey", state: "Istanbul", spends: 450000, interactions: 125000, storeVisits: 45000, 
+    country: "Turkey", state: "Istanbul", spends: 450000, impressions: 2500000, interactions: 125000, directionRequests: 18000, callsMade: 8500, storeVisits: 45000, 
     websiteVisits: 95000, onlineTransactions: 12500, offlineTransactions: 8900, 
     onlineRevenue: 89000000, offlineRevenue: 80173725, onlineROAS: 87.6, offlineROAS: 78.8, aov: 9800, multiplier: 1.8
   },
   {
-    country: "Turkey", state: "Ankara", spends: 280000, interactions: 78000, storeVisits: 28000, 
+    country: "Turkey", state: "Ankara", spends: 280000, impressions: 1800000, interactions: 78000, directionRequests: 12000, callsMade: 5800, storeVisits: 28000, 
     websiteVisits: 62000, onlineTransactions: 8200, offlineTransactions: 5600, 
     onlineRevenue: 54000000, offlineRevenue: 48960000, onlineROAS: 85.2, offlineROAS: 77.3, aov: 9200, multiplier: 1.7
   },
   {
-    country: "Turkey", state: "Izmir", spends: 320000, interactions: 89000, storeVisits: 32000, 
+    country: "Turkey", state: "Izmir", spends: 320000, impressions: 2100000, interactions: 89000, directionRequests: 14000, callsMade: 6700, storeVisits: 32000, 
     websiteVisits: 71000, onlineTransactions: 9400, offlineTransactions: 6400, 
     onlineRevenue: 62000000, offlineRevenue: 55360000, onlineROAS: 85.8, offlineROAS: 76.5, aov: 9400, multiplier: 1.75
   },
   {
-    country: "Turkey", state: "Antalya", spends: 180000, interactions: 52000, storeVisits: 19000, 
+    country: "Turkey", state: "Antalya", spends: 180000, impressions: 1400000, interactions: 52000, directionRequests: 8500, callsMade: 4200, storeVisits: 19000, 
     websiteVisits: 42000, onlineTransactions: 5600, offlineTransactions: 3800, 
     onlineRevenue: 36000000, offlineRevenue: 32400000, onlineROAS: 88.4, offlineROAS: 79.6, aov: 10200, multiplier: 1.9
   },
   {
-    country: "Turkey", state: "Bursa", spends: 220000, interactions: 61000, storeVisits: 22000, 
+    country: "Turkey", state: "Bursa", spends: 220000, impressions: 1600000, interactions: 61000, directionRequests: 9800, callsMade: 4900, storeVisits: 22000, 
     websiteVisits: 49000, onlineTransactions: 6500, offlineTransactions: 4400, 
     onlineRevenue: 42000000, offlineRevenue: 37800000, onlineROAS: 84.4, offlineROAS: 76.0, aov: 9100, multiplier: 1.7
   },
   {
-    country: "Turkey", state: "Adana", spends: 150000, interactions: 42000, storeVisits: 15000, 
+    country: "Turkey", state: "Adana", spends: 150000, impressions: 1200000, interactions: 42000, directionRequests: 7200, callsMade: 3600, storeVisits: 15000, 
     websiteVisits: 34000, onlineTransactions: 4500, offlineTransactions: 3000, 
     onlineRevenue: 28000000, offlineRevenue: 25200000, onlineROAS: 82.5, offlineROAS: 74.2, aov: 8900, multiplier: 1.6
   },
   {
-    country: "Turkey", state: "Konya", spends: 95000, interactions: 27000, storeVisits: 9800, 
+    country: "Turkey", state: "Konya", spends: 95000, impressions: 950000, interactions: 27000, directionRequests: 5400, callsMade: 2700, storeVisits: 9800, 
     websiteVisits: 22000, onlineTransactions: 2900, offlineTransactions: 1950, 
     onlineRevenue: 18000000, offlineRevenue: 16200000, onlineROAS: 83.8, offlineROAS: 75.4, aov: 9300, multiplier: 1.65
   },
   {
-    country: "Turkey", state: "Gaziantep", spends: 78000, interactions: 22000, storeVisits: 8000, 
+    country: "Turkey", state: "Gaziantep", spends: 78000, impressions: 780000, interactions: 22000, directionRequests: 4400, callsMade: 2200, storeVisits: 8000, 
     websiteVisits: 18000, onlineTransactions: 2400, offlineTransactions: 1600, 
     onlineRevenue: 15000000, offlineRevenue: 13500000, onlineROAS: 85.0, offlineROAS: 76.5, aov: 9500, multiplier: 1.7
   },
   {
-    country: "Turkey", state: "Kocaeli", spends: 125000, interactions: 35000, storeVisits: 12800, 
+    country: "Turkey", state: "Kocaeli", spends: 125000, impressions: 1100000, interactions: 35000, directionRequests: 6300, callsMade: 3150, storeVisits: 12800, 
     websiteVisits: 28000, onlineTransactions: 3700, offlineTransactions: 2550, 
     onlineRevenue: 23000000, offlineRevenue: 20700000, onlineROAS: 81.3, offlineROAS: 73.2, aov: 8800, multiplier: 1.6
   },
   {
-    country: "Turkey", state: "Mersin", spends: 68000, interactions: 19000, storeVisits: 6900, 
+    country: "Turkey", state: "Mersin", spends: 68000, impressions: 680000, interactions: 19000, directionRequests: 3800, callsMade: 1900, storeVisits: 6900, 
     websiteVisits: 15000, onlineTransactions: 2000, offlineTransactions: 1380, 
     onlineRevenue: 12500000, offlineRevenue: 11250000, onlineROAS: 81.2, offlineROAS: 73.2, aov: 8900, multiplier: 1.62
   }
@@ -1622,7 +1625,10 @@ export default function OfflineConversionsMVP() {
                           <th className="text-left py-3 px-4 font-semibold text-gray-700">Country</th>
                           <th className="text-left py-3 px-4 font-semibold text-gray-700">State</th>
                           <th className="text-right py-3 px-4 font-semibold text-gray-700">Spends</th>
+                          <th className="text-right py-3 px-4 font-semibold text-gray-700">Impressions</th>
                           <th className="text-right py-3 px-4 font-semibold text-gray-700">Interactions</th>
+                          <th className="text-right py-3 px-4 font-semibold text-gray-700">Direction Requests</th>
+                          <th className="text-right py-3 px-4 font-semibold text-gray-700">Calls Made</th>
                           <th className="text-right py-3 px-4 font-semibold text-gray-700">Store Visits</th>
                           <th className="text-right py-3 px-4 font-semibold text-gray-700">Website Visits</th>
                           <th className="text-right py-3 px-4 font-semibold text-gray-700">Offline Trans.</th>
@@ -1643,7 +1649,10 @@ export default function OfflineConversionsMVP() {
                             <td className="py-3 px-4 text-gray-900 dark:text-gray-100">{item.country}</td>
                             <td className="py-3 px-4 font-medium text-gray-900 dark:text-gray-100">{item.state}</td>
                             <td className="py-3 px-4 text-right text-gray-700 dark:text-gray-300">₺{(item.spends / 1000).toFixed(0)}K</td>
+                            <td className="py-3 px-4 text-right text-gray-700 dark:text-gray-300">{(item.impressions / 1000000).toFixed(1)}M</td>
                             <td className="py-3 px-4 text-right text-gray-700 dark:text-gray-300">{item.interactions.toLocaleString()}</td>
+                            <td className="py-3 px-4 text-right text-gray-700 dark:text-gray-300">{item.directionRequests.toLocaleString()}</td>
+                            <td className="py-3 px-4 text-right text-gray-700 dark:text-gray-300">{item.callsMade.toLocaleString()}</td>
                             <td className="py-3 px-4 text-right text-gray-700 dark:text-gray-300">{item.storeVisits.toLocaleString()}</td>
                             <td className="py-3 px-4 text-right text-gray-700 dark:text-gray-300">{item.websiteVisits.toLocaleString()}</td>
                             <td className="py-3 px-4 text-right text-gray-700 dark:text-gray-300">{item.offlineTransactions.toLocaleString()}</td>
