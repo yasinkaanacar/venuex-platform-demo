@@ -1063,7 +1063,7 @@ export default function OfflineConversionsMVP() {
         </div>
 
         {/* Filter Bar */}
-        <div className="px-6 py-4 border-b border-gray-200 bg-gray-50">
+        <div className="px-6 py-4 border-b border-gray-200">
           <div className="flex items-center justify-end gap-3 mb-4">
             {/* Date Range Picker */}
             <div className="relative">
