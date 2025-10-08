@@ -1183,80 +1183,6 @@ export default function OfflineConversionsMVP() {
               )}
             </div>
 
-            {/* Campaign Filter */}
-            <div className="relative" ref={campaignDropdownRef}>
-              <Button
-                variant="outline"
-                onClick={() => setOpenDropdown(openDropdown === 'campaigns' ? null : 'campaigns')}
-                className="h-9 px-4 justify-between !border-gray-300 !bg-gray-100 hover:!bg-gray-200 !text-black"
-                data-testid="filter-campaigns-dropdown"
-              >
-                <span className="text-sm">
-                  {filters.campaigns.length === 0 
-                    ? "Campaigns" 
-                    : `Campaigns (${filters.campaigns.length})`}
-                </span>
-                <ChevronDown className="w-4 h-4 ml-2" />
-              </Button>
-              
-              {openDropdown === 'campaigns' && (
-                <div className="absolute top-full left-0 mt-1 w-[320px] bg-white border border-gray-200 rounded-md shadow-lg z-50 max-h-[350px] overflow-hidden">
-                  <div className="p-2 border-b border-gray-100">
-                    <div className="relative">
-                      <Search className="absolute left-2 top-1/2 transform -translate-y-1/2 w-3 h-3 text-gray-400" />
-                      <Input
-                        placeholder="Search campaigns..."
-                        value={campaignSearch}
-                        onChange={(e) => setCampaignSearch(e.target.value)}
-                        className="pl-8 h-7 text-xs"
-                        size="small"
-                        data-testid="filter-campaign-search"
-                      />
-                    </div>
-                  </div>
-                  
-                  <div className="p-1 border-b border-gray-100 bg-gray-50">
-                    <div className="flex gap-1">
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        onClick={handleSelectAllCampaigns}
-                        className="text-xs h-6 flex-1"
-                      >
-                        Select All
-                      </Button>
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        onClick={handleDeselectAllCampaigns}
-                        className="text-xs h-6 flex-1"
-                      >
-                        Deselect All
-                      </Button>
-                    </div>
-                  </div>
-                  
-                  <div className="max-h-[250px] overflow-y-auto">
-                    {getFilteredCampaigns().map(campaign => (
-                      <div
-                        key={campaign}
-                        className="flex items-center gap-2 px-3 py-2 hover:bg-gray-50 cursor-pointer text-xs"
-                        onClick={() => handleCampaignToggle(campaign)}
-                        data-testid={`filter-campaign-${campaign.replace(/\s+/g, '-').toLowerCase()}`}
-                      >
-                        <div className="w-4 h-4 border border-gray-300 rounded flex items-center justify-center">
-                          {filters.campaigns.includes(campaign) && (
-                            <Check className="w-3 h-3 text-blue-600" />
-                          )}
-                        </div>
-                        <span className="truncate">{campaign}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-            </div>
-
             {/* Campaign Type Filter */}
             <div className="relative" ref={campaignTypeDropdownRef}>
               <Button
@@ -1324,6 +1250,80 @@ export default function OfflineConversionsMVP() {
                         </div>
                         <span className="mr-2">{type.icon}</span>
                         <span>{type.label}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Campaign Filter */}
+            <div className="relative" ref={campaignDropdownRef}>
+              <Button
+                variant="outline"
+                onClick={() => setOpenDropdown(openDropdown === 'campaigns' ? null : 'campaigns')}
+                className="h-9 px-4 justify-between !border-gray-300 !bg-gray-100 hover:!bg-gray-200 !text-black"
+                data-testid="filter-campaigns-dropdown"
+              >
+                <span className="text-sm">
+                  {filters.campaigns.length === 0 
+                    ? "Campaigns" 
+                    : `Campaigns (${filters.campaigns.length})`}
+                </span>
+                <ChevronDown className="w-4 h-4 ml-2" />
+              </Button>
+              
+              {openDropdown === 'campaigns' && (
+                <div className="absolute top-full left-0 mt-1 w-[320px] bg-white border border-gray-200 rounded-md shadow-lg z-50 max-h-[350px] overflow-hidden">
+                  <div className="p-2 border-b border-gray-100">
+                    <div className="relative">
+                      <Search className="absolute left-2 top-1/2 transform -translate-y-1/2 w-3 h-3 text-gray-400" />
+                      <Input
+                        placeholder="Search campaigns..."
+                        value={campaignSearch}
+                        onChange={(e) => setCampaignSearch(e.target.value)}
+                        className="pl-8 h-7 text-xs"
+                        size="small"
+                        data-testid="filter-campaign-search"
+                      />
+                    </div>
+                  </div>
+                  
+                  <div className="p-1 border-b border-gray-100 bg-gray-50">
+                    <div className="flex gap-1">
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={handleSelectAllCampaigns}
+                        className="text-xs h-6 flex-1"
+                      >
+                        Select All
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={handleDeselectAllCampaigns}
+                        className="text-xs h-6 flex-1"
+                      >
+                        Deselect All
+                      </Button>
+                    </div>
+                  </div>
+                  
+                  <div className="max-h-[250px] overflow-y-auto">
+                    {getFilteredCampaigns().map(campaign => (
+                      <div
+                        key={campaign}
+                        className="flex items-center gap-2 px-3 py-2 hover:bg-gray-50 cursor-pointer text-xs"
+                        onClick={() => handleCampaignToggle(campaign)}
+                        data-testid={`filter-campaign-${campaign.replace(/\s+/g, '-').toLowerCase()}`}
+                      >
+                        <div className="w-4 h-4 border border-gray-300 rounded flex items-center justify-center">
+                          {filters.campaigns.includes(campaign) && (
+                            <Check className="w-3 h-3 text-blue-600" />
+                          )}
+                        </div>
+                        <span className="truncate">{campaign}</span>
                       </div>
                     ))}
                   </div>
