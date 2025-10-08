@@ -738,6 +738,12 @@ export default function OfflineConversionsMVP() {
   const platformDropdownRef = useRef<HTMLDivElement>(null);
   const campaignDropdownRef = useRef<HTMLDivElement>(null);
   const locationDropdownRef = useRef<HTMLDivElement>(null);
+  const dataHealthFlowRef = useRef<HTMLDivElement>(null);
+
+  // Scroll to Data Health & Flow section
+  const scrollToBottom = () => {
+    dataHealthFlowRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -1338,6 +1344,40 @@ export default function OfflineConversionsMVP() {
           )}
         </div>
 
+        {/* Data Health & Flow Banner */}
+        <div className="px-6 pt-6 mb-6">
+          <div 
+            className="border border-blue-200 dark:border-blue-800 bg-blue-50 dark:bg-blue-950/20 rounded-lg shadow-none cursor-pointer hover:bg-blue-100 dark:hover:bg-blue-950/30 transition-colors"
+            onClick={scrollToBottom}
+          >
+            <div className="py-3 px-4">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <h2 className="text-lg font-semibold text-foreground">
+                    Data Health & Flow
+                  </h2>
+                  <div className="flex items-center gap-2">
+                    <CheckCircle className="w-4 h-4 text-green-600" />
+                    <span className="text-sm text-green-600 font-medium">Everything is well</span>
+                  </div>
+                </div>
+                
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  className="text-xs pointer-events-none"
+                  data-testid="button-scroll-to-bottom"
+                >
+                  <svg className="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+                  </svg>
+                  View Details
+                </Button>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <div className="px-6 py-6">
           {/* Strategic KPI Row */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6" data-testid="kpi-cards-container">
@@ -1883,7 +1923,7 @@ export default function OfflineConversionsMVP() {
             </Card>
           </div>
           {/* Data Health & Flow Card */}
-          <div className="mt-6">
+          <div className="mt-6" ref={dataHealthFlowRef}>
             <ShadcnCard>
               <ShadcnCardHeader>
                 <div className="flex justify-between items-center">
