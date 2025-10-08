@@ -138,11 +138,18 @@ const locationOptions = [
   }
 ];
 
+const campaignTypeOptions = [
+  { value: "performance", label: "Performance", icon: "📊" },
+  { value: "awareness", label: "Awareness", icon: "👁️" },
+  { value: "consideration", label: "Consideration", icon: "🤔" },
+  { value: "conversion", label: "Conversion", icon: "🎯" }
+];
+
 interface FilterState {
   dateRange: string;
   platforms: string[];
   campaigns: string[];
-  locations: string[];
+  campaignTypes: string[];
 }
 
 // Campaign data interface
@@ -685,12 +692,12 @@ export default function OfflineConversionsMVP() {
     dateRange: "30d",
     platforms: [],
     campaigns: [],
-    locations: []
+    campaignTypes: []
   });
 
   const [campaignSearch, setCampaignSearch] = useState("");
   const [platformSearch, setPlatformSearch] = useState("");
-  const [locationSearch, setLocationSearch] = useState("");
+  const [campaignTypeSearch, setCampaignTypeSearch] = useState("");
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   
   // Geographic Performance Dashboard State
@@ -737,7 +744,7 @@ export default function OfflineConversionsMVP() {
   
   const platformDropdownRef = useRef<HTMLDivElement>(null);
   const campaignDropdownRef = useRef<HTMLDivElement>(null);
-  const locationDropdownRef = useRef<HTMLDivElement>(null);
+  const campaignTypeDropdownRef = useRef<HTMLDivElement>(null);
   const dataHealthFlowRef = useRef<HTMLDivElement>(null);
 
   // Scroll to Data Health & Flow section
@@ -751,7 +758,7 @@ export default function OfflineConversionsMVP() {
       if (
         platformDropdownRef.current && !platformDropdownRef.current.contains(event.target as Node) &&
         campaignDropdownRef.current && !campaignDropdownRef.current.contains(event.target as Node) &&
-        locationDropdownRef.current && !locationDropdownRef.current.contains(event.target as Node)
+        campaignTypeDropdownRef.current && !campaignTypeDropdownRef.current.contains(event.target as Node)
       ) {
         setOpenDropdown(null);
       }
@@ -788,21 +795,12 @@ export default function OfflineConversionsMVP() {
     );
   };
 
-  // Filter locations by search term
-  const getFilteredLocations = () => {
-    if (!locationSearch) return locationOptions;
-    return locationOptions.map(region => ({
-      ...region,
-      stores: region.stores.filter(store => 
-        store.toLowerCase().includes(locationSearch.toLowerCase()) ||
-        region.region.toLowerCase().includes(locationSearch.toLowerCase())
-      )
-    })).filter(region => region.stores.length > 0);
-  };
-
-  // Get all location store names as flat array
-  const getAllLocationStores = () => {
-    return locationOptions.flatMap(region => region.stores);
+  // Filter campaign types by search term
+  const getFilteredCampaignTypes = () => {
+    if (!campaignTypeSearch) return campaignTypeOptions;
+    return campaignTypeOptions.filter(type => 
+      type.label.toLowerCase().includes(campaignTypeSearch.toLowerCase())
+    );
   };
 
   // Handle filter changes
@@ -839,12 +837,12 @@ export default function OfflineConversionsMVP() {
     }));
   };
 
-  const handleLocationToggle = (location: string) => {
+  const handleCampaignTypeToggle = (type: string) => {
     setFilters(prev => ({
       ...prev,
-      locations: prev.locations.includes(location)
-        ? prev.locations.filter(l => l !== location)
-        : [...prev.locations, location]
+      campaignTypes: prev.campaignTypes.includes(type)
+        ? prev.campaignTypes.filter(t => t !== type)
+        : [...prev.campaignTypes, type]
     }));
   };
 
@@ -887,22 +885,22 @@ export default function OfflineConversionsMVP() {
     }));
   };
 
-  const handleSelectAllLocations = () => {
-    const filteredStores = getFilteredLocations().flatMap(region => region.stores);
+  const handleSelectAllCampaignTypes = () => {
+    const filteredTypes = getFilteredCampaignTypes();
     setFilters(prev => {
-      const newLocations = new Set([...prev.locations, ...filteredStores]);
+      const newTypes = new Set([...prev.campaignTypes, ...filteredTypes.map(t => t.value)]);
       return {
         ...prev,
-        locations: Array.from(newLocations)
+        campaignTypes: Array.from(newTypes)
       };
     });
   };
 
-  const handleDeselectAllLocations = () => {
-    const filteredStores = getFilteredLocations().flatMap(region => region.stores);
+  const handleDeselectAllCampaignTypes = () => {
+    const filteredTypes = getFilteredCampaignTypes();
     setFilters(prev => ({
       ...prev,
-      locations: prev.locations.filter(l => !filteredStores.includes(l))
+      campaignTypes: prev.campaignTypes.filter(t => !filteredTypes.some(ft => ft.value === t))
     }));
   };
 
@@ -911,11 +909,11 @@ export default function OfflineConversionsMVP() {
       dateRange: "30d",
       platforms: [],
       campaigns: [],
-      locations: []
+      campaignTypes: []
     });
     setCampaignSearch("");
     setPlatformSearch("");
-    setLocationSearch("");
+    setCampaignTypeSearch("");
     setOpenDropdown(null);
   };
 
@@ -925,7 +923,7 @@ export default function OfflineConversionsMVP() {
     if (filters.dateRange !== "30d") count++;
     if (filters.platforms.length > 0) count++;
     if (filters.campaigns.length > 0) count++;
-    if (filters.locations.length > 0) count++;
+    if (filters.campaignTypes.length > 0) count++;
     return count;
   };
 
@@ -941,8 +939,8 @@ export default function OfflineConversionsMVP() {
       case 'campaign':
         if (value) handleCampaignToggle(value);
         break;
-      case 'location':
-        if (value) handleLocationToggle(value);
+      case 'campaignType':
+        if (value) handleCampaignTypeToggle(value);
         break;
     }
   };
@@ -1030,6 +1028,40 @@ export default function OfflineConversionsMVP() {
 
       {/* Main Content */}
       <div className="pb-6 bg-[#ffffff]">
+        {/* Data Health & Flow Banner */}
+        <div className="px-6 pt-6 mb-6">
+          <div 
+            className="border border-blue-200 dark:border-blue-800 bg-blue-50 dark:bg-blue-950/20 rounded-lg shadow-none cursor-pointer hover:bg-blue-100 dark:hover:bg-blue-950/30 transition-colors"
+            onClick={scrollToBottom}
+          >
+            <div className="py-3 px-4">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <h2 className="text-lg font-semibold text-foreground">
+                    Data Health & Flow
+                  </h2>
+                  <div className="flex items-center gap-2">
+                    <CheckCircle className="w-4 h-4 text-green-600" />
+                    <span className="text-sm text-green-600 font-medium">Everything is well</span>
+                  </div>
+                </div>
+                
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  className="text-xs pointer-events-none"
+                  data-testid="button-scroll-to-bottom"
+                >
+                  <svg className="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+                  </svg>
+                  View Details
+                </Button>
+              </div>
+            </div>
+          </div>
+        </div>
+
         {/* Filter Bar */}
         <div className="px-6 py-4 border-b border-gray-200 bg-gray-50">
           <div className="flex flex-wrap items-center gap-4 mb-4">
@@ -1200,32 +1232,32 @@ export default function OfflineConversionsMVP() {
               )}
             </div>
 
-            {/* Location Filter */}
-            <div className="flex flex-col relative" ref={locationDropdownRef}>
-              <label className="text-xs font-medium text-gray-700 mb-1">Locations</label>
+            {/* Campaign Type Filter */}
+            <div className="flex flex-col relative" ref={campaignTypeDropdownRef}>
+              <label className="text-xs font-medium text-gray-700 mb-1">Campaign Type</label>
               <Button
                 variant="outline"
-                onClick={() => setOpenDropdown(openDropdown === 'locations' ? null : 'locations')}
+                onClick={() => setOpenDropdown(openDropdown === 'campaignTypes' ? null : 'campaignTypes')}
                 className="w-[200px] justify-between text-xs h-8"
-                data-testid="filter-locations-dropdown"
+                data-testid="filter-campaign-types-dropdown"
               >
                 <span>
-                  {filters.locations.length === 0 
-                    ? "Select locations..." 
-                    : `${filters.locations.length} selected`}
+                  {filters.campaignTypes.length === 0 
+                    ? "Select types..." 
+                    : `${filters.campaignTypes.length} selected`}
                 </span>
                 <ChevronDown className="w-3 h-3" />
               </Button>
               
-              {openDropdown === 'locations' && (
-                <div className="absolute top-full left-0 mt-1 w-[300px] bg-white border border-gray-200 rounded-md shadow-lg z-50 max-h-[350px] overflow-hidden">
+              {openDropdown === 'campaignTypes' && (
+                <div className="absolute top-full left-0 mt-1 w-[280px] bg-white border border-gray-200 rounded-md shadow-lg z-50 max-h-[300px] overflow-hidden">
                   <div className="p-2 border-b border-gray-100">
                     <div className="relative">
                       <Search className="absolute left-2 top-1/2 transform -translate-y-1/2 w-3 h-3 text-gray-400" />
                       <Input
-                        placeholder="Search locations..."
-                        value={locationSearch}
-                        onChange={(e) => setLocationSearch(e.target.value)}
+                        placeholder="Search campaign types..."
+                        value={campaignTypeSearch}
+                        onChange={(e) => setCampaignTypeSearch(e.target.value)}
                         className="pl-8 h-7 text-xs"
                         size="small"
                       />
@@ -1237,7 +1269,7 @@ export default function OfflineConversionsMVP() {
                       <Button
                         variant="ghost"
                         size="sm"
-                        onClick={handleSelectAllLocations}
+                        onClick={handleSelectAllCampaignTypes}
                         className="text-xs h-6 flex-1"
                       >
                         Select All
@@ -1245,7 +1277,7 @@ export default function OfflineConversionsMVP() {
                       <Button
                         variant="ghost"
                         size="sm"
-                        onClick={handleDeselectAllLocations}
+                        onClick={handleDeselectAllCampaignTypes}
                         className="text-xs h-6 flex-1"
                       >
                         Deselect All
@@ -1253,27 +1285,21 @@ export default function OfflineConversionsMVP() {
                     </div>
                   </div>
                   
-                  <div className="max-h-[250px] overflow-y-auto">
-                    {getFilteredLocations().map(region => (
-                      <div key={region.region}>
-                        <div className="px-3 py-1 bg-gray-100 text-xs font-medium text-gray-700">
-                          {region.region}
+                  <div className="max-h-[200px] overflow-y-auto">
+                    {getFilteredCampaignTypes().map(type => (
+                      <div
+                        key={type.value}
+                        className="flex items-center gap-2 px-3 py-2 hover:bg-gray-50 cursor-pointer text-xs"
+                        onClick={() => handleCampaignTypeToggle(type.value)}
+                        data-testid={`filter-campaign-type-${type.value}`}
+                      >
+                        <div className="w-4 h-4 border border-gray-300 rounded flex items-center justify-center">
+                          {filters.campaignTypes.includes(type.value) && (
+                            <Check className="w-3 h-3 text-blue-600" />
+                          )}
                         </div>
-                        {region.stores.map(store => (
-                          <div
-                            key={store}
-                            className="flex items-center gap-2 px-3 py-2 hover:bg-gray-50 cursor-pointer text-xs ml-2"
-                            onClick={() => handleLocationToggle(store)}
-                            data-testid={`filter-location-${store.replace(/\s+/g, '-').toLowerCase()}`}
-                          >
-                            <div className="w-4 h-4 border border-gray-300 rounded flex items-center justify-center">
-                              {filters.locations.includes(store) && (
-                                <Check className="w-3 h-3 text-blue-600" />
-                              )}
-                            </div>
-                            <span className="truncate">{store.replace("Demo ", "")}</span>
-                          </div>
-                        ))}
+                        <span className="mr-2">{type.icon}</span>
+                        <span>{type.label}</span>
                       </div>
                     ))}
                   </div>
@@ -1331,51 +1357,17 @@ export default function OfflineConversionsMVP() {
                 </Badge>
               ))}
               
-              {filters.locations.map(location => (
-                <Badge key={location} variant="secondary" className="text-xs">
-                  Location: {location.replace("Demo ", "")}
+              {filters.campaignTypes.map(type => (
+                <Badge key={type} variant="secondary" className="text-xs">
+                  {campaignTypeOptions.find(t => t.value === type)?.icon} {campaignTypeOptions.find(t => t.value === type)?.label}
                   <X 
                     className="w-3 h-3 ml-1 cursor-pointer" 
-                    onClick={() => removeFilter('location', location)}
+                    onClick={() => removeFilter('campaignType', type)}
                   />
                 </Badge>
               ))}
             </div>
           )}
-        </div>
-
-        {/* Data Health & Flow Banner */}
-        <div className="px-6 pt-6 mb-6">
-          <div 
-            className="border border-blue-200 dark:border-blue-800 bg-blue-50 dark:bg-blue-950/20 rounded-lg shadow-none cursor-pointer hover:bg-blue-100 dark:hover:bg-blue-950/30 transition-colors"
-            onClick={scrollToBottom}
-          >
-            <div className="py-3 px-4">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <h2 className="text-lg font-semibold text-foreground">
-                    Data Health & Flow
-                  </h2>
-                  <div className="flex items-center gap-2">
-                    <CheckCircle className="w-4 h-4 text-green-600" />
-                    <span className="text-sm text-green-600 font-medium">Everything is well</span>
-                  </div>
-                </div>
-                
-                <Button 
-                  variant="outline" 
-                  size="sm" 
-                  className="text-xs pointer-events-none"
-                  data-testid="button-scroll-to-bottom"
-                >
-                  <svg className="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-                  </svg>
-                  View Details
-                </Button>
-              </div>
-            </div>
-          </div>
         </div>
 
         <div className="px-6 py-6">
