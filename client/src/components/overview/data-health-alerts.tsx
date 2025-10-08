@@ -485,10 +485,6 @@ export default function DataHealthAlerts({ platforms = [], alerts = [], location
                 Recent system alerts and data notifications
               </p>
             </div>
-            
-            <button className="text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:hover:text-white font-medium bg-transparent border-none cursor-pointer" data-testid="button-view-all-alerts">
-              View All →
-            </button>
           </div>
           
           <div className="space-y-3">
