@@ -615,7 +615,7 @@ function TopPerformingCampaigns({ filters }: { filters: FilterState }) {
     <div className="bg-[#fcfcfc] rounded-lg border border-gray-200 overflow-hidden">
       <div className="bg-[#f9fafb] p-6 flex justify-between items-center border-b border-gray-200">
         <div>
-          <h3 className="text-lg font-semibold text-foreground">Top Performing Campaigns</h3>
+          <h3 className="text-lg font-semibold text-foreground">Campaign List</h3>
           <p className="text-sm text-muted-foreground">
             Showing {paginatedCampaigns.length} of {sortedCampaigns.length} campaigns
           </p>
@@ -1108,7 +1108,6 @@ export default function OfflineConversionsMVP() {
           </div>
         </div>
       </header>
-
       {/* Main Content */}
       <div className="pb-6 bg-[#ffffff]">
         {/* Data Health & Flow Banner */}
