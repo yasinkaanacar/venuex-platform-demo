@@ -20,7 +20,7 @@ const navigationGroups = [
   {
     title: "LOKASYONLAR",
     items: [
-      { name: 'Lokasyonlar', href: '/locations', icon: MapPin },
+      { name: 'Locations', href: '/locations', icon: MapPin },
       { name: 'Reviews', href: '/reviewsMVP', icon: MessageSquare }
     ]
   },
