@@ -28,13 +28,13 @@ const navigationGroups = [
     title: "SATIŞLAR", 
     items: [
       { name: 'Katalog', href: '/catalog', icon: Package },
-      { name: 'Offline Conversions', href: '/offline-conversions', icon: ArrowRightLeft },
       { name: 'Offline ConversionsMVP', href: '/offline-conversionsMVP', icon: TrendingUp }
     ]
   },
   {
     title: "DEV",
     items: [
+      { name: 'Offline Conversions', href: '/offline-conversions', icon: ArrowRightLeft },
       { name: 'Location Match', href: '/location-match', icon: Target },
       { name: 'Yorumlar', href: '/reviews', icon: MessageSquare },
       { name: 'ReviewsX', href: '/reviewsX', icon: MessageSquare }
