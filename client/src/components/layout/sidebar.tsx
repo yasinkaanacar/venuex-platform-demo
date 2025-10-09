@@ -18,7 +18,7 @@ import venueXLogo from '@assets/vx-logo-1000x1000_1756566252817.png';
 
 const navigationGroups = [
   {
-    title: "LOKASYONLAR",
+    title: "LOCATION",
     items: [
       { name: 'Locations', href: '/locations', icon: MapPin },
       { name: 'Reviews', href: '/reviewsMVP', icon: MessageSquare }
