@@ -1103,7 +1103,7 @@ export default function OfflineConversionsMVP() {
         <div className="max-w-7xl mx-auto px-6 h-full flex items-center bg-[#f9fafb]">
           <div className="flex items-center justify-between w-full">
             <div>
-              <h1 className="text-xl font-bold text-foreground" data-testid="text-app-title">Offline Conversions MVP</h1>
+              <h1 className="text-xl font-bold text-foreground" data-testid="text-app-title">Offline Conversions</h1>
             </div>
           </div>
         </div>
