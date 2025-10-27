@@ -1,4 +1,5 @@
 import { useState, useMemo, useRef, useEffect } from "react";
+import { ScatterChart, Scatter, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, ResponsiveContainer, Cell, ReferenceLine, Label } from 'recharts';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -1244,71 +1245,147 @@ export default function ReviewsMVP() {
             </div>
 
 
-            {/* Weekly Summary - Advantages / Disadvantages Card */}
+            {/* Temalar (Themes) Component */}
             <Card className="bg-[#f9fafb]">
-              <CardHeader className="pb-4 relative">
-                <Sparkles className="absolute top-4 right-4 w-5 h-5 text-blue-500" />
-                <CardTitle className="text-2xl font-semibold">Advantages / Disadvantages</CardTitle>
+              <CardHeader className="pb-4">
+                <CardTitle className="text-2xl font-semibold">Temalar</CardTitle>
+                <p className="text-sm text-muted-foreground">Theme analysis with VenueX scoring</p>
               </CardHeader>
               <CardContent>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  {/* Advantages Section */}
-                  <div>
-                    <div className="flex items-center gap-2 mb-3">
-                      <TrendingUp className="w-4 h-4 text-green-600" />
-                      <h3 className="text-lg font-semibold text-green-700">Advantages</h3>
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                  {/* Left Side - Theme List */}
+                  <div className="space-y-3">
+                    <div className="flex items-center justify-between pb-2 border-b border-gray-200">
+                      <span className="text-xs font-semibold text-gray-600 uppercase">Theme</span>
+                      <div className="flex items-center gap-6">
+                        <span className="text-xs font-semibold text-gray-600 uppercase">Reviews</span>
+                        <span className="text-xs font-semibold text-gray-600 uppercase">Avg Rating</span>
+                        <span className="text-xs font-semibold text-gray-600 uppercase">VenueX Score</span>
+                      </div>
                     </div>
-                    <p className="text-xs text-gray-600 mb-3">Most positive themes</p>
-                    <div className="space-y-3">
-                      {themesData.positive.map((item, index) => (
-                        <div key={index} className="space-y-1">
-                          <div className="flex items-center justify-between">
-                            <span className="text-sm font-medium text-gray-900">{item.theme}</span>
-                            <div className="flex items-center gap-2 text-xs text-green-600">
-                              <span>{item.percentage}%</span>
-                              <span className="text-gray-500">({item.count})</span>
-                            </div>
-                          </div>
-                          <div className="w-full bg-[#f9fafb] rounded-full h-2">
-                            <div 
-                              className="bg-green-500 h-2 rounded-full transition-all duration-300" 
-                              style={{ 
-                                width: `${(item.count / themesData.positive[0].count) * 100}%` 
-                              }}
-                            />
-                          </div>
+                    {[
+                      { name: 'Taste', reviews: 156, avgRating: 4.5, venueXScore: 92 },
+                      { name: 'Staff Service', reviews: 142, avgRating: 4.3, venueXScore: 87 },
+                      { name: 'Cleanliness', reviews: 128, avgRating: 4.4, venueXScore: 89 },
+                      { name: 'Atmosphere', reviews: 115, avgRating: 4.2, venueXScore: 84 },
+                      { name: 'Fast Service', reviews: 98, avgRating: 3.9, venueXScore: 76 },
+                      { name: 'Price', reviews: 89, avgRating: 3.2, venueXScore: 58 },
+                      { name: 'Waiting Time', reviews: 76, avgRating: 3.0, venueXScore: 52 },
+                      { name: 'Parking', reviews: 64, avgRating: 2.8, venueXScore: 45 },
+                      { name: 'Noise Level', reviews: 52, avgRating: 3.1, venueXScore: 54 },
+                      { name: 'Portion Size', reviews: 43, avgRating: 3.5, venueXScore: 62 },
+                    ].map((theme, index) => (
+                      <div key={index} className="flex items-center justify-between py-2 px-3 rounded-lg hover:bg-white transition-colors cursor-pointer">
+                        <span className="text-sm font-medium text-gray-900">{theme.name}</span>
+                        <div className="flex items-center gap-6">
+                          <span className="text-sm text-gray-700 w-16 text-right">{theme.reviews}</span>
+                          <span className="text-sm text-gray-700 w-20 text-right flex items-center justify-end gap-1">
+                            {theme.avgRating}
+                            <Star className="w-3 h-3 fill-yellow-400 text-yellow-400" />
+                          </span>
+                          <span className={`text-sm font-semibold w-16 text-right ${
+                            theme.venueXScore >= 80 ? 'text-green-600' : 
+                            theme.venueXScore >= 60 ? 'text-blue-600' : 
+                            'text-red-600'
+                          }`}>
+                            {theme.venueXScore}
+                          </span>
                         </div>
-                      ))}
-                    </div>
+                      </div>
+                    ))}
                   </div>
 
-                  {/* Disadvantages Section */}
+                  {/* Right Side - Quadrant Chart */}
                   <div>
-                    <div className="flex items-center gap-2 mb-3">
-                      <TrendingDown className="w-4 h-4 text-red-600" />
-                      <h3 className="text-lg font-semibold text-red-700">Disadvantages</h3>
-                    </div>
-                    <p className="text-xs text-gray-600 mb-3">Most negative themes</p>
-                    <div className="space-y-3">
-                      {themesData.negative.map((item, index) => (
-                        <div key={index} className="space-y-1">
-                          <div className="flex items-center justify-between">
-                            <span className="text-sm font-medium text-gray-900">{item.theme}</span>
-                            <div className="flex items-center gap-2 text-xs text-red-600">
-                              <span>{item.percentage}%</span>
-                              <span className="text-gray-500">({item.count})</span>
-                            </div>
-                          </div>
-                          <div className="w-full bg-[#f9fafb] rounded-full h-2">
-                            <div 
-                              className="bg-red-500 h-2 rounded-full transition-all duration-300" 
-                              style={{ 
-                                width: `${(item.count / themesData.negative[0].count) * 100}%` 
-                              }}
-                            />
-                          </div>
-                        </div>
-                      ))}
+                    <h3 className="text-sm font-semibold text-gray-700 mb-3">Theme Distribution Quadrant</h3>
+                    <div className="h-[500px] relative">
+                      <ResponsiveContainer width="100%" height="100%">
+                        <ScatterChart margin={{ top: 20, right: 20, bottom: 60, left: 60 }}>
+                          <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
+                          <XAxis 
+                            type="number" 
+                            dataKey="venueXScore" 
+                            name="VenueX Score" 
+                            domain={[0, 100]}
+                            tick={{ fontSize: 11, fill: '#64748b' }}
+                            label={{ value: 'VenueX Score', position: 'bottom', offset: 40, style: { fontSize: '12px', fill: '#475569' } }}
+                          />
+                          <YAxis 
+                            type="number" 
+                            dataKey="reviews" 
+                            name="Review Count"
+                            domain={[0, 180]}
+                            tick={{ fontSize: 11, fill: '#64748b' }}
+                            label={{ value: 'Review Count', angle: -90, position: 'left', offset: 40, style: { fontSize: '12px', fill: '#475569' } }}
+                          />
+                          <RechartsTooltip 
+                            cursor={{ strokeDasharray: '3 3' }}
+                            content={({ active, payload }) => {
+                              if (active && payload && payload.length) {
+                                return (
+                                  <div className="bg-white p-3 rounded-lg shadow-lg border border-gray-200">
+                                    <p className="font-semibold text-sm text-gray-900">{payload[0].payload.name}</p>
+                                    <p className="text-xs text-gray-600">Reviews: {payload[0].payload.reviews}</p>
+                                    <p className="text-xs text-gray-600">Avg Rating: {payload[0].payload.avgRating}★</p>
+                                    <p className="text-xs text-gray-600">VenueX Score: {payload[0].payload.venueXScore}</p>
+                                  </div>
+                                );
+                              }
+                              return null;
+                            }}
+                          />
+                          <ReferenceLine x={50} stroke="#94a3b8" strokeDasharray="5 5" strokeWidth={2} />
+                          <ReferenceLine y={90} stroke="#94a3b8" strokeDasharray="5 5" strokeWidth={2} />
+                          <Scatter 
+                            data={[
+                              { name: 'Taste', reviews: 156, avgRating: 4.5, venueXScore: 92 },
+                              { name: 'Staff Service', reviews: 142, avgRating: 4.3, venueXScore: 87 },
+                              { name: 'Cleanliness', reviews: 128, avgRating: 4.4, venueXScore: 89 },
+                              { name: 'Atmosphere', reviews: 115, avgRating: 4.2, venueXScore: 84 },
+                              { name: 'Fast Service', reviews: 98, avgRating: 3.9, venueXScore: 76 },
+                              { name: 'Price', reviews: 89, avgRating: 3.2, venueXScore: 58 },
+                              { name: 'Waiting Time', reviews: 76, avgRating: 3.0, venueXScore: 52 },
+                              { name: 'Parking', reviews: 64, avgRating: 2.8, venueXScore: 45 },
+                              { name: 'Noise Level', reviews: 52, avgRating: 3.1, venueXScore: 54 },
+                              { name: 'Portion Size', reviews: 43, avgRating: 3.5, venueXScore: 62 },
+                            ]}
+                          >
+                            {[
+                              { name: 'Taste', reviews: 156, avgRating: 4.5, venueXScore: 92 },
+                              { name: 'Staff Service', reviews: 142, avgRating: 4.3, venueXScore: 87 },
+                              { name: 'Cleanliness', reviews: 128, avgRating: 4.4, venueXScore: 89 },
+                              { name: 'Atmosphere', reviews: 115, avgRating: 4.2, venueXScore: 84 },
+                              { name: 'Fast Service', reviews: 98, avgRating: 3.9, venueXScore: 76 },
+                              { name: 'Price', reviews: 89, avgRating: 3.2, venueXScore: 58 },
+                              { name: 'Waiting Time', reviews: 76, avgRating: 3.0, venueXScore: 52 },
+                              { name: 'Parking', reviews: 64, avgRating: 2.8, venueXScore: 45 },
+                              { name: 'Noise Level', reviews: 52, avgRating: 3.1, venueXScore: 54 },
+                              { name: 'Portion Size', reviews: 43, avgRating: 3.5, venueXScore: 62 },
+                            ].map((entry, index) => {
+                              let color = '#10b981';
+                              if (entry.venueXScore >= 80 && entry.reviews >= 90) color = '#10b981';
+                              else if (entry.venueXScore >= 80 && entry.reviews < 90) color = '#3b82f6';
+                              else if (entry.venueXScore < 80 && entry.reviews >= 90) color = '#f59e0b';
+                              else color = '#ef4444';
+                              return <Cell key={`cell-${index}`} fill={color} />;
+                            })}
+                          </Scatter>
+                        </ScatterChart>
+                      </ResponsiveContainer>
+                      
+                      {/* Quadrant Labels */}
+                      <div className="absolute top-8 right-8 text-xs font-semibold text-green-600">
+                        High Score / High Volume
+                      </div>
+                      <div className="absolute top-8 left-16 text-xs font-semibold text-blue-600">
+                        High Score / Low Volume
+                      </div>
+                      <div className="absolute bottom-20 right-8 text-xs font-semibold text-orange-600">
+                        Low Score / High Volume
+                      </div>
+                      <div className="absolute bottom-20 left-16 text-xs font-semibold text-red-600">
+                        Low Score / Low Volume
+                      </div>
                     </div>
                   </div>
                 </div>
