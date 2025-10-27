@@ -1507,16 +1507,16 @@ export default function ReviewsMVP() {
                     </ResponsiveContainer>
                     
                     {/* Quadrant Labels */}
-                    <div className="absolute top-8 right-8 text-xs font-semibold text-green-600">
+                    <div className="absolute top-0 right-0 text-xs font-semibold text-green-600">
                       High Score / High Volume
                     </div>
-                    <div className="absolute top-8 left-16 text-xs font-semibold text-blue-600">
+                    <div className="absolute top-0 left-0 text-xs font-semibold text-blue-600">
                       High Score / Low Volume
                     </div>
-                    <div className="absolute bottom-20 right-8 text-xs font-semibold text-orange-600">
+                    <div className="absolute bottom-0 right-0 text-xs font-semibold text-orange-600">
                       Low Score / High Volume
                     </div>
-                    <div className="absolute bottom-20 left-16 text-xs font-semibold text-red-600">
+                    <div className="absolute bottom-0 left-0 text-xs font-semibold text-red-600">
                       Low Score / Low Volume
                     </div>
                   </div>
