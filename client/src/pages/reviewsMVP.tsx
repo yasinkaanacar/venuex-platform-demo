@@ -1322,7 +1322,8 @@ export default function ReviewsMVP() {
             </Card>
 
             {/* Temalar (Themes) Component */}
-            <Card className="bg-[#f9fafb]">
+            <Card className="bg-[#f9fafb] relative">
+              <div className="absolute top-4 right-4 text-2xl">✨</div>
               <CardHeader className="pb-4">
                 <div className="flex items-center justify-between">
                   <div>
@@ -1376,7 +1377,7 @@ export default function ReviewsMVP() {
                           )}
                         </button>
                         <button
-                          className="text-xs font-semibold text-gray-600 uppercase w-16 text-right flex items-center justify-end gap-1 hover:text-gray-900 transition-colors"
+                          className="text-xs font-semibold text-gray-600 uppercase w-16 text-right flex items-center justify-end gap-1 hover:text-gray-900 transition-colors whitespace-nowrap"
                           onClick={() => {
                             if (themeSortBy === 'venueXScore') {
                               setThemeSortOrder(themeSortOrder === 'asc' ? 'desc' : 'asc');
