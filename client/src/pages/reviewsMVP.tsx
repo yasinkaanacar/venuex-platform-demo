@@ -1245,6 +1245,77 @@ export default function ReviewsMVP() {
             </div>
 
 
+            {/* Weekly Summary - Advantages / Disadvantages Card */}
+            <Card className="bg-[#f9fafb]">
+              <CardHeader className="pb-4 relative">
+                <Sparkles className="absolute top-4 right-4 w-5 h-5 text-blue-500" />
+                <CardTitle className="text-2xl font-semibold">Advantages / Disadvantages</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {/* Advantages Section */}
+                  <div>
+                    <div className="flex items-center gap-2 mb-3">
+                      <TrendingUp className="w-4 h-4 text-green-600" />
+                      <h3 className="text-lg font-semibold text-green-700">Advantages</h3>
+                    </div>
+                    <p className="text-xs text-gray-600 mb-3">Most positive themes</p>
+                    <div className="space-y-3">
+                      {themesData.positive.map((item, index) => (
+                        <div key={index} className="space-y-1">
+                          <div className="flex items-center justify-between">
+                            <span className="text-sm font-medium text-gray-900">{item.theme}</span>
+                            <div className="flex items-center gap-2 text-xs text-green-600">
+                              <span>{item.percentage}%</span>
+                              <span className="text-gray-500">({item.count})</span>
+                            </div>
+                          </div>
+                          <div className="w-full bg-[#f9fafb] rounded-full h-2">
+                            <div 
+                              className="bg-green-500 h-2 rounded-full transition-all duration-300" 
+                              style={{ 
+                                width: `${(item.count / themesData.positive[0].count) * 100}%` 
+                              }}
+                            />
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Disadvantages Section */}
+                  <div>
+                    <div className="flex items-center gap-2 mb-3">
+                      <TrendingDown className="w-4 h-4 text-red-600" />
+                      <h3 className="text-lg font-semibold text-red-700">Disadvantages</h3>
+                    </div>
+                    <p className="text-xs text-gray-600 mb-3">Most negative themes</p>
+                    <div className="space-y-3">
+                      {themesData.negative.map((item, index) => (
+                        <div key={index} className="space-y-1">
+                          <div className="flex items-center justify-between">
+                            <span className="text-sm font-medium text-gray-900">{item.theme}</span>
+                            <div className="flex items-center gap-2 text-xs text-red-600">
+                              <span>{item.percentage}%</span>
+                              <span className="text-gray-500">({item.count})</span>
+                            </div>
+                          </div>
+                          <div className="w-full bg-[#f9fafb] rounded-full h-2">
+                            <div 
+                              className="bg-red-500 h-2 rounded-full transition-all duration-300" 
+                              style={{ 
+                                width: `${(item.count / themesData.negative[0].count) * 100}%` 
+                              }}
+                            />
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
             {/* Temalar (Themes) Component */}
             <Card className="bg-[#f9fafb]">
               <CardHeader className="pb-4">
