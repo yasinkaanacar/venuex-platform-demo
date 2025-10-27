@@ -1359,7 +1359,7 @@ export default function ReviewsMVP() {
                   <div className="space-y-3">
                     <div className="flex items-center justify-between pb-2 border-b border-gray-200">
                       <span className="text-xs font-semibold text-gray-600 uppercase">Theme</span>
-                      <div className="flex items-center gap-6">
+                      <div className="flex items-center gap-12">
                         <button
                           className="text-xs font-semibold text-gray-600 uppercase w-16 text-right flex items-center justify-end gap-1 hover:text-gray-900 transition-colors"
                           onClick={() => {
@@ -1412,7 +1412,7 @@ export default function ReviewsMVP() {
                     }).map((theme, index) => (
                       <div key={index} className="flex items-center justify-between py-2 px-3 rounded-lg hover:bg-white transition-colors cursor-pointer">
                         <span className="text-sm font-medium text-gray-900">{theme.name}</span>
-                        <div className="flex items-center gap-6">
+                        <div className="flex items-center gap-12">
                           <span className="text-sm text-gray-700 w-16 text-right">{theme.reviews}</span>
                           <span className={`text-sm font-semibold w-16 text-right ${
                             theme.venueXScore >= 80 ? 'text-green-600' : 
