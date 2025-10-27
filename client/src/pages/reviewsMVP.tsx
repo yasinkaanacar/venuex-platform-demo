@@ -155,6 +155,10 @@ export default function ReviewsMVP() {
   const [leaderboardDateRange, setLeaderboardDateRange] = useState("30");
   const [themeView, setThemeView] = useState<'list' | 'chart'>('list');
   
+  // Theme sorting state
+  const [themeSortBy, setThemeSortBy] = useState<'reviews' | 'avgRating' | 'venueXScore'>('reviews');
+  const [themeSortOrder, setThemeSortOrder] = useState<'asc' | 'desc'>('desc');
+  
   // Period selector state
   const [selectedPeriod, setSelectedPeriod] = useState("30days");
 
@@ -1355,9 +1359,54 @@ export default function ReviewsMVP() {
                     <div className="flex items-center justify-between pb-2 border-b border-gray-200">
                       <span className="text-xs font-semibold text-gray-600 uppercase">Theme</span>
                       <div className="flex items-center gap-6">
-                        <span className="text-xs font-semibold text-gray-600 uppercase">Reviews</span>
-                        <span className="text-xs font-semibold text-gray-600 uppercase">Avg Rating</span>
-                        <span className="text-xs font-semibold text-gray-600 uppercase">VenueX Score</span>
+                        <button
+                          className="text-xs font-semibold text-gray-600 uppercase w-16 text-right flex items-center justify-end gap-1 hover:text-gray-900 transition-colors"
+                          onClick={() => {
+                            if (themeSortBy === 'reviews') {
+                              setThemeSortOrder(themeSortOrder === 'asc' ? 'desc' : 'asc');
+                            } else {
+                              setThemeSortBy('reviews');
+                              setThemeSortOrder('desc');
+                            }
+                          }}
+                        >
+                          Reviews
+                          {themeSortBy === 'reviews' && (
+                            themeSortOrder === 'asc' ? <ChevronUp className="w-3 h-3" /> : <ChevronDown className="w-3 h-3" />
+                          )}
+                        </button>
+                        <button
+                          className="text-xs font-semibold text-gray-600 uppercase w-20 text-right flex items-center justify-end gap-1 hover:text-gray-900 transition-colors"
+                          onClick={() => {
+                            if (themeSortBy === 'avgRating') {
+                              setThemeSortOrder(themeSortOrder === 'asc' ? 'desc' : 'asc');
+                            } else {
+                              setThemeSortBy('avgRating');
+                              setThemeSortOrder('desc');
+                            }
+                          }}
+                        >
+                          Avg Rating
+                          {themeSortBy === 'avgRating' && (
+                            themeSortOrder === 'asc' ? <ChevronUp className="w-3 h-3" /> : <ChevronDown className="w-3 h-3" />
+                          )}
+                        </button>
+                        <button
+                          className="text-xs font-semibold text-gray-600 uppercase w-16 text-right flex items-center justify-end gap-1 hover:text-gray-900 transition-colors"
+                          onClick={() => {
+                            if (themeSortBy === 'venueXScore') {
+                              setThemeSortOrder(themeSortOrder === 'asc' ? 'desc' : 'asc');
+                            } else {
+                              setThemeSortBy('venueXScore');
+                              setThemeSortOrder('desc');
+                            }
+                          }}
+                        >
+                          VenueX Score
+                          {themeSortBy === 'venueXScore' && (
+                            themeSortOrder === 'asc' ? <ChevronUp className="w-3 h-3" /> : <ChevronDown className="w-3 h-3" />
+                          )}
+                        </button>
                       </div>
                     </div>
                     {[
@@ -1371,7 +1420,11 @@ export default function ReviewsMVP() {
                       { name: 'Parking', reviews: 64, avgRating: 2.8, venueXScore: 45 },
                       { name: 'Noise Level', reviews: 52, avgRating: 3.1, venueXScore: 54 },
                       { name: 'Portion Size', reviews: 43, avgRating: 3.5, venueXScore: 62 },
-                    ].map((theme, index) => (
+                    ].sort((a, b) => {
+                      const field = themeSortBy;
+                      const order = themeSortOrder === 'asc' ? 1 : -1;
+                      return (a[field] - b[field]) * order;
+                    }).map((theme, index) => (
                       <div key={index} className="flex items-center justify-between py-2 px-3 rounded-lg hover:bg-white transition-colors cursor-pointer">
                         <span className="text-sm font-medium text-gray-900">{theme.name}</span>
                         <div className="flex items-center gap-6">
