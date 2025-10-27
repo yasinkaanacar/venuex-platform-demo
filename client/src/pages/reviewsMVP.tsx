@@ -1351,8 +1351,6 @@ export default function ReviewsMVP() {
               </CardHeader>
               <CardContent>
                 {themeView === 'list' ? (
-                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                  {/* Left Side - Theme List */}
                   <div className="space-y-3">
                     <div className="flex items-center justify-between pb-2 border-b border-gray-200">
                       <span className="text-xs font-semibold text-gray-600 uppercase">Theme</span>
@@ -1393,101 +1391,6 @@ export default function ReviewsMVP() {
                       </div>
                     ))}
                   </div>
-
-                  {/* Right Side - Quadrant Chart */}
-                  <div>
-                    <h3 className="text-sm font-semibold text-gray-700 mb-3">Theme Distribution Quadrant</h3>
-                    <div className="h-[500px] relative">
-                      <ResponsiveContainer width="100%" height="100%">
-                        <ScatterChart margin={{ top: 20, right: 20, bottom: 60, left: 60 }}>
-                          <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
-                          <XAxis 
-                            type="number" 
-                            dataKey="venueXScore" 
-                            name="VenueX Score" 
-                            domain={[0, 100]}
-                            tick={{ fontSize: 11, fill: '#64748b' }}
-                            label={{ value: 'VenueX Score', position: 'bottom', offset: 40, style: { fontSize: '12px', fill: '#475569' } }}
-                          />
-                          <YAxis 
-                            type="number" 
-                            dataKey="reviews" 
-                            name="Review Count"
-                            domain={[0, 180]}
-                            tick={{ fontSize: 11, fill: '#64748b' }}
-                            label={{ value: 'Review Count', angle: -90, position: 'left', offset: 40, style: { fontSize: '12px', fill: '#475569' } }}
-                          />
-                          <RechartsTooltip 
-                            cursor={{ strokeDasharray: '3 3' }}
-                            content={({ active, payload }) => {
-                              if (active && payload && payload.length) {
-                                return (
-                                  <div className="bg-white p-3 rounded-lg shadow-lg border border-gray-200">
-                                    <p className="font-semibold text-sm text-gray-900">{payload[0].payload.name}</p>
-                                    <p className="text-xs text-gray-600">Reviews: {payload[0].payload.reviews}</p>
-                                    <p className="text-xs text-gray-600">Avg Rating: {payload[0].payload.avgRating}★</p>
-                                    <p className="text-xs text-gray-600">VenueX Score: {payload[0].payload.venueXScore}</p>
-                                  </div>
-                                );
-                              }
-                              return null;
-                            }}
-                          />
-                          <ReferenceLine x={50} stroke="#94a3b8" strokeDasharray="5 5" strokeWidth={2} />
-                          <ReferenceLine y={90} stroke="#94a3b8" strokeDasharray="5 5" strokeWidth={2} />
-                          <Scatter 
-                            data={[
-                              { name: 'Taste', reviews: 156, avgRating: 4.5, venueXScore: 92 },
-                              { name: 'Staff Service', reviews: 142, avgRating: 4.3, venueXScore: 87 },
-                              { name: 'Cleanliness', reviews: 128, avgRating: 4.4, venueXScore: 89 },
-                              { name: 'Atmosphere', reviews: 115, avgRating: 4.2, venueXScore: 84 },
-                              { name: 'Fast Service', reviews: 98, avgRating: 3.9, venueXScore: 76 },
-                              { name: 'Price', reviews: 89, avgRating: 3.2, venueXScore: 58 },
-                              { name: 'Waiting Time', reviews: 76, avgRating: 3.0, venueXScore: 52 },
-                              { name: 'Parking', reviews: 64, avgRating: 2.8, venueXScore: 45 },
-                              { name: 'Noise Level', reviews: 52, avgRating: 3.1, venueXScore: 54 },
-                              { name: 'Portion Size', reviews: 43, avgRating: 3.5, venueXScore: 62 },
-                            ]}
-                          >
-                            {[
-                              { name: 'Taste', reviews: 156, avgRating: 4.5, venueXScore: 92 },
-                              { name: 'Staff Service', reviews: 142, avgRating: 4.3, venueXScore: 87 },
-                              { name: 'Cleanliness', reviews: 128, avgRating: 4.4, venueXScore: 89 },
-                              { name: 'Atmosphere', reviews: 115, avgRating: 4.2, venueXScore: 84 },
-                              { name: 'Fast Service', reviews: 98, avgRating: 3.9, venueXScore: 76 },
-                              { name: 'Price', reviews: 89, avgRating: 3.2, venueXScore: 58 },
-                              { name: 'Waiting Time', reviews: 76, avgRating: 3.0, venueXScore: 52 },
-                              { name: 'Parking', reviews: 64, avgRating: 2.8, venueXScore: 45 },
-                              { name: 'Noise Level', reviews: 52, avgRating: 3.1, venueXScore: 54 },
-                              { name: 'Portion Size', reviews: 43, avgRating: 3.5, venueXScore: 62 },
-                            ].map((entry, index) => {
-                              let color = '#10b981';
-                              if (entry.venueXScore >= 80 && entry.reviews >= 90) color = '#10b981';
-                              else if (entry.venueXScore >= 80 && entry.reviews < 90) color = '#3b82f6';
-                              else if (entry.venueXScore < 80 && entry.reviews >= 90) color = '#f59e0b';
-                              else color = '#ef4444';
-                              return <Cell key={`cell-${index}`} fill={color} />;
-                            })}
-                          </Scatter>
-                        </ScatterChart>
-                      </ResponsiveContainer>
-                      
-                      {/* Quadrant Labels */}
-                      <div className="absolute top-8 right-8 text-xs font-semibold text-green-600">
-                        High Score / High Volume
-                      </div>
-                      <div className="absolute top-8 left-16 text-xs font-semibold text-blue-600">
-                        High Score / Low Volume
-                      </div>
-                      <div className="absolute bottom-20 right-8 text-xs font-semibold text-orange-600">
-                        Low Score / High Volume
-                      </div>
-                      <div className="absolute bottom-20 left-16 text-xs font-semibold text-red-600">
-                        Low Score / Low Volume
-                      </div>
-                    </div>
-                  </div>
-                </div>
                 ) : (
                   <div className="h-[600px] relative">
                     <ResponsiveContainer width="100%" height="100%">
