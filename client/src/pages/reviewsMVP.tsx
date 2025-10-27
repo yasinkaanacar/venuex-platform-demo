@@ -156,7 +156,7 @@ export default function ReviewsMVP() {
   const [themeView, setThemeView] = useState<'list' | 'chart'>('list');
   
   // Theme sorting state
-  const [themeSortBy, setThemeSortBy] = useState<'reviews' | 'avgRating' | 'venueXScore'>('reviews');
+  const [themeSortBy, setThemeSortBy] = useState<'reviews' | 'venueXScore'>('reviews');
   const [themeSortOrder, setThemeSortOrder] = useState<'asc' | 'desc'>('desc');
   
   // Period selector state
@@ -1376,22 +1376,6 @@ export default function ReviewsMVP() {
                           )}
                         </button>
                         <button
-                          className="text-xs font-semibold text-gray-600 uppercase w-20 text-right flex items-center justify-end gap-1 hover:text-gray-900 transition-colors"
-                          onClick={() => {
-                            if (themeSortBy === 'avgRating') {
-                              setThemeSortOrder(themeSortOrder === 'asc' ? 'desc' : 'asc');
-                            } else {
-                              setThemeSortBy('avgRating');
-                              setThemeSortOrder('desc');
-                            }
-                          }}
-                        >
-                          Avg Rating
-                          {themeSortBy === 'avgRating' && (
-                            themeSortOrder === 'asc' ? <ChevronUp className="w-3 h-3" /> : <ChevronDown className="w-3 h-3" />
-                          )}
-                        </button>
-                        <button
                           className="text-xs font-semibold text-gray-600 uppercase w-16 text-right flex items-center justify-end gap-1 hover:text-gray-900 transition-colors"
                           onClick={() => {
                             if (themeSortBy === 'venueXScore') {
@@ -1429,10 +1413,6 @@ export default function ReviewsMVP() {
                         <span className="text-sm font-medium text-gray-900">{theme.name}</span>
                         <div className="flex items-center gap-6">
                           <span className="text-sm text-gray-700 w-16 text-right">{theme.reviews}</span>
-                          <span className="text-sm text-gray-700 w-20 text-right flex items-center justify-end gap-1">
-                            {theme.avgRating}
-                            <Star className="w-3 h-3 fill-yellow-400 text-yellow-400" />
-                          </span>
                           <span className={`text-sm font-semibold w-16 text-right ${
                             theme.venueXScore >= 80 ? 'text-green-600' : 
                             theme.venueXScore >= 60 ? 'text-blue-600' : 
