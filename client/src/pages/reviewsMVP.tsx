@@ -1322,9 +1322,9 @@ export default function ReviewsMVP() {
             </Card>
 
             {/* Temalar (Themes) Component */}
-            <Card className="bg-[#f9fafb] relative">
-              <div className="absolute top-4 right-4 text-2xl">✨</div>
-              <CardHeader className="pb-4">
+            <Card className="bg-[#f9fafb]">
+              <CardHeader className="pb-4 relative">
+                <Sparkles className="absolute top-4 right-4 w-5 h-5 text-blue-500" />
                 <div className="flex items-center justify-between">
                   <div>
                     <CardTitle className="text-2xl font-semibold">Temalar</CardTitle>
