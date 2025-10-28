@@ -1325,7 +1325,7 @@ export default function ReviewsMVP() {
             <Card className="bg-[#f9fafb]">
               <CardHeader className="pb-4 relative">
                 <Sparkles className="absolute top-4 right-4 w-5 h-5 text-blue-500" />
-                <div className="flex items-center justify-between pr-12">
+                <div className="flex items-center justify-between">
                   <div>
                     <CardTitle className="text-2xl font-semibold">Temalar</CardTitle>
                     <p className="text-sm text-muted-foreground">Theme analysis with VenueX scoring</p>
