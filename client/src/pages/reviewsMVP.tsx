@@ -1,5 +1,5 @@
 import { useState, useMemo, useRef, useEffect } from "react";
-import { ScatterChart, Scatter, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, ResponsiveContainer, Cell, ReferenceLine, Label, LabelList } from 'recharts';
+import { ScatterChart, Scatter, XAxis, YAxis, ZAxis, CartesianGrid, Tooltip as RechartsTooltip, ResponsiveContainer, Cell, ReferenceLine, Label, LabelList } from 'recharts';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -154,6 +154,7 @@ export default function ReviewsMVP() {
   const [leaderboardSortBy, setLeaderboardSortBy] = useState<'rating' | 'volume' | 'replyRate'>('rating');
   const [leaderboardDateRange, setLeaderboardDateRange] = useState("30");
   const [themeView, setThemeView] = useState<'list' | 'chart'>('list');
+  const [chartType, setChartType] = useState<'scatter' | 'bubble'>('scatter');
   
   // Theme sorting state
   const [themeSortBy, setThemeSortBy] = useState<'reviews' | 'venueXScore'>('reviews');
@@ -1426,8 +1427,38 @@ export default function ReviewsMVP() {
                     ))}
                   </div>
                 ) : (
-                  <div className="h-[600px] relative">
+                  <div className="space-y-4">
+                    {/* Chart Type Selector */}
+                    <div className="flex justify-center">
+                      <div className="flex rounded-lg border border-gray-300 overflow-hidden">
+                        <button
+                          className={`px-6 py-2 text-sm font-medium transition-colors ${
+                            chartType === "scatter" 
+                              ? "bg-slate-800 text-white" 
+                              : "bg-[#f9fafb] text-gray-700 hover:bg-white"
+                          }`}
+                          onClick={() => setChartType("scatter")}
+                          data-testid="button-chart-scatter"
+                        >
+                          Scatter Plot
+                        </button>
+                        <button
+                          className={`px-6 py-2 text-sm font-medium transition-colors border-l border-gray-300 ${
+                            chartType === "bubble" 
+                              ? "bg-slate-800 text-white" 
+                              : "bg-[#f9fafb] text-gray-700 hover:bg-white"
+                          }`}
+                          onClick={() => setChartType("bubble")}
+                          data-testid="button-chart-bubble"
+                        >
+                          Bubble Chart
+                        </button>
+                      </div>
+                    </div>
+
+                    <div className="h-[600px] relative">
                     <ResponsiveContainer width="100%" height="100%">
+                      {chartType === 'scatter' ? (
                       <ScatterChart margin={{ top: 20, right: 100, bottom: 60, left: 60 }}>
                         <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
                         <XAxis 
@@ -1505,6 +1536,91 @@ export default function ReviewsMVP() {
                           />
                         </Scatter>
                       </ScatterChart>
+                      ) : (
+                      <ScatterChart margin={{ top: 20, right: 100, bottom: 60, left: 60 }}>
+                        <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
+                        <XAxis 
+                          type="number" 
+                          dataKey="venueXScore" 
+                          name="VenueX Score" 
+                          domain={[0, 100]}
+                          tick={{ fontSize: 11, fill: '#64748b' }}
+                          label={{ value: 'VenueX Score', position: 'bottom', offset: 40, style: { fontSize: '12px', fill: '#475569' } }}
+                        />
+                        <YAxis 
+                          type="number" 
+                          dataKey="reviews" 
+                          name="Review Count"
+                          domain={[0, 180]}
+                          tick={{ fontSize: 11, fill: '#64748b' }}
+                          label={{ value: 'Review Count', angle: -90, position: 'left', offset: 40, style: { fontSize: '12px', fill: '#475569' } }}
+                        />
+                        <ZAxis 
+                          type="number" 
+                          dataKey="avgRating" 
+                          range={[100, 1000]} 
+                          name="Avg Rating"
+                        />
+                        <RechartsTooltip 
+                          cursor={{ strokeDasharray: '3 3' }}
+                          content={({ active, payload }) => {
+                            if (active && payload && payload.length) {
+                              return (
+                                <div className="bg-white p-3 rounded-lg shadow-lg border border-gray-200">
+                                  <p className="font-semibold text-sm text-gray-900">{payload[0].payload.name}</p>
+                                  <p className="text-xs text-gray-600">Reviews: {payload[0].payload.reviews}</p>
+                                  <p className="text-xs text-gray-600">Avg Rating: {payload[0].payload.avgRating}★</p>
+                                  <p className="text-xs text-gray-600">VenueX Score: {payload[0].payload.venueXScore}</p>
+                                </div>
+                              );
+                            }
+                            return null;
+                          }}
+                        />
+                        <ReferenceLine x={50} stroke="#94a3b8" strokeDasharray="5 5" strokeWidth={2} />
+                        <ReferenceLine y={90} stroke="#94a3b8" strokeDasharray="5 5" strokeWidth={2} />
+                        <Scatter 
+                          data={[
+                            { name: 'Taste', reviews: 156, avgRating: 4.5, venueXScore: 92 },
+                            { name: 'Staff Service', reviews: 142, avgRating: 4.3, venueXScore: 87 },
+                            { name: 'Cleanliness', reviews: 128, avgRating: 4.4, venueXScore: 89 },
+                            { name: 'Atmosphere', reviews: 115, avgRating: 4.2, venueXScore: 84 },
+                            { name: 'Fast Service', reviews: 98, avgRating: 3.9, venueXScore: 76 },
+                            { name: 'Price', reviews: 89, avgRating: 3.2, venueXScore: 58 },
+                            { name: 'Waiting Time', reviews: 76, avgRating: 3.0, venueXScore: 52 },
+                            { name: 'Parking', reviews: 64, avgRating: 2.8, venueXScore: 45 },
+                            { name: 'Noise Level', reviews: 52, avgRating: 3.1, venueXScore: 54 },
+                            { name: 'Portion Size', reviews: 43, avgRating: 3.5, venueXScore: 62 },
+                          ]}
+                        >
+                          {[
+                            { name: 'Taste', reviews: 156, avgRating: 4.5, venueXScore: 92 },
+                            { name: 'Staff Service', reviews: 142, avgRating: 4.3, venueXScore: 87 },
+                            { name: 'Cleanliness', reviews: 128, avgRating: 4.4, venueXScore: 89 },
+                            { name: 'Atmosphere', reviews: 115, avgRating: 4.2, venueXScore: 84 },
+                            { name: 'Fast Service', reviews: 98, avgRating: 3.9, venueXScore: 76 },
+                            { name: 'Price', reviews: 89, avgRating: 3.2, venueXScore: 58 },
+                            { name: 'Waiting Time', reviews: 76, avgRating: 3.0, venueXScore: 52 },
+                            { name: 'Parking', reviews: 64, avgRating: 2.8, venueXScore: 45 },
+                            { name: 'Noise Level', reviews: 52, avgRating: 3.1, venueXScore: 54 },
+                            { name: 'Portion Size', reviews: 43, avgRating: 3.5, venueXScore: 62 },
+                          ].map((entry, index) => {
+                            let color = '#10b981';
+                            if (entry.venueXScore >= 80 && entry.reviews >= 90) color = '#10b981';
+                            else if (entry.venueXScore >= 80 && entry.reviews < 90) color = '#3b82f6';
+                            else if (entry.venueXScore < 80 && entry.reviews >= 90) color = '#f59e0b';
+                            else color = '#ef4444';
+                            return <Cell key={`cell-${index}`} fill={color} fillOpacity={0.7} />;
+                          })}
+                          <LabelList 
+                            dataKey="name" 
+                            position="top" 
+                            style={{ fontSize: '10px', fill: '#1e293b', fontWeight: '600' }}
+                            offset={0}
+                          />
+                        </Scatter>
+                      </ScatterChart>
+                      )}
                     </ResponsiveContainer>
                     
                     {/* Quadrant Labels with Custom Hover Tooltips */}
@@ -1550,6 +1666,7 @@ export default function ReviewsMVP() {
                         <p className="text-xs text-gray-600 mb-2">Issues that are rarely mentioned and have low satisfaction scores.</p>
                         <p className="text-xs font-medium">Action: Monitor and improve when resources allow.</p>
                       </div>
+                    </div>
                     </div>
                   </div>
                 )}
