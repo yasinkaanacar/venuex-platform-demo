@@ -1624,7 +1624,7 @@ export default function ReviewsMVP() {
                     {/* Quadrant Labels with Custom Hover Tooltips */}
                     <div className="group absolute top-0 right-0">
                       <div className="text-xs font-semibold text-green-600 cursor-help">
-                        High Score / High Volume
+                        High Reviews / High Rating
                       </div>
                       <div className="hidden group-hover:block absolute top-full right-0 mt-1 bg-white border border-gray-200 rounded-lg shadow-lg p-3 max-w-xs z-10">
                         <p className="font-semibold mb-1">Core Strengths</p>
@@ -1634,30 +1634,30 @@ export default function ReviewsMVP() {
                     </div>
                     
                     <div className="group absolute top-0 left-0">
-                      <div className="text-xs font-semibold text-blue-600 cursor-help">
-                        High Score / Low Volume
+                      <div className="text-xs font-semibold text-orange-600 cursor-help">
+                        High Reviews / Low Rating
                       </div>
                       <div className="hidden group-hover:block absolute top-full left-0 mt-1 bg-white border border-gray-200 rounded-lg shadow-lg p-3 max-w-xs z-10">
-                        <p className="font-semibold mb-1">Hidden Gems</p>
-                        <p className="text-xs text-gray-600 mb-2">High-quality aspects that few customers mention. These could become strengths with visibility.</p>
-                        <p className="text-xs font-medium">Action: Increase awareness. Highlight these features to customers.</p>
-                      </div>
-                    </div>
-                    
-                    <div className="group absolute bottom-0 right-0">
-                      <div className="text-xs font-semibold text-orange-600 cursor-help">
-                        Low Score / High Volume
-                      </div>
-                      <div className="hidden group-hover:block absolute bottom-full right-0 mb-1 bg-white border border-gray-200 rounded-lg shadow-lg p-3 max-w-xs z-10">
                         <p className="font-semibold mb-1">Urgent Issues</p>
                         <p className="text-xs text-gray-600 mb-2">Frequently mentioned problems that negatively impact customer experience.</p>
                         <p className="text-xs font-medium">Action: Priority attention needed. Address these issues immediately.</p>
                       </div>
                     </div>
                     
+                    <div className="group absolute bottom-0 right-0">
+                      <div className="text-xs font-semibold text-blue-600 cursor-help">
+                        Low Reviews / High Rating
+                      </div>
+                      <div className="hidden group-hover:block absolute bottom-full right-0 mb-1 bg-white border border-gray-200 rounded-lg shadow-lg p-3 max-w-xs z-10">
+                        <p className="font-semibold mb-1">Hidden Gems</p>
+                        <p className="text-xs text-gray-600 mb-2">High-quality aspects that few customers mention. These could become strengths with visibility.</p>
+                        <p className="text-xs font-medium">Action: Increase awareness. Highlight these features to customers.</p>
+                      </div>
+                    </div>
+                    
                     <div className="group absolute bottom-0 left-0">
                       <div className="text-xs font-semibold text-red-600 cursor-help">
-                        Low Score / Low Volume
+                        Low Reviews / Low Rating
                       </div>
                       <div className="hidden group-hover:block absolute bottom-full left-0 mb-1 bg-white border border-gray-200 rounded-lg shadow-lg p-3 max-w-xs z-10">
                         <p className="font-semibold mb-1">Minor Concerns</p>
