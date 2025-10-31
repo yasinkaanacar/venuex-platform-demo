@@ -1557,9 +1557,9 @@ export default function ReviewsMVP() {
                         />
                         <ZAxis 
                           type="number" 
-                          dataKey="avgRating" 
+                          dataKey="reviews" 
                           range={[100, 1000]} 
-                          name="Avg Rating"
+                          name="Review Count"
                         />
                         <RechartsTooltip 
                           cursor={{ strokeDasharray: '3 3' }}
@@ -1578,7 +1578,6 @@ export default function ReviewsMVP() {
                           }}
                         />
                         <ReferenceLine x={50} stroke="#94a3b8" strokeDasharray="5 5" strokeWidth={2} />
-                        <ReferenceLine y={90} stroke="#94a3b8" strokeDasharray="5 5" strokeWidth={2} />
                         <Scatter 
                           data={[
                             { name: 'Taste', reviews: 156, avgRating: 4.5, venueXScore: 92 },
