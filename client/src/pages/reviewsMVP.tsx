@@ -1541,11 +1541,11 @@ export default function ReviewsMVP() {
                         <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
                         <XAxis 
                           type="number" 
-                          dataKey="venueXScore" 
-                          name="VenueX Score" 
-                          domain={[0, 100]}
+                          dataKey="avgRating" 
+                          name="Average Rating" 
+                          domain={[0, 5]}
                           tick={{ fontSize: 11, fill: '#64748b' }}
-                          label={{ value: 'VenueX Score', position: 'bottom', offset: 40, style: { fontSize: '12px', fill: '#475569' } }}
+                          label={{ value: 'Average Rating', position: 'bottom', offset: 40, style: { fontSize: '12px', fill: '#475569' } }}
                         />
                         <YAxis 
                           type="number" 
@@ -1557,9 +1557,9 @@ export default function ReviewsMVP() {
                         />
                         <ZAxis 
                           type="number" 
-                          dataKey="reviews" 
+                          dataKey="venueXScore" 
                           range={[100, 1000]} 
-                          name="Review Count"
+                          name="VenueX Score"
                         />
                         <RechartsTooltip 
                           cursor={{ strokeDasharray: '3 3' }}
@@ -1577,7 +1577,6 @@ export default function ReviewsMVP() {
                             return null;
                           }}
                         />
-                        <ReferenceLine x={50} stroke="#94a3b8" strokeDasharray="5 5" strokeWidth={2} />
                         <Scatter 
                           data={[
                             { name: 'Taste', reviews: 156, avgRating: 4.5, venueXScore: 92 },
