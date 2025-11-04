@@ -74,11 +74,11 @@ export default function Overview() {
           </div>
         ) : (
           <div className="space-y-8">
+            <DataQualityEnrichment context="dashboard" />
             <KpiCards kpis={overviewData?.kpis} filters={filters} onFiltersChange={setFilters} />
             <PerformanceChart filters={filters} onFiltersChange={setFilters} />
             <TopPerformingLocations filters={filters} onFiltersChange={setFilters} />
             <TopPerformingCampaigns filters={filters} onFiltersChange={setFilters} />
-            <DataQualityEnrichment context="dashboard" />
             
             <div id="data-health-details">
               <DataHealthAlerts 
