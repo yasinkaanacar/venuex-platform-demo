@@ -447,7 +447,7 @@ export default function AIRecommendations() {
                       </div>
 
                       {/* Context row */}
-                      <div className="flex flex-wrap items-center gap-1.5 mb-2">
+                      <div className="flex flex-wrap items-center gap-1.5">
                         {rec.channels.map(ch => (
                           <span key={ch} className="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded bg-gray-100 text-[10px] text-gray-600">
                             {ch === "Google" && <SiGoogle className="w-2 h-2" />}
@@ -463,21 +463,8 @@ export default function AIRecommendations() {
                         </span>
                       </div>
 
-                      {/* Why we suggest this */}
-                      <div className="mb-2">
-                        <p className="text-[9px] font-medium text-gray-500 uppercase mb-0.5">Why we suggest this</p>
-                        <ul className="space-y-0.5">
-                          {rec.reasons.map((reason, idx) => (
-                            <li key={idx} className="text-[10px] text-gray-600 flex items-start gap-1">
-                              <span className="text-purple-500 mt-0.5">•</span>
-                              <span className="line-clamp-1">{reason}</span>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-
                       {/* Actions row */}
-                      <div className="flex items-center gap-1.5 pt-2 border-t border-gray-100">
+                      <div className="flex items-center gap-1.5 pt-2 mt-2 border-t border-gray-100">
                         <Button size="sm" className="bg-purple-600 hover:bg-purple-700 text-[10px] h-6 px-2">
                           Apply
                         </Button>
