@@ -577,7 +577,7 @@ export default function AIRecommendations() {
                     </Badge>
                     <h2 className="text-base font-bold text-gray-900 leading-snug flex-1">{selectedRecommendation.title}</h2>
                     <span className={`text-xs font-semibold px-2 py-1 rounded-full flex-shrink-0 whitespace-nowrap ${getConfidenceColor(selectedRecommendation.confidence)}`}>
-                      {selectedRecommendation.confidence}%
+                      {selectedRecommendation.confidence}% confidence
                     </span>
                   </div>
 
