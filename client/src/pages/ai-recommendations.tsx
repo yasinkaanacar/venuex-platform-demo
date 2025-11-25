@@ -51,7 +51,7 @@ const recommendations: Recommendation[] = [
   {
     id: 2,
     type: "budget_shift",
-    title: "Increase Google Search budget by 20% for Shoes in Istanbul",
+    title: "Increase budget by 20% for 'Shoes_Istanbul_PMax_Q4' campaign on Google Ads",
     confidence: 88,
     estimatedRevenue: "+₺320,000",
     currentROAS: "2.8x",
@@ -62,8 +62,8 @@ const recommendations: Recommendation[] = [
     category: "Shoes",
     timeToImpact: "1 week",
     reasons: [
-      "Search campaigns show 45% higher conversion rate during evening hours.",
-      "Competitor share of voice dropped 15% this month, opportunity to capture."
+      "This Performance Max campaign shows 45% higher conversion rate during evening hours.",
+      "Competitor share of voice dropped 15% this month, opportunity to capture market share."
     ]
   },
   {
