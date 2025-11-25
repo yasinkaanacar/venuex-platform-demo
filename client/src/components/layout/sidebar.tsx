@@ -32,6 +32,12 @@ const navigationGroups = [
       { name: 'Local Inventory', href: '/catalog', icon: Package },
       { name: 'Offline Conversions', href: '/offline-conversionsMVP', icon: TrendingUp }
     ]
+  },
+  {
+    title: "AI",
+    items: [
+      { name: 'VenueX AI', href: '/venuex-ai', icon: Brain }
+    ]
   }
 ];
 
