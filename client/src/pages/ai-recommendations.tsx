@@ -155,7 +155,6 @@ export default function AIRecommendations() {
   const [activeTab, setActiveTab] = useState<"recommendations" | "scenarios" | "history">("recommendations");
   const [selectedRecommendation, setSelectedRecommendation] = useState<Recommendation | null>(recommendations[0]);
   const [viewMode, setViewMode] = useState<"cards" | "table">("cards");
-  const [dateRange, setDateRange] = useState("30d");
   const [mobileDetailOpen, setMobileDetailOpen] = useState(false);
   const [showOverflowMenu, setShowOverflowMenu] = useState<number | null>(null);
   
@@ -205,22 +204,8 @@ export default function AIRecommendations() {
               <p className="text-xs text-gray-500">Powered by VenueX AI</p>
             </div>
           </div>
-          <div className="flex items-center gap-3">
-            <Select 
-              value={dateRange} 
-              onValueChange={setDateRange}
-              displayLabel={dateRange === "7d" ? "Last 7 Days" : dateRange === "30d" ? "Last 30 Days" : "Last 90 Days"}
-              data-testid="select-date-range"
-            >
-              <SelectContent>
-                <SelectItem value="7d">Last 7 Days</SelectItem>
-                <SelectItem value="30d">Last 30 Days</SelectItem>
-                <SelectItem value="90d">Last 90 Days</SelectItem>
-              </SelectContent>
-            </Select>
-            <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center">
-              <Users className="w-4 h-4 text-gray-600" />
-            </div>
+          <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center">
+            <Users className="w-4 h-4 text-gray-600" />
           </div>
         </div>
       </div>
