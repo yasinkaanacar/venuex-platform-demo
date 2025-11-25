@@ -6,190 +6,150 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Badge } from "@/components/ui/badge";
 import { 
   Brain, TrendingUp, Target, Zap, Clock, CheckCircle, 
-  AlertTriangle, ChevronRight, X, LayoutGrid, List,
-  DollarSign, Users, BarChart3, Lightbulb
+  ChevronRight, X, LayoutGrid, List, MoreHorizontal,
+  DollarSign, Users, AlertTriangle, Lightbulb, Store,
+  ArrowUpRight, ArrowDownRight, Beaker, Eye, BellOff
 } from "lucide-react";
+import { SiGoogle, SiMeta } from 'react-icons/si';
 
 interface Recommendation {
   id: number;
+  type: "budget_shift" | "new_format" | "listing_fix" | "experiment";
   title: string;
-  description: string;
-  objective: "awareness" | "conversion" | "retention";
-  channel: "google" | "meta" | "all";
+  confidence: number;
+  estimatedRevenue: string;
+  currentROAS: string;
+  projectedROAS: string;
+  affectedSpend: string;
+  channels: string[];
   region: string;
-  category: "budget" | "targeting" | "bidding" | "creative";
-  confidence: "high" | "medium";
-  impact: string;
-  effort: "low" | "medium" | "high";
-  potentialROAS: string;
-  details: {
-    currentState: string;
-    recommendation: string;
-    expectedOutcome: string;
-    steps: string[];
-  };
+  category: string;
+  timeToImpact: string;
+  reasons: string[];
+  status?: "applied" | "snoozed";
+  statusDate?: string;
 }
 
 const recommendations: Recommendation[] = [
   {
     id: 1,
-    title: "Reallocate Istanbul budget to Google",
-    description: "Move 15% of Meta spend to Google Ads for better ROAS in Istanbul region",
-    objective: "conversion",
-    channel: "google",
-    region: "Istanbul",
-    category: "budget",
-    confidence: "high",
-    impact: "+12% ROAS",
-    effort: "low",
-    potentialROAS: "+12%",
-    details: {
-      currentState: "Current Meta spend in Istanbul: $45,000/month with 2.1x ROAS",
-      recommendation: "Shift $6,750 (15%) from Meta to Google Ads campaigns",
-      expectedOutcome: "Projected combined ROAS improvement of 12% based on historical performance",
-      steps: [
-        "Review current Meta campaign performance by ad set",
-        "Identify lowest performing 15% of spend",
-        "Create equivalent Google Ads campaigns",
-        "Gradually shift budget over 2 weeks",
-        "Monitor and optimize daily"
-      ]
-    }
+    type: "budget_shift",
+    title: "Shift 15% budget from Meta Prospecting to Google PMax for Kitchenware in Marmara",
+    confidence: 92,
+    estimatedRevenue: "+₺180,000",
+    currentROAS: "3.2x",
+    projectedROAS: "3.9x",
+    affectedSpend: "₺250,000",
+    channels: ["Google", "Meta"],
+    region: "Marmara",
+    category: "Kitchenware",
+    timeToImpact: "1–2 weeks",
+    reasons: [
+      "Google campaigns in Marmara have 2× higher average store basket value vs Meta for Kitchenware.",
+      "Google currently receives only 42% of spend for this combo."
+    ]
   },
   {
     id: 2,
-    title: "Optimize Ankara bid strategy",
-    description: "Increase bids on high-converting store locations in Ankara by 20%",
-    objective: "conversion",
-    channel: "google",
-    region: "Ankara",
-    category: "bidding",
-    confidence: "high",
-    impact: "+8% ROAS",
-    effort: "low",
-    potentialROAS: "+8%",
-    details: {
-      currentState: "Top 5 Ankara stores have 3.2x ROAS but limited impression share (62%)",
-      recommendation: "Increase location bid adjustments by 20% for top performers",
-      expectedOutcome: "Capture additional 15% impression share, driving 8% more conversions",
-      steps: [
-        "Identify top 5 converting store locations",
-        "Apply +20% bid adjustment",
-        "Set up automated rules for monitoring",
-        "Review after 7 days"
-      ]
-    }
+    type: "budget_shift",
+    title: "Increase Google Search budget by 20% for Electronics in Istanbul",
+    confidence: 88,
+    estimatedRevenue: "+₺320,000",
+    currentROAS: "2.8x",
+    projectedROAS: "3.4x",
+    affectedSpend: "₺180,000",
+    channels: ["Google"],
+    region: "Istanbul",
+    category: "Electronics",
+    timeToImpact: "1 week",
+    reasons: [
+      "Search campaigns show 45% higher conversion rate during evening hours.",
+      "Competitor share of voice dropped 15% this month, opportunity to capture."
+    ]
   },
   {
     id: 3,
-    title: "Evening dayparting for Izmir",
-    description: "Shift 10% budget to evening hours (6PM-10PM) in Izmir campaigns",
-    objective: "conversion",
-    channel: "all",
-    region: "Izmir",
-    category: "targeting",
-    confidence: "high",
-    impact: "+15% ROAS",
-    effort: "medium",
-    potentialROAS: "+15%",
-    details: {
-      currentState: "Izmir campaigns show 40% higher conversion rate during evening hours",
-      recommendation: "Implement dayparting to concentrate 60% of budget in peak hours",
-      expectedOutcome: "15% improvement in overall campaign ROAS",
-      steps: [
-        "Analyze hourly performance data",
-        "Create custom ad schedules",
-        "Apply bid modifiers: +25% for 6PM-10PM",
-        "Reduce bids by 15% for low-performing hours",
-        "Monitor for 2 weeks before full rollout"
-      ]
-    }
+    type: "new_format",
+    title: "Launch Performance Max campaign for Home category in Aegean region",
+    confidence: 85,
+    estimatedRevenue: "+₺95,000",
+    currentROAS: "2.1x",
+    projectedROAS: "2.8x",
+    affectedSpend: "₺120,000",
+    channels: ["Google"],
+    region: "Aegean",
+    category: "Home",
+    timeToImpact: "2–3 weeks",
+    reasons: [
+      "PMax campaigns show 35% better performance for Home category nationally.",
+      "Aegean region has high mobile search volume for home products."
+    ]
   },
   {
     id: 4,
-    title: "Pause underperforming Bursa campaigns",
-    description: "Pause 3 campaigns with negative ROAS and reallocate budget",
-    objective: "conversion",
-    channel: "meta",
-    region: "Bursa",
-    category: "budget",
-    confidence: "medium",
-    impact: "+4% ROAS",
-    effort: "low",
-    potentialROAS: "+4%",
-    details: {
-      currentState: "3 Bursa campaigns have 0.6x ROAS, spending $8,500/month",
-      recommendation: "Pause these campaigns and redistribute to top performers",
-      expectedOutcome: "Eliminate waste and improve overall account ROAS by 4%",
-      steps: [
-        "Pause campaigns: Bursa_Awareness_01, Bursa_Retarget_03, Bursa_Lookalike_02",
-        "Redistribute budget to top 3 performing campaigns",
-        "Document learnings for future campaign creation"
-      ]
-    }
+    type: "listing_fix",
+    title: "Fix product feed errors for 234 Fashion items missing GTINs",
+    confidence: 95,
+    estimatedRevenue: "+₺45,000",
+    currentROAS: "1.8x",
+    projectedROAS: "2.4x",
+    affectedSpend: "₺85,000",
+    channels: ["Google", "Meta"],
+    region: "All Regions",
+    category: "Fashion",
+    timeToImpact: "3–5 days",
+    reasons: [
+      "Missing GTINs reduce product visibility by 60% in Shopping results.",
+      "234 products currently not showing in Shopping campaigns."
+    ],
+    status: "applied",
+    statusDate: "3 days ago"
   },
   {
     id: 5,
-    title: "Enable location extensions for Antalya",
-    description: "Add location extensions to drive more store visits in Antalya",
-    objective: "awareness",
-    channel: "google",
-    region: "Antalya",
-    category: "creative",
-    confidence: "medium",
-    impact: "+6% visits",
-    effort: "low",
-    potentialROAS: "+6%",
-    details: {
-      currentState: "Antalya campaigns lack location extensions, missing local intent traffic",
-      recommendation: "Enable location extensions for all 12 Antalya store locations",
-      expectedOutcome: "6% increase in store visit rate based on benchmark data",
-      steps: [
-        "Verify Google Business Profile accuracy",
-        "Link locations to Google Ads",
-        "Enable location extensions at campaign level",
-        "Add location-specific ad copy variations"
-      ]
-    }
+    type: "experiment",
+    title: "Test video ads for Kitchenware in Central Anatolia",
+    confidence: 72,
+    estimatedRevenue: "+₺65,000",
+    currentROAS: "2.3x",
+    projectedROAS: "2.9x",
+    affectedSpend: "₺50,000",
+    channels: ["Meta", "TikTok"],
+    region: "Central Anatolia",
+    category: "Kitchenware",
+    timeToImpact: "3–4 weeks",
+    reasons: [
+      "Video engagement rates are 3× higher than static images for this audience.",
+      "Competitor video ads seeing strong performance in this region."
+    ]
   },
   {
     id: 6,
-    title: "Audience expansion for retention",
-    description: "Expand customer match audiences with email subscribers",
-    objective: "retention",
-    channel: "all",
-    region: "All Regions",
-    category: "targeting",
-    confidence: "high",
-    impact: "+22% LTV",
-    effort: "medium",
-    potentialROAS: "+22%",
-    details: {
-      currentState: "Current customer match list: 45,000 emails, 6 months old",
-      recommendation: "Upload fresh email list (82,000 subscribers) and create similar audiences",
-      expectedOutcome: "22% improvement in customer lifetime value through better targeting",
-      steps: [
-        "Export updated email subscriber list",
-        "Hash and format for platform requirements",
-        "Upload to Google and Meta",
-        "Create similar/lookalike audiences",
-        "Launch retention campaigns"
-      ]
-    }
+    type: "budget_shift",
+    title: "Reduce Meta spend by 25% for low-performing Electronics campaigns",
+    confidence: 82,
+    estimatedRevenue: "+₺120,000",
+    currentROAS: "1.4x",
+    projectedROAS: "2.1x",
+    affectedSpend: "₺200,000",
+    channels: ["Meta"],
+    region: "Mediterranean",
+    category: "Electronics",
+    timeToImpact: "1 week",
+    reasons: [
+      "3 campaigns have sub-1.5x ROAS for over 60 days.",
+      "Reallocating to top performers could recover ₺120K in wasted spend."
+    ],
+    status: "snoozed",
+    statusDate: "until 12 Dec"
   }
 ];
 
-const categoryIcons = {
-  budget: DollarSign,
-  targeting: Target,
-  bidding: Zap,
-  creative: Lightbulb,
-};
-
-const objectiveColors = {
-  awareness: "bg-blue-100 text-blue-700",
-  conversion: "bg-green-100 text-green-700",
-  retention: "bg-purple-100 text-purple-700",
+const typeLabels: Record<string, { label: string; color: string }> = {
+  budget_shift: { label: "Budget shift", color: "bg-blue-100 text-blue-700" },
+  new_format: { label: "New format", color: "bg-purple-100 text-purple-700" },
+  listing_fix: { label: "Listing fix", color: "bg-orange-100 text-orange-700" },
+  experiment: { label: "Experiment", color: "bg-green-100 text-green-700" },
 };
 
 export default function AIRecommendations() {
@@ -198,6 +158,7 @@ export default function AIRecommendations() {
   const [viewMode, setViewMode] = useState<"cards" | "table">("cards");
   const [dateRange, setDateRange] = useState("30d");
   const [mobileDetailOpen, setMobileDetailOpen] = useState(false);
+  const [showOverflowMenu, setShowOverflowMenu] = useState<number | null>(null);
   
   const [filters, setFilters] = useState({
     objective: "all",
@@ -205,30 +166,30 @@ export default function AIRecommendations() {
     region: "all",
     category: "all",
     confidenceHigh: true,
-    confidenceMedium: true,
+    confidenceMedium: false,
   });
 
   const filteredRecommendations = recommendations.filter(rec => {
-    if (filters.objective !== "all" && rec.objective !== filters.objective) return false;
-    if (filters.channel !== "all" && rec.channel !== filters.channel && rec.channel !== "all") return false;
+    if (filters.channel !== "all" && !rec.channels.includes(filters.channel)) return false;
     if (filters.region !== "all" && rec.region !== filters.region && rec.region !== "All Regions") return false;
     if (filters.category !== "all" && rec.category !== filters.category) return false;
-    if (!filters.confidenceHigh && rec.confidence === "high") return false;
-    if (!filters.confidenceMedium && rec.confidence === "medium") return false;
-    return true;
+    if (!filters.confidenceHigh && rec.confidence >= 80) return false;
+    if (!filters.confidenceMedium && rec.confidence >= 60 && rec.confidence < 80) return false;
+    if (filters.confidenceHigh && rec.confidence >= 80) return true;
+    if (filters.confidenceMedium && rec.confidence >= 60 && rec.confidence < 80) return true;
+    if (!filters.confidenceHigh && !filters.confidenceMedium) return true;
+    return false;
   });
-
-  const totalPotentialROAS = filteredRecommendations.reduce((sum, rec) => {
-    const value = parseFloat(rec.potentialROAS.replace('+', '').replace('%', ''));
-    return sum + (isNaN(value) ? 0 : value);
-  }, 0);
-
-  const highConfidenceCount = filteredRecommendations.filter(r => r.confidence === "high").length;
-  const lowEffortCount = filteredRecommendations.filter(r => r.effort === "low").length;
 
   const handleSelectRecommendation = (rec: Recommendation) => {
     setSelectedRecommendation(rec);
     setMobileDetailOpen(true);
+  };
+
+  const getConfidenceColor = (confidence: number) => {
+    if (confidence >= 80) return "text-green-600 bg-green-100";
+    if (confidence >= 60) return "text-yellow-600 bg-yellow-100";
+    return "text-gray-600 bg-gray-100";
   };
 
   return (
@@ -293,81 +254,67 @@ export default function AIRecommendations() {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
             <Card className="bg-white border border-gray-200 shadow-none">
               <CardContent className="p-4">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-xs text-gray-500 mb-1">Total Recommendations</p>
-                    <p className="text-2xl font-bold text-gray-900">{filteredRecommendations.length}</p>
-                  </div>
-                  <div className="w-10 h-10 rounded-lg bg-purple-100 flex items-center justify-center">
-                    <Lightbulb className="w-5 h-5 text-purple-600" />
-                  </div>
+                <p className="text-xs text-gray-500 mb-1">Potential incremental revenue</p>
+                <div className="flex items-baseline gap-2">
+                  <p className="text-2xl font-bold text-gray-900">+₺1.3M</p>
+                  <span className="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium bg-green-100 text-green-700">
+                    <ArrowUpRight className="w-3 h-3 mr-0.5" />+18%
+                  </span>
                 </div>
+                <p className="text-[10px] text-gray-400 mt-1">If all high-confidence recs applied in 30 days</p>
               </CardContent>
             </Card>
             <Card className="bg-white border border-gray-200 shadow-none">
               <CardContent className="p-4">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-xs text-gray-500 mb-1">High Confidence</p>
-                    <p className="text-2xl font-bold text-green-600">{highConfidenceCount}</p>
-                  </div>
-                  <div className="w-10 h-10 rounded-lg bg-green-100 flex items-center justify-center">
-                    <CheckCircle className="w-5 h-5 text-green-600" />
-                  </div>
-                </div>
+                <p className="text-xs text-gray-500 mb-1">High-confidence recommendations</p>
+                <p className="text-2xl font-bold text-gray-900">12</p>
+                <p className="text-[10px] text-gray-400 mt-1">Budget & visibility actions with confidence ≥80%</p>
               </CardContent>
             </Card>
             <Card className="bg-white border border-gray-200 shadow-none">
               <CardContent className="p-4">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-xs text-gray-500 mb-1">Quick Wins</p>
-                    <p className="text-2xl font-bold text-blue-600">{lowEffortCount}</p>
-                  </div>
-                  <div className="w-10 h-10 rounded-lg bg-blue-100 flex items-center justify-center">
-                    <Zap className="w-5 h-5 text-blue-600" />
-                  </div>
+                <p className="text-xs text-gray-500 mb-1">Budget at risk</p>
+                <div className="flex items-baseline gap-2">
+                  <p className="text-2xl font-bold text-red-600">₺450K</p>
                 </div>
+                <p className="text-[10px] text-gray-400 mt-1">Spend in low-ROAS campaigns flagged by AI</p>
               </CardContent>
             </Card>
             <Card className="bg-white border border-gray-200 shadow-none">
               <CardContent className="p-4">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-xs text-gray-500 mb-1">Potential ROAS</p>
-                    <p className="text-2xl font-bold text-purple-600">+{totalPotentialROAS}%</p>
-                  </div>
-                  <div className="w-10 h-10 rounded-lg bg-purple-100 flex items-center justify-center">
-                    <TrendingUp className="w-5 h-5 text-purple-600" />
-                  </div>
-                </div>
+                <p className="text-xs text-gray-500 mb-1">Applied this period</p>
+                <p className="text-2xl font-bold text-green-600">7</p>
+                <p className="text-[10px] text-gray-400 mt-1">Recommendations marked as applied</p>
               </CardContent>
             </Card>
           </div>
 
           {/* Filter Bar */}
           <div className="bg-white border border-gray-200 rounded-lg p-4 mb-6">
-            <div className="flex flex-wrap items-center gap-4">
+            <div className="flex flex-wrap items-center gap-3">
               <Select value={filters.objective} onValueChange={(v) => setFilters(f => ({ ...f, objective: v }))}>
-                <SelectTrigger className="w-32 h-9 text-sm border-gray-300" data-testid="filter-objective">
+                <SelectTrigger className="w-40 h-9 text-sm border-gray-300" data-testid="filter-objective">
                   <SelectValue placeholder="Objective" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="all">All Objectives</SelectItem>
-                  <SelectItem value="awareness">Awareness</SelectItem>
-                  <SelectItem value="conversion">Conversion</SelectItem>
-                  <SelectItem value="retention">Retention</SelectItem>
+                  <SelectItem value="revenue">Maximize revenue</SelectItem>
+                  <SelectItem value="roas">Maximize Omni-ROAS</SelectItem>
+                  <SelectItem value="visits">Increase store visits</SelectItem>
+                  <SelectItem value="inventory">Clear inventory</SelectItem>
                 </SelectContent>
               </Select>
 
               <Select value={filters.channel} onValueChange={(v) => setFilters(f => ({ ...f, channel: v }))}>
                 <SelectTrigger className="w-32 h-9 text-sm border-gray-300" data-testid="filter-channel">
-                  <SelectValue placeholder="Channel" />
+                  <SelectValue placeholder="Channels" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="all">All Channels</SelectItem>
-                  <SelectItem value="google">Google</SelectItem>
-                  <SelectItem value="meta">Meta</SelectItem>
+                  <SelectItem value="Google">Google</SelectItem>
+                  <SelectItem value="Meta">Meta</SelectItem>
+                  <SelectItem value="TikTok">TikTok</SelectItem>
+                  <SelectItem value="Other">Other</SelectItem>
                 </SelectContent>
               </Select>
 
@@ -378,10 +325,10 @@ export default function AIRecommendations() {
                 <SelectContent>
                   <SelectItem value="all">All Regions</SelectItem>
                   <SelectItem value="Istanbul">Istanbul</SelectItem>
-                  <SelectItem value="Ankara">Ankara</SelectItem>
-                  <SelectItem value="Izmir">Izmir</SelectItem>
-                  <SelectItem value="Antalya">Antalya</SelectItem>
-                  <SelectItem value="Bursa">Bursa</SelectItem>
+                  <SelectItem value="Marmara">Marmara</SelectItem>
+                  <SelectItem value="Aegean">Aegean</SelectItem>
+                  <SelectItem value="Mediterranean">Mediterranean</SelectItem>
+                  <SelectItem value="Central Anatolia">Central Anatolia</SelectItem>
                 </SelectContent>
               </Select>
 
@@ -391,24 +338,23 @@ export default function AIRecommendations() {
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="all">All Categories</SelectItem>
-                  <SelectItem value="budget">Budget</SelectItem>
-                  <SelectItem value="targeting">Targeting</SelectItem>
-                  <SelectItem value="bidding">Bidding</SelectItem>
-                  <SelectItem value="creative">Creative</SelectItem>
+                  <SelectItem value="Home">Home</SelectItem>
+                  <SelectItem value="Kitchenware">Kitchenware</SelectItem>
+                  <SelectItem value="Electronics">Electronics</SelectItem>
+                  <SelectItem value="Fashion">Fashion</SelectItem>
                 </SelectContent>
               </Select>
 
               <div className="h-6 w-px bg-gray-200" />
 
-              <div className="flex items-center gap-4">
-                <span className="text-sm text-gray-600">Confidence:</span>
+              <div className="flex items-center gap-3">
                 <label className="flex items-center gap-2 cursor-pointer">
                   <Checkbox
                     checked={filters.confidenceHigh}
                     onChange={(e) => setFilters(f => ({ ...f, confidenceHigh: e.target.checked }))}
                     data-testid="filter-confidence-high"
                   />
-                  <span className="text-sm text-gray-700">High</span>
+                  <span className="text-sm text-gray-700">High (80–100%)</span>
                 </label>
                 <label className="flex items-center gap-2 cursor-pointer">
                   <Checkbox
@@ -416,26 +362,32 @@ export default function AIRecommendations() {
                     onChange={(e) => setFilters(f => ({ ...f, confidenceMedium: e.target.checked }))}
                     data-testid="filter-confidence-medium"
                   />
-                  <span className="text-sm text-gray-700">Medium</span>
+                  <span className="text-sm text-gray-700">Medium (60–80%)</span>
                 </label>
               </div>
 
               <div className="ml-auto flex items-center gap-2">
                 <span className="text-sm text-gray-600">View:</span>
-                <button
-                  onClick={() => setViewMode("cards")}
-                  className={`p-1.5 rounded ${viewMode === "cards" ? "bg-purple-100 text-purple-600" : "text-gray-400 hover:text-gray-600"}`}
-                  data-testid="view-cards"
-                >
-                  <LayoutGrid className="w-4 h-4" />
-                </button>
-                <button
-                  onClick={() => setViewMode("table")}
-                  className={`p-1.5 rounded ${viewMode === "table" ? "bg-purple-100 text-purple-600" : "text-gray-400 hover:text-gray-600"}`}
-                  data-testid="view-table"
-                >
-                  <List className="w-4 h-4" />
-                </button>
+                <div className="flex bg-gray-100 rounded-lg p-0.5">
+                  <button
+                    onClick={() => setViewMode("cards")}
+                    className={`px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${
+                      viewMode === "cards" ? "bg-white text-gray-900 shadow-sm" : "text-gray-500"
+                    }`}
+                    data-testid="view-cards"
+                  >
+                    Cards
+                  </button>
+                  <button
+                    onClick={() => setViewMode("table")}
+                    className={`px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${
+                      viewMode === "table" ? "bg-white text-gray-900 shadow-sm" : "text-gray-500"
+                    }`}
+                    data-testid="view-table"
+                  >
+                    Table
+                  </button>
+                </div>
               </div>
             </div>
           </div>
@@ -443,7 +395,7 @@ export default function AIRecommendations() {
           {/* Content Area */}
           <div className="flex gap-6">
             {/* List Panel */}
-            <div className="w-full lg:w-2/5 space-y-3">
+            <div className="w-full lg:w-1/2 space-y-4 max-h-[calc(100vh-380px)] overflow-y-auto pr-2">
               {filteredRecommendations.length === 0 ? (
                 <div className="bg-white border border-gray-200 rounded-lg p-8 text-center">
                   <AlertTriangle className="w-10 h-10 text-gray-300 mx-auto mb-3" />
@@ -451,42 +403,124 @@ export default function AIRecommendations() {
                 </div>
               ) : viewMode === "cards" ? (
                 filteredRecommendations.map(rec => {
-                  const CategoryIcon = categoryIcons[rec.category];
                   const isSelected = selectedRecommendation?.id === rec.id;
+                  const typeInfo = typeLabels[rec.type];
                   return (
                     <div
                       key={rec.id}
                       onClick={() => handleSelectRecommendation(rec)}
                       className={`bg-white border rounded-lg p-4 cursor-pointer transition-all ${
                         isSelected ? "border-purple-400 ring-1 ring-purple-200" : "border-gray-200 hover:border-gray-300"
-                      }`}
+                      } ${rec.status ? "opacity-75" : ""}`}
                       data-testid={`recommendation-card-${rec.id}`}
                     >
-                      <div className="flex items-start gap-3">
-                        <div className={`w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0 ${
-                          rec.confidence === "high" ? "bg-green-100" : "bg-yellow-100"
-                        }`}>
-                          <CategoryIcon className={`w-4 h-4 ${
-                            rec.confidence === "high" ? "text-green-600" : "text-yellow-600"
-                          }`} />
-                        </div>
-                        <div className="flex-1 min-w-0">
-                          <div className="flex items-start justify-between gap-2">
-                            <h3 className="text-sm font-semibold text-gray-900 line-clamp-1">{rec.title}</h3>
-                            <ChevronRight className="w-4 h-4 text-gray-400 flex-shrink-0 mt-0.5" />
-                          </div>
-                          <p className="text-xs text-gray-500 mt-1 line-clamp-2">{rec.description}</p>
-                          <div className="flex items-center gap-2 mt-2 flex-wrap">
-                            <Badge variant="secondary" className={`text-[10px] ${objectiveColors[rec.objective]}`}>
-                              {rec.objective}
-                            </Badge>
-                            <Badge variant="secondary" className="text-[10px] bg-gray-100 text-gray-600">
-                              {rec.region}
-                            </Badge>
-                            <span className="text-xs font-semibold text-green-600 ml-auto">{rec.impact}</span>
-                          </div>
+                      {/* Top row */}
+                      <div className="flex items-center justify-between mb-3">
+                        <Badge className={`${typeInfo.color} text-xs font-medium`}>
+                          {typeInfo.label}
+                        </Badge>
+                        <div className="flex items-center gap-2">
+                          <span className={`text-xs font-semibold px-2 py-0.5 rounded ${getConfidenceColor(rec.confidence)}`}>
+                            {rec.confidence >= 80 ? "High" : "Medium"} · {rec.confidence}%
+                          </span>
                         </div>
                       </div>
+
+                      {/* Title */}
+                      <h3 className="text-sm font-semibold text-gray-900 mb-3 leading-snug">{rec.title}</h3>
+
+                      {/* Impact row */}
+                      <div className="grid grid-cols-3 gap-3 mb-3 p-2 bg-gray-50 rounded-lg">
+                        <div className="text-center">
+                          <div className="flex items-center justify-center gap-1 text-green-600 font-semibold text-sm">
+                            <TrendingUp className="w-3 h-3" />
+                            {rec.estimatedRevenue}
+                          </div>
+                          <p className="text-[10px] text-gray-500">Est. revenue / 30d</p>
+                        </div>
+                        <div className="text-center border-x border-gray-200">
+                          <div className="text-sm font-semibold text-gray-900">
+                            {rec.currentROAS} → {rec.projectedROAS}
+                          </div>
+                          <p className="text-[10px] text-gray-500">Offline ROAS</p>
+                        </div>
+                        <div className="text-center">
+                          <div className="text-sm font-semibold text-gray-700">{rec.affectedSpend}</div>
+                          <p className="text-[10px] text-gray-500">Affected spend</p>
+                        </div>
+                      </div>
+
+                      {/* Context row */}
+                      <div className="flex flex-wrap items-center gap-2 mb-3">
+                        {rec.channels.map(ch => (
+                          <span key={ch} className="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-gray-100 text-xs text-gray-600">
+                            {ch === "Google" && <SiGoogle className="w-2.5 h-2.5" />}
+                            {ch === "Meta" && <SiMeta className="w-2.5 h-2.5" />}
+                            {ch}
+                          </span>
+                        ))}
+                        <span className="px-2 py-0.5 rounded bg-blue-50 text-xs text-blue-600">{rec.region}</span>
+                        <span className="px-2 py-0.5 rounded bg-purple-50 text-xs text-purple-600">{rec.category}</span>
+                        <span className="px-2 py-0.5 rounded bg-gray-100 text-xs text-gray-500">
+                          <Clock className="w-3 h-3 inline mr-1" />
+                          {rec.timeToImpact}
+                        </span>
+                      </div>
+
+                      {/* Why we suggest this */}
+                      <div className="mb-3">
+                        <p className="text-[10px] font-medium text-gray-500 uppercase mb-1">Why we suggest this</p>
+                        <ul className="space-y-0.5">
+                          {rec.reasons.map((reason, idx) => (
+                            <li key={idx} className="text-xs text-gray-600 flex items-start gap-1.5">
+                              <span className="text-purple-500 mt-0.5">•</span>
+                              <span className="line-clamp-1">{reason}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+
+                      {/* Actions row */}
+                      <div className="flex items-center gap-2 pt-3 border-t border-gray-100">
+                        <Button size="sm" className="bg-purple-600 hover:bg-purple-700 text-xs h-8">
+                          Apply change
+                        </Button>
+                        <Button size="sm" variant="outline" className="text-xs h-8">
+                          <Beaker className="w-3 h-3 mr-1" />
+                          Create experiment
+                        </Button>
+                        <Button size="sm" variant="ghost" className="text-xs h-8 text-gray-500">
+                          <Eye className="w-3 h-3 mr-1" />
+                          See details
+                        </Button>
+                        <div className="relative ml-auto">
+                          <button 
+                            onClick={(e) => { e.stopPropagation(); setShowOverflowMenu(showOverflowMenu === rec.id ? null : rec.id); }}
+                            className="p-1 hover:bg-gray-100 rounded"
+                          >
+                            <MoreHorizontal className="w-4 h-4 text-gray-400" />
+                          </button>
+                          {showOverflowMenu === rec.id && (
+                            <div className="absolute right-0 top-8 bg-white border border-gray-200 rounded-lg shadow-lg py-1 z-10 min-w-[120px]">
+                              <button className="w-full px-3 py-1.5 text-left text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-2">
+                                <BellOff className="w-3 h-3" /> Snooze
+                              </button>
+                              <button className="w-full px-3 py-1.5 text-left text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-2">
+                                <X className="w-3 h-3" /> Dismiss
+                              </button>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+
+                      {/* Status indicator */}
+                      {rec.status && (
+                        <div className="mt-2 pt-2 border-t border-gray-100">
+                          <span className={`text-xs ${rec.status === "applied" ? "text-green-600" : "text-yellow-600"}`}>
+                            Status: {rec.status === "applied" ? "Applied" : "Snoozed"} · {rec.statusDate}
+                          </span>
+                        </div>
+                      )}
                     </div>
                   );
                 })
@@ -495,14 +529,17 @@ export default function AIRecommendations() {
                   <table className="w-full text-sm">
                     <thead className="bg-gray-50 border-b border-gray-200">
                       <tr>
+                        <th className="text-left py-2 px-3 font-medium text-gray-600">Type</th>
                         <th className="text-left py-2 px-3 font-medium text-gray-600">Recommendation</th>
                         <th className="text-left py-2 px-3 font-medium text-gray-600">Region</th>
-                        <th className="text-right py-2 px-3 font-medium text-gray-600">Impact</th>
+                        <th className="text-center py-2 px-3 font-medium text-gray-600">Confidence</th>
+                        <th className="text-right py-2 px-3 font-medium text-gray-600">Est. Revenue</th>
                       </tr>
                     </thead>
                     <tbody>
                       {filteredRecommendations.map(rec => {
                         const isSelected = selectedRecommendation?.id === rec.id;
+                        const typeInfo = typeLabels[rec.type];
                         return (
                           <tr
                             key={rec.id}
@@ -513,10 +550,18 @@ export default function AIRecommendations() {
                             data-testid={`recommendation-row-${rec.id}`}
                           >
                             <td className="py-2 px-3">
-                              <div className="font-medium text-gray-900 line-clamp-1">{rec.title}</div>
+                              <Badge className={`${typeInfo.color} text-[10px]`}>{typeInfo.label}</Badge>
+                            </td>
+                            <td className="py-2 px-3">
+                              <div className="font-medium text-gray-900 line-clamp-1 max-w-[300px]">{rec.title}</div>
                             </td>
                             <td className="py-2 px-3 text-gray-600">{rec.region}</td>
-                            <td className="py-2 px-3 text-right font-semibold text-green-600">{rec.impact}</td>
+                            <td className="py-2 px-3 text-center">
+                              <span className={`text-xs font-medium px-2 py-0.5 rounded ${getConfidenceColor(rec.confidence)}`}>
+                                {rec.confidence}%
+                              </span>
+                            </td>
+                            <td className="py-2 px-3 text-right font-semibold text-green-600">{rec.estimatedRevenue}</td>
                           </tr>
                         );
                       })}
@@ -527,104 +572,102 @@ export default function AIRecommendations() {
             </div>
 
             {/* Detail Panel - Desktop */}
-            <div className="hidden lg:block lg:w-3/5">
+            <div className="hidden lg:block lg:w-1/2">
               {selectedRecommendation ? (
                 <div className="bg-white border border-gray-200 rounded-lg p-6 sticky top-6">
                   <div className="flex items-start justify-between mb-4">
-                    <div className="flex items-center gap-3">
-                      <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${
-                        selectedRecommendation.confidence === "high" ? "bg-green-100" : "bg-yellow-100"
-                      }`}>
-                        {(() => {
-                          const Icon = categoryIcons[selectedRecommendation.category];
-                          return <Icon className={`w-5 h-5 ${
-                            selectedRecommendation.confidence === "high" ? "text-green-600" : "text-yellow-600"
-                          }`} />;
-                        })()}
-                      </div>
-                      <div>
-                        <h2 className="text-lg font-bold text-gray-900">{selectedRecommendation.title}</h2>
-                        <div className="flex items-center gap-2 mt-1">
-                          <Badge variant="secondary" className={`text-xs ${objectiveColors[selectedRecommendation.objective]}`}>
-                            {selectedRecommendation.objective}
-                          </Badge>
-                          <Badge variant="secondary" className="text-xs bg-gray-100 text-gray-600">
-                            {selectedRecommendation.channel}
-                          </Badge>
-                          <Badge variant="secondary" className="text-xs bg-gray-100 text-gray-600">
-                            {selectedRecommendation.region}
-                          </Badge>
-                        </div>
-                      </div>
+                    <div>
+                      <Badge className={`${typeLabels[selectedRecommendation.type].color} text-xs mb-2`}>
+                        {typeLabels[selectedRecommendation.type].label}
+                      </Badge>
+                      <h2 className="text-lg font-bold text-gray-900 leading-snug">{selectedRecommendation.title}</h2>
                     </div>
                     <div className="text-right">
-                      <div className="text-2xl font-bold text-green-600">{selectedRecommendation.impact}</div>
-                      <div className="text-xs text-gray-500">Expected Impact</div>
+                      <span className={`text-sm font-semibold px-3 py-1 rounded-full ${getConfidenceColor(selectedRecommendation.confidence)}`}>
+                        {selectedRecommendation.confidence}% confidence
+                      </span>
                     </div>
                   </div>
 
-                  <p className="text-sm text-gray-600 mb-6">{selectedRecommendation.description}</p>
-
-                  <div className="grid grid-cols-3 gap-4 mb-6">
-                    <div className="bg-gray-50 rounded-lg p-3">
-                      <div className="text-xs text-gray-500 mb-1">Confidence</div>
-                      <div className={`text-sm font-semibold ${
-                        selectedRecommendation.confidence === "high" ? "text-green-600" : "text-yellow-600"
-                      }`}>
-                        {selectedRecommendation.confidence === "high" ? "High" : "Medium"}
-                      </div>
+                  {/* Impact metrics */}
+                  <div className="grid grid-cols-3 gap-4 mb-6 p-4 bg-gray-50 rounded-lg">
+                    <div>
+                      <p className="text-xs text-gray-500 mb-1">Estimated Revenue</p>
+                      <p className="text-xl font-bold text-green-600">{selectedRecommendation.estimatedRevenue}</p>
+                      <p className="text-[10px] text-gray-400">per 30 days</p>
                     </div>
-                    <div className="bg-gray-50 rounded-lg p-3">
-                      <div className="text-xs text-gray-500 mb-1">Effort</div>
-                      <div className="text-sm font-semibold text-gray-900 capitalize">{selectedRecommendation.effort}</div>
+                    <div>
+                      <p className="text-xs text-gray-500 mb-1">ROAS Change</p>
+                      <p className="text-xl font-bold text-gray-900">
+                        {selectedRecommendation.currentROAS} → {selectedRecommendation.projectedROAS}
+                      </p>
+                      <p className="text-[10px] text-gray-400">offline ROAS</p>
                     </div>
-                    <div className="bg-gray-50 rounded-lg p-3">
-                      <div className="text-xs text-gray-500 mb-1">Category</div>
-                      <div className="text-sm font-semibold text-gray-900 capitalize">{selectedRecommendation.category}</div>
+                    <div>
+                      <p className="text-xs text-gray-500 mb-1">Affected Spend</p>
+                      <p className="text-xl font-bold text-gray-700">{selectedRecommendation.affectedSpend}</p>
+                      <p className="text-[10px] text-gray-400">per 30 days</p>
                     </div>
                   </div>
 
-                  <div className="space-y-4 mb-6">
-                    <div>
-                      <h4 className="text-sm font-semibold text-gray-900 mb-1">Current State</h4>
-                      <p className="text-sm text-gray-600">{selectedRecommendation.details.currentState}</p>
-                    </div>
-                    <div>
-                      <h4 className="text-sm font-semibold text-gray-900 mb-1">Recommendation</h4>
-                      <p className="text-sm text-gray-600">{selectedRecommendation.details.recommendation}</p>
-                    </div>
-                    <div>
-                      <h4 className="text-sm font-semibold text-gray-900 mb-1">Expected Outcome</h4>
-                      <p className="text-sm text-gray-600">{selectedRecommendation.details.expectedOutcome}</p>
-                    </div>
-                  </div>
-
+                  {/* Context */}
                   <div className="mb-6">
-                    <h4 className="text-sm font-semibold text-gray-900 mb-2">Implementation Steps</h4>
-                    <ol className="space-y-2">
-                      {selectedRecommendation.details.steps.map((step, idx) => (
+                    <h4 className="text-sm font-semibold text-gray-900 mb-2">Context</h4>
+                    <div className="flex flex-wrap gap-2">
+                      {selectedRecommendation.channels.map(ch => (
+                        <span key={ch} className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-gray-100 text-sm text-gray-700">
+                          {ch === "Google" && <SiGoogle className="w-3 h-3" />}
+                          {ch === "Meta" && <SiMeta className="w-3 h-3" />}
+                          {ch}
+                        </span>
+                      ))}
+                      <span className="px-3 py-1 rounded-full bg-blue-100 text-sm text-blue-700">{selectedRecommendation.region}</span>
+                      <span className="px-3 py-1 rounded-full bg-purple-100 text-sm text-purple-700">{selectedRecommendation.category}</span>
+                      <span className="px-3 py-1 rounded-full bg-gray-100 text-sm text-gray-600">
+                        <Clock className="w-3 h-3 inline mr-1" />
+                        Impact in {selectedRecommendation.timeToImpact}
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Why we suggest this */}
+                  <div className="mb-6">
+                    <h4 className="text-sm font-semibold text-gray-900 mb-2">Why we suggest this</h4>
+                    <ul className="space-y-2">
+                      {selectedRecommendation.reasons.map((reason, idx) => (
                         <li key={idx} className="flex items-start gap-2 text-sm text-gray-600">
                           <span className="w-5 h-5 rounded-full bg-purple-100 text-purple-600 text-xs font-semibold flex items-center justify-center flex-shrink-0 mt-0.5">
                             {idx + 1}
                           </span>
-                          {step}
+                          {reason}
                         </li>
                       ))}
-                    </ol>
+                    </ul>
                   </div>
 
+                  {/* Actions */}
                   <div className="flex gap-3">
                     <Button className="flex-1 bg-purple-600 hover:bg-purple-700" data-testid="button-apply">
-                      Apply Recommendation
+                      Apply change
                     </Button>
-                    <Button variant="outline" className="flex-1" data-testid="button-dismiss">
-                      Dismiss
+                    <Button variant="outline" className="flex-1" data-testid="button-experiment">
+                      <Beaker className="w-4 h-4 mr-2" />
+                      Create experiment
                     </Button>
                   </div>
+
+                  {/* Status */}
+                  {selectedRecommendation.status && (
+                    <div className="mt-4 pt-4 border-t border-gray-200">
+                      <span className={`text-sm ${selectedRecommendation.status === "applied" ? "text-green-600" : "text-yellow-600"}`}>
+                        Status: {selectedRecommendation.status === "applied" ? "Applied" : "Snoozed"} · {selectedRecommendation.statusDate}
+                      </span>
+                    </div>
+                  )}
                 </div>
               ) : (
                 <div className="bg-white border border-gray-200 rounded-lg p-8 text-center">
-                  <BarChart3 className="w-12 h-12 text-gray-300 mx-auto mb-3" />
+                  <Lightbulb className="w-12 h-12 text-gray-300 mx-auto mb-3" />
                   <p className="text-gray-500">Select a recommendation to view details</p>
                 </div>
               )}
@@ -667,82 +710,49 @@ export default function AIRecommendations() {
               </button>
             </div>
             <div className="p-4">
-              <div className="flex items-start gap-3 mb-4">
-                <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${
-                  selectedRecommendation.confidence === "high" ? "bg-green-100" : "bg-yellow-100"
-                }`}>
-                  {(() => {
-                    const Icon = categoryIcons[selectedRecommendation.category];
-                    return <Icon className={`w-5 h-5 ${
-                      selectedRecommendation.confidence === "high" ? "text-green-600" : "text-yellow-600"
-                    }`} />;
-                  })()}
+              <Badge className={`${typeLabels[selectedRecommendation.type].color} text-xs mb-2`}>
+                {typeLabels[selectedRecommendation.type].label}
+              </Badge>
+              <h3 className="font-bold text-gray-900 mb-3">{selectedRecommendation.title}</h3>
+              
+              <div className="grid grid-cols-3 gap-2 mb-4 p-3 bg-gray-50 rounded-lg">
+                <div className="text-center">
+                  <p className="text-sm font-bold text-green-600">{selectedRecommendation.estimatedRevenue}</p>
+                  <p className="text-[10px] text-gray-500">Revenue</p>
                 </div>
-                <div className="flex-1">
-                  <h3 className="font-bold text-gray-900">{selectedRecommendation.title}</h3>
-                  <div className="flex items-center gap-2 mt-1 flex-wrap">
-                    <Badge variant="secondary" className={`text-xs ${objectiveColors[selectedRecommendation.objective]}`}>
-                      {selectedRecommendation.objective}
-                    </Badge>
-                    <Badge variant="secondary" className="text-xs bg-gray-100 text-gray-600">
-                      {selectedRecommendation.region}
-                    </Badge>
-                  </div>
+                <div className="text-center">
+                  <p className="text-sm font-bold text-gray-900">{selectedRecommendation.projectedROAS}</p>
+                  <p className="text-[10px] text-gray-500">ROAS</p>
                 </div>
-                <div className="text-right">
-                  <div className="text-xl font-bold text-green-600">{selectedRecommendation.impact}</div>
+                <div className="text-center">
+                  <p className="text-sm font-bold text-gray-700">{selectedRecommendation.affectedSpend}</p>
+                  <p className="text-[10px] text-gray-500">Spend</p>
                 </div>
               </div>
 
-              <p className="text-sm text-gray-600 mb-4">{selectedRecommendation.description}</p>
-
-              <div className="grid grid-cols-3 gap-3 mb-4">
-                <div className="bg-gray-50 rounded-lg p-2 text-center">
-                  <div className="text-[10px] text-gray-500">Confidence</div>
-                  <div className={`text-sm font-semibold ${
-                    selectedRecommendation.confidence === "high" ? "text-green-600" : "text-yellow-600"
-                  }`}>
-                    {selectedRecommendation.confidence === "high" ? "High" : "Medium"}
-                  </div>
-                </div>
-                <div className="bg-gray-50 rounded-lg p-2 text-center">
-                  <div className="text-[10px] text-gray-500">Effort</div>
-                  <div className="text-sm font-semibold text-gray-900 capitalize">{selectedRecommendation.effort}</div>
-                </div>
-                <div className="bg-gray-50 rounded-lg p-2 text-center">
-                  <div className="text-[10px] text-gray-500">Category</div>
-                  <div className="text-sm font-semibold text-gray-900 capitalize">{selectedRecommendation.category}</div>
-                </div>
-              </div>
-
-              <div className="space-y-3 mb-4">
-                <div>
-                  <h4 className="text-sm font-semibold text-gray-900 mb-1">Current State</h4>
-                  <p className="text-sm text-gray-600">{selectedRecommendation.details.currentState}</p>
-                </div>
-                <div>
-                  <h4 className="text-sm font-semibold text-gray-900 mb-1">Expected Outcome</h4>
-                  <p className="text-sm text-gray-600">{selectedRecommendation.details.expectedOutcome}</p>
-                </div>
+              <div className="flex flex-wrap gap-1.5 mb-4">
+                {selectedRecommendation.channels.map(ch => (
+                  <span key={ch} className="px-2 py-0.5 rounded bg-gray-100 text-xs text-gray-600">{ch}</span>
+                ))}
+                <span className="px-2 py-0.5 rounded bg-blue-50 text-xs text-blue-600">{selectedRecommendation.region}</span>
+                <span className="px-2 py-0.5 rounded bg-purple-50 text-xs text-purple-600">{selectedRecommendation.category}</span>
               </div>
 
               <div className="mb-4">
-                <h4 className="text-sm font-semibold text-gray-900 mb-2">Steps</h4>
-                <ol className="space-y-1.5">
-                  {selectedRecommendation.details.steps.map((step, idx) => (
-                    <li key={idx} className="flex items-start gap-2 text-sm text-gray-600">
-                      <span className="w-4 h-4 rounded-full bg-purple-100 text-purple-600 text-[10px] font-semibold flex items-center justify-center flex-shrink-0 mt-0.5">
-                        {idx + 1}
-                      </span>
-                      {step}
+                <h4 className="text-sm font-semibold text-gray-900 mb-2">Why we suggest this</h4>
+                <ul className="space-y-1">
+                  {selectedRecommendation.reasons.map((reason, idx) => (
+                    <li key={idx} className="text-sm text-gray-600 flex items-start gap-2">
+                      <span className="text-purple-500">•</span>
+                      {reason}
                     </li>
                   ))}
-                </ol>
+                </ul>
               </div>
 
               <div className="flex gap-3">
                 <Button className="flex-1 bg-purple-600 hover:bg-purple-700">Apply</Button>
-                <Button variant="outline" className="flex-1">Dismiss</Button>
+                <Button variant="outline" className="flex-1">Experiment</Button>
               </div>
             </div>
           </div>
