@@ -412,9 +412,18 @@ export default function AIRecommendations() {
                     >
                       {/* Top row */}
                       <div className="flex items-center justify-between mb-2">
-                        <Badge className={`${typeInfo.color} text-[10px] font-medium`}>
-                          {typeInfo.label}
-                        </Badge>
+                        <div className="flex items-center gap-1.5">
+                          <Badge className={`${typeInfo.color} text-[10px] font-medium`}>
+                            {typeInfo.label}
+                          </Badge>
+                          {rec.channels.map(ch => (
+                            <span key={ch} className="w-5 h-5 rounded-full bg-gray-100 flex items-center justify-center">
+                              {ch === "Google" && <SiGoogle className="w-2.5 h-2.5 text-gray-600" />}
+                              {ch === "Meta" && <SiMeta className="w-2.5 h-2.5 text-gray-600" />}
+                              {ch === "TikTok" && <span className="text-[8px] font-bold text-gray-600">TT</span>}
+                            </span>
+                          ))}
+                        </div>
                         <div className="flex items-center gap-1.5">
                           <span className={`text-[10px] font-semibold px-1.5 py-0.5 rounded ${getConfidenceColor(rec.confidence)}`}>
                             {rec.confidence >= 80 ? "High" : "Medium"} · {rec.confidence}%
