@@ -179,20 +179,17 @@ export default function Sidebar({ collapsed, onToggle }: SidebarProps) {
         </ul>
       </nav>
       {/* System Status */}
-      <div className={cn("border-t border-gray-300 dark:border-gray-600", collapsed ? "p-2" : "p-6")}>
+      <div className={cn("border-t border-gray-300 dark:border-gray-600", collapsed ? "p-2" : "px-4 py-3")}>
         {collapsed ? (
           <div className="flex justify-center">
             <div className="w-2 h-2 bg-green-500 rounded-full" title="All systems operational"></div>
           </div>
         ) : (
-          <div className="flex items-center space-x-3 p-3 bg-gray-50 dark:bg-gray-800 rounded-md">
-            <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+          <div className="flex items-center space-x-2 p-2 bg-gray-50 dark:bg-gray-800 rounded">
+            <div className="w-1.5 h-1.5 bg-green-500 rounded-full"></div>
             <div className="flex-1">
-              <div className="text-sm font-medium text-gray-900 dark:text-white">
+              <div className="text-xs text-gray-600 dark:text-gray-300">
                 All systems operational
-              </div>
-              <div className="text-xs text-gray-500 dark:text-gray-400">
-                Last updated 2 min ago
               </div>
             </div>
           </div>
