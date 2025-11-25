@@ -79,9 +79,7 @@ export default function Sidebar({ collapsed, onToggle }: SidebarProps) {
                     className="w-9 h-9 object-contain"
                   />
                 </div>
-                <span className="text-sm font-medium text-gray-900 dark:text-white">
-                  VenueX
-                </span>
+                <span className="text-sm font-medium text-gray-900 dark:text-white">Boyner</span>
               </div>
               <ChevronDown className="w-4 h-4 text-gray-500" />
             </div>
