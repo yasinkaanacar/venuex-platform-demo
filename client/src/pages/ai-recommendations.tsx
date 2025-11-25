@@ -33,7 +33,7 @@ const recommendations: Recommendation[] = [
   {
     id: 1,
     type: "budget_shift",
-    title: "Shift 15% budget from Meta Prospecting to Google PMax for Kitchenware in Marmara",
+    title: "Shift 15% budget from Meta Prospecting to Google PMax for Women's Wear in Marmara",
     confidence: 92,
     estimatedRevenue: "+₺180,000",
     currentROAS: "3.2x",
@@ -41,17 +41,17 @@ const recommendations: Recommendation[] = [
     affectedSpend: "₺250,000",
     channels: ["Google", "Meta"],
     region: "Marmara",
-    category: "Kitchenware",
+    category: "Women's Wear",
     timeToImpact: "1–2 weeks",
     reasons: [
-      "Google campaigns in Marmara have 2× higher average store basket value vs Meta for Kitchenware.",
+      "Google campaigns in Marmara have 2× higher average store basket value vs Meta for Women's Wear.",
       "Google currently receives only 42% of spend for this combo."
     ]
   },
   {
     id: 2,
     type: "budget_shift",
-    title: "Increase Google Search budget by 20% for Electronics in Istanbul",
+    title: "Increase Google Search budget by 20% for Shoes in Istanbul",
     confidence: 88,
     estimatedRevenue: "+₺320,000",
     currentROAS: "2.8x",
@@ -59,7 +59,7 @@ const recommendations: Recommendation[] = [
     affectedSpend: "₺180,000",
     channels: ["Google"],
     region: "Istanbul",
-    category: "Electronics",
+    category: "Shoes",
     timeToImpact: "1 week",
     reasons: [
       "Search campaigns show 45% higher conversion rate during evening hours.",
@@ -69,7 +69,7 @@ const recommendations: Recommendation[] = [
   {
     id: 3,
     type: "new_format",
-    title: "Launch Performance Max campaign for Home category in Aegean region",
+    title: "Launch Performance Max campaign for Men's Wear in Aegean region",
     confidence: 85,
     estimatedRevenue: "+₺95,000",
     currentROAS: "2.1x",
@@ -77,17 +77,17 @@ const recommendations: Recommendation[] = [
     affectedSpend: "₺120,000",
     channels: ["Google"],
     region: "Aegean",
-    category: "Home",
+    category: "Men's Wear",
     timeToImpact: "2–3 weeks",
     reasons: [
-      "PMax campaigns show 35% better performance for Home category nationally.",
-      "Aegean region has high mobile search volume for home products."
+      "PMax campaigns show 35% better performance for Men's Wear nationally.",
+      "Aegean region has high mobile search volume for apparel products."
     ]
   },
   {
     id: 4,
     type: "listing_fix",
-    title: "Fix product feed errors for 234 Fashion items missing GTINs",
+    title: "Fix product feed errors for 234 Accessories items missing GTINs",
     confidence: 95,
     estimatedRevenue: "+₺45,000",
     currentROAS: "1.8x",
@@ -95,7 +95,7 @@ const recommendations: Recommendation[] = [
     affectedSpend: "₺85,000",
     channels: ["Google", "Meta"],
     region: "All Regions",
-    category: "Fashion",
+    category: "Accessories",
     timeToImpact: "3–5 days",
     reasons: [
       "Missing GTINs reduce product visibility by 60% in Shopping results.",
@@ -107,7 +107,7 @@ const recommendations: Recommendation[] = [
   {
     id: 5,
     type: "experiment",
-    title: "Test video ads for Kitchenware in Central Anatolia",
+    title: "Test video ads for Kids apparel in Central Anatolia",
     confidence: 72,
     estimatedRevenue: "+₺65,000",
     currentROAS: "2.3x",
@@ -115,7 +115,7 @@ const recommendations: Recommendation[] = [
     affectedSpend: "₺50,000",
     channels: ["Meta", "TikTok"],
     region: "Central Anatolia",
-    category: "Kitchenware",
+    category: "Kids",
     timeToImpact: "3–4 weeks",
     reasons: [
       "Video engagement rates are 3× higher than static images for this audience.",
@@ -125,7 +125,7 @@ const recommendations: Recommendation[] = [
   {
     id: 6,
     type: "budget_shift",
-    title: "Reduce Meta spend by 25% for low-performing Electronics campaigns",
+    title: "Reduce Meta spend by 25% for low-performing Shoes campaigns",
     confidence: 82,
     estimatedRevenue: "+₺120,000",
     currentROAS: "1.4x",
@@ -133,7 +133,7 @@ const recommendations: Recommendation[] = [
     affectedSpend: "₺200,000",
     channels: ["Meta"],
     region: "Mediterranean",
-    category: "Electronics",
+    category: "Shoes",
     timeToImpact: "1 week",
     reasons: [
       "3 campaigns have sub-1.5x ROAS for over 60 days.",
@@ -331,10 +331,11 @@ export default function AIRecommendations() {
             >
               <SelectContent>
                 <SelectItem value="all">All Categories</SelectItem>
-                <SelectItem value="Home">Home</SelectItem>
-                <SelectItem value="Kitchenware">Kitchenware</SelectItem>
-                <SelectItem value="Electronics">Electronics</SelectItem>
-                <SelectItem value="Fashion">Fashion</SelectItem>
+                <SelectItem value="Women's Wear">Women's Wear</SelectItem>
+                <SelectItem value="Men's Wear">Men's Wear</SelectItem>
+                <SelectItem value="Shoes">Shoes</SelectItem>
+                <SelectItem value="Accessories">Accessories</SelectItem>
+                <SelectItem value="Kids">Kids</SelectItem>
               </SelectContent>
             </Select>
 
