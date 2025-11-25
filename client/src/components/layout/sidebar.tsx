@@ -37,7 +37,7 @@ const navigationGroups = [
 
 const ungroupedItems = [
   { name: 'Dashboard', href: '/', icon: BarChart3 },
-  { name: 'AI Recommendations', href: '/ai-recommendations', icon: Brain }
+  { name: 'Enhance', href: '/ai-recommendations', icon: Brain }
 ];
 
 interface SidebarProps {
