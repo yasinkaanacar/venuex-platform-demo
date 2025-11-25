@@ -2,7 +2,6 @@ import { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Checkbox } from "@/components/ui/checkbox";
 import { Badge } from "@/components/ui/badge";
 import { 
   Brain, TrendingUp, Target, Zap, Clock, CheckCircle, 
@@ -290,104 +289,105 @@ export default function AIRecommendations() {
           </div>
 
           {/* Filter Bar */}
-          <div className="bg-white border border-gray-200 rounded-lg p-4 mb-6">
-            <div className="flex flex-wrap items-center gap-3">
-              <Select value={filters.objective} onValueChange={(v) => setFilters(f => ({ ...f, objective: v }))}>
-                <SelectTrigger className="w-40 h-9 text-sm border-gray-300" data-testid="filter-objective">
-                  <SelectValue placeholder="Objective" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">All Objectives</SelectItem>
-                  <SelectItem value="revenue">Maximize revenue</SelectItem>
-                  <SelectItem value="roas">Maximize Omni-ROAS</SelectItem>
-                  <SelectItem value="visits">Increase store visits</SelectItem>
-                  <SelectItem value="inventory">Clear inventory</SelectItem>
-                </SelectContent>
-              </Select>
+          <div className="flex items-center gap-2 mb-6">
+            <Select value={filters.objective} onValueChange={(v) => setFilters(f => ({ ...f, objective: v }))}>
+              <SelectTrigger className="h-8 text-xs border-gray-300 bg-white min-w-[120px]" data-testid="filter-objective">
+                <SelectValue placeholder="Objective" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All Objectives</SelectItem>
+                <SelectItem value="revenue">Maximize revenue</SelectItem>
+                <SelectItem value="roas">Maximize Omni-ROAS</SelectItem>
+                <SelectItem value="visits">Increase store visits</SelectItem>
+                <SelectItem value="inventory">Clear inventory</SelectItem>
+              </SelectContent>
+            </Select>
 
-              <Select value={filters.channel} onValueChange={(v) => setFilters(f => ({ ...f, channel: v }))}>
-                <SelectTrigger className="w-32 h-9 text-sm border-gray-300" data-testid="filter-channel">
-                  <SelectValue placeholder="Channels" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">All Channels</SelectItem>
-                  <SelectItem value="Google">Google</SelectItem>
-                  <SelectItem value="Meta">Meta</SelectItem>
-                  <SelectItem value="TikTok">TikTok</SelectItem>
-                  <SelectItem value="Other">Other</SelectItem>
-                </SelectContent>
-              </Select>
+            <Select value={filters.channel} onValueChange={(v) => setFilters(f => ({ ...f, channel: v }))}>
+              <SelectTrigger className="h-8 text-xs border-gray-300 bg-white min-w-[100px]" data-testid="filter-channel">
+                <SelectValue placeholder="Channels" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All Channels</SelectItem>
+                <SelectItem value="Google">Google</SelectItem>
+                <SelectItem value="Meta">Meta</SelectItem>
+                <SelectItem value="TikTok">TikTok</SelectItem>
+                <SelectItem value="Other">Other</SelectItem>
+              </SelectContent>
+            </Select>
 
-              <Select value={filters.region} onValueChange={(v) => setFilters(f => ({ ...f, region: v }))}>
-                <SelectTrigger className="w-32 h-9 text-sm border-gray-300" data-testid="filter-region">
-                  <SelectValue placeholder="Region" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">All Regions</SelectItem>
-                  <SelectItem value="Istanbul">Istanbul</SelectItem>
-                  <SelectItem value="Marmara">Marmara</SelectItem>
-                  <SelectItem value="Aegean">Aegean</SelectItem>
-                  <SelectItem value="Mediterranean">Mediterranean</SelectItem>
-                  <SelectItem value="Central Anatolia">Central Anatolia</SelectItem>
-                </SelectContent>
-              </Select>
+            <Select value={filters.region} onValueChange={(v) => setFilters(f => ({ ...f, region: v }))}>
+              <SelectTrigger className="h-8 text-xs border-gray-300 bg-white min-w-[100px]" data-testid="filter-region">
+                <SelectValue placeholder="Region" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All Regions</SelectItem>
+                <SelectItem value="Istanbul">Istanbul</SelectItem>
+                <SelectItem value="Marmara">Marmara</SelectItem>
+                <SelectItem value="Aegean">Aegean</SelectItem>
+                <SelectItem value="Mediterranean">Mediterranean</SelectItem>
+                <SelectItem value="Central Anatolia">Central Anatolia</SelectItem>
+              </SelectContent>
+            </Select>
 
-              <Select value={filters.category} onValueChange={(v) => setFilters(f => ({ ...f, category: v }))}>
-                <SelectTrigger className="w-32 h-9 text-sm border-gray-300" data-testid="filter-category">
-                  <SelectValue placeholder="Category" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">All Categories</SelectItem>
-                  <SelectItem value="Home">Home</SelectItem>
-                  <SelectItem value="Kitchenware">Kitchenware</SelectItem>
-                  <SelectItem value="Electronics">Electronics</SelectItem>
-                  <SelectItem value="Fashion">Fashion</SelectItem>
-                </SelectContent>
-              </Select>
+            <Select value={filters.category} onValueChange={(v) => setFilters(f => ({ ...f, category: v }))}>
+              <SelectTrigger className="h-8 text-xs border-gray-300 bg-white min-w-[100px]" data-testid="filter-category">
+                <SelectValue placeholder="Category" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All Categories</SelectItem>
+                <SelectItem value="Home">Home</SelectItem>
+                <SelectItem value="Kitchenware">Kitchenware</SelectItem>
+                <SelectItem value="Electronics">Electronics</SelectItem>
+                <SelectItem value="Fashion">Fashion</SelectItem>
+              </SelectContent>
+            </Select>
 
-              <div className="h-6 w-px bg-gray-200" />
+            <div className="h-5 w-px bg-gray-300 mx-1" />
 
-              <div className="flex items-center gap-3">
-                <label className="flex items-center gap-2 cursor-pointer">
-                  <Checkbox
-                    checked={filters.confidenceHigh}
-                    onChange={(e) => setFilters(f => ({ ...f, confidenceHigh: e.target.checked }))}
-                    data-testid="filter-confidence-high"
-                  />
-                  <span className="text-sm text-gray-700">High (80–100%)</span>
-                </label>
-                <label className="flex items-center gap-2 cursor-pointer">
-                  <Checkbox
-                    checked={filters.confidenceMedium}
-                    onChange={(e) => setFilters(f => ({ ...f, confidenceMedium: e.target.checked }))}
-                    data-testid="filter-confidence-medium"
-                  />
-                  <span className="text-sm text-gray-700">Medium (60–80%)</span>
-                </label>
-              </div>
+            <button
+              onClick={() => setFilters(f => ({ ...f, confidenceHigh: !f.confidenceHigh }))}
+              className={`h-8 px-3 text-xs font-medium rounded border transition-colors ${
+                filters.confidenceHigh 
+                  ? "bg-green-50 border-green-300 text-green-700" 
+                  : "bg-white border-gray-300 text-gray-600 hover:bg-gray-50"
+              }`}
+              data-testid="filter-confidence-high"
+            >
+              High
+            </button>
+            <button
+              onClick={() => setFilters(f => ({ ...f, confidenceMedium: !f.confidenceMedium }))}
+              className={`h-8 px-3 text-xs font-medium rounded border transition-colors ${
+                filters.confidenceMedium 
+                  ? "bg-yellow-50 border-yellow-300 text-yellow-700" 
+                  : "bg-white border-gray-300 text-gray-600 hover:bg-gray-50"
+              }`}
+              data-testid="filter-confidence-medium"
+            >
+              Medium
+            </button>
 
-              <div className="ml-auto flex items-center gap-2">
-                <span className="text-sm text-gray-600">View:</span>
-                <div className="flex bg-gray-100 rounded-lg p-0.5">
-                  <button
-                    onClick={() => setViewMode("cards")}
-                    className={`px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${
-                      viewMode === "cards" ? "bg-white text-gray-900 shadow-sm" : "text-gray-500"
-                    }`}
-                    data-testid="view-cards"
-                  >
-                    Cards
-                  </button>
-                  <button
-                    onClick={() => setViewMode("table")}
-                    className={`px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${
-                      viewMode === "table" ? "bg-white text-gray-900 shadow-sm" : "text-gray-500"
-                    }`}
-                    data-testid="view-table"
-                  >
-                    Table
-                  </button>
-                </div>
+            <div className="ml-auto flex items-center">
+              <div className="flex bg-gray-100 rounded p-0.5">
+                <button
+                  onClick={() => setViewMode("cards")}
+                  className={`p-1.5 rounded transition-colors ${
+                    viewMode === "cards" ? "bg-white text-gray-900 shadow-sm" : "text-gray-400"
+                  }`}
+                  data-testid="view-cards"
+                >
+                  <LayoutGrid className="w-4 h-4" />
+                </button>
+                <button
+                  onClick={() => setViewMode("table")}
+                  className={`p-1.5 rounded transition-colors ${
+                    viewMode === "table" ? "bg-white text-gray-900 shadow-sm" : "text-gray-400"
+                  }`}
+                  data-testid="view-table"
+                >
+                  <List className="w-4 h-4" />
+                </button>
               </div>
             </div>
           </div>
