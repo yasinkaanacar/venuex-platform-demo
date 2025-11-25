@@ -233,48 +233,48 @@ export default function AIRecommendations() {
         </div>
       </div>
       {activeTab === "recommendations" && (
-        <div className="p-6">
+        <div className="p-4">
           {/* Summary Cards */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-4">
             <Card className="bg-white border border-gray-200 shadow-none">
-              <CardContent className="p-4">
-                <p className="text-xs text-gray-500 mb-1">Potential incremental revenue</p>
-                <div className="flex items-baseline gap-2">
-                  <p className="text-2xl font-bold text-gray-900">+₺1.3M</p>
-                  <span className="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium bg-green-100 text-green-700">
-                    <ArrowUpRight className="w-3 h-3 mr-0.5" />+18%
+              <CardContent className="p-3">
+                <p className="text-[10px] text-gray-500 mb-0.5">Potential incremental revenue</p>
+                <div className="flex items-baseline gap-1.5">
+                  <p className="text-lg font-bold text-gray-900">+₺1.3M</p>
+                  <span className="inline-flex items-center px-1 py-0.5 rounded text-[9px] font-medium bg-green-100 text-green-700">
+                    <ArrowUpRight className="w-2.5 h-2.5 mr-0.5" />+18%
                   </span>
                 </div>
-                <p className="text-[10px] text-gray-400 mt-1">If all high-confidence recs applied in 30 days</p>
+                <p className="text-[9px] text-gray-400 mt-0.5">If all high-confidence recs applied in 30 days</p>
               </CardContent>
             </Card>
             <Card className="bg-white border border-gray-200 shadow-none">
-              <CardContent className="p-4">
-                <p className="text-xs text-gray-500 mb-1">High-confidence recommendations</p>
-                <p className="text-2xl font-bold text-gray-900">12</p>
-                <p className="text-[10px] text-gray-400 mt-1">Budget & visibility actions with confidence ≥80%</p>
+              <CardContent className="p-3">
+                <p className="text-[10px] text-gray-500 mb-0.5">High-confidence recommendations</p>
+                <p className="text-lg font-bold text-gray-900">12</p>
+                <p className="text-[9px] text-gray-400 mt-0.5">Budget & visibility actions with confidence ≥80%</p>
               </CardContent>
             </Card>
             <Card className="bg-white border border-gray-200 shadow-none">
-              <CardContent className="p-4">
-                <p className="text-xs text-gray-500 mb-1">Budget at risk</p>
-                <div className="flex items-baseline gap-2">
-                  <p className="text-2xl font-bold text-red-600">₺450K</p>
+              <CardContent className="p-3">
+                <p className="text-[10px] text-gray-500 mb-0.5">Budget at risk</p>
+                <div className="flex items-baseline gap-1.5">
+                  <p className="text-lg font-bold text-red-600">₺450K</p>
                 </div>
-                <p className="text-[10px] text-gray-400 mt-1">Spend in low-ROAS campaigns flagged by AI</p>
+                <p className="text-[9px] text-gray-400 mt-0.5">Spend in low-ROAS campaigns flagged by AI</p>
               </CardContent>
             </Card>
             <Card className="bg-white border border-gray-200 shadow-none">
-              <CardContent className="p-4">
-                <p className="text-xs text-gray-500 mb-1">Applied this period</p>
-                <p className="text-2xl font-bold text-green-600">7</p>
-                <p className="text-[10px] text-gray-400 mt-1">Recommendations marked as applied</p>
+              <CardContent className="p-3">
+                <p className="text-[10px] text-gray-500 mb-0.5">Applied this period</p>
+                <p className="text-lg font-bold text-green-600">7</p>
+                <p className="text-[9px] text-gray-400 mt-0.5">Recommendations marked as applied</p>
               </CardContent>
             </Card>
           </div>
 
           {/* Filter Bar */}
-          <div className="flex items-center gap-2 mb-6">
+          <div className="flex items-center gap-1.5 mb-4">
             <Select 
               value={filters.objective} 
               onValueChange={(v) => setFilters(f => ({ ...f, objective: v }))}
@@ -343,7 +343,7 @@ export default function AIRecommendations() {
 
             <button
               onClick={() => setFilters(f => ({ ...f, confidenceHigh: !f.confidenceHigh }))}
-              className={`h-8 px-3 text-xs font-medium rounded border transition-colors ${
+              className={`h-7 px-2.5 text-[10px] font-medium rounded border transition-colors ${
                 filters.confidenceHigh 
                   ? "bg-green-50 border-green-300 text-green-700" 
                   : "bg-white border-gray-300 text-gray-600 hover:bg-gray-50"
@@ -354,7 +354,7 @@ export default function AIRecommendations() {
             </button>
             <button
               onClick={() => setFilters(f => ({ ...f, confidenceMedium: !f.confidenceMedium }))}
-              className={`h-8 px-3 text-xs font-medium rounded border transition-colors ${
+              className={`h-7 px-2.5 text-[10px] font-medium rounded border transition-colors ${
                 filters.confidenceMedium 
                   ? "bg-yellow-50 border-yellow-300 text-yellow-700" 
                   : "bg-white border-gray-300 text-gray-600 hover:bg-gray-50"
@@ -368,34 +368,34 @@ export default function AIRecommendations() {
               <div className="flex bg-gray-100 rounded p-0.5">
                 <button
                   onClick={() => setViewMode("cards")}
-                  className={`p-1.5 rounded transition-colors ${
+                  className={`p-1 rounded transition-colors ${
                     viewMode === "cards" ? "bg-white text-gray-900 shadow-sm" : "text-gray-400"
                   }`}
                   data-testid="view-cards"
                 >
-                  <LayoutGrid className="w-4 h-4" />
+                  <LayoutGrid className="w-3.5 h-3.5" />
                 </button>
                 <button
                   onClick={() => setViewMode("table")}
-                  className={`p-1.5 rounded transition-colors ${
+                  className={`p-1 rounded transition-colors ${
                     viewMode === "table" ? "bg-white text-gray-900 shadow-sm" : "text-gray-400"
                   }`}
                   data-testid="view-table"
                 >
-                  <List className="w-4 h-4" />
+                  <List className="w-3.5 h-3.5" />
                 </button>
               </div>
             </div>
           </div>
 
           {/* Content Area */}
-          <div className="flex gap-6">
+          <div className="flex gap-4">
             {/* List Panel */}
-            <div className="w-full lg:w-1/2 space-y-4 max-h-[calc(100vh-380px)] overflow-y-auto pr-2">
+            <div className="w-full lg:w-1/2 space-y-3 max-h-[calc(100vh-320px)] overflow-y-auto pr-2">
               {filteredRecommendations.length === 0 ? (
-                <div className="bg-white border border-gray-200 rounded-lg p-8 text-center">
-                  <AlertTriangle className="w-10 h-10 text-gray-300 mx-auto mb-3" />
-                  <p className="text-gray-500">No recommendations match your filters</p>
+                <div className="bg-white border border-gray-200 rounded-lg p-6 text-center">
+                  <AlertTriangle className="w-8 h-8 text-gray-300 mx-auto mb-2" />
+                  <p className="text-sm text-gray-500">No recommendations match your filters</p>
                 </div>
               ) : viewMode === "cards" ? (
                 filteredRecommendations.map(rec => {
@@ -405,70 +405,70 @@ export default function AIRecommendations() {
                     <div
                       key={rec.id}
                       onClick={() => handleSelectRecommendation(rec)}
-                      className={`bg-white border rounded-lg p-4 cursor-pointer transition-all ${
+                      className={`bg-white border rounded-lg p-3 cursor-pointer transition-all ${
                         isSelected ? "border-purple-400 ring-1 ring-purple-200" : "border-gray-200 hover:border-gray-300"
                       } ${rec.status ? "opacity-75" : ""}`}
                       data-testid={`recommendation-card-${rec.id}`}
                     >
                       {/* Top row */}
-                      <div className="flex items-center justify-between mb-3">
-                        <Badge className={`${typeInfo.color} text-xs font-medium`}>
+                      <div className="flex items-center justify-between mb-2">
+                        <Badge className={`${typeInfo.color} text-[10px] font-medium`}>
                           {typeInfo.label}
                         </Badge>
-                        <div className="flex items-center gap-2">
-                          <span className={`text-xs font-semibold px-2 py-0.5 rounded ${getConfidenceColor(rec.confidence)}`}>
+                        <div className="flex items-center gap-1.5">
+                          <span className={`text-[10px] font-semibold px-1.5 py-0.5 rounded ${getConfidenceColor(rec.confidence)}`}>
                             {rec.confidence >= 80 ? "High" : "Medium"} · {rec.confidence}%
                           </span>
                         </div>
                       </div>
 
                       {/* Title */}
-                      <h3 className="text-sm font-semibold text-gray-900 mb-3 leading-snug">{rec.title}</h3>
+                      <h3 className="text-xs font-semibold text-gray-900 mb-2 leading-snug">{rec.title}</h3>
 
                       {/* Impact row */}
-                      <div className="grid grid-cols-3 gap-3 mb-3 p-2 bg-gray-50 rounded-lg">
+                      <div className="grid grid-cols-3 gap-2 mb-2 p-1.5 bg-gray-50 rounded">
                         <div className="text-center">
-                          <div className="flex items-center justify-center gap-1 text-green-600 font-semibold text-sm">
-                            <TrendingUp className="w-3 h-3" />
+                          <div className="flex items-center justify-center gap-0.5 text-green-600 font-semibold text-xs">
+                            <TrendingUp className="w-2.5 h-2.5" />
                             {rec.estimatedRevenue}
                           </div>
-                          <p className="text-[10px] text-gray-500">Est. revenue / 30d</p>
+                          <p className="text-[9px] text-gray-500">Est. revenue / 30d</p>
                         </div>
                         <div className="text-center border-x border-gray-200">
-                          <div className="text-sm font-semibold text-gray-900">
+                          <div className="text-xs font-semibold text-gray-900">
                             {rec.currentROAS} → {rec.projectedROAS}
                           </div>
-                          <p className="text-[10px] text-gray-500">Offline ROAS</p>
+                          <p className="text-[9px] text-gray-500">Offline ROAS</p>
                         </div>
                         <div className="text-center">
-                          <div className="text-sm font-semibold text-gray-700">{rec.affectedSpend}</div>
-                          <p className="text-[10px] text-gray-500">Affected spend</p>
+                          <div className="text-xs font-semibold text-gray-700">{rec.affectedSpend}</div>
+                          <p className="text-[9px] text-gray-500">Affected spend</p>
                         </div>
                       </div>
 
                       {/* Context row */}
-                      <div className="flex flex-wrap items-center gap-2 mb-3">
+                      <div className="flex flex-wrap items-center gap-1.5 mb-2">
                         {rec.channels.map(ch => (
-                          <span key={ch} className="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-gray-100 text-xs text-gray-600">
-                            {ch === "Google" && <SiGoogle className="w-2.5 h-2.5" />}
-                            {ch === "Meta" && <SiMeta className="w-2.5 h-2.5" />}
+                          <span key={ch} className="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded bg-gray-100 text-[10px] text-gray-600">
+                            {ch === "Google" && <SiGoogle className="w-2 h-2" />}
+                            {ch === "Meta" && <SiMeta className="w-2 h-2" />}
                             {ch}
                           </span>
                         ))}
-                        <span className="px-2 py-0.5 rounded bg-blue-50 text-xs text-blue-600">{rec.region}</span>
-                        <span className="px-2 py-0.5 rounded bg-purple-50 text-xs text-purple-600">{rec.category}</span>
-                        <span className="px-2 py-0.5 rounded bg-gray-100 text-xs text-gray-500">
-                          <Clock className="w-3 h-3 inline mr-1" />
+                        <span className="px-1.5 py-0.5 rounded bg-blue-50 text-[10px] text-blue-600">{rec.region}</span>
+                        <span className="px-1.5 py-0.5 rounded bg-purple-50 text-[10px] text-purple-600">{rec.category}</span>
+                        <span className="px-1.5 py-0.5 rounded bg-gray-100 text-[10px] text-gray-500">
+                          <Clock className="w-2.5 h-2.5 inline mr-0.5" />
                           {rec.timeToImpact}
                         </span>
                       </div>
 
                       {/* Why we suggest this */}
-                      <div className="mb-3">
-                        <p className="text-[10px] font-medium text-gray-500 uppercase mb-1">Why we suggest this</p>
+                      <div className="mb-2">
+                        <p className="text-[9px] font-medium text-gray-500 uppercase mb-0.5">Why we suggest this</p>
                         <ul className="space-y-0.5">
                           {rec.reasons.map((reason, idx) => (
-                            <li key={idx} className="text-xs text-gray-600 flex items-start gap-1.5">
+                            <li key={idx} className="text-[10px] text-gray-600 flex items-start gap-1">
                               <span className="text-purple-500 mt-0.5">•</span>
                               <span className="line-clamp-1">{reason}</span>
                             </li>
@@ -477,32 +477,32 @@ export default function AIRecommendations() {
                       </div>
 
                       {/* Actions row */}
-                      <div className="flex items-center gap-2 pt-3 border-t border-gray-100">
-                        <Button size="sm" className="bg-purple-600 hover:bg-purple-700 text-xs h-8">
-                          Apply change
+                      <div className="flex items-center gap-1.5 pt-2 border-t border-gray-100">
+                        <Button size="sm" className="bg-purple-600 hover:bg-purple-700 text-[10px] h-6 px-2">
+                          Apply
                         </Button>
-                        <Button size="sm" variant="outline" className="text-xs h-8">
-                          <Beaker className="w-3 h-3 mr-1" />
-                          Create experiment
+                        <Button size="sm" variant="outline" className="text-[10px] h-6 px-2">
+                          <Beaker className="w-2.5 h-2.5 mr-0.5" />
+                          Experiment
                         </Button>
-                        <Button size="sm" variant="ghost" className="text-xs h-8 text-gray-500">
-                          <Eye className="w-3 h-3 mr-1" />
-                          See details
+                        <Button size="sm" variant="ghost" className="text-[10px] h-6 px-2 text-gray-500">
+                          <Eye className="w-2.5 h-2.5 mr-0.5" />
+                          Details
                         </Button>
                         <div className="relative ml-auto">
                           <button 
                             onClick={(e) => { e.stopPropagation(); setShowOverflowMenu(showOverflowMenu === rec.id ? null : rec.id); }}
-                            className="p-1 hover:bg-gray-100 rounded"
+                            className="p-0.5 hover:bg-gray-100 rounded"
                           >
-                            <MoreHorizontal className="w-4 h-4 text-gray-400" />
+                            <MoreHorizontal className="w-3.5 h-3.5 text-gray-400" />
                           </button>
                           {showOverflowMenu === rec.id && (
-                            <div className="absolute right-0 top-8 bg-white border border-gray-200 rounded-lg shadow-lg py-1 z-10 min-w-[120px]">
-                              <button className="w-full px-3 py-1.5 text-left text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-2">
-                                <BellOff className="w-3 h-3" /> Snooze
+                            <div className="absolute right-0 top-6 bg-white border border-gray-200 rounded-lg shadow-lg py-1 z-10 min-w-[100px]">
+                              <button className="w-full px-2 py-1 text-left text-xs text-gray-700 hover:bg-gray-50 flex items-center gap-1.5">
+                                <BellOff className="w-2.5 h-2.5" /> Snooze
                               </button>
-                              <button className="w-full px-3 py-1.5 text-left text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-2">
-                                <X className="w-3 h-3" /> Dismiss
+                              <button className="w-full px-2 py-1 text-left text-xs text-gray-700 hover:bg-gray-50 flex items-center gap-1.5">
+                                <X className="w-2.5 h-2.5" /> Dismiss
                               </button>
                             </div>
                           )}
@@ -511,8 +511,8 @@ export default function AIRecommendations() {
 
                       {/* Status indicator */}
                       {rec.status && (
-                        <div className="mt-2 pt-2 border-t border-gray-100">
-                          <span className={`text-xs ${rec.status === "applied" ? "text-green-600" : "text-yellow-600"}`}>
+                        <div className="mt-1.5 pt-1.5 border-t border-gray-100">
+                          <span className={`text-[10px] ${rec.status === "applied" ? "text-green-600" : "text-yellow-600"}`}>
                             Status: {rec.status === "applied" ? "Applied" : "Snoozed"} · {rec.statusDate}
                           </span>
                         </div>
@@ -570,65 +570,65 @@ export default function AIRecommendations() {
             {/* Detail Panel - Desktop */}
             <div className="hidden lg:block lg:w-1/2">
               {selectedRecommendation ? (
-                <div className="bg-white border border-gray-200 rounded-lg p-6 sticky top-6">
-                  <div className="flex items-center gap-3 mb-4">
-                    <Badge className={`${typeLabels[selectedRecommendation.type].color} text-xs flex-shrink-0`}>
+                <div className="bg-white border border-gray-200 rounded-lg p-4 sticky top-4">
+                  <div className="flex items-center gap-2 mb-3">
+                    <Badge className={`${typeLabels[selectedRecommendation.type].color} text-[10px] flex-shrink-0`}>
                       {typeLabels[selectedRecommendation.type].label}
                     </Badge>
-                    <h2 className="text-base font-bold text-gray-900 leading-snug flex-1">{selectedRecommendation.title}</h2>
-                    <span className={`text-xs font-semibold px-2 py-1 rounded-full flex-shrink-0 whitespace-nowrap ${getConfidenceColor(selectedRecommendation.confidence)}`}>
+                    <h2 className="text-sm font-bold text-gray-900 leading-snug flex-1">{selectedRecommendation.title}</h2>
+                    <span className={`text-[10px] font-semibold px-1.5 py-0.5 rounded-full flex-shrink-0 whitespace-nowrap ${getConfidenceColor(selectedRecommendation.confidence)}`}>
                       {selectedRecommendation.confidence}% confidence
                     </span>
                   </div>
 
                   {/* Impact metrics */}
-                  <div className="grid grid-cols-3 gap-4 mb-6 p-4 bg-gray-50 rounded-lg">
+                  <div className="grid grid-cols-3 gap-3 mb-4 p-3 bg-gray-50 rounded-lg">
                     <div>
-                      <p className="text-xs text-gray-500 mb-1">Estimated Revenue</p>
-                      <p className="text-xl font-bold text-green-600">{selectedRecommendation.estimatedRevenue}</p>
-                      <p className="text-[10px] text-gray-400">per 30 days</p>
+                      <p className="text-[10px] text-gray-500 mb-0.5">Estimated Revenue</p>
+                      <p className="text-base font-bold text-green-600">{selectedRecommendation.estimatedRevenue}</p>
+                      <p className="text-[9px] text-gray-400">per 30 days</p>
                     </div>
                     <div>
-                      <p className="text-xs text-gray-500 mb-1">ROAS Change</p>
-                      <p className="text-xl font-bold text-gray-900">
+                      <p className="text-[10px] text-gray-500 mb-0.5">ROAS Change</p>
+                      <p className="text-base font-bold text-gray-900">
                         {selectedRecommendation.currentROAS} → {selectedRecommendation.projectedROAS}
                       </p>
-                      <p className="text-[10px] text-gray-400">offline ROAS</p>
+                      <p className="text-[9px] text-gray-400">offline ROAS</p>
                     </div>
                     <div>
-                      <p className="text-xs text-gray-500 mb-1">Affected Spend</p>
-                      <p className="text-xl font-bold text-gray-700">{selectedRecommendation.affectedSpend}</p>
-                      <p className="text-[10px] text-gray-400">per 30 days</p>
+                      <p className="text-[10px] text-gray-500 mb-0.5">Affected Spend</p>
+                      <p className="text-base font-bold text-gray-700">{selectedRecommendation.affectedSpend}</p>
+                      <p className="text-[9px] text-gray-400">per 30 days</p>
                     </div>
                   </div>
 
                   {/* Context */}
-                  <div className="mb-6">
-                    <h4 className="text-sm font-semibold text-gray-900 mb-2">Context</h4>
-                    <div className="flex flex-wrap gap-2">
+                  <div className="mb-4">
+                    <h4 className="text-xs font-semibold text-gray-900 mb-1.5">Context</h4>
+                    <div className="flex flex-wrap gap-1.5">
                       {selectedRecommendation.channels.map(ch => (
-                        <span key={ch} className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-gray-100 text-sm text-gray-700">
-                          {ch === "Google" && <SiGoogle className="w-3 h-3" />}
-                          {ch === "Meta" && <SiMeta className="w-3 h-3" />}
+                        <span key={ch} className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-gray-100 text-xs text-gray-700">
+                          {ch === "Google" && <SiGoogle className="w-2.5 h-2.5" />}
+                          {ch === "Meta" && <SiMeta className="w-2.5 h-2.5" />}
                           {ch}
                         </span>
                       ))}
-                      <span className="px-3 py-1 rounded-full bg-blue-100 text-sm text-blue-700">{selectedRecommendation.region}</span>
-                      <span className="px-3 py-1 rounded-full bg-purple-100 text-sm text-purple-700">{selectedRecommendation.category}</span>
-                      <span className="px-3 py-1 rounded-full bg-gray-100 text-sm text-gray-600">
-                        <Clock className="w-3 h-3 inline mr-1" />
+                      <span className="px-2 py-0.5 rounded-full bg-blue-100 text-xs text-blue-700">{selectedRecommendation.region}</span>
+                      <span className="px-2 py-0.5 rounded-full bg-purple-100 text-xs text-purple-700">{selectedRecommendation.category}</span>
+                      <span className="px-2 py-0.5 rounded-full bg-gray-100 text-xs text-gray-600">
+                        <Clock className="w-2.5 h-2.5 inline mr-0.5" />
                         Impact in {selectedRecommendation.timeToImpact}
                       </span>
                     </div>
                   </div>
 
                   {/* Why we suggest this */}
-                  <div className="mb-6">
-                    <h4 className="text-sm font-semibold text-gray-900 mb-2">Why we suggest this</h4>
-                    <ul className="space-y-2">
+                  <div className="mb-4">
+                    <h4 className="text-xs font-semibold text-gray-900 mb-1.5">Why we suggest this</h4>
+                    <ul className="space-y-1.5">
                       {selectedRecommendation.reasons.map((reason, idx) => (
-                        <li key={idx} className="flex items-start gap-2 text-sm text-gray-600">
-                          <span className="w-5 h-5 rounded-full bg-purple-100 text-purple-600 text-xs font-semibold flex items-center justify-center flex-shrink-0 mt-0.5">
+                        <li key={idx} className="flex items-start gap-1.5 text-xs text-gray-600">
+                          <span className="w-4 h-4 rounded-full bg-purple-100 text-purple-600 text-[10px] font-semibold flex items-center justify-center flex-shrink-0 mt-0.5">
                             {idx + 1}
                           </span>
                           {reason}
@@ -638,29 +638,29 @@ export default function AIRecommendations() {
                   </div>
 
                   {/* Actions */}
-                  <div className="flex gap-3">
-                    <Button className="flex-1 bg-purple-600 hover:bg-purple-700" data-testid="button-apply">
+                  <div className="flex gap-2">
+                    <Button className="flex-1 bg-purple-600 hover:bg-purple-700 text-xs h-8" data-testid="button-apply">
                       Apply change
                     </Button>
-                    <Button variant="outline" className="flex-1" data-testid="button-experiment">
-                      <Beaker className="w-4 h-4 mr-2" />
+                    <Button variant="outline" className="flex-1 text-xs h-8" data-testid="button-experiment">
+                      <Beaker className="w-3 h-3 mr-1" />
                       Create experiment
                     </Button>
                   </div>
 
                   {/* Status */}
                   {selectedRecommendation.status && (
-                    <div className="mt-4 pt-4 border-t border-gray-200">
-                      <span className={`text-sm ${selectedRecommendation.status === "applied" ? "text-green-600" : "text-yellow-600"}`}>
+                    <div className="mt-3 pt-3 border-t border-gray-200">
+                      <span className={`text-xs ${selectedRecommendation.status === "applied" ? "text-green-600" : "text-yellow-600"}`}>
                         Status: {selectedRecommendation.status === "applied" ? "Applied" : "Snoozed"} · {selectedRecommendation.statusDate}
                       </span>
                     </div>
                   )}
                 </div>
               ) : (
-                <div className="bg-white border border-gray-200 rounded-lg p-8 text-center">
-                  <Lightbulb className="w-12 h-12 text-gray-300 mx-auto mb-3" />
-                  <p className="text-gray-500">Select a recommendation to view details</p>
+                <div className="bg-white border border-gray-200 rounded-lg p-6 text-center">
+                  <Lightbulb className="w-10 h-10 text-gray-300 mx-auto mb-2" />
+                  <p className="text-sm text-gray-500">Select a recommendation to view details</p>
                 </div>
               )}
             </div>
