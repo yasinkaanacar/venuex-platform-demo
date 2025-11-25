@@ -210,124 +210,93 @@ export default function AIRecommendations() {
           <div className="bg-white rounded-lg border border-gray-200 p-4 mb-6">
             <div className="flex items-center justify-between mb-3">
               <div>
-                <h3 className="text-sm font-semibold text-foreground">AI Opportunity & Risk Overview</h3>
-                <p className="text-xs text-gray-500">Color intensity = opportunity score, border color = risk level</p>
-              </div>
-              <div className="flex items-center gap-4 text-xs text-gray-600">
-                <span className="flex items-center gap-1.5">
-                  <span className="w-3 h-3 rounded border-2 border-green-500 bg-green-100"></span> Low Risk
-                </span>
-                <span className="flex items-center gap-1.5">
-                  <span className="w-3 h-3 rounded border-2 border-yellow-500 bg-yellow-100"></span> Medium
-                </span>
-                <span className="flex items-center gap-1.5">
-                  <span className="w-3 h-3 rounded border-2 border-red-500 bg-red-100"></span> High Risk
-                </span>
+                <h3 className="text-sm font-semibold text-foreground">AI Confidence by Region</h3>
+                <p className="text-xs text-gray-500">Regions colored by recommendation confidence level</p>
               </div>
             </div>
             <div className="relative h-80 bg-gradient-to-br from-slate-50 to-slate-100 rounded-lg overflow-hidden flex items-center justify-center p-4">
-              <svg viewBox="0 0 1000 600" className="w-full h-full" preserveAspectRatio="xMidYMid meet">
-                {regionOpportunities.map((item) => {
-                  const path = provincePaths[item.state];
-                  if (!path) return null;
-                  const pos = getTextPosition(item.state);
-                  const isSelected = selectedRegion === item.state;
-                  const fillColor = getRegionColor(item);
-                  const strokeColor = getStrokeColor(item, isSelected);
-                  
-                  return (
-                    <Tooltip 
-                      key={item.state}
-                      title={
-                        <div className="text-left p-1">
-                          <div className="font-semibold text-sm">{item.state}</div>
-                          <div className="text-xs mt-1 space-y-0.5">
-                            <div>Opportunity Score: <span className="font-medium">{item.opportunityScore}/100</span></div>
-                            <div>Risk Level: <span className={`font-medium ${item.riskLevel === 'high' ? 'text-red-300' : item.riskLevel === 'medium' ? 'text-yellow-300' : 'text-green-300'}`}>{item.riskLevel.charAt(0).toUpperCase() + item.riskLevel.slice(1)}</span></div>
-                            <div>Pending Actions: {item.pendingRecommendations}</div>
-                            {item.potentialROAS > 0 && (
-                              <div className="text-green-300">Potential: +{item.potentialROAS}% ROAS</div>
-                            )}
-                            <div className="pt-1 border-t border-white/20 mt-1">Top Action: {item.topAction}</div>
-                          </div>
-                        </div>
-                      }
-                      arrow
-                    >
-                      <g>
-                        <path
-                          d={path}
-                          fill={fillColor}
-                          stroke={strokeColor}
-                          strokeWidth={isSelected ? '4' : '2'}
-                          className="cursor-pointer transition-all duration-200 hover:opacity-80"
-                          onClick={() => setSelectedRegion(item.state === selectedRegion ? null : item.state)}
-                          data-testid={`map-region-${item.state.toLowerCase()}`}
-                        />
-                        <text
-                          x={pos.x}
-                          y={pos.y - 6}
-                          fill="white"
-                          fontSize="10"
-                          fontWeight="700"
-                          textAnchor="middle"
-                          className="pointer-events-none drop-shadow-lg"
-                        >
-                          {item.state}
-                        </text>
-                        <text
-                          x={pos.x}
-                          y={pos.y + 8}
-                          fill="white"
-                          fontSize="12"
-                          fontWeight="800"
-                          textAnchor="middle"
-                          className="pointer-events-none drop-shadow-lg"
-                        >
-                          {item.opportunityScore}
-                        </text>
-                        {item.pendingRecommendations > 0 && (
-                          <circle
-                            cx={pos.x + 20}
-                            cy={pos.y - 10}
-                            r="8"
-                            fill="#3b82f6"
-                            stroke="white"
-                            strokeWidth="2"
-                            className="pointer-events-none"
-                          />
-                        )}
-                        {item.pendingRecommendations > 0 && (
-                          <text
-                            x={pos.x + 20}
-                            y={pos.y - 6}
-                            fill="white"
-                            fontSize="9"
-                            fontWeight="700"
-                            textAnchor="middle"
-                            className="pointer-events-none"
-                          >
-                            {item.pendingRecommendations}
-                          </text>
-                        )}
-                      </g>
-                    </Tooltip>
-                  );
-                })}
+              <svg viewBox="0 0 800 400" className="w-full h-full" preserveAspectRatio="xMidYMid meet">
+                <defs>
+                  <linearGradient id="turkeyBg" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stopColor="#f8fafc" />
+                    <stop offset="100%" stopColor="#e2e8f0" />
+                  </linearGradient>
+                </defs>
+                
+                <path d="M50,180 Q80,120 150,100 L200,95 L280,90 Q350,85 400,100 L450,110 L500,120 Q550,130 600,145 L650,160 Q700,175 750,200 L760,220 Q765,250 750,280 L720,300 Q680,330 620,340 L560,345 Q500,350 440,340 L380,330 Q320,320 260,300 L200,280 Q140,260 100,230 L70,200 Q55,190 50,180 Z" fill="url(#turkeyBg)" stroke="#cbd5e1" strokeWidth="2" />
+                
+                <Tooltip title={<div className="p-1"><div className="font-semibold">Istanbul</div><div className="text-xs">Confidence: 82%</div></div>} arrow>
+                  <g>
+                    <ellipse cx="165" cy="115" rx="35" ry="25" fill="rgba(34, 197, 94, 0.7)" stroke="#16a34a" strokeWidth="2" className="cursor-pointer hover:opacity-80" />
+                    <text x="165" y="112" fill="white" fontSize="11" fontWeight="700" textAnchor="middle">Istanbul</text>
+                    <text x="165" y="125" fill="white" fontSize="10" fontWeight="600" textAnchor="middle">82%</text>
+                  </g>
+                </Tooltip>
+                
+                <Tooltip title={<div className="p-1"><div className="font-semibold">Bursa</div><div className="text-xs">Confidence: 91%</div></div>} arrow>
+                  <g>
+                    <ellipse cx="140" cy="165" rx="30" ry="20" fill="rgba(34, 197, 94, 0.85)" stroke="#15803d" strokeWidth="2" className="cursor-pointer hover:opacity-80" />
+                    <text x="140" y="162" fill="white" fontSize="10" fontWeight="700" textAnchor="middle">Bursa</text>
+                    <text x="140" y="174" fill="white" fontSize="9" fontWeight="600" textAnchor="middle">91%</text>
+                  </g>
+                </Tooltip>
+                
+                <Tooltip title={<div className="p-1"><div className="font-semibold">Izmir</div><div className="text-xs">Confidence: 85%</div></div>} arrow>
+                  <g>
+                    <ellipse cx="95" cy="220" rx="32" ry="22" fill="rgba(34, 197, 94, 0.75)" stroke="#16a34a" strokeWidth="2" className="cursor-pointer hover:opacity-80" />
+                    <text x="95" y="217" fill="white" fontSize="10" fontWeight="700" textAnchor="middle">Izmir</text>
+                    <text x="95" y="229" fill="white" fontSize="9" fontWeight="600" textAnchor="middle">85%</text>
+                  </g>
+                </Tooltip>
+                
+                <Tooltip title={<div className="p-1"><div className="font-semibold">Ankara</div><div className="text-xs">Confidence: 78%</div></div>} arrow>
+                  <g>
+                    <ellipse cx="350" cy="160" rx="45" ry="30" fill="rgba(59, 130, 246, 0.7)" stroke="#2563eb" strokeWidth="2" className="cursor-pointer hover:opacity-80" />
+                    <text x="350" y="157" fill="white" fontSize="12" fontWeight="700" textAnchor="middle">Ankara</text>
+                    <text x="350" y="172" fill="white" fontSize="10" fontWeight="600" textAnchor="middle">78%</text>
+                  </g>
+                </Tooltip>
+                
+                <Tooltip title={<div className="p-1"><div className="font-semibold">Antalya</div><div className="text-xs">Confidence: 74%</div></div>} arrow>
+                  <g>
+                    <ellipse cx="280" cy="310" rx="35" ry="22" fill="rgba(251, 191, 36, 0.7)" stroke="#f59e0b" strokeWidth="2" className="cursor-pointer hover:opacity-80" />
+                    <text x="280" y="307" fill="white" fontSize="10" fontWeight="700" textAnchor="middle">Antalya</text>
+                    <text x="280" y="319" fill="white" fontSize="9" fontWeight="600" textAnchor="middle">74%</text>
+                  </g>
+                </Tooltip>
+                
+                <ellipse cx="220" cy="220" rx="30" ry="20" fill="rgba(203, 213, 225, 0.5)" stroke="#94a3b8" strokeWidth="1" />
+                <text x="220" y="223" fill="#64748b" fontSize="9" fontWeight="500" textAnchor="middle">Konya</text>
+                
+                <ellipse cx="440" cy="280" rx="28" ry="18" fill="rgba(203, 213, 225, 0.5)" stroke="#94a3b8" strokeWidth="1" />
+                <text x="440" y="283" fill="#64748b" fontSize="9" fontWeight="500" textAnchor="middle">Mersin</text>
+                
+                <ellipse cx="520" cy="260" rx="28" ry="18" fill="rgba(203, 213, 225, 0.5)" stroke="#94a3b8" strokeWidth="1" />
+                <text x="520" y="263" fill="#64748b" fontSize="9" fontWeight="500" textAnchor="middle">Adana</text>
+                
+                <ellipse cx="620" cy="230" rx="32" ry="20" fill="rgba(203, 213, 225, 0.5)" stroke="#94a3b8" strokeWidth="1" />
+                <text x="620" y="233" fill="#64748b" fontSize="9" fontWeight="500" textAnchor="middle">Gaziantep</text>
+                
+                <ellipse cx="500" cy="150" rx="28" ry="18" fill="rgba(203, 213, 225, 0.5)" stroke="#94a3b8" strokeWidth="1" />
+                <text x="500" y="153" fill="#64748b" fontSize="9" fontWeight="500" textAnchor="middle">Samsun</text>
+                
+                <ellipse cx="680" cy="180" rx="30" ry="20" fill="rgba(203, 213, 225, 0.5)" stroke="#94a3b8" strokeWidth="1" />
+                <text x="680" y="183" fill="#64748b" fontSize="9" fontWeight="500" textAnchor="middle">Van</text>
               </svg>
             </div>
             <div className="mt-3 flex items-center justify-between">
               <div className="flex items-center gap-2 text-xs text-gray-600">
-                <span>Opportunity:</span>
-                <span className="w-3 h-3 rounded bg-gray-300"></span>
-                <span>Low</span>
-                <div className="w-24 h-3 bg-gradient-to-r from-gray-300 via-blue-400 to-purple-600 rounded"></div>
-                <span>High</span>
-                <span className="w-3 h-3 rounded bg-purple-600"></span>
+                <span>Confidence:</span>
+                <span className="w-3 h-3 rounded bg-yellow-400"></span>
+                <span>70-79%</span>
+                <span className="w-3 h-3 rounded bg-blue-500"></span>
+                <span>80-84%</span>
+                <span className="w-3 h-3 rounded bg-green-500"></span>
+                <span>85%+</span>
               </div>
               <div className="flex items-center gap-2 text-xs text-gray-500">
-                <span className="w-4 h-4 rounded-full bg-blue-500 flex items-center justify-center text-white text-[8px] font-bold">3</span>
-                <span>= Pending recommendations</span>
+                <span className="w-3 h-3 rounded bg-gray-300"></span>
+                <span>No recommendations</span>
               </div>
             </div>
           </div>
