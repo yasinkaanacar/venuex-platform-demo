@@ -214,7 +214,6 @@ export default function AIRecommendations() {
         <div className="flex gap-6">
           {[
             { id: "recommendations", label: "Recommendations" },
-            { id: "scenarios", label: "Scenarios" },
             { id: "history", label: "History" },
           ].map(tab => (
             <button
@@ -664,15 +663,6 @@ export default function AIRecommendations() {
                 </div>
               )}
             </div>
-          </div>
-        </div>
-      )}
-      {activeTab === "scenarios" && (
-        <div className="p-6">
-          <div className="bg-white border border-gray-200 rounded-lg p-8 text-center">
-            <Clock className="w-12 h-12 text-gray-300 mx-auto mb-3" />
-            <h3 className="text-lg font-semibold text-gray-900 mb-1">Scenarios Coming Soon</h3>
-            <p className="text-sm text-gray-500">Create and compare different optimization scenarios</p>
           </div>
         </div>
       )}
