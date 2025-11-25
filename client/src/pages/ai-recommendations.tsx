@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Brain, TrendingUp, Target, Zap, MapPin, Clock, CheckCircle, Lightbulb, AlertTriangle } from "lucide-react";
+import { Brain, TrendingUp, Target, Zap, MapPin, Clock, CheckCircle, Lightbulb } from "lucide-react";
 import { SiGoogle, SiMeta } from 'react-icons/si';
 import { Tooltip } from '@mui/material';
 
@@ -80,12 +80,6 @@ const categoryIcons = {
   targeting: Target,
   bidding: Zap,
   creative: MapPin,
-};
-
-const riskColors = {
-  low: "text-green-600 bg-green-100",
-  medium: "text-yellow-600 bg-yellow-100",
-  high: "text-red-600 bg-red-100",
 };
 
 export default function AIRecommendations() {
@@ -186,7 +180,7 @@ export default function AIRecommendations() {
         </CardContent>
       </Card>
 
-      {/* Regional AI Opportunity Map - NOW AT TOP */}
+      {/* Regional AI Opportunity Map */}
       <Card className="bg-[#f9fafb] shadow-none border border-gray-200 mb-6">
         <CardHeader>
           <div className="flex items-center justify-between">
@@ -338,176 +332,93 @@ export default function AIRecommendations() {
             </div>
           </div>
           
-          {/* Regional Opportunity Table */}
-          <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
-            <div className="overflow-x-auto">
-              <table className="w-full text-sm" data-testid="table-regional-opportunities">
-                <thead className="bg-gray-50 border-b border-gray-200">
-                  <tr>
-                    <th className="text-left py-3 px-4 font-semibold text-gray-700">Region</th>
-                    <th className="text-center py-3 px-4 font-semibold text-gray-700">Opportunity Score</th>
-                    <th className="text-center py-3 px-4 font-semibold text-gray-700">Pending Actions</th>
-                    <th className="text-center py-3 px-4 font-semibold text-gray-700">Risk Level</th>
-                    <th className="text-right py-3 px-4 font-semibold text-gray-700">Potential ROAS</th>
-                    <th className="text-left py-3 px-4 font-semibold text-gray-700">Top Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {regionOpportunities
-                    .filter(item => selectedRegion === null || item.state === selectedRegion)
-                    .sort((a, b) => b.opportunityScore - a.opportunityScore)
-                    .map((item) => (
-                    <tr 
-                      key={item.state} 
-                      className={`border-b border-gray-100 hover:bg-gray-50 cursor-pointer transition-colors ${selectedRegion === item.state ? 'bg-purple-50' : ''}`}
-                      onClick={() => setSelectedRegion(item.state === selectedRegion ? null : item.state)}
-                      data-testid={`opportunity-row-${item.state.toLowerCase()}`}
-                    >
-                      <td className="py-3 px-4 font-medium text-gray-900">{item.state}</td>
-                      <td className="py-3 px-4 text-center">
-                        <div className="flex items-center justify-center gap-2">
-                          <div className="w-16 h-2 bg-gray-200 rounded-full overflow-hidden">
-                            <div 
-                              className="h-full bg-gradient-to-r from-blue-400 to-purple-500 rounded-full"
-                              style={{ width: `${item.opportunityScore}%` }}
-                            ></div>
-                          </div>
-                          <span className="text-sm font-medium text-purple-600">{item.opportunityScore}</span>
-                        </div>
-                      </td>
-                      <td className="py-3 px-4 text-center">
-                        {item.pendingRecommendations > 0 ? (
-                          <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-700">
-                            {item.pendingRecommendations}
-                          </span>
-                        ) : (
-                          <span className="text-gray-400">-</span>
-                        )}
-                      </td>
-                      <td className="py-3 px-4 text-center">
-                        <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${riskColors[item.riskLevel]}`}>
-                          {item.riskLevel === 'high' && <AlertTriangle className="w-3 h-3 mr-1" />}
-                          {item.riskLevel.charAt(0).toUpperCase() + item.riskLevel.slice(1)}
-                        </span>
-                      </td>
-                      <td className="py-3 px-4 text-right font-semibold text-green-600">
-                        {item.potentialROAS > 0 ? `+${item.potentialROAS}%` : '-'}
-                      </td>
-                      <td className="py-3 px-4 text-gray-700 text-sm">{item.topAction}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* Stats Row */}
-      <div className="grid grid-cols-3 gap-4 mb-6">
-        <Card className="bg-[#f9fafb] border border-gray-200 shadow-none">
-          <CardContent className="p-4">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-gray-600">Pending</p>
-                <p className="text-2xl font-bold text-gray-900">{pendingCount}</p>
-              </div>
-              <Clock className="w-8 h-8 text-blue-500" />
-            </div>
-          </CardContent>
-        </Card>
-        <Card className="bg-[#f9fafb] border border-gray-200 shadow-none">
-          <CardContent className="p-4">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-gray-600">Applied</p>
-                <p className="text-2xl font-bold text-green-600">{appliedCount}</p>
-              </div>
-              <CheckCircle className="w-8 h-8 text-green-500" />
-            </div>
-          </CardContent>
-        </Card>
-        <Card className="bg-[#f9fafb] border border-gray-200 shadow-none">
-          <CardContent className="p-4">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-gray-600">Potential ROAS</p>
-                <p className="text-2xl font-bold text-purple-600">+{totalPotentialROAS}%</p>
-              </div>
-              <TrendingUp className="w-8 h-8 text-purple-500" />
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-
-      {/* AI Recommendations Card */}
-      <Card className="bg-[#f9fafb] shadow-none border border-gray-200" data-testid="card-ai-recommendations">
-        <CardHeader className="pb-3">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-purple-500 to-blue-500 flex items-center justify-center">
-                <Brain className="w-4 h-4 text-white" />
-              </div>
-              <CardTitle className="text-base font-semibold">Recommendations</CardTitle>
-            </div>
-            {filteredRecommendations.length > 0 && (
-              <span className="text-xs text-gray-500">{filteredRecommendations.length} pending</span>
-            )}
-          </div>
-        </CardHeader>
-        <CardContent className="space-y-3">
-          {filteredRecommendations.length > 0 ? (
-            filteredRecommendations.map((item) => {
-              const CategoryIcon = categoryIcons[item.category];
-              return (
-                <div 
-                  key={item.id}
-                  className="bg-[#00a0e3] rounded-lg p-4"
-                  data-testid={`recommendation-${item.id}`}
-                >
-                  <div className="flex items-start gap-3 mb-3">
-                    <div className="w-7 h-7 rounded bg-white/20 flex items-center justify-center flex-shrink-0">
-                      <CategoryIcon className="w-4 h-4 text-white" />
-                    </div>
-                    <div className="flex-1">
-                      <p className="text-white text-sm font-medium leading-snug">
-                        "{item.text}: {item.roas} incremental ROAS, {item.confidence}% confidence."
-                      </p>
-                      <div className="flex items-center gap-2 mt-1">
-                        <span className="text-white/70 text-xs">{item.region}</span>
-                        <span className="text-white/50">•</span>
-                        <span className="text-white/70 text-xs">{item.platform}</span>
-                      </div>
-                    </div>
+          {/* Recommendations Section - Merged with Stats */}
+          <div className="bg-white rounded-lg border border-gray-200 overflow-hidden" data-testid="card-ai-recommendations">
+            {/* Stats Header Row */}
+            <div className="bg-gray-50 border-b border-gray-200 px-4 py-3">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-purple-500 to-blue-500 flex items-center justify-center">
+                    <Brain className="w-3.5 h-3.5 text-white" />
                   </div>
-                  <div className="flex gap-2">
-                    <Button
-                      size="sm"
-                      onClick={() => handleApply(item.id)}
-                      className="bg-slate-800 hover:bg-slate-900 text-white text-xs px-4 h-7"
-                      data-testid={`button-apply-${item.id}`}
-                    >
-                      Apply
-                    </Button>
-                    <Button
-                      size="sm"
-                      onClick={() => handleDismiss(item.id)}
-                      className="bg-[#9b4d4d] hover:bg-[#8b3d3d] text-white text-xs px-4 h-7"
-                      data-testid={`button-dismiss-${item.id}`}
-                    >
-                      Dismiss
-                    </Button>
+                  <span className="font-semibold text-gray-900">Recommendations</span>
+                </div>
+                <div className="flex items-center gap-6">
+                  <div className="flex items-center gap-2">
+                    <Clock className="w-4 h-4 text-blue-500" />
+                    <span className="text-sm text-gray-600">Pending:</span>
+                    <span className="font-bold text-gray-900">{pendingCount}</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <CheckCircle className="w-4 h-4 text-green-500" />
+                    <span className="text-sm text-gray-600">Applied:</span>
+                    <span className="font-bold text-green-600">{appliedCount}</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <TrendingUp className="w-4 h-4 text-purple-500" />
+                    <span className="text-sm text-gray-600">Potential ROAS:</span>
+                    <span className="font-bold text-purple-600">+{totalPotentialROAS}%</span>
                   </div>
                 </div>
-              );
-            })
-          ) : (
-            <div className="text-center py-8 text-gray-500">
-              <CheckCircle className="w-10 h-10 mx-auto mb-2 text-green-500" />
-              <p className="font-medium text-sm">All caught up!</p>
-              <p className="text-xs">No pending recommendations</p>
+              </div>
             </div>
-          )}
+            
+            {/* Recommendations List */}
+            <div className="p-4 space-y-3">
+              {filteredRecommendations.length > 0 ? (
+                filteredRecommendations.map((item) => {
+                  const CategoryIcon = categoryIcons[item.category];
+                  return (
+                    <div 
+                      key={item.id}
+                      className="bg-[#00a0e3] rounded-lg p-4"
+                      data-testid={`recommendation-${item.id}`}
+                    >
+                      <div className="flex items-start gap-3 mb-3">
+                        <div className="w-7 h-7 rounded bg-white/20 flex items-center justify-center flex-shrink-0">
+                          <CategoryIcon className="w-4 h-4 text-white" />
+                        </div>
+                        <div className="flex-1">
+                          <p className="text-white text-sm font-medium leading-snug">
+                            "{item.text}: {item.roas} incremental ROAS, {item.confidence}% confidence."
+                          </p>
+                          <div className="flex items-center gap-2 mt-1">
+                            <span className="text-white/70 text-xs">{item.region}</span>
+                            <span className="text-white/50">•</span>
+                            <span className="text-white/70 text-xs">{item.platform}</span>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="flex gap-2">
+                        <Button
+                          size="sm"
+                          onClick={() => handleApply(item.id)}
+                          className="bg-slate-800 hover:bg-slate-900 text-white text-xs px-4 h-7"
+                          data-testid={`button-apply-${item.id}`}
+                        >
+                          Apply
+                        </Button>
+                        <Button
+                          size="sm"
+                          onClick={() => handleDismiss(item.id)}
+                          className="bg-[#9b4d4d] hover:bg-[#8b3d3d] text-white text-xs px-4 h-7"
+                          data-testid={`button-dismiss-${item.id}`}
+                        >
+                          Dismiss
+                        </Button>
+                      </div>
+                    </div>
+                  );
+                })
+              ) : (
+                <div className="text-center py-8 text-gray-500">
+                  <CheckCircle className="w-10 h-10 mx-auto mb-2 text-green-500" />
+                  <p className="font-medium text-sm">All caught up!</p>
+                  <p className="text-xs">No pending recommendations</p>
+                </div>
+              )}
+            </div>
+          </div>
         </CardContent>
       </Card>
     </div>
