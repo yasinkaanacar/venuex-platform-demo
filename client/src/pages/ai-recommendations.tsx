@@ -447,7 +447,7 @@ export default function AIRecommendations() {
                       </div>
 
                       {/* Actions row */}
-                      <div className="flex items-center justify-end pt-2 mt-2 border-t border-gray-100">
+                      <div className="flex items-center justify-start pt-2 mt-2 border-t border-gray-100">
                         <Button size="sm" variant="ghost" className="text-[10px] h-6 px-2 text-gray-500">
                           <Eye className="w-2.5 h-2.5 mr-0.5" />
                           Details
