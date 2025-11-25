@@ -200,7 +200,7 @@ export default function AIRecommendations() {
               <Brain className="w-5 h-5 text-white" />
             </div>
             <div>
-              <h1 className="text-xl font-bold text-gray-900" data-testid="text-page-title">AI Enhance</h1>
+              <h1 className="text-xl font-bold text-gray-900" data-testid="text-page-title">Enhance</h1>
               <p className="text-xs text-gray-500">Powered by VenueX AI</p>
             </div>
           </div>
@@ -209,7 +209,6 @@ export default function AIRecommendations() {
           </div>
         </div>
       </div>
-
       {/* Tabs */}
       <div className="bg-white border-b border-gray-200 px-6">
         <div className="flex gap-6">
@@ -233,7 +232,6 @@ export default function AIRecommendations() {
           ))}
         </div>
       </div>
-
       {activeTab === "recommendations" && (
         <div className="p-6">
           {/* Summary Cards */}
@@ -673,7 +671,6 @@ export default function AIRecommendations() {
           </div>
         </div>
       )}
-
       {activeTab === "scenarios" && (
         <div className="p-6">
           <div className="bg-white border border-gray-200 rounded-lg p-8 text-center">
@@ -683,7 +680,6 @@ export default function AIRecommendations() {
           </div>
         </div>
       )}
-
       {activeTab === "history" && (
         <div className="p-6">
           <div className="bg-white border border-gray-200 rounded-lg p-8 text-center">
@@ -693,7 +689,6 @@ export default function AIRecommendations() {
           </div>
         </div>
       )}
-
       {/* Mobile Detail Drawer */}
       {mobileDetailOpen && selectedRecommendation && (
         <div className="lg:hidden fixed inset-0 z-50 bg-black/50" onClick={() => setMobileDetailOpen(false)}>
