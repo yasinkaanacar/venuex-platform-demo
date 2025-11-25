@@ -406,7 +406,7 @@ export default function AIRecommendations() {
                       key={rec.id}
                       onClick={() => handleSelectRecommendation(rec)}
                       className={`p-3 cursor-pointer transition-all ${
-                        isSelected ? "bg-purple-50" : "hover:bg-gray-50"
+                        isSelected ? "bg-blue-50" : "hover:bg-gray-50"
                       } ${rec.status ? "opacity-75" : ""}`}
                       data-testid={`recommendation-card-${rec.id}`}
                     >
@@ -495,7 +495,7 @@ export default function AIRecommendations() {
                             key={rec.id}
                             onClick={() => handleSelectRecommendation(rec)}
                             className={`border-b border-gray-100 cursor-pointer transition-colors ${
-                              isSelected ? "bg-purple-50" : "hover:bg-gray-50"
+                              isSelected ? "bg-blue-50" : "hover:bg-gray-50"
                             }`}
                             data-testid={`recommendation-row-${rec.id}`}
                           >
