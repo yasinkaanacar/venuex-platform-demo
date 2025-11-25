@@ -16,6 +16,7 @@ import {
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import venueXLogo from '@assets/vx-logo-1000x1000_1756566252817.png';
+import boynerLogo from '@assets/image_1764084021601.png';
 
 const navigationGroups = [
   {
@@ -72,11 +73,11 @@ export default function Sidebar({ collapsed, onToggle }: SidebarProps) {
           <div className="px-6 py-4">
             <div className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-800 rounded-md border border-gray-200 dark:border-gray-700">
               <div className="flex items-center space-x-3">
-                <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center shadow-sm">
+                <div className="w-10 h-10 rounded-lg bg-white flex items-center justify-center shadow-sm overflow-hidden">
                   <img 
-                    src={venueXLogo} 
-                    alt="VenueX Logo" 
-                    className="w-9 h-9 object-contain"
+                    src={boynerLogo} 
+                    alt="Boyner Logo" 
+                    className="w-8 h-8 object-contain"
                   />
                 </div>
                 <span className="text-sm font-medium text-gray-900 dark:text-white">Boyner</span>
