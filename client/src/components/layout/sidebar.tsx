@@ -33,12 +33,6 @@ const navigationGroups = [
     ]
   },
   {
-    title: "AI",
-    items: [
-      { name: 'AI Recommendations', href: '/ai-recommendations', icon: Brain }
-    ]
-  },
-  {
     title: "DEV",
     items: [
       { name: 'Offline Conversions (Old)', href: '/offline-conversions', icon: ArrowRightLeft },
@@ -50,7 +44,8 @@ const navigationGroups = [
 ];
 
 const ungroupedItems = [
-  { name: 'Dashboard', href: '/', icon: BarChart3 }
+  { name: 'Dashboard', href: '/', icon: BarChart3 },
+  { name: 'AI Recommendations', href: '/ai-recommendations', icon: Brain }
 ];
 
 interface SidebarProps {
