@@ -33,9 +33,10 @@ interface SelectProps extends Omit<MuiSelectProps, 'children'> {
   onValueChange?: (value: string) => void
   value?: string
   defaultValue?: string
+  displayLabel?: string
 }
 
-const Select = ({ children, onValueChange, ...props }: SelectProps) => {
+const Select = ({ children, onValueChange, displayLabel, ...props }: SelectProps) => {
   const handleChange = (event: any) => {
     if (onValueChange) {
       onValueChange(event.target.value)
@@ -64,7 +65,7 @@ const Select = ({ children, onValueChange, ...props }: SelectProps) => {
         {...props} 
         onChange={handleChange}
         displayEmpty
-        renderValue={(selected) => (selected as string) || props.placeholder || ''}
+        renderValue={(selected) => displayLabel || (selected as string) || props.placeholder || ''}
       >
         {extractMenuItems(children)}
       </StyledSelect>

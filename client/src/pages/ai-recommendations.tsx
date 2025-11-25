@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Select, SelectContent, SelectItem } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
 import { 
   Brain, TrendingUp, Target, Zap, Clock, CheckCircle, 
@@ -206,10 +206,12 @@ export default function AIRecommendations() {
             </div>
           </div>
           <div className="flex items-center gap-3">
-            <Select value={dateRange} onValueChange={setDateRange}>
-              <SelectTrigger className="w-32 h-9 text-sm border-gray-300" data-testid="select-date-range">
-                <SelectValue />
-              </SelectTrigger>
+            <Select 
+              value={dateRange} 
+              onValueChange={setDateRange}
+              displayLabel={dateRange === "7d" ? "Last 7 Days" : dateRange === "30d" ? "Last 30 Days" : "Last 90 Days"}
+              data-testid="select-date-range"
+            >
               <SelectContent>
                 <SelectItem value="7d">Last 7 Days</SelectItem>
                 <SelectItem value="30d">Last 30 Days</SelectItem>
@@ -290,15 +292,15 @@ export default function AIRecommendations() {
 
           {/* Filter Bar */}
           <div className="flex items-center gap-2 mb-6">
-            <Select value={filters.objective} onValueChange={(v) => setFilters(f => ({ ...f, objective: v }))}>
-              <SelectTrigger className="h-8 text-xs border-gray-300 bg-white min-w-[120px]" data-testid="filter-objective">
-                <span className="truncate">
-                  {filters.objective === "all" ? "Objective" : 
-                   filters.objective === "revenue" ? "Max Revenue" :
-                   filters.objective === "roas" ? "Max ROAS" :
-                   filters.objective === "visits" ? "Store Visits" : "Clear Inventory"}
-                </span>
-              </SelectTrigger>
+            <Select 
+              value={filters.objective} 
+              onValueChange={(v) => setFilters(f => ({ ...f, objective: v }))}
+              displayLabel={filters.objective === "all" ? "Objective" : 
+                filters.objective === "revenue" ? "Max Revenue" :
+                filters.objective === "roas" ? "Max ROAS" :
+                filters.objective === "visits" ? "Store Visits" : "Clear Inventory"}
+              data-testid="filter-objective"
+            >
               <SelectContent>
                 <SelectItem value="all">All Objectives</SelectItem>
                 <SelectItem value="revenue">Maximize revenue</SelectItem>
@@ -308,12 +310,12 @@ export default function AIRecommendations() {
               </SelectContent>
             </Select>
 
-            <Select value={filters.channel} onValueChange={(v) => setFilters(f => ({ ...f, channel: v }))}>
-              <SelectTrigger className="h-8 text-xs border-gray-300 bg-white min-w-[100px]" data-testid="filter-channel">
-                <span className="truncate">
-                  {filters.channel === "all" ? "Channels" : filters.channel}
-                </span>
-              </SelectTrigger>
+            <Select 
+              value={filters.channel} 
+              onValueChange={(v) => setFilters(f => ({ ...f, channel: v }))}
+              displayLabel={filters.channel === "all" ? "Channels" : filters.channel}
+              data-testid="filter-channel"
+            >
               <SelectContent>
                 <SelectItem value="all">All Channels</SelectItem>
                 <SelectItem value="Google">Google</SelectItem>
@@ -323,12 +325,12 @@ export default function AIRecommendations() {
               </SelectContent>
             </Select>
 
-            <Select value={filters.region} onValueChange={(v) => setFilters(f => ({ ...f, region: v }))}>
-              <SelectTrigger className="h-8 text-xs border-gray-300 bg-white min-w-[100px]" data-testid="filter-region">
-                <span className="truncate">
-                  {filters.region === "all" ? "Region" : filters.region}
-                </span>
-              </SelectTrigger>
+            <Select 
+              value={filters.region} 
+              onValueChange={(v) => setFilters(f => ({ ...f, region: v }))}
+              displayLabel={filters.region === "all" ? "Region" : filters.region}
+              data-testid="filter-region"
+            >
               <SelectContent>
                 <SelectItem value="all">All Regions</SelectItem>
                 <SelectItem value="Istanbul">Istanbul</SelectItem>
@@ -339,12 +341,12 @@ export default function AIRecommendations() {
               </SelectContent>
             </Select>
 
-            <Select value={filters.category} onValueChange={(v) => setFilters(f => ({ ...f, category: v }))}>
-              <SelectTrigger className="h-8 text-xs border-gray-300 bg-white min-w-[100px]" data-testid="filter-category">
-                <span className="truncate">
-                  {filters.category === "all" ? "Category" : filters.category}
-                </span>
-              </SelectTrigger>
+            <Select 
+              value={filters.category} 
+              onValueChange={(v) => setFilters(f => ({ ...f, category: v }))}
+              displayLabel={filters.category === "all" ? "Category" : filters.category}
+              data-testid="filter-category"
+            >
               <SelectContent>
                 <SelectItem value="all">All Categories</SelectItem>
                 <SelectItem value="Home">Home</SelectItem>
