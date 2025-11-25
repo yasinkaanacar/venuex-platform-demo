@@ -391,7 +391,7 @@ export default function AIRecommendations() {
           {/* Content Area */}
           <div className="flex gap-4">
             {/* List Panel */}
-            <div className="w-full lg:w-1/2 space-y-3 max-h-[calc(100vh-320px)] overflow-y-auto pr-2">
+            <div className="w-full lg:w-1/2 max-h-[calc(100vh-320px)] overflow-y-auto pr-2 bg-white border border-gray-200 rounded-lg divide-y divide-gray-200">
               {filteredRecommendations.length === 0 ? (
                 <div className="bg-white border border-gray-200 rounded-lg p-6 text-center">
                   <AlertTriangle className="w-8 h-8 text-gray-300 mx-auto mb-2" />
@@ -405,8 +405,8 @@ export default function AIRecommendations() {
                     <div
                       key={rec.id}
                       onClick={() => handleSelectRecommendation(rec)}
-                      className={`bg-white border rounded-lg p-3 cursor-pointer transition-all ${
-                        isSelected ? "border-purple-400 ring-1 ring-purple-200" : "border-gray-200 hover:border-gray-300"
+                      className={`p-3 cursor-pointer transition-all ${
+                        isSelected ? "bg-purple-50" : "hover:bg-gray-50"
                       } ${rec.status ? "opacity-75" : ""}`}
                       data-testid={`recommendation-card-${rec.id}`}
                     >
@@ -447,36 +447,11 @@ export default function AIRecommendations() {
                       </div>
 
                       {/* Actions row */}
-                      <div className="flex items-center gap-1.5 pt-2 mt-2 border-t border-gray-100">
-                        <Button size="sm" className="bg-purple-600 hover:bg-purple-700 text-[10px] h-6 px-2">
-                          Apply
-                        </Button>
-                        <Button size="sm" variant="outline" className="text-[10px] h-6 px-2">
-                          <Beaker className="w-2.5 h-2.5 mr-0.5" />
-                          Experiment
-                        </Button>
+                      <div className="flex items-center justify-end pt-2 mt-2 border-t border-gray-100">
                         <Button size="sm" variant="ghost" className="text-[10px] h-6 px-2 text-gray-500">
                           <Eye className="w-2.5 h-2.5 mr-0.5" />
                           Details
                         </Button>
-                        <div className="relative ml-auto">
-                          <button 
-                            onClick={(e) => { e.stopPropagation(); setShowOverflowMenu(showOverflowMenu === rec.id ? null : rec.id); }}
-                            className="p-0.5 hover:bg-gray-100 rounded"
-                          >
-                            <MoreHorizontal className="w-3.5 h-3.5 text-gray-400" />
-                          </button>
-                          {showOverflowMenu === rec.id && (
-                            <div className="absolute right-0 top-6 bg-white border border-gray-200 rounded-lg shadow-lg py-1 z-10 min-w-[100px]">
-                              <button className="w-full px-2 py-1 text-left text-xs text-gray-700 hover:bg-gray-50 flex items-center gap-1.5">
-                                <BellOff className="w-2.5 h-2.5" /> Snooze
-                              </button>
-                              <button className="w-full px-2 py-1 text-left text-xs text-gray-700 hover:bg-gray-50 flex items-center gap-1.5">
-                                <X className="w-2.5 h-2.5" /> Dismiss
-                              </button>
-                            </div>
-                          )}
-                        </div>
                       </div>
 
                       {/* Status indicator */}
