@@ -10,6 +10,7 @@ import Reviews from "@/pages/reviews";
 import ReviewsX from "@/pages/reviewsX";
 import ReviewsMVP from "@/pages/reviewsMVP";
 import LocationMatch from "@/pages/location-match";
+import AIRecommendations from "@/pages/ai-recommendations";
 import NotFound from "@/pages/not-found";
 import { useState } from "react";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
@@ -37,6 +38,7 @@ function Router() {
           <Route path="/reviewsX" component={ReviewsX} />
           <Route path="/reviewsMVP" component={ReviewsMVP} />
           <Route path="/location-match" component={LocationMatch} />
+          <Route path="/ai-recommendations" component={AIRecommendations} />
           <Route component={NotFound} />
         </Switch>
       </main>

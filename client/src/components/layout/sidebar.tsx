@@ -11,7 +11,8 @@ import {
   ShoppingCart,
   MessageSquare,
   TrendingUp,
-  Target
+  Target,
+  Brain
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import venueXLogo from '@assets/vx-logo-1000x1000_1756566252817.png';
@@ -29,6 +30,12 @@ const navigationGroups = [
     items: [
       { name: 'Local Inventory', href: '/catalog', icon: Package },
       { name: 'Offline Conversions', href: '/offline-conversionsMVP', icon: TrendingUp }
+    ]
+  },
+  {
+    title: "AI",
+    items: [
+      { name: 'AI Recommendations', href: '/ai-recommendations', icon: Brain }
     ]
   },
   {
