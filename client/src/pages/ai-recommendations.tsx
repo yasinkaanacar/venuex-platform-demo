@@ -446,23 +446,6 @@ export default function AIRecommendations() {
                         </div>
                       </div>
 
-                      {/* Context row */}
-                      <div className="flex flex-wrap items-center gap-1.5">
-                        {rec.channels.map(ch => (
-                          <span key={ch} className="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded bg-gray-100 text-[10px] text-gray-600">
-                            {ch === "Google" && <SiGoogle className="w-2 h-2" />}
-                            {ch === "Meta" && <SiMeta className="w-2 h-2" />}
-                            {ch}
-                          </span>
-                        ))}
-                        <span className="px-1.5 py-0.5 rounded bg-blue-50 text-[10px] text-blue-600">{rec.region}</span>
-                        <span className="px-1.5 py-0.5 rounded bg-purple-50 text-[10px] text-purple-600">{rec.category}</span>
-                        <span className="px-1.5 py-0.5 rounded bg-gray-100 text-[10px] text-gray-500">
-                          <Clock className="w-2.5 h-2.5 inline mr-0.5" />
-                          {rec.timeToImpact}
-                        </span>
-                      </div>
-
                       {/* Actions row */}
                       <div className="flex items-center gap-1.5 pt-2 mt-2 border-t border-gray-100">
                         <Button size="sm" className="bg-purple-600 hover:bg-purple-700 text-[10px] h-6 px-2">
