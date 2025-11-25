@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Brain, TrendingUp, Target, Zap, MapPin, Clock, CheckCircle, XCircle } from "lucide-react";
+import { Brain, TrendingUp, Target, Zap, MapPin, Clock, CheckCircle, Lightbulb, AlertTriangle } from "lucide-react";
 import { SiGoogle, SiMeta } from 'react-icons/si';
 import { Tooltip } from '@mui/material';
 
@@ -16,12 +16,13 @@ interface Recommendation {
   region: string;
 }
 
-interface GeoPerformanceData {
+interface RegionOpportunity {
   state: string;
-  offlineRevenue: number;
-  offlineROAS: number;
-  storeVisits: number;
-  conversions: number;
+  opportunityScore: number;
+  pendingRecommendations: number;
+  potentialROAS: number;
+  riskLevel: "low" | "medium" | "high";
+  topAction: string;
 }
 
 const allRecommendations: Recommendation[] = [
@@ -32,17 +33,17 @@ const allRecommendations: Recommendation[] = [
   { id: 5, text: "Enable location extensions for Antalya stores", roas: "+6%", confidence: 74, category: "creative", platform: "Google", region: "Antalya" },
 ];
 
-const mockGeoData: GeoPerformanceData[] = [
-  { state: "Istanbul", offlineRevenue: 80173725, offlineROAS: 78.8, storeVisits: 45000, conversions: 8900 },
-  { state: "Ankara", offlineRevenue: 48960000, offlineROAS: 77.3, storeVisits: 28000, conversions: 5600 },
-  { state: "Izmir", offlineRevenue: 55360000, offlineROAS: 76.5, storeVisits: 32000, conversions: 6400 },
-  { state: "Antalya", offlineRevenue: 32400000, offlineROAS: 79.6, storeVisits: 19000, conversions: 3800 },
-  { state: "Bursa", offlineRevenue: 37800000, offlineROAS: 76.0, storeVisits: 22000, conversions: 4400 },
-  { state: "Adana", offlineRevenue: 25200000, offlineROAS: 74.2, storeVisits: 15000, conversions: 3000 },
-  { state: "Konya", offlineRevenue: 16200000, offlineROAS: 75.4, storeVisits: 9800, conversions: 1950 },
-  { state: "Gaziantep", offlineRevenue: 13500000, offlineROAS: 76.5, storeVisits: 8000, conversions: 1600 },
-  { state: "Kocaeli", offlineRevenue: 20700000, offlineROAS: 73.2, storeVisits: 12800, conversions: 2550 },
-  { state: "Mersin", offlineRevenue: 11250000, offlineROAS: 73.2, storeVisits: 6900, conversions: 1380 },
+const regionOpportunities: RegionOpportunity[] = [
+  { state: "Istanbul", opportunityScore: 92, pendingRecommendations: 3, potentialROAS: 18, riskLevel: "low", topAction: "Budget reallocation" },
+  { state: "Ankara", opportunityScore: 78, pendingRecommendations: 2, potentialROAS: 12, riskLevel: "low", topAction: "Bid optimization" },
+  { state: "Izmir", opportunityScore: 85, pendingRecommendations: 2, potentialROAS: 15, riskLevel: "medium", topAction: "Time targeting" },
+  { state: "Antalya", opportunityScore: 71, pendingRecommendations: 1, potentialROAS: 8, riskLevel: "low", topAction: "Creative update" },
+  { state: "Bursa", opportunityScore: 45, pendingRecommendations: 1, potentialROAS: 4, riskLevel: "high", topAction: "Campaign pause" },
+  { state: "Adana", opportunityScore: 62, pendingRecommendations: 0, potentialROAS: 0, riskLevel: "medium", topAction: "Monitor" },
+  { state: "Konya", opportunityScore: 58, pendingRecommendations: 0, potentialROAS: 0, riskLevel: "medium", topAction: "Monitor" },
+  { state: "Gaziantep", opportunityScore: 67, pendingRecommendations: 0, potentialROAS: 0, riskLevel: "low", topAction: "Monitor" },
+  { state: "Kocaeli", opportunityScore: 54, pendingRecommendations: 0, potentialROAS: 0, riskLevel: "medium", topAction: "Review needed" },
+  { state: "Mersin", opportunityScore: 48, pendingRecommendations: 0, potentialROAS: 0, riskLevel: "high", topAction: "Attention required" },
 ];
 
 const provincePaths: Record<string, string> = {
@@ -81,12 +82,17 @@ const categoryIcons = {
   creative: MapPin,
 };
 
+const riskColors = {
+  low: "text-green-600 bg-green-100",
+  medium: "text-yellow-600 bg-yellow-100",
+  high: "text-red-600 bg-red-100",
+};
+
 export default function AIRecommendations() {
   const [recommendations, setRecommendations] = useState<Recommendation[]>(allRecommendations);
   const [platform, setPlatform] = useState<string>("all");
   const [dateRange, setDateRange] = useState<string>("30d");
-  const [selectedMapState, setSelectedMapState] = useState<string | null>(null);
-  const [geoState, setGeoState] = useState<string>("all");
+  const [selectedRegion, setSelectedRegion] = useState<string | null>(null);
 
   const handleApply = (id: number) => {
     setRecommendations(prev => prev.filter(r => r.id !== id));
@@ -106,6 +112,19 @@ export default function AIRecommendations() {
   const totalPotentialROAS = filteredRecommendations.reduce((sum, rec) => {
     return sum + parseFloat(rec.roas.replace('+', '').replace('%', ''));
   }, 0);
+
+  const getOpportunityColor = (score: number) => {
+    if (score >= 80) return `rgba(147, 51, 234, ${0.5 + (score / 100) * 0.5})`; // Purple for high opportunity
+    if (score >= 60) return `rgba(59, 130, 246, ${0.4 + (score / 100) * 0.4})`; // Blue for medium
+    return `rgba(156, 163, 175, ${0.3 + (score / 100) * 0.4})`; // Gray for low
+  };
+
+  const getRiskColor = (risk: string, hasRecommendations: boolean) => {
+    if (!hasRecommendations) return `rgba(156, 163, 175, 0.4)`;
+    if (risk === "high") return `rgba(239, 68, 68, 0.6)`;
+    if (risk === "medium") return `rgba(245, 158, 11, 0.5)`;
+    return `rgba(34, 197, 94, 0.5)`;
+  };
 
   return (
     <div className="p-6 bg-gray-50 min-h-screen">
@@ -267,68 +286,58 @@ export default function AIRecommendations() {
         </CardContent>
       </Card>
 
-      {/* Geographic Performance Dashboard */}
+      {/* Regional AI Opportunity Map */}
       <Card className="bg-[#f9fafb] shadow-none border border-gray-200">
         <CardHeader>
           <div className="flex items-center justify-between">
-            <CardTitle>Geographic Performance</CardTitle>
-            <div className="flex items-center gap-4">
-              <div className="flex items-center gap-2">
-                <label className="text-sm font-medium text-gray-700">Country:</label>
-                <Select value="turkey">
-                  <SelectTrigger className="w-36 border-gray-300" data-testid="select-geo-country">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="turkey">Turkey</SelectItem>
-                  </SelectContent>
-                </Select>
+            <div className="flex items-center gap-2">
+              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center">
+                <Lightbulb className="w-4 h-4 text-white" />
               </div>
-              <div className="flex items-center gap-2">
-                <label className="text-sm font-medium text-gray-700">State:</label>
-                <Select value={geoState} onValueChange={(value) => {
-                  setGeoState(value);
-                  setSelectedMapState(value === "all" ? null : value);
-                }}>
-                  <SelectTrigger className="w-40 border-gray-300" data-testid="select-geo-state">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="all">All States</SelectItem>
-                    {mockGeoData.map(item => (
-                      <SelectItem key={item.state} value={item.state}>{item.state}</SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+              <div>
+                <CardTitle>Regional AI Opportunity Map</CardTitle>
+                <p className="text-xs text-gray-500 mt-0.5">Click regions to view optimization opportunities</p>
               </div>
             </div>
+            {selectedRegion && (
+              <Button 
+                variant="outline" 
+                size="sm" 
+                onClick={() => setSelectedRegion(null)}
+                className="text-xs"
+              >
+                Clear Selection
+              </Button>
+            )}
           </div>
         </CardHeader>
         <CardContent>
           {/* Maps Visualization */}
           <div className="grid grid-cols-2 gap-6 mb-6">
-            {/* Offline Revenue Distribution Map */}
+            {/* AI Opportunity Score Map */}
             <div className="bg-white rounded-lg border border-gray-200 p-4">
-              <h3 className="text-sm font-semibold text-foreground mb-3">Offline Revenue Distribution</h3>
-              <div className="relative h-72 bg-gray-100 rounded-lg overflow-hidden flex items-center justify-center p-4">
+              <h3 className="text-sm font-semibold text-foreground mb-1">AI Opportunity Score</h3>
+              <p className="text-xs text-gray-500 mb-3">Higher scores indicate more optimization potential</p>
+              <div className="relative h-72 bg-gradient-to-br from-slate-50 to-slate-100 rounded-lg overflow-hidden flex items-center justify-center p-4">
                 <svg viewBox="0 0 1000 600" className="w-full h-full" preserveAspectRatio="xMidYMid meet">
-                  {mockGeoData.map((item) => {
-                    const totalRevenue = item.offlineRevenue;
-                    const maxRevenue = Math.max(...mockGeoData.map(d => d.offlineRevenue));
-                    const intensity = (totalRevenue / maxRevenue);
-                    const isSelected = selectedMapState === item.state;
-                    const fillColor = `rgba(59, 130, 246, ${0.3 + intensity * 0.7})`;
+                  {regionOpportunities.map((item) => {
                     const path = provincePaths[item.state];
                     if (!path) return null;
                     const pos = getTextPosition(item.state);
+                    const isSelected = selectedRegion === item.state;
+                    const fillColor = getOpportunityColor(item.opportunityScore);
                     
                     return (
                       <Tooltip 
                         key={item.state}
                         title={
-                          <div className="text-left">
-                            <div className="font-medium">{item.state}</div>
-                            <div className="text-sm">Revenue: ₺{(totalRevenue / 1000000).toFixed(1)}M</div>
+                          <div className="text-left p-1">
+                            <div className="font-semibold text-sm">{item.state}</div>
+                            <div className="text-xs mt-1">Opportunity Score: {item.opportunityScore}/100</div>
+                            <div className="text-xs">Pending Actions: {item.pendingRecommendations}</div>
+                            {item.potentialROAS > 0 && (
+                              <div className="text-xs text-green-300">Potential: +{item.potentialROAS}% ROAS</div>
+                            )}
                           </div>
                         }
                         arrow
@@ -337,25 +346,22 @@ export default function AIRecommendations() {
                           <path
                             d={path}
                             fill={fillColor}
-                            stroke={isSelected ? '#3b82f6' : '#9ca3af'}
+                            stroke={isSelected ? '#9333ea' : '#6b7280'}
                             strokeWidth={isSelected ? '3' : '1'}
                             className="cursor-pointer transition-all duration-200 hover:opacity-80"
-                            onClick={() => {
-                              setGeoState(item.state);
-                              setSelectedMapState(item.state);
-                            }}
-                            data-testid={`map-revenue-${item.state.toLowerCase()}`}
+                            onClick={() => setSelectedRegion(item.state)}
+                            data-testid={`map-opportunity-${item.state.toLowerCase()}`}
                           />
                           <text
                             x={pos.x}
                             y={pos.y}
                             fill="white"
-                            fontSize="11"
+                            fontSize="10"
                             fontWeight="600"
                             textAnchor="middle"
                             className="pointer-events-none drop-shadow-lg"
                           >
-                            {item.state}
+                            {item.opportunityScore}
                           </text>
                         </g>
                       </Tooltip>
@@ -364,34 +370,33 @@ export default function AIRecommendations() {
                 </svg>
               </div>
               <div className="mt-3 flex items-center justify-between text-xs text-gray-600">
-                <span>₺11.3M</span>
-                <div className="flex-1 mx-3 h-3 bg-gradient-to-r from-blue-200 via-blue-400 to-blue-600 rounded"></div>
-                <span>₺80.2M</span>
+                <span>Low (0)</span>
+                <div className="flex-1 mx-3 h-3 bg-gradient-to-r from-gray-300 via-blue-400 to-purple-600 rounded"></div>
+                <span>High (100)</span>
               </div>
             </div>
             
-            {/* Offline ROAS Distribution Map */}
+            {/* Risk Assessment Map */}
             <div className="bg-white rounded-lg border border-gray-200 p-4">
-              <h3 className="text-sm font-semibold text-foreground mb-3">Offline ROAS Distribution</h3>
-              <div className="relative h-72 bg-gray-100 rounded-lg overflow-hidden flex items-center justify-center p-4">
+              <h3 className="text-sm font-semibold text-foreground mb-1">Risk Assessment</h3>
+              <p className="text-xs text-gray-500 mb-3">Regions requiring immediate attention</p>
+              <div className="relative h-72 bg-gradient-to-br from-slate-50 to-slate-100 rounded-lg overflow-hidden flex items-center justify-center p-4">
                 <svg viewBox="0 0 1000 600" className="w-full h-full" preserveAspectRatio="xMidYMid meet">
-                  {mockGeoData.map((item) => {
-                    const avgROAS = item.offlineROAS;
-                    const maxROAS = Math.max(...mockGeoData.map(d => d.offlineROAS));
-                    const intensity = (avgROAS / maxROAS);
-                    const isSelected = selectedMapState === item.state;
-                    const fillColor = `rgba(34, 197, 94, ${0.3 + intensity * 0.7})`;
+                  {regionOpportunities.map((item) => {
                     const path = provincePaths[item.state];
                     if (!path) return null;
                     const pos = getTextPosition(item.state);
+                    const isSelected = selectedRegion === item.state;
+                    const fillColor = getRiskColor(item.riskLevel, item.pendingRecommendations > 0);
                     
                     return (
                       <Tooltip 
                         key={item.state}
                         title={
-                          <div className="text-left">
-                            <div className="font-medium">{item.state}</div>
-                            <div className="text-sm">ROAS: {item.offlineROAS.toFixed(1)}x</div>
+                          <div className="text-left p-1">
+                            <div className="font-semibold text-sm">{item.state}</div>
+                            <div className="text-xs mt-1">Risk Level: {item.riskLevel.charAt(0).toUpperCase() + item.riskLevel.slice(1)}</div>
+                            <div className="text-xs">Top Action: {item.topAction}</div>
                           </div>
                         }
                         arrow
@@ -400,25 +405,22 @@ export default function AIRecommendations() {
                           <path
                             d={path}
                             fill={fillColor}
-                            stroke={isSelected ? '#22c55e' : '#9ca3af'}
+                            stroke={isSelected ? '#dc2626' : '#6b7280'}
                             strokeWidth={isSelected ? '3' : '1'}
                             className="cursor-pointer transition-all duration-200 hover:opacity-80"
-                            onClick={() => {
-                              setGeoState(item.state);
-                              setSelectedMapState(item.state);
-                            }}
-                            data-testid={`map-roas-${item.state.toLowerCase()}`}
+                            onClick={() => setSelectedRegion(item.state)}
+                            data-testid={`map-risk-${item.state.toLowerCase()}`}
                           />
                           <text
                             x={pos.x}
                             y={pos.y}
-                            fill="white"
-                            fontSize="11"
-                            fontWeight="600"
+                            fill={item.riskLevel === 'high' ? '#991b1b' : item.riskLevel === 'medium' ? '#92400e' : '#166534'}
+                            fontSize="10"
+                            fontWeight="700"
                             textAnchor="middle"
-                            className="pointer-events-none drop-shadow-lg"
+                            className="pointer-events-none"
                           >
-                            {item.state}
+                            {item.state.slice(0, 3)}
                           </text>
                         </g>
                       </Tooltip>
@@ -426,41 +428,76 @@ export default function AIRecommendations() {
                   })}
                 </svg>
               </div>
-              <div className="mt-3 flex items-center justify-between text-xs text-gray-600">
-                <span>73.2x</span>
-                <div className="flex-1 mx-3 h-3 bg-gradient-to-r from-green-200 via-green-400 to-green-600 rounded"></div>
-                <span>79.6x</span>
+              <div className="mt-3 flex items-center justify-center gap-6 text-xs text-gray-600">
+                <span className="flex items-center gap-1.5">
+                  <span className="w-3 h-3 rounded bg-green-400"></span> Low Risk
+                </span>
+                <span className="flex items-center gap-1.5">
+                  <span className="w-3 h-3 rounded bg-yellow-400"></span> Medium Risk
+                </span>
+                <span className="flex items-center gap-1.5">
+                  <span className="w-3 h-3 rounded bg-red-400"></span> High Risk
+                </span>
               </div>
             </div>
           </div>
           
-          {/* Geographic Performance Table */}
+          {/* Regional Opportunity Table */}
           <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
             <div className="overflow-x-auto">
-              <table className="w-full text-sm" data-testid="table-geo-performance">
+              <table className="w-full text-sm" data-testid="table-regional-opportunities">
                 <thead className="bg-gray-50 border-b border-gray-200">
                   <tr>
-                    <th className="text-left py-3 px-4 font-semibold text-gray-700">State</th>
-                    <th className="text-right py-3 px-4 font-semibold text-gray-700">Store Visits</th>
-                    <th className="text-right py-3 px-4 font-semibold text-gray-700">Conversions</th>
-                    <th className="text-right py-3 px-4 font-semibold text-gray-700">Offline Revenue</th>
-                    <th className="text-right py-3 px-4 font-semibold text-gray-700">Offline ROAS</th>
+                    <th className="text-left py-3 px-4 font-semibold text-gray-700">Region</th>
+                    <th className="text-center py-3 px-4 font-semibold text-gray-700">Opportunity Score</th>
+                    <th className="text-center py-3 px-4 font-semibold text-gray-700">Pending Actions</th>
+                    <th className="text-center py-3 px-4 font-semibold text-gray-700">Risk Level</th>
+                    <th className="text-right py-3 px-4 font-semibold text-gray-700">Potential ROAS</th>
+                    <th className="text-left py-3 px-4 font-semibold text-gray-700">Top Action</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {mockGeoData
-                    .filter(item => selectedMapState === null || item.state === selectedMapState)
+                  {regionOpportunities
+                    .filter(item => selectedRegion === null || item.state === selectedRegion)
+                    .sort((a, b) => b.opportunityScore - a.opportunityScore)
                     .map((item) => (
                     <tr 
                       key={item.state} 
-                      className="border-b border-gray-100 hover:bg-gray-50 cursor-pointer transition-colors"
-                      data-testid={`geo-row-${item.state.toLowerCase()}`}
+                      className={`border-b border-gray-100 hover:bg-gray-50 cursor-pointer transition-colors ${selectedRegion === item.state ? 'bg-purple-50' : ''}`}
+                      onClick={() => setSelectedRegion(item.state === selectedRegion ? null : item.state)}
+                      data-testid={`opportunity-row-${item.state.toLowerCase()}`}
                     >
                       <td className="py-3 px-4 font-medium text-gray-900">{item.state}</td>
-                      <td className="py-3 px-4 text-right text-gray-700">{item.storeVisits.toLocaleString()}</td>
-                      <td className="py-3 px-4 text-right text-gray-700">{item.conversions.toLocaleString()}</td>
-                      <td className="py-3 px-4 text-right font-medium text-gray-900">₺{(item.offlineRevenue / 1000000).toFixed(1)}M</td>
-                      <td className="py-3 px-4 text-right font-semibold text-green-600">{item.offlineROAS.toFixed(1)}x</td>
+                      <td className="py-3 px-4 text-center">
+                        <div className="flex items-center justify-center gap-2">
+                          <div className="w-16 h-2 bg-gray-200 rounded-full overflow-hidden">
+                            <div 
+                              className="h-full bg-gradient-to-r from-blue-400 to-purple-500 rounded-full"
+                              style={{ width: `${item.opportunityScore}%` }}
+                            ></div>
+                          </div>
+                          <span className="text-sm font-medium text-purple-600">{item.opportunityScore}</span>
+                        </div>
+                      </td>
+                      <td className="py-3 px-4 text-center">
+                        {item.pendingRecommendations > 0 ? (
+                          <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-700">
+                            {item.pendingRecommendations}
+                          </span>
+                        ) : (
+                          <span className="text-gray-400">-</span>
+                        )}
+                      </td>
+                      <td className="py-3 px-4 text-center">
+                        <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${riskColors[item.riskLevel]}`}>
+                          {item.riskLevel === 'high' && <AlertTriangle className="w-3 h-3 mr-1" />}
+                          {item.riskLevel.charAt(0).toUpperCase() + item.riskLevel.slice(1)}
+                        </span>
+                      </td>
+                      <td className="py-3 px-4 text-right font-semibold text-green-600">
+                        {item.potentialROAS > 0 ? `+${item.potentialROAS}%` : '-'}
+                      </td>
+                      <td className="py-3 px-4 text-gray-700 text-sm">{item.topAction}</td>
                     </tr>
                   ))}
                 </tbody>
