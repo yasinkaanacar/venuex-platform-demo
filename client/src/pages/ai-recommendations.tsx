@@ -113,17 +113,25 @@ export default function AIRecommendations() {
     return sum + parseFloat(rec.roas.replace('+', '').replace('%', ''));
   }, 0);
 
-  const getOpportunityColor = (score: number) => {
-    if (score >= 80) return `rgba(147, 51, 234, ${0.5 + (score / 100) * 0.5})`; // Purple for high opportunity
-    if (score >= 60) return `rgba(59, 130, 246, ${0.4 + (score / 100) * 0.4})`; // Blue for medium
-    return `rgba(156, 163, 175, ${0.3 + (score / 100) * 0.4})`; // Gray for low
+  const getRegionColor = (item: RegionOpportunity) => {
+    const baseOpacity = 0.4 + (item.opportunityScore / 100) * 0.5;
+    if (item.riskLevel === 'high') {
+      return `rgba(239, 68, 68, ${baseOpacity})`;
+    } else if (item.riskLevel === 'medium') {
+      return `rgba(245, 158, 11, ${baseOpacity})`;
+    } else if (item.opportunityScore >= 80) {
+      return `rgba(147, 51, 234, ${baseOpacity})`;
+    } else if (item.opportunityScore >= 60) {
+      return `rgba(59, 130, 246, ${baseOpacity})`;
+    }
+    return `rgba(34, 197, 94, ${baseOpacity})`;
   };
 
-  const getRiskColor = (risk: string, hasRecommendations: boolean) => {
-    if (!hasRecommendations) return `rgba(156, 163, 175, 0.4)`;
-    if (risk === "high") return `rgba(239, 68, 68, 0.6)`;
-    if (risk === "medium") return `rgba(245, 158, 11, 0.5)`;
-    return `rgba(34, 197, 94, 0.5)`;
+  const getStrokeColor = (item: RegionOpportunity, isSelected: boolean) => {
+    if (isSelected) return '#1e293b';
+    if (item.riskLevel === 'high') return '#dc2626';
+    if (item.riskLevel === 'medium') return '#d97706';
+    return '#6b7280';
   };
 
   return (
@@ -286,7 +294,7 @@ export default function AIRecommendations() {
         </CardContent>
       </Card>
 
-      {/* Regional AI Opportunity Map */}
+      {/* Regional AI Opportunity Map - Merged */}
       <Card className="bg-[#f9fafb] shadow-none border border-gray-200">
         <CardHeader>
           <div className="flex items-center justify-between">
@@ -296,7 +304,7 @@ export default function AIRecommendations() {
               </div>
               <div>
                 <CardTitle>Regional AI Opportunity Map</CardTitle>
-                <p className="text-xs text-gray-500 mt-0.5">Click regions to view optimization opportunities</p>
+                <p className="text-xs text-gray-500 mt-0.5">Opportunity scores with risk indicators</p>
               </div>
             </div>
             {selectedRegion && (
@@ -312,132 +320,128 @@ export default function AIRecommendations() {
           </div>
         </CardHeader>
         <CardContent>
-          {/* Maps Visualization */}
-          <div className="grid grid-cols-2 gap-6 mb-6">
-            {/* AI Opportunity Score Map */}
-            <div className="bg-white rounded-lg border border-gray-200 p-4">
-              <h3 className="text-sm font-semibold text-foreground mb-1">AI Opportunity Score</h3>
-              <p className="text-xs text-gray-500 mb-3">Higher scores indicate more optimization potential</p>
-              <div className="relative h-72 bg-gradient-to-br from-slate-50 to-slate-100 rounded-lg overflow-hidden flex items-center justify-center p-4">
-                <svg viewBox="0 0 1000 600" className="w-full h-full" preserveAspectRatio="xMidYMid meet">
-                  {regionOpportunities.map((item) => {
-                    const path = provincePaths[item.state];
-                    if (!path) return null;
-                    const pos = getTextPosition(item.state);
-                    const isSelected = selectedRegion === item.state;
-                    const fillColor = getOpportunityColor(item.opportunityScore);
-                    
-                    return (
-                      <Tooltip 
-                        key={item.state}
-                        title={
-                          <div className="text-left p-1">
-                            <div className="font-semibold text-sm">{item.state}</div>
-                            <div className="text-xs mt-1">Opportunity Score: {item.opportunityScore}/100</div>
-                            <div className="text-xs">Pending Actions: {item.pendingRecommendations}</div>
-                            {item.potentialROAS > 0 && (
-                              <div className="text-xs text-green-300">Potential: +{item.potentialROAS}% ROAS</div>
-                            )}
-                          </div>
-                        }
-                        arrow
-                      >
-                        <g>
-                          <path
-                            d={path}
-                            fill={fillColor}
-                            stroke={isSelected ? '#9333ea' : '#6b7280'}
-                            strokeWidth={isSelected ? '3' : '1'}
-                            className="cursor-pointer transition-all duration-200 hover:opacity-80"
-                            onClick={() => setSelectedRegion(item.state)}
-                            data-testid={`map-opportunity-${item.state.toLowerCase()}`}
-                          />
-                          <text
-                            x={pos.x}
-                            y={pos.y}
-                            fill="white"
-                            fontSize="10"
-                            fontWeight="600"
-                            textAnchor="middle"
-                            className="pointer-events-none drop-shadow-lg"
-                          >
-                            {item.opportunityScore}
-                          </text>
-                        </g>
-                      </Tooltip>
-                    );
-                  })}
-                </svg>
+          {/* Single Merged Map */}
+          <div className="bg-white rounded-lg border border-gray-200 p-4 mb-6">
+            <div className="flex items-center justify-between mb-3">
+              <div>
+                <h3 className="text-sm font-semibold text-foreground">AI Opportunity & Risk Overview</h3>
+                <p className="text-xs text-gray-500">Color intensity = opportunity score, border color = risk level</p>
               </div>
-              <div className="mt-3 flex items-center justify-between text-xs text-gray-600">
-                <span>Low (0)</span>
-                <div className="flex-1 mx-3 h-3 bg-gradient-to-r from-gray-300 via-blue-400 to-purple-600 rounded"></div>
-                <span>High (100)</span>
+              <div className="flex items-center gap-4 text-xs text-gray-600">
+                <span className="flex items-center gap-1.5">
+                  <span className="w-3 h-3 rounded border-2 border-green-500 bg-green-100"></span> Low Risk
+                </span>
+                <span className="flex items-center gap-1.5">
+                  <span className="w-3 h-3 rounded border-2 border-yellow-500 bg-yellow-100"></span> Medium
+                </span>
+                <span className="flex items-center gap-1.5">
+                  <span className="w-3 h-3 rounded border-2 border-red-500 bg-red-100"></span> High Risk
+                </span>
               </div>
             </div>
-            
-            {/* Risk Assessment Map */}
-            <div className="bg-white rounded-lg border border-gray-200 p-4">
-              <h3 className="text-sm font-semibold text-foreground mb-1">Risk Assessment</h3>
-              <p className="text-xs text-gray-500 mb-3">Regions requiring immediate attention</p>
-              <div className="relative h-72 bg-gradient-to-br from-slate-50 to-slate-100 rounded-lg overflow-hidden flex items-center justify-center p-4">
-                <svg viewBox="0 0 1000 600" className="w-full h-full" preserveAspectRatio="xMidYMid meet">
-                  {regionOpportunities.map((item) => {
-                    const path = provincePaths[item.state];
-                    if (!path) return null;
-                    const pos = getTextPosition(item.state);
-                    const isSelected = selectedRegion === item.state;
-                    const fillColor = getRiskColor(item.riskLevel, item.pendingRecommendations > 0);
-                    
-                    return (
-                      <Tooltip 
-                        key={item.state}
-                        title={
-                          <div className="text-left p-1">
-                            <div className="font-semibold text-sm">{item.state}</div>
-                            <div className="text-xs mt-1">Risk Level: {item.riskLevel.charAt(0).toUpperCase() + item.riskLevel.slice(1)}</div>
-                            <div className="text-xs">Top Action: {item.topAction}</div>
+            <div className="relative h-80 bg-gradient-to-br from-slate-50 to-slate-100 rounded-lg overflow-hidden flex items-center justify-center p-4">
+              <svg viewBox="0 0 1000 600" className="w-full h-full" preserveAspectRatio="xMidYMid meet">
+                {regionOpportunities.map((item) => {
+                  const path = provincePaths[item.state];
+                  if (!path) return null;
+                  const pos = getTextPosition(item.state);
+                  const isSelected = selectedRegion === item.state;
+                  const fillColor = getRegionColor(item);
+                  const strokeColor = getStrokeColor(item, isSelected);
+                  
+                  return (
+                    <Tooltip 
+                      key={item.state}
+                      title={
+                        <div className="text-left p-1">
+                          <div className="font-semibold text-sm">{item.state}</div>
+                          <div className="text-xs mt-1 space-y-0.5">
+                            <div>Opportunity Score: <span className="font-medium">{item.opportunityScore}/100</span></div>
+                            <div>Risk Level: <span className={`font-medium ${item.riskLevel === 'high' ? 'text-red-300' : item.riskLevel === 'medium' ? 'text-yellow-300' : 'text-green-300'}`}>{item.riskLevel.charAt(0).toUpperCase() + item.riskLevel.slice(1)}</span></div>
+                            <div>Pending Actions: {item.pendingRecommendations}</div>
+                            {item.potentialROAS > 0 && (
+                              <div className="text-green-300">Potential: +{item.potentialROAS}% ROAS</div>
+                            )}
+                            <div className="pt-1 border-t border-white/20 mt-1">Top Action: {item.topAction}</div>
                           </div>
-                        }
-                        arrow
-                      >
-                        <g>
-                          <path
-                            d={path}
-                            fill={fillColor}
-                            stroke={isSelected ? '#dc2626' : '#6b7280'}
-                            strokeWidth={isSelected ? '3' : '1'}
-                            className="cursor-pointer transition-all duration-200 hover:opacity-80"
-                            onClick={() => setSelectedRegion(item.state)}
-                            data-testid={`map-risk-${item.state.toLowerCase()}`}
+                        </div>
+                      }
+                      arrow
+                    >
+                      <g>
+                        <path
+                          d={path}
+                          fill={fillColor}
+                          stroke={strokeColor}
+                          strokeWidth={isSelected ? '4' : '2'}
+                          className="cursor-pointer transition-all duration-200 hover:opacity-80"
+                          onClick={() => setSelectedRegion(item.state === selectedRegion ? null : item.state)}
+                          data-testid={`map-region-${item.state.toLowerCase()}`}
+                        />
+                        <text
+                          x={pos.x}
+                          y={pos.y - 6}
+                          fill="white"
+                          fontSize="10"
+                          fontWeight="700"
+                          textAnchor="middle"
+                          className="pointer-events-none drop-shadow-lg"
+                        >
+                          {item.state}
+                        </text>
+                        <text
+                          x={pos.x}
+                          y={pos.y + 8}
+                          fill="white"
+                          fontSize="12"
+                          fontWeight="800"
+                          textAnchor="middle"
+                          className="pointer-events-none drop-shadow-lg"
+                        >
+                          {item.opportunityScore}
+                        </text>
+                        {item.pendingRecommendations > 0 && (
+                          <circle
+                            cx={pos.x + 20}
+                            cy={pos.y - 10}
+                            r="8"
+                            fill="#3b82f6"
+                            stroke="white"
+                            strokeWidth="2"
+                            className="pointer-events-none"
                           />
+                        )}
+                        {item.pendingRecommendations > 0 && (
                           <text
-                            x={pos.x}
-                            y={pos.y}
-                            fill={item.riskLevel === 'high' ? '#991b1b' : item.riskLevel === 'medium' ? '#92400e' : '#166534'}
-                            fontSize="10"
+                            x={pos.x + 20}
+                            y={pos.y - 6}
+                            fill="white"
+                            fontSize="9"
                             fontWeight="700"
                             textAnchor="middle"
                             className="pointer-events-none"
                           >
-                            {item.state.slice(0, 3)}
+                            {item.pendingRecommendations}
                           </text>
-                        </g>
-                      </Tooltip>
-                    );
-                  })}
-                </svg>
+                        )}
+                      </g>
+                    </Tooltip>
+                  );
+                })}
+              </svg>
+            </div>
+            <div className="mt-3 flex items-center justify-between">
+              <div className="flex items-center gap-2 text-xs text-gray-600">
+                <span>Opportunity:</span>
+                <span className="w-3 h-3 rounded bg-gray-300"></span>
+                <span>Low</span>
+                <div className="w-24 h-3 bg-gradient-to-r from-gray-300 via-blue-400 to-purple-600 rounded"></div>
+                <span>High</span>
+                <span className="w-3 h-3 rounded bg-purple-600"></span>
               </div>
-              <div className="mt-3 flex items-center justify-center gap-6 text-xs text-gray-600">
-                <span className="flex items-center gap-1.5">
-                  <span className="w-3 h-3 rounded bg-green-400"></span> Low Risk
-                </span>
-                <span className="flex items-center gap-1.5">
-                  <span className="w-3 h-3 rounded bg-yellow-400"></span> Medium Risk
-                </span>
-                <span className="flex items-center gap-1.5">
-                  <span className="w-3 h-3 rounded bg-red-400"></span> High Risk
-                </span>
+              <div className="flex items-center gap-2 text-xs text-gray-500">
+                <span className="w-4 h-4 rounded-full bg-blue-500 flex items-center justify-center text-white text-[8px] font-bold">3</span>
+                <span>= Pending recommendations</span>
               </div>
             </div>
           </div>
