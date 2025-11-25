@@ -571,18 +571,14 @@ export default function AIRecommendations() {
             <div className="hidden lg:block lg:w-1/2">
               {selectedRecommendation ? (
                 <div className="bg-white border border-gray-200 rounded-lg p-6 sticky top-6">
-                  <div className="flex items-start justify-between mb-4">
-                    <div>
-                      <Badge className={`${typeLabels[selectedRecommendation.type].color} text-xs mb-2`}>
-                        {typeLabels[selectedRecommendation.type].label}
-                      </Badge>
-                      <h2 className="text-lg font-bold text-gray-900 leading-snug">{selectedRecommendation.title}</h2>
-                    </div>
-                    <div className="text-right">
-                      <span className={`text-sm font-semibold px-3 py-1 rounded-full ${getConfidenceColor(selectedRecommendation.confidence)}`}>
-                        {selectedRecommendation.confidence}% confidence
-                      </span>
-                    </div>
+                  <div className="flex items-center gap-3 mb-4">
+                    <Badge className={`${typeLabels[selectedRecommendation.type].color} text-xs flex-shrink-0`}>
+                      {typeLabels[selectedRecommendation.type].label}
+                    </Badge>
+                    <h2 className="text-base font-bold text-gray-900 leading-snug flex-1">{selectedRecommendation.title}</h2>
+                    <span className={`text-xs font-semibold px-2 py-1 rounded-full flex-shrink-0 whitespace-nowrap ${getConfidenceColor(selectedRecommendation.confidence)}`}>
+                      {selectedRecommendation.confidence}%
+                    </span>
                   </div>
 
                   {/* Impact metrics */}
