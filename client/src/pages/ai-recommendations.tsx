@@ -5,7 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem } from "@/components/ui/select";
 import { 
   Brain, TrendingUp, ChevronDown, ChevronUp,
-  ArrowUpRight, Sparkles, Clock, Lightbulb, CheckCircle2
+  ArrowUpRight, Sparkles, Clock, Lightbulb, CheckCircle2, X
 } from "lucide-react";
 import { SiGoogle, SiMeta, SiTiktok } from 'react-icons/si';
 
@@ -395,7 +395,8 @@ export default function AIRecommendations() {
                       <Button variant="outline" className="flex-1 text-sm h-10" data-testid="button-details">
                         View Details
                       </Button>
-                      <Button variant="ghost" className="text-sm h-10 text-gray-500 hover:text-gray-700" data-testid="button-dismiss">
+                      <Button variant="ghost" className="text-sm h-10 text-red-500 hover:text-red-700 hover:bg-red-50" data-testid="button-dismiss">
+                        <X className="w-4 h-4 mr-1" />
                         Dismiss
                       </Button>
                     </div>

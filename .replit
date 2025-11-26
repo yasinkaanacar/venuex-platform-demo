@@ -55,12 +55,12 @@ localPort = 38383
 externalPort = 3000
 
 [[ports]]
-localPort = 40341
-externalPort = 8080
+localPort = 38631
+externalPort = 8081
 
 [[ports]]
-localPort = 40589
-externalPort = 8081
+localPort = 40341
+externalPort = 8080
 
 [[ports]]
 localPort = 41821
