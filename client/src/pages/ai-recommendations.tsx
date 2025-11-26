@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { Select, SelectContent, SelectItem } from "@/components/ui/select";
 import { 
   Brain, TrendingUp, ChevronDown, ChevronUp,
   ArrowUpRight, Sparkles
@@ -105,10 +106,22 @@ const PlatformIcon = ({ channel }: { channel: string }) => {
 
 export default function AIRecommendations() {
   const [expandedId, setExpandedId] = useState<number>(1);
+  const [filters, setFilters] = useState({
+    channel: "all",
+    region: "all",
+    category: "all",
+  });
 
   const toggleExpand = (id: number) => {
     setExpandedId(expandedId === id ? -1 : id);
   };
+
+  const filteredRecommendations = recommendations.filter(rec => {
+    if (filters.channel !== "all" && !rec.channels.includes(filters.channel)) return false;
+    if (filters.region !== "all" && rec.region !== filters.region) return false;
+    if (filters.category !== "all" && rec.category !== filters.category) return false;
+    return true;
+  });
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -158,9 +171,56 @@ export default function AIRecommendations() {
           </Card>
         </div>
 
+        {/* Filter Bar */}
+        <div className="flex items-center gap-2 mb-4">
+          <Select 
+            value={filters.channel} 
+            onValueChange={(v) => setFilters(f => ({ ...f, channel: v }))}
+            displayLabel={filters.channel === "all" ? "Channel" : filters.channel}
+            data-testid="filter-channel"
+          >
+            <SelectContent>
+              <SelectItem value="all">All Channels</SelectItem>
+              <SelectItem value="Google">Google</SelectItem>
+              <SelectItem value="Meta">Meta</SelectItem>
+              <SelectItem value="TikTok">TikTok</SelectItem>
+            </SelectContent>
+          </Select>
+
+          <Select 
+            value={filters.region} 
+            onValueChange={(v) => setFilters(f => ({ ...f, region: v }))}
+            displayLabel={filters.region === "all" ? "Region" : filters.region}
+            data-testid="filter-region"
+          >
+            <SelectContent>
+              <SelectItem value="all">All Regions</SelectItem>
+              <SelectItem value="Istanbul">Istanbul</SelectItem>
+              <SelectItem value="Marmara">Marmara</SelectItem>
+              <SelectItem value="Aegean">Aegean</SelectItem>
+              <SelectItem value="Central Anatolia">Central Anatolia</SelectItem>
+            </SelectContent>
+          </Select>
+
+          <Select 
+            value={filters.category} 
+            onValueChange={(v) => setFilters(f => ({ ...f, category: v }))}
+            displayLabel={filters.category === "all" ? "Category" : filters.category}
+            data-testid="filter-category"
+          >
+            <SelectContent>
+              <SelectItem value="all">All Categories</SelectItem>
+              <SelectItem value="Women's Wear">Women's Wear</SelectItem>
+              <SelectItem value="Men's Wear">Men's Wear</SelectItem>
+              <SelectItem value="Shoes">Shoes</SelectItem>
+              <SelectItem value="Kids">Kids</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+
         {/* Recommendations Accordion */}
         <div className="space-y-3">
-          {recommendations.map((rec) => {
+          {filteredRecommendations.map((rec) => {
             const isExpanded = expandedId === rec.id;
             const typeInfo = typeLabels[rec.type];
             
