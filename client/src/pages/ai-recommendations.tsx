@@ -124,7 +124,6 @@ export default function AIRecommendations() {
           </div>
         </div>
       </div>
-
       <div className="p-6 max-w-4xl mx-auto">
         {/* KPI Cards */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
@@ -232,7 +231,6 @@ export default function AIRecommendations() {
                     </div>
                   )}
                 </div>
-
                 {/* Expanded Content */}
                 {isExpanded && (
                   <div className="px-4 pb-4 bg-white">
@@ -269,7 +267,7 @@ export default function AIRecommendations() {
                       </div>
                       <div className="text-center p-3 bg-gray-50 rounded-lg">
                         <div className="font-bold text-lg text-gray-700">{rec.affectedSpend}</div>
-                        <p className="text-xs text-gray-500 mt-1">Affected Spend</p>
+                        <p className="text-xs text-gray-500 mt-1">Affected Budget</p>
                       </div>
                     </div>
 
