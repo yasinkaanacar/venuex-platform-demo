@@ -292,7 +292,7 @@ export default function AIRecommendations() {
                       <span className={`text-xs font-semibold px-2 py-0.5 rounded-full ${
                         rec.confidence >= 80 ? "bg-green-100 text-green-700" : "bg-yellow-100 text-yellow-700"
                       }`}>
-                        {rec.confidence}%
+                        {rec.confidence}% Confidence
                       </span>
                     </div>
                     
