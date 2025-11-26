@@ -395,6 +395,9 @@ export default function AIRecommendations() {
                       <Button variant="outline" className="flex-1 text-sm h-10" data-testid="button-details">
                         View Details
                       </Button>
+                      <Button variant="ghost" className="text-sm h-10 text-gray-500 hover:text-gray-700" data-testid="button-dismiss">
+                        Dismiss
+                      </Button>
                     </div>
                   </div>
                 )}
