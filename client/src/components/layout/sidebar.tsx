@@ -82,7 +82,7 @@ export default function Sidebar({ collapsed, onToggle }: SidebarProps) {
                 <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center shadow-sm">
                   <span className="text-white font-bold text-sm">VX</span>
                 </div>
-                <span className="text-sm font-medium text-gray-900 dark:text-white">VenueX Demo</span>
+                <span className="text-sm font-medium text-gray-900 dark:text-white">VenueX</span>
               </div>
               <ChevronDown className="w-4 h-4 text-gray-500" />
             </div>
