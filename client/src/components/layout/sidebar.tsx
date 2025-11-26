@@ -79,14 +79,10 @@ export default function Sidebar({ collapsed, onToggle }: SidebarProps) {
           <div className="px-6 py-4">
             <div className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-800 rounded-md border border-gray-200 dark:border-gray-700">
               <div className="flex items-center space-x-3">
-                <div className="w-10 h-10 rounded-lg bg-white flex items-center justify-center shadow-sm overflow-hidden">
-                  <img 
-                    src={boynerLogo} 
-                    alt="Boyner Logo" 
-                    className="w-8 h-8 object-contain"
-                  />
+                <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center shadow-sm">
+                  <span className="text-white font-bold text-sm">VX</span>
                 </div>
-                <span className="text-sm font-medium text-gray-900 dark:text-white">Boyner</span>
+                <span className="text-sm font-medium text-gray-900 dark:text-white">VenueX Demo</span>
               </div>
               <ChevronDown className="w-4 h-4 text-gray-500" />
             </div>
