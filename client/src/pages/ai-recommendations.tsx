@@ -28,7 +28,7 @@ const recommendations: Recommendation[] = [
   {
     id: 1,
     type: "budget_shift",
-    title: "Shift 15% budget from Meta Prospecting to Google PMax",
+    title: "Shift 15% budget from Meta Prospecting to Google PMax in Marmara Region",
     confidence: 92,
     estimatedRevenue: "+₺180K",
     currentROAS: "3.2x",
