@@ -190,7 +190,7 @@ export default function AIRecommendations() {
           </Card>
           <Card className="bg-white border border-gray-200 shadow-sm">
             <CardContent className="p-4">
-              <p className="text-xs text-gray-500 mb-1">Budget at Risk</p>
+              <p className="text-xs text-gray-500 mb-1">Budget Effected</p>
               <p className="text-2xl font-bold text-red-600">₺450K</p>
             </CardContent>
           </Card>
