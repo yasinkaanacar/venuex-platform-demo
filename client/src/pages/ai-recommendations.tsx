@@ -5,7 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem } from "@/components/ui/select";
 import { 
   Brain, TrendingUp, ChevronDown, ChevronUp,
-  ArrowUpRight, Sparkles
+  ArrowUpRight, Sparkles, Clock, Lightbulb, CheckCircle2
 } from "lucide-react";
 import { SiGoogle, SiMeta, SiTiktok } from 'react-icons/si';
 
@@ -22,6 +22,9 @@ interface Recommendation {
   region: string;
   category: string;
   campaign?: string;
+  timeToImpact: string;
+  insight: string;
+  dataPoints: string[];
 }
 
 const recommendations: Recommendation[] = [
@@ -37,7 +40,14 @@ const recommendations: Recommendation[] = [
     channels: ["Google", "Meta"],
     region: "Marmara",
     category: "Women's Wear",
-    campaign: "Women_Marmara_PMax_Q4"
+    campaign: "Women_Marmara_PMax_Q4",
+    timeToImpact: "1-2 weeks",
+    insight: "Google PMax shows 2.1x higher store visit rate vs Meta for Women's Wear in this region",
+    dataPoints: [
+      "Store conversion rate: 12.4% (Google) vs 5.8% (Meta)",
+      "Avg. basket value: ₺890 (Google) vs ₺620 (Meta)",
+      "Last 30 days: 1,240 attributed store visits"
+    ]
   },
   {
     id: 2,
@@ -51,7 +61,14 @@ const recommendations: Recommendation[] = [
     channels: ["Google"],
     region: "Aegean",
     category: "Men's Wear",
-    campaign: "Mens_Aegean_PMax_New"
+    campaign: "Mens_Aegean_PMax_New",
+    timeToImpact: "2-3 weeks",
+    insight: "PMax campaigns outperform standard Shopping by 35% for Men's Wear nationally",
+    dataPoints: [
+      "Regional search volume up 28% YoY",
+      "Competitor PMax adoption: 3 of 5 brands",
+      "Estimated new customer reach: 45,000/month"
+    ]
   },
   {
     id: 3,
@@ -65,7 +82,14 @@ const recommendations: Recommendation[] = [
     channels: ["Google"],
     region: "Istanbul",
     category: "Shoes",
-    campaign: "Shoes_Istanbul_PMax_Q4"
+    campaign: "Shoes_Istanbul_PMax_Q4",
+    timeToImpact: "1 week",
+    insight: "Campaign hitting budget cap by 2pm daily, missing 40% of high-intent evening traffic",
+    dataPoints: [
+      "Evening conversion rate: 18.2% vs 11.4% daytime",
+      "Current daily budget exhaustion: 14:00 avg",
+      "Competitor impression share gap: 23%"
+    ]
   },
   {
     id: 4,
@@ -79,7 +103,14 @@ const recommendations: Recommendation[] = [
     channels: ["Meta", "TikTok"],
     region: "Central Anatolia",
     category: "Kids",
-    campaign: "Kids_CentralAnatolia_Video"
+    campaign: "Kids_CentralAnatolia_Video",
+    timeToImpact: "3-4 weeks",
+    insight: "Video engagement 3.2x higher than static for parent audiences aged 25-40",
+    dataPoints: [
+      "TikTok parent audience: 890K reachable",
+      "Competitor video CTR: 4.2% vs 1.1% static",
+      "Suggested test budget: ₺50K over 4 weeks"
+    ]
   }
 ];
 
@@ -308,6 +339,31 @@ export default function AIRecommendations() {
                       <span className="px-2.5 py-1 rounded-full bg-purple-50 text-xs font-medium text-purple-700">
                         {rec.category}
                       </span>
+                      <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-orange-50 text-xs font-medium text-orange-700">
+                        <Clock className="w-3 h-3" />
+                        {rec.timeToImpact}
+                      </span>
+                    </div>
+
+                    {/* AI Insight */}
+                    <div className="mb-4 p-3 bg-gradient-to-r from-blue-50 to-purple-50 rounded-lg border border-blue-100">
+                      <div className="flex items-start gap-2">
+                        <Lightbulb className="w-4 h-4 text-blue-600 mt-0.5 flex-shrink-0" />
+                        <p className="text-sm text-gray-700">{rec.insight}</p>
+                      </div>
+                    </div>
+
+                    {/* Data Points */}
+                    <div className="mb-4">
+                      <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">Supporting Data</p>
+                      <div className="space-y-1.5">
+                        {rec.dataPoints.map((point, idx) => (
+                          <div key={idx} className="flex items-center gap-2 text-sm text-gray-600">
+                            <CheckCircle2 className="w-3.5 h-3.5 text-green-500 flex-shrink-0" />
+                            {point}
+                          </div>
+                        ))}
+                      </div>
                     </div>
 
                     {/* Metrics Grid */}
