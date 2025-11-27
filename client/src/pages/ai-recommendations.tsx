@@ -326,7 +326,7 @@ export default function AIRecommendations() {
                 {isExpanded && (
                   <div className="px-4 pb-4 bg-white">
                     {/* Context Tags */}
-                    <div className="flex flex-wrap items-center justify-center text-center gap-2 pt-2 mb-4 pb-4 border-b border-gray-100">
+                    <div className="flex flex-wrap items-center justify-center text-center gap-2 pt-2 mb-2 pb-2 border-b border-gray-100">
                       {rec.campaign && (
                         <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-gray-100 text-xs font-medium text-gray-700">
                           <Sparkles className="w-3 h-3" />
