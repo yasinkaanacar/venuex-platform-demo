@@ -42,7 +42,7 @@ const recommendations: Recommendation[] = [
     category: "Women's Wear",
     campaign: "Women_Marmara_PMax_Q4",
     timeToImpact: "1-2 weeks",
-    insight: "Google PMax shows 2.1x higher store visit rate vs Meta for Women's Wear in this region",
+    insight: "Google PMax shows 2.1x higher store conversion rate vs Meta for Women's Wear in this region",
     dataPoints: [
       "Store conversion rate: 12.4% (Google) vs 5.8% (Meta)",
       "Avg. basket value: ₺890 (Google) vs ₺620 (Meta)",
