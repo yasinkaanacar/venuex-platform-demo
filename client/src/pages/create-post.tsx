@@ -9,7 +9,9 @@ export default function CreatePost() {
     description: '',
     media: null,
     startDate: '',
+    startTime: '',
     endDate: '',
+    endTime: '',
   });
 
   const [google, setGoogle] = useState({
@@ -98,7 +100,7 @@ export default function CreatePost() {
                 />
               </div>
 
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-4 gap-4">
                 <div>
                   <label className="block text-sm font-medium mb-1">Start Date</label>
                   <input 
@@ -109,6 +111,15 @@ export default function CreatePost() {
                   />
                 </div>
                 <div>
+                  <label className="block text-sm font-medium mb-1">Start Time</label>
+                  <input 
+                    type="time" 
+                    className="w-full p-2 border rounded-lg"
+                    value={common.startTime}
+                    onChange={(e) => setCommon({...common, startTime: e.target.value})}
+                  />
+                </div>
+                <div>
                   <label className="block text-sm font-medium mb-1">End Date</label>
                   <input 
                     type="date" 
@@ -116,7 +127,16 @@ export default function CreatePost() {
                     value={common.endDate}
                     onChange={(e) => setCommon({...common, endDate: e.target.value})}
                   />
-                  <p className="text-xs text-gray-400 mt-1">*Apple requires 3+ days duration</p>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium mb-1">End Time</label>
+                  <input 
+                    type="time" 
+                    className="w-full p-2 border rounded-lg"
+                    value={common.endTime}
+                    onChange={(e) => setCommon({...common, endTime: e.target.value})}
+                  />
+                  <p className="text-xs text-gray-400 mt-1">*Apple requires 3+ days</p>
                 </div>
               </div>
             </div>
