@@ -1,0 +1,156 @@
+import { useState } from 'react';
+import { Link } from 'wouter';
+import { Plus, Calendar, Globe, Smartphone, MoreVertical, Eye, Trash2, Edit } from 'lucide-react';
+
+const mockPosts = [
+  {
+    id: 1,
+    title: 'Summer Collection Launch',
+    description: 'Discover our new summer collection with exclusive offers...',
+    platforms: ['google', 'apple'],
+    status: 'published',
+    startDate: '2025-06-01',
+    endDate: '2025-06-30',
+    views: 1243,
+  },
+  {
+    id: 2,
+    title: 'Weekend Flash Sale',
+    description: 'Get 30% off on all items this weekend only!',
+    platforms: ['google'],
+    status: 'scheduled',
+    startDate: '2025-07-01',
+    endDate: '2025-07-03',
+    views: 0,
+  },
+  {
+    id: 3,
+    title: 'New Store Opening',
+    description: 'Join us for the grand opening of our new location in Istanbul...',
+    platforms: ['google', 'apple'],
+    status: 'draft',
+    startDate: '',
+    endDate: '',
+    views: 0,
+  },
+];
+
+export default function ManagePosts() {
+  const [posts] = useState(mockPosts);
+  const [filter, setFilter] = useState('all');
+
+  const filteredPosts = posts.filter(post => {
+    if (filter === 'all') return true;
+    return post.status === filter;
+  });
+
+  const getStatusBadge = (status: string) => {
+    switch (status) {
+      case 'published':
+        return <span className="px-2 py-1 text-xs font-medium bg-green-100 text-green-700 rounded-full">Published</span>;
+      case 'scheduled':
+        return <span className="px-2 py-1 text-xs font-medium bg-blue-100 text-blue-700 rounded-full">Scheduled</span>;
+      case 'draft':
+        return <span className="px-2 py-1 text-xs font-medium bg-gray-100 text-gray-600 rounded-full">Draft</span>;
+      default:
+        return null;
+    }
+  };
+
+  return (
+    <div className="min-h-screen bg-gray-50 p-6 font-sans text-gray-800">
+      <div className="max-w-5xl mx-auto">
+        <div className="flex items-center justify-between mb-6">
+          <div>
+            <h1 className="text-2xl font-bold text-gray-900">Manage Posts</h1>
+            <p className="text-sm text-gray-500 mt-1">View and manage all your business posts across platforms</p>
+          </div>
+          <Link href="/create-post">
+            <button className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors">
+              <Plus size={18} />
+              Create New Post
+            </button>
+          </Link>
+        </div>
+
+        <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+          <div className="border-b border-gray-100 p-4">
+            <div className="flex gap-2">
+              {['all', 'published', 'scheduled', 'draft'].map((status) => (
+                <button
+                  key={status}
+                  onClick={() => setFilter(status)}
+                  className={`px-4 py-2 text-sm font-medium rounded-lg transition-colors ${
+                    filter === status
+                      ? 'bg-blue-100 text-blue-700'
+                      : 'bg-gray-50 text-gray-600 hover:bg-gray-100'
+                  }`}
+                >
+                  {status.charAt(0).toUpperCase() + status.slice(1)}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div className="divide-y divide-gray-100">
+            {filteredPosts.map((post) => (
+              <div key={post.id} className="p-4 hover:bg-gray-50 transition-colors">
+                <div className="flex items-start justify-between">
+                  <div className="flex-1">
+                    <div className="flex items-center gap-3 mb-2">
+                      <h3 className="font-semibold text-gray-900">{post.title}</h3>
+                      {getStatusBadge(post.status)}
+                    </div>
+                    <p className="text-sm text-gray-500 mb-3 line-clamp-1">{post.description}</p>
+                    
+                    <div className="flex items-center gap-4 text-xs text-gray-400">
+                      <div className="flex items-center gap-1">
+                        {post.platforms.includes('google') && (
+                          <span className="flex items-center gap-1 bg-blue-50 text-blue-600 px-2 py-1 rounded">
+                            <Globe size={12} /> Google
+                          </span>
+                        )}
+                        {post.platforms.includes('apple') && (
+                          <span className="flex items-center gap-1 bg-gray-100 text-gray-700 px-2 py-1 rounded ml-1">
+                            <Smartphone size={12} /> Apple
+                          </span>
+                        )}
+                      </div>
+                      {post.startDate && (
+                        <span className="flex items-center gap-1">
+                          <Calendar size={12} />
+                          {post.startDate} - {post.endDate}
+                        </span>
+                      )}
+                      {post.status === 'published' && (
+                        <span className="flex items-center gap-1">
+                          <Eye size={12} />
+                          {post.views.toLocaleString()} views
+                        </span>
+                      )}
+                    </div>
+                  </div>
+
+                  <div className="flex items-center gap-2">
+                    <button className="p-2 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors">
+                      <Edit size={16} />
+                    </button>
+                    <button className="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors">
+                      <Trash2 size={16} />
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ))}
+
+            {filteredPosts.length === 0 && (
+              <div className="p-8 text-center text-gray-500">
+                <p>No posts found with the selected filter.</p>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}

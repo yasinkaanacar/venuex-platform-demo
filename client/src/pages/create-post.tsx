@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { Calendar, Image as ImageIcon, Globe, CheckCircle, Smartphone, Layout } from 'lucide-react';
+import { Calendar, Image as ImageIcon, Globe, CheckCircle, Smartphone, Layout, ListFilter } from 'lucide-react';
+import { Link } from 'wouter';
 
 export default function CreatePost() {
   const [common, setCommon] = useState({
@@ -39,10 +40,18 @@ export default function CreatePost() {
 
         <div className="lg:col-span-2 space-y-6">
           <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
-            <h2 className="text-xl font-bold mb-4 flex items-center gap-2">
-              <Layout size={20} className="text-blue-600" /> 
-              New Post Editor
-            </h2>
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-xl font-bold flex items-center gap-2">
+                <Layout size={20} className="text-blue-600" /> 
+                New Post Editor
+              </h2>
+              <Link href="/manage-posts">
+                <button className="flex items-center gap-2 px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium rounded-lg transition-colors">
+                  <ListFilter size={18} />
+                  Manage Posts
+                </button>
+              </Link>
+            </div>
 
             <div className="space-y-4">
               <div className="grid grid-cols-2 gap-4">
