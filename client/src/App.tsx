@@ -15,6 +15,7 @@ import CreatePost from "@/pages/create-post";
 import ManagePosts from "@/pages/manage-posts";
 import Catalog from "@/pages/catalog";
 import VenueXAI from "@/pages/venuex-ai";
+import Setup from "@/pages/setup";
 import NotFound from "@/pages/not-found";
 import { useState } from "react";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
@@ -47,6 +48,7 @@ function Router() {
           <Route path="/manage-posts" component={ManagePosts} />
           <Route path="/catalog" component={Catalog} />
           <Route path="/venuex-ai" component={VenueXAI} />
+          <Route path="/setup" component={Setup} />
           <Route component={NotFound} />
         </Switch>
       </main>

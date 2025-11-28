@@ -12,7 +12,8 @@ import {
   MessageSquare,
   TrendingUp,
   Target,
-  Brain
+  Brain,
+  Settings
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import venueXLogo from '@assets/vx-logo-1000x1000_1756566252817.png';
@@ -37,6 +38,12 @@ const navigationGroups = [
     title: "AI",
     items: [
       { name: 'VenueX AI', href: '/venuex-ai', icon: Brain }
+    ]
+  },
+  {
+    title: "MANAGEMENT",
+    items: [
+      { name: 'Setup', href: '/setup', icon: Settings }
     ]
   }
 ];

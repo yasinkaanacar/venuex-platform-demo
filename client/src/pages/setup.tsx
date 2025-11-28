@@ -1,0 +1,571 @@
+import { useState } from 'react';
+import { 
+  ChevronRight, 
+  CheckCircle2, 
+  Circle, 
+  Building2, 
+  MapPin, 
+  ShoppingCart, 
+  Package,
+  Link as LinkIcon,
+  Database,
+  Settings,
+  ExternalLink,
+  Check
+} from 'lucide-react';
+import { SiGoogle, SiMeta, SiTiktok, SiApple } from 'react-icons/si';
+import { 
+  Accordion, 
+  AccordionSummary, 
+  AccordionDetails,
+  Stepper,
+  Step,
+  StepLabel,
+  StepConnector,
+  stepConnectorClasses
+} from '@mui/material';
+import { styled } from '@mui/material/styles';
+import venueXLogo from '@assets/vx-logo-1000x1000_1756566252817.png';
+
+type IntegrationStatus = 'connect' | 'connected' | 'coming_soon';
+
+interface PlatformCard {
+  id: string;
+  name: string;
+  description: string;
+  logo: string;
+  status: IntegrationStatus;
+}
+
+const mockPlatformCards: { locations: PlatformCard[]; sales: PlatformCard[]; catalog: PlatformCard[] } = {
+  locations: [
+    { 
+      id: 'apple', 
+      name: 'Apple Business Connect', 
+      description: 'Manage your presence on Apple Maps',
+      logo: 'apple',
+      status: 'connect' 
+    },
+    { 
+      id: 'meta', 
+      name: 'Meta Pages', 
+      description: 'Connect your Facebook & Instagram pages',
+      logo: 'meta',
+      status: 'connected' 
+    },
+    { 
+      id: 'yandex', 
+      name: 'Yandex Business', 
+      description: 'Manage your Yandex Maps listing',
+      logo: 'yandex',
+      status: 'coming_soon' 
+    },
+    { 
+      id: 'togg', 
+      name: 'Togg', 
+      description: 'Connect to Togg ecosystem',
+      logo: 'togg',
+      status: 'connected' 
+    },
+  ],
+  sales: [
+    { 
+      id: 'google-ads', 
+      name: 'Google Ads', 
+      description: 'Track offline conversions from Google Ads',
+      logo: 'google',
+      status: 'connected' 
+    },
+    { 
+      id: 'meta-conversions', 
+      name: 'Meta Conversions', 
+      description: 'Send conversion events to Meta',
+      logo: 'meta',
+      status: 'connected' 
+    },
+    { 
+      id: 'tiktok', 
+      name: 'TikTok Conversions', 
+      description: 'Track TikTok ad conversions',
+      logo: 'tiktok',
+      status: 'connected' 
+    },
+  ],
+  catalog: [
+    { 
+      id: 'meta-catalog', 
+      name: 'Meta Catalog', 
+      description: 'Sync products with Meta Commerce',
+      logo: 'meta',
+      status: 'connect' 
+    },
+    { 
+      id: 'togg-catalog', 
+      name: 'Togg', 
+      description: 'Sync inventory with Togg',
+      logo: 'togg',
+      status: 'connected' 
+    },
+  ],
+};
+
+const steps = [
+  { label: 'Brand Infos', icon: Building2 },
+  { label: 'Locations', icon: MapPin },
+  { label: 'Sales', icon: ShoppingCart },
+  { label: 'Catalog', icon: Package },
+];
+
+const CustomConnector = styled(StepConnector)(({ theme }) => ({
+  [`&.${stepConnectorClasses.alternativeLabel}`]: {
+    top: 22,
+  },
+  [`&.${stepConnectorClasses.active}`]: {
+    [`& .${stepConnectorClasses.line}`]: {
+      backgroundColor: '#3b82f6',
+    },
+  },
+  [`&.${stepConnectorClasses.completed}`]: {
+    [`& .${stepConnectorClasses.line}`]: {
+      backgroundColor: '#22c55e',
+    },
+  },
+  [`& .${stepConnectorClasses.line}`]: {
+    height: 3,
+    border: 0,
+    backgroundColor: '#e5e7eb',
+    borderRadius: 1,
+  },
+}));
+
+interface IntegrationCardProps {
+  name: string;
+  description: string;
+  logo: string;
+  status: 'connect' | 'connected' | 'coming_soon';
+}
+
+function IntegrationCard({ name, description, logo, status }: IntegrationCardProps) {
+  const getLogo = () => {
+    switch (logo) {
+      case 'google':
+        return <SiGoogle className="w-8 h-8 text-[#4285F4]" />;
+      case 'meta':
+        return <SiMeta className="w-8 h-8 text-[#0081FB]" />;
+      case 'tiktok':
+        return <SiTiktok className="w-8 h-8 text-black" />;
+      case 'apple':
+        return <SiApple className="w-8 h-8 text-black" />;
+      case 'yandex':
+        return <div className="w-8 h-8 bg-red-500 rounded flex items-center justify-center text-white font-bold text-sm">Y</div>;
+      case 'togg':
+        return <div className="w-8 h-8 bg-gradient-to-br from-blue-600 to-purple-600 rounded flex items-center justify-center text-white font-bold text-xs">T</div>;
+      default:
+        return <div className="w-8 h-8 bg-gray-300 rounded" />;
+    }
+  };
+
+  const getButton = () => {
+    switch (status) {
+      case 'connected':
+        return (
+          <button disabled className="flex items-center gap-1.5 px-3 py-1.5 bg-gray-100 text-gray-500 text-sm font-medium rounded-lg cursor-not-allowed">
+            <Check size={14} />
+            Connected
+          </button>
+        );
+      case 'coming_soon':
+        return (
+          <button disabled className="px-3 py-1.5 bg-gray-100 text-gray-400 text-sm font-medium rounded-lg cursor-not-allowed">
+            Coming Soon
+          </button>
+        );
+      default:
+        return (
+          <button className="flex items-center gap-1.5 px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-lg transition-colors">
+            <LinkIcon size={14} />
+            Connect
+          </button>
+        );
+    }
+  };
+
+  return (
+    <div className="bg-white border border-gray-200 rounded-xl p-4 hover:shadow-md transition-shadow">
+      <div className="flex items-start justify-between mb-3">
+        <div className="p-2 bg-gray-50 rounded-lg">
+          {getLogo()}
+        </div>
+        {status === 'connected' && (
+          <span className="px-2 py-0.5 bg-green-100 text-green-700 text-xs font-medium rounded-full">Active</span>
+        )}
+      </div>
+      <h4 className="font-semibold text-gray-900 mb-1">{name}</h4>
+      <p className="text-sm text-gray-500 mb-3">{description}</p>
+      {getButton()}
+    </div>
+  );
+}
+
+interface StepIconProps {
+  active: boolean;
+  completed: boolean;
+  icon: React.ElementType;
+}
+
+function CustomStepIcon({ active, completed, icon: Icon }: StepIconProps) {
+  return (
+    <div className={`w-11 h-11 rounded-full flex items-center justify-center transition-all ${
+      completed 
+        ? 'bg-green-500 text-white' 
+        : active 
+          ? 'bg-blue-600 text-white ring-4 ring-blue-100' 
+          : 'bg-gray-100 text-gray-400'
+    }`}>
+      {completed ? <CheckCircle2 size={20} /> : <Icon size={20} />}
+    </div>
+  );
+}
+
+const panelToStep: Record<string, number> = {
+  'panel1': 0,
+  'panel2': 1,
+  'panel3': 2,
+  'panel4': 3,
+};
+
+export default function Setup() {
+  const [expanded, setExpanded] = useState<string | false>('panel2');
+  
+  const activeStep = expanded ? panelToStep[expanded] : 1;
+
+  const handleChange = (panel: string) => (_: React.SyntheticEvent, isExpanded: boolean) => {
+    setExpanded(isExpanded ? panel : false);
+  };
+  
+  const handleStepClick = (stepIndex: number) => {
+    const panelId = `panel${stepIndex + 1}`;
+    setExpanded(panelId);
+  };
+
+  return (
+    <div className="min-h-screen bg-gray-50">
+      <div className="max-w-5xl mx-auto px-6 py-8">
+        <div className="flex items-center gap-2 text-sm text-gray-500 mb-2">
+          <span>Dashboard</span>
+          <ChevronRight size={14} />
+          <span className="text-gray-900 font-medium">Setup</span>
+        </div>
+
+        <div className="mb-8">
+          <h1 className="text-2xl font-bold text-gray-900 mb-2">VenueX Setup</h1>
+          <p className="text-gray-500">
+            Complete the setup steps below to connect your business data and unlock the full potential of VenueX. 
+            Each step helps you integrate different aspects of your retail operations.
+          </p>
+        </div>
+
+        <div className="bg-white rounded-xl border border-gray-200 p-6 mb-8">
+          <Stepper 
+            activeStep={activeStep} 
+            alternativeLabel 
+            connector={<CustomConnector />}
+          >
+            {steps.map((step, index) => (
+              <Step 
+                key={step.label} 
+                completed={index < activeStep}
+                onClick={() => handleStepClick(index)}
+                sx={{ cursor: 'pointer' }}
+              >
+                <StepLabel 
+                  StepIconComponent={() => (
+                    <CustomStepIcon 
+                      active={index === activeStep}
+                      completed={index < activeStep}
+                      icon={step.icon}
+                    />
+                  )}
+                >
+                  <span className={`text-sm font-medium ${
+                    index === activeStep 
+                      ? 'text-blue-600' 
+                      : index < activeStep 
+                        ? 'text-green-600' 
+                        : 'text-gray-400'
+                  }`}>
+                    {step.label}
+                  </span>
+                </StepLabel>
+              </Step>
+            ))}
+          </Stepper>
+        </div>
+
+        <div className="space-y-4">
+          <Accordion 
+            expanded={expanded === 'panel1'} 
+            onChange={handleChange('panel1')}
+            sx={{ 
+              borderRadius: '12px !important',
+              '&:before': { display: 'none' },
+              boxShadow: 'none',
+              border: '1px solid #e5e7eb',
+              '&.Mui-expanded': { margin: 0 }
+            }}
+          >
+            <AccordionSummary
+              expandIcon={<ChevronRight className={`transition-transform ${expanded === 'panel1' ? 'rotate-90' : ''}`} />}
+              sx={{ 
+                borderRadius: '12px',
+                '&.Mui-expanded': { borderBottomLeftRadius: 0, borderBottomRightRadius: 0 }
+              }}
+            >
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center">
+                  <CheckCircle2 className="w-5 h-5 text-green-600" />
+                </div>
+                <div>
+                  <div className="flex items-center gap-2">
+                    <h3 className="font-semibold text-gray-900">Update Brand Information</h3>
+                    <span className="px-2 py-0.5 bg-green-100 text-green-700 text-xs font-medium rounded-full">Completed</span>
+                  </div>
+                  <p className="text-sm text-gray-500">Keep your brand details consistent across all platforms</p>
+                </div>
+              </div>
+            </AccordionSummary>
+            <AccordionDetails sx={{ borderTop: '1px solid #e5e7eb', pt: 3 }}>
+              <p className="text-gray-600 mb-4">
+                Your brand information has been successfully configured. This ensures consistent branding 
+                across all connected platforms including Google Business Profile, Apple Maps, and social media.
+              </p>
+              <div className="flex gap-3">
+                <button className="px-4 py-2 border border-gray-300 text-gray-700 font-medium rounded-lg hover:bg-gray-50 transition-colors">
+                  Update Information
+                </button>
+                <button className="flex items-center gap-2 px-4 py-2 text-gray-500 hover:text-gray-700 transition-colors">
+                  <ExternalLink size={16} />
+                  View Details
+                </button>
+              </div>
+            </AccordionDetails>
+          </Accordion>
+
+          <Accordion 
+            expanded={expanded === 'panel2'} 
+            onChange={handleChange('panel2')}
+            sx={{ 
+              borderRadius: '12px !important',
+              '&:before': { display: 'none' },
+              boxShadow: 'none',
+              border: expanded === 'panel2' ? '2px solid #3b82f6' : '1px solid #e5e7eb',
+              '&.Mui-expanded': { margin: 0 }
+            }}
+          >
+            <AccordionSummary
+              expandIcon={<ChevronRight className={`transition-transform ${expanded === 'panel2' ? 'rotate-90' : ''}`} />}
+              sx={{ 
+                borderRadius: '12px',
+                '&.Mui-expanded': { borderBottomLeftRadius: 0, borderBottomRightRadius: 0 }
+              }}
+            >
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
+                  <MapPin className="w-5 h-5 text-blue-600" />
+                </div>
+                <div>
+                  <div className="flex items-center gap-2">
+                    <h3 className="font-semibold text-gray-900">Business Profile (Locations & Reviews)</h3>
+                    <span className="px-2 py-0.5 bg-blue-100 text-blue-700 text-xs font-medium rounded-full">In Progress</span>
+                  </div>
+                  <p className="text-sm text-gray-500">Connect your business profiles and manage location data</p>
+                </div>
+              </div>
+            </AccordionSummary>
+            <AccordionDetails sx={{ borderTop: '1px solid #e5e7eb', pt: 3 }}>
+              <div className="space-y-6">
+                <div className="bg-gray-50 rounded-xl p-4">
+                  <div className="flex items-center gap-3 mb-4">
+                    <SiGoogle className="w-6 h-6 text-[#4285F4]" />
+                    <h4 className="font-semibold text-gray-900">Google Business Profile</h4>
+                  </div>
+                  <div className="flex flex-wrap gap-3">
+                    <button disabled className="flex items-center gap-1.5 px-4 py-2 bg-gray-200 text-gray-500 font-medium rounded-lg cursor-not-allowed">
+                      <Check size={16} />
+                      Account Connected
+                    </button>
+                    <button disabled className="flex items-center gap-1.5 px-4 py-2 bg-gray-200 text-gray-500 font-medium rounded-lg cursor-not-allowed">
+                      <Check size={16} />
+                      Reviews Activated
+                    </button>
+                    <button className="px-4 py-2 border border-red-300 text-red-600 font-medium rounded-lg hover:bg-red-50 transition-colors">
+                      Disconnect
+                    </button>
+                  </div>
+                </div>
+
+                <div className="bg-gray-50 rounded-xl p-4">
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="flex items-center gap-3">
+                      <Database className="w-5 h-5 text-gray-600" />
+                      <h4 className="font-semibold text-gray-900">Check Location Data</h4>
+                    </div>
+                  </div>
+                  <p className="text-sm text-gray-500 mb-3">
+                    Verify your location data is synced correctly with VenueX
+                  </p>
+                  <button disabled className="flex items-center gap-1.5 px-4 py-2 bg-gray-200 text-gray-500 font-medium rounded-lg cursor-not-allowed">
+                    <Check size={16} />
+                    Locations Checked
+                  </button>
+                </div>
+
+                <div>
+                  <h4 className="font-semibold text-gray-900 mb-4">Other Platforms</h4>
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                    {mockPlatformCards.locations.map((card) => (
+                      <IntegrationCard key={card.id} {...card} />
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </AccordionDetails>
+          </Accordion>
+
+          <Accordion 
+            expanded={expanded === 'panel3'} 
+            onChange={handleChange('panel3')}
+            sx={{ 
+              borderRadius: '12px !important',
+              '&:before': { display: 'none' },
+              boxShadow: 'none',
+              border: '1px solid #e5e7eb',
+              '&.Mui-expanded': { margin: 0 }
+            }}
+          >
+            <AccordionSummary
+              expandIcon={<ChevronRight className={`transition-transform ${expanded === 'panel3' ? 'rotate-90' : ''}`} />}
+              sx={{ 
+                borderRadius: '12px',
+                '&.Mui-expanded': { borderBottomLeftRadius: 0, borderBottomRightRadius: 0 }
+              }}
+            >
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center">
+                  <ShoppingCart className="w-5 h-5 text-gray-500" />
+                </div>
+                <div>
+                  <h3 className="font-semibold text-gray-900">Sales Data</h3>
+                  <p className="text-sm text-gray-500">Connect your sales data sources and ad platforms</p>
+                </div>
+              </div>
+            </AccordionSummary>
+            <AccordionDetails sx={{ borderTop: '1px solid #e5e7eb', pt: 3 }}>
+              <div className="space-y-6">
+                <div className="flex items-center gap-4 mb-6">
+                  <div className="flex items-center gap-2">
+                    <div className="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
+                      <Check className="w-4 h-4 text-green-600" />
+                    </div>
+                    <span className="text-sm font-medium text-gray-700">1. Connect Data Source</span>
+                  </div>
+                  <div className="flex-1 h-px bg-gray-200" />
+                  <div className="flex items-center gap-2">
+                    <div className="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
+                      <Check className="w-4 h-4 text-green-600" />
+                    </div>
+                    <span className="text-sm font-medium text-gray-700">2. Perform Data Mapping</span>
+                  </div>
+                </div>
+
+                <div>
+                  <h4 className="font-semibold text-gray-900 mb-4">Connected Platforms</h4>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    {mockPlatformCards.sales.map((card) => (
+                      <IntegrationCard key={card.id} {...card} />
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </AccordionDetails>
+          </Accordion>
+
+          <Accordion 
+            expanded={expanded === 'panel4'} 
+            onChange={handleChange('panel4')}
+            sx={{ 
+              borderRadius: '12px !important',
+              '&:before': { display: 'none' },
+              boxShadow: 'none',
+              border: '1px solid #e5e7eb',
+              '&.Mui-expanded': { margin: 0 }
+            }}
+          >
+            <AccordionSummary
+              expandIcon={<ChevronRight className={`transition-transform ${expanded === 'panel4' ? 'rotate-90' : ''}`} />}
+              sx={{ 
+                borderRadius: '12px',
+                '&.Mui-expanded': { borderBottomLeftRadius: 0, borderBottomRightRadius: 0 }
+              }}
+            >
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center">
+                  <Package className="w-5 h-5 text-gray-500" />
+                </div>
+                <div>
+                  <h3 className="font-semibold text-gray-900">Catalog Data</h3>
+                  <p className="text-sm text-gray-500">Sync your product catalog across platforms</p>
+                </div>
+              </div>
+            </AccordionSummary>
+            <AccordionDetails sx={{ borderTop: '1px solid #e5e7eb', pt: 3 }}>
+              <div className="space-y-6">
+                <div className="flex items-center gap-4 mb-6">
+                  <div className="flex items-center gap-2">
+                    <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
+                      <Circle className="w-4 h-4 text-blue-600" />
+                    </div>
+                    <span className="text-sm font-medium text-gray-700">1. Connect Data Source</span>
+                  </div>
+                  <div className="flex-1 h-px bg-gray-200" />
+                  <div className="flex items-center gap-2">
+                    <div className="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center">
+                      <Circle className="w-4 h-4 text-gray-400" />
+                    </div>
+                    <span className="text-sm font-medium text-gray-400">2. Perform Data Mapping</span>
+                  </div>
+                </div>
+
+                <div className="bg-gray-50 rounded-xl p-4">
+                  <div className="flex items-center gap-3 mb-4">
+                    <SiGoogle className="w-6 h-6 text-[#4285F4]" />
+                    <h4 className="font-semibold text-gray-900">Google Merchant Center</h4>
+                  </div>
+                  <div className="flex flex-wrap gap-3">
+                    <button disabled className="flex items-center gap-1.5 px-4 py-2 bg-gray-200 text-gray-500 font-medium rounded-lg cursor-not-allowed">
+                      <Check size={16} />
+                      Account Connected
+                    </button>
+                    <button className="flex items-center gap-1.5 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors">
+                      <Settings size={16} />
+                      Configure
+                    </button>
+                  </div>
+                </div>
+
+                <div>
+                  <h4 className="font-semibold text-gray-900 mb-4">Other Platforms</h4>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {mockPlatformCards.catalog.map((card) => (
+                      <IntegrationCard key={card.id} {...card} />
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </AccordionDetails>
+          </Accordion>
+        </div>
+      </div>
+    </div>
+  );
+}
