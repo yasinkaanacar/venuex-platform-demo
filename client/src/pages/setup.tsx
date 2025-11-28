@@ -252,6 +252,7 @@ export default function Setup() {
   const [expanded, setExpanded] = useState<string | false>('panel2');
   const [brandModalOpen, setBrandModalOpen] = useState(false);
   const [salesDataModalOpen, setSalesDataModalOpen] = useState(false);
+  const [dataMappingModalOpen, setDataMappingModalOpen] = useState(false);
   const [brandInfo, setBrandInfo] = useState({
     businessName: 'VenueX Demo Store',
     description: 'Premium retail experience across multiple locations',
@@ -536,12 +537,13 @@ export default function Setup() {
                     1. Connect Data Source
                   </button>
                   <div className="flex-1 h-px bg-gray-200" />
-                  <div className="flex items-center gap-2">
-                    <div className="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
-                      <Check className="w-4 h-4 text-green-600" />
-                    </div>
-                    <span className="text-sm font-medium text-gray-700">2. Perform Data Mapping</span>
-                  </div>
+                  <button 
+                    onClick={() => setDataMappingModalOpen(true)}
+                    className="flex items-center gap-2 px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-lg transition-colors"
+                  >
+                    <Settings className="w-4 h-4" />
+                    2. Perform Data Mapping
+                  </button>
                 </div>
 
                 <div>
@@ -1059,6 +1061,106 @@ export default function Setup() {
             className="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors"
           >
             Save Configuration
+          </button>
+        </DialogActions>
+      </Dialog>
+
+      <Dialog 
+        open={dataMappingModalOpen} 
+        onClose={() => setDataMappingModalOpen(false)}
+        maxWidth="sm"
+        fullWidth
+        PaperProps={{
+          sx: {
+            borderRadius: '16px',
+            maxHeight: '90vh'
+          }
+        }}
+      >
+        <DialogTitle sx={{ 
+          display: 'flex', 
+          justifyContent: 'space-between', 
+          alignItems: 'center',
+          borderBottom: '1px solid #e5e7eb',
+          pb: 2
+        }}>
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
+              <Settings className="w-5 h-5 text-blue-600" />
+            </div>
+            <div>
+              <h2 className="text-lg font-semibold text-gray-900">Sales Data Settings</h2>
+              <p className="text-sm text-gray-500">Map your data columns</p>
+            </div>
+          </div>
+          <IconButton onClick={() => setDataMappingModalOpen(false)} size="small">
+            <X className="w-5 h-5 text-gray-500" />
+          </IconButton>
+        </DialogTitle>
+        
+        <DialogContent sx={{ pt: 3 }}>
+          <div className="space-y-6">
+            <div>
+              <h3 className="text-lg font-semibold text-gray-900 mb-2">Map Your Data</h3>
+              <p className="text-sm text-gray-500 mb-6">
+                Upload a sample file to initiate column naming analysis
+              </p>
+            </div>
+
+            <div className="border-2 border-dashed border-gray-300 rounded-xl p-8 text-center hover:border-blue-400 hover:bg-blue-50/50 transition-all cursor-pointer">
+              <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Upload className="w-8 h-8 text-blue-600" />
+              </div>
+              <h4 className="text-base font-semibold text-gray-900 mb-2">Upload Sample File</h4>
+              <p className="text-sm text-gray-500 max-w-xs mx-auto">
+                Please upload a sample file to initiate column naming analysis. The system will ensure precise and complete matching of all column names in your file.
+              </p>
+              <button className="mt-4 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors">
+                Choose File
+              </button>
+              <p className="text-xs text-gray-400 mt-3">
+                Supported formats: CSV, XLSX, XML, JSON
+              </p>
+            </div>
+
+            <div className="bg-gray-50 rounded-xl p-4">
+              <h4 className="text-sm font-medium text-gray-700 mb-3">What happens next?</h4>
+              <ul className="space-y-2">
+                <li className="flex items-start gap-2 text-sm text-gray-600">
+                  <div className="w-5 h-5 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                    <span className="text-xs font-medium text-blue-600">1</span>
+                  </div>
+                  <span>We'll analyze your file structure and column names</span>
+                </li>
+                <li className="flex items-start gap-2 text-sm text-gray-600">
+                  <div className="w-5 h-5 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                    <span className="text-xs font-medium text-blue-600">2</span>
+                  </div>
+                  <span>Match columns to VenueX data fields automatically</span>
+                </li>
+                <li className="flex items-start gap-2 text-sm text-gray-600">
+                  <div className="w-5 h-5 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                    <span className="text-xs font-medium text-blue-600">3</span>
+                  </div>
+                  <span>Review and confirm the mapping before saving</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </DialogContent>
+
+        <DialogActions sx={{ borderTop: '1px solid #e5e7eb', p: 3 }}>
+          <button 
+            onClick={() => setDataMappingModalOpen(false)}
+            className="px-4 py-2 text-gray-600 font-medium rounded-lg hover:bg-gray-100 transition-colors"
+          >
+            Cancel
+          </button>
+          <button 
+            onClick={() => setDataMappingModalOpen(false)}
+            className="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors"
+          >
+            Continue
           </button>
         </DialogActions>
       </Dialog>
