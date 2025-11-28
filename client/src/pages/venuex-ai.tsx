@@ -5,9 +5,9 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
 const exampleQuestions = [
-  "En Düşük Yorumlu 10 Lokasyon Hangileri?",
-  "Bu Ay Kaç Yorum Aldık?",
-  "En Yüksek Puanlı Mağazalarımız Hangileri?"
+  "Which locations had the sharpest rating drop last month?",
+  "What are the top recurring complaints in negative reviews?",
+  "How has the sentiment for 'staff service' changed recently?"
 ];
 
 export default function VenueXAI() {
@@ -21,7 +21,7 @@ export default function VenueXAI() {
       setTimeout(() => {
         setMessages(prev => [...prev, { 
           role: 'assistant', 
-          content: 'Bu bir demo yanıttır. Gerçek AI entegrasyonu yakında eklenecektir.' 
+          content: 'This is a demo response. Real AI integration will be added soon.' 
         }]);
       }, 1000);
     }
@@ -32,7 +32,7 @@ export default function VenueXAI() {
     setTimeout(() => {
       setMessages(prev => [...prev, { 
         role: 'assistant', 
-        content: 'Bu bir demo yanıttır. Gerçek AI entegrasyonu yakında eklenecektir.' 
+        content: 'This is a demo response. Real AI integration will be added soon.' 
       }]);
     }, 1000);
   };
@@ -46,7 +46,7 @@ export default function VenueXAI() {
           </div>
           <div>
             <h1 className="text-xl font-bold text-gray-900" data-testid="text-page-title">VenueX AI Chat</h1>
-            <p className="text-xs text-gray-500">Lokasyonlarınız ve yorumlarınız hakkında sorular sorun</p>
+            <p className="text-xs text-gray-500">Ask questions about your locations and reviews</p>
           </div>
         </div>
       </div>
@@ -61,15 +61,15 @@ export default function VenueXAI() {
                 </div>
                 
                 <h2 className="text-xl font-semibold text-gray-900 mb-2">
-                  VenueX AI Assistant'a Hoş Geldiniz!
+                  Welcome to VenueX AI Assistant!
                 </h2>
                 <p className="text-gray-500 text-center mb-8">
-                  Lokasyonlarınız ve yorumlarınız hakkında soru sorabilirsiniz.
+                  Ask questions about your locations and reviews.
                 </p>
 
                 <div className="flex items-center gap-2 mb-4">
                   <Lightbulb className="w-5 h-5 text-amber-500" />
-                  <span className="text-sm font-medium text-gray-700">Örnek Sorular:</span>
+                  <span className="text-sm font-medium text-gray-700">Example Questions:</span>
                 </div>
 
                 <div className="w-full max-w-lg space-y-3">
@@ -116,7 +116,7 @@ export default function VenueXAI() {
             <div className="flex items-center gap-2">
               <Input
                 type="text"
-                placeholder="Sorunuzu yazın..."
+                placeholder="Type your question..."
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
                 onKeyDown={(e) => e.key === 'Enter' && handleSend()}
@@ -138,7 +138,7 @@ export default function VenueXAI() {
                 data-testid="button-send"
               >
                 <Send className="w-4 h-4 mr-2" />
-                Gönder
+                Send
               </Button>
             </div>
           </div>
