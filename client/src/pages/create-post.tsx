@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Calendar, Image as ImageIcon, Globe, CheckCircle, Smartphone, Layout, ListFilter, Store, MapPin, Map, Check } from 'lucide-react';
+import { Calendar, Image as ImageIcon, Globe, CheckCircle, Smartphone, Layout, ListFilter, Store, MapPin, Map, Check, Search } from 'lucide-react';
 import { Link, useSearch } from 'wouter';
 
 const mockStoreSets = [
@@ -25,6 +25,7 @@ export default function CreatePost() {
 
   const [selectedStoreSets, setSelectedStoreSets] = useState<number[]>([]);
   const [selectedLocations, setSelectedLocations] = useState<number[]>([]);
+  const [locationSearch, setLocationSearch] = useState('');
 
   const [common, setCommon] = useState({
     locale: 'tr',
@@ -131,18 +132,33 @@ export default function CreatePost() {
             )}
 
             {scope === 'select-locations' && (
-              <div className="mb-6 p-4 bg-purple-50 rounded-lg border border-purple-100">
+              <div className="mb-6 p-4 bg-gray-50 rounded-lg border border-gray-200">
                 <div className="flex items-center justify-between mb-3">
                   <div className="flex items-center gap-2">
-                    <MapPin size={18} className="text-purple-600" />
-                    <span className="font-semibold text-purple-800">Select Locations</span>
+                    <MapPin size={18} className="text-gray-600" />
+                    <span className="font-semibold text-gray-800">Select Locations</span>
                   </div>
-                  <span className="text-xs text-purple-600 font-medium">
+                  <span className="text-xs text-gray-600 font-medium">
                     {selectedLocations.length} selected
                   </span>
                 </div>
+                <div className="relative mb-3">
+                  <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+                  <input
+                    type="text"
+                    placeholder="Search locations..."
+                    value={locationSearch}
+                    onChange={(e) => setLocationSearch(e.target.value)}
+                    className="w-full pl-9 pr-3 py-2 border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 outline-none"
+                  />
+                </div>
                 <div className="grid grid-cols-2 gap-2 max-h-48 overflow-y-auto">
-                  {mockLocations.map((loc) => (
+                  {mockLocations
+                    .filter(loc => 
+                      loc.name.toLowerCase().includes(locationSearch.toLowerCase()) ||
+                      loc.address.toLowerCase().includes(locationSearch.toLowerCase())
+                    )
+                    .map((loc) => (
                     <button
                       key={loc.id}
                       onClick={() => {
@@ -154,8 +170,8 @@ export default function CreatePost() {
                       }}
                       className={`p-3 rounded-lg border text-left transition-all flex items-center gap-2 ${
                         selectedLocations.includes(loc.id)
-                          ? 'bg-purple-600 border-purple-600 text-white'
-                          : 'bg-white border-gray-200 hover:border-purple-300'
+                          ? 'bg-blue-600 border-blue-600 text-white'
+                          : 'bg-white border-gray-200 hover:border-blue-300'
                       }`}
                     >
                       <div className={`w-5 h-5 rounded border flex items-center justify-center ${
@@ -163,11 +179,11 @@ export default function CreatePost() {
                           ? 'bg-white border-white'
                           : 'border-gray-300'
                       }`}>
-                        {selectedLocations.includes(loc.id) && <Check size={14} className="text-purple-600" />}
+                        {selectedLocations.includes(loc.id) && <Check size={14} className="text-blue-600" />}
                       </div>
                       <div>
                         <div className="font-medium text-sm">{loc.name}</div>
-                        <div className={`text-xs ${selectedLocations.includes(loc.id) ? 'text-purple-100' : 'text-gray-400'}`}>
+                        <div className={`text-xs ${selectedLocations.includes(loc.id) ? 'text-blue-100' : 'text-gray-400'}`}>
                           {loc.address}
                         </div>
                       </div>
