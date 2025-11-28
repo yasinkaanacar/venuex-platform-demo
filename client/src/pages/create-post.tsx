@@ -109,6 +109,7 @@ export default function CreatePost() {
                     value={common.startDate}
                     onChange={(e) => setCommon({...common, startDate: e.target.value})}
                   />
+                  <p className="text-xs text-gray-400 mt-1">*Apple: min. 3 days ahead</p>
                 </div>
                 <div>
                   <label className="block text-sm font-medium mb-1">Start Time</label>
@@ -136,7 +137,6 @@ export default function CreatePost() {
                     value={common.endTime}
                     onChange={(e) => setCommon({...common, endTime: e.target.value})}
                   />
-                  <p className="text-xs text-gray-400 mt-1">*Apple requires 3+ days</p>
                 </div>
               </div>
             </div>
