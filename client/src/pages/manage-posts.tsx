@@ -1,6 +1,6 @@
-import { useState } from 'react';
-import { Link } from 'wouter';
-import { Plus, Calendar, Globe, Smartphone, MoreVertical, Eye, Trash2, Edit } from 'lucide-react';
+import { useState, useRef, useEffect } from 'react';
+import { useLocation } from 'wouter';
+import { Plus, Calendar, Globe, Smartphone, MoreVertical, Eye, Trash2, Edit, ChevronDown, Store, MapPin, Map } from 'lucide-react';
 
 const mockPosts = [
   {
@@ -38,6 +38,24 @@ const mockPosts = [
 export default function ManagePosts() {
   const [posts] = useState(mockPosts);
   const [filter, setFilter] = useState('all');
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [, setLocation] = useLocation();
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setDropdownOpen(false);
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  const handleCreatePost = (type: string) => {
+    setDropdownOpen(false);
+    setLocation(`/create-post?scope=${type}`);
+  };
 
   const filteredPosts = posts.filter(post => {
     if (filter === 'all') return true;
@@ -65,12 +83,51 @@ export default function ManagePosts() {
             <h1 className="text-2xl font-bold text-gray-900">Manage Posts</h1>
             <p className="text-sm text-gray-500 mt-1">View and manage all your business posts across platforms</p>
           </div>
-          <Link href="/create-post">
-            <button className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors">
+          <div className="relative" ref={dropdownRef}>
+            <button 
+              onClick={() => setDropdownOpen(!dropdownOpen)}
+              className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors"
+            >
               <Plus size={18} />
               Create New Post
+              <ChevronDown size={16} className={`transition-transform ${dropdownOpen ? 'rotate-180' : ''}`} />
             </button>
-          </Link>
+            
+            {dropdownOpen && (
+              <div className="absolute right-0 mt-2 w-56 bg-white rounded-lg shadow-lg border border-gray-200 py-1 z-50">
+                <button
+                  onClick={() => handleCreatePost('store-set')}
+                  className="w-full flex items-center gap-3 px-4 py-3 text-left text-gray-700 hover:bg-gray-50 transition-colors"
+                >
+                  <Store size={18} className="text-gray-500" />
+                  <div>
+                    <div className="font-medium">Store Set</div>
+                    <div className="text-xs text-gray-400">Post to a predefined group</div>
+                  </div>
+                </button>
+                <button
+                  onClick={() => handleCreatePost('select-locations')}
+                  className="w-full flex items-center gap-3 px-4 py-3 text-left text-gray-700 hover:bg-gray-50 transition-colors"
+                >
+                  <MapPin size={18} className="text-gray-500" />
+                  <div>
+                    <div className="font-medium">Select Location(s)</div>
+                    <div className="text-xs text-gray-400">Choose specific locations</div>
+                  </div>
+                </button>
+                <button
+                  onClick={() => handleCreatePost('all-locations')}
+                  className="w-full flex items-center gap-3 px-4 py-3 text-left text-gray-700 hover:bg-gray-50 transition-colors"
+                >
+                  <Map size={18} className="text-gray-500" />
+                  <div>
+                    <div className="font-medium">All Locations</div>
+                    <div className="text-xs text-gray-400">Post to every location</div>
+                  </div>
+                </button>
+              </div>
+            )}
+          </div>
         </div>
 
         <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
