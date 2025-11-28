@@ -1,8 +1,31 @@
 import { useState } from 'react';
-import { Calendar, Image as ImageIcon, Globe, CheckCircle, Smartphone, Layout, ListFilter } from 'lucide-react';
-import { Link } from 'wouter';
+import { Calendar, Image as ImageIcon, Globe, CheckCircle, Smartphone, Layout, ListFilter, Store, MapPin, Map, Check } from 'lucide-react';
+import { Link, useSearch } from 'wouter';
+
+const mockStoreSets = [
+  { id: 1, name: 'Marmara Region', locationCount: 12 },
+  { id: 2, name: 'Aegean Region', locationCount: 8 },
+  { id: 3, name: 'Central Anatolia', locationCount: 6 },
+  { id: 4, name: 'Premium Stores', locationCount: 5 },
+];
+
+const mockLocations = [
+  { id: 1, name: 'Istanbul - Kadıköy', address: 'Caferağa Mah.' },
+  { id: 2, name: 'Istanbul - Beşiktaş', address: 'Sinanpaşa Mah.' },
+  { id: 3, name: 'Ankara - Çankaya', address: 'Kızılay' },
+  { id: 4, name: 'Izmir - Alsancak', address: 'Kordon' },
+  { id: 5, name: 'Bursa - Nilüfer', address: 'Özlüce Mah.' },
+  { id: 6, name: 'Antalya - Muratpaşa', address: 'Lara' },
+];
 
 export default function CreatePost() {
+  const searchString = useSearch();
+  const params = new URLSearchParams(searchString);
+  const scope = params.get('scope') || 'all-locations';
+
+  const [selectedStoreSet, setSelectedStoreSet] = useState<number | null>(null);
+  const [selectedLocations, setSelectedLocations] = useState<number[]>([]);
+
   const [common, setCommon] = useState({
     locale: 'tr',
     title: '',
@@ -54,6 +77,95 @@ export default function CreatePost() {
                 </button>
               </Link>
             </div>
+
+            {scope === 'store-set' && (
+              <div className="mb-6 p-4 bg-blue-50 rounded-lg border border-blue-100">
+                <div className="flex items-center gap-2 mb-3">
+                  <Store size={18} className="text-blue-600" />
+                  <span className="font-semibold text-blue-800">Select Store Set</span>
+                </div>
+                <div className="grid grid-cols-2 gap-3">
+                  {mockStoreSets.map((set) => (
+                    <button
+                      key={set.id}
+                      onClick={() => setSelectedStoreSet(set.id)}
+                      className={`p-3 rounded-lg border text-left transition-all ${
+                        selectedStoreSet === set.id
+                          ? 'bg-blue-600 border-blue-600 text-white'
+                          : 'bg-white border-gray-200 hover:border-blue-300'
+                      }`}
+                    >
+                      <div className="font-medium">{set.name}</div>
+                      <div className={`text-xs ${selectedStoreSet === set.id ? 'text-blue-100' : 'text-gray-400'}`}>
+                        {set.locationCount} locations
+                      </div>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {scope === 'select-locations' && (
+              <div className="mb-6 p-4 bg-purple-50 rounded-lg border border-purple-100">
+                <div className="flex items-center justify-between mb-3">
+                  <div className="flex items-center gap-2">
+                    <MapPin size={18} className="text-purple-600" />
+                    <span className="font-semibold text-purple-800">Select Locations</span>
+                  </div>
+                  <span className="text-xs text-purple-600 font-medium">
+                    {selectedLocations.length} selected
+                  </span>
+                </div>
+                <div className="grid grid-cols-2 gap-2 max-h-48 overflow-y-auto">
+                  {mockLocations.map((loc) => (
+                    <button
+                      key={loc.id}
+                      onClick={() => {
+                        if (selectedLocations.includes(loc.id)) {
+                          setSelectedLocations(selectedLocations.filter(id => id !== loc.id));
+                        } else {
+                          setSelectedLocations([...selectedLocations, loc.id]);
+                        }
+                      }}
+                      className={`p-3 rounded-lg border text-left transition-all flex items-center gap-2 ${
+                        selectedLocations.includes(loc.id)
+                          ? 'bg-purple-600 border-purple-600 text-white'
+                          : 'bg-white border-gray-200 hover:border-purple-300'
+                      }`}
+                    >
+                      <div className={`w-5 h-5 rounded border flex items-center justify-center ${
+                        selectedLocations.includes(loc.id)
+                          ? 'bg-white border-white'
+                          : 'border-gray-300'
+                      }`}>
+                        {selectedLocations.includes(loc.id) && <Check size={14} className="text-purple-600" />}
+                      </div>
+                      <div>
+                        <div className="font-medium text-sm">{loc.name}</div>
+                        <div className={`text-xs ${selectedLocations.includes(loc.id) ? 'text-purple-100' : 'text-gray-400'}`}>
+                          {loc.address}
+                        </div>
+                      </div>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {scope === 'all-locations' && (
+              <div className="mb-6 p-4 bg-green-50 rounded-lg border border-green-100">
+                <div className="flex items-center gap-2">
+                  <Map size={18} className="text-green-600" />
+                  <span className="font-semibold text-green-800">All Locations</span>
+                  <span className="ml-auto px-3 py-1 bg-green-600 text-white text-xs font-medium rounded-full">
+                    31 locations
+                  </span>
+                </div>
+                <p className="text-sm text-green-700 mt-2">
+                  This post will be published to all connected locations across all platforms.
+                </p>
+              </div>
+            )}
 
             <div className="space-y-4">
               <div className="grid grid-cols-2 gap-4">
