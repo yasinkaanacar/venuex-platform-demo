@@ -11,6 +11,7 @@ import ReviewsX from "@/pages/reviewsX";
 import ReviewsMVP from "@/pages/reviewsMVP";
 import LocationMatch from "@/pages/location-match";
 import AIRecommendations from "@/pages/ai-recommendations";
+import CreatePost from "@/pages/create-post";
 import NotFound from "@/pages/not-found";
 import { useState } from "react";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
@@ -39,6 +40,7 @@ function Router() {
           <Route path="/reviewsMVP" component={ReviewsMVP} />
           <Route path="/location-match" component={LocationMatch} />
           <Route path="/ai-recommendations" component={AIRecommendations} />
+          <Route path="/create-post" component={CreatePost} />
           <Route component={NotFound} />
         </Switch>
       </main>
