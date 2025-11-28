@@ -65,7 +65,7 @@ const mockPlatformCards: { locations: PlatformCard[]; sales: PlatformCard[]; cat
       name: 'Meta Pages', 
       description: 'Connect your Facebook & Instagram pages',
       logo: 'meta',
-      status: 'connected' 
+      status: 'connect' 
     },
     { 
       id: 'yandex', 
@@ -79,7 +79,7 @@ const mockPlatformCards: { locations: PlatformCard[]; sales: PlatformCard[]; cat
       name: 'Togg', 
       description: 'Connect to Togg ecosystem',
       logo: 'togg',
-      status: 'connected' 
+      status: 'connect' 
     },
   ],
   sales: [
@@ -88,21 +88,21 @@ const mockPlatformCards: { locations: PlatformCard[]; sales: PlatformCard[]; cat
       name: 'Google Ads', 
       description: 'Track offline conversions from Google Ads',
       logo: 'google',
-      status: 'connected' 
+      status: 'connect' 
     },
     { 
       id: 'meta-conversions', 
       name: 'Meta Conversions', 
       description: 'Send conversion events to Meta',
       logo: 'meta',
-      status: 'connected' 
+      status: 'connect' 
     },
     { 
       id: 'tiktok', 
       name: 'TikTok Conversions', 
       description: 'Track TikTok ad conversions',
       logo: 'tiktok',
-      status: 'connected' 
+      status: 'connect' 
     },
   ],
   catalog: [
@@ -118,7 +118,7 @@ const mockPlatformCards: { locations: PlatformCard[]; sales: PlatformCard[]; cat
       name: 'Togg', 
       description: 'Sync inventory with Togg',
       logo: 'togg',
-      status: 'connected' 
+      status: 'connect' 
     },
   ],
 };
@@ -249,17 +249,17 @@ const panelToStep: Record<string, number> = {
 };
 
 export default function Setup() {
-  const [expanded, setExpanded] = useState<string | false>('panel2');
+  const [expanded, setExpanded] = useState<string | false>('panel1');
   const [brandModalOpen, setBrandModalOpen] = useState(false);
   const [salesDataModalOpen, setSalesDataModalOpen] = useState(false);
   const [dataMappingModalOpen, setDataMappingModalOpen] = useState(false);
   const [brandInfo, setBrandInfo] = useState({
-    businessName: 'VenueX Demo Store',
-    description: 'Premium retail experience across multiple locations',
-    website: 'https://venuex.com',
-    phone: '+90 212 555 0123',
-    email: 'info@venuex.com',
-    category: 'Retail',
+    businessName: '',
+    description: '',
+    website: '',
+    phone: '',
+    email: '',
+    category: '',
   });
   const [salesConfig, setSalesConfig] = useState({
     dataSourceType: 'HTTP',
@@ -373,7 +373,7 @@ export default function Setup() {
               borderRadius: '12px !important',
               '&:before': { display: 'none' },
               boxShadow: 'none',
-              border: '1px solid #e5e7eb',
+              border: expanded === 'panel1' ? '2px solid #3b82f6' : '1px solid #e5e7eb',
               '&.Mui-expanded': { margin: 0 }
             }}
           >
@@ -385,13 +385,15 @@ export default function Setup() {
               }}
             >
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center">
-                  <CheckCircle2 className="w-5 h-5 text-green-600" />
+                <div className={`w-10 h-10 rounded-full flex items-center justify-center ${expanded === 'panel1' ? 'bg-blue-100' : 'bg-gray-100'}`}>
+                  <Building2 className={`w-5 h-5 ${expanded === 'panel1' ? 'text-blue-600' : 'text-gray-400'}`} />
                 </div>
                 <div>
                   <div className="flex items-center gap-2">
                     <h3 className="font-semibold text-gray-900">Update Brand Information</h3>
-                    <span className="px-2 py-0.5 bg-green-100 text-green-700 text-xs font-medium rounded-full">Completed</span>
+                    <span className={`px-2 py-0.5 text-xs font-medium rounded-full ${expanded === 'panel1' ? 'bg-blue-100 text-blue-700' : 'bg-gray-100 text-gray-500'}`}>
+                      {expanded === 'panel1' ? 'In Progress' : 'Not Started'}
+                    </span>
                   </div>
                   <p className="text-sm text-gray-500">Keep your brand details consistent across all platforms</p>
                 </div>
@@ -399,19 +401,15 @@ export default function Setup() {
             </AccordionSummary>
             <AccordionDetails sx={{ borderTop: '1px solid #e5e7eb', pt: 3 }}>
               <p className="text-gray-600 mb-4">
-                Your brand information has been successfully configured. This ensures consistent branding 
+                Enter your brand information to ensure consistent branding 
                 across all connected platforms including Google Business Profile, Apple Maps, and social media.
               </p>
               <div className="flex gap-3">
                 <button 
                   onClick={() => setBrandModalOpen(true)}
-                  className="px-4 py-2 border border-gray-300 text-gray-700 font-medium rounded-lg hover:bg-gray-50 transition-colors"
+                  className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors"
                 >
-                  Update Information
-                </button>
-                <button className="flex items-center gap-2 px-4 py-2 text-gray-500 hover:text-gray-700 transition-colors">
-                  <ExternalLink size={16} />
-                  View Details
+                  Add Brand Information
                 </button>
               </div>
             </AccordionDetails>
@@ -436,13 +434,15 @@ export default function Setup() {
               }}
             >
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
-                  <MapPin className="w-5 h-5 text-blue-600" />
+                <div className={`w-10 h-10 rounded-full flex items-center justify-center ${expanded === 'panel2' ? 'bg-blue-100' : 'bg-gray-100'}`}>
+                  <MapPin className={`w-5 h-5 ${expanded === 'panel2' ? 'text-blue-600' : 'text-gray-400'}`} />
                 </div>
                 <div>
                   <div className="flex items-center gap-2">
                     <h3 className="font-semibold text-gray-900">Business Profile (Locations & Reviews)</h3>
-                    <span className="px-2 py-0.5 bg-blue-100 text-blue-700 text-xs font-medium rounded-full">In Progress</span>
+                    <span className={`px-2 py-0.5 text-xs font-medium rounded-full ${expanded === 'panel2' ? 'bg-blue-100 text-blue-700' : 'bg-gray-100 text-gray-500'}`}>
+                      {expanded === 'panel2' ? 'In Progress' : 'Not Started'}
+                    </span>
                   </div>
                   <p className="text-sm text-gray-500">Connect your business profiles and manage location data</p>
                 </div>
@@ -456,16 +456,12 @@ export default function Setup() {
                     <h4 className="font-semibold text-gray-900">Google Business Profile</h4>
                   </div>
                   <div className="flex flex-wrap gap-3">
-                    <button disabled className="flex items-center gap-1.5 px-4 py-2 bg-gray-200 text-gray-500 font-medium rounded-lg cursor-not-allowed">
-                      <Check size={16} />
-                      Account Connected
+                    <button className="flex items-center gap-1.5 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors">
+                      <LinkIcon size={16} />
+                      Connect Account
                     </button>
-                    <button disabled className="flex items-center gap-1.5 px-4 py-2 bg-gray-200 text-gray-500 font-medium rounded-lg cursor-not-allowed">
-                      <Check size={16} />
-                      Reviews Activated
-                    </button>
-                    <button className="px-4 py-2 border border-red-300 text-red-600 font-medium rounded-lg hover:bg-red-50 transition-colors">
-                      Disconnect
+                    <button className="flex items-center gap-1.5 px-4 py-2 border border-gray-300 text-gray-700 font-medium rounded-lg hover:bg-gray-50 transition-colors">
+                      Activate Reviews
                     </button>
                   </div>
                 </div>
@@ -480,9 +476,9 @@ export default function Setup() {
                   <p className="text-sm text-gray-500 mb-3">
                     Verify your location data is synced correctly with VenueX
                   </p>
-                  <button disabled className="flex items-center gap-1.5 px-4 py-2 bg-gray-200 text-gray-500 font-medium rounded-lg cursor-not-allowed">
-                    <Check size={16} />
-                    Locations Checked
+                  <button className="flex items-center gap-1.5 px-4 py-2 border border-gray-300 text-gray-700 font-medium rounded-lg hover:bg-gray-50 transition-colors">
+                    <Database size={16} />
+                    Check Locations
                   </button>
                 </div>
 
@@ -505,7 +501,7 @@ export default function Setup() {
               borderRadius: '12px !important',
               '&:before': { display: 'none' },
               boxShadow: 'none',
-              border: '1px solid #e5e7eb',
+              border: expanded === 'panel3' ? '2px solid #3b82f6' : '1px solid #e5e7eb',
               '&.Mui-expanded': { margin: 0 }
             }}
           >
@@ -517,11 +513,16 @@ export default function Setup() {
               }}
             >
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center">
-                  <ShoppingCart className="w-5 h-5 text-gray-500" />
+                <div className={`w-10 h-10 rounded-full flex items-center justify-center ${expanded === 'panel3' ? 'bg-blue-100' : 'bg-gray-100'}`}>
+                  <ShoppingCart className={`w-5 h-5 ${expanded === 'panel3' ? 'text-blue-600' : 'text-gray-400'}`} />
                 </div>
                 <div>
-                  <h3 className="font-semibold text-gray-900">Sales Data</h3>
+                  <div className="flex items-center gap-2">
+                    <h3 className="font-semibold text-gray-900">Sales Data</h3>
+                    <span className={`px-2 py-0.5 text-xs font-medium rounded-full ${expanded === 'panel3' ? 'bg-blue-100 text-blue-700' : 'bg-gray-100 text-gray-500'}`}>
+                      {expanded === 'panel3' ? 'In Progress' : 'Not Started'}
+                    </span>
+                  </div>
                   <p className="text-sm text-gray-500">Connect your sales data sources and ad platforms</p>
                 </div>
               </div>
@@ -565,7 +566,7 @@ export default function Setup() {
               borderRadius: '12px !important',
               '&:before': { display: 'none' },
               boxShadow: 'none',
-              border: '1px solid #e5e7eb',
+              border: expanded === 'panel4' ? '2px solid #3b82f6' : '1px solid #e5e7eb',
               '&.Mui-expanded': { margin: 0 }
             }}
           >
@@ -577,11 +578,16 @@ export default function Setup() {
               }}
             >
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center">
-                  <Package className="w-5 h-5 text-gray-500" />
+                <div className={`w-10 h-10 rounded-full flex items-center justify-center ${expanded === 'panel4' ? 'bg-blue-100' : 'bg-gray-100'}`}>
+                  <Package className={`w-5 h-5 ${expanded === 'panel4' ? 'text-blue-600' : 'text-gray-400'}`} />
                 </div>
                 <div>
-                  <h3 className="font-semibold text-gray-900">Catalog Data</h3>
+                  <div className="flex items-center gap-2">
+                    <h3 className="font-semibold text-gray-900">Catalog Data</h3>
+                    <span className={`px-2 py-0.5 text-xs font-medium rounded-full ${expanded === 'panel4' ? 'bg-blue-100 text-blue-700' : 'bg-gray-100 text-gray-500'}`}>
+                      {expanded === 'panel4' ? 'In Progress' : 'Not Started'}
+                    </span>
+                  </div>
                   <p className="text-sm text-gray-500">Sync your product catalog across platforms</p>
                 </div>
               </div>
@@ -589,19 +595,19 @@ export default function Setup() {
             <AccordionDetails sx={{ borderTop: '1px solid #e5e7eb', pt: 3 }}>
               <div className="space-y-6">
                 <div className="flex items-center gap-4 mb-6">
-                  <div className="flex items-center gap-2">
-                    <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
-                      <Circle className="w-4 h-4 text-blue-600" />
-                    </div>
-                    <span className="text-sm font-medium text-gray-700">1. Connect Data Source</span>
-                  </div>
+                  <button 
+                    className="flex items-center gap-2 px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-lg transition-colors"
+                  >
+                    <Database className="w-4 h-4" />
+                    1. Connect Data Source
+                  </button>
                   <div className="flex-1 h-px bg-gray-200" />
-                  <div className="flex items-center gap-2">
-                    <div className="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center">
-                      <Circle className="w-4 h-4 text-gray-400" />
-                    </div>
-                    <span className="text-sm font-medium text-gray-400">2. Perform Data Mapping</span>
-                  </div>
+                  <button 
+                    className="flex items-center gap-2 px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-lg transition-colors"
+                  >
+                    <Settings className="w-4 h-4" />
+                    2. Perform Data Mapping
+                  </button>
                 </div>
 
                 <div className="bg-gray-50 rounded-xl p-4">
@@ -610,11 +616,11 @@ export default function Setup() {
                     <h4 className="font-semibold text-gray-900">Google Merchant Center</h4>
                   </div>
                   <div className="flex flex-wrap gap-3">
-                    <button disabled className="flex items-center gap-1.5 px-4 py-2 bg-gray-200 text-gray-500 font-medium rounded-lg cursor-not-allowed">
-                      <Check size={16} />
-                      Account Connected
-                    </button>
                     <button className="flex items-center gap-1.5 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors">
+                      <LinkIcon size={16} />
+                      Connect Account
+                    </button>
+                    <button className="flex items-center gap-1.5 px-4 py-2 border border-gray-300 text-gray-700 font-medium rounded-lg hover:bg-gray-50 transition-colors">
                       <Settings size={16} />
                       Configure
                     </button>
