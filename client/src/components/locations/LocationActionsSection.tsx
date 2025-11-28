@@ -18,7 +18,7 @@ export function LocationActionsSection({
       <Button
         variant="outline"
         size="sm"
-        onClick={() => setLocation("/locations/posts")}
+        onClick={() => setLocation("/manage-posts")}
         sx={{ 
           backgroundColor: '#f5f5f4 !important', 
           color: '#374151 !important', 
