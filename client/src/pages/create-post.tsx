@@ -61,23 +61,30 @@ export default function CreatePost() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6 font-sans text-gray-800">
-      <div className="max-w-4xl mx-auto">
-
-        <div className="space-y-6">
-          <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="text-xl font-bold flex items-center gap-2">
-                <Layout size={20} className="text-blue-600" /> 
-                New Post Editor
-              </h2>
-              <Link href="/manage-posts">
-                <button className="flex items-center gap-2 px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium rounded-lg transition-colors">
-                  <ListFilter size={18} />
-                  Manage Posts
-                </button>
-              </Link>
+    <div className="min-h-screen bg-gray-50">
+      <div className="bg-white border-b border-gray-200 px-6 py-4">
+        <div className="max-w-4xl mx-auto flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-green-500 to-teal-500 flex items-center justify-center">
+              <Layout className="w-5 h-5 text-white" />
             </div>
+            <div>
+              <h1 className="text-xl font-bold text-gray-900" data-testid="text-page-title">New Post Editor</h1>
+              <p className="text-xs text-gray-500">Create and publish posts across platforms</p>
+            </div>
+          </div>
+          <Link href="/manage-posts">
+            <button className="flex items-center gap-2 px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium rounded-lg transition-colors">
+              <ListFilter size={18} />
+              Manage Posts
+            </button>
+          </Link>
+        </div>
+      </div>
+
+      <div className="p-6">
+        <div className="max-w-4xl mx-auto space-y-6">
+          <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
 
             {scope === 'store-set' && (
               <div className="mb-6 p-4 bg-blue-50 rounded-lg border border-blue-100">

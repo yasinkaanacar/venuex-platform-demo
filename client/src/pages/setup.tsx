@@ -313,20 +313,19 @@ export default function Setup() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <div className="max-w-5xl mx-auto px-6 py-8">
-        <div className="flex items-center gap-2 text-sm text-gray-500 mb-2">
-          <span>Dashboard</span>
-          <ChevronRight size={14} />
-          <span className="text-gray-900 font-medium">Setup</span>
+      <div className="bg-white border-b border-gray-200 px-6 py-4">
+        <div className="max-w-5xl mx-auto flex items-center gap-3">
+          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-indigo-500 flex items-center justify-center">
+            <Settings className="w-5 h-5 text-white" />
+          </div>
+          <div>
+            <h1 className="text-xl font-bold text-gray-900" data-testid="text-page-title">VenueX Setup</h1>
+            <p className="text-xs text-gray-500">Connect your business data and unlock the full potential of VenueX</p>
+          </div>
         </div>
+      </div>
 
-        <div className="mb-8">
-          <h1 className="text-2xl font-bold text-gray-900 mb-2">VenueX Setup</h1>
-          <p className="text-gray-500">
-            Complete the setup steps below to connect your business data and unlock the full potential of VenueX. 
-            Each step helps you integrate different aspects of your retail operations.
-          </p>
-        </div>
+      <div className="max-w-5xl mx-auto px-6 py-6">
 
         <div className="bg-white rounded-xl border border-gray-200 p-6 mb-8">
           <Stepper 

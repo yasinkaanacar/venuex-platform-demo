@@ -76,12 +76,17 @@ export default function ManagePosts() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6 font-sans text-gray-800">
-      <div className="max-w-5xl mx-auto">
-        <div className="flex items-center justify-between mb-6">
-          <div>
-            <h1 className="text-2xl font-bold text-gray-900">Manage Posts</h1>
-            <p className="text-sm text-gray-500 mt-1">View and manage all your business posts across platforms</p>
+    <div className="min-h-screen bg-gray-50">
+      <div className="bg-white border-b border-gray-200 px-6 py-4">
+        <div className="max-w-5xl mx-auto flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-orange-500 to-red-500 flex items-center justify-center">
+              <Calendar className="w-5 h-5 text-white" />
+            </div>
+            <div>
+              <h1 className="text-xl font-bold text-gray-900" data-testid="text-page-title">Manage Posts</h1>
+              <p className="text-xs text-gray-500">View and manage all your business posts across platforms</p>
+            </div>
           </div>
           <div className="relative" ref={dropdownRef}>
             <button 
@@ -129,8 +134,11 @@ export default function ManagePosts() {
             )}
           </div>
         </div>
+      </div>
 
-        <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+      <div className="p-6">
+        <div className="max-w-5xl mx-auto">
+          <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
           <div className="border-b border-gray-100 p-4">
             <div className="flex gap-2">
               {['all', 'published', 'scheduled', 'draft'].map((status) => (
@@ -206,6 +214,7 @@ export default function ManagePosts() {
               </div>
             )}
           </div>
+        </div>
         </div>
       </div>
     </div>
