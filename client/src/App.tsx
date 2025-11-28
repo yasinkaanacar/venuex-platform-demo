@@ -13,6 +13,8 @@ import LocationMatch from "@/pages/location-match";
 import AIRecommendations from "@/pages/ai-recommendations";
 import CreatePost from "@/pages/create-post";
 import ManagePosts from "@/pages/manage-posts";
+import Catalog from "@/pages/catalog";
+import VenueXAI from "@/pages/venuex-ai";
 import NotFound from "@/pages/not-found";
 import { useState } from "react";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
@@ -43,6 +45,8 @@ function Router() {
           <Route path="/ai-recommendations" component={AIRecommendations} />
           <Route path="/create-post" component={CreatePost} />
           <Route path="/manage-posts" component={ManagePosts} />
+          <Route path="/catalog" component={Catalog} />
+          <Route path="/venuex-ai" component={VenueXAI} />
           <Route component={NotFound} />
         </Switch>
       </main>
