@@ -38,9 +38,9 @@ export default function CreatePost() {
 
   return (
     <div className="min-h-screen bg-gray-50 p-6 font-sans text-gray-800">
-      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <div className="max-w-4xl mx-auto">
 
-        <div className="lg:col-span-2 space-y-6">
+        <div className="space-y-6">
           <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-xl font-bold flex items-center gap-2">
@@ -249,55 +249,6 @@ export default function CreatePost() {
               </div>
             )}
           </div>
-        </div>
-
-        <div className="lg:col-span-1">
-           <div className="sticky top-6">
-              <h2 className="text-sm font-bold text-gray-400 uppercase mb-3 tracking-wider">Live Preview</h2>
-
-              {google.enabled && (
-                <div className="bg-white rounded-lg shadow-md overflow-hidden mb-6 border border-gray-200">
-                   <div className="h-40 bg-gray-200 flex items-center justify-center text-gray-400">Image Preview</div>
-                   <div className="p-4">
-                      {google.type !== 'UPDATE' && <h4 className="font-bold text-lg mb-1">{common.title || 'Event Title'}</h4>}
-                      <p className="text-sm text-gray-600 line-clamp-3 mb-3">{common.description || 'Your description will appear here...'}</p>
-
-                      {google.type === 'OFFER' && (
-                        <div className="bg-green-50 text-green-700 text-xs p-2 rounded mb-3 border border-green-100">
-                          <strong>Coupon:</strong> {google.offer.couponCode || 'CODE'}
-                        </div>
-                      )}
-
-                      <div className="flex items-center justify-between mt-4">
-                        <span className="text-xs text-gray-400">Posted on Google</span>
-                        <button className="px-4 py-1.5 bg-blue-600 text-white text-xs font-semibold rounded uppercase">
-                          {google.actionType.replace('_', ' ')}
-                        </button>
-                      </div>
-                   </div>
-                </div>
-              )}
-
-              {apple.enabled && (
-                <div className="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-200 w-full max-w-[300px] mx-auto">
-                   <div className="relative h-48 bg-gray-800 flex items-center justify-center text-gray-500">
-                      <span className="text-white z-10 font-medium">Showcase Image</span>
-                      <div className="absolute inset-0 bg-black opacity-20"></div>
-                   </div>
-                   <div className="p-4">
-                      <p className="text-xs font-bold text-gray-500 uppercase mb-1">From the Business</p>
-                      <h4 className="font-bold text-gray-900 mb-2">{common.title || 'Header Text'}</h4>
-                      <p className="text-sm text-gray-600 line-clamp-2">{common.description}</p>
-
-                      {apple.actionType !== 'none' && (
-                        <button className="w-full mt-4 py-2 bg-gray-100 text-blue-600 font-semibold text-sm rounded-lg hover:bg-gray-200 transition">
-                           {apple.actionType === 'visit_website' ? 'Visit Website' : apple.actionType}
-                        </button>
-                      )}
-                   </div>
-                </div>
-              )}
-           </div>
         </div>
       </div>
     </div>
