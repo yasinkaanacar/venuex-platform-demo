@@ -59,8 +59,10 @@ export default function CreatePost() {
                 </div>
                 <div>
                   <label className="block text-sm font-medium mb-1">Media</label>
-                  <div className="border-2 border-dashed border-gray-300 rounded-lg p-2 text-center cursor-pointer hover:bg-gray-50 flex items-center justify-center gap-2 text-gray-500">
-                    <ImageIcon size={16} /> <span>Upload (4:3 Recommended)</span>
+                  <div className="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center cursor-pointer hover:bg-gray-50 flex flex-col items-center justify-center gap-1 text-gray-500">
+                    <ImageIcon size={20} />
+                    <span className="text-sm font-medium">Upload Image</span>
+                    <span className="text-xs text-gray-400">1:1 Aspect Ratio • Min 492x492px</span>
                   </div>
                 </div>
               </div>
