@@ -23,7 +23,7 @@ export default function CreatePost() {
   const params = new URLSearchParams(searchString);
   const scope = params.get('scope') || 'all-locations';
 
-  const [selectedStoreSet, setSelectedStoreSet] = useState<number | null>(null);
+  const [selectedStoreSets, setSelectedStoreSets] = useState<number[]>([]);
   const [selectedLocations, setSelectedLocations] = useState<number[]>([]);
 
   const [common, setCommon] = useState({
@@ -80,24 +80,49 @@ export default function CreatePost() {
 
             {scope === 'store-set' && (
               <div className="mb-6 p-4 bg-blue-50 rounded-lg border border-blue-100">
-                <div className="flex items-center gap-2 mb-3">
-                  <Store size={18} className="text-blue-600" />
-                  <span className="font-semibold text-blue-800">Select Store Set</span>
+                <div className="flex items-center justify-between mb-3">
+                  <div className="flex items-center gap-2">
+                    <Store size={18} className="text-blue-600" />
+                    <span className="font-semibold text-blue-800">Select Store Set(s)</span>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <span className="text-xs text-blue-600 font-medium">
+                      {selectedStoreSets.length} selected
+                    </span>
+                    <button className="flex items-center gap-1 px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white text-xs font-medium rounded-lg transition-colors">
+                      <span className="text-lg leading-none">+</span> Create Store Set
+                    </button>
+                  </div>
                 </div>
                 <div className="grid grid-cols-2 gap-3">
                   {mockStoreSets.map((set) => (
                     <button
                       key={set.id}
-                      onClick={() => setSelectedStoreSet(set.id)}
-                      className={`p-3 rounded-lg border text-left transition-all ${
-                        selectedStoreSet === set.id
+                      onClick={() => {
+                        if (selectedStoreSets.includes(set.id)) {
+                          setSelectedStoreSets(selectedStoreSets.filter(id => id !== set.id));
+                        } else {
+                          setSelectedStoreSets([...selectedStoreSets, set.id]);
+                        }
+                      }}
+                      className={`p-3 rounded-lg border text-left transition-all flex items-center gap-2 ${
+                        selectedStoreSets.includes(set.id)
                           ? 'bg-blue-600 border-blue-600 text-white'
                           : 'bg-white border-gray-200 hover:border-blue-300'
                       }`}
                     >
-                      <div className="font-medium">{set.name}</div>
-                      <div className={`text-xs ${selectedStoreSet === set.id ? 'text-blue-100' : 'text-gray-400'}`}>
-                        {set.locationCount} locations
+                      <div className={`w-5 h-5 rounded border flex items-center justify-center ${
+                        selectedStoreSets.includes(set.id)
+                          ? 'bg-white border-white'
+                          : 'border-gray-300'
+                      }`}>
+                        {selectedStoreSets.includes(set.id) && <Check size={14} className="text-blue-600" />}
+                      </div>
+                      <div>
+                        <div className="font-medium">{set.name}</div>
+                        <div className={`text-xs ${selectedStoreSets.includes(set.id) ? 'text-blue-100' : 'text-gray-400'}`}>
+                          {set.locationCount} locations
+                        </div>
                       </div>
                     </button>
                   ))}
