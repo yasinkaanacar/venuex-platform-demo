@@ -412,6 +412,19 @@ export default function CreatePost() {
                               </div>
             )}
           </div>
+
+          {/* Post Button */}
+          <div className="flex justify-end pt-2">
+            <button
+              className="px-8 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors shadow-sm flex items-center gap-2"
+              data-testid="button-post"
+              onClick={() => {
+                // Demo - would submit post
+              }}
+            >
+              Post
+            </button>
+          </div>
         </div>
       </div>
     </div>
