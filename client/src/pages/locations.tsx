@@ -1,6 +1,8 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
+import { useLocation } from 'wouter';
 import { showToast } from "@/lib/toast";
 import { LocationsFilterState } from "@/lib/types";
+import { format, addDays, startOfWeek, isSameDay, addWeeks, subWeeks } from 'date-fns';
 
 import { LocationsTable } from "@/components/locations/LocationsTable";
 import { LocationDataTable } from "@/components/locations/LocationDataTable";
@@ -31,7 +33,7 @@ import {
   Pie,
   Cell,
 } from "recharts";
-import { Store, User, Check, Search, GitCompare, X, TrendingUp } from 'lucide-react';
+import { Store, User, Check, Search, GitCompare, X, TrendingUp, ChevronLeft, ChevronRight, ChevronDown, Clock, Globe, Smartphone, ThumbsUp, Plus, Sparkles, MapPin, Map } from 'lucide-react';
 import { Tooltip } from '@mui/material';
 
 // Chart data for Business Profile Interaction
@@ -169,11 +171,61 @@ const mockLocationData = [
   },
 ];
 
+const mockCalendarPosts = [
+  {
+    id: 1,
+    title: 'Summer Collection Launch',
+    platforms: ['google', 'apple'],
+    status: 'published',
+    startDate: new Date(),
+    time: '10:15',
+    likes: 45,
+    thumbnail: 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=120&h=120&fit=crop',
+  },
+  {
+    id: 2,
+    title: 'Weekend Flash Sale',
+    platforms: ['google'],
+    status: 'scheduled',
+    startDate: addDays(new Date(), 1),
+    time: '16:00',
+    likes: 0,
+    thumbnail: 'https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?w=120&h=120&fit=crop',
+  },
+  {
+    id: 3,
+    title: 'New Store Opening',
+    platforms: ['google', 'apple'],
+    status: 'scheduled',
+    startDate: addDays(new Date(), 2),
+    time: '16:00',
+    likes: 0,
+    thumbnail: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=120&h=120&fit=crop',
+  },
+  {
+    id: 4,
+    title: 'Holiday Special Promo',
+    platforms: ['apple'],
+    status: 'scheduled',
+    startDate: addDays(new Date(), 2),
+    time: '09:00',
+    likes: 0,
+    thumbnail: 'https://images.unsplash.com/photo-1513885535751-8b9238bd345a?w=120&h=120&fit=crop',
+  },
+];
+
 export default function LocationsPage() {
   // State management
   const [selectedLocationId, setSelectedLocationId] = useState<string | null>(null);
   const [fieldManagementOpen, setFieldManagementOpen] = useState(false);
   const [activeTab, setActiveTab] = useState(0);
+  const [currentWeekStart, setCurrentWeekStart] = useState(() => startOfWeek(new Date(), { weekStartsOn: 1 }));
+  const [selectedDay, setSelectedDay] = useState<Date | null>(null);
+  const [contentTypeOpen, setContentTypeOpen] = useState(false);
+  const [contentType, setContentType] = useState('All Content');
+  const [, setLocationPath] = useLocation();
+  const contentTypeRef = useRef<HTMLDivElement>(null);
+  const dayMenuRef = useRef<HTMLDivElement>(null);
   const [filters, setFilters] = useState<LocationsFilterState>({
     search: "",
     city: "",
@@ -262,6 +314,59 @@ export default function LocationsPage() {
     });
   };
 
+  // Calendar functions
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (contentTypeRef.current && !contentTypeRef.current.contains(event.target as Node)) {
+        setContentTypeOpen(false);
+      }
+      if (dayMenuRef.current && !dayMenuRef.current.contains(event.target as Node)) {
+        setSelectedDay(null);
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  const goToToday = () => {
+    setCurrentWeekStart(startOfWeek(new Date(), { weekStartsOn: 1 }));
+  };
+
+  const goToPrevWeek = () => {
+    setCurrentWeekStart(prev => subWeeks(prev, 1));
+  };
+
+  const goToNextWeek = () => {
+    setCurrentWeekStart(prev => addWeeks(prev, 1));
+  };
+
+  const handleDayClick = (day: Date) => {
+    if (selectedDay && isSameDay(selectedDay, day)) {
+      setSelectedDay(null);
+    } else {
+      setSelectedDay(day);
+    }
+  };
+
+  const handleCreatePost = (type: string, date?: Date) => {
+    setSelectedDay(null);
+    const dateParam = date ? `&date=${format(date, 'yyyy-MM-dd')}` : '';
+    setLocationPath(`/create-post?scope=${type}${dateParam}`);
+  };
+
+  const weekDays = Array.from({ length: 7 }, (_, i) => addDays(currentWeekStart, i));
+  const today = new Date();
+
+  const getPostsForDay = (date: Date) => {
+    return mockCalendarPosts.filter(post => {
+      if (!post.startDate) return false;
+      return isSameDay(post.startDate, date);
+    });
+  };
+
+  const getDayName = (date: Date) => format(date, 'EEE');
+  const getDayNumber = (date: Date) => format(date, 'd');
+
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       {/* Header */}
@@ -330,6 +435,213 @@ export default function LocationsPage() {
             locationsPageMode={true}
             onScrollToBottom={scrollToDataHealthDetails}
           />
+        </div>
+
+        {/* Content Calendar Section */}
+        <div className="px-6 pb-4">
+          <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+            <div className="border-b border-gray-100 p-4">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <button
+                    onClick={goToPrevWeek}
+                    className="p-1.5 rounded-lg hover:bg-gray-100 text-gray-500 transition-colors"
+                    data-testid="button-prev-week"
+                  >
+                    <ChevronLeft size={20} />
+                  </button>
+                  <button
+                    onClick={goToToday}
+                    className="px-3 py-1.5 text-sm font-medium text-gray-600 hover:bg-gray-100 rounded-lg transition-colors"
+                    data-testid="button-today"
+                  >
+                    Today
+                  </button>
+                  <button
+                    onClick={goToNextWeek}
+                    className="p-1.5 rounded-lg hover:bg-gray-100 text-gray-500 transition-colors"
+                    data-testid="button-next-week"
+                  >
+                    <ChevronRight size={20} />
+                  </button>
+                </div>
+
+                <h2 className="text-lg font-semibold text-gray-900" data-testid="text-month-year">
+                  {format(currentWeekStart, 'MMMM yyyy')}
+                </h2>
+
+                <div className="relative" ref={contentTypeRef}>
+                  <button
+                    onClick={() => setContentTypeOpen(!contentTypeOpen)}
+                    className="flex items-center gap-2 px-3 py-1.5 border border-gray-200 rounded-lg text-sm text-gray-600 hover:bg-gray-50 transition-colors"
+                    data-testid="button-content-type"
+                  >
+                    {contentType}
+                    <ChevronDown size={16} className={`transition-transform ${contentTypeOpen ? 'rotate-180' : ''}`} />
+                  </button>
+                  {contentTypeOpen && (
+                    <div className="absolute right-0 mt-2 w-40 bg-white rounded-lg shadow-lg border border-gray-200 py-1 z-50">
+                      {['All Content', 'Published', 'Scheduled', 'Draft'].map((type) => (
+                        <button
+                          key={type}
+                          onClick={() => { setContentType(type); setContentTypeOpen(false); }}
+                          className={`w-full px-4 py-2 text-left text-sm hover:bg-gray-50 transition-colors ${
+                            contentType === type ? 'text-blue-600 bg-blue-50' : 'text-gray-700'
+                          }`}
+                        >
+                          {type}
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-7 border-b border-gray-100">
+              {weekDays.map((day, index) => {
+                const isToday = isSameDay(day, today);
+                return (
+                  <div
+                    key={index}
+                    className={`p-3 text-center border-r border-gray-100 last:border-r-0 ${
+                      isToday ? 'bg-blue-50' : ''
+                    }`}
+                  >
+                    <div className="text-xs text-gray-500 uppercase tracking-wide mb-1">
+                      {getDayName(day)}
+                    </div>
+                    <div className={`inline-flex items-center justify-center w-8 h-8 rounded-full text-sm font-semibold ${
+                      isToday ? 'bg-blue-600 text-white' : 'text-gray-900'
+                    }`}>
+                      {getDayNumber(day)}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+
+            <div className="grid grid-cols-7 min-h-[300px]">
+              {weekDays.map((day, index) => {
+                const dayPosts = getPostsForDay(day);
+                const isToday = isSameDay(day, today);
+                const isSelected = selectedDay && isSameDay(selectedDay, day);
+                
+                return (
+                  <div
+                    key={index}
+                    className={`border-r border-gray-100 last:border-r-0 p-2 relative cursor-pointer hover:bg-gray-50 transition-colors ${
+                      isToday ? 'bg-blue-50/50 hover:bg-blue-100/50' : ''
+                    } ${isSelected ? 'ring-2 ring-blue-500 ring-inset' : ''}`}
+                    onClick={() => handleDayClick(day)}
+                    data-testid={`calendar-day-${format(day, 'yyyy-MM-dd')}`}
+                  >
+                    {isSelected && (
+                      <div 
+                        ref={dayMenuRef}
+                        className="absolute top-2 left-2 right-2 bg-white rounded-lg shadow-lg border border-gray-200 z-50 overflow-hidden"
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        <div className="p-2 border-b border-gray-100 bg-gray-50">
+                          <div className="text-xs font-medium text-gray-600">
+                            Create post for {format(day, 'MMM d')}
+                          </div>
+                        </div>
+                        <button
+                          onClick={() => handleCreatePost('store-set', day)}
+                          className="w-full flex items-center gap-2 px-3 py-2 text-left text-sm text-gray-700 hover:bg-gray-50 transition-colors"
+                        >
+                          <Store size={14} className="text-gray-500" />
+                          Store Set
+                        </button>
+                        <button
+                          onClick={() => handleCreatePost('select-locations', day)}
+                          className="w-full flex items-center gap-2 px-3 py-2 text-left text-sm text-gray-700 hover:bg-gray-50 transition-colors"
+                        >
+                          <MapPin size={14} className="text-gray-500" />
+                          Select Location(s)
+                        </button>
+                        <button
+                          onClick={() => handleCreatePost('all-locations', day)}
+                          className="w-full flex items-center gap-2 px-3 py-2 text-left text-sm text-gray-700 hover:bg-gray-50 transition-colors"
+                        >
+                          <Map size={14} className="text-gray-500" />
+                          All Locations
+                        </button>
+                      </div>
+                    )}
+
+                    {dayPosts.map((post) => (
+                      <div
+                        key={post.id}
+                        className="bg-white rounded-lg border border-gray-200 shadow-sm mb-2 overflow-hidden hover:shadow-md transition-shadow cursor-pointer"
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        <div className="relative">
+                          <img 
+                            src={post.thumbnail} 
+                            alt={post.title}
+                            className="w-full h-16 object-cover"
+                          />
+                          <div className="absolute top-1 left-1 flex items-center gap-1 bg-blue-600 text-white text-xs px-1.5 py-0.5 rounded">
+                            <Clock size={10} />
+                            {post.time}
+                          </div>
+                          <div className="absolute top-1 right-1 flex gap-0.5">
+                            {post.platforms.includes('google') && (
+                              <div className="w-4 h-4 bg-white rounded-full flex items-center justify-center">
+                                <Globe size={10} className="text-blue-500" />
+                              </div>
+                            )}
+                            {post.platforms.includes('apple') && (
+                              <div className="w-4 h-4 bg-white rounded-full flex items-center justify-center">
+                                <Smartphone size={10} className="text-gray-600" />
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                        {post.likes > 0 && (
+                          <div className="px-2 py-1 flex items-center gap-1 text-xs text-gray-500">
+                            <ThumbsUp size={10} className="text-blue-500" />
+                            {post.likes}
+                          </div>
+                        )}
+                      </div>
+                    ))}
+
+                    {isToday && dayPosts.length === 0 && !isSelected && (
+                      <div 
+                        className="bg-white rounded-lg border-2 border-dashed border-blue-200 p-3 text-center"
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        <div className="w-6 h-6 mx-auto mb-1 rounded-full bg-blue-100 flex items-center justify-center">
+                          <Sparkles size={12} className="text-blue-500" />
+                        </div>
+                        <p className="text-xs text-gray-500 mb-1">
+                          Best time to post
+                        </p>
+                        <button 
+                          onClick={() => handleDayClick(day)}
+                          className="flex items-center justify-center gap-1 w-full text-xs font-medium text-blue-600 hover:text-blue-700"
+                        >
+                          Schedule
+                          <ChevronDown size={10} />
+                        </button>
+                      </div>
+                    )}
+
+                    {!isSelected && dayPosts.length === 0 && !isToday && (
+                      <div className="flex items-center justify-center h-full min-h-[60px]">
+                        <div className="w-6 h-6 rounded-full border-2 border-dashed border-gray-200 flex items-center justify-center text-gray-300 hover:border-blue-400 hover:text-blue-500 transition-colors">
+                          <Plus size={12} />
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          </div>
         </div>
 
         {/* Location Actions Section */}
