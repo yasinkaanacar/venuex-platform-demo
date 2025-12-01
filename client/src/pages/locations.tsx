@@ -443,6 +443,9 @@ export default function LocationsPage() {
           onUploadLocations={handleUploadLocations}
         />
 
+        {/* Platform Summary Section */}
+        <PlatformSummarySection />
+
         {/* Content Calendar Section */}
         <div className="px-6 pb-4">
           <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
@@ -649,9 +652,6 @@ export default function LocationsPage() {
             </div>
           </div>
         </div>
-
-        {/* Platform Summary Section */}
-        <PlatformSummarySection />
 
         {/* Test Section - Same structure as Platform Summary but without tabs */}
         <div className="mx-6 mb-6 bg-white rounded-lg border border-slate-200 overflow-hidden shadow-none">
