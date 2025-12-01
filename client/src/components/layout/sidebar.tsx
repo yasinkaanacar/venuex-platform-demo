@@ -65,20 +65,22 @@ export default function Sidebar({ collapsed, onToggle }: SidebarProps) {
     <div className="dark:bg-gray-900 border-r border-gray-300 dark:border-gray-600 flex flex-col h-screen shadow-sm transition-all duration-300 w-64 bg-[#f9fafb]">
       {/* Logo and Brand */}
       <div className="h-20">
-        <div className="flex items-center justify-center h-full">
-          {!collapsed && (
-            <img 
-              src={venueXLogo} 
-              alt="VenueX Logo" 
-              className="w-[183px] h-[183px] object-contain"
-            />
-          )}
-          {collapsed && (
-            <div className="w-8 h-8 bg-blue-600 rounded flex items-center justify-center">
-              <span className="text-white font-bold text-sm">VX</span>
-            </div>
-          )}
-        </div>
+        <Link href="/">
+          <div className="flex items-center justify-center h-full cursor-pointer">
+            {!collapsed && (
+              <img 
+                src={venueXLogo} 
+                alt="VenueX Logo" 
+                className="w-[183px] h-[183px] object-contain"
+              />
+            )}
+            {collapsed && (
+              <div className="w-8 h-8 bg-blue-600 rounded flex items-center justify-center">
+                <span className="text-white font-bold text-sm">VX</span>
+              </div>
+            )}
+          </div>
+        </Link>
       </div>
       {/* Current Role Section */}
       <div className="relative">
