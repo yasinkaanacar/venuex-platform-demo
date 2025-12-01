@@ -83,9 +83,11 @@ export default function ManagePosts() {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [contentTypeOpen, setContentTypeOpen] = useState(false);
   const [contentType, setContentType] = useState('All Content');
+  const [selectedDay, setSelectedDay] = useState<Date | null>(null);
   const [, setLocation] = useLocation();
   const dropdownRef = useRef<HTMLDivElement>(null);
   const contentTypeRef = useRef<HTMLDivElement>(null);
+  const dayMenuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -95,14 +97,27 @@ export default function ManagePosts() {
       if (contentTypeRef.current && !contentTypeRef.current.contains(event.target as Node)) {
         setContentTypeOpen(false);
       }
+      if (dayMenuRef.current && !dayMenuRef.current.contains(event.target as Node)) {
+        setSelectedDay(null);
+      }
     }
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  const handleCreatePost = (type: string) => {
+  const handleCreatePost = (type: string, date?: Date) => {
     setDropdownOpen(false);
-    setLocation(`/create-post?scope=${type}`);
+    setSelectedDay(null);
+    const dateParam = date ? `&date=${format(date, 'yyyy-MM-dd')}` : '';
+    setLocation(`/create-post?scope=${type}${dateParam}`);
+  };
+
+  const handleDayClick = (day: Date) => {
+    if (selectedDay && isSameDay(selectedDay, day)) {
+      setSelectedDay(null);
+    } else {
+      setSelectedDay(day);
+    }
   };
 
   const goToToday = () => {
@@ -331,19 +346,60 @@ export default function ManagePosts() {
                 {weekDays.map((day, index) => {
                   const dayPosts = getPostsForDay(day);
                   const isToday = isSameDay(day, today);
+                  const isSelected = selectedDay && isSameDay(selectedDay, day);
                   
                   return (
                     <div
                       key={index}
-                      className={`border-r border-gray-100 last:border-r-0 p-2 ${
-                        isToday ? 'bg-blue-50/50' : ''
-                      }`}
+                      className={`border-r border-gray-100 last:border-r-0 p-2 relative cursor-pointer hover:bg-gray-50 transition-colors ${
+                        isToday ? 'bg-blue-50/50 hover:bg-blue-100/50' : ''
+                      } ${isSelected ? 'ring-2 ring-blue-500 ring-inset' : ''}`}
+                      onClick={() => handleDayClick(day)}
                       data-testid={`calendar-day-${format(day, 'yyyy-MM-dd')}`}
                     >
+                      {isSelected && (
+                        <div 
+                          ref={dayMenuRef}
+                          className="absolute top-2 left-2 right-2 bg-white rounded-lg shadow-lg border border-gray-200 z-50 overflow-hidden"
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          <div className="p-2 border-b border-gray-100 bg-gray-50">
+                            <div className="text-xs font-medium text-gray-600">
+                              Create post for {format(day, 'MMM d')}
+                            </div>
+                          </div>
+                          <button
+                            onClick={() => handleCreatePost('store-set', day)}
+                            className="w-full flex items-center gap-2 px-3 py-2 text-left text-sm text-gray-700 hover:bg-gray-50 transition-colors"
+                            data-testid={`day-menu-store-set-${format(day, 'yyyy-MM-dd')}`}
+                          >
+                            <Store size={14} className="text-gray-500" />
+                            Store Set
+                          </button>
+                          <button
+                            onClick={() => handleCreatePost('select-locations', day)}
+                            className="w-full flex items-center gap-2 px-3 py-2 text-left text-sm text-gray-700 hover:bg-gray-50 transition-colors"
+                            data-testid={`day-menu-select-locations-${format(day, 'yyyy-MM-dd')}`}
+                          >
+                            <MapPin size={14} className="text-gray-500" />
+                            Select Location(s)
+                          </button>
+                          <button
+                            onClick={() => handleCreatePost('all-locations', day)}
+                            className="w-full flex items-center gap-2 px-3 py-2 text-left text-sm text-gray-700 hover:bg-gray-50 transition-colors"
+                            data-testid={`day-menu-all-locations-${format(day, 'yyyy-MM-dd')}`}
+                          >
+                            <Map size={14} className="text-gray-500" />
+                            All Locations
+                          </button>
+                        </div>
+                      )}
+
                       {dayPosts.map((post) => (
                         <div
                           key={post.id}
                           className="bg-white rounded-lg border border-gray-200 shadow-sm mb-2 overflow-hidden hover:shadow-md transition-shadow cursor-pointer"
+                          onClick={(e) => e.stopPropagation()}
                           data-testid={`calendar-post-${post.id}`}
                         >
                           <div className="relative">
@@ -378,18 +434,32 @@ export default function ManagePosts() {
                         </div>
                       ))}
 
-                      {isToday && dayPosts.length === 0 && (
-                        <div className="bg-white rounded-lg border-2 border-dashed border-blue-200 p-3 text-center">
+                      {isToday && dayPosts.length === 0 && !isSelected && (
+                        <div 
+                          className="bg-white rounded-lg border-2 border-dashed border-blue-200 p-3 text-center"
+                          onClick={(e) => e.stopPropagation()}
+                        >
                           <div className="w-8 h-8 mx-auto mb-2 rounded-full bg-blue-100 flex items-center justify-center">
                             <Sparkles size={16} className="text-blue-500" />
                           </div>
                           <p className="text-xs text-gray-500 mb-2">
                             This week, your followers are most active at this time.
                           </p>
-                          <button className="flex items-center justify-center gap-1 w-full text-xs font-medium text-blue-600 hover:text-blue-700">
+                          <button 
+                            onClick={() => handleDayClick(day)}
+                            className="flex items-center justify-center gap-1 w-full text-xs font-medium text-blue-600 hover:text-blue-700"
+                          >
                             Schedule
                             <ChevronDown size={12} />
                           </button>
+                        </div>
+                      )}
+
+                      {!isSelected && dayPosts.length === 0 && !isToday && (
+                        <div className="flex items-center justify-center h-full min-h-[100px]">
+                          <div className="w-8 h-8 rounded-full border-2 border-dashed border-gray-200 flex items-center justify-center text-gray-300 hover:border-blue-400 hover:text-blue-500 transition-colors">
+                            <Plus size={16} />
+                          </div>
                         </div>
                       )}
                     </div>
