@@ -394,19 +394,7 @@ export default function CreatePost() {
                   </select>
                 </div>
 
-                {apple.actionType === 'visit_website' ? (
-                  <input 
-                    type="text" placeholder="https://apple-link.com" 
-                    className="w-full p-2 border rounded text-sm"
-                    value={apple.actionUrl}
-                    onChange={(e) => setApple({...apple, actionUrl: e.target.value})}
-                  />
-                ) : (
-                  <p className="text-xs text-gray-500 italic">
-                    *Selected action will use your location data automatically. No URL needed.
-                  </p>
-                )}
-              </div>
+                              </div>
             )}
           </div>
         </div>
