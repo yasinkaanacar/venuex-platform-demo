@@ -437,6 +437,12 @@ export default function LocationsPage() {
           />
         </div>
 
+        {/* Location Actions Section */}
+        <LocationActionsSection 
+          onAddNewLocation={handleAddNewLocation}
+          onUploadLocations={handleUploadLocations}
+        />
+
         {/* Content Calendar Section */}
         <div className="px-6 pb-4">
           <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
@@ -643,12 +649,6 @@ export default function LocationsPage() {
             </div>
           </div>
         </div>
-
-        {/* Location Actions Section */}
-        <LocationActionsSection 
-          onAddNewLocation={handleAddNewLocation}
-          onUploadLocations={handleUploadLocations}
-        />
 
         {/* Platform Summary Section */}
         <PlatformSummarySection />
