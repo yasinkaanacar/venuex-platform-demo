@@ -26,6 +26,7 @@ export default function CreatePost() {
   const [selectedStoreSets, setSelectedStoreSets] = useState<number[]>([]);
   const [selectedLocations, setSelectedLocations] = useState<number[]>([]);
   const [locationSearch, setLocationSearch] = useState('');
+  const [storeSetSearch, setStoreSetSearch] = useState('');
 
   const [common, setCommon] = useState({
     locale: 'tr',
@@ -102,8 +103,22 @@ export default function CreatePost() {
                     </button>
                   </div>
                 </div>
+                <div className="relative mb-3">
+                  <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-blue-400" />
+                  <input
+                    type="text"
+                    placeholder="Search store sets..."
+                    value={storeSetSearch}
+                    onChange={(e) => setStoreSetSearch(e.target.value)}
+                    className="w-full pl-9 pr-3 py-2 border border-blue-200 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 outline-none bg-white"
+                  />
+                </div>
                 <div className="grid grid-cols-2 gap-3">
-                  {mockStoreSets.map((set) => (
+                  {mockStoreSets
+                    .filter(set => 
+                      set.name.toLowerCase().includes(storeSetSearch.toLowerCase())
+                    )
+                    .map((set) => (
                     <button
                       key={set.id}
                       onClick={() => {
