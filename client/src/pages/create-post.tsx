@@ -416,8 +416,13 @@ export default function CreatePost() {
           {/* Post Button */}
           <div className="flex justify-end pt-2">
             <button
-              className="px-8 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors shadow-sm flex items-center gap-2"
+              className={`px-8 py-3 font-semibold rounded-lg transition-colors shadow-sm flex items-center gap-2 ${
+                google.enabled || apple.enabled 
+                  ? 'bg-blue-600 text-white hover:bg-blue-700 cursor-pointer' 
+                  : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+              }`}
               data-testid="button-post"
+              disabled={!google.enabled && !apple.enabled}
               onClick={() => {
                 // Demo - would submit post
               }}
