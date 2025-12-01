@@ -448,7 +448,7 @@ export default function LocationsPage() {
 
         {/* Content Calendar Section */}
         <div className="px-6 pb-4">
-          <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+          <div className="rounded-xl shadow-sm border border-gray-200 overflow-hidden bg-[#fafaf9]">
             <div className="border-b border-gray-100 p-4">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
