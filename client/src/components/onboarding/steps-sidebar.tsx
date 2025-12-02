@@ -23,7 +23,7 @@ interface StepsSidebarProps {
 
 export default function StepsSidebar({ currentStep }: StepsSidebarProps) {
   return (
-    <div className="w-[30%] min-w-[280px] bg-gray-50 border-r border-gray-200 min-h-screen p-6">
+    <div className="w-[30%] min-w-[280px] bg-gray-50 border-l border-gray-200 min-h-screen p-6">
       <div className="mb-8">
         <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1">Setup Progress</h3>
         <div className="flex items-center gap-2">
