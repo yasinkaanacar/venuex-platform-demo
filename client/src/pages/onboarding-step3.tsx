@@ -97,8 +97,8 @@ export default function OnboardingStep3Page() {
                       <TrendingUp size={24} className="text-green-300" />
                     </div>
                     <div>
-                      <p className="text-3xl font-bold text-green-300">+25%</p>
-                      <p className="text-blue-200 text-sm">ROAS increase for Koçtaş</p>
+                      <p className="text-3xl font-bold text-green-300">4.6X</p>
+                      <p className="text-blue-200 text-sm">Higher Offline ROAS for Koçtaş (vs Online)</p>
                     </div>
                   </div>
                 </div>
