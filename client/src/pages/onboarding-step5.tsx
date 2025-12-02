@@ -86,9 +86,6 @@ export default function OnboardingStep5Page() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white flex">
-      {/* Steps Sidebar */}
-      <StepsSidebar currentStep={5} />
-
       {/* Main Content Area - 70% */}
       <div className="w-[70%]">
         {/* Developer Navigation */}
@@ -277,6 +274,9 @@ export default function OnboardingStep5Page() {
         </div>
         </main>
       </div>
+
+      {/* Steps Sidebar - 30% */}
+      <StepsSidebar currentStep={5} />
     </div>
   );
 }

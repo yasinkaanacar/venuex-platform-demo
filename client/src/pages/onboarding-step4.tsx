@@ -144,9 +144,6 @@ export default function OnboardingStep4Page() {
 
   return (
     <div className="min-h-screen bg-white flex">
-      {/* Steps Sidebar */}
-      <StepsSidebar currentStep={4} />
-
       {/* Main Content Area - 70% */}
       <div className="w-[70%]">
         {/* Developer Navigation */}
@@ -807,6 +804,9 @@ export default function OnboardingStep4Page() {
         </DialogActions>
       </Dialog>
       </div>
+
+      {/* Steps Sidebar - 30% */}
+      <StepsSidebar currentStep={4} />
     </div>
   );
 }
