@@ -29,6 +29,7 @@ export default function OnboardingPage() {
   const [, setLocation] = useLocation();
   const [companyName, setCompanyName] = useState('');
   const [selectedIndustry, setSelectedIndustry] = useState('');
+  const [customIndustry, setCustomIndustry] = useState('');
   const [teamMembers, setTeamMembers] = useState<TeamMember[]>([]);
   const [newMemberEmail, setNewMemberEmail] = useState('');
   const [showTeamSection, setShowTeamSection] = useState(false);
@@ -52,7 +53,7 @@ export default function OnboardingPage() {
     setLocation('/onboarding/step2');
   };
 
-  const isFormValid = companyName.length > 0 && selectedIndustry !== '';
+  const isFormValid = companyName.length > 0 && selectedIndustry !== '' && (selectedIndustry !== 'other' || customIndustry.length > 0);
 
   return (
     <div className="min-h-screen bg-white">
@@ -138,6 +139,20 @@ export default function OnboardingPage() {
               </select>
               <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none" />
             </div>
+
+            {/* Custom Industry Input */}
+            {selectedIndustry === 'other' && (
+              <div className="mt-3">
+                <input
+                  type="text"
+                  value={customIndustry}
+                  onChange={(e) => setCustomIndustry(e.target.value)}
+                  placeholder="Please specify your industry..."
+                  className="w-full px-4 py-3 border border-gray-200 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  data-testid="input-custom-industry"
+                />
+              </div>
+            )}
           </div>
 
           {/* Team Invitation */}
