@@ -16,6 +16,7 @@ import ManagePosts from "@/pages/manage-posts";
 import Catalog from "@/pages/catalog";
 import VenueXAI from "@/pages/venuex-ai";
 import Setup from "@/pages/setup";
+import Onboarding from "@/pages/onboarding";
 import NotFound from "@/pages/not-found";
 import { useState } from "react";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
@@ -30,29 +31,37 @@ function Router() {
   };
 
   return (
-    <div className="flex h-screen bg-gray-50 dark:bg-gray-900">
-      <Sidebar collapsed={sidebarCollapsed} onToggle={toggleSidebar} />
-      <main className={`flex-1 overflow-auto transition-all duration-300 ${sidebarCollapsed ? 'ml-0' : ''}`}>
-        <Switch>
-          <Route path="/" component={Overview} />
-          <Route path="/offline-conversions" component={OfflineConversions} />
-          <Route path="/offline-conversionsMVP" component={OfflineConversionsMVP} />
-          <Route path="/locations" component={Locations} />
-          <Route path="/locations/posts" component={Locations} />
-          <Route path="/reviews" component={Reviews} />
-          <Route path="/reviewsX" component={ReviewsX} />
-          <Route path="/reviewsMVP" component={ReviewsMVP} />
-          <Route path="/location-match" component={LocationMatch} />
-          <Route path="/ai-recommendations" component={AIRecommendations} />
-          <Route path="/create-post" component={CreatePost} />
-          <Route path="/manage-posts" component={ManagePosts} />
-          <Route path="/catalog" component={Catalog} />
-          <Route path="/venuex-ai" component={VenueXAI} />
-          <Route path="/setup" component={Setup} />
-          <Route component={NotFound} />
-        </Switch>
-      </main>
-    </div>
+    <Switch>
+      {/* Standalone pages without sidebar */}
+      <Route path="/onboarding" component={Onboarding} />
+      
+      {/* Main app with sidebar */}
+      <Route>
+        <div className="flex h-screen bg-gray-50 dark:bg-gray-900">
+          <Sidebar collapsed={sidebarCollapsed} onToggle={toggleSidebar} />
+          <main className={`flex-1 overflow-auto transition-all duration-300 ${sidebarCollapsed ? 'ml-0' : ''}`}>
+            <Switch>
+              <Route path="/" component={Overview} />
+              <Route path="/offline-conversions" component={OfflineConversions} />
+              <Route path="/offline-conversionsMVP" component={OfflineConversionsMVP} />
+              <Route path="/locations" component={Locations} />
+              <Route path="/locations/posts" component={Locations} />
+              <Route path="/reviews" component={Reviews} />
+              <Route path="/reviewsX" component={ReviewsX} />
+              <Route path="/reviewsMVP" component={ReviewsMVP} />
+              <Route path="/location-match" component={LocationMatch} />
+              <Route path="/ai-recommendations" component={AIRecommendations} />
+              <Route path="/create-post" component={CreatePost} />
+              <Route path="/manage-posts" component={ManagePosts} />
+              <Route path="/catalog" component={Catalog} />
+              <Route path="/venuex-ai" component={VenueXAI} />
+              <Route path="/setup" component={Setup} />
+              <Route component={NotFound} />
+            </Switch>
+          </main>
+        </div>
+      </Route>
+    </Switch>
   );
 }
 
