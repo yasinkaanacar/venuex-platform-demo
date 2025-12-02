@@ -16,7 +16,7 @@ export default function OnboardingStep3Page() {
   const [integrationId] = useState(() => Math.floor(10000 + Math.random() * 90000));
 
   const handleSetupAttribution = () => {
-    setLocation('/');
+    setLocation('/onboarding/step4');
   };
 
   const handleSkip = () => {
