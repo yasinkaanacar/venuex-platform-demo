@@ -45,7 +45,7 @@ export default function OnboardingStep2Page() {
   };
 
   const handleContinue = () => {
-    setLocation('/');
+    setLocation('/onboarding/step3');
   };
 
   const isFormValid = googleConnected || appleConnected;

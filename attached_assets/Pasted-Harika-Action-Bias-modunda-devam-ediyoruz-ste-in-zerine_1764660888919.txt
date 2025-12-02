@@ -1,0 +1,93 @@
+Harika, "Action Bias" modunda devam ediyoruz. İsteğin üzerine sayfaları tek tek, İngilizce UI (Kullanıcı Arayüzü) metinleriyle ve stratejik notlarla detaylandırıyorum.
+
+Bu akış, "Generalist in Chaos" profilin için hem yazılımcıya hem de tasarımcıya doğrudan verebileceğin bir Product Spec (Ürün Spesifikasyonu) niteliğinde.
+
+PAGE 1: The "Handshake" (Trust & Context)
+Goal: Kullanıcıya güven vermek, kurumsal kimliğini doğrulamak ve teknik ekibi erkenden içeri almak.
+
+UI Structure
+
+Header: Minimal logo + "Integration ID: #14422" (Top right, subtle). 
+
+Main Headline: "Welcome to VenueX. Let's set up your workspace."
+
+
+Form Field 1 (Company): "Company Name" (Auto-detected from domain if possible, e.g., "Jambi Engineering"). 
+
+Form Field 2 (Industry): "Select Industry" (Dropdown: Retail, Automotive, Hospitality, etc.).
+
+Logic: If "Retail" is selected, the system prepares the "Inventory" module in the background.
+
+Action Area (Team): "Invite your technical team (Optional)"
+
+Input: email@company.com
+
+Micro-copy: "We will send them the API documentation and security protocols."
+
+Primary Button: "Create Workspace"
+
+Copy (English)
+Headline: Let’s build your offline measurement infrastructure. Sub-header: Your secure Integration ID is #14422. You can share this ID with your support team at any time. Input Label: Work Email
+
+
+Input Placeholder: io@jam.bi  Button: Next: Sync Locations
+
+PAGE 2: The "Sync Hub" (Core Value)
+Goal: En kolay ve en değerli adımı (Lokasyon Senkronizasyonu) tamamlatmak. Inventory'yi opsiyonel olarak sunmak.
+
+UI Structure
+Headline: "Where are your stores located?"
+
+Primary Action (Big Card):
+
+Icon: Google Business Profile Logo
+
+Text: "Connect Google Business Profile"
+
+Badge: "Recommended"
+
+
+Secondary Actions (Small Links): "Connect Apple Business Connect", "Connect Yandex Maps". 
+
+
+The "Inventory" Toggle (Critical Strategy):
+
+Checkbox: "I want to sync local product inventory (LIA) for these locations."
+
+Conditional Logic: If checked, a "Connect Google Merchant Center" button appears below.
+
+Visual Feedback: A map preview that populates with pins as soon as Google is connected.
+
+Copy (English)
+Headline: Sync your physical locations. Sub-header: Automatically import your store data, reviews, and hours. No manual entry required. Toggle Text: Enable Local Inventory Ads (LIA) Toggle Sub-text: Show your in-store product availability on Google Search & Maps. Button: Save & Continue
+
+PAGE 3: The "Value Bridge" (Attribution Upsell)
+Goal: Kullanıcıyı sadece harita yönetiminden, asıl gelir getiren "Attribution" (Satış Ölçümleme) modülüne ikna etmek. Social Proof kullanımı şart.
+
+UI Structure
+Layout: Split Screen (Left: Value / Right: Action).
+
+Left Side (Social Proof):
+
+
+Stat: "A101 measures 11,000+ locations." 
+
+
+Stat: "Koçtaş increased ROAS by 25%+." 
+
+Visual: A graph showing an upward trend arrow (Offline Conversion Lift).
+
+Right Side (The Ask):
+
+Headline: "Measure the offline impact of your online ads."
+
+Description: "Connect your ad platforms to see which digital clicks turn into physical store visits and sales."
+
+Actions:
+
+Primary Button: "Start Measuring (Setup Attribution)"
+
+Secondary Button (Ghost): "Skip for now, go to Dashboard"
+
+Copy (English)
+Headline: Unlock your true ROI. Body: Don't fly blind. Track how your digital ad spend drives real-world store traffic and revenue. Social Proof Quote: "VenueX helped us visualize the invisible revenue." Button: Setup Offline Attribution
