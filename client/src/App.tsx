@@ -16,11 +16,7 @@ import ManagePosts from "@/pages/manage-posts";
 import Catalog from "@/pages/catalog";
 import VenueXAI from "@/pages/venuex-ai";
 import Setup from "@/pages/setup";
-import Onboarding from "@/pages/onboarding";
-import OnboardingStep2 from "@/pages/onboarding-step2";
-import OnboardingStep3 from "@/pages/onboarding-step3";
-import OnboardingStep4 from "@/pages/onboarding-step4";
-import OnboardingStep5 from "@/pages/onboarding-step5";
+import OnboardingUnified from "@/pages/onboarding-unified";
 import NotFound from "@/pages/not-found";
 import { useState } from "react";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
@@ -37,11 +33,7 @@ function Router() {
   return (
     <Switch>
       {/* Standalone pages without sidebar */}
-      <Route path="/onboarding" component={Onboarding} />
-      <Route path="/onboarding/step2" component={OnboardingStep2} />
-      <Route path="/onboarding/step3" component={OnboardingStep3} />
-      <Route path="/onboarding/step4" component={OnboardingStep4} />
-      <Route path="/onboarding/step5" component={OnboardingStep5} />
+      <Route path="/onboarding" component={OnboardingUnified} />
       
       {/* Main app with sidebar */}
       <Route>
