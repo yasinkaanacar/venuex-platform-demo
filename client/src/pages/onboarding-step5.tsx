@@ -89,8 +89,8 @@ export default function OnboardingStep5Page() {
       {/* Steps Sidebar */}
       <StepsSidebar currentStep={5} />
 
-      {/* Main Content Area */}
-      <div className="flex-1">
+      {/* Main Content Area - 80% */}
+      <div className="w-[80%]">
         {/* Developer Navigation */}
         <div className="fixed bottom-4 right-4 z-50 flex items-center gap-2 bg-gray-900 text-white px-4 py-2 rounded-lg shadow-lg text-sm">
           <span className="text-gray-400 mr-2">Dev:</span>
