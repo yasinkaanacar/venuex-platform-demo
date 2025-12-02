@@ -11,6 +11,7 @@ import {
   Quote
 } from 'lucide-react';
 import { SiGoogle, SiMeta, SiTiktok } from 'react-icons/si';
+import StepsSidebar from '@/components/onboarding/steps-sidebar';
 
 export default function OnboardingStep3Page() {
   const [, setLocation] = useLocation();
@@ -25,45 +26,50 @@ export default function OnboardingStep3Page() {
   };
 
   return (
-    <div className="min-h-screen bg-white">
-      {/* Developer Navigation */}
-      <div className="fixed bottom-4 right-4 z-50 flex items-center gap-2 bg-gray-900 text-white px-4 py-2 rounded-lg shadow-lg text-sm">
-        <span className="text-gray-400 mr-2">Dev:</span>
-        <button
-          onClick={() => setLocation('/onboarding/step2')}
-          className="px-3 py-1 bg-gray-700 hover:bg-gray-600 rounded transition-colors flex items-center gap-1"
-          data-testid="dev-back"
-        >
-          <ArrowLeft size={14} /> Back
-        </button>
-        <span className="text-blue-400 font-medium">Step 3</span>
-        <button
-          onClick={() => setLocation('/onboarding/step4')}
-          className="px-3 py-1 bg-gray-700 hover:bg-gray-600 rounded transition-colors flex items-center gap-1"
-          data-testid="dev-next"
-        >
-          Next <ArrowRight size={14} />
-        </button>
-      </div>
-      {/* Header */}
-      <header className="border-b border-gray-100">
-        <div className="max-w-6xl mx-auto px-6 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-600 to-indigo-600 flex items-center justify-center">
-                <Zap className="w-4 h-4 text-white" />
+    <div className="min-h-screen bg-white flex">
+      {/* Steps Sidebar */}
+      <StepsSidebar currentStep={3} />
+
+      {/* Main Content Area */}
+      <div className="flex-1 flex flex-col">
+        {/* Developer Navigation */}
+        <div className="fixed bottom-4 right-4 z-50 flex items-center gap-2 bg-gray-900 text-white px-4 py-2 rounded-lg shadow-lg text-sm">
+          <span className="text-gray-400 mr-2">Dev:</span>
+          <button
+            onClick={() => setLocation('/onboarding/step2')}
+            className="px-3 py-1 bg-gray-700 hover:bg-gray-600 rounded transition-colors flex items-center gap-1"
+            data-testid="dev-back"
+          >
+            <ArrowLeft size={14} /> Back
+          </button>
+          <span className="text-blue-400 font-medium">Step 3</span>
+          <button
+            onClick={() => setLocation('/onboarding/step4')}
+            className="px-3 py-1 bg-gray-700 hover:bg-gray-600 rounded transition-colors flex items-center gap-1"
+            data-testid="dev-next"
+          >
+            Next <ArrowRight size={14} />
+          </button>
+        </div>
+        {/* Header */}
+        <header className="border-b border-gray-100">
+          <div className="max-w-6xl mx-auto px-6 py-4">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-600 to-indigo-600 flex items-center justify-center">
+                  <Zap className="w-4 h-4 text-white" />
+                </div>
+                <span className="font-semibold text-gray-900">VenueX</span>
               </div>
-              <span className="font-semibold text-gray-900">VenueX</span>
-            </div>
-            <div className="text-sm text-gray-400">
-              Integration ID: <span className="font-mono text-gray-600">#{integrationId}</span>
+              <div className="text-sm text-gray-400">
+                Integration ID: <span className="font-mono text-gray-600">#{integrationId}</span>
+              </div>
             </div>
           </div>
-        </div>
-      </header>
-      {/* Main Content - Split Screen */}
-      <main className="min-h-[calc(100vh-73px)]">
-        <div className="grid grid-cols-1 lg:grid-cols-2 min-h-[calc(100vh-73px)]">
+        </header>
+        {/* Main Content - Split Screen */}
+        <main className="flex-1">
+          <div className="grid grid-cols-1 lg:grid-cols-2 h-full">
           
           {/* Left Side - Social Proof */}
           <div className="bg-gradient-to-br from-blue-600 via-blue-700 to-indigo-800 p-12 flex flex-col justify-center text-white">
@@ -177,8 +183,9 @@ export default function OnboardingStep3Page() {
               </div>
             </div>
           </div>
-        </div>
-      </main>
+          </div>
+        </main>
+      </div>
     </div>
   );
 }

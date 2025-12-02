@@ -12,6 +12,7 @@ import {
   Database
 } from 'lucide-react';
 import { SiMeta, SiTiktok, SiGoogle } from 'react-icons/si';
+import StepsSidebar from '@/components/onboarding/steps-sidebar';
 
 interface OptimizationTask {
   id: string;
@@ -84,25 +85,30 @@ export default function OnboardingStep5Page() {
   const strokeDashoffset = circumference - (scorePercentage / 100) * circumference;
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white">
-      {/* Developer Navigation */}
-      <div className="fixed bottom-4 right-4 z-50 flex items-center gap-2 bg-gray-900 text-white px-4 py-2 rounded-lg shadow-lg text-sm">
-        <span className="text-gray-400 mr-2">Dev:</span>
-        <button
-          onClick={() => setLocation('/onboarding/step4')}
-          className="px-3 py-1 bg-gray-700 hover:bg-gray-600 rounded transition-colors flex items-center gap-1"
-          data-testid="dev-back"
-        >
-          <ArrowLeft size={14} /> Back
-        </button>
-        <span className="text-blue-400 font-medium">Step 5</span>
-        <button
-          onClick={() => setLocation('/')}
-          className="px-3 py-1 bg-green-600 hover:bg-green-500 rounded transition-colors flex items-center gap-1"
-          data-testid="dev-finish"
-        >
-          Dashboard <ArrowRight size={14} />
-        </button>
+    <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white flex">
+      {/* Steps Sidebar */}
+      <StepsSidebar currentStep={5} />
+
+      {/* Main Content Area */}
+      <div className="flex-1">
+        {/* Developer Navigation */}
+        <div className="fixed bottom-4 right-4 z-50 flex items-center gap-2 bg-gray-900 text-white px-4 py-2 rounded-lg shadow-lg text-sm">
+          <span className="text-gray-400 mr-2">Dev:</span>
+          <button
+            onClick={() => setLocation('/onboarding/step4')}
+            className="px-3 py-1 bg-gray-700 hover:bg-gray-600 rounded transition-colors flex items-center gap-1"
+            data-testid="dev-back"
+          >
+            <ArrowLeft size={14} /> Back
+          </button>
+          <span className="text-blue-400 font-medium">Step 5</span>
+          <button
+            onClick={() => setLocation('/')}
+            className="px-3 py-1 bg-green-600 hover:bg-green-500 rounded transition-colors flex items-center gap-1"
+            data-testid="dev-finish"
+          >
+            Dashboard <ArrowRight size={14} />
+          </button>
       </div>
 
       {/* Header */}
@@ -269,7 +275,8 @@ export default function OnboardingStep5Page() {
             Go to Dashboard
           </button>
         </div>
-      </main>
+        </main>
+      </div>
     </div>
   );
 }

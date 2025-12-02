@@ -9,6 +9,7 @@ import {
   ArrowRight,
   Zap
 } from 'lucide-react';
+import StepsSidebar from '@/components/onboarding/steps-sidebar';
 
 interface TeamMember {
   id: string;
@@ -56,39 +57,44 @@ export default function OnboardingPage() {
   const isFormValid = companyName.length > 0 && selectedIndustry !== '' && (selectedIndustry !== 'other' || customIndustry.length > 0);
 
   return (
-    <div className="min-h-screen bg-white">
-      {/* Developer Navigation */}
-      <div className="fixed bottom-4 right-4 z-50 flex items-center gap-2 bg-gray-900 text-white px-4 py-2 rounded-lg shadow-lg text-sm">
-        <span className="text-gray-400 mr-2">Dev:</span>
-        <span className="text-blue-400 font-medium">Step 1</span>
-        <button
-          onClick={() => setLocation('/onboarding/step2')}
-          className="px-3 py-1 bg-gray-700 hover:bg-gray-600 rounded transition-colors flex items-center gap-1"
-          data-testid="dev-next"
-        >
-          Next <ArrowRight size={14} />
-        </button>
-      </div>
+    <div className="min-h-screen bg-white flex">
+      {/* Steps Sidebar */}
+      <StepsSidebar currentStep={1} />
 
-      {/* Header */}
-      <header className="border-b border-gray-100">
-        <div className="max-w-3xl mx-auto px-6 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-600 to-indigo-600 flex items-center justify-center">
-                <Zap className="w-4 h-4 text-white" />
+      {/* Main Content Area */}
+      <div className="flex-1">
+        {/* Developer Navigation */}
+        <div className="fixed bottom-4 right-4 z-50 flex items-center gap-2 bg-gray-900 text-white px-4 py-2 rounded-lg shadow-lg text-sm">
+          <span className="text-gray-400 mr-2">Dev:</span>
+          <span className="text-blue-400 font-medium">Step 1</span>
+          <button
+            onClick={() => setLocation('/onboarding/step2')}
+            className="px-3 py-1 bg-gray-700 hover:bg-gray-600 rounded transition-colors flex items-center gap-1"
+            data-testid="dev-next"
+          >
+            Next <ArrowRight size={14} />
+          </button>
+        </div>
+
+        {/* Header */}
+        <header className="border-b border-gray-100">
+          <div className="max-w-3xl mx-auto px-6 py-4">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-600 to-indigo-600 flex items-center justify-center">
+                  <Zap className="w-4 h-4 text-white" />
+                </div>
+                <span className="font-semibold text-gray-900">VenueX</span>
               </div>
-              <span className="font-semibold text-gray-900">VenueX</span>
-            </div>
-            <div className="text-sm text-gray-400">
-              Integration ID: <span className="font-mono text-gray-600">#{integrationId}</span>
+              <div className="text-sm text-gray-400">
+                Integration ID: <span className="font-mono text-gray-600">#{integrationId}</span>
+              </div>
             </div>
           </div>
-        </div>
-      </header>
+        </header>
 
-      {/* Main Content */}
-      <main className="max-w-3xl mx-auto px-6 py-16">
+        {/* Main Content */}
+        <main className="max-w-3xl mx-auto px-6 py-16">
         {/* Headline */}
         <div className="mb-12">
           <h1 className="text-3xl font-bold text-gray-900 mb-3">
@@ -251,7 +257,8 @@ export default function OnboardingPage() {
             </div>
           )}
         </div>
-      </main>
+        </main>
+      </div>
     </div>
   );
 }
