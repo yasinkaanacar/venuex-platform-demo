@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useLocation } from 'wouter';
 import { 
   ArrowRight,
+  ArrowLeft,
   Zap,
   TrendingUp,
   Target,
@@ -25,6 +26,26 @@ export default function OnboardingStep3Page() {
 
   return (
     <div className="min-h-screen bg-white">
+      {/* Developer Navigation */}
+      <div className="fixed bottom-4 right-4 z-50 flex items-center gap-2 bg-gray-900 text-white px-4 py-2 rounded-lg shadow-lg text-sm">
+        <span className="text-gray-400 mr-2">Dev:</span>
+        <button
+          onClick={() => setLocation('/onboarding/step2')}
+          className="px-3 py-1 bg-gray-700 hover:bg-gray-600 rounded transition-colors flex items-center gap-1"
+          data-testid="dev-back"
+        >
+          <ArrowLeft size={14} /> Back
+        </button>
+        <span className="text-blue-400 font-medium">Step 3</span>
+        <button
+          onClick={() => setLocation('/onboarding/step4')}
+          className="px-3 py-1 bg-gray-700 hover:bg-gray-600 rounded transition-colors flex items-center gap-1"
+          data-testid="dev-next"
+        >
+          Next <ArrowRight size={14} />
+        </button>
+      </div>
+
       {/* Header */}
       <header className="border-b border-gray-100">
         <div className="max-w-6xl mx-auto px-6 py-4">
