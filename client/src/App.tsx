@@ -20,6 +20,7 @@ import Onboarding from "@/pages/onboarding";
 import OnboardingStep2 from "@/pages/onboarding-step2";
 import OnboardingStep3 from "@/pages/onboarding-step3";
 import OnboardingStep4 from "@/pages/onboarding-step4";
+import OnboardingStep5 from "@/pages/onboarding-step5";
 import NotFound from "@/pages/not-found";
 import { useState } from "react";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
@@ -40,6 +41,7 @@ function Router() {
       <Route path="/onboarding/step2" component={OnboardingStep2} />
       <Route path="/onboarding/step3" component={OnboardingStep3} />
       <Route path="/onboarding/step4" component={OnboardingStep4} />
+      <Route path="/onboarding/step5" component={OnboardingStep5} />
       
       {/* Main app with sidebar */}
       <Route>

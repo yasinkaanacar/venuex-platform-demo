@@ -92,7 +92,7 @@ export default function OnboardingStep4Page() {
   };
 
   const handleFinish = () => {
-    setLocation('/');
+    setLocation('/onboarding/step5');
   };
 
   const requiredFieldsMapped = mappings
@@ -113,11 +113,11 @@ export default function OnboardingStep4Page() {
         </button>
         <span className="text-blue-400 font-medium">Step 4</span>
         <button
-          onClick={() => setLocation('/')}
-          className="px-3 py-1 bg-green-600 hover:bg-green-500 rounded transition-colors flex items-center gap-1"
-          data-testid="dev-finish"
+          onClick={() => setLocation('/onboarding/step5')}
+          className="px-3 py-1 bg-gray-700 hover:bg-gray-600 rounded transition-colors flex items-center gap-1"
+          data-testid="dev-next"
         >
-          Dashboard <ArrowRight size={14} />
+          Next <ArrowRight size={14} />
         </button>
       </div>
 
