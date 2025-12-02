@@ -45,7 +45,6 @@ export default function OnboardingStep3Page() {
           Next <ArrowRight size={14} />
         </button>
       </div>
-
       {/* Header */}
       <header className="border-b border-gray-100">
         <div className="max-w-6xl mx-auto px-6 py-4">
@@ -62,7 +61,6 @@ export default function OnboardingStep3Page() {
           </div>
         </div>
       </header>
-
       {/* Main Content - Split Screen */}
       <main className="min-h-[calc(100vh-73px)]">
         <div className="grid grid-cols-1 lg:grid-cols-2 min-h-[calc(100vh-73px)]">
@@ -88,7 +86,7 @@ export default function OnboardingStep3Page() {
                     </div>
                     <div>
                       <p className="text-3xl font-bold">11,000+</p>
-                      <p className="text-blue-200 text-sm">Locations measured by A101</p>
+                      <p className="text-blue-200 text-sm">Locations measured by ŞOK</p>
                     </div>
                   </div>
                 </div>
