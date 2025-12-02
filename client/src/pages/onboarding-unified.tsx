@@ -192,6 +192,11 @@ export default function OnboardingUnifiedPage() {
 
   const [newMemberEmail, setNewMemberEmail] = useState('');
   const [teamMembers, setTeamMembers] = useState<{id: string; email: string}[]>([]);
+  const [expandedTask, setExpandedTask] = useState<string | null>(null);
+
+  const toggleTask = (taskId: string) => {
+    setExpandedTask(expandedTask === taskId ? null : taskId);
+  };
 
   const handleStepClick = (stepId: string) => {
     dispatch({ type: 'SELECT_STEP', stepId });
@@ -334,401 +339,435 @@ export default function OnboardingUnifiedPage() {
         <div className="w-[30%] border-l-2 border-blue-500 bg-white min-h-[calc(100vh-140px)] p-6 shadow-lg">
           {currentStep && (
             <div className="space-y-4">
-              {/* Task List */}
-              {currentStep.tasks.map((task, index) => (
-                <div key={task.id}>
-                  <div className="flex items-start gap-3 mb-2">
-                    <span className={`text-lg font-medium ${task.completed ? 'text-green-600' : 'text-amber-500'}`}>
-                      {index + 1}.
-                    </span>
-                    <p className={`font-medium flex-1 ${task.completed ? 'text-green-600 line-through' : 'text-gray-700'}`}>
-                      {task.label}
-                    </p>
-                  </div>
-                  
-                  {/* Account Setup - Company Info */}
-                  {currentStep.id === 'account' && task.id === 'company' && !task.completed && (
-                    <div className="ml-7 mt-3 space-y-3">
-                      <div>
-                        <label className="text-sm text-gray-600 mb-1 block">Company Name</label>
-                        <input
-                          type="text"
-                          value={companyName}
-                          onChange={(e) => setCompanyName(e.target.value)}
-                          className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm"
-                          data-testid="input-company-name"
-                        />
-                      </div>
-                      <div>
-                        <label className="text-sm text-gray-600 mb-1 block">Industry</label>
-                        <select 
-                          value={selectedIndustry}
-                          onChange={(e) => setSelectedIndustry(e.target.value)}
-                          className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm"
-                          data-testid="select-industry"
-                        >
-                          {industries.map(ind => (
-                            <option key={ind.id} value={ind.id}>{ind.name}</option>
-                          ))}
-                        </select>
-                      </div>
-                      <button
-                        onClick={() => handleTaskComplete('company')}
-                        className="px-4 py-2 bg-blue-600 text-white text-sm rounded-lg hover:bg-blue-700"
-                        data-testid="button-save-company"
-                      >
-                        Save & Continue
-                      </button>
+              {/* Task List - Accordion Style */}
+              {currentStep.tasks.map((task, index) => {
+                const isExpanded = expandedTask === task.id;
+                
+                return (
+                <div key={task.id} className="border border-gray-200 rounded-lg overflow-hidden">
+                  {/* Accordion Header */}
+                  <button
+                    onClick={() => toggleTask(task.id)}
+                    className={`w-full flex items-center justify-between p-4 text-left transition-colors ${
+                      task.completed 
+                        ? 'bg-green-50' 
+                        : isExpanded 
+                          ? 'bg-blue-50' 
+                          : 'bg-white hover:bg-gray-50'
+                    }`}
+                    data-testid={`accordion-${task.id}`}
+                  >
+                    <div className="flex items-center gap-3">
+                      <span className={`text-lg font-semibold ${task.completed ? 'text-green-600' : 'text-amber-500'}`}>
+                        {index + 1}.
+                      </span>
+                      <p className={`font-medium ${task.completed ? 'text-green-600 line-through' : 'text-gray-800'}`}>
+                        {task.label}
+                      </p>
                     </div>
-                  )}
-
-                  {/* Account Setup - Invite Team */}
-                  {currentStep.id === 'account' && task.id === 'team' && !task.completed && (
-                    <div className="ml-7 mt-3 space-y-3">
-                      <div className="flex gap-2">
-                        <input
-                          type="email"
-                          value={newMemberEmail}
-                          onChange={(e) => setNewMemberEmail(e.target.value)}
-                          placeholder="colleague@company.com"
-                          className="flex-1 px-3 py-2 border border-gray-300 rounded-lg text-sm"
-                          data-testid="input-team-email"
-                        />
-                        <button
-                          onClick={addTeamMember}
-                          className="px-3 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg"
-                          data-testid="button-add-member"
-                        >
-                          <Plus size={18} className="text-gray-600" />
-                        </button>
-                      </div>
-                      {teamMembers.length > 0 && (
-                        <div className="space-y-1">
-                          {teamMembers.map(member => (
-                            <div key={member.id} className="flex items-center gap-2 text-sm text-gray-600">
-                              <Mail size={14} />
-                              <span>{member.email}</span>
-                            </div>
-                          ))}
+                    <div className="flex items-center gap-2">
+                      {task.completed && (
+                        <div className="flex items-center gap-1 text-green-600 text-sm">
+                          <Check size={16} />
+                          <span>Done</span>
                         </div>
                       )}
-                      <button
-                        onClick={() => handleTaskComplete('team')}
-                        className="text-sm text-gray-500 hover:text-gray-700"
-                        data-testid="button-skip-team"
-                      >
-                        Skip or Continue →
-                      </button>
+                      <ChevronDown 
+                        size={20} 
+                        className={`text-gray-400 transition-transform duration-200 ${isExpanded ? 'rotate-180' : ''}`} 
+                      />
                     </div>
-                  )}
+                  </button>
+                  
+                  {/* Accordion Content */}
+                  {isExpanded && !task.completed && (
+                    <div className="border-t border-gray-200 bg-white p-4">
+                      {/* Account Setup - Company Info */}
+                      {currentStep.id === 'account' && task.id === 'company' && (
+                        <div className="space-y-3">
+                          <div>
+                            <label className="text-sm text-gray-600 mb-1 block">Company Name</label>
+                            <input
+                              type="text"
+                              value={companyName}
+                              onChange={(e) => setCompanyName(e.target.value)}
+                              className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm"
+                              data-testid="input-company-name"
+                            />
+                          </div>
+                          <div>
+                            <label className="text-sm text-gray-600 mb-1 block">Industry</label>
+                            <select 
+                              value={selectedIndustry}
+                              onChange={(e) => setSelectedIndustry(e.target.value)}
+                              className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm"
+                              data-testid="select-industry"
+                            >
+                              {industries.map(ind => (
+                                <option key={ind.id} value={ind.id}>{ind.name}</option>
+                              ))}
+                            </select>
+                          </div>
+                          <button
+                            onClick={() => handleTaskComplete('company')}
+                            className="px-4 py-2 bg-blue-600 text-white text-sm rounded-lg hover:bg-blue-700"
+                            data-testid="button-save-company"
+                          >
+                            Save & Continue
+                          </button>
+                        </div>
+                      )}
+
+                      {/* Account Setup - Invite Team */}
+                      {currentStep.id === 'account' && task.id === 'team' && (
+                        <div className="space-y-3">
+                          <div className="flex gap-2">
+                            <input
+                              type="email"
+                              value={newMemberEmail}
+                              onChange={(e) => setNewMemberEmail(e.target.value)}
+                              placeholder="colleague@company.com"
+                              className="flex-1 px-3 py-2 border border-gray-300 rounded-lg text-sm"
+                              data-testid="input-team-email"
+                            />
+                            <button
+                              onClick={addTeamMember}
+                              className="px-3 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg"
+                              data-testid="button-add-member"
+                            >
+                              <Plus size={18} className="text-gray-600" />
+                            </button>
+                          </div>
+                          {teamMembers.length > 0 && (
+                            <div className="space-y-1">
+                              {teamMembers.map(member => (
+                                <div key={member.id} className="flex items-center gap-2 text-sm text-gray-600">
+                                  <Mail size={14} />
+                                  <span>{member.email}</span>
+                                </div>
+                              ))}
+                            </div>
+                          )}
+                          <button
+                            onClick={() => handleTaskComplete('team')}
+                            className="text-sm text-gray-500 hover:text-gray-700"
+                            data-testid="button-skip-team"
+                          >
+                            Skip or Continue →
+                          </button>
+                        </div>
+                      )}
 
                   {/* Store Management - Address Data */}
-                  {currentStep.id === 'store' && task.id === 'address' && !task.completed && (
-                    <div className="ml-7 mt-4 space-y-3">
-                      {/* Import via File */}
-                      <div className="p-4 rounded-xl border-2 border-gray-200 hover:border-blue-300 bg-white transition-all">
-                        <div className="flex items-center justify-between">
-                          <div className="flex items-center gap-3">
-                            <div className="w-10 h-10 rounded-lg bg-green-50 flex items-center justify-center">
-                              <FileText className="w-5 h-5 text-green-600" />
-                            </div>
-                            <div>
-                              <p className="font-medium text-gray-900">Import from File</p>
-                              <p className="text-xs text-gray-500">Upload CSV or XLSX file</p>
-                            </div>
-                          </div>
-                          <button
-                            onClick={() => handleTaskComplete('address')}
-                            className="px-4 py-2 bg-green-600 text-white text-sm font-medium rounded-lg hover:bg-green-700 transition-colors"
-                            data-testid="button-import-file"
-                          >
-                            Upload
-                          </button>
-                        </div>
-                      </div>
-
-                      {/* Import from GBP */}
-                      <div className={`p-4 rounded-xl border-2 transition-all ${
-                        googleConnected 
-                          ? 'border-blue-300 hover:border-blue-400 bg-blue-50/50' 
-                          : 'border-gray-200 bg-gray-50 opacity-60'
-                      }`}>
-                        <div className="flex items-center justify-between">
-                          <div className="flex items-center gap-3">
-                            <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${
-                              googleConnected ? 'bg-blue-100' : 'bg-gray-100'
-                            }`}>
-                              <SiGoogle className={`w-5 h-5 ${googleConnected ? 'text-blue-600' : 'text-gray-400'}`} />
-                            </div>
-                            <div>
-                              <p className={`font-medium ${googleConnected ? 'text-gray-900' : 'text-gray-500'}`}>
-                                Import from Google Business Profile
-                              </p>
-                              <p className="text-xs text-gray-500">
-                                {googleConnected ? 'Sync locations from your GBP account' : 'Connect GBP first in step 2'}
-                              </p>
+                      {currentStep.id === 'store' && task.id === 'address' && (
+                        <div className="space-y-3">
+                          {/* Import via File */}
+                          <div className="p-4 rounded-xl border-2 border-gray-200 hover:border-blue-300 bg-white transition-all">
+                            <div className="flex items-center justify-between">
+                              <div className="flex items-center gap-3">
+                                <div className="w-10 h-10 rounded-lg bg-green-50 flex items-center justify-center">
+                                  <FileText className="w-5 h-5 text-green-600" />
+                                </div>
+                                <div>
+                                  <p className="font-medium text-gray-900">Import from File</p>
+                                  <p className="text-xs text-gray-500">Upload CSV or XLSX file</p>
+                                </div>
+                              </div>
+                              <button
+                                onClick={() => handleTaskComplete('address')}
+                                className="px-4 py-2 bg-green-600 text-white text-sm font-medium rounded-lg hover:bg-green-700 transition-colors"
+                                data-testid="button-import-file"
+                              >
+                                Upload
+                              </button>
                             </div>
                           </div>
-                          <button
-                            onClick={() => googleConnected && handleTaskComplete('address')}
-                            disabled={!googleConnected}
-                            className={`px-4 py-2 text-sm font-medium rounded-lg transition-colors ${
-                              googleConnected 
-                                ? 'bg-blue-600 text-white hover:bg-blue-700' 
-                                : 'bg-gray-200 text-gray-400 cursor-not-allowed'
-                            }`}
-                            data-testid="button-import-gbp"
-                          >
-                            Import
-                          </button>
-                        </div>
-                      </div>
 
-                      {/* Disclaimer */}
-                      <div className="flex items-start gap-2 p-3 bg-amber-50 border border-amber-200 rounded-lg">
-                        <Info size={16} className="text-amber-600 mt-0.5 flex-shrink-0" />
-                        <p className="text-xs text-amber-700">
-                          GBP locations must be listed under a single group.
-                        </p>
-                      </div>
-                    </div>
-                  )}
+                          {/* Import from GBP */}
+                          <div className={`p-4 rounded-xl border-2 transition-all ${
+                            googleConnected 
+                              ? 'border-blue-300 hover:border-blue-400 bg-blue-50/50' 
+                              : 'border-gray-200 bg-gray-50 opacity-60'
+                          }`}>
+                            <div className="flex items-center justify-between">
+                              <div className="flex items-center gap-3">
+                                <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${
+                                  googleConnected ? 'bg-blue-100' : 'bg-gray-100'
+                                }`}>
+                                  <SiGoogle className={`w-5 h-5 ${googleConnected ? 'text-blue-600' : 'text-gray-400'}`} />
+                                </div>
+                                <div>
+                                  <p className={`font-medium ${googleConnected ? 'text-gray-900' : 'text-gray-500'}`}>
+                                    Import from Google Business Profile
+                                  </p>
+                                  <p className="text-xs text-gray-500">
+                                    {googleConnected ? 'Sync locations from your GBP account' : 'Connect GBP first in step 2'}
+                                  </p>
+                                </div>
+                              </div>
+                              <button
+                                onClick={() => googleConnected && handleTaskComplete('address')}
+                                disabled={!googleConnected}
+                                className={`px-4 py-2 text-sm font-medium rounded-lg transition-colors ${
+                                  googleConnected 
+                                    ? 'bg-blue-600 text-white hover:bg-blue-700' 
+                                    : 'bg-gray-200 text-gray-400 cursor-not-allowed'
+                                }`}
+                                data-testid="button-import-gbp"
+                              >
+                                Import
+                              </button>
+                            </div>
+                          </div>
+
+                          {/* Disclaimer */}
+                          <div className="flex items-start gap-2 p-3 bg-amber-50 border border-amber-200 rounded-lg">
+                            <Info size={16} className="text-amber-600 mt-0.5 flex-shrink-0" />
+                            <p className="text-xs text-amber-700">
+                              GBP locations must be listed under a single group.
+                            </p>
+                          </div>
+                        </div>
+                      )}
 
                   {/* Store Management - Platform Sync */}
-                  {currentStep.id === 'store' && task.id === 'sync' && !task.completed && (
-                    <div className="ml-7 mt-4 space-y-3">
-                      {/* Google Business Profile */}
-                      <div className={`p-4 rounded-xl border-2 transition-all ${
-                        googleConnected 
-                          ? 'border-green-500 bg-green-50' 
-                          : 'border-gray-200 hover:border-blue-300 bg-white'
-                      }`}>
-                        <div className="flex items-center justify-between">
-                          <div className="flex items-center gap-3">
-                            <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${
-                              googleConnected ? 'bg-green-100' : 'bg-blue-50'
-                            }`}>
-                              <SiGoogle className={`w-5 h-5 ${googleConnected ? 'text-green-600' : 'text-blue-600'}`} />
-                            </div>
-                            <div>
-                              <p className="font-medium text-gray-900">Google Business Profile</p>
-                              <p className="text-xs text-gray-500">Sync locations & reviews</p>
-                            </div>
-                          </div>
-                          {googleConnected ? (
-                            <div className="flex items-center gap-2 text-green-600">
-                              <Check size={18} />
-                              <span className="text-sm font-medium">Connected</span>
-                            </div>
-                          ) : (
-                            <button
-                              onClick={() => handleConnectPlatform('google')}
-                              className="px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-colors"
-                              data-testid="button-connect-google"
-                            >
-                              Connect
-                            </button>
-                          )}
-                        </div>
-                      </div>
-                      
-                      {/* Apple Business Connect */}
-                      <div className={`p-4 rounded-xl border-2 transition-all ${
-                        appleConnected 
-                          ? 'border-green-500 bg-green-50' 
-                          : 'border-gray-200 hover:border-gray-300 bg-white'
-                      }`}>
-                        <div className="flex items-center justify-between">
-                          <div className="flex items-center gap-3">
-                            <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${
-                              appleConnected ? 'bg-green-100' : 'bg-gray-100'
-                            }`}>
-                              <SiApple className={`w-5 h-5 ${appleConnected ? 'text-green-600' : 'text-gray-700'}`} />
-                            </div>
-                            <div>
-                              <p className="font-medium text-gray-900">Apple Business Connect</p>
-                              <p className="text-xs text-gray-500">Apple Maps integration</p>
+                      {currentStep.id === 'store' && task.id === 'sync' && (
+                        <div className="space-y-3">
+                          {/* Google Business Profile */}
+                          <div className={`p-4 rounded-xl border-2 transition-all ${
+                            googleConnected 
+                              ? 'border-green-500 bg-green-50' 
+                              : 'border-gray-200 hover:border-blue-300 bg-white'
+                          }`}>
+                            <div className="flex items-center justify-between">
+                              <div className="flex items-center gap-3">
+                                <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${
+                                  googleConnected ? 'bg-green-100' : 'bg-blue-50'
+                                }`}>
+                                  <SiGoogle className={`w-5 h-5 ${googleConnected ? 'text-green-600' : 'text-blue-600'}`} />
+                                </div>
+                                <div>
+                                  <p className="font-medium text-gray-900">Google Business Profile</p>
+                                  <p className="text-xs text-gray-500">Sync locations & reviews</p>
+                                </div>
+                              </div>
+                              {googleConnected ? (
+                                <div className="flex items-center gap-2 text-green-600">
+                                  <Check size={18} />
+                                  <span className="text-sm font-medium">Connected</span>
+                                </div>
+                              ) : (
+                                <button
+                                  onClick={() => handleConnectPlatform('google')}
+                                  className="px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-colors"
+                                  data-testid="button-connect-google"
+                                >
+                                  Connect
+                                </button>
+                              )}
                             </div>
                           </div>
-                          {appleConnected ? (
-                            <div className="flex items-center gap-2 text-green-600">
-                              <Check size={18} />
-                              <span className="text-sm font-medium">Connected</span>
-                            </div>
-                          ) : (
-                            <button
-                              onClick={() => handleConnectPlatform('apple')}
-                              className="px-4 py-2 bg-gray-900 text-white text-sm font-medium rounded-lg hover:bg-gray-800 transition-colors"
-                              data-testid="button-connect-apple"
-                            >
-                              Connect
-                            </button>
-                          )}
-                        </div>
-                      </div>
-                      
-                      {/* Yandex Business */}
-                      <div className={`p-4 rounded-xl border-2 transition-all ${
-                        yandexConnected 
-                          ? 'border-green-500 bg-green-50' 
-                          : 'border-gray-200 hover:border-red-200 bg-white'
-                      }`}>
-                        <div className="flex items-center justify-between">
-                          <div className="flex items-center gap-3">
-                            <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${
-                              yandexConnected ? 'bg-green-100' : 'bg-red-50'
-                            }`}>
-                              <Globe className={`w-5 h-5 ${yandexConnected ? 'text-green-600' : 'text-red-600'}`} />
-                            </div>
-                            <div>
-                              <p className="font-medium text-gray-900">Yandex Business</p>
-                              <p className="text-xs text-gray-500">Yandex Maps integration</p>
+                          
+                          {/* Apple Business Connect */}
+                          <div className={`p-4 rounded-xl border-2 transition-all ${
+                            appleConnected 
+                              ? 'border-green-500 bg-green-50' 
+                              : 'border-gray-200 hover:border-gray-300 bg-white'
+                          }`}>
+                            <div className="flex items-center justify-between">
+                              <div className="flex items-center gap-3">
+                                <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${
+                                  appleConnected ? 'bg-green-100' : 'bg-gray-100'
+                                }`}>
+                                  <SiApple className={`w-5 h-5 ${appleConnected ? 'text-green-600' : 'text-gray-700'}`} />
+                                </div>
+                                <div>
+                                  <p className="font-medium text-gray-900">Apple Business Connect</p>
+                                  <p className="text-xs text-gray-500">Apple Maps integration</p>
+                                </div>
+                              </div>
+                              {appleConnected ? (
+                                <div className="flex items-center gap-2 text-green-600">
+                                  <Check size={18} />
+                                  <span className="text-sm font-medium">Connected</span>
+                                </div>
+                              ) : (
+                                <button
+                                  onClick={() => handleConnectPlatform('apple')}
+                                  className="px-4 py-2 bg-gray-900 text-white text-sm font-medium rounded-lg hover:bg-gray-800 transition-colors"
+                                  data-testid="button-connect-apple"
+                                >
+                                  Connect
+                                </button>
+                              )}
                             </div>
                           </div>
-                          {yandexConnected ? (
-                            <div className="flex items-center gap-2 text-green-600">
-                              <Check size={18} />
-                              <span className="text-sm font-medium">Connected</span>
+                          
+                          {/* Yandex Business */}
+                          <div className={`p-4 rounded-xl border-2 transition-all ${
+                            yandexConnected 
+                              ? 'border-green-500 bg-green-50' 
+                              : 'border-gray-200 hover:border-red-200 bg-white'
+                          }`}>
+                            <div className="flex items-center justify-between">
+                              <div className="flex items-center gap-3">
+                                <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${
+                                  yandexConnected ? 'bg-green-100' : 'bg-red-50'
+                                }`}>
+                                  <Globe className={`w-5 h-5 ${yandexConnected ? 'text-green-600' : 'text-red-600'}`} />
+                                </div>
+                                <div>
+                                  <p className="font-medium text-gray-900">Yandex Business</p>
+                                  <p className="text-xs text-gray-500">Yandex Maps integration</p>
+                                </div>
+                              </div>
+                              {yandexConnected ? (
+                                <div className="flex items-center gap-2 text-green-600">
+                                  <Check size={18} />
+                                  <span className="text-sm font-medium">Connected</span>
+                                </div>
+                              ) : (
+                                <button
+                                  onClick={() => handleConnectPlatform('yandex')}
+                                  className="px-4 py-2 bg-red-600 text-white text-sm font-medium rounded-lg hover:bg-red-700 transition-colors"
+                                  data-testid="button-connect-yandex"
+                                >
+                                  Connect
+                                </button>
+                              )}
                             </div>
-                          ) : (
-                            <button
-                              onClick={() => handleConnectPlatform('yandex')}
-                              className="px-4 py-2 bg-red-600 text-white text-sm font-medium rounded-lg hover:bg-red-700 transition-colors"
-                              data-testid="button-connect-yandex"
-                            >
-                              Connect
-                            </button>
-                          )}
+                          </div>
                         </div>
-                      </div>
-                    </div>
-                  )}
+                      )}
 
-                  {/* Store Management - Review & Connect */}
-                  {currentStep.id === 'store' && task.id === 'review' && !task.completed && (
-                    <div className="ml-7 mt-3">
-                      <p className="text-sm text-gray-500 mb-2">Review your connected platforms and finalize</p>
-                      <button
-                        onClick={() => handleTaskComplete('review')}
-                        className="px-4 py-2 bg-blue-600 text-white text-sm rounded-lg hover:bg-blue-700"
-                        data-testid="button-review-done"
-                      >
-                        Finalize Connection
-                      </button>
-                    </div>
-                  )}
-
-                  {/* Offline Attribution - Data Source */}
-                  {currentStep.id === 'attribution' && task.id === 'datasource' && !task.completed && (
-                    <div className="ml-7 mt-3">
-                      <button
-                        onClick={() => setDataSourceModalOpen(true)}
-                        className="px-4 py-2 bg-blue-600 text-white text-sm rounded-lg hover:bg-blue-700"
-                        data-testid="button-connect-datasource"
-                      >
-                        Connect Data Source
-                      </button>
-                    </div>
-                  )}
-
-                  {/* Offline Attribution - Field Mapping */}
-                  {currentStep.id === 'attribution' && task.id === 'mapping' && !task.completed && (
-                    <div className="ml-7 mt-3">
-                      <p className="text-sm text-gray-500 mb-2">Map your data fields to VenueX schema</p>
-                      <div className="space-y-2 text-sm">
-                        <div className="flex justify-between items-center py-1 border-b">
-                          <span className="text-gray-600">Transaction ID</span>
-                          <span className="text-green-600">→ Mapped</span>
-                        </div>
-                        <div className="flex justify-between items-center py-1 border-b">
-                          <span className="text-gray-600">Customer Email</span>
-                          <span className="text-green-600">→ Mapped</span>
-                        </div>
-                        <div className="flex justify-between items-center py-1 border-b">
-                          <span className="text-gray-600">Amount</span>
-                          <span className="text-green-600">→ Mapped</span>
-                        </div>
-                      </div>
-                      <button
-                        onClick={() => handleTaskComplete('mapping')}
-                        className="mt-3 px-4 py-2 bg-blue-600 text-white text-sm rounded-lg hover:bg-blue-700"
-                        data-testid="button-mapping-done"
-                      >
-                        Confirm Mapping
-                      </button>
-                    </div>
-                  )}
-
-                  {/* Offline Attribution - Verify */}
-                  {currentStep.id === 'attribution' && task.id === 'verify' && !task.completed && (
-                    <div className="ml-7 mt-3">
-                      <div className="p-3 bg-green-50 border border-green-200 rounded-lg mb-3">
-                        <p className="text-sm text-green-700">Data source connected and fields mapped successfully!</p>
-                      </div>
-                      <button
-                        onClick={() => handleTaskComplete('verify')}
-                        className="px-4 py-2 bg-green-600 text-white text-sm rounded-lg hover:bg-green-700"
-                        data-testid="button-activate"
-                      >
-                        Activate Attribution
-                      </button>
-                    </div>
-                  )}
-
-                  {/* Local Inventory - Product Feed */}
-                  {currentStep.id === 'inventory' && task.id === 'feed' && !task.completed && (
-                    <div className="ml-7 mt-3">
-                      <div className="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center">
-                        <Upload size={24} className="mx-auto text-gray-400 mb-2" />
-                        <p className="text-sm text-gray-500">Upload product feed or connect via API</p>
-                      </div>
-                      <button
-                        onClick={() => handleTaskComplete('feed')}
-                        className="mt-3 px-4 py-2 bg-blue-600 text-white text-sm rounded-lg hover:bg-blue-700"
-                        data-testid="button-feed-done"
-                      >
-                        Continue
-                      </button>
-                    </div>
-                  )}
-
-                  {/* Local Inventory - Sync */}
-                  {currentStep.id === 'inventory' && task.id === 'sync-inv' && !task.completed && (
-                    <div className="ml-7 mt-3">
-                      <p className="text-sm text-gray-500 mb-2">Sync your inventory data with connected platforms</p>
-                      <button
-                        onClick={() => handleTaskComplete('sync-inv')}
-                        className="px-4 py-2 bg-blue-600 text-white text-sm rounded-lg hover:bg-blue-700"
-                        data-testid="button-sync-inv-done"
-                      >
-                        Start Sync
-                      </button>
-                    </div>
-                  )}
-
-                  {/* Local Inventory - Optimization */}
-                  {currentStep.id === 'inventory' && task.id === 'optimize' && !task.completed && (
-                    <div className="ml-7 mt-3">
-                      <div className="flex items-center gap-3 mb-3">
-                        <div className="w-16 h-16 rounded-full border-4 border-amber-400 flex items-center justify-center">
-                          <span className="text-lg font-bold text-amber-600">65%</span>
-                        </div>
+                      {/* Store Management - Review & Connect */}
+                      {currentStep.id === 'store' && task.id === 'review' && (
                         <div>
-                          <p className="font-medium text-gray-900">Optimization Score</p>
-                          <p className="text-sm text-gray-500">Complete more tasks to improve</p>
+                          <p className="text-sm text-gray-500 mb-2">Review your connected platforms and finalize</p>
+                          <button
+                            onClick={() => handleTaskComplete('review')}
+                            className="px-4 py-2 bg-blue-600 text-white text-sm rounded-lg hover:bg-blue-700"
+                            data-testid="button-review-done"
+                          >
+                            Finalize Connection
+                          </button>
                         </div>
-                      </div>
-                      <button
-                        onClick={() => handleTaskComplete('optimize')}
-                        className="px-4 py-2 bg-green-600 text-white text-sm rounded-lg hover:bg-green-700"
-                        data-testid="button-finish-setup"
-                      >
-                        Finish Setup
-                      </button>
+                      )}
+
+                      {/* Offline Attribution - Data Source */}
+                      {currentStep.id === 'attribution' && task.id === 'datasource' && (
+                        <div>
+                          <button
+                            onClick={() => setDataSourceModalOpen(true)}
+                            className="px-4 py-2 bg-blue-600 text-white text-sm rounded-lg hover:bg-blue-700"
+                            data-testid="button-connect-datasource"
+                          >
+                            Connect Data Source
+                          </button>
+                        </div>
+                      )}
+
+                      {/* Offline Attribution - Field Mapping */}
+                      {currentStep.id === 'attribution' && task.id === 'mapping' && (
+                        <div>
+                          <p className="text-sm text-gray-500 mb-2">Map your data fields to VenueX schema</p>
+                          <div className="space-y-2 text-sm">
+                            <div className="flex justify-between items-center py-1 border-b">
+                              <span className="text-gray-600">Transaction ID</span>
+                              <span className="text-green-600">→ Mapped</span>
+                            </div>
+                            <div className="flex justify-between items-center py-1 border-b">
+                              <span className="text-gray-600">Customer Email</span>
+                              <span className="text-green-600">→ Mapped</span>
+                            </div>
+                            <div className="flex justify-between items-center py-1 border-b">
+                              <span className="text-gray-600">Amount</span>
+                              <span className="text-green-600">→ Mapped</span>
+                            </div>
+                          </div>
+                          <button
+                            onClick={() => handleTaskComplete('mapping')}
+                            className="mt-3 px-4 py-2 bg-blue-600 text-white text-sm rounded-lg hover:bg-blue-700"
+                            data-testid="button-mapping-done"
+                          >
+                            Confirm Mapping
+                          </button>
+                        </div>
+                      )}
+
+                      {/* Offline Attribution - Verify */}
+                      {currentStep.id === 'attribution' && task.id === 'verify' && (
+                        <div>
+                          <div className="p-3 bg-green-50 border border-green-200 rounded-lg mb-3">
+                            <p className="text-sm text-green-700">Data source connected and fields mapped successfully!</p>
+                          </div>
+                          <button
+                            onClick={() => handleTaskComplete('verify')}
+                            className="px-4 py-2 bg-green-600 text-white text-sm rounded-lg hover:bg-green-700"
+                            data-testid="button-activate"
+                          >
+                            Activate Attribution
+                          </button>
+                        </div>
+                      )}
+
+                      {/* Local Inventory - Product Feed */}
+                      {currentStep.id === 'inventory' && task.id === 'feed' && (
+                        <div>
+                          <div className="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center">
+                            <Upload size={24} className="mx-auto text-gray-400 mb-2" />
+                            <p className="text-sm text-gray-500">Upload product feed or connect via API</p>
+                          </div>
+                          <button
+                            onClick={() => handleTaskComplete('feed')}
+                            className="mt-3 px-4 py-2 bg-blue-600 text-white text-sm rounded-lg hover:bg-blue-700"
+                            data-testid="button-feed-done"
+                          >
+                            Continue
+                          </button>
+                        </div>
+                      )}
+
+                      {/* Local Inventory - Sync */}
+                      {currentStep.id === 'inventory' && task.id === 'sync-inv' && (
+                        <div>
+                          <p className="text-sm text-gray-500 mb-2">Sync your inventory data with connected platforms</p>
+                          <button
+                            onClick={() => handleTaskComplete('sync-inv')}
+                            className="px-4 py-2 bg-blue-600 text-white text-sm rounded-lg hover:bg-blue-700"
+                            data-testid="button-sync-inv-done"
+                          >
+                            Start Sync
+                          </button>
+                        </div>
+                      )}
+
+                      {/* Local Inventory - Optimization */}
+                      {currentStep.id === 'inventory' && task.id === 'optimize' && (
+                        <div>
+                          <div className="flex items-center gap-3 mb-3">
+                            <div className="w-16 h-16 rounded-full border-4 border-amber-400 flex items-center justify-center">
+                              <span className="text-lg font-bold text-amber-600">65%</span>
+                            </div>
+                            <div>
+                              <p className="font-medium text-gray-900">Optimization Score</p>
+                              <p className="text-sm text-gray-500">Complete more tasks to improve</p>
+                            </div>
+                          </div>
+                          <button
+                            onClick={() => handleTaskComplete('optimize')}
+                            className="px-4 py-2 bg-green-600 text-white text-sm rounded-lg hover:bg-green-700"
+                            data-testid="button-finish-setup"
+                          >
+                            Finish Setup
+                          </button>
+                        </div>
+                      )}
                     </div>
                   )}
                 </div>
-              ))}
+              );
+              })}
 
               {/* Complete Step Button */}
               <div className="pt-6 mt-6 border-t border-gray-200">
