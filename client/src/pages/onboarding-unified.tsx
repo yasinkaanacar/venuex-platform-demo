@@ -424,15 +424,73 @@ export default function OnboardingUnifiedPage() {
 
                   {/* Store Management - Address Data */}
                   {currentStep.id === 'store' && task.id === 'address' && !task.completed && (
-                    <div className="ml-7 mt-3">
-                      <p className="text-sm text-gray-500 mb-2">Upload or sync your location addresses</p>
-                      <button
-                        onClick={() => handleTaskComplete('address')}
-                        className="px-4 py-2 bg-blue-600 text-white text-sm rounded-lg hover:bg-blue-700"
-                        data-testid="button-address-done"
-                      >
-                        Mark as Done
-                      </button>
+                    <div className="ml-7 mt-4 space-y-3">
+                      {/* Import via File */}
+                      <div className="p-4 rounded-xl border-2 border-gray-200 hover:border-blue-300 bg-white transition-all">
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center gap-3">
+                            <div className="w-10 h-10 rounded-lg bg-green-50 flex items-center justify-center">
+                              <FileText className="w-5 h-5 text-green-600" />
+                            </div>
+                            <div>
+                              <p className="font-medium text-gray-900">Import from File</p>
+                              <p className="text-xs text-gray-500">Upload CSV or XLSX file</p>
+                            </div>
+                          </div>
+                          <button
+                            onClick={() => handleTaskComplete('address')}
+                            className="px-4 py-2 bg-green-600 text-white text-sm font-medium rounded-lg hover:bg-green-700 transition-colors"
+                            data-testid="button-import-file"
+                          >
+                            Upload
+                          </button>
+                        </div>
+                      </div>
+
+                      {/* Import from GBP */}
+                      <div className={`p-4 rounded-xl border-2 transition-all ${
+                        googleConnected 
+                          ? 'border-blue-300 hover:border-blue-400 bg-blue-50/50' 
+                          : 'border-gray-200 bg-gray-50 opacity-60'
+                      }`}>
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center gap-3">
+                            <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${
+                              googleConnected ? 'bg-blue-100' : 'bg-gray-100'
+                            }`}>
+                              <SiGoogle className={`w-5 h-5 ${googleConnected ? 'text-blue-600' : 'text-gray-400'}`} />
+                            </div>
+                            <div>
+                              <p className={`font-medium ${googleConnected ? 'text-gray-900' : 'text-gray-500'}`}>
+                                Import from Google Business Profile
+                              </p>
+                              <p className="text-xs text-gray-500">
+                                {googleConnected ? 'Sync locations from your GBP account' : 'Connect GBP first in step 2'}
+                              </p>
+                            </div>
+                          </div>
+                          <button
+                            onClick={() => googleConnected && handleTaskComplete('address')}
+                            disabled={!googleConnected}
+                            className={`px-4 py-2 text-sm font-medium rounded-lg transition-colors ${
+                              googleConnected 
+                                ? 'bg-blue-600 text-white hover:bg-blue-700' 
+                                : 'bg-gray-200 text-gray-400 cursor-not-allowed'
+                            }`}
+                            data-testid="button-import-gbp"
+                          >
+                            Import
+                          </button>
+                        </div>
+                      </div>
+
+                      {/* Disclaimer */}
+                      <div className="flex items-start gap-2 p-3 bg-amber-50 border border-amber-200 rounded-lg">
+                        <Info size={16} className="text-amber-600 mt-0.5 flex-shrink-0" />
+                        <p className="text-xs text-amber-700">
+                          GBP locations must be listed under a single group.
+                        </p>
+                      </div>
                     </div>
                   )}
 
