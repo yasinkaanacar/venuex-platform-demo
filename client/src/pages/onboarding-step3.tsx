@@ -103,27 +103,6 @@ export default function OnboardingStep3Page() {
                   </div>
                 </div>
               </div>
-
-              {/* Mini Graph Visualization */}
-              <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20">
-                <div className="flex items-center justify-between mb-4">
-                  <span className="text-sm text-blue-200">Offline Conversion Lift</span>
-                  <span className="text-xs px-2 py-1 bg-green-500/30 text-green-300 rounded">+32% avg</span>
-                </div>
-                <div className="flex items-end gap-1 h-20">
-                  {[35, 42, 38, 55, 48, 62, 58, 75, 70, 88, 82, 95].map((height, i) => (
-                    <div 
-                      key={i}
-                      className="flex-1 bg-gradient-to-t from-blue-400 to-blue-300 rounded-t opacity-80 transition-all hover:opacity-100"
-                      style={{ height: `${height}%` }}
-                    />
-                  ))}
-                </div>
-                <div className="flex justify-between mt-2 text-xs text-blue-300">
-                  <span>Jan</span>
-                  <span>Dec</span>
-                </div>
-              </div>
             </div>
           </div>
 
