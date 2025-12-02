@@ -16,7 +16,10 @@ import {
   X,
   Settings,
   Plus,
-  Shield
+  Shield,
+  Users,
+  Mail,
+  Copy
 } from 'lucide-react';
 import { Dialog, DialogTitle, DialogContent, DialogActions, TextField, IconButton } from '@mui/material';
 
@@ -57,6 +60,9 @@ export default function OnboardingStep4Page() {
   const [mappings, setMappings] = useState<FieldMapping[]>(venueXFields);
   const [integrationId] = useState(() => Math.floor(10000 + Math.random() * 90000));
   const [dataSourceModalOpen, setDataSourceModalOpen] = useState(false);
+  const [inviteModalOpen, setInviteModalOpen] = useState(false);
+  const [inviteEmail, setInviteEmail] = useState('');
+  const [inviteSent, setInviteSent] = useState(false);
   const [urlSegments, setUrlSegments] = useState<string[]>([]);
   const [salesConfig, setSalesConfig] = useState({
     dataSourceType: 'SFTP',
@@ -270,6 +276,17 @@ export default function OnboardingStep4Page() {
                 <div className="flex-1">
                   <h3 className="font-semibold text-gray-900 mb-1">API / SFTP Connection</h3>
                   <p className="text-sm text-gray-500">Automated data sync</p>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setInviteModalOpen(true);
+                    }}
+                    className="mt-3 text-sm text-purple-600 hover:text-purple-700 font-medium flex items-center gap-1"
+                    data-testid="button-invite-technical-team"
+                  >
+                    <Users size={14} />
+                    Invite Technical Team
+                  </button>
                 </div>
               </div>
             </div>
@@ -636,6 +653,151 @@ export default function OnboardingStep4Page() {
           >
             Save & Continue
           </button>
+        </DialogActions>
+      </Dialog>
+
+      {/* Invite Technical Team Modal */}
+      <Dialog 
+        open={inviteModalOpen} 
+        onClose={() => {
+          setInviteModalOpen(false);
+          setInviteSent(false);
+          setInviteEmail('');
+        }}
+        maxWidth="sm"
+        fullWidth
+        PaperProps={{
+          sx: {
+            borderRadius: '16px'
+          }
+        }}
+      >
+        <DialogTitle sx={{ 
+          display: 'flex', 
+          justifyContent: 'space-between', 
+          alignItems: 'center',
+          borderBottom: '1px solid #e5e7eb',
+          pb: 2
+        }}>
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 bg-purple-100 rounded-full flex items-center justify-center">
+              <Users className="w-5 h-5 text-purple-600" />
+            </div>
+            <div>
+              <h2 className="text-lg font-semibold text-gray-900">Invite Technical Team</h2>
+              <p className="text-sm text-gray-500">Send setup instructions to your IT team</p>
+            </div>
+          </div>
+          <IconButton onClick={() => {
+            setInviteModalOpen(false);
+            setInviteSent(false);
+            setInviteEmail('');
+          }} size="small">
+            <X className="w-5 h-5 text-gray-500" />
+          </IconButton>
+        </DialogTitle>
+        
+        <DialogContent sx={{ pt: 3 }}>
+          {!inviteSent ? (
+            <div className="space-y-4">
+              <p className="text-sm text-gray-600">
+                Your technical team will receive an email with API credentials, documentation, and setup instructions.
+              </p>
+              
+              <TextField
+                label="Team Member Email"
+                value={inviteEmail}
+                onChange={(e) => setInviteEmail(e.target.value)}
+                fullWidth
+                size="small"
+                placeholder="developer@company.com"
+                type="email"
+              />
+
+              <div className="bg-gray-50 rounded-lg p-4">
+                <h4 className="text-sm font-medium text-gray-900 mb-2">What they'll receive:</h4>
+                <ul className="text-sm text-gray-600 space-y-1">
+                  <li className="flex items-center gap-2">
+                    <Check size={14} className="text-green-500" />
+                    API credentials and SFTP access
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <Check size={14} className="text-green-500" />
+                    Data format specifications
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <Check size={14} className="text-green-500" />
+                    Integration documentation
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <Check size={14} className="text-green-500" />
+                    IP whitelist requirements
+                  </li>
+                </ul>
+              </div>
+
+              <div className="border-t border-gray-200 pt-4">
+                <p className="text-xs text-gray-500 mb-2">Or share the setup link directly:</p>
+                <div className="flex items-center gap-2">
+                  <code className="flex-1 px-3 py-2 bg-gray-100 rounded text-sm font-mono text-gray-700 truncate">
+                    https://venuex.io/setup/{integrationId}
+                  </code>
+                  <button className="p-2 hover:bg-gray-100 rounded transition-colors">
+                    <Copy size={16} className="text-gray-500" />
+                  </button>
+                </div>
+              </div>
+            </div>
+          ) : (
+            <div className="text-center py-6">
+              <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Check size={32} className="text-green-600" />
+              </div>
+              <h3 className="text-lg font-semibold text-gray-900 mb-2">Invitation Sent!</h3>
+              <p className="text-sm text-gray-600">
+                We've sent setup instructions to <span className="font-medium">{inviteEmail}</span>
+              </p>
+            </div>
+          )}
+        </DialogContent>
+        
+        <DialogActions sx={{ p: 3, borderTop: '1px solid #e5e7eb' }}>
+          {!inviteSent ? (
+            <>
+              <button
+                onClick={() => {
+                  setInviteModalOpen(false);
+                  setInviteEmail('');
+                }}
+                className="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg transition-colors"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={() => setInviteSent(true)}
+                disabled={!inviteEmail}
+                className={`px-6 py-2 rounded-lg font-medium transition-colors flex items-center gap-2 ${
+                  inviteEmail 
+                    ? 'bg-purple-600 hover:bg-purple-700 text-white' 
+                    : 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                }`}
+              >
+                <Mail size={16} />
+                Send Invitation
+              </button>
+            </>
+          ) : (
+            <button
+              onClick={() => {
+                setInviteModalOpen(false);
+                setInviteSent(false);
+                setInviteEmail('');
+              }}
+              className="px-6 py-2 bg-purple-600 hover:bg-purple-700 text-white font-medium rounded-lg transition-colors"
+            >
+              Done
+            </button>
+          )}
         </DialogActions>
       </Dialog>
     </div>
