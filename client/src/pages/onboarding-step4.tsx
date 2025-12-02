@@ -11,8 +11,14 @@ import {
   Check,
   ChevronDown,
   Link2,
-  ShieldCheck
+  ShieldCheck,
+  Database,
+  X,
+  Settings,
+  Plus,
+  Shield
 } from 'lucide-react';
+import { Dialog, DialogTitle, DialogContent, DialogActions, TextField, IconButton } from '@mui/material';
 
 interface FieldMapping {
   venueXField: string;
@@ -50,6 +56,38 @@ export default function OnboardingStep4Page() {
   const [fileName, setFileName] = useState('');
   const [mappings, setMappings] = useState<FieldMapping[]>(venueXFields);
   const [integrationId] = useState(() => Math.floor(10000 + Math.random() * 90000));
+  const [dataSourceModalOpen, setDataSourceModalOpen] = useState(false);
+  const [urlSegments, setUrlSegments] = useState<string[]>([]);
+  const [salesConfig, setSalesConfig] = useState({
+    dataSourceType: 'SFTP',
+    fileUrlType: 'File URL',
+    fileUrl: '',
+    fileRegex: '',
+    dateFormat: '',
+    contentFieldPath: '',
+    schedulerFrequency: 'DAILY',
+    schedulerTime: '03:00',
+    timezone: 'Europe/Istanbul',
+    username: '',
+    password: '',
+    privateKey: ''
+  });
+
+  const handleSalesConfigChange = (field: string, value: string) => {
+    setSalesConfig(prev => ({ ...prev, [field]: value }));
+  };
+
+  const addUrlSegment = () => {
+    setUrlSegments(prev => [...prev, '']);
+  };
+
+  const updateUrlSegment = (index: number, value: string) => {
+    setUrlSegments(prev => prev.map((seg, i) => i === index ? value : seg));
+  };
+
+  const removeUrlSegment = (index: number) => {
+    setUrlSegments(prev => prev.filter((_, i) => i !== index));
+  };
 
   const handleFileDrop = (e: React.DragEvent) => {
     e.preventDefault();
@@ -223,7 +261,7 @@ export default function OnboardingStep4Page() {
             {/* Option B: API/SFTP */}
             <div
               className="relative p-6 rounded-xl border-2 transition-all cursor-pointer border-gray-200 hover:border-purple-300 hover:shadow-lg"
-              onClick={() => setLocation('/setup?section=data-source')}
+              onClick={() => setDataSourceModalOpen(true)}
             >
               <div className="flex items-start gap-4">
                 <div className="w-12 h-12 rounded-xl bg-purple-100 flex items-center justify-center">
@@ -232,9 +270,6 @@ export default function OnboardingStep4Page() {
                 <div className="flex-1">
                   <h3 className="font-semibold text-gray-900 mb-1">API / SFTP Connection</h3>
                   <p className="text-sm text-gray-500">Automated data sync</p>
-                  <p className="text-xs text-purple-600 mt-2 flex items-center gap-1">
-                    Opens Setup <ArrowRight size={12} />
-                  </p>
                 </div>
               </div>
             </div>
@@ -348,6 +383,261 @@ export default function OnboardingStep4Page() {
           </button>
         </div>
       </main>
+
+      {/* Connect Data Source Modal */}
+      <Dialog 
+        open={dataSourceModalOpen} 
+        onClose={() => setDataSourceModalOpen(false)}
+        maxWidth="md"
+        fullWidth
+        PaperProps={{
+          sx: {
+            borderRadius: '16px',
+            maxHeight: '90vh'
+          }
+        }}
+      >
+        <DialogTitle sx={{ 
+          display: 'flex', 
+          justifyContent: 'space-between', 
+          alignItems: 'center',
+          borderBottom: '1px solid #e5e7eb',
+          pb: 2
+        }}>
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 bg-purple-100 rounded-full flex items-center justify-center">
+              <Database className="w-5 h-5 text-purple-600" />
+            </div>
+            <div>
+              <h2 className="text-lg font-semibold text-gray-900">Connect Data Source</h2>
+              <p className="text-sm text-gray-500">Configure your API/SFTP connection</p>
+            </div>
+          </div>
+          <IconButton onClick={() => setDataSourceModalOpen(false)} size="small">
+            <X className="w-5 h-5 text-gray-500" />
+          </IconButton>
+        </DialogTitle>
+        
+        <DialogContent sx={{ pt: 3 }}>
+          <div className="space-y-6">
+            <div>
+              <h3 className="text-sm font-semibold text-gray-900 mb-4 flex items-center gap-2">
+                <Settings className="w-4 h-4" />
+                Data Source Configuration
+              </h3>
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-xs font-medium text-gray-500 mb-1">Data Source Type</label>
+                  <select 
+                    className="w-full p-2 border border-gray-200 rounded-lg bg-white text-sm"
+                    value={salesConfig.dataSourceType}
+                    onChange={(e) => handleSalesConfigChange('dataSourceType', e.target.value)}
+                  >
+                    <option value="HTTP">HTTP</option>
+                    <option value="FTP">FTP</option>
+                    <option value="SFTP">SFTP</option>
+                    <option value="S3">AWS S3</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-xs font-medium text-gray-500 mb-1">File URL Type</label>
+                  <select 
+                    className="w-full p-2 border border-gray-200 rounded-lg bg-white text-sm"
+                    value={salesConfig.fileUrlType}
+                    onChange={(e) => handleSalesConfigChange('fileUrlType', e.target.value)}
+                  >
+                    <option value="File URL">File URL</option>
+                    <option value="Folder Path">Folder Path</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div className="border-t border-gray-200 pt-4">
+              <div className="space-y-4">
+                <TextField
+                  label="File URL"
+                  value={salesConfig.fileUrl}
+                  onChange={(e) => handleSalesConfigChange('fileUrl', e.target.value)}
+                  fullWidth
+                  size="small"
+                  placeholder="https://example.com/data/sales.csv"
+                />
+
+                <div className="bg-gray-50 rounded-lg p-4">
+                  <div className="flex items-center justify-between mb-3">
+                    <label className="text-xs font-medium text-gray-700">Dynamic URL Path</label>
+                    <button 
+                      onClick={addUrlSegment}
+                      className="flex items-center gap-1 px-2 py-1 text-xs text-blue-600 hover:bg-blue-50 rounded transition-colors"
+                    >
+                      <Plus size={12} />
+                      Add Segment
+                    </button>
+                  </div>
+                  <div className="space-y-2 mb-3">
+                    {urlSegments.length === 0 ? (
+                      <p className="text-xs text-gray-400 italic">Add segments above to build your path</p>
+                    ) : (
+                      urlSegments.map((segment, index) => (
+                        <div key={index} className="flex items-center gap-2">
+                          <input
+                            type="text"
+                            value={segment}
+                            onChange={(e) => updateUrlSegment(index, e.target.value)}
+                            className="flex-1 p-2 border border-gray-200 rounded text-sm"
+                            placeholder={`Segment ${index + 1}`}
+                          />
+                          <button 
+                            onClick={() => removeUrlSegment(index)}
+                            className="p-1 text-red-500 hover:bg-red-50 rounded"
+                          >
+                            <X size={14} />
+                          </button>
+                        </div>
+                      ))
+                    )}
+                  </div>
+                  <div className="bg-white rounded border border-gray-200 p-2">
+                    <span className="text-xs text-gray-500">Preview: </span>
+                    <span className="text-xs font-mono text-gray-700">
+                      {urlSegments.length > 0 ? `/${urlSegments.filter(s => s).join('/')}` : 'No path configured'}
+                    </span>
+                  </div>
+                </div>
+
+                <TextField
+                  label="File Regex"
+                  value={salesConfig.fileRegex}
+                  onChange={(e) => handleSalesConfigChange('fileRegex', e.target.value)}
+                  fullWidth
+                  size="small"
+                  placeholder="*.csv, store-sales-*, inventory-*.xml"
+                  helperText="File extensions or patterns such as *.csv, store-sales-*, inventory-*.xml"
+                />
+
+                <TextField
+                  label="Date Format of File Name"
+                  value={salesConfig.dateFormat}
+                  onChange={(e) => handleSalesConfigChange('dateFormat', e.target.value)}
+                  fullWidth
+                  size="small"
+                  placeholder="YYYY-MM-DD"
+                />
+              </div>
+            </div>
+
+            <div className="border-t border-gray-200 pt-4">
+              <h3 className="text-sm font-semibold text-gray-900 mb-4">Scheduler</h3>
+              <div className="grid grid-cols-3 gap-4">
+                <div>
+                  <label className="block text-xs font-medium text-gray-500 mb-1">Frequency</label>
+                  <select 
+                    className="w-full p-2 border border-gray-200 rounded-lg bg-white text-sm"
+                    value={salesConfig.schedulerFrequency}
+                    onChange={(e) => handleSalesConfigChange('schedulerFrequency', e.target.value)}
+                  >
+                    <option value="HOURLY">HOURLY</option>
+                    <option value="DAILY">DAILY</option>
+                    <option value="WEEKLY">WEEKLY</option>
+                    <option value="MONTHLY">MONTHLY</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-xs font-medium text-gray-500 mb-1">Time</label>
+                  <input
+                    type="time"
+                    className="w-full p-2 border border-gray-200 rounded-lg text-sm"
+                    value={salesConfig.schedulerTime}
+                    onChange={(e) => handleSalesConfigChange('schedulerTime', e.target.value)}
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-medium text-gray-500 mb-1">Time Zone</label>
+                  <select 
+                    className="w-full p-2 border border-gray-200 rounded-lg bg-white text-sm"
+                    value={salesConfig.timezone}
+                    onChange={(e) => handleSalesConfigChange('timezone', e.target.value)}
+                  >
+                    <option value="Europe/Istanbul">Europe/Istanbul</option>
+                    <option value="UTC">UTC</option>
+                    <option value="Europe/London">Europe/London</option>
+                    <option value="America/New_York">America/New York</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div className="border-t border-gray-200 pt-4">
+              <h3 className="text-sm font-semibold text-gray-900 mb-1">User Authentication</h3>
+              <p className="text-xs text-gray-500 mb-4">(Optional)</p>
+              <div className="grid grid-cols-2 gap-4 mb-4">
+                <TextField
+                  label="Username"
+                  value={salesConfig.username}
+                  onChange={(e) => handleSalesConfigChange('username', e.target.value)}
+                  fullWidth
+                  size="small"
+                />
+                <TextField
+                  label="Password"
+                  type="password"
+                  value={salesConfig.password}
+                  onChange={(e) => handleSalesConfigChange('password', e.target.value)}
+                  fullWidth
+                  size="small"
+                />
+              </div>
+              <TextField
+                label="Private Key"
+                value={salesConfig.privateKey}
+                onChange={(e) => handleSalesConfigChange('privateKey', e.target.value)}
+                fullWidth
+                multiline
+                rows={3}
+                size="small"
+                placeholder="Paste the content of .pem file here"
+                helperText="You can paste here the content of .pem file if accessing requires private key"
+              />
+            </div>
+
+            <div className="bg-blue-50 rounded-xl p-4 border border-blue-100">
+              <div className="flex items-start gap-3">
+                <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0">
+                  <Shield className="w-4 h-4 text-blue-600" />
+                </div>
+                <div>
+                  <h4 className="text-sm font-medium text-blue-900 mb-1">IP Restrictions</h4>
+                  <p className="text-xs text-blue-700 mb-2">For enhanced security, allow access only to these IP addresses:</p>
+                  <div className="flex flex-wrap gap-2">
+                    <code className="px-2 py-1 bg-white rounded text-xs font-mono text-gray-700 border border-blue-200">18.197.128.133</code>
+                    <code className="px-2 py-1 bg-white rounded text-xs font-mono text-gray-700 border border-blue-200">18.197.126.156</code>
+                    <code className="px-2 py-1 bg-white rounded text-xs font-mono text-gray-700 border border-blue-200">3.65.9.112</code>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </DialogContent>
+        
+        <DialogActions sx={{ p: 3, borderTop: '1px solid #e5e7eb' }}>
+          <button
+            onClick={() => setDataSourceModalOpen(false)}
+            className="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg transition-colors"
+          >
+            Cancel
+          </button>
+          <button
+            onClick={() => {
+              setDataSourceModalOpen(false);
+              setLocation('/onboarding/step5');
+            }}
+            className="px-6 py-2 bg-purple-600 hover:bg-purple-700 text-white font-medium rounded-lg transition-colors"
+          >
+            Save & Continue
+          </button>
+        </DialogActions>
+      </Dialog>
     </div>
   );
 }
