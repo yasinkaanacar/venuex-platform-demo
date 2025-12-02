@@ -17,6 +17,7 @@ import Catalog from "@/pages/catalog";
 import VenueXAI from "@/pages/venuex-ai";
 import Setup from "@/pages/setup";
 import Onboarding from "@/pages/onboarding";
+import OnboardingStep2 from "@/pages/onboarding-step2";
 import NotFound from "@/pages/not-found";
 import { useState } from "react";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
@@ -34,6 +35,7 @@ function Router() {
     <Switch>
       {/* Standalone pages without sidebar */}
       <Route path="/onboarding" component={Onboarding} />
+      <Route path="/onboarding/step2" component={OnboardingStep2} />
       
       {/* Main app with sidebar */}
       <Route>

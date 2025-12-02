@@ -49,7 +49,7 @@ export default function OnboardingPage() {
   };
 
   const handleCreateWorkspace = () => {
-    setLocation('/');
+    setLocation('/onboarding/step2');
   };
 
   const isFormValid = companyName.length > 0 && selectedIndustry !== '';
