@@ -483,39 +483,31 @@ export default function OnboardingUnifiedPage() {
                             </div>
                           </div>
 
-                          {/* Import from GBP */}
-                          <div className={`p-4 rounded-xl border-2 transition-all ${
-                            googleConnected 
-                              ? 'border-blue-300 hover:border-blue-400 bg-blue-50/50' 
-                              : 'border-gray-200 bg-gray-50 opacity-60'
-                          }`}>
+                          {/* Import from GBP - Main Connector */}
+                          <div className="p-4 rounded-xl border-2 border-blue-300 hover:border-blue-400 bg-blue-50/50 transition-all">
                             <div className="flex items-center justify-between">
                               <div className="flex items-center gap-3">
-                                <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${
-                                  googleConnected ? 'bg-blue-100' : 'bg-gray-100'
-                                }`}>
-                                  <SiGoogle className={`w-5 h-5 ${googleConnected ? 'text-blue-600' : 'text-gray-400'}`} />
+                                <div className="w-10 h-10 rounded-lg bg-blue-100 flex items-center justify-center">
+                                  <SiGoogle className="w-5 h-5 text-blue-600" />
                                 </div>
                                 <div>
-                                  <p className={`font-medium ${googleConnected ? 'text-gray-900' : 'text-gray-500'}`}>
+                                  <p className="font-medium text-gray-900">
                                     Import from Google Business Profile
                                   </p>
                                   <p className="text-xs text-gray-500">
-                                    {googleConnected ? 'Sync locations from your GBP account' : 'Connect GBP first in step 2'}
+                                    Connect & sync locations from your GBP account
                                   </p>
                                 </div>
                               </div>
                               <button
-                                onClick={() => googleConnected && handleTaskComplete('address')}
-                                disabled={!googleConnected}
-                                className={`px-4 py-2 text-sm font-medium rounded-lg transition-colors ${
-                                  googleConnected 
-                                    ? 'bg-blue-600 text-white hover:bg-blue-700' 
-                                    : 'bg-gray-200 text-gray-400 cursor-not-allowed'
-                                }`}
+                                onClick={() => {
+                                  setGoogleConnected(true);
+                                  handleTaskComplete('address');
+                                }}
+                                className="px-4 py-2 text-sm font-medium rounded-lg transition-colors bg-blue-600 text-white hover:bg-blue-700"
                                 data-testid="button-import-gbp"
                               >
-                                Import
+                                Connect & Import
                               </button>
                             </div>
                           </div>
@@ -548,13 +540,15 @@ export default function OnboardingUnifiedPage() {
                                 </div>
                                 <div>
                                   <p className="font-medium text-gray-900">Google Business Profile</p>
-                                  <p className="text-xs text-gray-500">Sync locations & reviews</p>
+                                  <p className="text-xs text-gray-500">
+                                    {googleConnected ? 'Connected via location import' : 'Sync locations & reviews'}
+                                  </p>
                                 </div>
                               </div>
                               {googleConnected ? (
                                 <div className="flex items-center gap-2 text-green-600">
                                   <Check size={18} />
-                                  <span className="text-sm font-medium">Connected</span>
+                                  <span className="text-sm font-medium">Already Connected</span>
                                 </div>
                               ) : (
                                 <button
