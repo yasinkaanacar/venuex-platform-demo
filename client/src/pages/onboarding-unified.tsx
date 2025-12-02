@@ -243,35 +243,40 @@ export default function OnboardingUnifiedPage() {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
-      <header className="bg-white border-b border-gray-200 px-8 py-4">
+      <header className="bg-white border-b border-gray-200 px-8 py-5">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <span className="text-2xl font-light tracking-wide text-gray-700">venue<span className="text-blue-600 font-normal">x</span></span>
+            <div className="flex items-center gap-2">
+              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-600 to-indigo-600 flex items-center justify-center">
+                <Zap className="w-4 h-4 text-white" />
+              </div>
+              <span className="text-xl font-semibold text-gray-900">VenueX</span>
+            </div>
           </div>
           <button
             onClick={handleGoToDashboard}
-            className="text-sm text-gray-500 hover:text-gray-700 flex items-center gap-1"
+            className="px-4 py-2 text-sm text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors flex items-center gap-2"
             data-testid="button-go-dashboard"
           >
-            Go to Dashboard <ArrowRight size={14} />
+            Go to Dashboard <ArrowRight size={16} />
           </button>
         </div>
         
         {/* Integration ID Bar */}
         <div className="mt-4 flex items-center gap-3">
-          <span className="text-lg font-medium text-gray-800">#{integrationId} {companyName}</span>
-          <div className="flex items-center gap-1 text-gray-400">
-            <Info size={16} />
-            <span className="text-sm">This is your integrationID. You can come back and continue at anytime.</span>
+          <span className="text-lg font-semibold text-gray-800">#{integrationId} {companyName}</span>
+          <div className="flex items-center gap-2 text-gray-400 bg-gray-50 px-3 py-1 rounded-full">
+            <Info size={14} />
+            <span className="text-xs">This is your integrationID. You can come back and continue at anytime.</span>
           </div>
         </div>
         
         {/* Progress Dots */}
-        <div className="mt-3 flex items-center gap-1">
-          {Array.from({ length: 20 }).map((_, i) => (
+        <div className="mt-4 flex items-center gap-1">
+          {Array.from({ length: 24 }).map((_, i) => (
             <div 
               key={i} 
-              className={`w-2 h-2 rounded-full ${i < (completedCount / totalSteps) * 20 ? 'bg-amber-400' : 'bg-gray-200'}`}
+              className={`w-2.5 h-2.5 rounded-full transition-colors ${i < (completedCount / totalSteps) * 24 ? 'bg-amber-400' : 'bg-gray-200'}`}
             />
           ))}
         </div>
@@ -326,7 +331,7 @@ export default function OnboardingUnifiedPage() {
         </div>
 
         {/* Right Side - Task Panel */}
-        <div className="w-[30%] border-l border-blue-500 bg-white min-h-[calc(100vh-140px)] p-6">
+        <div className="w-[30%] border-l-2 border-blue-500 bg-white min-h-[calc(100vh-140px)] p-6 shadow-lg">
           {currentStep && (
             <div className="space-y-4">
               {/* Task List */}
@@ -433,77 +438,110 @@ export default function OnboardingUnifiedPage() {
 
                   {/* Store Management - Platform Sync */}
                   {currentStep.id === 'store' && task.id === 'sync' && !task.completed && (
-                    <div className="ml-7 mt-3 space-y-2">
-                      {/* Google */}
-                      <div className="flex items-center justify-between py-2">
-                        <div className="flex items-center gap-2">
-                          <input 
-                            type="radio" 
-                            checked={googleConnected}
-                            onChange={() => {}}
-                            className="w-4 h-4"
-                          />
-                          <span className="text-gray-700">Google</span>
+                    <div className="ml-7 mt-4 space-y-3">
+                      {/* Google Business Profile */}
+                      <div className={`p-4 rounded-xl border-2 transition-all ${
+                        googleConnected 
+                          ? 'border-green-500 bg-green-50' 
+                          : 'border-gray-200 hover:border-blue-300 bg-white'
+                      }`}>
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center gap-3">
+                            <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${
+                              googleConnected ? 'bg-green-100' : 'bg-blue-50'
+                            }`}>
+                              <SiGoogle className={`w-5 h-5 ${googleConnected ? 'text-green-600' : 'text-blue-600'}`} />
+                            </div>
+                            <div>
+                              <p className="font-medium text-gray-900">Google Business Profile</p>
+                              <p className="text-xs text-gray-500">Sync locations & reviews</p>
+                            </div>
+                          </div>
+                          {googleConnected ? (
+                            <div className="flex items-center gap-2 text-green-600">
+                              <Check size={18} />
+                              <span className="text-sm font-medium">Connected</span>
+                            </div>
+                          ) : (
+                            <button
+                              onClick={() => handleConnectPlatform('google')}
+                              className="px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-colors"
+                              data-testid="button-connect-google"
+                            >
+                              Connect
+                            </button>
+                          )}
                         </div>
-                        {googleConnected ? (
-                          <span className="text-green-600 text-sm font-medium">Connected</span>
-                        ) : (
-                          <button
-                            onClick={() => handleConnectPlatform('google')}
-                            className="text-blue-600 text-sm font-medium hover:underline"
-                            data-testid="button-connect-google"
-                          >
-                            [Connect]
-                          </button>
-                        )}
                       </div>
                       
-                      {/* Apple */}
-                      <div className="flex items-center justify-between py-2">
-                        <div className="flex items-center gap-2">
-                          <input 
-                            type="radio" 
-                            checked={appleConnected}
-                            onChange={() => {}}
-                            className="w-4 h-4"
-                          />
-                          <span className="text-gray-700">Apple</span>
+                      {/* Apple Business Connect */}
+                      <div className={`p-4 rounded-xl border-2 transition-all ${
+                        appleConnected 
+                          ? 'border-green-500 bg-green-50' 
+                          : 'border-gray-200 hover:border-gray-300 bg-white'
+                      }`}>
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center gap-3">
+                            <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${
+                              appleConnected ? 'bg-green-100' : 'bg-gray-100'
+                            }`}>
+                              <SiApple className={`w-5 h-5 ${appleConnected ? 'text-green-600' : 'text-gray-700'}`} />
+                            </div>
+                            <div>
+                              <p className="font-medium text-gray-900">Apple Business Connect</p>
+                              <p className="text-xs text-gray-500">Apple Maps integration</p>
+                            </div>
+                          </div>
+                          {appleConnected ? (
+                            <div className="flex items-center gap-2 text-green-600">
+                              <Check size={18} />
+                              <span className="text-sm font-medium">Connected</span>
+                            </div>
+                          ) : (
+                            <button
+                              onClick={() => handleConnectPlatform('apple')}
+                              className="px-4 py-2 bg-gray-900 text-white text-sm font-medium rounded-lg hover:bg-gray-800 transition-colors"
+                              data-testid="button-connect-apple"
+                            >
+                              Connect
+                            </button>
+                          )}
                         </div>
-                        {appleConnected ? (
-                          <span className="text-green-600 text-sm font-medium">Connected</span>
-                        ) : (
-                          <button
-                            onClick={() => handleConnectPlatform('apple')}
-                            className="text-blue-600 text-sm font-medium hover:underline"
-                            data-testid="button-connect-apple"
-                          >
-                            [Connect]
-                          </button>
-                        )}
                       </div>
                       
-                      {/* Yandex */}
-                      <div className="flex items-center justify-between py-2">
-                        <div className="flex items-center gap-2">
-                          <input 
-                            type="radio" 
-                            checked={yandexConnected}
-                            onChange={() => {}}
-                            className="w-4 h-4"
-                          />
-                          <span className="text-gray-700">Yandex</span>
+                      {/* Yandex Business */}
+                      <div className={`p-4 rounded-xl border-2 transition-all ${
+                        yandexConnected 
+                          ? 'border-green-500 bg-green-50' 
+                          : 'border-gray-200 hover:border-red-200 bg-white'
+                      }`}>
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center gap-3">
+                            <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${
+                              yandexConnected ? 'bg-green-100' : 'bg-red-50'
+                            }`}>
+                              <Globe className={`w-5 h-5 ${yandexConnected ? 'text-green-600' : 'text-red-600'}`} />
+                            </div>
+                            <div>
+                              <p className="font-medium text-gray-900">Yandex Business</p>
+                              <p className="text-xs text-gray-500">Yandex Maps integration</p>
+                            </div>
+                          </div>
+                          {yandexConnected ? (
+                            <div className="flex items-center gap-2 text-green-600">
+                              <Check size={18} />
+                              <span className="text-sm font-medium">Connected</span>
+                            </div>
+                          ) : (
+                            <button
+                              onClick={() => handleConnectPlatform('yandex')}
+                              className="px-4 py-2 bg-red-600 text-white text-sm font-medium rounded-lg hover:bg-red-700 transition-colors"
+                              data-testid="button-connect-yandex"
+                            >
+                              Connect
+                            </button>
+                          )}
                         </div>
-                        {yandexConnected ? (
-                          <span className="text-green-600 text-sm font-medium">Connected</span>
-                        ) : (
-                          <button
-                            onClick={() => handleConnectPlatform('yandex')}
-                            className="text-blue-600 text-sm font-medium hover:underline"
-                            data-testid="button-connect-yandex"
-                          >
-                            [Connect]
-                          </button>
-                        )}
                       </div>
                     </div>
                   )}
