@@ -636,14 +636,99 @@ export default function OnboardingUnifiedPage() {
 
                       {/* Store Management - Review & Connect */}
                       {currentStep.id === 'store' && task.id === 'review' && (
-                        <div>
-                          <p className="text-sm text-gray-500 mb-2">Review your connected platforms and finalize</p>
+                        <div className="space-y-4">
+                          {/* Connected Platforms Summary */}
+                          <div>
+                            <p className="text-sm font-medium text-gray-700 mb-3">Connected Platforms</p>
+                            <div className="space-y-2">
+                              {/* Google Business Profile */}
+                              <div className={`flex items-center justify-between p-3 rounded-lg ${
+                                googleConnected ? 'bg-green-50 border border-green-200' : 'bg-gray-50 border border-gray-200'
+                              }`}>
+                                <div className="flex items-center gap-3">
+                                  <SiGoogle className={`w-5 h-5 ${googleConnected ? 'text-green-600' : 'text-gray-400'}`} />
+                                  <span className={`text-sm font-medium ${googleConnected ? 'text-green-700' : 'text-gray-500'}`}>
+                                    Google Business Profile
+                                  </span>
+                                </div>
+                                {googleConnected ? (
+                                  <div className="flex items-center gap-1 text-green-600">
+                                    <Check size={16} />
+                                    <span className="text-xs">Connected</span>
+                                  </div>
+                                ) : (
+                                  <span className="text-xs text-gray-400">Not connected</span>
+                                )}
+                              </div>
+
+                              {/* Apple Business Connect */}
+                              <div className={`flex items-center justify-between p-3 rounded-lg ${
+                                appleConnected ? 'bg-green-50 border border-green-200' : 'bg-gray-50 border border-gray-200'
+                              }`}>
+                                <div className="flex items-center gap-3">
+                                  <SiApple className={`w-5 h-5 ${appleConnected ? 'text-green-600' : 'text-gray-400'}`} />
+                                  <span className={`text-sm font-medium ${appleConnected ? 'text-green-700' : 'text-gray-500'}`}>
+                                    Apple Business Connect
+                                  </span>
+                                </div>
+                                {appleConnected ? (
+                                  <div className="flex items-center gap-1 text-green-600">
+                                    <Check size={16} />
+                                    <span className="text-xs">Connected</span>
+                                  </div>
+                                ) : (
+                                  <span className="text-xs text-gray-400">Not connected</span>
+                                )}
+                              </div>
+
+                              {/* Yandex Business */}
+                              <div className={`flex items-center justify-between p-3 rounded-lg ${
+                                yandexConnected ? 'bg-green-50 border border-green-200' : 'bg-gray-50 border border-gray-200'
+                              }`}>
+                                <div className="flex items-center gap-3">
+                                  <Globe className={`w-5 h-5 ${yandexConnected ? 'text-green-600' : 'text-gray-400'}`} />
+                                  <span className={`text-sm font-medium ${yandexConnected ? 'text-green-700' : 'text-gray-500'}`}>
+                                    Yandex Business
+                                  </span>
+                                </div>
+                                {yandexConnected ? (
+                                  <div className="flex items-center gap-1 text-green-600">
+                                    <Check size={16} />
+                                    <span className="text-xs">Connected</span>
+                                  </div>
+                                ) : (
+                                  <span className="text-xs text-gray-400">Not connected</span>
+                                )}
+                              </div>
+                            </div>
+                          </div>
+
+                          {/* Location List Button */}
+                          {googleConnected && (
+                            <div className="p-3 bg-blue-50 border border-blue-200 rounded-lg">
+                              <div className="flex items-center justify-between">
+                                <div className="flex items-center gap-2">
+                                  <MapPin size={16} className="text-blue-600" />
+                                  <span className="text-sm font-medium text-blue-700">18 locations imported</span>
+                                </div>
+                                <button
+                                  className="text-sm text-blue-600 hover:text-blue-700 font-medium flex items-center gap-1"
+                                  data-testid="button-view-locations"
+                                >
+                                  View List <ExternalLink size={14} />
+                                </button>
+                              </div>
+                            </div>
+                          )}
+
+                          {/* Finalize Button */}
                           <button
                             onClick={() => handleTaskComplete('review')}
-                            className="px-4 py-2 bg-blue-600 text-white text-sm rounded-lg hover:bg-blue-700"
+                            className="w-full px-4 py-3 bg-green-600 text-white text-sm font-medium rounded-lg hover:bg-green-700 transition-colors flex items-center justify-center gap-2"
                             data-testid="button-review-done"
                           >
-                            Finalize Connection
+                            <Check size={18} />
+                            Finalize Setup
                           </button>
                         </div>
                       )}
