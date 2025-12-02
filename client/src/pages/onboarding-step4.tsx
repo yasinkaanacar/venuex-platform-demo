@@ -11,8 +11,7 @@ import {
   Check,
   ChevronDown,
   Link2,
-  ShieldCheck,
-  Copy
+  ShieldCheck
 } from 'lucide-react';
 
 interface FieldMapping {
@@ -50,7 +49,6 @@ export default function OnboardingStep4Page() {
   const [fileUploaded, setFileUploaded] = useState(false);
   const [fileName, setFileName] = useState('');
   const [mappings, setMappings] = useState<FieldMapping[]>(venueXFields);
-  const [showCredentials, setShowCredentials] = useState(false);
   const [integrationId] = useState(() => Math.floor(10000 + Math.random() * 90000));
 
   const handleFileDrop = (e: React.DragEvent) => {
@@ -224,55 +222,21 @@ export default function OnboardingStep4Page() {
 
             {/* Option B: API/SFTP */}
             <div
-              className={`relative p-6 rounded-xl border-2 transition-all cursor-pointer ${
-                uploadMethod === 'api' 
-                  ? 'border-blue-500 bg-blue-50' 
-                  : 'border-gray-200 hover:border-blue-300 hover:shadow-lg'
-              }`}
-              onClick={() => setUploadMethod('api')}
+              className="relative p-6 rounded-xl border-2 transition-all cursor-pointer border-gray-200 hover:border-purple-300 hover:shadow-lg"
+              onClick={() => setLocation('/setup?section=data-source')}
             >
-              <div className="flex items-start gap-4 mb-6">
+              <div className="flex items-start gap-4">
                 <div className="w-12 h-12 rounded-xl bg-purple-100 flex items-center justify-center">
                   <Server size={24} className="text-purple-600" />
                 </div>
-                <div>
+                <div className="flex-1">
                   <h3 className="font-semibold text-gray-900 mb-1">API / SFTP Connection</h3>
                   <p className="text-sm text-gray-500">Automated data sync</p>
+                  <p className="text-xs text-purple-600 mt-2 flex items-center gap-1">
+                    Opens Setup <ArrowRight size={12} />
+                  </p>
                 </div>
               </div>
-
-              {uploadMethod === 'api' && !showCredentials && (
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setShowCredentials(true);
-                  }}
-                  className="w-full py-3 bg-purple-600 text-white rounded-lg font-medium hover:bg-purple-700 transition-colors"
-                  data-testid="button-get-credentials"
-                >
-                  Get Credentials
-                </button>
-              )}
-
-              {uploadMethod === 'api' && showCredentials && (
-                <div className="bg-white rounded-lg p-4 space-y-3 border border-gray-200">
-                  <div>
-                    <label className="text-xs text-gray-500 uppercase tracking-wide">SFTP Host</label>
-                    <div className="flex items-center gap-2 mt-1">
-                      <code className="flex-1 px-3 py-2 bg-gray-100 rounded text-sm font-mono">sftp.venuex.io</code>
-                      <button className="p-2 hover:bg-gray-100 rounded"><Copy size={16} className="text-gray-400" /></button>
-                    </div>
-                  </div>
-                  <div>
-                    <label className="text-xs text-gray-500 uppercase tracking-wide">API Key</label>
-                    <div className="flex items-center gap-2 mt-1">
-                      <code className="flex-1 px-3 py-2 bg-gray-100 rounded text-sm font-mono">vx_live_a8f2...</code>
-                      <button className="p-2 hover:bg-gray-100 rounded"><Copy size={16} className="text-gray-400" /></button>
-                    </div>
-                  </div>
-                  <p className="text-xs text-gray-400">Full documentation sent to your email.</p>
-                </div>
-              )}
             </div>
           </div>
         )}
