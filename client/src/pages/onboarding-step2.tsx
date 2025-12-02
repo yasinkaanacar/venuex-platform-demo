@@ -54,6 +54,9 @@ export default function OnboardingStep2Page() {
 
   return (
     <div className="min-h-screen bg-white flex">
+      {/* Steps Sidebar - 30% */}
+      <StepsSidebar currentStep={2} />
+
       {/* Main Content Area - 70% */}
       <div className="w-[70%]">
         {/* Developer Navigation */}
@@ -352,9 +355,6 @@ export default function OnboardingStep2Page() {
         </div>
         </main>
       </div>
-
-      {/* Steps Sidebar - 30% */}
-      <StepsSidebar currentStep={2} />
     </div>
   );
 }
