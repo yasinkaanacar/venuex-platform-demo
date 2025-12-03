@@ -109,9 +109,10 @@ const initialSteps: Step[] = [
     optional: true,
     icon: Package,
     tasks: [
-      { id: 'feed', label: 'Product Feed Setup', completed: false },
+      { id: 'merchant', label: 'Connect Google Merchant Center', completed: false },
+      { id: 'supplementary', label: 'Add Supplementary Feed', completed: false },
       { id: 'sync-inv', label: 'Sync Inventory Data', completed: false },
-      { id: 'optimize', label: 'Optimization Score', completed: false },
+      { id: 'optimize', label: 'Review Configuration', completed: false },
     ]
   },
 ];
@@ -1252,65 +1253,113 @@ export default function OnboardingUnifiedPage() {
                         </div>
                       )}
 
-                      {/* Local Inventory - Product Feed */}
-                      {currentStep.id === 'inventory' && task.id === 'feed' && (
-                        <div className="space-y-3">
-                          {/* SFTP Upload Option */}
-                          <button
-                            onClick={() => {
-                              handleTaskComplete('feed');
-                            }}
-                            className="w-full p-4 rounded-xl border-2 text-left transition-all border-gray-200 hover:border-gray-300 bg-white"
-                            data-testid="button-feed-sftp"
-                          >
-                            <div className="flex items-center gap-3">
-                              <div className="w-10 h-10 rounded-lg flex items-center justify-center bg-gray-100">
-                                <Server size={20} className="text-gray-500" />
+                      {/* Local Inventory - Connect Google Merchant Center */}
+                      {currentStep.id === 'inventory' && task.id === 'merchant' && (
+                        <div className="space-y-4">
+                          {/* Google Merchant Center Card */}
+                          <div className="p-4 rounded-xl border-2 border-blue-200 bg-gradient-to-br from-blue-50 to-cyan-50">
+                            <div className="flex items-start gap-4">
+                              <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center flex-shrink-0 shadow-lg">
+                                <SiGoogle size={22} className="text-white" />
                               </div>
-                              <div>
-                                <p className="font-medium text-gray-900">SFTP Upload</p>
-                                <p className="text-xs text-gray-500">Upload product feed via secure FTP</p>
-                              </div>
-                            </div>
-                          </button>
-                          
-                          {/* API Integration Option */}
-                          <button
-                            onClick={() => {
-                              handleTaskComplete('feed');
-                            }}
-                            className="w-full p-4 rounded-xl border-2 text-left transition-all border-gray-200 hover:border-gray-300 bg-white"
-                            data-testid="button-feed-api"
-                          >
-                            <div className="flex items-center gap-3">
-                              <div className="w-10 h-10 rounded-lg flex items-center justify-center bg-gray-100">
-                                <Link2 size={20} className="text-gray-500" />
-                              </div>
-                              <div>
-                                <p className="font-medium text-gray-900">API Integration</p>
-                                <p className="text-xs text-gray-500">Connect product catalog via REST API</p>
-                              </div>
-                            </div>
-                          </button>
-                          
-                          {/* Upload Manually Option */}
-                          <button
-                            onClick={() => {
-                              handleTaskComplete('feed');
-                            }}
-                            className="w-full p-4 rounded-xl border-2 text-left transition-all border-gray-200 hover:border-gray-300 bg-white"
-                            data-testid="button-feed-manual"
-                          >
-                            <div className="flex items-center gap-3">
-                              <div className="w-10 h-10 rounded-lg flex items-center justify-center bg-gray-100">
-                                <Upload size={20} className="text-gray-500" />
-                              </div>
-                              <div>
-                                <p className="font-medium text-gray-900">Upload Manually</p>
-                                <p className="text-xs text-gray-500">Upload CSV or Excel product files directly</p>
+                              <div className="flex-1">
+                                <h4 className="font-semibold text-gray-900 mb-1">Google Merchant Center</h4>
+                                <p className="text-sm text-gray-600 mb-3">
+                                  Connect your product catalog to sync products with Google Shopping and Local Inventory Ads
+                                </p>
+                                
+                                {/* Benefits */}
+                                <div className="space-y-1.5 mb-4">
+                                  <div className="flex items-center gap-2 text-xs text-gray-600">
+                                    <Check size={14} className="text-green-500" />
+                                    <span>Sync product data automatically</span>
+                                  </div>
+                                  <div className="flex items-center gap-2 text-xs text-gray-600">
+                                    <Check size={14} className="text-green-500" />
+                                    <span>Enable Local Inventory Ads</span>
+                                  </div>
+                                  <div className="flex items-center gap-2 text-xs text-gray-600">
+                                    <Check size={14} className="text-green-500" />
+                                    <span>Show products on Google Maps</span>
+                                  </div>
+                                </div>
+
+                                <button
+                                  onClick={() => handleTaskComplete('merchant')}
+                                  className="w-full px-4 py-2.5 bg-gradient-to-r from-blue-600 to-cyan-600 text-white text-sm font-medium rounded-lg hover:from-blue-700 hover:to-cyan-700 transition-all shadow-md flex items-center justify-center gap-2"
+                                  data-testid="button-connect-merchant"
+                                >
+                                  <Link2 size={16} />
+                                  Connect Merchant Center
+                                </button>
                               </div>
                             </div>
-                          </button>
+                          </div>
+
+                          {/* Info Note */}
+                          <div className="flex items-start gap-2 p-3 bg-amber-50 border border-amber-200 rounded-lg">
+                            <Info size={16} className="text-amber-600 mt-0.5 flex-shrink-0" />
+                            <p className="text-xs text-amber-700">
+                              Make sure your Merchant Center account has an existing product feed before connecting.
+                            </p>
+                          </div>
+                        </div>
+                      )}
+
+                      {/* Local Inventory - Add Supplementary Feed */}
+                      {currentStep.id === 'inventory' && task.id === 'supplementary' && (
+                        <div className="space-y-4">
+                          {/* Supplementary Feed Card */}
+                          <div className="p-4 rounded-xl border-2 border-emerald-200 bg-gradient-to-br from-emerald-50 to-teal-50">
+                            <div className="flex items-start gap-4">
+                              <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-500 flex items-center justify-center flex-shrink-0 shadow-lg">
+                                <Package size={22} className="text-white" />
+                              </div>
+                              <div className="flex-1">
+                                <h4 className="font-semibold text-gray-900 mb-1">Supplementary Feed for In-Store Availability</h4>
+                                <p className="text-sm text-gray-600 mb-3">
+                                  Add real-time stock levels and store-specific availability data to show customers what's in stock nearby
+                                </p>
+                                
+                                {/* Feed Fields Preview */}
+                                <div className="bg-white rounded-lg border border-gray-200 p-3 mb-4">
+                                  <p className="text-xs font-medium text-gray-500 mb-2">Required fields:</p>
+                                  <div className="flex flex-wrap gap-2">
+                                    <span className="px-2 py-1 bg-emerald-100 text-emerald-700 text-xs rounded font-mono">store_code</span>
+                                    <span className="px-2 py-1 bg-emerald-100 text-emerald-700 text-xs rounded font-mono">id</span>
+                                    <span className="px-2 py-1 bg-emerald-100 text-emerald-700 text-xs rounded font-mono">quantity</span>
+                                    <span className="px-2 py-1 bg-emerald-100 text-emerald-700 text-xs rounded font-mono">availability</span>
+                                  </div>
+                                </div>
+
+                                {/* Upload Options */}
+                                <div className="space-y-2 mb-4">
+                                  <button
+                                    onClick={() => handleTaskComplete('supplementary')}
+                                    className="w-full p-3 rounded-lg border border-gray-200 bg-white hover:border-emerald-300 hover:bg-emerald-50/50 transition-all text-left flex items-center gap-3"
+                                    data-testid="button-supplementary-sftp"
+                                  >
+                                    <Server size={18} className="text-gray-500" />
+                                    <div>
+                                      <p className="text-sm font-medium text-gray-900">SFTP Upload</p>
+                                      <p className="text-xs text-gray-500">Scheduled sync via secure FTP</p>
+                                    </div>
+                                  </button>
+                                  <button
+                                    onClick={() => handleTaskComplete('supplementary')}
+                                    className="w-full p-3 rounded-lg border border-gray-200 bg-white hover:border-emerald-300 hover:bg-emerald-50/50 transition-all text-left flex items-center gap-3"
+                                    data-testid="button-supplementary-api"
+                                  >
+                                    <Link2 size={18} className="text-gray-500" />
+                                    <div>
+                                      <p className="text-sm font-medium text-gray-900">Content API</p>
+                                      <p className="text-xs text-gray-500">Real-time updates via API</p>
+                                    </div>
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
                         </div>
                       )}
 
