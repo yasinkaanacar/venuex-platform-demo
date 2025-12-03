@@ -332,7 +332,7 @@ export default function OnboardingUnifiedPage() {
       gradient: 'from-amber-500 to-orange-500',
       title: 'Offline Attribution',
       subtitle: 'Track in-store conversions',
-      kpi: '3x ROAS lift',
+      kpi: 'See offline ROAS',
       benefits: ['Sales data mapping', 'Attribution modeling', 'Revenue insights']
     },
     inventory: {
