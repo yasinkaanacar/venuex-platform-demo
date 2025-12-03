@@ -34,6 +34,8 @@ import {
   DialogTitle,
   DialogContent,
   DialogActions,
+  IconButton,
+  TextField,
 } from '@mui/material';
 
 interface Task {
@@ -189,6 +191,42 @@ export default function OnboardingUnifiedPage() {
   
   const [dataSourceModalOpen, setDataSourceModalOpen] = useState(false);
   const [dataSourceType, setDataSourceType] = useState<'sftp' | 'api' | null>(null);
+  const [salesDataModalOpen, setSalesDataModalOpen] = useState(false);
+  
+  const [salesConfig, setSalesConfig] = useState({
+    dataSourceType: 'SFTP',
+    fileUrlType: 'File URL',
+    fileUrl: '',
+    fileRegex: '',
+    dateFormat: 'YYYY-MM-DD',
+    contentFieldPath: '',
+    schedulerFrequency: 'DAILY',
+    schedulerTime: '09:00',
+    timezone: 'Europe/Istanbul',
+    username: '',
+    password: '',
+    privateKey: ''
+  });
+  
+  const [urlSegments, setUrlSegments] = useState<string[]>([]);
+
+  const handleSalesConfigChange = (field: string, value: string) => {
+    setSalesConfig(prev => ({ ...prev, [field]: value }));
+  };
+
+  const addUrlSegment = () => {
+    setUrlSegments([...urlSegments, '']);
+  };
+
+  const updateUrlSegment = (index: number, value: string) => {
+    const updated = [...urlSegments];
+    updated[index] = value;
+    setUrlSegments(updated);
+  };
+
+  const removeUrlSegment = (index: number) => {
+    setUrlSegments(urlSegments.filter((_, i) => i !== index));
+  };
 
   const [newMemberEmail, setNewMemberEmail] = useState('');
   const [teamMembers, setTeamMembers] = useState<{id: string; email: string}[]>([]);
@@ -908,7 +946,11 @@ export default function OnboardingUnifiedPage() {
         <DialogContent className="py-6">
           <div className="grid grid-cols-2 gap-4">
             <button
-              onClick={() => setDataSourceType('sftp')}
+              onClick={() => {
+                setDataSourceType('sftp');
+                setDataSourceModalOpen(false);
+                setSalesDataModalOpen(true);
+              }}
               className={`p-6 rounded-xl border-2 text-left transition-all ${
                 dataSourceType === 'sftp' 
                   ? 'border-blue-500 bg-blue-50' 
@@ -966,6 +1008,293 @@ export default function OnboardingUnifiedPage() {
             }`}
           >
             Connect
+          </button>
+        </DialogActions>
+      </Dialog>
+
+      {/* Sales Data Modal */}
+      <Dialog 
+        open={salesDataModalOpen} 
+        onClose={() => setSalesDataModalOpen(false)}
+        maxWidth="md"
+        fullWidth
+        PaperProps={{
+          sx: {
+            borderRadius: '16px',
+            maxHeight: '90vh'
+          }
+        }}
+      >
+        <DialogTitle sx={{ 
+          display: 'flex', 
+          justifyContent: 'space-between', 
+          alignItems: 'center',
+          borderBottom: '1px solid #e5e7eb',
+          pb: 2
+        }}>
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
+              <Database className="w-5 h-5 text-blue-600" />
+            </div>
+            <div>
+              <h2 className="text-lg font-semibold text-gray-900">Sales Data Settings</h2>
+              <p className="text-sm text-gray-500">Configure your data source connection</p>
+            </div>
+          </div>
+          <IconButton onClick={() => setSalesDataModalOpen(false)} size="small">
+            <X className="w-5 h-5 text-gray-500" />
+          </IconButton>
+        </DialogTitle>
+        
+        <DialogContent sx={{ pt: 3 }}>
+          <div className="space-y-6">
+            <div>
+              <h3 className="text-sm font-semibold text-gray-900 mb-4 flex items-center gap-2">
+                <Settings className="w-4 h-4" />
+                Data Source Configuration
+              </h3>
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-xs font-medium text-gray-500 mb-1">Data Source Type</label>
+                  <select 
+                    className="w-full p-2 border border-gray-200 rounded-lg bg-white text-sm"
+                    value={salesConfig.dataSourceType}
+                    onChange={(e) => handleSalesConfigChange('dataSourceType', e.target.value)}
+                  >
+                    <option value="HTTP">HTTP</option>
+                    <option value="FTP">FTP</option>
+                    <option value="SFTP">SFTP</option>
+                    <option value="S3">AWS S3</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-xs font-medium text-gray-500 mb-1">File URL Type</label>
+                  <select 
+                    className="w-full p-2 border border-gray-200 rounded-lg bg-white text-sm"
+                    value={salesConfig.fileUrlType}
+                    onChange={(e) => handleSalesConfigChange('fileUrlType', e.target.value)}
+                  >
+                    <option value="File URL">File URL</option>
+                    <option value="Folder Path">Folder Path</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div className="border-t border-gray-200 pt-4">
+              <div className="bg-amber-50 border border-amber-100 rounded-lg p-3 mb-4">
+                <p className="text-xs text-amber-800">
+                  Will the provided URL overwrite existing data in the same folder with each update, or generate a new file every time? 
+                  Note that creating a new file for each update could significantly extend the process as it requires individually locating and managing multiple files.
+                </p>
+              </div>
+
+              <div className="space-y-4">
+                <TextField
+                  label="File URL"
+                  value={salesConfig.fileUrl}
+                  onChange={(e) => handleSalesConfigChange('fileUrl', e.target.value)}
+                  fullWidth
+                  size="small"
+                  placeholder="https://example.com/data/sales.csv"
+                />
+
+                <div className="bg-gray-50 rounded-lg p-4">
+                  <div className="flex items-center justify-between mb-3">
+                    <label className="text-xs font-medium text-gray-700">Dynamic URL Path</label>
+                    <button 
+                      onClick={addUrlSegment}
+                      className="flex items-center gap-1 px-2 py-1 text-xs text-blue-600 hover:bg-blue-50 rounded transition-colors"
+                    >
+                      <Plus size={12} />
+                      Add Segment
+                    </button>
+                  </div>
+                  <div className="space-y-2 mb-3">
+                    {urlSegments.length === 0 ? (
+                      <p className="text-xs text-gray-400 italic">Add segments above to build your path</p>
+                    ) : (
+                      urlSegments.map((segment, index) => (
+                        <div key={index} className="flex items-center gap-2">
+                          <input
+                            type="text"
+                            value={segment}
+                            onChange={(e) => updateUrlSegment(index, e.target.value)}
+                            className="flex-1 p-2 border border-gray-200 rounded text-sm"
+                            placeholder={`Segment ${index + 1}`}
+                          />
+                          <button 
+                            onClick={() => removeUrlSegment(index)}
+                            className="p-1 text-red-500 hover:bg-red-50 rounded"
+                          >
+                            <X size={14} />
+                          </button>
+                        </div>
+                      ))
+                    )}
+                  </div>
+                  <div className="bg-white rounded border border-gray-200 p-2">
+                    <span className="text-xs text-gray-500">Preview: </span>
+                    <span className="text-xs font-mono text-gray-700">
+                      {urlSegments.length > 0 ? `/${urlSegments.filter(s => s).join('/')}` : 'No path configured'}
+                    </span>
+                  </div>
+                  <p className="text-xs text-gray-500 mt-2">
+                    We will search under this folder for files matching the provided 'File Regex' pattern below.
+                    <br />
+                    <span className="text-gray-400">Note: The "URL Segments" field will override the path in the main URL.</span>
+                  </p>
+                </div>
+
+                <TextField
+                  label="File Regex"
+                  value={salesConfig.fileRegex}
+                  onChange={(e) => handleSalesConfigChange('fileRegex', e.target.value)}
+                  fullWidth
+                  size="small"
+                  placeholder="*.csv, store-sales-*, inventory-*.xml"
+                  helperText="How to find files under folder path structure? You can use file extensions or specific file names such as *.csv, store-sales- or inventory-*.xml etc"
+                />
+
+                <TextField
+                  label="Date Format of File Name"
+                  value={salesConfig.dateFormat}
+                  onChange={(e) => handleSalesConfigChange('dateFormat', e.target.value)}
+                  fullWidth
+                  size="small"
+                  placeholder="YYYY-MM-DD"
+                  helperText="Specify the date format used in the file name, e.g., YYYY-MM-DD"
+                />
+
+                <div className="bg-gray-50 rounded-lg p-3">
+                  <span className="text-xs text-gray-500">Preview: </span>
+                  <span className="text-xs font-mono text-red-500">
+                    {salesConfig.fileUrl ? salesConfig.fileUrl : 'Invalid URL'}
+                  </span>
+                </div>
+
+                <TextField
+                  label="File Content Field Path"
+                  value={salesConfig.contentFieldPath}
+                  onChange={(e) => handleSalesConfigChange('contentFieldPath', e.target.value)}
+                  fullWidth
+                  size="small"
+                  placeholder="$.list.datas or $.items"
+                  helperText="How to access the desired content inside the file? You can think of it as XML files xpath feature, such as $.list.datas or $.items"
+                />
+              </div>
+            </div>
+
+            <div className="border-t border-gray-200 pt-4">
+              <h3 className="text-sm font-semibold text-gray-900 mb-4">Scheduler</h3>
+              <div className="grid grid-cols-3 gap-4">
+                <div>
+                  <label className="block text-xs font-medium text-gray-500 mb-1">Frequency</label>
+                  <select 
+                    className="w-full p-2 border border-gray-200 rounded-lg bg-white text-sm"
+                    value={salesConfig.schedulerFrequency}
+                    onChange={(e) => handleSalesConfigChange('schedulerFrequency', e.target.value)}
+                  >
+                    <option value="HOURLY">HOURLY</option>
+                    <option value="DAILY">DAILY</option>
+                    <option value="WEEKLY">WEEKLY</option>
+                    <option value="MONTHLY">MONTHLY</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-xs font-medium text-gray-500 mb-1">Time</label>
+                  <input
+                    type="time"
+                    className="w-full p-2 border border-gray-200 rounded-lg text-sm"
+                    value={salesConfig.schedulerTime}
+                    onChange={(e) => handleSalesConfigChange('schedulerTime', e.target.value)}
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-medium text-gray-500 mb-1">Time Zone</label>
+                  <select 
+                    className="w-full p-2 border border-gray-200 rounded-lg bg-white text-sm"
+                    value={salesConfig.timezone}
+                    onChange={(e) => handleSalesConfigChange('timezone', e.target.value)}
+                  >
+                    <option value="Europe/Istanbul">Europe/Istanbul</option>
+                    <option value="UTC">UTC</option>
+                    <option value="Europe/London">Europe/London</option>
+                    <option value="America/New_York">America/New York</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div className="border-t border-gray-200 pt-4">
+              <h3 className="text-sm font-semibold text-gray-900 mb-1">User Authentication</h3>
+              <p className="text-xs text-gray-500 mb-4">(Optional)</p>
+              <div className="grid grid-cols-2 gap-4 mb-4">
+                <TextField
+                  label="Username"
+                  value={salesConfig.username}
+                  onChange={(e) => handleSalesConfigChange('username', e.target.value)}
+                  fullWidth
+                  size="small"
+                />
+                <TextField
+                  label="Password"
+                  type="password"
+                  value={salesConfig.password}
+                  onChange={(e) => handleSalesConfigChange('password', e.target.value)}
+                  fullWidth
+                  size="small"
+                />
+              </div>
+              <TextField
+                label="Private Key"
+                value={salesConfig.privateKey}
+                onChange={(e) => handleSalesConfigChange('privateKey', e.target.value)}
+                fullWidth
+                multiline
+                rows={3}
+                size="small"
+                placeholder="Paste the content of .pem file here"
+                helperText="You can paste here the content of .pem file if accessing requires private key"
+              />
+            </div>
+
+            <div className="bg-blue-50 rounded-xl p-4 border border-blue-100">
+              <div className="flex items-start gap-3">
+                <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0">
+                  <Shield className="w-4 h-4 text-blue-600" />
+                </div>
+                <div>
+                  <h4 className="text-sm font-medium text-blue-900 mb-1">IP Restrictions</h4>
+                  <p className="text-xs text-blue-700 mb-2">For enhanced security, you can enable IP-based restrictions by allowing access only to the following IP addresses:</p>
+                  <div className="flex flex-wrap gap-2">
+                    <code className="px-2 py-1 bg-white rounded text-xs font-mono text-gray-700 border border-blue-200">18.197.128.133</code>
+                    <code className="px-2 py-1 bg-white rounded text-xs font-mono text-gray-700 border border-blue-200">18.197.126.156</code>
+                    <code className="px-2 py-1 bg-white rounded text-xs font-mono text-gray-700 border border-blue-200">3.65.9.112</code>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </DialogContent>
+
+        <DialogActions sx={{ borderTop: '1px solid #e5e7eb', p: 3 }}>
+          <button 
+            onClick={() => setSalesDataModalOpen(false)}
+            className="px-4 py-2 text-gray-600 font-medium rounded-lg hover:bg-gray-100 transition-colors"
+          >
+            Cancel
+          </button>
+          <button 
+            onClick={() => {
+              setSalesDataModalOpen(false);
+              if (currentStep) {
+                dispatch({ type: 'COMPLETE_TASK', stepId: currentStep.id, taskId: 'datasource' });
+              }
+            }}
+            className="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors"
+          >
+            Save Configuration
           </button>
         </DialogActions>
       </Dialog>
