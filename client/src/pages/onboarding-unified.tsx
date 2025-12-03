@@ -1407,7 +1407,7 @@ export default function OnboardingUnifiedPage() {
                   { key: 'email', label: 'Email *' },
                   { key: 'conversionName', label: 'Conversion Name' },
                   { key: 'conversionValue', label: 'Conversion Value *' },
-                  { key: 'conversionTime', label: 'Conversion Time *', required: true },
+                  { key: 'conversionTime', label: 'Conversion Time *' },
                   { key: 'conversionCurrency', label: 'Conversion Currency *' },
                   { key: 'city', label: 'City *' },
                   { key: 'state', label: 'State' },
@@ -1433,11 +1433,6 @@ export default function OnboardingUnifiedPage() {
                       >
                         <option value={field.label}>{field.label}</option>
                       </select>
-                      {field.required && (
-                        <span className="px-2 py-1 bg-amber-100 text-amber-700 text-xs rounded border border-amber-200">
-                          Required
-                        </span>
-                      )}
                     </div>
                   </div>
                 ))}
