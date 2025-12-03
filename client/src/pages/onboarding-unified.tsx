@@ -30,7 +30,7 @@ import {
   Settings,
   Sparkles
 } from 'lucide-react';
-import { SiGoogle, SiApple } from 'react-icons/si';
+import { SiGoogle, SiApple, SiMeta, SiTiktok } from 'react-icons/si';
 import {
   Dialog,
   DialogTitle,
@@ -98,6 +98,7 @@ const initialSteps: Step[] = [
     icon: Target,
     tasks: [
       { id: 'datasource', label: 'Connect Data Source', completed: false },
+      { id: 'platforms', label: 'Authorize Platforms', completed: false },
       { id: 'mapping', label: 'Map Your Fields', completed: false },
       { id: 'verify', label: 'Verify & Activate', completed: false },
     ]
@@ -190,6 +191,11 @@ export default function OnboardingUnifiedPage() {
   const [googleConnected, setGoogleConnected] = useState(false);
   const [appleConnected, setAppleConnected] = useState(false);
   const [yandexConnected, setYandexConnected] = useState(false);
+  
+  // Ad Platform connections
+  const [googleAdsConnected, setGoogleAdsConnected] = useState(false);
+  const [metaAdsConnected, setMetaAdsConnected] = useState(false);
+  const [tiktokAdsConnected, setTiktokAdsConnected] = useState(false);
   
   const [dataSourceModalOpen, setDataSourceModalOpen] = useState(false);
   const [dataSourceType, setDataSourceType] = useState<'sftp' | 'api' | null>(null);
@@ -1027,6 +1033,125 @@ export default function OnboardingUnifiedPage() {
                                 <p className="text-xs text-gray-500">Upload CSV or Excel files directly</p>
                               </div>
                             </div>
+                          </button>
+                        </div>
+                      )}
+
+                      {/* Offline Attribution - Authorize Platforms */}
+                      {currentStep.id === 'attribution' && task.id === 'platforms' && (
+                        <div className="space-y-3">
+                          {/* Google Ads */}
+                          <div className={`p-4 rounded-xl border-2 transition-all ${
+                            googleAdsConnected 
+                              ? 'border-green-500 bg-green-50' 
+                              : 'border-gray-200 hover:border-blue-300 bg-white'
+                          }`}>
+                            <div className="flex items-center justify-between">
+                              <div className="flex items-center gap-3">
+                                <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${
+                                  googleAdsConnected ? 'bg-green-100' : 'bg-blue-50'
+                                }`}>
+                                  <SiGoogle className={`w-5 h-5 ${googleAdsConnected ? 'text-green-600' : 'text-blue-600'}`} />
+                                </div>
+                                <div>
+                                  <p className="font-medium text-gray-900">Google Ads</p>
+                                  <p className="text-xs text-gray-500">Connect your Google Ads account</p>
+                                </div>
+                              </div>
+                              {googleAdsConnected ? (
+                                <div className="flex items-center gap-2 text-green-600">
+                                  <Check size={18} />
+                                  <span className="text-sm font-medium">Connected</span>
+                                </div>
+                              ) : (
+                                <button
+                                  onClick={() => setGoogleAdsConnected(true)}
+                                  className="px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-colors"
+                                  data-testid="button-connect-google-ads"
+                                >
+                                  Connect
+                                </button>
+                              )}
+                            </div>
+                          </div>
+                          
+                          {/* Meta Ads */}
+                          <div className={`p-4 rounded-xl border-2 transition-all ${
+                            metaAdsConnected 
+                              ? 'border-green-500 bg-green-50' 
+                              : 'border-gray-200 hover:border-blue-300 bg-white'
+                          }`}>
+                            <div className="flex items-center justify-between">
+                              <div className="flex items-center gap-3">
+                                <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${
+                                  metaAdsConnected ? 'bg-green-100' : 'bg-blue-100'
+                                }`}>
+                                  <SiMeta className={`w-5 h-5 ${metaAdsConnected ? 'text-green-600' : 'text-blue-600'}`} />
+                                </div>
+                                <div>
+                                  <p className="font-medium text-gray-900">Meta Ads</p>
+                                  <p className="text-xs text-gray-500">Connect Facebook & Instagram Ads</p>
+                                </div>
+                              </div>
+                              {metaAdsConnected ? (
+                                <div className="flex items-center gap-2 text-green-600">
+                                  <Check size={18} />
+                                  <span className="text-sm font-medium">Connected</span>
+                                </div>
+                              ) : (
+                                <button
+                                  onClick={() => setMetaAdsConnected(true)}
+                                  className="px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-colors"
+                                  data-testid="button-connect-meta-ads"
+                                >
+                                  Connect
+                                </button>
+                              )}
+                            </div>
+                          </div>
+                          
+                          {/* TikTok Ads */}
+                          <div className={`p-4 rounded-xl border-2 transition-all ${
+                            tiktokAdsConnected 
+                              ? 'border-green-500 bg-green-50' 
+                              : 'border-gray-200 hover:border-gray-300 bg-white'
+                          }`}>
+                            <div className="flex items-center justify-between">
+                              <div className="flex items-center gap-3">
+                                <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${
+                                  tiktokAdsConnected ? 'bg-green-100' : 'bg-gray-900'
+                                }`}>
+                                  <SiTiktok className={`w-5 h-5 ${tiktokAdsConnected ? 'text-green-600' : 'text-white'}`} />
+                                </div>
+                                <div>
+                                  <p className="font-medium text-gray-900">TikTok Ads</p>
+                                  <p className="text-xs text-gray-500">Connect your TikTok Ads account</p>
+                                </div>
+                              </div>
+                              {tiktokAdsConnected ? (
+                                <div className="flex items-center gap-2 text-green-600">
+                                  <Check size={18} />
+                                  <span className="text-sm font-medium">Connected</span>
+                                </div>
+                              ) : (
+                                <button
+                                  onClick={() => setTiktokAdsConnected(true)}
+                                  className="px-4 py-2 bg-gray-900 text-white text-sm font-medium rounded-lg hover:bg-gray-800 transition-colors"
+                                  data-testid="button-connect-tiktok-ads"
+                                >
+                                  Connect
+                                </button>
+                              )}
+                            </div>
+                          </div>
+                          
+                          {/* Continue Button */}
+                          <button
+                            onClick={() => handleTaskComplete('platforms')}
+                            className="w-full mt-2 px-4 py-2.5 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-colors"
+                            data-testid="button-platforms-continue"
+                          >
+                            Continue
                           </button>
                         </div>
                       )}
