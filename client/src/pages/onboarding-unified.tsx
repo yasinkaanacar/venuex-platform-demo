@@ -375,7 +375,7 @@ export default function OnboardingUnifiedPage() {
       icon: Package,
       gradient: 'from-emerald-500 to-teal-500',
       title: 'Local Inventory',
-      subtitle: 'Optimize product visibility',
+      subtitle: 'Sync your product catalog with Google Merchant Center to show real-time stock availability across all store locations',
       kpi: '40% more traffic',
       benefits: ['Product feeds', 'Stock sync', 'Local campaigns']
     }
