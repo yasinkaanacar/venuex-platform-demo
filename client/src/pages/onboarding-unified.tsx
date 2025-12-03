@@ -202,6 +202,16 @@ export default function OnboardingUnifiedPage() {
   const [salesDataModalOpen, setSalesDataModalOpen] = useState(false);
   const [dataMappingModalOpen, setDataMappingModalOpen] = useState(false);
   const [uploadedFileName, setUploadedFileName] = useState('');
+  const [inventoryMappingModalOpen, setInventoryMappingModalOpen] = useState(false);
+  const [inventoryFileName, setInventoryFileName] = useState('Store Sales Data Req - Sheet1.csv');
+  const [inventoryMappings, setInventoryMappings] = useState({
+    productId: '',
+    storeCode: '',
+    quantity: '',
+    availability: '',
+    price: '',
+    salePrice: ''
+  });
   
   const [fieldMappings, setFieldMappings] = useState({
     phoneNumber: '',
@@ -1283,15 +1293,47 @@ export default function OnboardingUnifiedPage() {
 
                       {/* Local Inventory - Sync */}
                       {currentStep.id === 'inventory' && task.id === 'sync-inv' && (
-                        <div>
-                          <p className="text-sm text-gray-500 mb-2">Sync your inventory data with connected platforms</p>
-                          <button
-                            onClick={() => handleTaskComplete('sync-inv')}
-                            className="px-4 py-2 bg-blue-600 text-white text-sm rounded-lg hover:bg-blue-700"
-                            data-testid="button-sync-inv-done"
-                          >
-                            Start Sync
-                          </button>
+                        <div className="space-y-4">
+                          {/* Inventory Data Mapping Card */}
+                          <div className="p-4 rounded-xl border-2 border-purple-200 bg-gradient-to-br from-purple-50 to-indigo-50">
+                            <div className="flex items-start gap-4">
+                              <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-500 to-indigo-500 flex items-center justify-center flex-shrink-0 shadow-lg">
+                                <Database size={22} className="text-white" />
+                              </div>
+                              <div className="flex-1">
+                                <h4 className="font-semibold text-gray-900 mb-1">Inventory Data Settings</h4>
+                                <p className="text-sm text-gray-600 mb-3">
+                                  Map your inventory data fields to sync with connected platforms
+                                </p>
+                                
+                                {/* Field Preview */}
+                                <div className="space-y-2 mb-4">
+                                  <div className="flex items-center gap-2 text-xs">
+                                    <span className="px-2 py-1 bg-white rounded border border-gray-200 text-gray-600 font-mono">product_sku</span>
+                                    <ArrowRight size={12} className="text-purple-400" />
+                                    <span className="px-2 py-1 bg-purple-100 rounded border border-purple-200 text-purple-700 font-mono">Product Id</span>
+                                  </div>
+                                  <div className="flex items-center gap-2 text-xs">
+                                    <span className="px-2 py-1 bg-white rounded border border-gray-200 text-gray-600 font-mono">location_code</span>
+                                    <ArrowRight size={12} className="text-purple-400" />
+                                    <span className="px-2 py-1 bg-purple-100 rounded border border-purple-200 text-purple-700 font-mono">Store code</span>
+                                  </div>
+                                  <div className="flex items-center gap-2 text-xs text-gray-400">
+                                    <span>+ 4 more fields to map</span>
+                                  </div>
+                                </div>
+
+                                <button
+                                  onClick={() => setInventoryMappingModalOpen(true)}
+                                  className="w-full px-4 py-2.5 bg-gradient-to-r from-purple-600 to-indigo-600 text-white text-sm font-medium rounded-lg hover:from-purple-700 hover:to-indigo-700 transition-all shadow-md flex items-center justify-center gap-2"
+                                  data-testid="button-open-inventory-mapping"
+                                >
+                                  <Settings size={16} />
+                                  Configure Mapping
+                                </button>
+                              </div>
+                            </div>
+                          </div>
                         </div>
                       )}
 
@@ -1872,6 +1914,156 @@ export default function OnboardingUnifiedPage() {
               setDataMappingModalOpen(false);
               if (currentStep) {
                 dispatch({ type: 'COMPLETE_TASK', stepId: currentStep.id, taskId: 'mapping' });
+              }
+            }}
+            className="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors"
+          >
+            Save Mapping
+          </button>
+        </DialogActions>
+      </Dialog>
+
+      {/* Inventory Data Settings Modal */}
+      <Dialog 
+        open={inventoryMappingModalOpen} 
+        onClose={() => setInventoryMappingModalOpen(false)}
+        maxWidth="md"
+        fullWidth
+        PaperProps={{
+          sx: {
+            borderRadius: '16px',
+            maxHeight: '90vh'
+          }
+        }}
+      >
+        <DialogTitle sx={{ 
+          display: 'flex', 
+          justifyContent: 'space-between', 
+          alignItems: 'center',
+          borderBottom: '1px solid #e5e7eb',
+          pb: 2
+        }}>
+          <div className="flex items-center gap-3">
+            <div>
+              <h2 className="text-lg font-semibold text-gray-900">Inventory Data Settings</h2>
+            </div>
+          </div>
+          <IconButton onClick={() => setInventoryMappingModalOpen(false)} size="small">
+            <X className="w-5 h-5 text-gray-500" />
+          </IconButton>
+        </DialogTitle>
+        
+        <DialogContent sx={{ pt: 3 }}>
+          <div className="space-y-6">
+            {/* Map Your Data Section */}
+            <div>
+              <div className="flex items-center gap-2 mb-4">
+                <Settings size={18} className="text-gray-600" />
+                <h3 className="text-sm font-semibold text-gray-900">Map Your Data</h3>
+              </div>
+              
+              <label className="block text-sm font-medium text-gray-700 mb-2">Upload Sample File</label>
+              
+              {inventoryFileName ? (
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="flex items-center gap-2 px-4 py-2 bg-blue-50 border border-blue-200 rounded-lg">
+                    <FileText className="w-4 h-4 text-blue-600" />
+                    <span className="text-sm text-blue-700">{inventoryFileName}</span>
+                  </div>
+                  <button 
+                    onClick={() => setInventoryFileName('')}
+                    className="p-1 text-gray-400 hover:text-gray-600"
+                  >
+                    <X size={16} />
+                  </button>
+                </div>
+              ) : (
+                <button 
+                  onClick={() => setInventoryFileName('Store Sales Data Req - Sheet1.csv')}
+                  className="flex items-center gap-2 p-3 border-2 border-dashed border-gray-300 rounded-lg hover:border-purple-400 hover:bg-purple-50/30 transition-all"
+                >
+                  <FileText className="w-4 h-4 text-gray-400" />
+                  <span className="text-sm text-gray-500">Click to upload sample file</span>
+                </button>
+              )}
+              <p className="text-xs text-gray-500 mt-2">
+                Please upload a sample file to initiate column naming analysis. The system will ensure precise and complete matching of all column names in your file.
+              </p>
+              <button 
+                onClick={() => setInventoryFileName('Store Sales Data Req - Sheet1.csv')}
+                className="mt-3 px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-colors flex items-center gap-2"
+              >
+                <Upload size={16} />
+                Submit File
+              </button>
+            </div>
+
+            {/* Mapping File Content Section */}
+            <div className="border-t border-gray-200 pt-6">
+              <label className="block text-sm font-medium text-gray-700 mb-2">Mapping File Content</label>
+              <p className="text-xs text-gray-500 mb-4">
+                The column names from your uploaded file are displayed on the left. Please select the appropriate corresponding names from the list on the right to complete the mapping process.
+              </p>
+              
+              <div className="space-y-3">
+                {/* Header Row */}
+                <div className="grid grid-cols-3 gap-4 text-xs font-medium text-gray-500 pb-2 border-b">
+                  <span></span>
+                  <span>Sample File Fields</span>
+                  <span>Mapping File Fields</span>
+                </div>
+
+                {/* Field Rows */}
+                {[
+                  { key: 'productId', label: 'Product Id *' },
+                  { key: 'storeCode', label: 'Store code *' },
+                  { key: 'quantity', label: 'Quantity *' },
+                  { key: 'availability', label: 'Availability' },
+                  { key: 'price', label: 'Price' },
+                  { key: 'salePrice', label: 'Sale Price' },
+                ].map((field) => (
+                  <div key={field.key} className="grid grid-cols-3 gap-4 items-center">
+                    <span className="text-sm text-gray-600">Field</span>
+                    <select
+                      className="w-full p-2 border border-gray-200 rounded-lg bg-white text-sm"
+                      value={inventoryMappings[field.key as keyof typeof inventoryMappings]}
+                      onChange={(e) => setInventoryMappings(prev => ({ ...prev, [field.key]: e.target.value }))}
+                    >
+                      <option value=""></option>
+                      <option value="product_sku">product_sku</option>
+                      <option value="location_code">location_code</option>
+                      <option value="stock_qty">stock_qty</option>
+                      <option value="in_stock">in_stock</option>
+                      <option value="unit_price">unit_price</option>
+                      <option value="discounted_price">discounted_price</option>
+                    </select>
+                    <div className="flex items-center gap-2">
+                      <select
+                        className="flex-1 p-2 border border-gray-200 rounded-lg bg-white text-sm"
+                        defaultValue={field.label}
+                      >
+                        <option value={field.label}>{field.label}</option>
+                      </select>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </DialogContent>
+
+        <DialogActions sx={{ borderTop: '1px solid #e5e7eb', p: 3 }}>
+          <button 
+            onClick={() => setInventoryMappingModalOpen(false)}
+            className="px-4 py-2 text-gray-600 font-medium rounded-lg hover:bg-gray-100 transition-colors"
+          >
+            Cancel
+          </button>
+          <button 
+            onClick={() => {
+              setInventoryMappingModalOpen(false);
+              if (currentStep) {
+                dispatch({ type: 'COMPLETE_TASK', stepId: currentStep.id, taskId: 'sync-inv' });
               }
             }}
             className="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors"
