@@ -103,7 +103,7 @@ const initialSteps: Step[] = [
   {
     id: 'inventory',
     title: 'Local Inventory',
-    optional: false,
+    optional: true,
     icon: Package,
     tasks: [
       { id: 'feed', label: 'Product Feed Setup', completed: false },
