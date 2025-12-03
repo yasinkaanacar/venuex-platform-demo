@@ -192,6 +192,33 @@ export default function OnboardingUnifiedPage() {
   const [dataSourceModalOpen, setDataSourceModalOpen] = useState(false);
   const [dataSourceType, setDataSourceType] = useState<'sftp' | 'api' | null>(null);
   const [salesDataModalOpen, setSalesDataModalOpen] = useState(false);
+  const [dataMappingModalOpen, setDataMappingModalOpen] = useState(false);
+  const [uploadedFileName, setUploadedFileName] = useState('');
+  
+  const [fieldMappings, setFieldMappings] = useState({
+    phoneNumber: '',
+    firstName: '',
+    lastName: '',
+    email: '',
+    conversionName: '',
+    conversionValue: '',
+    conversionTime: '',
+    conversionCurrency: '',
+    city: '',
+    state: '',
+    postalCode: '',
+    country: ''
+  });
+
+  const sampleFileFields = [
+    'phone', 'mobile', 'tel', 'first_name', 'fname', 'last_name', 'lname',
+    'email', 'e_mail', 'conversion', 'amount', 'value', 'timestamp', 'date',
+    'currency', 'city', 'state', 'zip', 'postal', 'country'
+  ];
+
+  const handleFieldMappingChange = (field: string, value: string) => {
+    setFieldMappings(prev => ({ ...prev, [field]: value }));
+  };
   
   const [salesConfig, setSalesConfig] = useState({
     dataSourceType: 'SFTP',
@@ -787,27 +814,13 @@ export default function OnboardingUnifiedPage() {
                       {/* Offline Attribution - Field Mapping */}
                       {currentStep.id === 'attribution' && task.id === 'mapping' && (
                         <div>
-                          <p className="text-sm text-gray-500 mb-2">Map your data fields to VenueX schema</p>
-                          <div className="space-y-2 text-sm">
-                            <div className="flex justify-between items-center py-1 border-b">
-                              <span className="text-gray-600">Transaction ID</span>
-                              <span className="text-green-600">→ Mapped</span>
-                            </div>
-                            <div className="flex justify-between items-center py-1 border-b">
-                              <span className="text-gray-600">Customer Email</span>
-                              <span className="text-green-600">→ Mapped</span>
-                            </div>
-                            <div className="flex justify-between items-center py-1 border-b">
-                              <span className="text-gray-600">Amount</span>
-                              <span className="text-green-600">→ Mapped</span>
-                            </div>
-                          </div>
+                          <p className="text-sm text-gray-500 mb-3">Map your data fields to VenueX schema</p>
                           <button
-                            onClick={() => handleTaskComplete('mapping')}
-                            className="mt-3 px-4 py-2 bg-blue-600 text-white text-sm rounded-lg hover:bg-blue-700"
-                            data-testid="button-mapping-done"
+                            onClick={() => setDataMappingModalOpen(true)}
+                            className="px-4 py-2 bg-blue-600 text-white text-sm rounded-lg hover:bg-blue-700"
+                            data-testid="button-open-mapping"
                           >
-                            Confirm Mapping
+                            Open Field Mapping
                           </button>
                         </div>
                       )}
@@ -1295,6 +1308,161 @@ export default function OnboardingUnifiedPage() {
             className="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors"
           >
             Save Configuration
+          </button>
+        </DialogActions>
+      </Dialog>
+
+      {/* Data Mapping Modal */}
+      <Dialog 
+        open={dataMappingModalOpen} 
+        onClose={() => setDataMappingModalOpen(false)}
+        maxWidth="md"
+        fullWidth
+        PaperProps={{
+          sx: {
+            borderRadius: '16px',
+            maxHeight: '90vh'
+          }
+        }}
+      >
+        <DialogTitle sx={{ 
+          display: 'flex', 
+          justifyContent: 'space-between', 
+          alignItems: 'center',
+          borderBottom: '1px solid #e5e7eb',
+          pb: 2
+        }}>
+          <div className="flex items-center gap-3">
+            <div>
+              <h2 className="text-lg font-semibold text-gray-900">Sales Data Settings</h2>
+            </div>
+          </div>
+          <IconButton onClick={() => setDataMappingModalOpen(false)} size="small">
+            <X className="w-5 h-5 text-gray-500" />
+          </IconButton>
+        </DialogTitle>
+        
+        <DialogContent sx={{ pt: 3 }}>
+          <div className="space-y-6">
+            {/* Map Your Data Header */}
+            <div>
+              <h3 className="text-base font-semibold text-gray-900 mb-4 flex items-center gap-2">
+                <Settings className="w-4 h-4" />
+                Map Your Data
+              </h3>
+            </div>
+
+            {/* Upload Sample File Section */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-3">Upload Sample File</label>
+              {uploadedFileName ? (
+                <div className="flex items-center gap-2 p-3 border border-gray-200 rounded-lg bg-gray-50 w-fit">
+                  <FileText className="w-4 h-4 text-gray-500" />
+                  <span className="text-sm text-gray-700">{uploadedFileName}</span>
+                  <button onClick={() => setUploadedFileName('')} className="ml-2 text-gray-400 hover:text-gray-600">
+                    <X size={14} />
+                  </button>
+                </div>
+              ) : (
+                <button 
+                  onClick={() => setUploadedFileName('Store Sales Data Req - Sheet1.csv')}
+                  className="flex items-center gap-2 p-3 border-2 border-dashed border-gray-300 rounded-lg hover:border-blue-400 hover:bg-blue-50/30 transition-all"
+                >
+                  <FileText className="w-4 h-4 text-gray-400" />
+                  <span className="text-sm text-gray-500">Click to upload sample file</span>
+                </button>
+              )}
+              <p className="text-xs text-gray-500 mt-2">
+                Please upload a sample file to initiate column naming analysis. The system will ensure precise and complete matching of all column names in your file.
+              </p>
+              <button 
+                onClick={() => setUploadedFileName('Store Sales Data Req - Sheet1.csv')}
+                className="mt-3 px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-colors flex items-center gap-2"
+              >
+                <Upload size={16} />
+                Submit File
+              </button>
+            </div>
+
+            {/* Mapping File Content Section */}
+            <div className="border-t border-gray-200 pt-6">
+              <label className="block text-sm font-medium text-gray-700 mb-2">Mapping File Content</label>
+              <p className="text-xs text-gray-500 mb-4">
+                The column names from your uploaded file are displayed on the left. Please select the appropriate corresponding names from the list on the right to complete the mapping process.
+              </p>
+              
+              <div className="space-y-3">
+                {/* Header Row */}
+                <div className="grid grid-cols-3 gap-4 text-xs font-medium text-gray-500 pb-2 border-b">
+                  <span></span>
+                  <span>Sample File Fields</span>
+                  <span>Mapping File Fields</span>
+                </div>
+
+                {/* Field Rows */}
+                {[
+                  { key: 'phoneNumber', label: 'Phone Number *' },
+                  { key: 'firstName', label: 'First Name *' },
+                  { key: 'lastName', label: 'Last Name *' },
+                  { key: 'email', label: 'Email *' },
+                  { key: 'conversionName', label: 'Conversion Name' },
+                  { key: 'conversionValue', label: 'Conversion Value *' },
+                  { key: 'conversionTime', label: 'Conversion Time *', required: true },
+                  { key: 'conversionCurrency', label: 'Conversion Currency *' },
+                  { key: 'city', label: 'City *' },
+                  { key: 'state', label: 'State' },
+                  { key: 'postalCode', label: 'Postal Code' },
+                  { key: 'country', label: 'Country *' },
+                ].map((field) => (
+                  <div key={field.key} className="grid grid-cols-3 gap-4 items-center">
+                    <span className="text-sm text-gray-600">Field</span>
+                    <select
+                      className="w-full p-2 border border-gray-200 rounded-lg bg-white text-sm"
+                      value={fieldMappings[field.key as keyof typeof fieldMappings]}
+                      onChange={(e) => handleFieldMappingChange(field.key, e.target.value)}
+                    >
+                      <option value=""></option>
+                      {sampleFileFields.map(f => (
+                        <option key={f} value={f}>{f}</option>
+                      ))}
+                    </select>
+                    <div className="flex items-center gap-2">
+                      <select
+                        className="flex-1 p-2 border border-gray-200 rounded-lg bg-white text-sm"
+                        defaultValue={field.label}
+                      >
+                        <option value={field.label}>{field.label}</option>
+                      </select>
+                      {field.required && (
+                        <span className="px-2 py-1 bg-amber-100 text-amber-700 text-xs rounded border border-amber-200">
+                          Required
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </DialogContent>
+
+        <DialogActions sx={{ borderTop: '1px solid #e5e7eb', p: 3 }}>
+          <button 
+            onClick={() => setDataMappingModalOpen(false)}
+            className="px-4 py-2 text-gray-600 font-medium rounded-lg hover:bg-gray-100 transition-colors"
+          >
+            Cancel
+          </button>
+          <button 
+            onClick={() => {
+              setDataMappingModalOpen(false);
+              if (currentStep) {
+                dispatch({ type: 'COMPLETE_TASK', stepId: currentStep.id, taskId: 'mapping' });
+              }
+            }}
+            className="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors"
+          >
+            Save Mapping
           </button>
         </DialogActions>
       </Dialog>
