@@ -448,14 +448,6 @@ export default function OnboardingUnifiedPage() {
                         <p className="text-sm text-white/80">{visual?.subtitle || step.subtitle}</p>
                       </div>
                       
-                      {/* KPI Badge */}
-                      <div className="flex items-center gap-2 bg-white/10 backdrop-blur-sm rounded-xl p-3 border border-white/20">
-                        <div className="w-10 h-10 rounded-lg bg-white/20 flex items-center justify-center">
-                          <Zap size={18} className="text-white" />
-                        </div>
-                        <p className="text-lg font-bold">{visual?.kpi || 'Quick setup'}</p>
-                      </div>
-                      
                       {/* Benefits List */}
                       <div className="space-y-1.5">
                         {visual?.benefits.map((benefit, i) => (
