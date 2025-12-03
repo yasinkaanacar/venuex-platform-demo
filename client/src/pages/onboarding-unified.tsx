@@ -30,7 +30,7 @@ import {
   Settings,
   Sparkles
 } from 'lucide-react';
-import { SiGoogle, SiApple, SiMeta, SiTiktok } from 'react-icons/si';
+import { SiGoogle, SiApple, SiMeta, SiTiktok, SiFacebook, SiInstagram, SiX, SiYoutube, SiPinterest, SiLinkedin } from 'react-icons/si';
 import {
   Dialog,
   DialogTitle,
@@ -198,7 +198,7 @@ export default function OnboardingUnifiedPage() {
   const [tiktokAdsConnected, setTiktokAdsConnected] = useState(false);
   
   const [dataSourceModalOpen, setDataSourceModalOpen] = useState(false);
-  const [dataSourceType, setDataSourceType] = useState<'sftp' | 'api' | null>(null);
+  const [dataSourceType, setDataSourceType] = useState<'sftp' | 'api' | 'manual' | null>(null);
   const [salesDataModalOpen, setSalesDataModalOpen] = useState(false);
   const [dataMappingModalOpen, setDataMappingModalOpen] = useState(false);
   const [uploadedFileName, setUploadedFileName] = useState('');
@@ -211,6 +211,24 @@ export default function OnboardingUnifiedPage() {
     availability: '',
     price: '',
     salePrice: ''
+  });
+
+  // Company Information Modal
+  const [companyInfoModalOpen, setCompanyInfoModalOpen] = useState(false);
+  const [businessInfo, setBusinessInfo] = useState({
+    businessName: 'Demo VenueX',
+    businessType: 'Building materials store, Hardware store',
+    description: "That's a description box",
+    email: '',
+    website: 'venuex.io',
+    phone: '+90',
+    facebook: 'https://www.facebook.com/',
+    instagram: 'https://www.instagram.com/',
+    twitter: 'https://www.twitter.com/',
+    tiktok: '',
+    youtube: 'https://www.youtube.com/user/',
+    pinterest: '',
+    linkedin: ''
   });
   
   const [fieldMappings, setFieldMappings] = useState({
@@ -615,37 +633,42 @@ export default function OnboardingUnifiedPage() {
                     <div className="border-t border-gray-200 bg-white p-4">
                       {/* Account Setup - Company Info */}
                       {currentStep.id === 'account' && task.id === 'company' && (
-                        <div className="space-y-3">
-                          <div>
-                            <label className="text-sm text-gray-600 mb-1 block">Company Name</label>
-                            <input
-                              type="text"
-                              value={companyName}
-                              onChange={(e) => setCompanyName(e.target.value)}
-                              className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm"
-                              data-testid="input-company-name"
-                            />
+                        <div className="space-y-4">
+                          {/* Company Info Card */}
+                          <div className="p-4 rounded-xl border-2 border-blue-200 bg-gradient-to-br from-blue-50 to-indigo-50">
+                            <div className="flex items-start gap-4">
+                              <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500 to-indigo-500 flex items-center justify-center flex-shrink-0 shadow-lg">
+                                <Building2 size={22} className="text-white" />
+                              </div>
+                              <div className="flex-1">
+                                <h4 className="font-semibold text-gray-900 mb-1">Basic Information</h4>
+                                <p className="text-sm text-gray-600 mb-3">
+                                  Set up your business profile, contact details, and social media links
+                                </p>
+                                
+                                {/* Quick Preview */}
+                                <div className="space-y-2 mb-4">
+                                  <div className="flex items-center gap-2 text-xs">
+                                    <span className="text-gray-500">Business:</span>
+                                    <span className="font-medium text-gray-800">{businessInfo.businessName}</span>
+                                  </div>
+                                  <div className="flex items-center gap-2 text-xs">
+                                    <span className="text-gray-500">Website:</span>
+                                    <span className="font-medium text-blue-600">{businessInfo.website}</span>
+                                  </div>
+                                </div>
+
+                                <button
+                                  onClick={() => setCompanyInfoModalOpen(true)}
+                                  className="w-full px-4 py-2.5 bg-gradient-to-r from-blue-600 to-indigo-600 text-white text-sm font-medium rounded-lg hover:from-blue-700 hover:to-indigo-700 transition-all shadow-md flex items-center justify-center gap-2"
+                                  data-testid="button-open-company-modal"
+                                >
+                                  <Settings size={16} />
+                                  Configure Business Info
+                                </button>
+                              </div>
+                            </div>
                           </div>
-                          <div>
-                            <label className="text-sm text-gray-600 mb-1 block">Industry</label>
-                            <select 
-                              value={selectedIndustry}
-                              onChange={(e) => setSelectedIndustry(e.target.value)}
-                              className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm"
-                              data-testid="select-industry"
-                            >
-                              {industries.map(ind => (
-                                <option key={ind.id} value={ind.id}>{ind.name}</option>
-                              ))}
-                            </select>
-                          </div>
-                          <button
-                            onClick={() => handleTaskComplete('company')}
-                            className="px-4 py-2 bg-blue-600 text-white text-sm rounded-lg hover:bg-blue-700"
-                            data-testid="button-save-company"
-                          >
-                            Save & Continue
-                          </button>
                         </div>
                       )}
 
@@ -2124,6 +2147,262 @@ export default function OnboardingUnifiedPage() {
             className="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors"
           >
             Save Mapping
+          </button>
+        </DialogActions>
+      </Dialog>
+
+      {/* Company Information Modal */}
+      <Dialog 
+        open={companyInfoModalOpen} 
+        onClose={() => setCompanyInfoModalOpen(false)}
+        maxWidth="md"
+        fullWidth
+        PaperProps={{
+          sx: {
+            borderRadius: '16px',
+            maxHeight: '90vh'
+          }
+        }}
+      >
+        <DialogTitle sx={{ 
+          display: 'flex', 
+          justifyContent: 'space-between', 
+          alignItems: 'center',
+          borderBottom: '1px solid #e5e7eb',
+          pb: 2
+        }}>
+          <div className="flex items-center gap-3">
+            <div>
+              <h2 className="text-lg font-semibold text-gray-900">Basic Information</h2>
+            </div>
+          </div>
+          <IconButton onClick={() => setCompanyInfoModalOpen(false)} size="small">
+            <X className="w-5 h-5 text-gray-500" />
+          </IconButton>
+        </DialogTitle>
+        
+        <DialogContent sx={{ pt: 3 }}>
+          <div className="space-y-6">
+            {/* Upload Logo Section */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Upload logo</label>
+              <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-blue-400 hover:bg-blue-50/30 transition-all cursor-pointer">
+                <Upload size={24} className="mx-auto text-gray-400 mb-2" />
+                <p className="text-sm text-gray-600">Drag files here to upload.</p>
+                <p className="text-xs text-gray-400 mt-2">Compatible file types: .jpg, .gif, .png, .bmp</p>
+                <p className="text-xs text-gray-400">The photo should be at least Width: 250px & Height: 250px in size.</p>
+              </div>
+            </div>
+
+            {/* Business Name */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Business Name</label>
+              <input
+                type="text"
+                value={businessInfo.businessName}
+                onChange={(e) => setBusinessInfo(prev => ({ ...prev, businessName: e.target.value }))}
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                data-testid="input-business-name"
+              />
+            </div>
+
+            {/* Business Type */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Business Type</label>
+              <input
+                type="text"
+                value={businessInfo.businessType}
+                onChange={(e) => setBusinessInfo(prev => ({ ...prev, businessType: e.target.value }))}
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm text-gray-600"
+                data-testid="input-business-type"
+              />
+            </div>
+
+            {/* Description */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Description</label>
+              <textarea
+                value={businessInfo.description}
+                onChange={(e) => setBusinessInfo(prev => ({ ...prev, description: e.target.value }))}
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm h-24 resize-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                data-testid="input-description"
+              />
+            </div>
+
+            {/* Contact Info Row */}
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Email</label>
+                <input
+                  type="email"
+                  value={businessInfo.email}
+                  onChange={(e) => setBusinessInfo(prev => ({ ...prev, email: e.target.value }))}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm"
+                  data-testid="input-email"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Website</label>
+                <input
+                  type="text"
+                  value={businessInfo.website}
+                  onChange={(e) => setBusinessInfo(prev => ({ ...prev, website: e.target.value }))}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm"
+                  data-testid="input-website"
+                />
+              </div>
+            </div>
+
+            {/* Phone */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Primary phone number</label>
+              <input
+                type="tel"
+                value={businessInfo.phone}
+                onChange={(e) => setBusinessInfo(prev => ({ ...prev, phone: e.target.value }))}
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm"
+                data-testid="input-phone"
+              />
+            </div>
+
+            {/* Social Media Section */}
+            <div className="border-t border-gray-200 pt-4">
+              <label className="block text-sm font-medium text-gray-700 mb-4">Social Media</label>
+              <div className="space-y-3">
+                {/* Facebook */}
+                <div className="flex items-center gap-3">
+                  <div className="w-8 h-8 rounded-lg bg-blue-100 flex items-center justify-center flex-shrink-0">
+                    <SiFacebook className="w-4 h-4 text-blue-600" />
+                  </div>
+                  <div className="flex-1">
+                    <label className="block text-xs text-gray-500 mb-1">Facebook</label>
+                    <input
+                      type="text"
+                      value={businessInfo.facebook}
+                      onChange={(e) => setBusinessInfo(prev => ({ ...prev, facebook: e.target.value }))}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm"
+                    />
+                  </div>
+                </div>
+
+                {/* Instagram */}
+                <div className="flex items-center gap-3">
+                  <div className="w-8 h-8 rounded-lg bg-pink-100 flex items-center justify-center flex-shrink-0">
+                    <SiInstagram className="w-4 h-4 text-pink-600" />
+                  </div>
+                  <div className="flex-1">
+                    <label className="block text-xs text-gray-500 mb-1">Instagram</label>
+                    <input
+                      type="text"
+                      value={businessInfo.instagram}
+                      onChange={(e) => setBusinessInfo(prev => ({ ...prev, instagram: e.target.value }))}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm"
+                    />
+                  </div>
+                </div>
+
+                {/* X (Twitter) */}
+                <div className="flex items-center gap-3">
+                  <div className="w-8 h-8 rounded-lg bg-gray-100 flex items-center justify-center flex-shrink-0">
+                    <SiX className="w-4 h-4 text-gray-800" />
+                  </div>
+                  <div className="flex-1">
+                    <label className="block text-xs text-gray-500 mb-1">X</label>
+                    <input
+                      type="text"
+                      value={businessInfo.twitter}
+                      onChange={(e) => setBusinessInfo(prev => ({ ...prev, twitter: e.target.value }))}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm"
+                    />
+                  </div>
+                </div>
+
+                {/* TikTok */}
+                <div className="flex items-center gap-3">
+                  <div className="w-8 h-8 rounded-lg bg-gray-900 flex items-center justify-center flex-shrink-0">
+                    <SiTiktok className="w-4 h-4 text-white" />
+                  </div>
+                  <div className="flex-1">
+                    <label className="block text-xs text-gray-500 mb-1">TikTok</label>
+                    <input
+                      type="text"
+                      value={businessInfo.tiktok}
+                      onChange={(e) => setBusinessInfo(prev => ({ ...prev, tiktok: e.target.value }))}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm"
+                    />
+                  </div>
+                </div>
+
+                {/* YouTube */}
+                <div className="flex items-center gap-3">
+                  <div className="w-8 h-8 rounded-lg bg-red-100 flex items-center justify-center flex-shrink-0">
+                    <SiYoutube className="w-4 h-4 text-red-600" />
+                  </div>
+                  <div className="flex-1">
+                    <label className="block text-xs text-gray-500 mb-1">YouTube</label>
+                    <input
+                      type="text"
+                      value={businessInfo.youtube}
+                      onChange={(e) => setBusinessInfo(prev => ({ ...prev, youtube: e.target.value }))}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm"
+                    />
+                  </div>
+                </div>
+
+                {/* Pinterest */}
+                <div className="flex items-center gap-3">
+                  <div className="w-8 h-8 rounded-lg bg-red-50 flex items-center justify-center flex-shrink-0">
+                    <SiPinterest className="w-4 h-4 text-red-500" />
+                  </div>
+                  <div className="flex-1">
+                    <label className="block text-xs text-gray-500 mb-1">Pinterest</label>
+                    <input
+                      type="text"
+                      value={businessInfo.pinterest}
+                      onChange={(e) => setBusinessInfo(prev => ({ ...prev, pinterest: e.target.value }))}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm"
+                    />
+                  </div>
+                </div>
+
+                {/* LinkedIn */}
+                <div className="flex items-center gap-3">
+                  <div className="w-8 h-8 rounded-lg bg-blue-100 flex items-center justify-center flex-shrink-0">
+                    <SiLinkedin className="w-4 h-4 text-blue-700" />
+                  </div>
+                  <div className="flex-1">
+                    <label className="block text-xs text-gray-500 mb-1">LinkedIn</label>
+                    <input
+                      type="text"
+                      value={businessInfo.linkedin}
+                      onChange={(e) => setBusinessInfo(prev => ({ ...prev, linkedin: e.target.value }))}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </DialogContent>
+
+        <DialogActions sx={{ borderTop: '1px solid #e5e7eb', p: 3 }}>
+          <button 
+            onClick={() => setCompanyInfoModalOpen(false)}
+            className="px-4 py-2 text-gray-600 font-medium rounded-lg hover:bg-gray-100 transition-colors"
+          >
+            Cancel
+          </button>
+          <button 
+            onClick={() => {
+              setCompanyInfoModalOpen(false);
+              setCompanyName(businessInfo.businessName);
+              if (currentStep) {
+                dispatch({ type: 'COMPLETE_TASK', stepId: currentStep.id, taskId: 'company' });
+              }
+            }}
+            className="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors"
+          >
+            Save Information
           </button>
         </DialogActions>
       </Dialog>
