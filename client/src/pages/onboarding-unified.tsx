@@ -9,6 +9,7 @@ import {
   Target,
   Package,
   ArrowRight,
+  ArrowRightLeft,
   ChevronDown,
   Users,
   Mail,
@@ -26,7 +27,8 @@ import {
   FileText,
   Shield,
   Clock,
-  Settings
+  Settings,
+  Sparkles
 } from 'lucide-react';
 import { SiGoogle, SiApple } from 'react-icons/si';
 import {
@@ -1031,15 +1033,55 @@ export default function OnboardingUnifiedPage() {
 
                       {/* Offline Attribution - Field Mapping */}
                       {currentStep.id === 'attribution' && task.id === 'mapping' && (
-                        <div>
-                          <p className="text-sm text-gray-500 mb-3">Map your data fields to VenueX schema</p>
-                          <button
-                            onClick={() => setDataMappingModalOpen(true)}
-                            className="px-4 py-2 bg-blue-600 text-white text-sm rounded-lg hover:bg-blue-700"
-                            data-testid="button-open-mapping"
-                          >
-                            Open Field Mapping
-                          </button>
+                        <div className="space-y-4">
+                          {/* Field Mapping Card */}
+                          <div className="p-4 rounded-xl border-2 border-blue-200 bg-gradient-to-br from-blue-50 to-indigo-50">
+                            <div className="flex items-start gap-4">
+                              <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500 to-indigo-500 flex items-center justify-center flex-shrink-0 shadow-lg">
+                                <ArrowRightLeft size={22} className="text-white" />
+                              </div>
+                              <div className="flex-1">
+                                <h4 className="font-semibold text-gray-900 mb-1">Schema Mapping</h4>
+                                <p className="text-sm text-gray-600 mb-3">
+                                  Connect your data fields to VenueX's unified schema for accurate attribution tracking
+                                </p>
+                                
+                                {/* Field Preview */}
+                                <div className="space-y-2 mb-4">
+                                  <div className="flex items-center gap-2 text-xs">
+                                    <span className="px-2 py-1 bg-white rounded border border-gray-200 text-gray-600 font-mono">transaction_id</span>
+                                    <ArrowRight size={12} className="text-blue-400" />
+                                    <span className="px-2 py-1 bg-blue-100 rounded border border-blue-200 text-blue-700 font-mono">order_id</span>
+                                  </div>
+                                  <div className="flex items-center gap-2 text-xs">
+                                    <span className="px-2 py-1 bg-white rounded border border-gray-200 text-gray-600 font-mono">store_code</span>
+                                    <ArrowRight size={12} className="text-blue-400" />
+                                    <span className="px-2 py-1 bg-blue-100 rounded border border-blue-200 text-blue-700 font-mono">location_id</span>
+                                  </div>
+                                  <div className="flex items-center gap-2 text-xs text-gray-400">
+                                    <span>+ 8 more fields to map</span>
+                                  </div>
+                                </div>
+
+                                <button
+                                  onClick={() => setDataMappingModalOpen(true)}
+                                  className="w-full px-4 py-2.5 bg-gradient-to-r from-blue-600 to-indigo-600 text-white text-sm font-medium rounded-lg hover:from-blue-700 hover:to-indigo-700 transition-all shadow-md flex items-center justify-center gap-2"
+                                  data-testid="button-open-mapping"
+                                >
+                                  <Settings size={16} />
+                                  Configure Field Mapping
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+
+                          {/* Info Note */}
+                          <div className="flex items-start gap-2 p-3 bg-amber-50 border border-amber-200 rounded-lg">
+                            <Sparkles size={16} className="text-amber-600 mt-0.5 flex-shrink-0" />
+                            <p className="text-xs text-amber-700">
+                              AI-powered field suggestions will help auto-detect compatible mappings
+                            </p>
+                          </div>
                         </div>
                       )}
 
