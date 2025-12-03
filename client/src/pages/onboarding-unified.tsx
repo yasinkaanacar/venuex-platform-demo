@@ -304,7 +304,7 @@ export default function OnboardingUnifiedPage() {
                   data-testid={`step-card-${step.id}`}
                 >
                   {/* Large Clickable Area (Empty Placeholder) */}
-                  <div className={`h-44 rounded-lg border-2 ${
+                  <div className={`h-[352px] rounded-lg border-2 ${
                     active ? 'border-blue-500 bg-white' : 'border-gray-300 bg-gray-100'
                   }`}>
                     {/* Empty placeholder as requested */}
