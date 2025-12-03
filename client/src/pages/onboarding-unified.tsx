@@ -191,6 +191,7 @@ export default function OnboardingUnifiedPage() {
   
   const [googleConnected, setGoogleConnected] = useState(false);
   const [appleConnected, setAppleConnected] = useState(false);
+  const [metaPagesConnected, setMetaPagesConnected] = useState(false);
   const [yandexConnected, setYandexConnected] = useState(false);
   
   // Ad Platform connections
@@ -315,10 +316,11 @@ export default function OnboardingUnifiedPage() {
     }
   };
 
-  const handleConnectPlatform = (platform: 'google' | 'apple' | 'yandex') => {
+  const handleConnectPlatform = (platform: 'google' | 'apple' | 'meta' | 'yandex') => {
     setTimeout(() => {
       if (platform === 'google') setGoogleConnected(true);
       if (platform === 'apple') setAppleConnected(true);
+      if (platform === 'meta') setMetaPagesConnected(true);
       if (platform === 'yandex') setYandexConnected(true);
     }, 500);
   };
@@ -852,6 +854,41 @@ export default function OnboardingUnifiedPage() {
                             </div>
                           </div>
                           
+                          {/* Meta Pages */}
+                          <div className={`p-4 rounded-xl border-2 transition-all ${
+                            metaPagesConnected 
+                              ? 'border-green-500 bg-green-50' 
+                              : 'border-gray-200 hover:border-blue-300 bg-white'
+                          }`}>
+                            <div className="flex items-center justify-between">
+                              <div className="flex items-center gap-3">
+                                <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${
+                                  metaPagesConnected ? 'bg-green-100' : 'bg-blue-50'
+                                }`}>
+                                  <SiMeta className={`w-5 h-5 ${metaPagesConnected ? 'text-green-600' : 'text-blue-600'}`} />
+                                </div>
+                                <div>
+                                  <p className="font-medium text-gray-900">Meta Pages</p>
+                                  <p className="text-xs text-gray-500">Facebook & Instagram business pages</p>
+                                </div>
+                              </div>
+                              {metaPagesConnected ? (
+                                <div className="flex items-center gap-2 text-green-600">
+                                  <Check size={18} />
+                                  <span className="text-sm font-medium">Connected</span>
+                                </div>
+                              ) : (
+                                <button
+                                  onClick={() => handleConnectPlatform('meta')}
+                                  className="px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-colors"
+                                  data-testid="button-connect-meta-pages"
+                                >
+                                  Connect
+                                </button>
+                              )}
+                            </div>
+                          </div>
+                          
                           {/* Yandex Business */}
                           <div className={`p-4 rounded-xl border-2 transition-all ${
                             yandexConnected 
@@ -927,6 +964,26 @@ export default function OnboardingUnifiedPage() {
                                   </span>
                                 </div>
                                 {appleConnected ? (
+                                  <div className="flex items-center gap-1 text-green-600">
+                                    <Check size={16} />
+                                    <span className="text-xs">Connected</span>
+                                  </div>
+                                ) : (
+                                  <span className="text-xs text-gray-400">Not connected</span>
+                                )}
+                              </div>
+
+                              {/* Meta Pages */}
+                              <div className={`flex items-center justify-between p-3 rounded-lg ${
+                                metaPagesConnected ? 'bg-green-50 border border-green-200' : 'bg-gray-50 border border-gray-200'
+                              }`}>
+                                <div className="flex items-center gap-3">
+                                  <SiMeta className={`w-5 h-5 ${metaPagesConnected ? 'text-green-600' : 'text-gray-400'}`} />
+                                  <span className={`text-sm font-medium ${metaPagesConnected ? 'text-green-700' : 'text-gray-500'}`}>
+                                    Meta Pages
+                                  </span>
+                                </div>
+                                {metaPagesConnected ? (
                                   <div className="flex items-center gap-1 text-green-600">
                                     <Check size={16} />
                                     <span className="text-xs">Connected</span>
