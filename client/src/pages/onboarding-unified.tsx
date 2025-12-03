@@ -948,13 +948,57 @@ export default function OnboardingUnifiedPage() {
 
                       {/* Offline Attribution - Data Source */}
                       {currentStep.id === 'attribution' && task.id === 'datasource' && (
-                        <div>
+                        <div className="space-y-3">
+                          {/* SFTP Upload Option */}
                           <button
-                            onClick={() => setDataSourceModalOpen(true)}
-                            className="px-4 py-2 bg-blue-600 text-white text-sm rounded-lg hover:bg-blue-700"
-                            data-testid="button-connect-datasource"
+                            onClick={() => {
+                              setDataSourceType('sftp');
+                              setSalesDataModalOpen(true);
+                            }}
+                            className={`w-full p-4 rounded-xl border-2 text-left transition-all ${
+                              dataSourceType === 'sftp' 
+                                ? 'border-blue-500 bg-blue-50' 
+                                : 'border-gray-200 hover:border-gray-300 bg-white'
+                            }`}
+                            data-testid="button-sftp-option"
                           >
-                            Connect Data Source
+                            <div className="flex items-center gap-3">
+                              <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${
+                                dataSourceType === 'sftp' ? 'bg-blue-100' : 'bg-gray-100'
+                              }`}>
+                                <Server size={20} className={dataSourceType === 'sftp' ? 'text-blue-600' : 'text-gray-500'} />
+                              </div>
+                              <div>
+                                <p className="font-medium text-gray-900">SFTP Upload</p>
+                                <p className="text-xs text-gray-500">Upload files via secure FTP</p>
+                              </div>
+                            </div>
+                          </button>
+                          
+                          {/* API Integration Option */}
+                          <button
+                            onClick={() => {
+                              setDataSourceType('api');
+                              handleTaskComplete('datasource');
+                            }}
+                            className={`w-full p-4 rounded-xl border-2 text-left transition-all ${
+                              dataSourceType === 'api' 
+                                ? 'border-blue-500 bg-blue-50' 
+                                : 'border-gray-200 hover:border-gray-300 bg-white'
+                            }`}
+                            data-testid="button-api-option"
+                          >
+                            <div className="flex items-center gap-3">
+                              <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${
+                                dataSourceType === 'api' ? 'bg-blue-100' : 'bg-gray-100'
+                              }`}>
+                                <Link2 size={20} className={dataSourceType === 'api' ? 'text-blue-600' : 'text-gray-500'} />
+                              </div>
+                              <div>
+                                <p className="font-medium text-gray-900">API Integration</p>
+                                <p className="text-xs text-gray-500">Connect via REST API</p>
+                              </div>
+                            </div>
                           </button>
                         </div>
                       )}
