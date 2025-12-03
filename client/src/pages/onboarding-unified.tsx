@@ -453,9 +453,7 @@ export default function OnboardingUnifiedPage() {
                         <div className="w-10 h-10 rounded-lg bg-white/20 flex items-center justify-center">
                           <Zap size={18} className="text-white" />
                         </div>
-                        <div>
-                          <p className="text-lg font-bold">{visual?.kpi || 'Quick setup'}</p>
-                        </div>
+                        <p className="text-lg font-bold">{visual?.kpi || 'Quick setup'}</p>
                       </div>
                       
                       {/* Benefits List */}
@@ -503,7 +501,21 @@ export default function OnboardingUnifiedPage() {
                     }`}>
                       <div className="flex items-center gap-2">
                         <MapPin size={14} className={active ? 'text-blue-600' : 'text-gray-400'} />
-                        <p className={`text-xs font-medium ${active ? 'text-blue-700' : 'text-gray-500'}`}>ŞOK manages 11.000 locations all throughout Turkey from a single screen.</p>
+                        <p className={`text-xs font-medium ${active ? 'text-blue-700' : 'text-gray-500'}`}>ŞOK manages 11.000 locations all throughout Turkey</p>
+                      </div>
+                    </div>
+                  )}
+                  
+                  {/* Koçtaş Info Card - Only for Attribution step */}
+                  {step.id === 'attribution' && (
+                    <div className={`mt-3 p-3 rounded-xl border transition-all ${
+                      active 
+                        ? 'bg-gradient-to-r from-amber-50 to-orange-50 border-amber-200' 
+                        : 'bg-gray-50 border-gray-200'
+                    }`}>
+                      <div className="flex items-center gap-2">
+                        <Target size={14} className={active ? 'text-amber-600' : 'text-gray-400'} />
+                        <p className={`text-xs font-medium ${active ? 'text-amber-700' : 'text-gray-500'}`}>Koçtaş saw 4.6X higher Offline ROAS (vs Online)</p>
                       </div>
                     </div>
                   )}
