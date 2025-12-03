@@ -324,7 +324,7 @@ export default function OnboardingUnifiedPage() {
       gradient: 'from-blue-500 to-cyan-500',
       title: 'Connect Your Stores',
       subtitle: 'Sync locations across platforms',
-      kpi: '18 locations',
+      kpi: '11,000 locations',
       benefits: ['Multi-platform sync', 'Real-time updates', 'Location insights']
     },
     attribution: {
@@ -908,7 +908,7 @@ export default function OnboardingUnifiedPage() {
                               <div className="flex items-center justify-between">
                                 <div className="flex items-center gap-2">
                                   <MapPin size={16} className="text-blue-600" />
-                                  <span className="text-sm font-medium text-blue-700">18 locations imported</span>
+                                  <span className="text-sm font-medium text-blue-700">11,000 locations imported</span>
                                 </div>
                                 <button
                                   className="text-sm text-blue-600 hover:text-blue-700 font-medium flex items-center gap-1"
