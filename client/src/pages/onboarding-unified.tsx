@@ -1000,6 +1000,32 @@ export default function OnboardingUnifiedPage() {
                               </div>
                             </div>
                           </button>
+                          
+                          {/* Upload Manually Option */}
+                          <button
+                            onClick={() => {
+                              setDataSourceType('manual');
+                              handleTaskComplete('datasource');
+                            }}
+                            className={`w-full p-4 rounded-xl border-2 text-left transition-all ${
+                              dataSourceType === 'manual' 
+                                ? 'border-green-500 bg-green-50' 
+                                : 'border-gray-200 hover:border-gray-300 bg-white'
+                            }`}
+                            data-testid="button-manual-option"
+                          >
+                            <div className="flex items-center gap-3">
+                              <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${
+                                dataSourceType === 'manual' ? 'bg-green-100' : 'bg-gray-100'
+                              }`}>
+                                <Upload size={20} className={dataSourceType === 'manual' ? 'text-green-600' : 'text-gray-500'} />
+                              </div>
+                              <div>
+                                <p className="font-medium text-gray-900">Upload Manually</p>
+                                <p className="text-xs text-gray-500">Upload CSV or Excel files directly</p>
+                              </div>
+                            </div>
+                          </button>
                         </div>
                       )}
 
