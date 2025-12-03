@@ -324,7 +324,7 @@ export default function OnboardingUnifiedPage() {
       gradient: 'from-blue-500 to-cyan-500',
       title: 'Connect Your Stores',
       subtitle: 'Sync locations across platforms',
-      kpi: '11,000 locations',
+      kpi: 'Instant sync',
       benefits: ['Multi-platform sync', 'Real-time updates', 'Location insights']
     },
     attribution: {
@@ -394,7 +394,6 @@ export default function OnboardingUnifiedPage() {
           </div>
         </div>
       </header>
-
       {/* Main Content */}
       <div className="flex">
         {/* Left Side - Step Cards (Horizontal Layout) */}
@@ -476,7 +475,6 @@ export default function OnboardingUnifiedPage() {
                       )}
                     </div>
                   </div>
-                  
                   {/* Step Label with Status */}
                   <div className="mt-4 flex items-center gap-3">
                     <div className={`w-8 h-8 rounded-full flex items-center justify-center transition-all ${
@@ -497,6 +495,19 @@ export default function OnboardingUnifiedPage() {
                       )}
                     </div>
                   </div>
+                  {/* ŞOK Info Card - Only for Store step */}
+                  {step.id === 'store' && (
+                    <div className={`mt-3 p-3 rounded-xl border transition-all ${
+                      active 
+                        ? 'bg-gradient-to-r from-blue-50 to-cyan-50 border-blue-200' 
+                        : 'bg-gray-50 border-gray-200'
+                    }`}>
+                      <div className="flex items-center gap-2">
+                        <MapPin size={14} className={active ? 'text-blue-600' : 'text-gray-400'} />
+                        <p className={`text-xs font-medium ${active ? 'text-blue-700' : 'text-gray-500'}`}>ŞOK manages 11.000 locations all throughout Turkey from a single screen.</p>
+                      </div>
+                    </div>
+                  )}
                 </div>
               );
             })}
@@ -908,7 +919,7 @@ export default function OnboardingUnifiedPage() {
                               <div className="flex items-center justify-between">
                                 <div className="flex items-center gap-2">
                                   <MapPin size={16} className="text-blue-600" />
-                                  <span className="text-sm font-medium text-blue-700">11,000 locations imported</span>
+                                  <span className="text-sm font-medium text-blue-700">11.000 locations imported</span>
                                 </div>
                                 <button
                                   className="text-sm text-blue-600 hover:text-blue-700 font-medium flex items-center gap-1"
@@ -1058,7 +1069,6 @@ export default function OnboardingUnifiedPage() {
           )}
         </div>
       </div>
-
       {/* Developer Navigation */}
       <div className="fixed bottom-4 right-4 z-50 flex items-center gap-2 bg-gray-900 text-white px-4 py-2 rounded-lg shadow-lg text-sm">
         <span className="text-gray-400 mr-2">Dev:</span>
@@ -1071,7 +1081,6 @@ export default function OnboardingUnifiedPage() {
           Dashboard <ArrowRight size={14} />
         </button>
       </div>
-
       {/* Data Source Modal */}
       <Dialog
         open={dataSourceModalOpen}
@@ -1158,7 +1167,6 @@ export default function OnboardingUnifiedPage() {
           </button>
         </DialogActions>
       </Dialog>
-
       {/* Sales Data Modal */}
       <Dialog 
         open={salesDataModalOpen} 
@@ -1445,7 +1453,6 @@ export default function OnboardingUnifiedPage() {
           </button>
         </DialogActions>
       </Dialog>
-
       {/* Data Mapping Modal */}
       <Dialog 
         open={dataMappingModalOpen} 
