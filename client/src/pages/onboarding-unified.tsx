@@ -173,7 +173,7 @@ const industries = [
 export default function OnboardingUnifiedPage() {
   const [, setLocation] = useLocation();
   const [integrationId] = useState(() => Math.floor(10000 + Math.random() * 90000));
-  const [companyName, setCompanyName] = useState('Jambi Engineering');
+  const [companyName, setCompanyName] = useState('Acarlar Perakende');
   
   const [state, dispatch] = useReducer(stepReducer, {
     currentStepId: 'store',
@@ -1337,24 +1337,79 @@ export default function OnboardingUnifiedPage() {
                         </div>
                       )}
 
-                      {/* Local Inventory - Optimization */}
+                      {/* Local Inventory - Review Summary */}
                       {currentStep.id === 'inventory' && task.id === 'optimize' && (
-                        <div>
-                          <div className="flex items-center gap-3 mb-3">
-                            <div className="w-16 h-16 rounded-full border-4 border-amber-400 flex items-center justify-center">
-                              <span className="text-lg font-bold text-amber-600">65%</span>
+                        <div className="space-y-4">
+                          <h4 className="text-sm font-semibold text-gray-900">Configured Modules</h4>
+                          
+                          {/* Inventory Data Sync Status */}
+                          <div className={`flex items-center justify-between p-3 rounded-lg ${
+                            state.steps.find(s => s.id === 'inventory')?.tasks.find(t => t.id === 'sync-inv')?.completed
+                              ? 'bg-green-50 border border-green-200' 
+                              : 'bg-gray-50 border border-gray-200'
+                          }`}>
+                            <div className="flex items-center gap-3">
+                              <Database className={`w-5 h-5 ${
+                                state.steps.find(s => s.id === 'inventory')?.tasks.find(t => t.id === 'sync-inv')?.completed
+                                  ? 'text-green-600' 
+                                  : 'text-gray-400'
+                              }`} />
+                              <span className={`text-sm font-medium ${
+                                state.steps.find(s => s.id === 'inventory')?.tasks.find(t => t.id === 'sync-inv')?.completed
+                                  ? 'text-green-700' 
+                                  : 'text-gray-500'
+                              }`}>
+                                Inventory Data Sync
+                              </span>
                             </div>
-                            <div>
-                              <p className="font-medium text-gray-900">Optimization Score</p>
-                              <p className="text-sm text-gray-500">Complete more tasks to improve</p>
-                            </div>
+                            {state.steps.find(s => s.id === 'inventory')?.tasks.find(t => t.id === 'sync-inv')?.completed ? (
+                              <div className="flex items-center gap-1 text-green-600">
+                                <Check size={16} />
+                                <span className="text-xs">Connected</span>
+                              </div>
+                            ) : (
+                              <span className="text-xs text-gray-400">Not connected</span>
+                            )}
                           </div>
+
+                          {/* Product Feed Integration Status */}
+                          <div className={`flex items-center justify-between p-3 rounded-lg ${
+                            state.steps.find(s => s.id === 'inventory')?.tasks.find(t => t.id === 'feed')?.completed
+                              ? 'bg-green-50 border border-green-200' 
+                              : 'bg-gray-50 border border-gray-200'
+                          }`}>
+                            <div className="flex items-center gap-3">
+                              <Package className={`w-5 h-5 ${
+                                state.steps.find(s => s.id === 'inventory')?.tasks.find(t => t.id === 'feed')?.completed
+                                  ? 'text-green-600' 
+                                  : 'text-gray-400'
+                              }`} />
+                              <span className={`text-sm font-medium ${
+                                state.steps.find(s => s.id === 'inventory')?.tasks.find(t => t.id === 'feed')?.completed
+                                  ? 'text-green-700' 
+                                  : 'text-gray-500'
+                              }`}>
+                                Product Feed Integration
+                              </span>
+                            </div>
+                            {state.steps.find(s => s.id === 'inventory')?.tasks.find(t => t.id === 'feed')?.completed ? (
+                              <div className="flex items-center gap-1 text-green-600">
+                                <Check size={16} />
+                                <span className="text-xs">Ready</span>
+                              </div>
+                            ) : (
+                              <span className="text-xs text-gray-400">Not configured</span>
+                            )}
+                          </div>
+
+                          {/* Complete Setup Button */}
                           <button
                             onClick={() => handleTaskComplete('optimize')}
-                            className="px-4 py-2 bg-green-600 text-white text-sm rounded-lg hover:bg-green-700"
+                            className="w-full px-4 py-3 bg-green-600 text-white text-sm font-medium rounded-lg hover:bg-green-700 transition-colors flex items-center justify-center gap-2"
                             data-testid="button-finish-setup"
                           >
-                            Finish Setup
+                            <Check size={18} />
+                            Complete Local Inventory Setup
                           </button>
                         </div>
                       )}
