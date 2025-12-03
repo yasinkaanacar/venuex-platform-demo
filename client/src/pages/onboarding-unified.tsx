@@ -1096,17 +1096,62 @@ export default function OnboardingUnifiedPage() {
 
                       {/* Local Inventory - Product Feed */}
                       {currentStep.id === 'inventory' && task.id === 'feed' && (
-                        <div>
-                          <div className="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center">
-                            <Upload size={24} className="mx-auto text-gray-400 mb-2" />
-                            <p className="text-sm text-gray-500">Upload product feed or connect via API</p>
-                          </div>
+                        <div className="space-y-3">
+                          {/* SFTP Upload Option */}
                           <button
-                            onClick={() => handleTaskComplete('feed')}
-                            className="mt-3 px-4 py-2 bg-blue-600 text-white text-sm rounded-lg hover:bg-blue-700"
-                            data-testid="button-feed-done"
+                            onClick={() => {
+                              handleTaskComplete('feed');
+                            }}
+                            className="w-full p-4 rounded-xl border-2 text-left transition-all border-gray-200 hover:border-gray-300 bg-white"
+                            data-testid="button-feed-sftp"
                           >
-                            Continue
+                            <div className="flex items-center gap-3">
+                              <div className="w-10 h-10 rounded-lg flex items-center justify-center bg-gray-100">
+                                <Server size={20} className="text-gray-500" />
+                              </div>
+                              <div>
+                                <p className="font-medium text-gray-900">SFTP Upload</p>
+                                <p className="text-xs text-gray-500">Upload product feed via secure FTP</p>
+                              </div>
+                            </div>
+                          </button>
+                          
+                          {/* API Integration Option */}
+                          <button
+                            onClick={() => {
+                              handleTaskComplete('feed');
+                            }}
+                            className="w-full p-4 rounded-xl border-2 text-left transition-all border-gray-200 hover:border-gray-300 bg-white"
+                            data-testid="button-feed-api"
+                          >
+                            <div className="flex items-center gap-3">
+                              <div className="w-10 h-10 rounded-lg flex items-center justify-center bg-gray-100">
+                                <Link2 size={20} className="text-gray-500" />
+                              </div>
+                              <div>
+                                <p className="font-medium text-gray-900">API Integration</p>
+                                <p className="text-xs text-gray-500">Connect product catalog via REST API</p>
+                              </div>
+                            </div>
+                          </button>
+                          
+                          {/* Upload Manually Option */}
+                          <button
+                            onClick={() => {
+                              handleTaskComplete('feed');
+                            }}
+                            className="w-full p-4 rounded-xl border-2 text-left transition-all border-gray-200 hover:border-gray-300 bg-white"
+                            data-testid="button-feed-manual"
+                          >
+                            <div className="flex items-center gap-3">
+                              <div className="w-10 h-10 rounded-lg flex items-center justify-center bg-gray-100">
+                                <Upload size={20} className="text-gray-500" />
+                              </div>
+                              <div>
+                                <p className="font-medium text-gray-900">Upload Manually</p>
+                                <p className="text-xs text-gray-500">Upload CSV or Excel product files directly</p>
+                              </div>
+                            </div>
                           </button>
                         </div>
                       )}
