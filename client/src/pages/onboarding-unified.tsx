@@ -310,22 +310,57 @@ export default function OnboardingUnifiedPage() {
     }
   };
 
+  const stepVisuals = {
+    account: {
+      icon: Building2,
+      gradient: 'from-violet-500 to-purple-600',
+      title: 'Set Up Your Account',
+      subtitle: 'Company profile & team access',
+      kpi: '2 min setup',
+      benefits: ['Secure workspace', 'Team collaboration', 'Custom branding']
+    },
+    store: {
+      icon: MapPin,
+      gradient: 'from-blue-500 to-cyan-500',
+      title: 'Connect Your Stores',
+      subtitle: 'Sync locations across platforms',
+      kpi: '18 locations',
+      benefits: ['Multi-platform sync', 'Real-time updates', 'Location insights']
+    },
+    attribution: {
+      icon: Target,
+      gradient: 'from-amber-500 to-orange-500',
+      title: 'Offline Attribution',
+      subtitle: 'Track in-store conversions',
+      kpi: '3x ROAS lift',
+      benefits: ['Sales data mapping', 'Attribution modeling', 'Revenue insights']
+    },
+    inventory: {
+      icon: Package,
+      gradient: 'from-emerald-500 to-teal-500',
+      title: 'Local Inventory',
+      subtitle: 'Optimize product visibility',
+      kpi: '40% more traffic',
+      benefits: ['Product feeds', 'Stock sync', 'Local campaigns']
+    }
+  };
+
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50">
       {/* Header */}
-      <header className="bg-white border-b border-gray-200 px-8 py-5">
+      <header className="bg-white/80 backdrop-blur-sm border-b border-gray-200/50 px-8 py-5 sticky top-0 z-40">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-600 to-indigo-600 flex items-center justify-center">
-                <Zap className="w-4 h-4 text-white" />
+              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-600 to-indigo-600 flex items-center justify-center shadow-lg shadow-blue-500/20">
+                <Zap className="w-5 h-5 text-white" />
               </div>
-              <span className="text-xl font-semibold text-gray-900">VenueX</span>
+              <span className="text-xl font-bold text-gray-900">VenueX</span>
             </div>
           </div>
           <button
             onClick={handleGoToDashboard}
-            className="px-4 py-2 text-sm text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors flex items-center gap-2"
+            className="px-4 py-2 text-sm text-gray-600 hover:text-gray-900 bg-white hover:bg-gray-50 border border-gray-200 rounded-lg transition-all shadow-sm flex items-center gap-2"
             data-testid="button-go-dashboard"
           >
             Go to Dashboard <ArrowRight size={16} />
@@ -334,21 +369,29 @@ export default function OnboardingUnifiedPage() {
         
         {/* Integration ID Bar */}
         <div className="mt-4 flex items-center gap-3">
-          <span className="text-lg font-semibold text-gray-800">#{integrationId} {companyName}</span>
-          <div className="flex items-center gap-2 text-gray-400 bg-gray-50 px-3 py-1 rounded-full">
+          <div className="flex items-center gap-2 bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-4 py-1.5 rounded-full shadow-md">
+            <Lock size={14} />
+            <span className="text-sm font-semibold">#{integrationId}</span>
+          </div>
+          <span className="text-lg font-semibold text-gray-800">{companyName}</span>
+          <div className="flex items-center gap-2 text-gray-500 bg-gray-100/80 px-3 py-1 rounded-full">
             <Info size={14} />
-            <span className="text-xs">This is your integrationID. You can come back and continue at anytime.</span>
+            <span className="text-xs">Save your progress anytime</span>
           </div>
         </div>
         
-        {/* Progress Dots */}
-        <div className="mt-4 flex items-center gap-1">
-          {Array.from({ length: 24 }).map((_, i) => (
+        {/* Progress Bar */}
+        <div className="mt-4">
+          <div className="flex items-center justify-between mb-2">
+            <span className="text-xs font-medium text-gray-500">Onboarding Progress</span>
+            <span className="text-xs font-semibold text-blue-600">{Math.round((completedCount / totalSteps) * 100)}%</span>
+          </div>
+          <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
             <div 
-              key={i} 
-              className={`w-2.5 h-2.5 rounded-full transition-colors ${i < (completedCount / totalSteps) * 24 ? 'bg-amber-400' : 'bg-gray-200'}`}
+              className="h-full bg-gradient-to-r from-blue-500 to-indigo-500 rounded-full transition-all duration-500 ease-out"
+              style={{ width: `${(completedCount / totalSteps) * 100}%` }}
             />
-          ))}
+          </div>
         </div>
       </header>
 
@@ -356,41 +399,101 @@ export default function OnboardingUnifiedPage() {
       <div className="flex">
         {/* Left Side - Step Cards (Horizontal Layout) */}
         <div className="w-[70%] p-8">
-          <div className="flex gap-4">
-            {state.steps.map((step) => {
+          <div className="flex gap-5">
+            {state.steps.map((step, stepIndex) => {
               const completed = isStepCompleted(step.id);
               const active = isStepActive(step.id);
+              const visual = stepVisuals[step.id as keyof typeof stepVisuals];
+              const StepIcon = visual?.icon || Building2;
               
               return (
                 <div
                   key={step.id}
                   onClick={() => handleStepClick(step.id)}
-                  className="flex-1 cursor-pointer"
+                  className={`flex-1 cursor-pointer group transition-all duration-300 ${active ? 'scale-[1.02]' : 'hover:scale-[1.01]'}`}
                   data-testid={`step-card-${step.id}`}
                 >
-                  {/* Large Clickable Area (Empty Placeholder) */}
-                  <div className={`h-[352px] rounded-lg border-2 ${
-                    active ? 'border-blue-500 bg-white' : 'border-gray-300 bg-gray-100'
+                  {/* Visual Card */}
+                  <div className={`h-[352px] rounded-2xl overflow-hidden relative transition-all duration-300 ${
+                    active 
+                      ? 'shadow-xl shadow-blue-500/20 ring-2 ring-blue-500' 
+                      : completed 
+                        ? 'shadow-lg ring-2 ring-green-400' 
+                        : 'shadow-md hover:shadow-lg'
                   }`}>
-                    {/* Empty placeholder as requested */}
+                    {/* Gradient Background */}
+                    <div className={`absolute inset-0 bg-gradient-to-br ${visual?.gradient || 'from-gray-400 to-gray-500'} ${
+                      !active && !completed ? 'opacity-60' : 'opacity-100'
+                    } transition-opacity duration-300`} />
+                    
+                    {/* Content Overlay */}
+                    <div className="absolute inset-0 p-5 flex flex-col justify-between text-white">
+                      {/* Top Section */}
+                      <div>
+                        <div className="flex items-center justify-between mb-4">
+                          <div className={`w-12 h-12 rounded-xl bg-white/20 backdrop-blur-sm flex items-center justify-center ${active ? 'ring-2 ring-white/50' : ''}`}>
+                            <StepIcon className="w-6 h-6 text-white" />
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <span className="text-xs font-medium bg-white/20 backdrop-blur-sm px-2 py-1 rounded-full">
+                              Step {stepIndex + 1}
+                            </span>
+                            {completed && (
+                              <div className="w-6 h-6 bg-green-400 rounded-full flex items-center justify-center">
+                                <Check size={14} className="text-white" />
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                        <h3 className="text-xl font-bold mb-1">{visual?.title || step.title}</h3>
+                        <p className="text-sm text-white/80">{visual?.subtitle || step.subtitle}</p>
+                      </div>
+                      
+                      {/* KPI Badge */}
+                      <div className="flex items-center gap-2 bg-white/10 backdrop-blur-sm rounded-xl p-3 border border-white/20">
+                        <div className="w-10 h-10 rounded-lg bg-white/20 flex items-center justify-center">
+                          <Zap size={18} className="text-white" />
+                        </div>
+                        <div>
+                          <p className="text-lg font-bold">{visual?.kpi || 'Quick setup'}</p>
+                          <p className="text-xs text-white/70">Expected outcome</p>
+                        </div>
+                      </div>
+                      
+                      {/* Benefits List */}
+                      <div className="space-y-1.5">
+                        {visual?.benefits.map((benefit, i) => (
+                          <div key={i} className="flex items-center gap-2 text-xs text-white/90">
+                            <div className="w-1.5 h-1.5 rounded-full bg-white/70" />
+                            <span>{benefit}</span>
+                          </div>
+                        ))}
+                      </div>
+                      
+                      {/* Active Indicator */}
+                      {active && (
+                        <div className="absolute bottom-0 left-0 right-0 h-1 bg-white/50" />
+                      )}
+                    </div>
                   </div>
                   
-                  {/* Step Label with Status Dot */}
-                  <div className="mt-3 flex items-start gap-2">
-                    <div className={`w-3 h-3 rounded-full mt-1.5 flex-shrink-0 ${
-                      completed ? 'bg-green-500' : active ? 'bg-gray-800' : 'bg-white border-2 border-gray-300'
-                    }`} />
-                    <div className={`flex-1 px-3 py-2 rounded border ${
-                      active ? 'border-blue-500 bg-white' : 'border-gray-300 bg-white'
+                  {/* Step Label with Status */}
+                  <div className="mt-4 flex items-center gap-3">
+                    <div className={`w-8 h-8 rounded-full flex items-center justify-center transition-all ${
+                      completed 
+                        ? 'bg-green-500 text-white' 
+                        : active 
+                          ? 'bg-blue-600 text-white ring-4 ring-blue-100' 
+                          : 'bg-gray-200 text-gray-500'
                     }`}>
-                      <p className={`text-sm font-medium ${active ? 'text-gray-900' : 'text-gray-600'}`}>
+                      {completed ? <Check size={16} /> : <span className="text-sm font-bold">{stepIndex + 1}</span>}
+                    </div>
+                    <div className="flex-1">
+                      <p className={`text-sm font-semibold ${active ? 'text-gray-900' : 'text-gray-600'}`}>
                         {step.title}
                       </p>
-                      {step.subtitle && (
-                        <p className="text-xs text-gray-500">{step.subtitle}</p>
-                      )}
                       {step.optional && (
-                        <p className="text-xs text-gray-400 mt-1">(optional)</p>
+                        <p className="text-xs text-gray-400">Optional</p>
                       )}
                     </div>
                   </div>
@@ -401,45 +504,76 @@ export default function OnboardingUnifiedPage() {
         </div>
 
         {/* Right Side - Task Panel */}
-        <div className="w-[30%] border-l-2 border-blue-500 bg-white min-h-[calc(100vh-140px)] p-6 shadow-lg">
+        <div className="w-[30%] bg-white min-h-[calc(100vh-180px)] shadow-2xl border-l border-gray-200">
+          {/* Panel Header */}
+          <div className="sticky top-[180px] z-30 bg-gradient-to-r from-blue-600 to-indigo-600 text-white p-5">
+            <div className="flex items-center justify-between mb-3">
+              <h2 className="text-lg font-bold">Setup Tasks</h2>
+              <div className="flex items-center gap-2 bg-white/20 px-3 py-1 rounded-full text-sm">
+                <Clock size={14} />
+                <span>~5 min</span>
+              </div>
+            </div>
+            {currentStep && (
+              <div className="flex items-center gap-2">
+                <div className="w-8 h-8 rounded-lg bg-white/20 flex items-center justify-center">
+                  {(() => {
+                    const visual = stepVisuals[currentStep.id as keyof typeof stepVisuals];
+                    const StepIcon = visual?.icon || Building2;
+                    return <StepIcon size={16} />;
+                  })()}
+                </div>
+                <div>
+                  <p className="font-medium">{currentStep.title}</p>
+                  <p className="text-xs text-white/70">{currentStep.tasks.filter(t => t.completed).length}/{currentStep.tasks.length} tasks completed</p>
+                </div>
+              </div>
+            )}
+          </div>
+          
           {currentStep && (
-            <div className="space-y-4">
+            <div className="p-5 space-y-3">
               {/* Task List - Accordion Style */}
               {currentStep.tasks.map((task, index) => {
                 const isExpanded = expandedTask === task.id;
                 
                 return (
-                <div key={task.id} className="border border-gray-200 rounded-lg overflow-hidden">
+                <div key={task.id} className={`rounded-xl overflow-hidden transition-all duration-200 ${
+                  task.completed 
+                    ? 'bg-green-50 border border-green-200' 
+                    : isExpanded 
+                      ? 'bg-blue-50 border-2 border-blue-300 shadow-md' 
+                      : 'bg-gray-50 border border-gray-200 hover:border-gray-300'
+                }`}>
                   {/* Accordion Header */}
                   <button
                     onClick={() => toggleTask(task.id)}
-                    className={`w-full flex items-center justify-between p-4 text-left transition-colors ${
-                      task.completed 
-                        ? 'bg-green-50' 
-                        : isExpanded 
-                          ? 'bg-blue-50' 
-                          : 'bg-white hover:bg-gray-50'
-                    }`}
+                    className="w-full flex items-center justify-between p-4 text-left"
                     data-testid={`accordion-${task.id}`}
                   >
                     <div className="flex items-center gap-3">
-                      <span className={`text-lg font-semibold ${task.completed ? 'text-green-600' : 'text-amber-500'}`}>
-                        {index + 1}.
-                      </span>
-                      <p className={`font-medium ${task.completed ? 'text-green-600 line-through' : 'text-gray-800'}`}>
+                      <div className={`w-7 h-7 rounded-full flex items-center justify-center text-sm font-bold ${
+                        task.completed 
+                          ? 'bg-green-500 text-white' 
+                          : isExpanded 
+                            ? 'bg-blue-500 text-white' 
+                            : 'bg-gray-200 text-gray-600'
+                      }`}>
+                        {task.completed ? <Check size={14} /> : index + 1}
+                      </div>
+                      <p className={`font-medium ${task.completed ? 'text-green-700 line-through' : 'text-gray-800'}`}>
                         {task.label}
                       </p>
                     </div>
                     <div className="flex items-center gap-2">
                       {task.completed && (
-                        <div className="flex items-center gap-1 text-green-600 text-sm">
-                          <Check size={16} />
-                          <span>Done</span>
-                        </div>
+                        <span className="text-xs font-medium text-green-600 bg-green-100 px-2 py-0.5 rounded-full">
+                          Complete
+                        </span>
                       )}
                       <ChevronDown 
-                        size={20} 
-                        className={`text-gray-400 transition-transform duration-200 ${isExpanded ? 'rotate-180' : ''}`} 
+                        size={18} 
+                        className={`text-gray-400 transition-transform duration-300 ${isExpanded ? 'rotate-180' : ''}`} 
                       />
                     </div>
                   </button>
@@ -900,10 +1034,10 @@ export default function OnboardingUnifiedPage() {
               })}
 
               {/* Complete Step Button */}
-              <div className="pt-6 mt-6 border-t border-gray-200">
+              <div className="pt-5 mt-5 border-t border-gray-100">
                 <button
                   onClick={handleCompleteCurrentStep}
-                  className="w-full py-3 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition-colors flex items-center justify-center gap-2"
+                  className="w-full py-3.5 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-xl font-semibold hover:from-blue-700 hover:to-indigo-700 transition-all shadow-lg shadow-blue-500/25 flex items-center justify-center gap-2"
                   data-testid="button-complete-step"
                 >
                   Complete & Continue
@@ -913,7 +1047,7 @@ export default function OnboardingUnifiedPage() {
                 {currentStep.optional && (
                   <button
                     onClick={handleCompleteCurrentStep}
-                    className="w-full mt-2 py-2 text-gray-500 text-sm hover:text-gray-700"
+                    className="w-full mt-3 py-2 text-gray-400 text-sm hover:text-gray-600 transition-colors"
                     data-testid="button-skip-step"
                   >
                     Skip this step
