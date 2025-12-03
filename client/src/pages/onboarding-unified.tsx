@@ -455,7 +455,6 @@ export default function OnboardingUnifiedPage() {
                         </div>
                         <div>
                           <p className="text-lg font-bold">{visual?.kpi || 'Quick setup'}</p>
-                          <p className="text-xs text-white/70">Expected outcome</p>
                         </div>
                       </div>
                       
