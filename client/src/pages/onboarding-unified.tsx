@@ -1622,18 +1622,6 @@ export default function OnboardingUnifiedPage() {
           )}
         </div>
       </div>
-      {/* Developer Navigation */}
-      <div className="fixed bottom-4 right-4 z-50 flex items-center gap-2 bg-gray-900 text-white px-4 py-2 rounded-lg shadow-lg text-sm">
-        <span className="text-gray-400 mr-2">Dev:</span>
-        <span className="text-blue-400 font-medium">Unified Onboarding</span>
-        <button
-          onClick={() => setLocation('/')}
-          className="px-3 py-1 bg-green-600 hover:bg-green-500 rounded transition-colors flex items-center gap-1"
-          data-testid="dev-dashboard"
-        >
-          Dashboard <ArrowRight size={14} />
-        </button>
-      </div>
       {/* Data Source Modal */}
       <Dialog
         open={dataSourceModalOpen}
