@@ -110,7 +110,7 @@ const initialSteps: Step[] = [
     icon: Package,
     tasks: [
       { id: 'datasource-inv', label: 'Connect Data Source', completed: false },
-      { id: 'merchant', label: 'Connect Google Merchant Center', completed: false },
+      { id: 'merchant', label: 'Authorize Platforms', completed: false },
       { id: 'sync-inv', label: 'Sync Inventory Data', completed: false },
       { id: 'optimize', label: 'Review Configuration', completed: false },
     ]
@@ -198,6 +198,10 @@ export default function OnboardingUnifiedPage() {
   const [googleAdsConnected, setGoogleAdsConnected] = useState(false);
   const [metaAdsConnected, setMetaAdsConnected] = useState(false);
   const [tiktokAdsConnected, setTiktokAdsConnected] = useState(false);
+  
+  // Inventory Platform connections
+  const [googleMerchantConnected, setGoogleMerchantConnected] = useState(false);
+  const [metaCatalogConnected, setMetaCatalogConnected] = useState(false);
   
   const [dataSourceModalOpen, setDataSourceModalOpen] = useState(false);
   const [dataSourceType, setDataSourceType] = useState<'sftp' | 'api' | 'manual' | null>(null);
@@ -1309,54 +1313,100 @@ export default function OnboardingUnifiedPage() {
                         </div>
                       )}
 
-                      {/* Local Inventory - Connect Google Merchant Center */}
+                      {/* Local Inventory - Authorize Platforms */}
                       {currentStep.id === 'inventory' && task.id === 'merchant' && (
-                        <div className="space-y-4">
+                        <div className="space-y-3">
                           {/* Google Merchant Center Card */}
-                          <div className="p-4 rounded-xl border-2 border-blue-200 bg-gradient-to-br from-blue-50 to-cyan-50">
-                            <div className="flex items-start gap-4">
-                              <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center flex-shrink-0 shadow-lg">
-                                <SiGoogle size={22} className="text-white" />
-                              </div>
-                              <div className="flex-1">
-                                <h4 className="font-semibold text-gray-900 mb-1">Google Merchant Center</h4>
-                                <p className="text-sm text-gray-600 mb-3">
-                                  Connect your product catalog to sync products with Google Shopping and Local Inventory Ads
-                                </p>
-                                
-                                {/* Benefits */}
-                                <div className="space-y-1.5 mb-4">
-                                  <div className="flex items-center gap-2 text-xs text-gray-600">
-                                    <Check size={14} className="text-green-500" />
-                                    <span>Sync product data automatically</span>
-                                  </div>
-                                  <div className="flex items-center gap-2 text-xs text-gray-600">
-                                    <Check size={14} className="text-green-500" />
-                                    <span>Enable Local Inventory Ads</span>
-                                  </div>
-                                  <div className="flex items-center gap-2 text-xs text-gray-600">
-                                    <Check size={14} className="text-green-500" />
-                                    <span>Show products on Google Maps</span>
-                                  </div>
+                          <div className={`p-4 rounded-xl border-2 transition-all ${
+                            googleMerchantConnected 
+                              ? 'border-green-500 bg-green-50' 
+                              : 'border-gray-200 hover:border-blue-300 bg-white'
+                          }`}>
+                            <div className="flex items-center justify-between">
+                              <div className="flex items-center gap-3">
+                                <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${
+                                  googleMerchantConnected ? 'bg-green-100' : 'bg-blue-50'
+                                }`}>
+                                  <SiGoogle className={`w-5 h-5 ${googleMerchantConnected ? 'text-green-600' : 'text-blue-600'}`} />
                                 </div>
-
+                                <div>
+                                  <p className="font-medium text-gray-900">Google Merchant Center</p>
+                                  <p className="text-xs text-gray-500">
+                                    {googleMerchantConnected ? 'Product catalog connected' : 'Sync products with Google Shopping'}
+                                  </p>
+                                </div>
+                              </div>
+                              {googleMerchantConnected ? (
+                                <div className="flex items-center gap-2 text-green-600">
+                                  <Check size={18} />
+                                  <span className="text-sm font-medium">Connected</span>
+                                </div>
+                              ) : (
                                 <button
-                                  onClick={() => handleTaskComplete('merchant')}
-                                  className="w-full px-4 py-2.5 bg-gradient-to-r from-blue-600 to-cyan-600 text-white text-sm font-medium rounded-lg hover:from-blue-700 hover:to-cyan-700 transition-all shadow-md flex items-center justify-center gap-2"
+                                  onClick={() => setGoogleMerchantConnected(true)}
+                                  className="px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-colors"
                                   data-testid="button-connect-merchant"
                                 >
-                                  <Link2 size={16} />
-                                  Connect Merchant Center
+                                  Connect
                                 </button>
-                              </div>
+                              )}
                             </div>
                           </div>
+
+                          {/* Meta Catalog Card */}
+                          <div className={`p-4 rounded-xl border-2 transition-all ${
+                            metaCatalogConnected 
+                              ? 'border-green-500 bg-green-50' 
+                              : 'border-gray-200 hover:border-blue-300 bg-white'
+                          }`}>
+                            <div className="flex items-center justify-between">
+                              <div className="flex items-center gap-3">
+                                <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${
+                                  metaCatalogConnected ? 'bg-green-100' : 'bg-blue-50'
+                                }`}>
+                                  <SiMeta className={`w-5 h-5 ${metaCatalogConnected ? 'text-green-600' : 'text-blue-600'}`} />
+                                </div>
+                                <div>
+                                  <p className="font-medium text-gray-900">Meta Catalog</p>
+                                  <p className="text-xs text-gray-500">
+                                    {metaCatalogConnected ? 'Product catalog connected' : 'Sync products with Facebook & Instagram Shops'}
+                                  </p>
+                                </div>
+                              </div>
+                              {metaCatalogConnected ? (
+                                <div className="flex items-center gap-2 text-green-600">
+                                  <Check size={18} />
+                                  <span className="text-sm font-medium">Connected</span>
+                                </div>
+                              ) : (
+                                <button
+                                  onClick={() => setMetaCatalogConnected(true)}
+                                  className="px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-colors"
+                                  data-testid="button-connect-meta-catalog"
+                                >
+                                  Connect
+                                </button>
+                              )}
+                            </div>
+                          </div>
+
+                          {/* Continue Button - shown when at least one platform connected */}
+                          {(googleMerchantConnected || metaCatalogConnected) && (
+                            <button
+                              onClick={() => handleTaskComplete('merchant')}
+                              className="w-full px-4 py-3 bg-green-600 text-white text-sm font-medium rounded-lg hover:bg-green-700 transition-colors flex items-center justify-center gap-2"
+                              data-testid="button-merchant-continue"
+                            >
+                              <Check size={18} />
+                              Continue
+                            </button>
+                          )}
 
                           {/* Info Note */}
                           <div className="flex items-start gap-2 p-3 bg-amber-50 border border-amber-200 rounded-lg">
                             <Info size={16} className="text-amber-600 mt-0.5 flex-shrink-0" />
                             <p className="text-xs text-amber-700">
-                              Make sure your Merchant Center account has an existing product feed before connecting.
+                              Connect at least one platform to sync your product catalog.
                             </p>
                           </div>
                         </div>
