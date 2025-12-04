@@ -109,8 +109,8 @@ const initialSteps: Step[] = [
     optional: true,
     icon: Package,
     tasks: [
+      { id: 'datasource-inv', label: 'Connect Data Source', completed: false },
       { id: 'merchant', label: 'Connect Google Merchant Center', completed: false },
-      { id: 'supplementary', label: 'Add Supplementary Feed', completed: false },
       { id: 'sync-inv', label: 'Sync Inventory Data', completed: false },
       { id: 'optimize', label: 'Review Configuration', completed: false },
     ]
@@ -1362,10 +1362,10 @@ export default function OnboardingUnifiedPage() {
                         </div>
                       )}
 
-                      {/* Local Inventory - Add Supplementary Feed */}
-                      {currentStep.id === 'inventory' && task.id === 'supplementary' && (
+                      {/* Local Inventory - Connect Data Source */}
+                      {currentStep.id === 'inventory' && task.id === 'datasource-inv' && (
                         <div className="space-y-4">
-                          {/* Supplementary Feed Card */}
+                          {/* Data Source Card */}
                           <div className="p-4 rounded-xl border-2 border-emerald-200 bg-gradient-to-br from-emerald-50 to-teal-50">
                             <div className="flex items-start gap-4">
                               <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-500 flex items-center justify-center flex-shrink-0 shadow-lg">
@@ -1391,9 +1391,9 @@ export default function OnboardingUnifiedPage() {
                                 {/* Upload Options */}
                                 <div className="space-y-2 mb-4">
                                   <button
-                                    onClick={() => handleTaskComplete('supplementary')}
+                                    onClick={() => handleTaskComplete('datasource-inv')}
                                     className="w-full p-3 rounded-lg border border-gray-200 bg-white hover:border-emerald-300 hover:bg-emerald-50/50 transition-all text-left flex items-center gap-3"
-                                    data-testid="button-supplementary-sftp"
+                                    data-testid="button-datasource-sftp"
                                   >
                                     <Server size={18} className="text-gray-500" />
                                     <div>
@@ -1402,9 +1402,9 @@ export default function OnboardingUnifiedPage() {
                                     </div>
                                   </button>
                                   <button
-                                    onClick={() => handleTaskComplete('supplementary')}
+                                    onClick={() => handleTaskComplete('datasource-inv')}
                                     className="w-full p-3 rounded-lg border border-gray-200 bg-white hover:border-emerald-300 hover:bg-emerald-50/50 transition-all text-left flex items-center gap-3"
-                                    data-testid="button-supplementary-api"
+                                    data-testid="button-datasource-api"
                                   >
                                     <Link2 size={18} className="text-gray-500" />
                                     <div>
