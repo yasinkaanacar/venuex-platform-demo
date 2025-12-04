@@ -559,7 +559,7 @@ export default function OnboardingUnifiedPage() {
         {/* Right Side - Task Panel */}
         <div className="w-[30%] bg-white min-h-[calc(100vh-180px)] shadow-2xl border-l border-gray-200">
           {/* Panel Header */}
-          <div className="sticky top-[180px] z-30 bg-gradient-to-r from-blue-600 to-indigo-600 text-white p-5">
+          <div className={`sticky top-[180px] z-30 bg-gradient-to-r ${currentStep ? stepVisuals[currentStep.id as keyof typeof stepVisuals]?.gradient || 'from-blue-500 to-cyan-500' : 'from-blue-500 to-cyan-500'} text-white p-5`}>
             <div className="flex items-center justify-between mb-3">
               <h2 className="text-lg font-bold">Setup Tasks</h2>
               <div className="flex items-center gap-2 bg-white/20 px-3 py-1 rounded-full text-sm">
