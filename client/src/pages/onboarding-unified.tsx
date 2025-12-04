@@ -484,7 +484,6 @@ export default function OnboardingUnifiedPage() {
                           </div>
                         </div>
                         <h3 className="text-xl font-bold mb-1">{visual?.title || step.title}</h3>
-                        <p className="text-sm text-white/80">{visual?.subtitle || step.subtitle}</p>
                       </div>
                       
                       {/* Benefits List */}
