@@ -111,7 +111,7 @@ const initialSteps: Step[] = [
     tasks: [
       { id: 'datasource-inv', label: 'Connect Data Source', completed: false },
       { id: 'merchant', label: 'Authorize Platforms', completed: false },
-      { id: 'sync-inv', label: 'Sync Inventory Data', completed: false },
+      { id: 'sync-inv', label: 'Map Your Fields', completed: false },
       { id: 'optimize', label: 'Review Configuration', completed: false },
     ]
   },
