@@ -456,7 +456,7 @@ export default function OnboardingUnifiedPage() {
                   data-testid={`step-card-${step.id}`}
                 >
                   {/* Visual Card */}
-                  <div className={`h-[352px] rounded-2xl overflow-hidden relative transition-all duration-300 ${
+                  <div className={`h-[352px] rounded-2xl overflow-hidden relative transition-shadow duration-300 ${
                     active 
                       ? 'shadow-xl shadow-blue-500/20 ring-2 ring-blue-500' 
                       : completed 
@@ -464,7 +464,7 @@ export default function OnboardingUnifiedPage() {
                         : 'shadow-md hover:shadow-lg'
                   }`}>
                     {/* Gradient Background */}
-                    <div className={`absolute inset-0 bg-gradient-to-br ${visual?.gradient || 'from-gray-400 to-gray-500'} ${
+                    <div className={`absolute inset-0 rounded-2xl bg-gradient-to-br ${visual?.gradient || 'from-gray-400 to-gray-500'} ${
                       !active && !completed ? 'opacity-60' : 'opacity-100'
                     } transition-opacity duration-300`} />
                     
