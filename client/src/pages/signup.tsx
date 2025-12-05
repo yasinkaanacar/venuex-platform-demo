@@ -38,7 +38,7 @@ export default function SignupPage() {
     
     setTimeout(() => {
       setIsLoading(false);
-      setLocation('/onboarding');
+      setLocation('/welcome');
     }, 1500);
   };
 
