@@ -15,7 +15,8 @@ import {
   Brain,
   Settings,
   Rocket,
-  Code
+  Code,
+  UserPlus
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import venueXLogo from '@assets/vx-logo-1000x1000_1756566252817.png';
@@ -51,7 +52,8 @@ const navigationGroups = [
   {
     title: "DEV",
     items: [
-      { name: 'Onboarding', href: '/onboarding', icon: Rocket }
+      { name: 'Onboarding', href: '/onboarding', icon: Rocket },
+      { name: 'Signup', href: '/signup', icon: UserPlus }
     ]
   }
 ];
