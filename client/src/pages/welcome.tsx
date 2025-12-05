@@ -19,8 +19,10 @@ export default function WelcomePage() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Explore Demo Card */}
-          <button
-            onClick={() => setLocation('/')}
+          <a
+            href="https://demo.venuex.io"
+            target="_blank"
+            rel="noopener noreferrer"
             className="group p-6 bg-white rounded-2xl border-2 border-gray-200 hover:border-blue-400 hover:shadow-xl transition-all text-left"
             data-testid="card-explore-demo"
           >
@@ -35,7 +37,7 @@ export default function WelcomePage() {
               <span>View Dashboard</span>
               <ArrowRight className="w-4 h-4" />
             </div>
-          </button>
+          </a>
 
           {/* Start Connecting Card */}
           <button
