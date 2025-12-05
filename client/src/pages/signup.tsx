@@ -114,7 +114,7 @@ export default function SignupPage() {
           {/* Header */}
           <div className="text-center mb-8">
             <h1 className="text-3xl font-bold text-gray-900 mb-2">Create your account</h1>
-            <p className="text-gray-600">Start your 14-day free trial. No credit card required.</p>
+            <p className="text-gray-600">Start connecting. No credit card required.</p>
           </div>
 
           {/* Form */}
