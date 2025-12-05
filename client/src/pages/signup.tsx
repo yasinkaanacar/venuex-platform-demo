@@ -93,7 +93,7 @@ export default function SignupPage() {
               <span className="text-white font-bold">K</span>
             </div>
             <div>
-              <p className="text-white font-medium">Koçtaş Marketing Team</p>
+              <p className="text-white font-medium">Mehmet Emre</p>
               <p className="text-white/60 text-sm">Building Materials Retail</p>
             </div>
           </div>
