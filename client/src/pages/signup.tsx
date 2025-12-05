@@ -94,7 +94,7 @@ export default function SignupPage() {
             </div>
             <div>
               <p className="text-white font-medium">Mehmet Emre</p>
-              <p className="text-white/60 text-sm">Building Materials Retail</p>
+              <p className="text-white/60 text-sm">Senior Marketing & Corporate Communications Manager, Koçtaş</p>
             </div>
           </div>
         </div>
