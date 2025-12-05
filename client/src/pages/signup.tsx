@@ -22,8 +22,7 @@ export default function SignupPage() {
     fullName: '',
     email: '',
     companyName: '',
-    password: '',
-    confirmPassword: ''
+    password: ''
   });
   const [isLoading, setIsLoading] = useState(false);
 
