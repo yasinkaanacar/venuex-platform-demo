@@ -22,7 +22,8 @@ export default function SignupPage() {
     fullName: '',
     email: '',
     companyName: '',
-    password: ''
+    password: '',
+    confirmPassword: ''
   });
   const [isLoading, setIsLoading] = useState(false);
 
@@ -196,6 +197,35 @@ export default function SignupPage() {
                 </button>
               </div>
               <p className="mt-1.5 text-xs text-gray-500">Must be at least 8 characters</p>
+            </div>
+
+            {/* Confirm Password */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1.5">Confirm Password</label>
+              <div className="relative">
+                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                <input
+                  type={showPassword ? 'text' : 'password'}
+                  value={formData.confirmPassword}
+                  onChange={(e) => handleInputChange('confirmPassword', e.target.value)}
+                  placeholder="Confirm your password"
+                  className={`w-full pl-11 pr-4 py-3 border rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all text-gray-900 placeholder:text-gray-400 ${
+                    formData.confirmPassword && formData.password !== formData.confirmPassword
+                      ? 'border-red-300 bg-red-50'
+                      : formData.confirmPassword && formData.password === formData.confirmPassword
+                        ? 'border-green-300 bg-green-50'
+                        : 'border-gray-300'
+                  }`}
+                  required
+                  data-testid="input-confirm-password"
+                />
+                {formData.confirmPassword && formData.password === formData.confirmPassword && (
+                  <Check className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-green-500" />
+                )}
+              </div>
+              {formData.confirmPassword && formData.password !== formData.confirmPassword && (
+                <p className="mt-1.5 text-xs text-red-500">Passwords do not match</p>
+              )}
             </div>
 
             {/* Terms */}
