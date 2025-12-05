@@ -87,9 +87,7 @@ export default function SignupPage() {
 
         {/* Testimonial */}
         <div className="relative z-10 bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20">
-          <p className="text-white/90 italic mb-4">
-            "VenueX helped us achieve 4.6X higher Offline ROAS compared to online campaigns. A game-changer for our retail strategy."
-          </p>
+          <p className="text-white/90 italic mb-4">"By linking our 1st-party store data with digital channels, we measured the true conversions of our campaigns and carried our advertising performance to the peak."</p>
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
               <span className="text-white font-bold">K</span>
@@ -101,7 +99,6 @@ export default function SignupPage() {
           </div>
         </div>
       </div>
-
       {/* Right Side - Signup Form */}
       <div className="flex-1 flex items-center justify-center p-8 bg-gradient-to-br from-slate-50 via-white to-blue-50">
         <div className="w-full max-w-md">
