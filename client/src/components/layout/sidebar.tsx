@@ -23,6 +23,7 @@ import {
 import { cn } from '@/lib/utils';
 import venueXLogo from '@assets/vx-logo-1000x1000_1756566252817.png';
 import venueXLogoSmall from '@assets/vx-logo-1000x1000_1764141281095.png';
+import venueXFavicon from '@assets/favicon_1765178591266.png';
 
 const recentChats = [
   { id: '1', title: 'Rating drop analysis' },
@@ -97,9 +98,11 @@ export default function Sidebar({ collapsed, onToggle }: SidebarProps) {
               />
             )}
             {collapsed && (
-              <div className="w-8 h-8 bg-blue-600 rounded flex items-center justify-center">
-                <span className="text-white font-bold text-sm">VX</span>
-              </div>
+              <img 
+                src={venueXFavicon} 
+                alt="VenueX Logo" 
+                className="w-10 h-10 object-contain"
+              />
             )}
           </div>
         </Link>
