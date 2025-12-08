@@ -166,7 +166,7 @@ export default function VenueXAI() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex">
+    <div className="h-screen bg-gray-50 flex overflow-hidden">
       {/* Chat History Sidebar */}
       <div className="w-72 bg-white border-r border-gray-200 flex flex-col">
         <div className="flex-1 overflow-y-auto p-3">
@@ -271,7 +271,7 @@ export default function VenueXAI() {
       </div>
 
       {/* Main Chat Area */}
-      <div className="flex-1 flex flex-col">
+      <div className="flex-1 flex flex-col overflow-hidden">
         <div className="bg-white border-b border-gray-200 px-6 py-4">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center">
