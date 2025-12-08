@@ -72,7 +72,10 @@ export default function Sidebar({ collapsed, onToggle }: SidebarProps) {
   const [location] = useLocation();
 
   return (
-    <div className="dark:bg-gray-900 border-r border-gray-300 dark:border-gray-600 flex flex-col h-screen shadow-sm transition-all duration-300 w-64 bg-[#f9fafb]">
+    <div className={cn(
+      "dark:bg-gray-900 border-r border-gray-300 dark:border-gray-600 flex flex-col h-screen shadow-sm transition-all duration-300 bg-[#f9fafb]",
+      collapsed ? "w-16" : "w-64"
+    )}>
       {/* Logo and Brand */}
       <div className="h-20">
         <Link href="/">
