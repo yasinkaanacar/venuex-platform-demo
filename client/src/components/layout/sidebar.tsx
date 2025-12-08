@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Link, useLocation } from 'wouter';
 import { 
   BarChart3, 
@@ -7,6 +8,7 @@ import {
   CheckCircle, 
   Bell,
   ChevronDown,
+  ChevronRight,
   Menu,
   ShoppingCart,
   MessageSquare,
@@ -21,6 +23,12 @@ import {
 import { cn } from '@/lib/utils';
 import venueXLogo from '@assets/vx-logo-1000x1000_1756566252817.png';
 import venueXLogoSmall from '@assets/vx-logo-1000x1000_1764141281095.png';
+
+const recentChats = [
+  { id: '1', title: 'Rating drop analysis' },
+  { id: '2', title: 'Negative review patterns' },
+  { id: '3', title: 'Staff service sentiment' }
+];
 
 const navigationGroups = [
   {
@@ -70,6 +78,7 @@ interface SidebarProps {
 
 export default function Sidebar({ collapsed, onToggle }: SidebarProps) {
   const [location] = useLocation();
+  const [aiChatsExpanded, setAiChatsExpanded] = useState(true);
 
   return (
     <div className={cn(
@@ -165,24 +174,75 @@ export default function Sidebar({ collapsed, onToggle }: SidebarProps) {
               <ul className="space-y-1">
                 {group.items.map((item) => {
                   const isActive = location === item.href;
+                  const isVenueXAI = item.name === 'VenueX AI';
+                  
                   return (
                     <li key={item.name}>
-                      <Link href={item.href}>
-                        <div 
-                          className={cn(
-                            "flex items-center rounded-md text-sm transition-colors cursor-pointer",
-                            collapsed ? "px-3 py-2 justify-center" : "space-x-3 px-3 py-2",
-                            isActive 
-                              ? "bg-blue-600 text-white" 
-                              : "text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800"
+                      {isVenueXAI && !collapsed ? (
+                        <div>
+                          <div className="flex items-center">
+                            <Link href={item.href} className="flex-1">
+                              <div 
+                                className={cn(
+                                  "flex items-center rounded-md text-sm transition-colors cursor-pointer space-x-3 px-3 py-2",
+                                  isActive 
+                                    ? "bg-blue-600 text-white" 
+                                    : "text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800"
+                                )}
+                                data-testid={`nav-${item.name.toLowerCase().replace(/\s+/g, '-')}`}
+                              >
+                                <item.icon className="w-5 h-5" />
+                                <span>{item.name}</span>
+                              </div>
+                            </Link>
+                            <button
+                              onClick={() => setAiChatsExpanded(!aiChatsExpanded)}
+                              className="p-1.5 hover:bg-gray-100 dark:hover:bg-gray-800 rounded transition-colors"
+                              data-testid="toggle-ai-chats"
+                            >
+                              {aiChatsExpanded ? (
+                                <ChevronDown className="w-4 h-4 text-gray-400" />
+                              ) : (
+                                <ChevronRight className="w-4 h-4 text-gray-400" />
+                              )}
+                            </button>
+                          </div>
+                          {aiChatsExpanded && (
+                            <ul className="mt-1 ml-6 space-y-0.5">
+                              {recentChats.map((chat) => (
+                                <li key={chat.id}>
+                                  <Link href="/venuex-ai">
+                                    <div 
+                                      className="px-3 py-1.5 text-xs text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded cursor-pointer truncate"
+                                      data-testid={`chat-link-${chat.id}`}
+                                      title={chat.title}
+                                    >
+                                      {chat.title}
+                                    </div>
+                                  </Link>
+                                </li>
+                              ))}
+                            </ul>
                           )}
-                          data-testid={`nav-${item.name.toLowerCase().replace(/\s+/g, '-')}`}
-                          title={collapsed ? item.name : undefined}
-                        >
-                          <item.icon className="w-5 h-5" />
-                          {!collapsed && <span>{item.name}</span>}
                         </div>
-                      </Link>
+                      ) : (
+                        <Link href={item.href}>
+                          <div 
+                            className={cn(
+                              "flex items-center rounded-md text-sm transition-colors cursor-pointer",
+                              collapsed ? "px-3 py-2 justify-center" : "space-x-3 px-3 py-2",
+                              isActive 
+                                ? "bg-blue-600 text-white" 
+                                : "text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800"
+                            )}
+                            data-testid={`nav-${item.name.toLowerCase().replace(/\s+/g, '-')}`}
+                            title={collapsed ? item.name : undefined}
+                          >
+                            <item.icon className="w-5 h-5" />
+                            {!collapsed && <span>{item.name}</span>}
+                          </div>
+                        </Link>
+                      )}
                     </li>
                   );
                 })}
