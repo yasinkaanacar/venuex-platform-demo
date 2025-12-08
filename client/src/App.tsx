@@ -20,17 +20,25 @@ import OnboardingUnified from "@/pages/onboarding-unified";
 import Signup from "@/pages/signup";
 import Welcome from "@/pages/welcome";
 import NotFound from "@/pages/not-found";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useLocation } from "wouter";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { CssBaseline } from "@mui/material";
 import { SnackbarProvider } from 'notistack';
 
 function Router() {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const [location] = useLocation();
 
   const toggleSidebar = () => {
     setSidebarCollapsed(!sidebarCollapsed);
   };
+
+  useEffect(() => {
+    if (location === '/venuex-ai') {
+      setSidebarCollapsed(true);
+    }
+  }, [location]);
 
   return (
     <Switch>
