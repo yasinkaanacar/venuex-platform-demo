@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { Bot, Lightbulb, Send, MessageSquare, Plus, Clock, Trash2 } from 'lucide-react';
+import { useState, useRef, useEffect } from 'react';
+import { Bot, Lightbulb, Send, MessageSquare, Plus, Clock, Trash2, Pencil, Check, X } from 'lucide-react';
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -51,9 +51,19 @@ export default function VenueXAI() {
   const [inputValue, setInputValue] = useState('');
   const [chatHistory, setChatHistory] = useState<ChatSession[]>(initialChatHistory);
   const [activeChatId, setActiveChatId] = useState<string | null>(null);
+  const [editingChatId, setEditingChatId] = useState<string | null>(null);
+  const [editingTitle, setEditingTitle] = useState('');
+  const editInputRef = useRef<HTMLInputElement>(null);
 
   const activeChat = chatHistory.find(chat => chat.id === activeChatId);
   const messages = activeChat?.messages || [];
+
+  useEffect(() => {
+    if (editingChatId && editInputRef.current) {
+      editInputRef.current.focus();
+      editInputRef.current.select();
+    }
+  }, [editingChatId]);
 
   const handleNewChat = () => {
     setActiveChatId(null);
@@ -122,6 +132,27 @@ export default function VenueXAI() {
     }
   };
 
+  const handleStartRename = (chatId: string, currentTitle: string, e: React.MouseEvent) => {
+    e.stopPropagation();
+    setEditingChatId(chatId);
+    setEditingTitle(currentTitle);
+  };
+
+  const handleSaveRename = (chatId: string) => {
+    if (editingTitle.trim()) {
+      setChatHistory(prev => prev.map(chat => 
+        chat.id === chatId ? { ...chat, title: editingTitle.trim() } : chat
+      ));
+    }
+    setEditingChatId(null);
+    setEditingTitle('');
+  };
+
+  const handleCancelRename = () => {
+    setEditingChatId(null);
+    setEditingTitle('');
+  };
+
   const formatTimeAgo = (date: Date) => {
     const now = new Date();
     const diffMs = now.getTime() - date.getTime();
@@ -157,10 +188,10 @@ export default function VenueXAI() {
           
           <div className="space-y-1">
             {chatHistory.map((chat) => (
-              <button
+              <div
                 key={chat.id}
-                onClick={() => setActiveChatId(chat.id)}
-                className={`w-full text-left px-3 py-2.5 rounded-lg transition-all group flex items-center justify-between ${
+                onClick={() => editingChatId !== chat.id && setActiveChatId(chat.id)}
+                className={`w-full text-left px-3 py-2.5 rounded-lg transition-all group flex items-center justify-between cursor-pointer ${
                   activeChatId === chat.id 
                     ? 'bg-blue-50 border border-blue-200' 
                     : 'hover:bg-gray-100 border border-transparent'
@@ -168,23 +199,68 @@ export default function VenueXAI() {
                 data-testid={`chat-history-${chat.id}`}
               >
                 <div className="flex-1 min-w-0">
-                  <div className={`text-sm font-medium truncate ${
-                    activeChatId === chat.id ? 'text-blue-700' : 'text-gray-700'
-                  }`}>
-                    {chat.title}
-                  </div>
-                  <div className="text-xs text-gray-400 mt-0.5">
-                    {formatTimeAgo(chat.createdAt)}
-                  </div>
+                  {editingChatId === chat.id ? (
+                    <div className="flex items-center gap-1">
+                      <input
+                        ref={editInputRef}
+                        type="text"
+                        value={editingTitle}
+                        onChange={(e) => setEditingTitle(e.target.value)}
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter') handleSaveRename(chat.id);
+                          if (e.key === 'Escape') handleCancelRename();
+                        }}
+                        onClick={(e) => e.stopPropagation()}
+                        className="text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded px-2 py-0.5 w-full focus:outline-none focus:border-blue-400"
+                        data-testid={`rename-input-${chat.id}`}
+                      />
+                      <button
+                        onClick={(e) => { e.stopPropagation(); handleSaveRename(chat.id); }}
+                        className="p-1 hover:bg-green-100 rounded transition-all"
+                        data-testid={`save-rename-${chat.id}`}
+                      >
+                        <Check className="w-3.5 h-3.5 text-green-600" />
+                      </button>
+                      <button
+                        onClick={(e) => { e.stopPropagation(); handleCancelRename(); }}
+                        className="p-1 hover:bg-gray-200 rounded transition-all"
+                        data-testid={`cancel-rename-${chat.id}`}
+                      >
+                        <X className="w-3.5 h-3.5 text-gray-500" />
+                      </button>
+                    </div>
+                  ) : (
+                    <>
+                      <div className={`text-sm font-medium truncate ${
+                        activeChatId === chat.id ? 'text-blue-700' : 'text-gray-700'
+                      }`}>
+                        {chat.title}
+                      </div>
+                      <div className="text-xs text-gray-400 mt-0.5">
+                        {formatTimeAgo(chat.createdAt)}
+                      </div>
+                    </>
+                  )}
                 </div>
-                <button
-                  onClick={(e) => handleDeleteChat(chat.id, e)}
-                  className="opacity-0 group-hover:opacity-100 p-1 hover:bg-red-100 rounded transition-all"
-                  data-testid={`delete-chat-${chat.id}`}
-                >
-                  <Trash2 className="w-3.5 h-3.5 text-gray-400 hover:text-red-500" />
-                </button>
-              </button>
+                {editingChatId !== chat.id && (
+                  <div className="flex items-center gap-0.5 opacity-0 group-hover:opacity-100 transition-all">
+                    <button
+                      onClick={(e) => handleStartRename(chat.id, chat.title, e)}
+                      className="p-1 hover:bg-blue-100 rounded transition-all"
+                      data-testid={`rename-chat-${chat.id}`}
+                    >
+                      <Pencil className="w-3.5 h-3.5 text-gray-400 hover:text-blue-500" />
+                    </button>
+                    <button
+                      onClick={(e) => handleDeleteChat(chat.id, e)}
+                      className="p-1 hover:bg-red-100 rounded transition-all"
+                      data-testid={`delete-chat-${chat.id}`}
+                    >
+                      <Trash2 className="w-3.5 h-3.5 text-gray-400 hover:text-red-500" />
+                    </button>
+                  </div>
+                )}
+              </div>
             ))}
             
             {chatHistory.length === 0 && (
