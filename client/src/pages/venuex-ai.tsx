@@ -284,9 +284,9 @@ export default function VenueXAI() {
           </div>
         </div>
 
-        <div className="flex-1 p-6">
-          <Card className="bg-white border border-gray-200 shadow-sm h-full flex flex-col">
-            <div className="flex-1 p-6 overflow-y-auto">
+        <div className="flex-1 p-6 overflow-hidden">
+          <Card className="bg-white border border-gray-200 shadow-sm h-full flex flex-col overflow-hidden">
+            <div className="flex-1 p-6 overflow-y-auto min-h-0">
               {messages.length === 0 ? (
                 <div className="flex flex-col items-center justify-center h-full py-12">
                   <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-2xl flex items-center justify-center mb-6">
