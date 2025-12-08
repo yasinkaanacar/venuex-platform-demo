@@ -169,22 +169,20 @@ export default function VenueXAI() {
     <div className="min-h-screen bg-gray-50 flex">
       {/* Chat History Sidebar */}
       <div className="w-72 bg-white border-r border-gray-200 flex flex-col">
-        <div className="p-4 border-b border-gray-200">
-          <Button 
-            onClick={handleNewChat}
-            className="w-full bg-blue-600 hover:bg-blue-700 text-white"
-            data-testid="button-new-chat"
-          >
-            <Plus className="w-4 h-4 mr-2" />
-            New Chat
-          </Button>
-        </div>
-        
         <div className="flex-1 overflow-y-auto p-3">
           <div className="flex items-center gap-2 px-2 mb-3">
             <Clock className="w-4 h-4 text-gray-400" />
             <span className="text-xs font-medium text-gray-500 uppercase tracking-wide">Chat History</span>
           </div>
+          
+          <Button 
+            onClick={handleNewChat}
+            className="w-full bg-blue-600 hover:bg-blue-700 text-white mb-3"
+            data-testid="button-new-chat"
+          >
+            <Plus className="w-4 h-4 mr-2" />
+            New Chat
+          </Button>
           
           <div className="space-y-1">
             {chatHistory.map((chat) => (
