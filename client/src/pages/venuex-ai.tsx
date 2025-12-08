@@ -54,6 +54,7 @@ export default function VenueXAI() {
   const [editingChatId, setEditingChatId] = useState<string | null>(null);
   const [editingTitle, setEditingTitle] = useState('');
   const editInputRef = useRef<HTMLInputElement>(null);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const activeChat = chatHistory.find(chat => chat.id === activeChatId);
   const messages = activeChat?.messages || [];
@@ -64,6 +65,10 @@ export default function VenueXAI() {
       editInputRef.current.select();
     }
   }, [editingChatId]);
+
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [messages]);
 
   const handleNewChat = () => {
     setActiveChatId(null);
@@ -341,6 +346,7 @@ export default function VenueXAI() {
                       </div>
                     </div>
                   ))}
+                  <div ref={messagesEndRef} />
                 </div>
               )}
             </div>
