@@ -212,12 +212,20 @@ export default function Setup() {
     role: 'Viewer',
   });
   const [brandInfo, setBrandInfo] = useState({
-    businessName: '',
-    description: '',
-    website: '',
+    businessName: 'Demo VenueX',
+    description: "That's a description box",
+    website: 'venuex.io',
+    phoneCountryCode: '+90',
     phone: '',
     email: '',
-    category: '',
+    categories: ['Building materials store', 'Hardware store'],
+    facebook: 'https://www.facebook.com/',
+    instagram: 'https://www.instagram.com/',
+    twitter: 'https://www.twitter.com/',
+    tiktok: '',
+    youtube: 'https://www.youtube.com/user/',
+    pinterest: '',
+    linkedin: '',
   });
   const [salesConfig, setSalesConfig] = useState({
     dataSourceType: 'HTTP',
@@ -240,7 +248,7 @@ export default function Setup() {
     setActiveStep(stepIndex);
   };
 
-  const handleBrandInfoChange = (field: string, value: string) => {
+  const handleBrandInfoChange = (field: string, value: string | string[]) => {
     setBrandInfo(prev => ({ ...prev, [field]: value }));
   };
 
@@ -432,108 +440,193 @@ export default function Setup() {
               </div>
               
               <div className="space-y-6">
-                <div className="flex items-start gap-6">
-                  <div className="flex-shrink-0">
-                    <div className="w-24 h-24 bg-gray-100 rounded-xl border-2 border-dashed border-gray-300 flex flex-col items-center justify-center cursor-pointer hover:bg-gray-50 transition-colors">
-                      <ImageIcon className="w-8 h-8 text-gray-400 mb-1" />
-                      <span className="text-xs text-gray-500">Upload Logo</span>
+                {/* Logo Upload */}
+                <div>
+                  <h4 className="text-sm font-semibold text-gray-700 mb-3">Upload logo</h4>
+                  <div className="border-2 border-dashed border-gray-300 rounded-xl p-6 bg-gray-50 hover:bg-gray-100 transition-colors cursor-pointer">
+                    <div className="flex flex-col items-center justify-center text-center">
+                      <ImageIcon className="w-10 h-10 text-gray-400 mb-3" />
+                      <p className="text-sm text-gray-600 mb-1">Drag files here to upload.</p>
+                      <p className="text-xs text-gray-400">Compatible file types: .jpg, .gif, .png, .bmp</p>
+                      <p className="text-xs text-gray-400">The photo should be at least Width: 250px & Height: 250px in size.</p>
                     </div>
-                  </div>
-                  <div className="flex-1 space-y-4">
-                    <TextField
-                      label="Business Name"
-                      value={brandInfo.businessName}
-                      onChange={(e) => handleBrandInfoChange('businessName', e.target.value)}
-                      fullWidth
-                      size="small"
-                      InputProps={{
-                        startAdornment: <Building2 className="w-4 h-4 text-gray-400 mr-2" />
-                      }}
-                    />
-                    <TextField
-                      label="Business Description"
-                      value={brandInfo.description}
-                      onChange={(e) => handleBrandInfoChange('description', e.target.value)}
-                      fullWidth
-                      multiline
-                      rows={2}
-                      size="small"
-                    />
                   </div>
                 </div>
 
-                <div className="border-t border-gray-200 pt-4">
-                  <h3 className="text-sm font-semibold text-gray-700 mb-4">Contact Information</h3>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {/* Business Name */}
+                <TextField
+                  label="Business Name"
+                  value={brandInfo.businessName}
+                  onChange={(e) => handleBrandInfoChange('businessName', e.target.value)}
+                  fullWidth
+                  size="small"
+                />
+
+                {/* Categories */}
+                <div>
+                  <div className="mb-2">
+                    <p className="text-xs text-gray-500">
+                      The first selection will be your primary category. GBP accepts 9, Apple 2, Meta 2 additional categories. Your selections will be updated in related publishers according to that.
+                    </p>
+                  </div>
+                  <div className="flex flex-wrap gap-2 p-3 border border-gray-200 rounded-lg bg-white min-h-[42px]">
+                    {brandInfo.categories.map((cat, index) => (
+                      <span 
+                        key={index}
+                        className="inline-flex items-center gap-1 px-3 py-1 bg-blue-100 text-blue-800 text-sm rounded-full"
+                      >
+                        {cat}
+                        <button 
+                          onClick={() => {
+                            const newCategories = brandInfo.categories.filter((_, i) => i !== index);
+                            handleBrandInfoChange('categories', newCategories);
+                          }}
+                          className="ml-1 hover:text-blue-600"
+                        >
+                          <X size={14} />
+                        </button>
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Description */}
+                <TextField
+                  label="Description"
+                  value={brandInfo.description}
+                  onChange={(e) => handleBrandInfoChange('description', e.target.value)}
+                  fullWidth
+                  multiline
+                  rows={3}
+                  size="small"
+                />
+
+                {/* Email */}
+                <TextField
+                  label="Email"
+                  value={brandInfo.email}
+                  onChange={(e) => handleBrandInfoChange('email', e.target.value)}
+                  fullWidth
+                  size="small"
+                  InputProps={{
+                    startAdornment: <Mail className="w-4 h-4 text-gray-400 mr-2" />
+                  }}
+                />
+
+                {/* Website */}
+                <TextField
+                  label="Website"
+                  value={brandInfo.website}
+                  onChange={(e) => handleBrandInfoChange('website', e.target.value)}
+                  fullWidth
+                  size="small"
+                  InputProps={{
+                    startAdornment: <Globe className="w-4 h-4 text-gray-400 mr-2" />
+                  }}
+                />
+
+                {/* Phone with Country Code */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1.5">Primary phone number</label>
+                  <div className="flex gap-2">
+                    <select 
+                      value={brandInfo.phoneCountryCode}
+                      onChange={(e) => handleBrandInfoChange('phoneCountryCode', e.target.value)}
+                      className="w-24 px-3 py-2 border border-gray-300 rounded-lg bg-white text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    >
+                      <option value="+90">+90</option>
+                      <option value="+1">+1</option>
+                      <option value="+44">+44</option>
+                      <option value="+49">+49</option>
+                      <option value="+33">+33</option>
+                      <option value="+81">+81</option>
+                      <option value="+86">+86</option>
+                    </select>
                     <TextField
-                      label="Website"
-                      value={brandInfo.website}
-                      onChange={(e) => handleBrandInfoChange('website', e.target.value)}
-                      fullWidth
-                      size="small"
-                      InputProps={{
-                        startAdornment: <Globe className="w-4 h-4 text-gray-400 mr-2" />
-                      }}
-                    />
-                    <TextField
-                      label="Phone"
                       value={brandInfo.phone}
                       onChange={(e) => handleBrandInfoChange('phone', e.target.value)}
                       fullWidth
                       size="small"
-                      InputProps={{
-                        startAdornment: <Phone className="w-4 h-4 text-gray-400 mr-2" />
-                      }}
-                    />
-                    <TextField
-                      label="Email"
-                      value={brandInfo.email}
-                      onChange={(e) => handleBrandInfoChange('email', e.target.value)}
-                      fullWidth
-                      size="small"
-                      InputProps={{
-                        startAdornment: <Mail className="w-4 h-4 text-gray-400 mr-2" />
-                      }}
-                    />
-                    <TextField
-                      label="Business Category"
-                      value={brandInfo.category}
-                      onChange={(e) => handleBrandInfoChange('category', e.target.value)}
-                      fullWidth
-                      size="small"
+                      placeholder="Enter phone number"
                     />
                   </div>
                 </div>
 
-                <div className="bg-blue-50 rounded-xl p-4 border border-blue-100">
-                  <div className="flex items-start gap-3">
-                    <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0">
-                      <Globe className="w-4 h-4 text-blue-600" />
-                    </div>
-                    <div>
-                      <h4 className="text-sm font-medium text-blue-900 mb-1">Connected Platforms</h4>
-                      <p className="text-xs text-blue-700 mb-2">Changes will be synced to the following platforms:</p>
-                      <div className="flex flex-wrap gap-2">
-                        <span className="inline-flex items-center gap-1 px-2 py-1 bg-white rounded-full text-xs font-medium text-gray-700 border border-blue-200">
-                          <SiGoogle className="w-3 h-3 text-[#4285F4]" /> Google Business Profile
-                        </span>
-                        <span className="inline-flex items-center gap-1 px-2 py-1 bg-white rounded-full text-xs font-medium text-gray-700 border border-blue-200">
-                          <SiApple className="w-3 h-3 text-black" /> Apple Maps
-                        </span>
-                        <span className="inline-flex items-center gap-1 px-2 py-1 bg-white rounded-full text-xs font-medium text-gray-700 border border-blue-200">
-                          <SiMeta className="w-3 h-3 text-[#0081FB]" /> Meta Pages
-                        </span>
-                      </div>
-                    </div>
+                {/* Social Media Section */}
+                <div className="border-t border-gray-200 pt-6">
+                  <h4 className="text-sm font-semibold text-gray-700 mb-4">Social Media</h4>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <TextField
+                      label="Facebook"
+                      value={brandInfo.facebook}
+                      onChange={(e) => handleBrandInfoChange('facebook', e.target.value)}
+                      fullWidth
+                      size="small"
+                      placeholder="https://www.facebook.com/"
+                    />
+                    <TextField
+                      label="Instagram"
+                      value={brandInfo.instagram}
+                      onChange={(e) => handleBrandInfoChange('instagram', e.target.value)}
+                      fullWidth
+                      size="small"
+                      placeholder="https://www.instagram.com/"
+                    />
+                    <TextField
+                      label="X"
+                      value={brandInfo.twitter}
+                      onChange={(e) => handleBrandInfoChange('twitter', e.target.value)}
+                      fullWidth
+                      size="small"
+                      placeholder="https://www.twitter.com/"
+                    />
+                    <TextField
+                      label="Tiktok"
+                      value={brandInfo.tiktok}
+                      onChange={(e) => handleBrandInfoChange('tiktok', e.target.value)}
+                      fullWidth
+                      size="small"
+                      placeholder="Tiktok"
+                    />
+                    <TextField
+                      label="Youtube"
+                      value={brandInfo.youtube}
+                      onChange={(e) => handleBrandInfoChange('youtube', e.target.value)}
+                      fullWidth
+                      size="small"
+                      placeholder="https://www.youtube.com/user/"
+                    />
+                    <TextField
+                      label="Pinterest"
+                      value={brandInfo.pinterest}
+                      onChange={(e) => handleBrandInfoChange('pinterest', e.target.value)}
+                      fullWidth
+                      size="small"
+                      placeholder="Pinterest"
+                    />
+                    <TextField
+                      label="Linkedin"
+                      value={brandInfo.linkedin}
+                      onChange={(e) => handleBrandInfoChange('linkedin', e.target.value)}
+                      fullWidth
+                      size="small"
+                      placeholder="Linkedin"
+                    />
                   </div>
                 </div>
 
-                <div className="flex justify-end">
-                  <button 
-                    className="px-6 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-xl transition-all shadow-md hover:shadow-lg"
-                  >
-                    Save Changes
-                  </button>
+                {/* Confirmation Footer */}
+                <div className="border-t border-gray-200 pt-6">
+                  <div className="flex items-center justify-between">
+                    <p className="text-sm text-gray-600">
+                      Your <span className="font-semibold">0</span> businesses will be updated with the changes made. Are you sure?
+                    </p>
+                    <button 
+                      className="px-6 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-xl transition-all shadow-md hover:shadow-lg"
+                    >
+                      Save Changes
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
