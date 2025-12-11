@@ -335,54 +335,84 @@ export default function Setup() {
 
       <div className="max-w-5xl mx-auto px-6 py-6">
 
-        <div className="grid grid-cols-4 gap-4 mb-8">
+        <div className="flex gap-5 mb-8">
           {steps.map((step, index) => {
             const isActive = index === activeStep;
             const isCompleted = index < activeStep;
             const StepIcon = step.icon;
+            const stepColors = [
+              'bg-blue-600',
+              'bg-cyan-600', 
+              'bg-emerald-600',
+              'bg-purple-600'
+            ];
+            const stepColor = stepColors[index] || 'bg-gray-500';
             
             return (
               <div
                 key={step.label}
                 onClick={() => handleStepClick(index)}
-                className={`relative cursor-pointer rounded-xl p-5 transition-all duration-200 ${
-                  isActive 
-                    ? 'bg-blue-600 text-white shadow-lg shadow-blue-500/25 ring-2 ring-blue-400' 
-                    : isCompleted 
-                      ? 'bg-green-50 border-2 border-green-400 hover:shadow-md' 
-                      : 'bg-white border border-gray-200 hover:border-gray-300 hover:shadow-md'
-                }`}
+                className={`flex-1 cursor-pointer group transition-all duration-300 ${isActive ? 'scale-[1.02]' : 'hover:scale-[1.01]'}`}
                 data-testid={`step-card-${index}`}
               >
-                <div className="flex flex-col items-center text-center gap-3">
-                  <div className="flex items-center justify-between w-full mb-1">
-                    <span className={`text-xs font-medium ${
-                      isActive ? 'text-blue-100' : isCompleted ? 'text-green-600' : 'text-gray-400'
-                    }`}>
-                      Step {index + 1}
-                    </span>
-                    {isCompleted && (
-                      <span className="text-xs font-medium text-green-600">✓</span>
+                {/* Visual Card */}
+                <div className={`h-[200px] rounded-2xl overflow-hidden relative transition-shadow duration-300 ${
+                  isActive 
+                    ? 'shadow-xl shadow-blue-500/20 ring-2 ring-blue-500' 
+                    : isCompleted 
+                      ? 'shadow-lg ring-2 ring-green-400' 
+                      : 'shadow-md hover:shadow-lg'
+                }`}>
+                  {/* Solid Color Background */}
+                  <div className={`absolute inset-0 rounded-2xl ${stepColor} ${
+                    !isActive && !isCompleted ? 'opacity-60' : 'opacity-100'
+                  } transition-opacity duration-300`} />
+                  
+                  {/* Content Overlay */}
+                  <div className="absolute inset-0 p-5 flex flex-col justify-between text-white">
+                    {/* Top Section */}
+                    <div>
+                      <div className="flex items-center justify-between mb-4">
+                        <div className={`w-12 h-12 rounded-xl bg-white/20 backdrop-blur-sm flex items-center justify-center ${isActive ? 'ring-2 ring-white/50' : ''}`}>
+                          <StepIcon className="w-6 h-6 text-white" />
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <span className="text-xs font-medium bg-white/20 backdrop-blur-sm px-2 py-1 rounded-full">
+                            Step {index + 1}
+                          </span>
+                          {isCompleted && (
+                            <div className="w-6 h-6 bg-green-400 rounded-full flex items-center justify-center">
+                              <Check size={14} className="text-white" />
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                      <h3 className="text-xl font-bold mb-1">{step.label}</h3>
+                    </div>
+                    
+                    {/* Active Indicator */}
+                    {isActive && (
+                      <div className="absolute bottom-0 left-0 right-0 h-1 bg-white/50" />
                     )}
                   </div>
-                  <div className={`w-14 h-14 rounded-xl flex items-center justify-center ${
-                    isActive 
-                      ? 'bg-white/20' 
-                      : isCompleted 
-                        ? 'bg-green-100' 
-                        : 'bg-gray-100'
+                </div>
+                
+                {/* Step Label with Status */}
+                <div className="mt-4 flex items-center gap-3">
+                  <div className={`w-8 h-8 rounded-full flex items-center justify-center transition-all ${
+                    isCompleted 
+                      ? 'bg-green-500 text-white' 
+                      : isActive 
+                        ? 'bg-blue-600 text-white ring-4 ring-blue-100' 
+                        : 'bg-gray-200 text-gray-500'
                   }`}>
-                    {isCompleted ? (
-                      <CheckCircle2 className="w-7 h-7 text-green-600" />
-                    ) : (
-                      <StepIcon className={`w-7 h-7 ${isActive ? 'text-white' : 'text-gray-500'}`} />
-                    )}
+                    {isCompleted ? <Check size={16} /> : <span className="text-sm font-bold">{index + 1}</span>}
                   </div>
-                  <h3 className={`font-semibold text-sm mt-1 ${
-                    isActive ? 'text-white' : isCompleted ? 'text-green-700' : 'text-gray-700'
-                  }`}>
-                    {step.label}
-                  </h3>
+                  <div className="flex-1">
+                    <p className={`text-sm font-semibold ${isActive ? 'text-gray-900' : 'text-gray-600'}`}>
+                      {step.label}
+                    </p>
+                  </div>
                 </div>
               </div>
             );
