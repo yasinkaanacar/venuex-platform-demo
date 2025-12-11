@@ -281,7 +281,7 @@ export default function Setup() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50">
+    <div className="bg-gradient-to-br from-slate-50 via-white to-blue-50 pb-6">
       {/* Header */}
       <header className="bg-white/80 backdrop-blur-sm border-b border-gray-200/50 px-8 py-5 sticky top-0 z-40">
         <div className="flex items-center justify-between">
