@@ -28,9 +28,6 @@ import {
 } from 'lucide-react';
 import { SiGoogle, SiMeta, SiTiktok, SiApple } from 'react-icons/si';
 import { 
-  Accordion, 
-  AccordionSummary, 
-  AccordionDetails,
   Dialog,
   DialogTitle,
   DialogContent,
@@ -222,15 +219,8 @@ function CustomStepIcon({ active, completed, icon: Icon }: StepIconProps) {
   );
 }
 
-const panelToStep: Record<string, number> = {
-  'panel1': 0,
-  'panel2': 1,
-  'panel3': 2,
-  'panel4': 3,
-};
-
 export default function Setup() {
-  const [expanded, setExpanded] = useState<string | false>('panel1');
+  const [activeStep, setActiveStep] = useState(0);
   const [brandModalOpen, setBrandModalOpen] = useState(false);
   const [salesDataModalOpen, setSalesDataModalOpen] = useState(false);
   const [dataMappingModalOpen, setDataMappingModalOpen] = useState(false);
@@ -259,15 +249,8 @@ export default function Setup() {
   });
   const [urlSegments, setUrlSegments] = useState<string[]>([]);
   
-  const activeStep = expanded ? panelToStep[expanded] : 1;
-
-  const handleChange = (panel: string) => (_: React.SyntheticEvent, isExpanded: boolean) => {
-    setExpanded(isExpanded ? panel : false);
-  };
-  
   const handleStepClick = (stepIndex: number) => {
-    const panelId = `panel${stepIndex + 1}`;
-    setExpanded(panelId);
+    setActiveStep(stepIndex);
   };
 
   const handleBrandInfoChange = (field: string, value: string) => {
@@ -406,41 +389,20 @@ export default function Setup() {
           })}
         </div>
 
-        <div className="space-y-4">
-          <Accordion 
-            expanded={expanded === 'panel1'} 
-            onChange={handleChange('panel1')}
-            sx={{ 
-              borderRadius: '12px !important',
-              '&:before': { display: 'none' },
-              boxShadow: 'none',
-              border: expanded === 'panel1' ? '2px solid #3b82f6' : '1px solid #e5e7eb',
-              '&.Mui-expanded': { margin: 0 }
-            }}
-          >
-            <AccordionSummary
-              expandIcon={<ChevronRight className={`transition-transform ${expanded === 'panel1' ? 'rotate-90' : ''}`} />}
-              sx={{ 
-                borderRadius: '12px',
-                '&.Mui-expanded': { borderBottomLeftRadius: 0, borderBottomRightRadius: 0 }
-              }}
-            >
-              <div className="flex items-center gap-3">
-                <div className={`w-10 h-10 rounded-full flex items-center justify-center ${expanded === 'panel1' ? 'bg-blue-100' : 'bg-gray-100'}`}>
-                  <Building2 className={`w-5 h-5 ${expanded === 'panel1' ? 'text-blue-600' : 'text-gray-400'}`} />
+        {/* Tab Content */}
+        <div className="bg-white rounded-xl border border-gray-200 p-6 shadow-sm">
+          {/* Brand Info Tab */}
+          {activeStep === 0 && (
+            <div data-testid="tab-panel-brand">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-10 h-10 rounded-full flex items-center justify-center bg-blue-100">
+                  <Building2 className="w-5 h-5 text-blue-600" />
                 </div>
                 <div>
-                  <div className="flex items-center gap-2">
-                    <h3 className="font-semibold text-gray-900">Update Brand Information</h3>
-                    <span className={`px-2 py-0.5 text-xs font-medium rounded-full ${expanded === 'panel1' ? 'bg-blue-100 text-blue-700' : 'bg-gray-100 text-gray-500'}`}>
-                      {expanded === 'panel1' ? 'In Progress' : 'Not Started'}
-                    </span>
-                  </div>
+                  <h3 className="font-semibold text-gray-900">Update Brand Information</h3>
                   <p className="text-sm text-gray-500">Keep your brand details consistent across all platforms</p>
                 </div>
               </div>
-            </AccordionSummary>
-            <AccordionDetails sx={{ borderTop: '1px solid #e5e7eb', pt: 3 }}>
               <p className="text-gray-600 mb-4">
                 Enter your brand information to ensure consistent branding 
                 across all connected platforms including Google Business Profile, Apple Maps, and social media.
@@ -453,43 +415,21 @@ export default function Setup() {
                   Add Brand Information
                 </button>
               </div>
-            </AccordionDetails>
-          </Accordion>
+            </div>
+          )}
 
-          <Accordion 
-            expanded={expanded === 'panel2'} 
-            onChange={handleChange('panel2')}
-            sx={{ 
-              borderRadius: '12px !important',
-              '&:before': { display: 'none' },
-              boxShadow: 'none',
-              border: expanded === 'panel2' ? '2px solid #3b82f6' : '1px solid #e5e7eb',
-              '&.Mui-expanded': { margin: 0 }
-            }}
-          >
-            <AccordionSummary
-              expandIcon={<ChevronRight className={`transition-transform ${expanded === 'panel2' ? 'rotate-90' : ''}`} />}
-              sx={{ 
-                borderRadius: '12px',
-                '&.Mui-expanded': { borderBottomLeftRadius: 0, borderBottomRightRadius: 0 }
-              }}
-            >
-              <div className="flex items-center gap-3">
-                <div className={`w-10 h-10 rounded-full flex items-center justify-center ${expanded === 'panel2' ? 'bg-blue-100' : 'bg-gray-100'}`}>
-                  <MapPin className={`w-5 h-5 ${expanded === 'panel2' ? 'text-blue-600' : 'text-gray-400'}`} />
+          {/* Locations Tab */}
+          {activeStep === 1 && (
+            <div data-testid="tab-panel-locations">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-10 h-10 rounded-full flex items-center justify-center bg-blue-100">
+                  <MapPin className="w-5 h-5 text-blue-600" />
                 </div>
                 <div>
-                  <div className="flex items-center gap-2">
-                    <h3 className="font-semibold text-gray-900">Business Profile (Locations & Reviews)</h3>
-                    <span className={`px-2 py-0.5 text-xs font-medium rounded-full ${expanded === 'panel2' ? 'bg-blue-100 text-blue-700' : 'bg-gray-100 text-gray-500'}`}>
-                      {expanded === 'panel2' ? 'In Progress' : 'Not Started'}
-                    </span>
-                  </div>
+                  <h3 className="font-semibold text-gray-900">Business Profile (Locations & Reviews)</h3>
                   <p className="text-sm text-gray-500">Connect your business profiles and manage location data</p>
                 </div>
               </div>
-            </AccordionSummary>
-            <AccordionDetails sx={{ borderTop: '1px solid #e5e7eb', pt: 3 }}>
               <div className="space-y-6">
                 <div className="bg-gray-50 rounded-xl p-4">
                   <div className="flex items-center gap-3 mb-4">
@@ -532,43 +472,21 @@ export default function Setup() {
                   </div>
                 </div>
               </div>
-            </AccordionDetails>
-          </Accordion>
+            </div>
+          )}
 
-          <Accordion 
-            expanded={expanded === 'panel3'} 
-            onChange={handleChange('panel3')}
-            sx={{ 
-              borderRadius: '12px !important',
-              '&:before': { display: 'none' },
-              boxShadow: 'none',
-              border: expanded === 'panel3' ? '2px solid #3b82f6' : '1px solid #e5e7eb',
-              '&.Mui-expanded': { margin: 0 }
-            }}
-          >
-            <AccordionSummary
-              expandIcon={<ChevronRight className={`transition-transform ${expanded === 'panel3' ? 'rotate-90' : ''}`} />}
-              sx={{ 
-                borderRadius: '12px',
-                '&.Mui-expanded': { borderBottomLeftRadius: 0, borderBottomRightRadius: 0 }
-              }}
-            >
-              <div className="flex items-center gap-3">
-                <div className={`w-10 h-10 rounded-full flex items-center justify-center ${expanded === 'panel3' ? 'bg-blue-100' : 'bg-gray-100'}`}>
-                  <ShoppingCart className={`w-5 h-5 ${expanded === 'panel3' ? 'text-blue-600' : 'text-gray-400'}`} />
+          {/* Sales Tab */}
+          {activeStep === 2 && (
+            <div data-testid="tab-panel-sales">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-10 h-10 rounded-full flex items-center justify-center bg-blue-100">
+                  <ShoppingCart className="w-5 h-5 text-blue-600" />
                 </div>
                 <div>
-                  <div className="flex items-center gap-2">
-                    <h3 className="font-semibold text-gray-900">Sales Data</h3>
-                    <span className={`px-2 py-0.5 text-xs font-medium rounded-full ${expanded === 'panel3' ? 'bg-blue-100 text-blue-700' : 'bg-gray-100 text-gray-500'}`}>
-                      {expanded === 'panel3' ? 'In Progress' : 'Not Started'}
-                    </span>
-                  </div>
+                  <h3 className="font-semibold text-gray-900">Sales Data</h3>
                   <p className="text-sm text-gray-500">Connect your sales data sources and ad platforms</p>
                 </div>
               </div>
-            </AccordionSummary>
-            <AccordionDetails sx={{ borderTop: '1px solid #e5e7eb', pt: 3 }}>
               <div className="space-y-6">
                 <div className="flex items-center gap-4 mb-6">
                   <button 
@@ -597,43 +515,21 @@ export default function Setup() {
                   </div>
                 </div>
               </div>
-            </AccordionDetails>
-          </Accordion>
+            </div>
+          )}
 
-          <Accordion 
-            expanded={expanded === 'panel4'} 
-            onChange={handleChange('panel4')}
-            sx={{ 
-              borderRadius: '12px !important',
-              '&:before': { display: 'none' },
-              boxShadow: 'none',
-              border: expanded === 'panel4' ? '2px solid #3b82f6' : '1px solid #e5e7eb',
-              '&.Mui-expanded': { margin: 0 }
-            }}
-          >
-            <AccordionSummary
-              expandIcon={<ChevronRight className={`transition-transform ${expanded === 'panel4' ? 'rotate-90' : ''}`} />}
-              sx={{ 
-                borderRadius: '12px',
-                '&.Mui-expanded': { borderBottomLeftRadius: 0, borderBottomRightRadius: 0 }
-              }}
-            >
-              <div className="flex items-center gap-3">
-                <div className={`w-10 h-10 rounded-full flex items-center justify-center ${expanded === 'panel4' ? 'bg-blue-100' : 'bg-gray-100'}`}>
-                  <Package className={`w-5 h-5 ${expanded === 'panel4' ? 'text-blue-600' : 'text-gray-400'}`} />
+          {/* Catalog Tab */}
+          {activeStep === 3 && (
+            <div data-testid="tab-panel-catalog">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-10 h-10 rounded-full flex items-center justify-center bg-blue-100">
+                  <Package className="w-5 h-5 text-blue-600" />
                 </div>
                 <div>
-                  <div className="flex items-center gap-2">
-                    <h3 className="font-semibold text-gray-900">Catalog Data</h3>
-                    <span className={`px-2 py-0.5 text-xs font-medium rounded-full ${expanded === 'panel4' ? 'bg-blue-100 text-blue-700' : 'bg-gray-100 text-gray-500'}`}>
-                      {expanded === 'panel4' ? 'In Progress' : 'Not Started'}
-                    </span>
-                  </div>
+                  <h3 className="font-semibold text-gray-900">Catalog Data</h3>
                   <p className="text-sm text-gray-500">Sync your product catalog across platforms</p>
                 </div>
               </div>
-            </AccordionSummary>
-            <AccordionDetails sx={{ borderTop: '1px solid #e5e7eb', pt: 3 }}>
               <div className="space-y-6">
                 <div className="flex items-center gap-4 mb-6">
                   <button 
@@ -677,8 +573,8 @@ export default function Setup() {
                   </div>
                 </div>
               </div>
-            </AccordionDetails>
-          </Accordion>
+            </div>
+          )}
         </div>
       </div>
 
