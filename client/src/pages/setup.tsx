@@ -32,12 +32,37 @@ import {
   DialogContent,
   DialogActions,
   TextField,
-  IconButton
+  IconButton,
+  Autocomplete,
+  Chip
 } from '@mui/material';
 import venueXLogo from '@assets/vx-logo-1000x1000_1756566252817.png';
 
 const integrationId = '59796';
 const companyName = 'Acarlar Perakende';
+
+const categoryOptions = [
+  'Building materials store',
+  'Hardware store',
+  'Home improvement store',
+  'Lumber store',
+  'Paint store',
+  'Flooring store',
+  'Plumbing supply store',
+  'Electrical supply store',
+  'Tool store',
+  'Garden center',
+  'Tile store',
+  'Kitchen supply store',
+  'Bathroom supply store',
+  'Lighting store',
+  'Door store',
+  'Window store',
+  'Roofing supply store',
+  'Insulation supplier',
+  'Concrete supplier',
+  'Brick supplier',
+];
 
 type IntegrationStatus = 'connect' | 'connected' | 'coming_soon';
 
@@ -469,25 +494,44 @@ export default function Setup() {
                       The first selection will be your primary category. GBP accepts 9, Apple 2, Meta 2 additional categories. Your selections will be updated in related publishers according to that.
                     </p>
                   </div>
-                  <div className="flex flex-wrap gap-2 p-3 border border-gray-200 rounded-lg bg-white min-h-[42px]">
-                    {brandInfo.categories.map((cat, index) => (
-                      <span 
-                        key={index}
-                        className="inline-flex items-center gap-1 px-3 py-1 bg-blue-100 text-blue-800 text-sm rounded-full"
-                      >
-                        {cat}
-                        <button 
-                          onClick={() => {
-                            const newCategories = brandInfo.categories.filter((_, i) => i !== index);
-                            handleBrandInfoChange('categories', newCategories);
+                  <Autocomplete
+                    multiple
+                    options={categoryOptions}
+                    value={brandInfo.categories}
+                    onChange={(_, newValue) => handleBrandInfoChange('categories', newValue)}
+                    renderTags={(value, getTagProps) =>
+                      value.map((option, index) => (
+                        <Chip
+                          {...getTagProps({ index })}
+                          key={option}
+                          label={option}
+                          size="small"
+                          sx={{
+                            backgroundColor: '#dbeafe',
+                            color: '#1e40af',
+                            '& .MuiChip-deleteIcon': {
+                              color: '#3b82f6',
+                              '&:hover': {
+                                color: '#1d4ed8',
+                              },
+                            },
                           }}
-                          className="ml-1 hover:text-blue-600"
-                        >
-                          <X size={14} />
-                        </button>
-                      </span>
-                    ))}
-                  </div>
+                        />
+                      ))
+                    }
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        placeholder="Search and select categories..."
+                        size="small"
+                      />
+                    )}
+                    sx={{
+                      '& .MuiOutlinedInput-root': {
+                        borderRadius: '8px',
+                      },
+                    }}
+                  />
                 </div>
 
                 {/* Description */}
