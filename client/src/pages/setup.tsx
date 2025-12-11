@@ -182,7 +182,7 @@ function IntegrationCard({ name, description, logo, status }: IntegrationCardPro
   };
 
   return (
-    <div className="bg-white border border-gray-200 rounded-xl p-4 hover:shadow-md transition-shadow">
+    <div className="bg-white border border-gray-200 rounded-xl p-4 hover:shadow-md transition-shadow flex flex-col h-full min-h-[160px]">
       <div className="flex items-start justify-between mb-3">
         <div className="p-2 bg-gray-50 rounded-lg">
           {getLogo()}
@@ -192,8 +192,10 @@ function IntegrationCard({ name, description, logo, status }: IntegrationCardPro
         )}
       </div>
       <h4 className="font-semibold text-gray-900 mb-1">{name}</h4>
-      <p className="text-sm text-gray-500 mb-3">{description}</p>
-      {getButton()}
+      <p className="text-sm text-gray-500 flex-1">{description}</p>
+      <div className="mt-3">
+        {getButton()}
+      </div>
     </div>
   );
 }
