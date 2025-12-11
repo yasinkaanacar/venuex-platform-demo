@@ -468,6 +468,14 @@ export default function Setup() {
                     <SiGoogle className="w-7 h-7 text-[#4285F4]" />
                     <h4 className="font-bold text-gray-900">Google Business Profile</h4>
                   </div>
+                  
+                  <div className="bg-amber-50 border border-amber-200 rounded-lg p-3 mb-4 flex items-start gap-2">
+                    <Info className="w-4 h-4 text-amber-600 flex-shrink-0 mt-0.5" />
+                    <p className="text-sm text-amber-800">
+                      GBP locations should be listed under a single group
+                    </p>
+                  </div>
+                  
                   <div className="flex flex-wrap gap-3">
                     <button className="flex items-center gap-2 px-4 py-2.5 bg-cyan-600 hover:bg-cyan-700 text-white font-medium rounded-xl transition-all shadow-md hover:shadow-lg">
                       <LinkIcon size={16} />
