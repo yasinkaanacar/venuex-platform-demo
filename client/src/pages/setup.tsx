@@ -365,37 +365,37 @@ export default function Setup() {
                     !isActive && !isCompleted ? 'opacity-50' : 'opacity-100'
                   } transition-opacity duration-300`} />
                   
+                  {/* Large Centered Background Icon */}
+                  <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                    {isCompleted ? (
+                      <Check className="w-24 h-24 text-white/15" />
+                    ) : (
+                      <StepIcon className="w-24 h-24 text-white/15" />
+                    )}
+                  </div>
+                  
                   {/* Content Overlay */}
                   <div className="absolute inset-0 p-4 flex flex-col text-white">
-                    {/* Top Row - Icon and Step Badge */}
+                    {/* Top Row - Step Badge */}
                     <div className="flex items-center justify-between mb-3">
-                      <div className={`w-11 h-11 rounded-xl bg-white/20 backdrop-blur-sm flex items-center justify-center ${isActive ? 'ring-2 ring-white/50' : ''}`}>
-                        {isCompleted ? (
-                          <Check className="w-5 h-5 text-white" />
-                        ) : (
-                          <StepIcon className="w-5 h-5 text-white" />
-                        )}
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <span className="text-xs font-medium bg-white/20 backdrop-blur-sm px-2.5 py-1 rounded-full">
-                          Step {index + 1}
-                        </span>
-                        {isCompleted && (
-                          <div className="w-5 h-5 bg-green-400 rounded-full flex items-center justify-center">
-                            <Check size={12} className="text-white" />
-                          </div>
-                        )}
-                      </div>
+                      <span className="text-xs font-medium bg-white/20 backdrop-blur-sm px-2.5 py-1 rounded-full">
+                        Step {index + 1}
+                      </span>
+                      {isCompleted && (
+                        <div className="w-6 h-6 bg-green-400 rounded-full flex items-center justify-center">
+                          <Check size={14} className="text-white" />
+                        </div>
+                      )}
                     </div>
                     
                     {/* Title and Description */}
-                    <div className="flex-1">
+                    <div className="flex-1 flex flex-col justify-end">
                       <h3 className="text-lg font-bold mb-1">{step.label}</h3>
                       <p className="text-xs text-white/80">{style.desc}</p>
                     </div>
                     
                     {/* Status Badge */}
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-2 mt-2">
                       {isCompleted ? (
                         <span className="text-xs font-medium bg-green-400/30 text-green-100 px-2 py-0.5 rounded-full">
                           Completed
