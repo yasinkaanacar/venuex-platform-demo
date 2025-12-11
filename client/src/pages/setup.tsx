@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useLocation } from 'wouter';
 import { 
   ChevronRight, 
   CheckCircle2, 
@@ -19,18 +20,17 @@ import {
   Mail,
   Image as ImageIcon,
   Plus,
-  Shield
+  Shield,
+  Zap,
+  ArrowRight,
+  Lock,
+  Info
 } from 'lucide-react';
 import { SiGoogle, SiMeta, SiTiktok, SiApple } from 'react-icons/si';
 import { 
   Accordion, 
   AccordionSummary, 
   AccordionDetails,
-  Stepper,
-  Step,
-  StepLabel,
-  StepConnector,
-  stepConnectorClasses,
   Dialog,
   DialogTitle,
   DialogContent,
@@ -38,8 +38,10 @@ import {
   TextField,
   IconButton
 } from '@mui/material';
-import { styled } from '@mui/material/styles';
 import venueXLogo from '@assets/vx-logo-1000x1000_1756566252817.png';
+
+const integrationId = '59796';
+const companyName = 'Acarlar Perakende';
 
 type IntegrationStatus = 'connect' | 'connected' | 'coming_soon';
 
@@ -130,27 +132,6 @@ const steps = [
   { label: 'Catalog', icon: Package },
 ];
 
-const CustomConnector = styled(StepConnector)(({ theme }) => ({
-  [`&.${stepConnectorClasses.alternativeLabel}`]: {
-    top: 22,
-  },
-  [`&.${stepConnectorClasses.active}`]: {
-    [`& .${stepConnectorClasses.line}`]: {
-      backgroundColor: '#3b82f6',
-    },
-  },
-  [`&.${stepConnectorClasses.completed}`]: {
-    [`& .${stepConnectorClasses.line}`]: {
-      backgroundColor: '#22c55e',
-    },
-  },
-  [`& .${stepConnectorClasses.line}`]: {
-    height: 3,
-    border: 0,
-    backgroundColor: '#e5e7eb',
-    borderRadius: 1,
-  },
-}));
 
 interface IntegrationCardProps {
   name: string;
@@ -311,19 +292,63 @@ export default function Setup() {
     setUrlSegments(urlSegments.filter((_, i) => i !== index));
   };
 
+  const [, navigate] = useLocation();
+  const totalSteps = steps.length;
+  const completedCount = activeStep;
+  
+  const handleGoToDashboard = () => {
+    navigate('/');
+  };
+
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="bg-white border-b border-gray-200 px-6 py-4">
-        <div className="max-w-5xl mx-auto flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-indigo-500 flex items-center justify-center">
-            <Settings className="w-5 h-5 text-white" />
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50">
+      {/* Header */}
+      <header className="bg-white/80 backdrop-blur-sm border-b border-gray-200/50 px-8 py-5 sticky top-0 z-40">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2">
+              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-600 to-indigo-600 flex items-center justify-center shadow-lg shadow-blue-500/20">
+                <Zap className="w-5 h-5 text-white" />
+              </div>
+              <span className="text-xl font-bold text-gray-900">VenueX</span>
+            </div>
           </div>
-          <div>
-            <h1 className="text-xl font-bold text-gray-900" data-testid="text-page-title">VenueX Setup</h1>
-            <p className="text-xs text-gray-500">Connect your business data and unlock the full potential of VenueX</p>
+          <button
+            onClick={handleGoToDashboard}
+            className="px-4 py-2 text-sm text-gray-600 hover:text-gray-900 bg-white hover:bg-gray-50 border border-gray-200 rounded-lg transition-all shadow-sm flex items-center gap-2"
+            data-testid="button-go-dashboard"
+          >
+            Go to Dashboard <ArrowRight size={16} />
+          </button>
+        </div>
+        
+        {/* Integration ID Bar */}
+        <div className="mt-4 flex items-center gap-3">
+          <div className="flex items-center gap-2 bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-4 py-1.5 rounded-full shadow-md">
+            <Lock size={14} />
+            <span className="text-sm font-semibold">#{integrationId}</span>
+          </div>
+          <span className="text-lg font-semibold text-gray-800">{companyName}</span>
+          <div className="flex items-center gap-2 text-gray-500 bg-gray-100/80 px-3 py-1 rounded-full">
+            <Info size={14} />
+            <span className="text-xs">Save your progress anytime</span>
           </div>
         </div>
-      </div>
+        
+        {/* Progress Bar */}
+        <div className="mt-4">
+          <div className="flex items-center justify-between mb-2">
+            <span className="text-xs font-medium text-gray-500">Setup Progress</span>
+            <span className="text-xs font-semibold text-blue-600">{Math.round((completedCount / totalSteps) * 100)}%</span>
+          </div>
+          <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
+            <div 
+              className="h-full bg-gradient-to-r from-blue-500 to-indigo-500 rounded-full transition-all duration-500 ease-out"
+              style={{ width: `${(completedCount / totalSteps) * 100}%` }}
+            />
+          </div>
+        </div>
+      </header>
 
       <div className="max-w-5xl mx-auto px-6 py-6">
 
