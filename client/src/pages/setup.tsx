@@ -1,9 +1,6 @@
 import { useState } from 'react';
 import { useLocation } from 'wouter';
 import { 
-  ChevronRight, 
-  CheckCircle2, 
-  Circle, 
   Building2, 
   MapPin, 
   ShoppingCart, 
@@ -14,13 +11,13 @@ import {
   ExternalLink,
   Check,
   X,
-  Upload,
   Globe,
   Phone,
   Mail,
   Image as ImageIcon,
   Plus,
   Shield,
+  Upload,
   Zap,
   ArrowRight,
   Lock,
@@ -199,26 +196,6 @@ function IntegrationCard({ name, description, logo, status }: IntegrationCardPro
   );
 }
 
-interface StepIconProps {
-  active: boolean;
-  completed: boolean;
-  icon: React.ElementType;
-}
-
-function CustomStepIcon({ active, completed, icon: Icon }: StepIconProps) {
-  return (
-    <div className={`w-11 h-11 rounded-full flex items-center justify-center transition-all ${
-      completed 
-        ? 'bg-green-500 text-white' 
-        : active 
-          ? 'bg-blue-600 text-white ring-4 ring-blue-100' 
-          : 'bg-gray-100 text-gray-400'
-    }`}>
-      {completed ? <CheckCircle2 size={20} /> : <Icon size={20} />}
-    </div>
-  );
-}
-
 export default function Setup() {
   const [activeStep, setActiveStep] = useState(0);
   const [brandModalOpen, setBrandModalOpen] = useState(false);
@@ -340,13 +317,13 @@ export default function Setup() {
             const isActive = index === activeStep;
             const isCompleted = index < activeStep;
             const StepIcon = step.icon;
-            const stepColors = [
-              'bg-blue-600',
-              'bg-cyan-600', 
-              'bg-emerald-600',
-              'bg-purple-600'
+            const stepStyles = [
+              { bg: 'bg-blue-600', shadow: 'shadow-blue-500/30', ring: 'ring-blue-400', desc: 'Business name, logo & contact' },
+              { bg: 'bg-cyan-600', shadow: 'shadow-cyan-500/30', ring: 'ring-cyan-400', desc: 'Google & Apple Maps profiles' },
+              { bg: 'bg-emerald-600', shadow: 'shadow-emerald-500/30', ring: 'ring-emerald-400', desc: 'POS data & ad platforms' },
+              { bg: 'bg-purple-600', shadow: 'shadow-purple-500/30', ring: 'ring-purple-400', desc: 'Product feeds & inventory' }
             ];
-            const stepColor = stepColors[index] || 'bg-gray-500';
+            const style = stepStyles[index] || { bg: 'bg-gray-500', shadow: 'shadow-gray-500/30', ring: 'ring-gray-400', desc: '' };
             
             return (
               <div
@@ -356,62 +333,63 @@ export default function Setup() {
                 data-testid={`step-card-${index}`}
               >
                 {/* Visual Card */}
-                <div className={`h-[200px] rounded-2xl overflow-hidden relative transition-shadow duration-300 ${
+                <div className={`h-[180px] rounded-2xl overflow-hidden relative transition-all duration-300 ${
                   isActive 
-                    ? 'shadow-xl shadow-blue-500/20 ring-2 ring-blue-500' 
+                    ? `shadow-xl ${style.shadow} ring-2 ${style.ring}` 
                     : isCompleted 
                       ? 'shadow-lg ring-2 ring-green-400' 
                       : 'shadow-md hover:shadow-lg'
                 }`}>
                   {/* Solid Color Background */}
-                  <div className={`absolute inset-0 rounded-2xl ${stepColor} ${
-                    !isActive && !isCompleted ? 'opacity-60' : 'opacity-100'
+                  <div className={`absolute inset-0 rounded-2xl ${style.bg} ${
+                    !isActive && !isCompleted ? 'opacity-50' : 'opacity-100'
                   } transition-opacity duration-300`} />
                   
                   {/* Content Overlay */}
-                  <div className="absolute inset-0 p-5 flex flex-col justify-between text-white">
-                    {/* Top Section */}
-                    <div>
-                      <div className="flex items-center justify-between mb-4">
-                        <div className={`w-12 h-12 rounded-xl bg-white/20 backdrop-blur-sm flex items-center justify-center ${isActive ? 'ring-2 ring-white/50' : ''}`}>
-                          <StepIcon className="w-6 h-6 text-white" />
-                        </div>
-                        <div className="flex items-center gap-2">
-                          <span className="text-xs font-medium bg-white/20 backdrop-blur-sm px-2 py-1 rounded-full">
-                            Step {index + 1}
-                          </span>
-                          {isCompleted && (
-                            <div className="w-6 h-6 bg-green-400 rounded-full flex items-center justify-center">
-                              <Check size={14} className="text-white" />
-                            </div>
-                          )}
-                        </div>
+                  <div className="absolute inset-0 p-4 flex flex-col text-white">
+                    {/* Top Row - Icon and Step Badge */}
+                    <div className="flex items-center justify-between mb-3">
+                      <div className={`w-11 h-11 rounded-xl bg-white/20 backdrop-blur-sm flex items-center justify-center ${isActive ? 'ring-2 ring-white/50' : ''}`}>
+                        {isCompleted ? (
+                          <Check className="w-5 h-5 text-white" />
+                        ) : (
+                          <StepIcon className="w-5 h-5 text-white" />
+                        )}
                       </div>
-                      <h3 className="text-xl font-bold mb-1">{step.label}</h3>
+                      <div className="flex items-center gap-2">
+                        <span className="text-xs font-medium bg-white/20 backdrop-blur-sm px-2.5 py-1 rounded-full">
+                          Step {index + 1}
+                        </span>
+                        {isCompleted && (
+                          <div className="w-5 h-5 bg-green-400 rounded-full flex items-center justify-center">
+                            <Check size={12} className="text-white" />
+                          </div>
+                        )}
+                      </div>
                     </div>
                     
-                    {/* Active Indicator */}
-                    {isActive && (
-                      <div className="absolute bottom-0 left-0 right-0 h-1 bg-white/50" />
-                    )}
-                  </div>
-                </div>
-                
-                {/* Step Label with Status */}
-                <div className="mt-4 flex items-center gap-3">
-                  <div className={`w-8 h-8 rounded-full flex items-center justify-center transition-all ${
-                    isCompleted 
-                      ? 'bg-green-500 text-white' 
-                      : isActive 
-                        ? 'bg-blue-600 text-white ring-4 ring-blue-100' 
-                        : 'bg-gray-200 text-gray-500'
-                  }`}>
-                    {isCompleted ? <Check size={16} /> : <span className="text-sm font-bold">{index + 1}</span>}
-                  </div>
-                  <div className="flex-1">
-                    <p className={`text-sm font-semibold ${isActive ? 'text-gray-900' : 'text-gray-600'}`}>
-                      {step.label}
-                    </p>
+                    {/* Title and Description */}
+                    <div className="flex-1">
+                      <h3 className="text-lg font-bold mb-1">{step.label}</h3>
+                      <p className="text-xs text-white/80">{style.desc}</p>
+                    </div>
+                    
+                    {/* Status Badge */}
+                    <div className="flex items-center gap-2">
+                      {isCompleted ? (
+                        <span className="text-xs font-medium bg-green-400/30 text-green-100 px-2 py-0.5 rounded-full">
+                          Completed
+                        </span>
+                      ) : isActive ? (
+                        <span className="text-xs font-medium bg-white/20 text-white px-2 py-0.5 rounded-full animate-pulse">
+                          In Progress
+                        </span>
+                      ) : (
+                        <span className="text-xs font-medium bg-white/10 text-white/70 px-2 py-0.5 rounded-full">
+                          Pending
+                        </span>
+                      )}
+                    </div>
                   </div>
                 </div>
               </div>
@@ -420,28 +398,33 @@ export default function Setup() {
         </div>
 
         {/* Tab Content */}
-        <div className="bg-white rounded-xl border border-gray-200 p-6 shadow-sm">
+        <div className="bg-white rounded-2xl border border-gray-200 p-6 shadow-lg">
           {/* Brand Info Tab */}
           {activeStep === 0 && (
             <div data-testid="tab-panel-brand">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-10 h-10 rounded-full flex items-center justify-center bg-blue-100">
-                  <Building2 className="w-5 h-5 text-blue-600" />
+              <div className="flex items-center gap-4 mb-6 pb-4 border-b border-gray-100">
+                <div className="w-12 h-12 rounded-xl flex items-center justify-center bg-blue-100">
+                  <Building2 className="w-6 h-6 text-blue-600" />
                 </div>
                 <div>
-                  <h3 className="font-semibold text-gray-900">Update Brand Information</h3>
+                  <h3 className="text-lg font-bold text-gray-900">Update Brand Information</h3>
                   <p className="text-sm text-gray-500">Keep your brand details consistent across all platforms</p>
                 </div>
               </div>
-              <p className="text-gray-600 mb-4">
-                Enter your brand information to ensure consistent branding 
-                across all connected platforms including Google Business Profile, Apple Maps, and social media.
-              </p>
+              
+              <div className="bg-blue-50/50 rounded-xl p-5 mb-6 border border-blue-100">
+                <p className="text-gray-700 leading-relaxed">
+                  Enter your brand information to ensure consistent branding 
+                  across all connected platforms including Google Business Profile, Apple Maps, and social media.
+                </p>
+              </div>
+              
               <div className="flex gap-3">
                 <button 
                   onClick={() => setBrandModalOpen(true)}
-                  className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors"
+                  className="px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-xl transition-all shadow-md hover:shadow-lg flex items-center gap-2"
                 >
+                  <Plus size={18} />
                   Add Brand Information
                 </button>
               </div>
@@ -451,50 +434,49 @@ export default function Setup() {
           {/* Locations Tab */}
           {activeStep === 1 && (
             <div data-testid="tab-panel-locations">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-10 h-10 rounded-full flex items-center justify-center bg-blue-100">
-                  <MapPin className="w-5 h-5 text-blue-600" />
+              <div className="flex items-center gap-4 mb-6 pb-4 border-b border-gray-100">
+                <div className="w-12 h-12 rounded-xl flex items-center justify-center bg-cyan-100">
+                  <MapPin className="w-6 h-6 text-cyan-600" />
                 </div>
                 <div>
-                  <h3 className="font-semibold text-gray-900">Business Profile (Locations & Reviews)</h3>
+                  <h3 className="text-lg font-bold text-gray-900">Business Profile (Locations & Reviews)</h3>
                   <p className="text-sm text-gray-500">Connect your business profiles and manage location data</p>
                 </div>
               </div>
+              
               <div className="space-y-6">
-                <div className="bg-gray-50 rounded-xl p-4">
+                <div className="bg-gradient-to-r from-cyan-50 to-blue-50 rounded-xl p-5 border border-cyan-100">
                   <div className="flex items-center gap-3 mb-4">
-                    <SiGoogle className="w-6 h-6 text-[#4285F4]" />
-                    <h4 className="font-semibold text-gray-900">Google Business Profile</h4>
+                    <SiGoogle className="w-7 h-7 text-[#4285F4]" />
+                    <h4 className="font-bold text-gray-900">Google Business Profile</h4>
                   </div>
                   <div className="flex flex-wrap gap-3">
-                    <button className="flex items-center gap-1.5 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors">
+                    <button className="flex items-center gap-2 px-4 py-2.5 bg-cyan-600 hover:bg-cyan-700 text-white font-medium rounded-xl transition-all shadow-md hover:shadow-lg">
                       <LinkIcon size={16} />
                       Connect Account
                     </button>
-                    <button className="flex items-center gap-1.5 px-4 py-2 border border-gray-300 text-gray-700 font-medium rounded-lg hover:bg-gray-50 transition-colors">
+                    <button className="flex items-center gap-2 px-4 py-2.5 bg-white border border-gray-200 text-gray-700 font-medium rounded-xl hover:bg-gray-50 transition-all shadow-sm">
                       Activate Reviews
                     </button>
                   </div>
                 </div>
 
-                <div className="bg-gray-50 rounded-xl p-4">
-                  <div className="flex items-center justify-between mb-4">
-                    <div className="flex items-center gap-3">
-                      <Database className="w-5 h-5 text-gray-600" />
-                      <h4 className="font-semibold text-gray-900">Check Location Data</h4>
-                    </div>
+                <div className="bg-gray-50 rounded-xl p-5 border border-gray-100">
+                  <div className="flex items-center gap-3 mb-3">
+                    <Database className="w-5 h-5 text-cyan-600" />
+                    <h4 className="font-semibold text-gray-900">Check Location Data</h4>
                   </div>
-                  <p className="text-sm text-gray-500 mb-3">
+                  <p className="text-sm text-gray-600 mb-4">
                     Verify your location data is synced correctly with VenueX
                   </p>
-                  <button className="flex items-center gap-1.5 px-4 py-2 border border-gray-300 text-gray-700 font-medium rounded-lg hover:bg-gray-50 transition-colors">
+                  <button className="flex items-center gap-2 px-4 py-2 bg-white border border-gray-200 text-gray-700 font-medium rounded-xl hover:bg-gray-50 transition-all shadow-sm">
                     <Database size={16} />
                     Check Locations
                   </button>
                 </div>
 
                 <div>
-                  <h4 className="font-semibold text-gray-900 mb-4">Other Platforms</h4>
+                  <h4 className="font-bold text-gray-900 mb-4">Other Platforms</h4>
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                     {mockPlatformCards.locations.map((card) => (
                       <IntegrationCard key={card.id} {...card} />
@@ -508,36 +490,41 @@ export default function Setup() {
           {/* Sales Tab */}
           {activeStep === 2 && (
             <div data-testid="tab-panel-sales">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-10 h-10 rounded-full flex items-center justify-center bg-blue-100">
-                  <ShoppingCart className="w-5 h-5 text-blue-600" />
+              <div className="flex items-center gap-4 mb-6 pb-4 border-b border-gray-100">
+                <div className="w-12 h-12 rounded-xl flex items-center justify-center bg-emerald-100">
+                  <ShoppingCart className="w-6 h-6 text-emerald-600" />
                 </div>
                 <div>
-                  <h3 className="font-semibold text-gray-900">Sales Data</h3>
+                  <h3 className="text-lg font-bold text-gray-900">Sales Data</h3>
                   <p className="text-sm text-gray-500">Connect your sales data sources and ad platforms</p>
                 </div>
               </div>
+              
               <div className="space-y-6">
-                <div className="flex items-center gap-4 mb-6">
-                  <button 
-                    onClick={() => setSalesDataModalOpen(true)}
-                    className="flex items-center gap-2 px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-lg transition-colors"
-                  >
-                    <Database className="w-4 h-4" />
-                    1. Connect Data Source
-                  </button>
-                  <div className="flex-1 h-px bg-gray-200" />
-                  <button 
-                    onClick={() => setDataMappingModalOpen(true)}
-                    className="flex items-center gap-2 px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-lg transition-colors"
-                  >
-                    <Settings className="w-4 h-4" />
-                    2. Perform Data Mapping
-                  </button>
+                {/* Setup Steps */}
+                <div className="bg-gradient-to-r from-emerald-50 to-green-50 rounded-xl p-5 border border-emerald-100">
+                  <h4 className="font-bold text-gray-900 mb-4">Setup Steps</h4>
+                  <div className="flex items-center gap-4">
+                    <button 
+                      onClick={() => setSalesDataModalOpen(true)}
+                      className="flex items-center gap-2 px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-medium rounded-xl transition-all shadow-md hover:shadow-lg"
+                    >
+                      <Database className="w-4 h-4" />
+                      1. Connect Data Source
+                    </button>
+                    <div className="flex-1 h-0.5 bg-emerald-200 rounded-full" />
+                    <button 
+                      onClick={() => setDataMappingModalOpen(true)}
+                      className="flex items-center gap-2 px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-medium rounded-xl transition-all shadow-md hover:shadow-lg"
+                    >
+                      <Settings className="w-4 h-4" />
+                      2. Perform Data Mapping
+                    </button>
+                  </div>
                 </div>
 
                 <div>
-                  <h4 className="font-semibold text-gray-900 mb-4">Connected Platforms</h4>
+                  <h4 className="font-bold text-gray-900 mb-4">Connected Platforms</h4>
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     {mockPlatformCards.sales.map((card) => (
                       <IntegrationCard key={card.id} {...card} />
@@ -551,43 +538,48 @@ export default function Setup() {
           {/* Catalog Tab */}
           {activeStep === 3 && (
             <div data-testid="tab-panel-catalog">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-10 h-10 rounded-full flex items-center justify-center bg-blue-100">
-                  <Package className="w-5 h-5 text-blue-600" />
+              <div className="flex items-center gap-4 mb-6 pb-4 border-b border-gray-100">
+                <div className="w-12 h-12 rounded-xl flex items-center justify-center bg-purple-100">
+                  <Package className="w-6 h-6 text-purple-600" />
                 </div>
                 <div>
-                  <h3 className="font-semibold text-gray-900">Catalog Data</h3>
+                  <h3 className="text-lg font-bold text-gray-900">Catalog Data</h3>
                   <p className="text-sm text-gray-500">Sync your product catalog across platforms</p>
                 </div>
               </div>
+              
               <div className="space-y-6">
-                <div className="flex items-center gap-4 mb-6">
-                  <button 
-                    className="flex items-center gap-2 px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-lg transition-colors"
-                  >
-                    <Database className="w-4 h-4" />
-                    1. Connect Data Source
-                  </button>
-                  <div className="flex-1 h-px bg-gray-200" />
-                  <button 
-                    className="flex items-center gap-2 px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-lg transition-colors"
-                  >
-                    <Settings className="w-4 h-4" />
-                    2. Perform Data Mapping
-                  </button>
+                {/* Setup Steps */}
+                <div className="bg-gradient-to-r from-purple-50 to-indigo-50 rounded-xl p-5 border border-purple-100">
+                  <h4 className="font-bold text-gray-900 mb-4">Setup Steps</h4>
+                  <div className="flex items-center gap-4">
+                    <button 
+                      className="flex items-center gap-2 px-4 py-2.5 bg-purple-600 hover:bg-purple-700 text-white font-medium rounded-xl transition-all shadow-md hover:shadow-lg"
+                    >
+                      <Database className="w-4 h-4" />
+                      1. Connect Data Source
+                    </button>
+                    <div className="flex-1 h-0.5 bg-purple-200 rounded-full" />
+                    <button 
+                      className="flex items-center gap-2 px-4 py-2.5 bg-purple-600 hover:bg-purple-700 text-white font-medium rounded-xl transition-all shadow-md hover:shadow-lg"
+                    >
+                      <Settings className="w-4 h-4" />
+                      2. Perform Data Mapping
+                    </button>
+                  </div>
                 </div>
 
-                <div className="bg-gray-50 rounded-xl p-4">
+                <div className="bg-gradient-to-r from-blue-50 to-cyan-50 rounded-xl p-5 border border-blue-100">
                   <div className="flex items-center gap-3 mb-4">
-                    <SiGoogle className="w-6 h-6 text-[#4285F4]" />
-                    <h4 className="font-semibold text-gray-900">Google Merchant Center</h4>
+                    <SiGoogle className="w-7 h-7 text-[#4285F4]" />
+                    <h4 className="font-bold text-gray-900">Google Merchant Center</h4>
                   </div>
                   <div className="flex flex-wrap gap-3">
-                    <button className="flex items-center gap-1.5 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors">
+                    <button className="flex items-center gap-2 px-4 py-2.5 bg-purple-600 hover:bg-purple-700 text-white font-medium rounded-xl transition-all shadow-md hover:shadow-lg">
                       <LinkIcon size={16} />
                       Connect Account
                     </button>
-                    <button className="flex items-center gap-1.5 px-4 py-2 border border-gray-300 text-gray-700 font-medium rounded-lg hover:bg-gray-50 transition-colors">
+                    <button className="flex items-center gap-2 px-4 py-2.5 bg-white border border-gray-200 text-gray-700 font-medium rounded-xl hover:bg-gray-50 transition-all shadow-sm">
                       <Settings size={16} />
                       Configure
                     </button>
@@ -595,7 +587,7 @@ export default function Setup() {
                 </div>
 
                 <div>
-                  <h4 className="font-semibold text-gray-900 mb-4">Other Platforms</h4>
+                  <h4 className="font-bold text-gray-900 mb-4">Other Platforms</h4>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     {mockPlatformCards.catalog.map((card) => (
                       <IntegrationCard key={card.id} {...card} />
