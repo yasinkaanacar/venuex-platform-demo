@@ -21,7 +21,9 @@ import {
   Zap,
   ArrowRight,
   Lock,
-  Info
+  Info,
+  Users,
+  UserPlus
 } from 'lucide-react';
 import { SiGoogle, SiMeta, SiTiktok, SiApple } from 'react-icons/si';
 import { 
@@ -597,6 +599,55 @@ export default function Setup() {
               </div>
             </div>
           )}
+        </div>
+
+        {/* Invite Team Section */}
+        <div className="mt-6 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-2xl p-6 shadow-lg">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-4">
+              <div className="w-14 h-14 rounded-xl bg-white/20 backdrop-blur-sm flex items-center justify-center">
+                <Users className="w-7 h-7 text-white" />
+              </div>
+              <div>
+                <h3 className="text-xl font-bold text-white mb-1">Invite Your Team</h3>
+                <p className="text-indigo-100 text-sm">Collaborate with your team to complete setup faster</p>
+              </div>
+            </div>
+            <button 
+              className="flex items-center gap-2 px-5 py-3 bg-white hover:bg-gray-50 text-indigo-600 font-semibold rounded-xl transition-all shadow-md hover:shadow-lg"
+              data-testid="button-invite-team"
+            >
+              <UserPlus size={18} />
+              Invite Team Members
+            </button>
+          </div>
+          
+          {/* Team Roles Info */}
+          <div className="mt-5 pt-5 border-t border-white/20">
+            <div className="grid grid-cols-3 gap-4">
+              <div className="bg-white/10 rounded-xl p-4 backdrop-blur-sm">
+                <div className="flex items-center gap-2 mb-2">
+                  <Shield className="w-4 h-4 text-indigo-200" />
+                  <span className="text-sm font-semibold text-white">Admin</span>
+                </div>
+                <p className="text-xs text-indigo-100">Full access to all settings and integrations</p>
+              </div>
+              <div className="bg-white/10 rounded-xl p-4 backdrop-blur-sm">
+                <div className="flex items-center gap-2 mb-2">
+                  <Settings className="w-4 h-4 text-indigo-200" />
+                  <span className="text-sm font-semibold text-white">Manager</span>
+                </div>
+                <p className="text-xs text-indigo-100">Manage locations, campaigns and analytics</p>
+              </div>
+              <div className="bg-white/10 rounded-xl p-4 backdrop-blur-sm">
+                <div className="flex items-center gap-2 mb-2">
+                  <Users className="w-4 h-4 text-indigo-200" />
+                  <span className="text-sm font-semibold text-white">Viewer</span>
+                </div>
+                <p className="text-xs text-indigo-100">View-only access to dashboards and reports</p>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
