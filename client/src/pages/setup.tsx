@@ -337,7 +337,7 @@ export default function Setup() {
             const StepIcon = step.icon;
             const stepStyles = [
               { bg: 'bg-blue-600', shadow: 'shadow-blue-500/30', ring: 'ring-blue-400', desc: 'Business name, logo & contact' },
-              { bg: 'bg-blue-600', shadow: 'shadow-blue-500/30', ring: 'ring-blue-400', desc: 'Google & Apple Maps profiles' },
+              { bg: 'bg-blue-600', shadow: 'shadow-blue-500/30', ring: 'ring-blue-400', desc: 'Sync location listings' },
               { bg: 'bg-blue-600', shadow: 'shadow-blue-500/30', ring: 'ring-blue-400', desc: 'POS data & ad platforms' },
               { bg: 'bg-blue-600', shadow: 'shadow-blue-500/30', ring: 'ring-blue-400', desc: 'Product feeds & inventory' }
             ];
