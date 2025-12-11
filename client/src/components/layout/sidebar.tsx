@@ -83,7 +83,7 @@ export default function Sidebar({ collapsed, onToggle }: SidebarProps) {
 
   return (
     <div className={cn(
-      "dark:bg-gray-900 border-r border-gray-300 dark:border-gray-600 flex flex-col h-screen shadow-sm transition-all duration-300 bg-[#f9fafb]",
+      "dark:bg-gray-900 border-r border-gray-300 dark:border-gray-600 flex flex-col min-h-screen sticky top-0 max-h-screen overflow-y-auto shadow-sm transition-all duration-300 bg-[#f9fafb]",
       collapsed ? "w-16" : "w-64"
     )}>
       {/* Logo and Brand */}
