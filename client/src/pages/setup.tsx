@@ -321,9 +321,9 @@ export default function Setup() {
             const StepIcon = step.icon;
             const stepStyles = [
               { bg: 'bg-blue-600', shadow: 'shadow-blue-500/30', ring: 'ring-blue-400', desc: 'Business name, logo & contact' },
-              { bg: 'bg-cyan-600', shadow: 'shadow-cyan-500/30', ring: 'ring-cyan-400', desc: 'Google & Apple Maps profiles' },
-              { bg: 'bg-emerald-600', shadow: 'shadow-emerald-500/30', ring: 'ring-emerald-400', desc: 'POS data & ad platforms' },
-              { bg: 'bg-purple-600', shadow: 'shadow-purple-500/30', ring: 'ring-purple-400', desc: 'Product feeds & inventory' }
+              { bg: 'bg-blue-600', shadow: 'shadow-blue-500/30', ring: 'ring-blue-400', desc: 'Google & Apple Maps profiles' },
+              { bg: 'bg-blue-600', shadow: 'shadow-blue-500/30', ring: 'ring-blue-400', desc: 'POS data & ad platforms' },
+              { bg: 'bg-blue-600', shadow: 'shadow-blue-500/30', ring: 'ring-blue-400', desc: 'Product feeds & inventory' }
             ];
             const style = stepStyles[index] || { bg: 'bg-gray-500', shadow: 'shadow-gray-500/30', ring: 'ring-gray-400', desc: '' };
             
