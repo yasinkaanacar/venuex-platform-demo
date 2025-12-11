@@ -203,6 +203,13 @@ export default function Setup() {
   const [brandModalOpen, setBrandModalOpen] = useState(false);
   const [salesDataModalOpen, setSalesDataModalOpen] = useState(false);
   const [dataMappingModalOpen, setDataMappingModalOpen] = useState(false);
+  const [inviteTeamModalOpen, setInviteTeamModalOpen] = useState(false);
+  const [inviteForm, setInviteForm] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    role: 'Viewer',
+  });
   const [brandInfo, setBrandInfo] = useState({
     businessName: '',
     description: '',
@@ -238,6 +245,15 @@ export default function Setup() {
 
   const handleSalesConfigChange = (field: string, value: string) => {
     setSalesConfig(prev => ({ ...prev, [field]: value }));
+  };
+
+  const handleInviteFormChange = (field: string, value: string) => {
+    setInviteForm(prev => ({ ...prev, [field]: value }));
+  };
+
+  const handleSendInvite = () => {
+    setInviteForm({ firstName: '', lastName: '', email: '', role: 'Viewer' });
+    setInviteTeamModalOpen(false);
   };
 
   const addUrlSegment = () => {
@@ -614,6 +630,7 @@ export default function Setup() {
               </div>
             </div>
             <button 
+              onClick={() => setInviteTeamModalOpen(true)}
               className="flex items-center gap-2 px-5 py-3 bg-white hover:bg-gray-50 text-indigo-600 font-semibold rounded-xl transition-all shadow-md hover:shadow-lg"
               data-testid="button-invite-team"
             >
@@ -1177,6 +1194,119 @@ export default function Setup() {
             className="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors"
           >
             Continue
+          </button>
+        </DialogActions>
+      </Dialog>
+
+      <Dialog 
+        open={inviteTeamModalOpen} 
+        onClose={() => setInviteTeamModalOpen(false)}
+        maxWidth="sm"
+        fullWidth
+        PaperProps={{
+          sx: {
+            borderRadius: '16px',
+            maxHeight: '90vh'
+          }
+        }}
+      >
+        <DialogTitle sx={{ 
+          display: 'flex', 
+          justifyContent: 'space-between', 
+          alignItems: 'center',
+          borderBottom: '1px solid #e5e7eb',
+          pb: 2
+        }}>
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 bg-indigo-100 rounded-full flex items-center justify-center">
+              <UserPlus className="w-5 h-5 text-indigo-600" />
+            </div>
+            <div>
+              <h2 className="text-lg font-semibold text-gray-900">Invite Team Member</h2>
+              <p className="text-sm text-gray-500">Add a new member to your team</p>
+            </div>
+          </div>
+          <IconButton onClick={() => setInviteTeamModalOpen(false)} size="small">
+            <X className="w-5 h-5 text-gray-500" />
+          </IconButton>
+        </DialogTitle>
+        
+        <DialogContent sx={{ pt: 3 }}>
+          <div className="space-y-4">
+            <div className="grid grid-cols-2 gap-4">
+              <TextField
+                label="First Name"
+                value={inviteForm.firstName}
+                onChange={(e) => handleInviteFormChange('firstName', e.target.value)}
+                fullWidth
+                size="small"
+                data-testid="input-first-name"
+              />
+              <TextField
+                label="Last Name"
+                value={inviteForm.lastName}
+                onChange={(e) => handleInviteFormChange('lastName', e.target.value)}
+                fullWidth
+                size="small"
+                data-testid="input-last-name"
+              />
+            </div>
+            
+            <TextField
+              label="E-mail"
+              type="email"
+              value={inviteForm.email}
+              onChange={(e) => handleInviteFormChange('email', e.target.value)}
+              fullWidth
+              size="small"
+              InputProps={{
+                startAdornment: <Mail className="w-4 h-4 text-gray-400 mr-2" />
+              }}
+              data-testid="input-email"
+            />
+            
+            <div>
+              <label className="block text-xs font-medium text-gray-500 mb-1">Role</label>
+              <select 
+                className="w-full p-2.5 border border-gray-200 rounded-lg bg-white text-sm"
+                value={inviteForm.role}
+                onChange={(e) => handleInviteFormChange('role', e.target.value)}
+                data-testid="select-role"
+              >
+                <option value="Admin">Admin - Full access to all settings and integrations</option>
+                <option value="Manager">Manager - Manage locations, campaigns and analytics</option>
+                <option value="Viewer">Viewer - View-only access to dashboards and reports</option>
+              </select>
+            </div>
+
+            <div className="bg-indigo-50 rounded-xl p-4 border border-indigo-100 mt-4">
+              <div className="flex items-start gap-3">
+                <div className="w-8 h-8 bg-indigo-100 rounded-full flex items-center justify-center flex-shrink-0">
+                  <Mail className="w-4 h-4 text-indigo-600" />
+                </div>
+                <div>
+                  <h4 className="text-sm font-medium text-indigo-900 mb-1">Invitation Email</h4>
+                  <p className="text-xs text-indigo-700">An email invitation will be sent to the team member with instructions to join your VenueX workspace.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </DialogContent>
+
+        <DialogActions sx={{ borderTop: '1px solid #e5e7eb', p: 3 }}>
+          <button 
+            onClick={() => setInviteTeamModalOpen(false)}
+            className="px-4 py-2 text-gray-600 font-medium rounded-lg hover:bg-gray-100 transition-colors"
+          >
+            Cancel
+          </button>
+          <button 
+            onClick={handleSendInvite}
+            className="px-6 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-lg transition-colors flex items-center gap-2"
+            data-testid="button-send-invite"
+          >
+            <UserPlus size={16} />
+            Send Invitation
           </button>
         </DialogActions>
       </Dialog>
