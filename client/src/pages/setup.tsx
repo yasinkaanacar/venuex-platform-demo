@@ -362,7 +362,7 @@ export default function Setup() {
               <div
                 key={step.label}
                 onClick={() => handleStepClick(index)}
-                className={`relative cursor-pointer rounded-xl p-4 transition-all duration-200 ${
+                className={`relative cursor-pointer rounded-xl p-5 transition-all duration-200 ${
                   isActive 
                     ? 'bg-blue-600 text-white shadow-lg shadow-blue-500/25 ring-2 ring-blue-400' 
                     : isCompleted 
@@ -371,8 +371,18 @@ export default function Setup() {
                 }`}
                 data-testid={`step-card-${index}`}
               >
-                <div className="flex items-center gap-3">
-                  <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${
+                <div className="flex flex-col items-center text-center gap-3">
+                  <div className="flex items-center justify-between w-full mb-1">
+                    <span className={`text-xs font-medium ${
+                      isActive ? 'text-blue-100' : isCompleted ? 'text-green-600' : 'text-gray-400'
+                    }`}>
+                      Step {index + 1}
+                    </span>
+                    {isCompleted && (
+                      <span className="text-xs font-medium text-green-600">✓</span>
+                    )}
+                  </div>
+                  <div className={`w-14 h-14 rounded-xl flex items-center justify-center ${
                     isActive 
                       ? 'bg-white/20' 
                       : isCompleted 
@@ -380,28 +390,16 @@ export default function Setup() {
                         : 'bg-gray-100'
                   }`}>
                     {isCompleted ? (
-                      <CheckCircle2 className="w-5 h-5 text-green-600" />
+                      <CheckCircle2 className="w-7 h-7 text-green-600" />
                     ) : (
-                      <StepIcon className={`w-5 h-5 ${isActive ? 'text-white' : 'text-gray-500'}`} />
+                      <StepIcon className={`w-7 h-7 ${isActive ? 'text-white' : 'text-gray-500'}`} />
                     )}
                   </div>
-                  <div className="flex-1">
-                    <div className="flex items-center gap-2">
-                      <span className={`text-xs font-medium ${
-                        isActive ? 'text-blue-100' : isCompleted ? 'text-green-600' : 'text-gray-400'
-                      }`}>
-                        Step {index + 1}
-                      </span>
-                      {isCompleted && (
-                        <span className="text-xs font-medium text-green-600">✓</span>
-                      )}
-                    </div>
-                    <h3 className={`font-semibold text-sm ${
-                      isActive ? 'text-white' : isCompleted ? 'text-green-700' : 'text-gray-700'
-                    }`}>
-                      {step.label}
-                    </h3>
-                  </div>
+                  <h3 className={`font-semibold text-sm mt-1 ${
+                    isActive ? 'text-white' : isCompleted ? 'text-green-700' : 'text-gray-700'
+                  }`}>
+                    {step.label}
+                  </h3>
                 </div>
               </div>
             );
