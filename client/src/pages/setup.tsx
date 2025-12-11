@@ -327,41 +327,60 @@ export default function Setup() {
 
       <div className="max-w-5xl mx-auto px-6 py-6">
 
-        <div className="bg-white rounded-xl border border-gray-200 p-6 mb-8">
-          <Stepper 
-            activeStep={activeStep} 
-            alternativeLabel 
-            connector={<CustomConnector />}
-          >
-            {steps.map((step, index) => (
-              <Step 
-                key={step.label} 
-                completed={index < activeStep}
+        <div className="grid grid-cols-4 gap-4 mb-8">
+          {steps.map((step, index) => {
+            const isActive = index === activeStep;
+            const isCompleted = index < activeStep;
+            const StepIcon = step.icon;
+            
+            return (
+              <div
+                key={step.label}
                 onClick={() => handleStepClick(index)}
-                sx={{ cursor: 'pointer' }}
+                className={`relative cursor-pointer rounded-xl p-4 transition-all duration-200 ${
+                  isActive 
+                    ? 'bg-blue-600 text-white shadow-lg shadow-blue-500/25 ring-2 ring-blue-400' 
+                    : isCompleted 
+                      ? 'bg-green-50 border-2 border-green-400 hover:shadow-md' 
+                      : 'bg-white border border-gray-200 hover:border-gray-300 hover:shadow-md'
+                }`}
+                data-testid={`step-card-${index}`}
               >
-                <StepLabel 
-                  StepIconComponent={() => (
-                    <CustomStepIcon 
-                      active={index === activeStep}
-                      completed={index < activeStep}
-                      icon={step.icon}
-                    />
-                  )}
-                >
-                  <span className={`text-sm font-medium ${
-                    index === activeStep 
-                      ? 'text-blue-600' 
-                      : index < activeStep 
-                        ? 'text-green-600' 
-                        : 'text-gray-400'
+                <div className="flex items-center gap-3">
+                  <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${
+                    isActive 
+                      ? 'bg-white/20' 
+                      : isCompleted 
+                        ? 'bg-green-100' 
+                        : 'bg-gray-100'
                   }`}>
-                    {step.label}
-                  </span>
-                </StepLabel>
-              </Step>
-            ))}
-          </Stepper>
+                    {isCompleted ? (
+                      <CheckCircle2 className="w-5 h-5 text-green-600" />
+                    ) : (
+                      <StepIcon className={`w-5 h-5 ${isActive ? 'text-white' : 'text-gray-500'}`} />
+                    )}
+                  </div>
+                  <div className="flex-1">
+                    <div className="flex items-center gap-2">
+                      <span className={`text-xs font-medium ${
+                        isActive ? 'text-blue-100' : isCompleted ? 'text-green-600' : 'text-gray-400'
+                      }`}>
+                        Step {index + 1}
+                      </span>
+                      {isCompleted && (
+                        <span className="text-xs font-medium text-green-600">✓</span>
+                      )}
+                    </div>
+                    <h3 className={`font-semibold text-sm ${
+                      isActive ? 'text-white' : isCompleted ? 'text-green-700' : 'text-gray-700'
+                    }`}>
+                      {step.label}
+                    </h3>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
         </div>
 
         <div className="space-y-4">
