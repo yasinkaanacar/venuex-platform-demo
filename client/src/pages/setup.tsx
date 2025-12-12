@@ -130,6 +130,13 @@ const mockPlatformCards: { locations: PlatformCard[]; sales: PlatformCard[]; cat
   ],
   catalog: [
     { 
+      id: 'google-merchant', 
+      name: 'Google Merchant Center', 
+      description: 'Sync products with Google Shopping',
+      logo: 'google',
+      status: 'connect' 
+    },
+    { 
       id: 'meta-catalog', 
       name: 'Meta Catalog', 
       description: 'Sync products with Meta Commerce',
@@ -822,26 +829,9 @@ export default function Setup() {
                   </div>
                 </div>
 
-                <div className="bg-gradient-to-r from-blue-50 to-cyan-50 rounded-xl p-5 border border-blue-100">
-                  <div className="flex items-center gap-3 mb-4">
-                    <SiGoogle className="w-7 h-7 text-[#4285F4]" />
-                    <h4 className="font-bold text-gray-900">Google Merchant Center</h4>
-                  </div>
-                  <div className="flex flex-wrap gap-3">
-                    <button className="flex items-center gap-2 px-4 py-2.5 bg-purple-600 hover:bg-purple-700 text-white font-medium rounded-xl transition-all shadow-md hover:shadow-lg">
-                      <LinkIcon size={16} />
-                      Connect Account
-                    </button>
-                    <button className="flex items-center gap-2 px-4 py-2.5 bg-white border border-gray-200 text-gray-700 font-medium rounded-xl hover:bg-gray-50 transition-all shadow-sm">
-                      <Settings size={16} />
-                      Configure
-                    </button>
-                  </div>
-                </div>
-
                 <div>
-                  <h4 className="font-bold text-gray-900 mb-4">Other Platforms</h4>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <h4 className="font-bold text-gray-900 mb-4">Connected Platforms</h4>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     {mockPlatformCards.catalog.map((card) => (
                       <IntegrationCard key={card.id} {...card} />
                     ))}
