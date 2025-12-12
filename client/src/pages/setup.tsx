@@ -450,16 +450,15 @@ export default function Setup() {
           })}
         </div>
 
-        {/* Koçtaş Info Card - Only for Sales step */}
+        {/* Koçtaş Info Card - Only for Sales step, aligned with Step 3 */}
         {activeStep === 2 && (
-          <div className="mt-4 p-4 rounded-xl border bg-gradient-to-r from-amber-50 to-orange-50 border-amber-200">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full bg-amber-100 flex items-center justify-center">
-                <Target size={20} className="text-amber-600" />
-              </div>
-              <div>
-                <p className="text-sm font-semibold text-amber-800">Koçtaş saw 4.6X higher Offline ROAS (vs Online)</p>
-                <p className="text-xs text-amber-600">Connect your sales data to unlock offline attribution insights</p>
+          <div className="grid grid-cols-4 gap-4 mt-2">
+            <div className="col-start-3 col-span-1">
+              <div className="p-2.5 rounded-lg border bg-gradient-to-r from-amber-50 to-orange-50 border-amber-200">
+                <div className="flex items-center gap-2">
+                  <Target size={14} className="text-amber-600 flex-shrink-0" />
+                  <p className="text-xs font-medium text-amber-700">Koçtaş saw 4.6X higher Offline ROAS (vs Online)</p>
+                </div>
               </div>
             </div>
           </div>
