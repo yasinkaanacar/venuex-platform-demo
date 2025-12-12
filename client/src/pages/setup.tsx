@@ -450,6 +450,21 @@ export default function Setup() {
           })}
         </div>
 
+        {/* Koçtaş Info Card - Only for Sales step */}
+        {activeStep === 2 && (
+          <div className="mt-4 p-4 rounded-xl border bg-gradient-to-r from-amber-50 to-orange-50 border-amber-200">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-full bg-amber-100 flex items-center justify-center">
+                <Target size={20} className="text-amber-600" />
+              </div>
+              <div>
+                <p className="text-sm font-semibold text-amber-800">Koçtaş saw 4.6X higher Offline ROAS (vs Online)</p>
+                <p className="text-xs text-amber-600">Connect your sales data to unlock offline attribution insights</p>
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* Tab Content */}
         <div className="bg-white rounded-2xl border border-gray-200 p-6 shadow-lg">
           {/* Brand Info Tab */}
@@ -754,19 +769,6 @@ export default function Setup() {
                 </div>
               </div>
 
-              {/* Koçtaş Info Card */}
-              <div className="mb-6 p-4 rounded-xl border bg-gradient-to-r from-amber-50 to-orange-50 border-amber-200">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-amber-100 flex items-center justify-center">
-                    <Target size={20} className="text-amber-600" />
-                  </div>
-                  <div>
-                    <p className="text-sm font-semibold text-amber-800">Koçtaş saw 4.6X higher Offline ROAS (vs Online)</p>
-                    <p className="text-xs text-amber-600">Connect your sales data to unlock offline attribution insights</p>
-                  </div>
-                </div>
-              </div>
-              
               <div className="space-y-6">
                 {/* Setup Steps */}
                 <div className="bg-gradient-to-r from-emerald-50 to-green-50 rounded-xl p-5 border border-emerald-100">
