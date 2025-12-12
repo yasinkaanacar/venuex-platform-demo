@@ -23,8 +23,7 @@ import {
   Lock,
   Info,
   Users,
-  UserPlus,
-  Target
+  UserPlus
 } from 'lucide-react';
 import { SiGoogle, SiMeta, SiTiktok, SiApple } from 'react-icons/si';
 import { 
@@ -450,20 +449,6 @@ export default function Setup() {
           })}
         </div>
 
-        {/* Koçtaş Info Card - Only for Sales step, aligned with Step 3 */}
-        {activeStep === 2 && (
-          <div className="grid grid-cols-4 gap-4 mt-2">
-            <div className="col-start-3 col-span-1">
-              <div className="p-2.5 rounded-lg border bg-gradient-to-r from-amber-50 to-orange-50 border-amber-200">
-                <div className="flex items-center gap-2">
-                  <Target size={14} className="text-amber-600 flex-shrink-0" />
-                  <p className="text-xs font-medium text-amber-700">Koçtaş saw 4.6X higher Offline ROAS (vs Online)</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
-
         {/* Tab Content */}
         <div className="bg-white rounded-2xl border border-gray-200 p-6 shadow-lg">
           {/* Brand Info Tab */}
@@ -767,7 +752,7 @@ export default function Setup() {
                   <p className="text-sm text-gray-500">Connect your sales data sources and ad platforms</p>
                 </div>
               </div>
-
+              
               <div className="space-y-6">
                 {/* Setup Steps */}
                 <div className="bg-gradient-to-r from-emerald-50 to-green-50 rounded-xl p-5 border border-emerald-100">
