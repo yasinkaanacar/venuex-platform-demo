@@ -657,7 +657,7 @@ export default function Setup2() {
               
               <div className="space-y-6">
                 {/* Google Business Profile */}
-                <div className="rounded-xl p-5 border border-gray-200">
+                <div className="pb-6">
                   <div className="flex items-center gap-3 mb-3">
                     <SiGoogle className="w-6 h-6 text-[#4285F4]" />
                     <h4 className="font-bold text-gray-900">Google Business Profile</h4>
@@ -684,8 +684,11 @@ export default function Setup2() {
                   </div>
                 </div>
 
+                {/* Separator */}
+                <div className="border-t border-gray-200" />
+
                 {/* Check Location Data */}
-                <div className="bg-gray-50 rounded-xl p-5 border border-gray-200">
+                <div className="pt-2">
                   <div className="flex items-center gap-3 mb-3">
                     <Database className="w-5 h-5 text-blue-600" />
                     <h4 className="font-semibold text-gray-900">Check Location Data</h4>
