@@ -16,6 +16,7 @@ import ManagePosts from "@/pages/manage-posts";
 import Catalog from "@/pages/catalog";
 import VenueXAI from "@/pages/venuex-ai";
 import Setup from "@/pages/setup";
+import Setup2 from "@/pages/setup2";
 import OnboardingUnified from "@/pages/onboarding-unified";
 import Signup from "@/pages/signup";
 import Welcome from "@/pages/welcome";
@@ -68,6 +69,7 @@ function Router() {
               <Route path="/catalog" component={Catalog} />
               <Route path="/venuex-ai" component={VenueXAI} />
               <Route path="/setup" component={Setup} />
+              <Route path="/setup2" component={Setup2} />
               <Route component={NotFound} />
             </Switch>
           </main>

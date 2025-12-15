@@ -55,7 +55,8 @@ const navigationGroups = [
   {
     title: "MANAGEMENT",
     items: [
-      { name: 'Setup', href: '/setup', icon: Settings }
+      { name: 'Setup', href: '/setup', icon: Settings },
+      { name: 'Setup 2', href: '/setup2', icon: Settings }
     ]
   },
   {
