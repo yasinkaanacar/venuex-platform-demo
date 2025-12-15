@@ -646,8 +646,8 @@ export default function Setup2() {
           {activeStep === 1 && (
             <div data-testid="tab-panel-locations">
               <div className="flex items-center gap-4 mb-6 pb-4 border-b border-gray-100">
-                <div className="w-12 h-12 rounded-xl flex items-center justify-center bg-cyan-100">
-                  <MapPin className="w-6 h-6 text-cyan-600" />
+                <div className="w-12 h-12 rounded-xl flex items-center justify-center bg-blue-100">
+                  <MapPin className="w-6 h-6 text-blue-600" />
                 </div>
                 <div>
                   <h3 className="text-lg font-bold text-gray-900">Business Profile (Locations & Reviews)</h3>
@@ -655,108 +655,57 @@ export default function Setup2() {
                 </div>
               </div>
               
-              {/* Step-by-Step Setup */}
-              <div className="space-y-4">
-                {/* Step 1: Connect Google */}
-                <div className="relative">
-                  <div className="flex gap-4">
-                    {/* Step indicator */}
-                    <div className="flex flex-col items-center">
-                      <div className="w-10 h-10 rounded-full bg-cyan-600 text-white flex items-center justify-center font-bold text-sm shadow-md">
-                        1
-                      </div>
-                      <div className="w-0.5 flex-1 bg-gray-200 mt-2" />
-                    </div>
-                    
-                    {/* Step content */}
-                    <div className="flex-1 pb-6">
-                      <div className="bg-white border border-gray-200 rounded-xl p-5 shadow-sm">
-                        <div className="flex items-center gap-3 mb-3">
-                          <SiGoogle className="w-6 h-6 text-[#4285F4]" />
-                          <h4 className="font-bold text-gray-900">Connect Google Business Profile</h4>
-                        </div>
-                        <p className="text-sm text-gray-600 mb-4">
-                          Link your Google Business Profile to sync all your location listings and reviews.
-                        </p>
-                        
-                        <div className="bg-amber-50 border border-amber-200 rounded-lg p-3 mb-4 flex items-start gap-2">
-                          <Info className="w-4 h-4 text-amber-600 flex-shrink-0 mt-0.5" />
-                          <p className="text-sm text-amber-800">
-                            GBP locations should be listed under a single group
-                          </p>
-                        </div>
-                        
-                        <div className="flex flex-wrap gap-3">
-                          <button className="flex items-center gap-2 px-4 py-2.5 bg-cyan-600 hover:bg-cyan-700 text-white font-medium rounded-xl transition-all shadow-md hover:shadow-lg">
-                            <LinkIcon size={16} />
-                            Connect Account
-                          </button>
-                          <button className="flex items-center gap-2 px-4 py-2.5 bg-white border border-gray-200 text-gray-700 font-medium rounded-xl hover:bg-gray-50 transition-all shadow-sm">
-                            Activate Reviews
-                          </button>
-                        </div>
-                      </div>
-                    </div>
+              <div className="space-y-6">
+                {/* Google Business Profile */}
+                <div className="bg-blue-50 rounded-xl p-5 border border-blue-100">
+                  <div className="flex items-center gap-3 mb-3">
+                    <SiGoogle className="w-6 h-6 text-[#4285F4]" />
+                    <h4 className="font-bold text-gray-900">Google Business Profile</h4>
+                  </div>
+                  <p className="text-sm text-gray-600 mb-4">
+                    Link your Google Business Profile to sync all your location listings and reviews.
+                  </p>
+                  
+                  <div className="bg-amber-50 border border-amber-200 rounded-lg p-3 mb-4 flex items-start gap-2">
+                    <Info className="w-4 h-4 text-amber-600 flex-shrink-0 mt-0.5" />
+                    <p className="text-sm text-amber-800">
+                      GBP locations should be listed under a single group
+                    </p>
+                  </div>
+                  
+                  <div className="flex flex-wrap gap-3">
+                    <button className="flex items-center gap-2 px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-xl transition-all shadow-md hover:shadow-lg">
+                      <LinkIcon size={16} />
+                      Connect Account
+                    </button>
+                    <button className="flex items-center gap-2 px-4 py-2.5 bg-white border border-gray-200 text-gray-700 font-medium rounded-xl hover:bg-gray-50 transition-all shadow-sm">
+                      Activate Reviews
+                    </button>
                   </div>
                 </div>
 
-                {/* Step 2: Verify Data */}
-                <div className="relative">
-                  <div className="flex gap-4">
-                    {/* Step indicator */}
-                    <div className="flex flex-col items-center">
-                      <div className="w-10 h-10 rounded-full bg-gray-300 text-gray-600 flex items-center justify-center font-bold text-sm">
-                        2
-                      </div>
-                      <div className="w-0.5 flex-1 bg-gray-200 mt-2" />
-                    </div>
-                    
-                    {/* Step content */}
-                    <div className="flex-1 pb-6">
-                      <div className="bg-white border border-gray-200 rounded-xl p-5 shadow-sm">
-                        <div className="flex items-center gap-3 mb-3">
-                          <Database className="w-6 h-6 text-cyan-600" />
-                          <h4 className="font-bold text-gray-900">Verify Location Data</h4>
-                        </div>
-                        <p className="text-sm text-gray-600 mb-4">
-                          Review and validate that your location data is synced correctly with VenueX.
-                        </p>
-                        <button className="flex items-center gap-2 px-4 py-2.5 bg-cyan-600 hover:bg-cyan-700 text-white font-medium rounded-xl transition-all shadow-md hover:shadow-lg">
-                          <Database size={16} />
-                          Check Locations
-                        </button>
-                      </div>
-                    </div>
+                {/* Check Location Data */}
+                <div className="bg-gray-50 rounded-xl p-5 border border-gray-200">
+                  <div className="flex items-center gap-3 mb-3">
+                    <Database className="w-5 h-5 text-blue-600" />
+                    <h4 className="font-semibold text-gray-900">Check Location Data</h4>
                   </div>
+                  <p className="text-sm text-gray-600 mb-4">
+                    Verify your location data is synced correctly with VenueX
+                  </p>
+                  <button className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-xl transition-all shadow-sm">
+                    <Database size={16} />
+                    Check Locations
+                  </button>
                 </div>
 
-                {/* Step 3: Additional Platforms */}
-                <div className="relative">
-                  <div className="flex gap-4">
-                    {/* Step indicator */}
-                    <div className="flex flex-col items-center">
-                      <div className="w-10 h-10 rounded-full bg-gray-300 text-gray-600 flex items-center justify-center font-bold text-sm">
-                        3
-                      </div>
-                    </div>
-                    
-                    {/* Step content */}
-                    <div className="flex-1">
-                      <div className="bg-white border border-gray-200 rounded-xl p-5 shadow-sm">
-                        <div className="flex items-center gap-3 mb-3">
-                          <Globe className="w-6 h-6 text-cyan-600" />
-                          <h4 className="font-bold text-gray-900">Connect Additional Platforms</h4>
-                        </div>
-                        <p className="text-sm text-gray-600 mb-4">
-                          Expand your reach by connecting to other business listing platforms.
-                        </p>
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                          {mockPlatformCards.locations.map((card) => (
-                            <IntegrationCard key={card.id} {...card} />
-                          ))}
-                        </div>
-                      </div>
-                    </div>
+                {/* Other Platforms */}
+                <div>
+                  <h4 className="font-bold text-gray-900 mb-4">Other Platforms</h4>
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                    {mockPlatformCards.locations.map((card) => (
+                      <IntegrationCard key={card.id} {...card} />
+                    ))}
                   </div>
                 </div>
               </div>
@@ -767,8 +716,8 @@ export default function Setup2() {
           {activeStep === 2 && (
             <div data-testid="tab-panel-sales">
               <div className="flex items-center gap-4 mb-6 pb-4 border-b border-gray-100">
-                <div className="w-12 h-12 rounded-xl flex items-center justify-center bg-emerald-100">
-                  <ShoppingCart className="w-6 h-6 text-emerald-600" />
+                <div className="w-12 h-12 rounded-xl flex items-center justify-center bg-blue-100">
+                  <ShoppingCart className="w-6 h-6 text-blue-600" />
                 </div>
                 <div>
                   <h3 className="text-lg font-bold text-gray-900">Sales Data</h3>
@@ -778,20 +727,20 @@ export default function Setup2() {
               
               <div className="space-y-6">
                 {/* Setup Steps */}
-                <div className="bg-gradient-to-r from-emerald-50 to-green-50 rounded-xl p-5 border border-emerald-100">
+                <div className="bg-blue-50 rounded-xl p-5 border border-blue-100">
                   <h4 className="font-bold text-gray-900 mb-4">Setup Steps</h4>
                   <div className="flex items-center gap-4">
                     <button 
                       onClick={() => setSalesDataModalOpen(true)}
-                      className="flex items-center gap-2 px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-medium rounded-xl transition-all shadow-md hover:shadow-lg"
+                      className="flex items-center gap-2 px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-xl transition-all shadow-md hover:shadow-lg"
                     >
                       <Database className="w-4 h-4" />
                       1. Connect Data Source
                     </button>
-                    <div className="flex-1 h-0.5 bg-emerald-200 rounded-full" />
+                    <div className="flex-1 h-0.5 bg-blue-200 rounded-full" />
                     <button 
                       onClick={() => setDataMappingModalOpen(true)}
-                      className="flex items-center gap-2 px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-medium rounded-xl transition-all shadow-md hover:shadow-lg"
+                      className="flex items-center gap-2 px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-xl transition-all shadow-md hover:shadow-lg"
                     >
                       <Settings className="w-4 h-4" />
                       2. Perform Data Mapping
@@ -815,8 +764,8 @@ export default function Setup2() {
           {activeStep === 3 && (
             <div data-testid="tab-panel-catalog">
               <div className="flex items-center gap-4 mb-6 pb-4 border-b border-gray-100">
-                <div className="w-12 h-12 rounded-xl flex items-center justify-center bg-purple-100">
-                  <Package className="w-6 h-6 text-purple-600" />
+                <div className="w-12 h-12 rounded-xl flex items-center justify-center bg-blue-100">
+                  <Package className="w-6 h-6 text-blue-600" />
                 </div>
                 <div>
                   <h3 className="text-lg font-bold text-gray-900">Catalog Data</h3>
@@ -826,18 +775,18 @@ export default function Setup2() {
               
               <div className="space-y-6">
                 {/* Setup Steps */}
-                <div className="bg-gradient-to-r from-purple-50 to-indigo-50 rounded-xl p-5 border border-purple-100">
+                <div className="bg-blue-50 rounded-xl p-5 border border-blue-100">
                   <h4 className="font-bold text-gray-900 mb-4">Setup Steps</h4>
                   <div className="flex items-center gap-4">
                     <button 
-                      className="flex items-center gap-2 px-4 py-2.5 bg-purple-600 hover:bg-purple-700 text-white font-medium rounded-xl transition-all shadow-md hover:shadow-lg"
+                      className="flex items-center gap-2 px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-xl transition-all shadow-md hover:shadow-lg"
                     >
                       <Database className="w-4 h-4" />
                       1. Connect Data Source
                     </button>
-                    <div className="flex-1 h-0.5 bg-purple-200 rounded-full" />
+                    <div className="flex-1 h-0.5 bg-blue-200 rounded-full" />
                     <button 
-                      className="flex items-center gap-2 px-4 py-2.5 bg-purple-600 hover:bg-purple-700 text-white font-medium rounded-xl transition-all shadow-md hover:shadow-lg"
+                      className="flex items-center gap-2 px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-xl transition-all shadow-md hover:shadow-lg"
                     >
                       <Settings className="w-4 h-4" />
                       2. Perform Data Mapping
