@@ -371,85 +371,52 @@ export default function Setup2() {
 
       <div className="max-w-5xl mx-auto px-6 py-6">
 
-        <div className="flex gap-5 mb-8">
+        {/* Simple Step Tabs */}
+        <div className="flex border border-gray-200 rounded-xl overflow-hidden bg-white mb-8">
           {steps.map((step, index) => {
             const isActive = index === activeStep;
             const isCompleted = index < activeStep;
             const StepIcon = step.icon;
-            const stepStyles = [
-              { bg: 'bg-blue-600', shadow: 'shadow-blue-500/30', ring: 'ring-blue-400', desc: 'Business name, logo & contact' },
-              { bg: 'bg-cyan-600', shadow: 'shadow-cyan-500/30', ring: 'ring-cyan-400', desc: 'Sync location listings' },
-              { bg: 'bg-emerald-600', shadow: 'shadow-emerald-500/30', ring: 'ring-emerald-400', desc: 'POS data & ad platforms' },
-              { bg: 'bg-indigo-600', shadow: 'shadow-indigo-500/30', ring: 'ring-indigo-400', desc: 'Product feeds & inventory' }
+            const stepDescs = [
+              'Business name, logo & contact',
+              'Sync location listings',
+              'POS data & ad platforms',
+              'Product feeds & inventory'
             ];
-            const style = stepStyles[index] || { bg: 'bg-gray-500', shadow: 'shadow-gray-500/30', ring: 'ring-gray-400', desc: '' };
             
             return (
               <div
                 key={step.label}
                 onClick={() => handleStepClick(index)}
-                className={`flex-1 cursor-pointer group transition-all duration-300 ${isActive ? 'scale-[1.02]' : 'hover:scale-[1.01]'}`}
+                className={`flex-1 cursor-pointer transition-all duration-200 ${
+                  index !== steps.length - 1 ? 'border-r border-gray-200' : ''
+                } ${isActive ? 'bg-blue-50' : 'hover:bg-gray-50'}`}
                 data-testid={`step-card-${index}`}
               >
-                {/* Visual Card */}
-                <div className={`h-[180px] rounded-2xl overflow-hidden relative transition-all duration-300 ${
-                  isActive 
-                    ? `shadow-xl ${style.shadow} ring-2 ${style.ring}` 
-                    : isCompleted 
-                      ? 'shadow-lg ring-2 ring-green-400' 
-                      : 'shadow-md hover:shadow-lg'
-                }`}>
-                  {/* Solid Color Background */}
-                  <div className={`absolute inset-0 rounded-2xl ${style.bg} ${
-                    !isActive && !isCompleted ? 'opacity-50' : 'opacity-100'
-                  } transition-opacity duration-300`} />
-                  
-                  {/* Large Centered Background Icon */}
-                  <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                    {isCompleted ? (
-                      <Check className="w-24 h-24 text-white/15" />
-                    ) : (
-                      <StepIcon className="w-24 h-24 text-white/15" />
-                    )}
+                <div className="p-4">
+                  <div className="flex items-center gap-3 mb-2">
+                    {/* Step Number / Check */}
+                    <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold ${
+                      isCompleted 
+                        ? 'bg-green-500 text-white' 
+                        : isActive 
+                          ? 'bg-blue-600 text-white' 
+                          : 'bg-gray-200 text-gray-500'
+                    }`}>
+                      {isCompleted ? <Check size={16} /> : index + 1}
+                    </div>
+                    {/* Icon */}
+                    <StepIcon className={`w-5 h-5 ${
+                      isActive ? 'text-blue-600' : isCompleted ? 'text-green-600' : 'text-gray-400'
+                    }`} />
                   </div>
                   
-                  {/* Content Overlay */}
-                  <div className="absolute inset-0 p-4 flex flex-col text-white">
-                    {/* Top Row - Step Badge */}
-                    <div className="flex items-center justify-between mb-3">
-                      <span className="text-xs font-medium bg-white/20 backdrop-blur-sm px-2.5 py-1 rounded-full">
-                        Step {index + 1}
-                      </span>
-                      {isCompleted && (
-                        <div className="w-6 h-6 bg-green-400 rounded-full flex items-center justify-center">
-                          <Check size={14} className="text-white" />
-                        </div>
-                      )}
-                    </div>
-                    
-                    {/* Title and Description */}
-                    <div className="flex-1 flex flex-col justify-end">
-                      <h3 className="text-lg font-bold mb-1">{step.label}</h3>
-                      <p className="text-xs text-white/80">{style.desc}</p>
-                    </div>
-                    
-                    {/* Status Badge */}
-                    <div className="flex items-center gap-2 mt-2">
-                      {isCompleted ? (
-                        <span className="text-xs font-medium bg-green-400/30 text-green-100 px-2 py-0.5 rounded-full">
-                          Completed
-                        </span>
-                      ) : isActive ? (
-                        <span className="text-xs font-medium bg-white/20 text-white px-2 py-0.5 rounded-full animate-pulse">
-                          In Progress
-                        </span>
-                      ) : (
-                        <span className="text-xs font-medium bg-white/10 text-white/70 px-2 py-0.5 rounded-full">
-                          Pending
-                        </span>
-                      )}
-                    </div>
-                  </div>
+                  <h3 className={`font-semibold text-sm mb-1 ${
+                    isActive ? 'text-blue-900' : isCompleted ? 'text-green-800' : 'text-gray-700'
+                  }`}>
+                    {step.label}
+                  </h3>
+                  <p className="text-xs text-gray-500">{stepDescs[index]}</p>
                 </div>
               </div>
             );
