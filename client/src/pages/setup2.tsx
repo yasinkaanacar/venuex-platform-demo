@@ -322,7 +322,7 @@ export default function Setup2() {
   return (
     <div className="bg-gradient-to-br from-slate-50 via-white to-blue-50 pb-6">
       {/* Header */}
-      <header className="bg-white/80 backdrop-blur-sm border-b border-gray-200/50 px-8 py-5 sticky top-0 z-40">
+      <header className="bg-white/80 backdrop-blur-sm border-b border-gray-200/50 px-8 py-4 sticky top-0 z-40">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="flex items-center gap-2">
@@ -350,7 +350,7 @@ export default function Setup2() {
         </div>
       </header>
 
-      <div className="max-w-5xl mx-auto px-6 pt-10 pb-6">
+      <div className="max-w-6xl mx-auto px-8 pt-8 pb-6">
 
         {/* Integrated Step Tabs with Progress Bar */}
         <div className="border border-gray-200 rounded-xl overflow-hidden bg-white mb-6 shadow-sm">
