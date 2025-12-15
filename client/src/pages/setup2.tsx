@@ -343,8 +343,7 @@ export default function Setup2() {
         
         {/* Integration ID Bar */}
         <div className="mt-4 flex items-center gap-3">
-          <div className="flex items-center gap-2 bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-4 py-1.5 rounded-full shadow-md">
-            <Lock size={14} />
+          <div className="flex items-center bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-4 py-1.5 rounded-full shadow-md">
             <span className="text-sm font-semibold">#{integrationId}</span>
           </div>
           <span className="text-lg font-semibold text-gray-800">{companyName}</span>
