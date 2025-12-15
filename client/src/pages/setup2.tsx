@@ -655,51 +655,108 @@ export default function Setup2() {
                 </div>
               </div>
               
-              <div className="space-y-6">
-                <div className="bg-gradient-to-r from-cyan-50 to-blue-50 rounded-xl p-5 border border-cyan-100">
-                  <div className="flex items-center gap-3 mb-4">
-                    <SiGoogle className="w-7 h-7 text-[#4285F4]" />
-                    <h4 className="font-bold text-gray-900">Google Business Profile</h4>
-                  </div>
-                  
-                  <div className="bg-amber-50 border border-amber-200 rounded-lg p-3 mb-4 flex items-start gap-2">
-                    <Info className="w-4 h-4 text-amber-600 flex-shrink-0 mt-0.5" />
-                    <p className="text-sm text-amber-800">
-                      GBP locations should be listed under a single group
-                    </p>
-                  </div>
-                  
-                  <div className="flex flex-wrap gap-3">
-                    <button className="flex items-center gap-2 px-4 py-2.5 bg-cyan-600 hover:bg-cyan-700 text-white font-medium rounded-xl transition-all shadow-md hover:shadow-lg">
-                      <LinkIcon size={16} />
-                      Connect Account
-                    </button>
-                    <button className="flex items-center gap-2 px-4 py-2.5 bg-white border border-gray-200 text-gray-700 font-medium rounded-xl hover:bg-gray-50 transition-all shadow-sm">
-                      Activate Reviews
-                    </button>
+              {/* Step-by-Step Setup */}
+              <div className="space-y-4">
+                {/* Step 1: Connect Google */}
+                <div className="relative">
+                  <div className="flex gap-4">
+                    {/* Step indicator */}
+                    <div className="flex flex-col items-center">
+                      <div className="w-10 h-10 rounded-full bg-cyan-600 text-white flex items-center justify-center font-bold text-sm shadow-md">
+                        1
+                      </div>
+                      <div className="w-0.5 flex-1 bg-gray-200 mt-2" />
+                    </div>
+                    
+                    {/* Step content */}
+                    <div className="flex-1 pb-6">
+                      <div className="bg-white border border-gray-200 rounded-xl p-5 shadow-sm">
+                        <div className="flex items-center gap-3 mb-3">
+                          <SiGoogle className="w-6 h-6 text-[#4285F4]" />
+                          <h4 className="font-bold text-gray-900">Connect Google Business Profile</h4>
+                        </div>
+                        <p className="text-sm text-gray-600 mb-4">
+                          Link your Google Business Profile to sync all your location listings and reviews.
+                        </p>
+                        
+                        <div className="bg-amber-50 border border-amber-200 rounded-lg p-3 mb-4 flex items-start gap-2">
+                          <Info className="w-4 h-4 text-amber-600 flex-shrink-0 mt-0.5" />
+                          <p className="text-sm text-amber-800">
+                            GBP locations should be listed under a single group
+                          </p>
+                        </div>
+                        
+                        <div className="flex flex-wrap gap-3">
+                          <button className="flex items-center gap-2 px-4 py-2.5 bg-cyan-600 hover:bg-cyan-700 text-white font-medium rounded-xl transition-all shadow-md hover:shadow-lg">
+                            <LinkIcon size={16} />
+                            Connect Account
+                          </button>
+                          <button className="flex items-center gap-2 px-4 py-2.5 bg-white border border-gray-200 text-gray-700 font-medium rounded-xl hover:bg-gray-50 transition-all shadow-sm">
+                            Activate Reviews
+                          </button>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
 
-                <div className="bg-gray-50 rounded-xl p-5 border border-gray-100">
-                  <div className="flex items-center gap-3 mb-3">
-                    <Database className="w-5 h-5 text-cyan-600" />
-                    <h4 className="font-semibold text-gray-900">Check Location Data</h4>
+                {/* Step 2: Verify Data */}
+                <div className="relative">
+                  <div className="flex gap-4">
+                    {/* Step indicator */}
+                    <div className="flex flex-col items-center">
+                      <div className="w-10 h-10 rounded-full bg-gray-300 text-gray-600 flex items-center justify-center font-bold text-sm">
+                        2
+                      </div>
+                      <div className="w-0.5 flex-1 bg-gray-200 mt-2" />
+                    </div>
+                    
+                    {/* Step content */}
+                    <div className="flex-1 pb-6">
+                      <div className="bg-white border border-gray-200 rounded-xl p-5 shadow-sm">
+                        <div className="flex items-center gap-3 mb-3">
+                          <Database className="w-6 h-6 text-cyan-600" />
+                          <h4 className="font-bold text-gray-900">Verify Location Data</h4>
+                        </div>
+                        <p className="text-sm text-gray-600 mb-4">
+                          Review and validate that your location data is synced correctly with VenueX.
+                        </p>
+                        <button className="flex items-center gap-2 px-4 py-2.5 bg-cyan-600 hover:bg-cyan-700 text-white font-medium rounded-xl transition-all shadow-md hover:shadow-lg">
+                          <Database size={16} />
+                          Check Locations
+                        </button>
+                      </div>
+                    </div>
                   </div>
-                  <p className="text-sm text-gray-600 mb-4">
-                    Verify your location data is synced correctly with VenueX
-                  </p>
-                  <button className="flex items-center gap-2 px-4 py-2 bg-white border border-gray-200 text-gray-700 font-medium rounded-xl hover:bg-gray-50 transition-all shadow-sm">
-                    <Database size={16} />
-                    Check Locations
-                  </button>
                 </div>
 
-                <div>
-                  <h4 className="font-bold text-gray-900 mb-4">Other Platforms</h4>
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                    {mockPlatformCards.locations.map((card) => (
-                      <IntegrationCard key={card.id} {...card} />
-                    ))}
+                {/* Step 3: Additional Platforms */}
+                <div className="relative">
+                  <div className="flex gap-4">
+                    {/* Step indicator */}
+                    <div className="flex flex-col items-center">
+                      <div className="w-10 h-10 rounded-full bg-gray-300 text-gray-600 flex items-center justify-center font-bold text-sm">
+                        3
+                      </div>
+                    </div>
+                    
+                    {/* Step content */}
+                    <div className="flex-1">
+                      <div className="bg-white border border-gray-200 rounded-xl p-5 shadow-sm">
+                        <div className="flex items-center gap-3 mb-3">
+                          <Globe className="w-6 h-6 text-cyan-600" />
+                          <h4 className="font-bold text-gray-900">Connect Additional Platforms</h4>
+                        </div>
+                        <p className="text-sm text-gray-600 mb-4">
+                          Expand your reach by connecting to other business listing platforms.
+                        </p>
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                          {mockPlatformCards.locations.map((card) => (
+                            <IntegrationCard key={card.id} {...card} />
+                          ))}
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
