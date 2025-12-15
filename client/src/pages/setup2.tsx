@@ -353,20 +353,6 @@ export default function Setup2() {
             <span className="text-xs">Save your progress anytime</span>
           </div>
         </div>
-        
-        {/* Progress Bar */}
-        <div className="mt-4">
-          <div className="flex items-center justify-between mb-2">
-            <span className="text-xs font-medium text-gray-500">Setup Progress</span>
-            <span className="text-xs font-semibold text-blue-600">{Math.round((completedCount / totalSteps) * 100)}%</span>
-          </div>
-          <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
-            <div 
-              className="h-full bg-gradient-to-r from-blue-500 to-indigo-500 rounded-full transition-all duration-500 ease-out"
-              style={{ width: `${(completedCount / totalSteps) * 100}%` }}
-            />
-          </div>
-        </div>
       </header>
 
       <div className="max-w-5xl mx-auto px-6 py-6">
@@ -416,6 +402,20 @@ export default function Setup2() {
               </div>
             );
           })}
+        </div>
+
+        {/* Progress Bar */}
+        <div className="mb-6">
+          <div className="flex items-center justify-between mb-2">
+            <span className="text-xs font-medium text-gray-500">Setup Progress</span>
+            <span className="text-xs font-semibold text-blue-600">{Math.round((completedCount / totalSteps) * 100)}%</span>
+          </div>
+          <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
+            <div 
+              className="h-full bg-gradient-to-r from-blue-500 to-indigo-500 rounded-full transition-all duration-500 ease-out"
+              style={{ width: `${(completedCount / totalSteps) * 100}%` }}
+            />
+          </div>
         </div>
 
         {/* Tab Content */}
