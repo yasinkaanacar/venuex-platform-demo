@@ -376,7 +376,6 @@ export default function Setup2() {
           {steps.map((step, index) => {
             const isActive = index === activeStep;
             const isCompleted = index < activeStep;
-            const StepIcon = step.icon;
             const stepDescs = [
               'Business name, logo & contact',
               'Sync location listings',
@@ -405,10 +404,6 @@ export default function Setup2() {
                     }`}>
                       {isCompleted ? <Check size={16} /> : index + 1}
                     </div>
-                    {/* Icon */}
-                    <StepIcon className={`w-5 h-5 ${
-                      isActive ? 'text-blue-600' : isCompleted ? 'text-green-600' : 'text-gray-400'
-                    }`} />
                   </div>
                   
                   <h3 className={`font-semibold text-sm mb-1 ${
