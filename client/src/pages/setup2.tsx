@@ -657,7 +657,7 @@ export default function Setup2() {
               
               <div className="space-y-6">
                 {/* Google Business Profile */}
-                <div className="pb-6">
+                <div className="bg-blue-50 rounded-xl p-5 border border-blue-100">
                   <div className="flex items-center gap-3 mb-3">
                     <SiGoogle className="w-6 h-6 text-[#4285F4]" />
                     <h4 className="font-bold text-gray-900">Google Business Profile</h4>
@@ -684,11 +684,8 @@ export default function Setup2() {
                   </div>
                 </div>
 
-                {/* Separator */}
-                <div className="border-t border-gray-200" />
-
                 {/* Check Location Data */}
-                <div className="pt-2">
+                <div className="bg-gray-50 rounded-xl p-5 border border-gray-200">
                   <div className="flex items-center gap-3 mb-3">
                     <Database className="w-5 h-5 text-blue-600" />
                     <h4 className="font-semibold text-gray-900">Check Location Data</h4>
@@ -730,7 +727,7 @@ export default function Setup2() {
               
               <div className="space-y-6">
                 {/* Setup Steps */}
-                <div className="rounded-xl p-5 border border-gray-200">
+                <div className="bg-blue-50 rounded-xl p-5 border border-blue-100">
                   <h4 className="font-bold text-gray-900 mb-4">Setup Steps</h4>
                   <div className="flex items-center gap-4">
                     <button 
@@ -740,7 +737,7 @@ export default function Setup2() {
                       <Database className="w-4 h-4" />
                       1. Connect Data Source
                     </button>
-                    <div className="flex-1 h-0.5 bg-gray-200 rounded-full" />
+                    <div className="flex-1 h-0.5 bg-blue-200 rounded-full" />
                     <button 
                       onClick={() => setDataMappingModalOpen(true)}
                       className="flex items-center gap-2 px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-xl transition-all shadow-md hover:shadow-lg"
@@ -778,7 +775,7 @@ export default function Setup2() {
               
               <div className="space-y-6">
                 {/* Setup Steps */}
-                <div className="rounded-xl p-5 border border-gray-200">
+                <div className="bg-blue-50 rounded-xl p-5 border border-blue-100">
                   <h4 className="font-bold text-gray-900 mb-4">Setup Steps</h4>
                   <div className="flex items-center gap-4">
                     <button 
@@ -787,7 +784,7 @@ export default function Setup2() {
                       <Database className="w-4 h-4" />
                       1. Connect Data Source
                     </button>
-                    <div className="flex-1 h-0.5 bg-gray-200 rounded-full" />
+                    <div className="flex-1 h-0.5 bg-blue-200 rounded-full" />
                     <button 
                       className="flex items-center gap-2 px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-xl transition-all shadow-md hover:shadow-lg"
                     >
