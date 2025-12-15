@@ -348,10 +348,6 @@ export default function Setup2() {
             <span className="text-sm font-semibold">#{integrationId}</span>
           </div>
           <span className="text-lg font-semibold text-gray-800">{companyName}</span>
-          <div className="flex items-center gap-2 text-gray-500 bg-gray-100/80 px-3 py-1 rounded-full">
-            <Info size={14} />
-            <span className="text-xs">Save your progress anytime</span>
-          </div>
         </div>
       </header>
 
