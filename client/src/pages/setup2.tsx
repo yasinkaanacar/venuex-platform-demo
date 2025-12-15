@@ -358,7 +358,7 @@ export default function Setup2() {
       <div className="max-w-5xl mx-auto px-6 pt-10 pb-6">
 
         {/* Simple Step Tabs */}
-        <div className="flex border border-gray-200 rounded-xl overflow-hidden bg-white mb-8">
+        <div className="flex border border-gray-200 rounded-xl overflow-hidden bg-white mb-3">
           {steps.map((step, index) => {
             const isActive = index === activeStep;
             const isCompleted = index < activeStep;
