@@ -357,63 +357,66 @@ export default function Setup2() {
 
       <div className="max-w-5xl mx-auto px-6 pt-10 pb-6">
 
-        {/* Simple Step Tabs */}
-        <div className="flex border border-gray-200 rounded-xl overflow-hidden bg-white mb-3">
-          {steps.map((step, index) => {
-            const isActive = index === activeStep;
-            const isCompleted = index < activeStep;
-            const stepDescs = [
-              'Business name, logo & contact',
-              'Sync location listings',
-              'POS data & ad platforms',
-              'Product feeds & inventory'
-            ];
-            
-            return (
-              <div
-                key={step.label}
-                onClick={() => handleStepClick(index)}
-                className={`flex-1 cursor-pointer transition-all duration-200 ${
-                  index !== steps.length - 1 ? 'border-r border-gray-200' : ''
-                } ${isActive ? 'bg-blue-50' : 'hover:bg-gray-50'}`}
-                data-testid={`step-card-${index}`}
-              >
-                <div className="p-4">
-                  <div className="flex items-center gap-3 mb-2">
-                    {/* Step Number / Check */}
-                    <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold ${
-                      isCompleted 
-                        ? 'bg-green-500 text-white' 
-                        : isActive 
-                          ? 'bg-blue-600 text-white' 
-                          : 'bg-gray-200 text-gray-500'
-                    }`}>
-                      {isCompleted ? <Check size={16} /> : index + 1}
+        {/* Integrated Step Tabs with Progress Bar */}
+        <div className="border border-gray-200 rounded-xl overflow-hidden bg-white mb-6 shadow-sm">
+          {/* Step Tabs */}
+          <div className="flex">
+            {steps.map((step, index) => {
+              const isActive = index === activeStep;
+              const isCompleted = index < activeStep;
+              const stepDescs = [
+                'Business name, logo & contact',
+                'Sync location listings',
+                'POS data & ad platforms',
+                'Product feeds & inventory'
+              ];
+              
+              return (
+                <div
+                  key={step.label}
+                  onClick={() => handleStepClick(index)}
+                  className={`flex-1 cursor-pointer transition-all duration-200 ${
+                    index !== steps.length - 1 ? 'border-r border-gray-200' : ''
+                  } ${isActive ? 'bg-blue-50' : 'hover:bg-gray-50'}`}
+                  data-testid={`step-card-${index}`}
+                >
+                  <div className="p-4">
+                    <div className="flex items-center gap-3 mb-2">
+                      {/* Step Number / Check */}
+                      <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold ${
+                        isCompleted 
+                          ? 'bg-green-500 text-white' 
+                          : isActive 
+                            ? 'bg-blue-600 text-white' 
+                            : 'bg-gray-200 text-gray-500'
+                      }`}>
+                        {isCompleted ? <Check size={16} /> : index + 1}
+                      </div>
                     </div>
+                    
+                    <h3 className={`font-semibold text-sm mb-1 ${
+                      isActive ? 'text-blue-900' : isCompleted ? 'text-green-800' : 'text-gray-700'
+                    }`}>
+                      {step.label}
+                    </h3>
+                    <p className="text-xs text-gray-500">{stepDescs[index]}</p>
                   </div>
-                  
-                  <h3 className={`font-semibold text-sm mb-1 ${
-                    isActive ? 'text-blue-900' : isCompleted ? 'text-green-800' : 'text-gray-700'
-                  }`}>
-                    {step.label}
-                  </h3>
-                  <p className="text-xs text-gray-500">{stepDescs[index]}</p>
                 </div>
-              </div>
-            );
-          })}
-        </div>
-
-        {/* Progress Bar */}
-        <div className="mb-6">
-          <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
-            <div 
-              className="h-full bg-gradient-to-r from-blue-500 to-indigo-500 rounded-full transition-all duration-500 ease-out"
-              style={{ width: `${(completedCount / totalSteps) * 100}%` }}
-            />
+              );
+            })}
           </div>
-          <div className="flex justify-end mt-1">
-            <span className="text-xs font-semibold text-blue-600">{Math.round((completedCount / totalSteps) * 100)}%</span>
+          
+          {/* Integrated Progress Bar */}
+          <div className="bg-gray-100 px-4 py-2 border-t border-gray-200">
+            <div className="flex items-center gap-3">
+              <div className="flex-1 h-2 bg-gray-300 rounded-full overflow-hidden">
+                <div 
+                  className="h-full bg-gradient-to-r from-blue-500 to-indigo-500 rounded-full transition-all duration-500 ease-out"
+                  style={{ width: `${(completedCount / totalSteps) * 100}%` }}
+                />
+              </div>
+              <span className="text-xs font-semibold text-blue-600 min-w-[32px] text-right">{Math.round((completedCount / totalSteps) * 100)}%</span>
+            </div>
           </div>
         </div>
 
