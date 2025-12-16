@@ -239,12 +239,12 @@ export default function Setup2() {
         </div>
       </div>
 
-      <div className="flex">
-        {/* Left Sidebar - Steps */}
-        <div className="w-64 bg-white border-r border-gray-200 min-h-[calc(100vh-73px)]">
-          <div className="p-4">
-            <p className="text-xs font-medium text-gray-400 uppercase tracking-wider mb-3">Setup Steps</p>
-            <div className="space-y-1">
+      {/* Main Content */}
+      <div className="p-6">
+        <div className="max-w-4xl mx-auto">
+          {/* Horizontal Step Tabs */}
+          <div className="bg-white rounded-lg border border-gray-200 p-1 mb-6">
+            <div className="flex gap-1">
               {steps.map((step, index) => {
                 const isActive = index === activeStep;
                 const isCompleted = index < activeStep;
@@ -254,39 +254,33 @@ export default function Setup2() {
                   <button
                     key={step.id}
                     onClick={() => setActiveStep(index)}
-                    className={`w-full flex items-center gap-3 px-3 py-3 rounded-lg text-left transition-all ${
+                    className={`flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-lg transition-all ${
                       isActive 
-                        ? 'bg-blue-50 border border-blue-200' 
-                        : 'hover:bg-gray-50'
+                        ? 'bg-blue-600 text-white' 
+                        : 'hover:bg-gray-50 text-gray-600'
                     }`}
-                    data-testid={`step-card-${index}`}
+                    data-testid={`step-tab-${index}`}
                   >
-                    <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${
+                    <div className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-medium ${
                       isCompleted 
                         ? 'bg-green-500 text-white' 
                         : isActive 
-                          ? 'bg-blue-600 text-white' 
+                          ? 'bg-white text-blue-600' 
                           : 'bg-gray-100 text-gray-500'
                     }`}>
-                      {isCompleted ? <Check size={14} /> : index + 1}
+                      {isCompleted ? <Check size={12} /> : index + 1}
                     </div>
-                    <div className="flex-1 min-w-0">
-                      <p className={`text-sm font-medium truncate ${isActive ? 'text-blue-900' : 'text-gray-700'}`}>
+                    <div className="flex items-center gap-2">
+                      <Icon size={16} className={isActive ? 'text-white' : 'text-gray-400'} />
+                      <span className={`text-sm font-medium ${isActive ? 'text-white' : 'text-gray-700'}`}>
                         {step.label}
-                      </p>
-                      <p className="text-xs text-gray-400 truncate">{step.description}</p>
+                      </span>
                     </div>
-                    {isActive && <ChevronRight size={16} className="text-blue-400" />}
                   </button>
                 );
               })}
             </div>
           </div>
-        </div>
-
-        {/* Main Content */}
-        <div className="flex-1 p-6">
-          <div className="max-w-4xl">
             {/* Brand Info */}
             {activeStep === 0 && (
               <div data-testid="tab-panel-brand">
@@ -516,7 +510,6 @@ export default function Setup2() {
                 </div>
               </div>
             )}
-          </div>
         </div>
       </div>
 
