@@ -4,7 +4,7 @@ import {
   MapPin, 
   ShoppingCart, 
   Package,
-  Link as LinkIcon,
+  Plug,
   Unplug,
   Database,
   Settings,
@@ -132,7 +132,7 @@ function IntegrationCard({ name, description, logo, status }: IntegrationCardPro
         <span className="px-2 py-1 bg-gray-100 text-gray-400 text-xs font-medium rounded">Coming Soon</span>
       ) : (
         <button className="flex items-center gap-1 px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white text-xs font-medium rounded transition-colors">
-          <LinkIcon size={12} /> Connect
+          <Plug size={12} /> Connect
         </button>
       )}
     </div>
@@ -422,7 +422,7 @@ export default function Setup2() {
                   </div>
                   <div className="flex gap-3">
                     <button className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors">
-                      <LinkIcon size={16} /> Connect Account
+                      <Plug size={16} /> Connect Account
                     </button>
                     <button className="flex items-center gap-2 px-4 py-2 bg-white border border-gray-200 text-gray-700 font-medium rounded-lg hover:bg-gray-50 transition-colors">
                       Activate Reviews
