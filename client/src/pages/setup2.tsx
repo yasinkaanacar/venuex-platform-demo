@@ -675,40 +675,97 @@ export default function Setup2() {
       </Dialog>
 
       {/* Invite Team Modal */}
-      <Dialog open={inviteTeamModalOpen} onClose={() => setInviteTeamModalOpen(false)} maxWidth="sm" fullWidth PaperProps={{ sx: { borderRadius: '12px' } }}>
-        <DialogTitle sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid #e5e7eb', pb: 2 }}>
+      <Dialog open={inviteTeamModalOpen} onClose={() => setInviteTeamModalOpen(false)} maxWidth="sm" fullWidth PaperProps={{ sx: { borderRadius: '16px' } }}>
+        <DialogTitle sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid #e5e7eb', pb: 2, px: 3, pt: 3 }}>
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
-              <UserPlus className="w-5 h-5 text-blue-600" />
+            <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center shadow-lg shadow-blue-500/20">
+              <UserPlus className="w-6 h-6 text-white" />
             </div>
             <div>
-              <h2 className="text-lg font-semibold text-gray-900">Invite Team Member</h2>
-              <p className="text-sm text-gray-500">Add a new member to your team</p>
+              <h2 className="text-xl font-semibold text-gray-900">Invite Team Member</h2>
+              <p className="text-sm text-gray-500">Collaborate with your team on VenueX</p>
             </div>
           </div>
-          <IconButton onClick={() => setInviteTeamModalOpen(false)} size="small"><X className="w-5 h-5 text-gray-500" /></IconButton>
+          <IconButton onClick={() => setInviteTeamModalOpen(false)} size="small" sx={{ bgcolor: '#f3f4f6', '&:hover': { bgcolor: '#e5e7eb' } }}><X className="w-4 h-4 text-gray-500" /></IconButton>
         </DialogTitle>
-        <DialogContent sx={{ pt: 3 }}>
-          <div className="space-y-4">
-            <div className="grid grid-cols-2 gap-4">
-              <TextField label="First Name" value={inviteForm.firstName} onChange={(e) => handleInviteFormChange('firstName', e.target.value)} fullWidth size="small" data-testid="input-first-name" />
-              <TextField label="Last Name" value={inviteForm.lastName} onChange={(e) => handleInviteFormChange('lastName', e.target.value)} fullWidth size="small" data-testid="input-last-name" />
+        <DialogContent sx={{ pt: 3, px: 3 }}>
+          <div className="space-y-5">
+            <div className="grid grid-cols-2 gap-3">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1.5">First Name</label>
+                <input 
+                  type="text"
+                  value={inviteForm.firstName} 
+                  onChange={(e) => handleInviteFormChange('firstName', e.target.value)} 
+                  className="w-full px-3 py-2.5 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                  placeholder="John"
+                  data-testid="input-first-name"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1.5">Last Name</label>
+                <input 
+                  type="text"
+                  value={inviteForm.lastName} 
+                  onChange={(e) => handleInviteFormChange('lastName', e.target.value)} 
+                  className="w-full px-3 py-2.5 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                  placeholder="Doe"
+                  data-testid="input-last-name"
+                />
+              </div>
             </div>
-            <TextField label="Email" type="email" value={inviteForm.email} onChange={(e) => handleInviteFormChange('email', e.target.value)} fullWidth size="small" InputProps={{ startAdornment: <Mail className="w-4 h-4 text-gray-400 mr-2" /> }} data-testid="input-email" />
+            
             <div>
-              <label className="block text-xs font-medium text-gray-500 mb-1">Role</label>
-              <select className="w-full p-2.5 border border-gray-200 rounded-lg text-sm" value={inviteForm.role} onChange={(e) => handleInviteFormChange('role', e.target.value)} data-testid="select-role">
-                <option value="Admin">Admin</option>
-                <option value="Manager">Manager</option>
-                <option value="Viewer">Viewer</option>
-              </select>
+              <label className="block text-sm font-medium text-gray-700 mb-1.5">Email Address</label>
+              <div className="relative">
+                <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
+                <input 
+                  type="email"
+                  value={inviteForm.email} 
+                  onChange={(e) => handleInviteFormChange('email', e.target.value)} 
+                  className="w-full pl-10 pr-3 py-2.5 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                  placeholder="john@company.com"
+                  data-testid="input-email"
+                />
+              </div>
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Select Role</label>
+              <div className="grid grid-cols-3 gap-2" data-testid="select-role">
+                {[
+                  { value: 'Admin', icon: Shield, desc: 'Full access' },
+                  { value: 'Manager', icon: Users, desc: 'Edit & manage' },
+                  { value: 'Viewer', icon: Users, desc: 'View only' },
+                ].map((role) => (
+                  <button
+                    key={role.value}
+                    type="button"
+                    onClick={() => handleInviteFormChange('role', role.value)}
+                    className={`p-3 rounded-lg border-2 transition-all text-center ${
+                      inviteForm.role === role.value
+                        ? 'border-blue-500 bg-blue-50'
+                        : 'border-gray-200 hover:border-gray-300 bg-white'
+                    }`}
+                  >
+                    <role.icon className={`w-5 h-5 mx-auto mb-1 ${inviteForm.role === role.value ? 'text-blue-600' : 'text-gray-400'}`} />
+                    <p className={`text-sm font-medium ${inviteForm.role === role.value ? 'text-blue-900' : 'text-gray-700'}`}>{role.value}</p>
+                    <p className="text-xs text-gray-400">{role.desc}</p>
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div className="bg-blue-50 rounded-lg p-3 flex items-start gap-2">
+              <Info className="w-4 h-4 text-blue-600 mt-0.5 flex-shrink-0" />
+              <p className="text-xs text-blue-700">An invitation email will be sent to the provided address. The invite link expires in 7 days.</p>
             </div>
           </div>
         </DialogContent>
-        <DialogActions sx={{ borderTop: '1px solid #e5e7eb', p: 2 }}>
-          <button onClick={() => setInviteTeamModalOpen(false)} className="px-4 py-2 text-gray-600 font-medium rounded-lg hover:bg-gray-100">Cancel</button>
-          <button onClick={handleSendInvite} className="px-5 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg flex items-center gap-2" data-testid="button-send-invite">
-            <UserPlus size={16} /> Send Invite
+        <DialogActions sx={{ borderTop: '1px solid #e5e7eb', p: 2.5, gap: 1 }}>
+          <button onClick={() => setInviteTeamModalOpen(false)} className="px-5 py-2.5 text-gray-600 font-medium rounded-lg hover:bg-gray-100 transition-colors">Cancel</button>
+          <button onClick={handleSendInvite} className="px-6 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg flex items-center gap-2 shadow-lg shadow-blue-500/20 transition-all" data-testid="button-send-invite">
+            <Mail size={16} /> Send Invitation
           </button>
         </DialogActions>
       </Dialog>
