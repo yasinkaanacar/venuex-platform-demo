@@ -145,6 +145,7 @@ export default function Setup2() {
   const [dataMappingModalOpen, setDataMappingModalOpen] = useState(false);
   const [inviteTeamModalOpen, setInviteTeamModalOpen] = useState(false);
   const [inviteForm, setInviteForm] = useState({ firstName: '', lastName: '', email: '', role: 'Viewer' });
+  const [inviteSentTo, setInviteSentTo] = useState<string | null>(null);
   const [brandInfo, setBrandInfo] = useState({
     businessName: 'Demo VenueX',
     description: "That's a description box",
@@ -191,8 +192,9 @@ export default function Setup2() {
   };
 
   const handleSendInvite = () => {
+    const fullName = `${inviteForm.firstName} ${inviteForm.lastName}`.trim();
+    setInviteSentTo(fullName || 'Team Member');
     setInviteForm({ firstName: '', lastName: '', email: '', role: 'Viewer' });
-    setInviteTeamModalOpen(false);
   };
 
   const addUrlSegment = () => setUrlSegments([...urlSegments, '']);
@@ -688,7 +690,16 @@ export default function Setup2() {
           </div>
           <IconButton onClick={() => setInviteTeamModalOpen(false)} size="small" sx={{ bgcolor: '#f3f4f6', '&:hover': { bgcolor: '#e5e7eb' } }}><X className="w-4 h-4 text-gray-500" /></IconButton>
         </DialogTitle>
-        <DialogContent sx={{ pt: 3, px: 3 }}>
+        <DialogContent sx={{ pt: 4, px: 3 }}>
+          {inviteSentTo && (
+            <div className="mb-5 bg-green-50 border border-green-200 rounded-lg p-3 flex items-center gap-2">
+              <Check className="w-5 h-5 text-green-600 flex-shrink-0" />
+              <p className="text-sm text-green-800 font-medium">Davetiniz {inviteSentTo}'a gönderildi.</p>
+              <button onClick={() => setInviteSentTo(null)} className="ml-auto text-green-600 hover:text-green-700">
+                <X size={16} />
+              </button>
+            </div>
+          )}
           <div className="space-y-5">
             <div className="grid grid-cols-2 gap-3">
               <div>
