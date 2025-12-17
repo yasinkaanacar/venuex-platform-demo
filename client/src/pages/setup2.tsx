@@ -5,6 +5,7 @@ import {
   ShoppingCart, 
   Package,
   Link as LinkIcon,
+  Unlink,
   Database,
   Settings,
   Check,
@@ -125,7 +126,7 @@ function IntegrationCard({ name, description, logo, status }: IntegrationCardPro
       </div>
       {status === 'connected' ? (
         <button className="flex items-center gap-1 px-3 py-1.5 bg-green-500 hover:bg-green-600 text-white text-xs font-medium rounded transition-colors">
-          <X size={12} /> Disconnect
+          <Unlink size={12} /> Disconnect
         </button>
       ) : status === 'coming_soon' ? (
         <span className="px-2 py-1 bg-gray-100 text-gray-400 text-xs font-medium rounded">Coming Soon</span>
