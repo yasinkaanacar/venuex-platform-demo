@@ -690,7 +690,7 @@ export default function Setup2() {
           </div>
           <IconButton onClick={() => setInviteTeamModalOpen(false)} size="small" sx={{ bgcolor: '#f3f4f6', '&:hover': { bgcolor: '#e5e7eb' } }}><X className="w-4 h-4 text-gray-500" /></IconButton>
         </DialogTitle>
-        <DialogContent sx={{ pt: 4, px: 3 }}>
+        <DialogContent sx={{ pt: 4, px: 3 }} className="pt-[20px] pb-[20px]">
           {inviteSentTo && (
             <div className="mb-5 bg-green-50 border border-green-200 rounded-lg p-3 flex items-center gap-2">
               <Check className="w-5 h-5 text-green-600 flex-shrink-0" />
