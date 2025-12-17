@@ -71,7 +71,7 @@ interface PlatformCard {
 const mockPlatformCards: { locations: PlatformCard[]; sales: PlatformCard[]; catalog: PlatformCard[] } = {
   locations: [
     { id: 'apple', name: 'Apple Business Connect', description: 'Manage your presence on Apple Maps', logo: 'apple', status: 'connect' },
-    { id: 'meta', name: 'Meta Pages', description: 'Connect your Facebook & Instagram pages', logo: 'meta', status: 'connect' },
+    { id: 'meta', name: 'Meta Pages', description: 'Connect your Facebook & Instagram pages', logo: 'meta', status: 'connected' },
     { id: 'yandex', name: 'Yandex Business', description: 'Manage your Yandex Maps listing', logo: 'yandex', status: 'coming_soon' },
     { id: 'togg', name: 'Togg', description: 'Connect to Togg ecosystem', logo: 'togg', status: 'connect' },
   ],
@@ -124,9 +124,9 @@ function IntegrationCard({ name, description, logo, status }: IntegrationCardPro
         </div>
       </div>
       {status === 'connected' ? (
-        <span className="inline-flex items-center gap-1 px-2 py-1 bg-green-50 text-green-700 text-xs font-medium rounded">
-          <Check size={12} /> Connected
-        </span>
+        <button className="flex items-center gap-1 px-3 py-1.5 bg-rose-50 hover:bg-rose-100 text-rose-600 text-xs font-medium rounded border border-rose-200 transition-colors">
+          <X size={12} /> Disconnect
+        </button>
       ) : status === 'coming_soon' ? (
         <span className="px-2 py-1 bg-gray-100 text-gray-400 text-xs font-medium rounded">Coming Soon</span>
       ) : (
