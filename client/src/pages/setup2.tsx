@@ -124,7 +124,7 @@ function IntegrationCard({ name, description, logo, status }: IntegrationCardPro
         </div>
       </div>
       {status === 'connected' ? (
-        <button className="flex items-center gap-1 px-3 py-1.5 bg-rose-50 hover:bg-rose-100 text-rose-600 text-xs font-medium rounded border border-rose-200 transition-colors">
+        <button className="flex items-center gap-1 px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-medium rounded transition-colors">
           <X size={12} /> Disconnect
         </button>
       ) : status === 'coming_soon' ? (
