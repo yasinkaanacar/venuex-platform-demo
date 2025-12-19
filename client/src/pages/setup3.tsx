@@ -194,6 +194,24 @@ export default function Setup3() {
   const [inviteTeamModalOpen, setInviteTeamModalOpen] = useState(false);
   const [inviteForm, setInviteForm] = useState({ firstName: '', lastName: '', email: '', role: 'Viewer' });
   const [inviteSentTo, setInviteSentTo] = useState<string | null>(null);
+  const [adminMode, setAdminMode] = useState(() => {
+    return localStorage.getItem('venuex_admin_mode') === 'true';
+  });
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.ctrlKey && e.shiftKey && e.key === 'A') {
+        e.preventDefault();
+        setAdminMode(prev => {
+          const newValue = !prev;
+          localStorage.setItem('venuex_admin_mode', String(newValue));
+          return newValue;
+        });
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
   const [brandInfo, setBrandInfo] = useState({
     businessName: 'Demo VenueX',
     description: "That's a description box",
@@ -345,13 +363,27 @@ export default function Setup3() {
             <h1 className="text-xl font-semibold text-gray-900">Account Setup</h1>
           </div>
           <div className="flex items-center gap-3">
+            {adminMode && (
+              <button
+                onClick={() => {
+                  setAdminMode(false);
+                  localStorage.setItem('venuex_admin_mode', 'false');
+                }}
+                className="flex items-center gap-1.5 px-2 py-1 text-xs font-medium text-orange-700 bg-orange-100 border border-orange-200 rounded-lg hover:bg-orange-200 transition-all"
+                title="Admin Mode aktif - tüm adımları atlayabilirsiniz. Kapatmak için tıklayın veya Ctrl+Shift+A"
+                data-testid="admin-mode-badge"
+              >
+                <Shield size={12} />
+                Admin
+              </button>
+            )}
             <div className="text-right mr-4">
               <span className="text-sm text-gray-500">Progress</span>
               <div className="flex items-center gap-2">
                 <div className="w-24 h-2 bg-gray-200 rounded-full overflow-hidden">
-                  <div className="h-full bg-blue-600 rounded-full transition-all" style={{ width: `${progressPercent}%` }} />
+                  <div className="h-full bg-blue-600 rounded-full transition-all" style={{ width: `${adminMode ? 100 : progressPercent}%` }} />
                 </div>
-                <span className="text-sm font-medium text-blue-600">{progressPercent}%</span>
+                <span className="text-sm font-medium text-blue-600">{adminMode ? 100 : progressPercent}%</span>
               </div>
             </div>
             <button
@@ -374,7 +406,7 @@ export default function Setup3() {
             <div className="flex gap-1">
               {steps.map((step, index) => {
                 const isActive = index === activeStep;
-                const isCompleted = index < activeStep;
+                const isCompleted = adminMode || index < activeStep;
                 const Icon = step.icon;
                 
                 return (
