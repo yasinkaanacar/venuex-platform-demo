@@ -107,36 +107,36 @@ const features = [
 
 const testimonials = [
   { 
-    quote: "By linking our 1st-party store data with digital channels, we measured the true conversions of our campaigns.",
+    quote: "1P mağaza verilerimizi dijital kanallarla ilişkilendirerek dijital kampanyalarımızın gerçek dönüşümlerini ölçümledik ve reklam performansımızı zirveye taşıdık.",
     name: "Mehmet Emre",
-    role: "Senior Marketing Manager",
+    role: "Kıdemli Pazarlama ve Kurumsal İletişim Müdürü",
     company: "Koçtaş",
-    kpi: "+47%",
-    kpiLabel: "ROAS Increase"
+    kpi: "4.6x",
+    kpiLabel: "Offline ROAS"
   },
   { 
-    quote: "VenueX helped us understand which campaigns actually drive foot traffic to our stores.",
-    name: "Ayşe Yılmaz",
-    role: "Digital Marketing Director",
-    company: "Migros",
-    kpi: "2.3x",
-    kpiLabel: "Store Visits"
+    quote: "VenueX helped us uncover the true impact of our digital campaigns on store sales—unlocking higher returns and smarter spend allocation.",
+    name: "Mustafa Cengiz",
+    role: "Director of Growth & Digital Marketing",
+    company: "Boyner",
+    kpi: "3x",
+    kpiLabel: "Offline ROAS"
   },
   { 
-    quote: "Finally we can prove the ROI of our local campaigns with real sales data.",
-    name: "Can Özdemir",
-    role: "CMO",
-    company: "Teknosa",
-    kpi: "+62%",
-    kpiLabel: "Conversion Rate"
+    quote: "Performans ve büyüme odaklı dijital pazarlama çözümleri sunan Ingage olarak, iş ortağımız VenueX ile Koçtaş'ın omnichannel deneyimini güçlendirdik.",
+    name: "Kemal Kar",
+    role: "Teknoloji ve Ürün Direktörü",
+    company: "Ingage",
+    kpi: "+112%",
+    kpiLabel: "Mağaza Ziyareti"
   },
   { 
-    quote: "The AI recommendations helped us optimize our ad spend across 500+ locations.",
-    name: "Elif Kaya",
-    role: "Performance Marketing Lead",
-    company: "LC Waikiki",
-    kpi: "-35%",
-    kpiLabel: "Cost per Visit"
+    quote: "VenueX integrated our CRM, POS, and inventory systems with major digital platforms enabling end-to-end visibility and optimization.",
+    name: "Mustafa Cengiz",
+    role: "Director of Growth & Digital Marketing",
+    company: "Boyner",
+    kpi: "208K+",
+    kpiLabel: "Products Synced"
   },
 ];
 
