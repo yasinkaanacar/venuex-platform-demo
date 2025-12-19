@@ -336,7 +336,7 @@ export default function Setup3() {
       {/* Right Side - Setup Content */}
       <div className="flex-1 bg-gray-50 overflow-y-auto h-screen">
         {/* Page Header */}
-      <div className="bg-white border-b border-gray-200 px-6 py-4">
+      <div className="bg-white border-b border-gray-200 px-6 py-4 sticky top-0 z-10">
         <div className="flex items-center justify-between">
           <div>
             <div className="flex items-center gap-2 mb-1">
