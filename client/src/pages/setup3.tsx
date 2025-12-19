@@ -265,7 +265,7 @@ export default function Setup3() {
   return (
     <div className="min-h-screen flex">
       {/* Left Side - Branding & Features */}
-      <div className="hidden lg:flex lg:w-[400px] bg-gradient-to-br from-blue-600 via-indigo-600 to-purple-700 p-10 flex-col justify-between relative overflow-hidden flex-shrink-0">
+      <div className="hidden lg:flex lg:w-[400px] bg-gradient-to-br from-blue-600 via-indigo-600 to-purple-700 p-10 flex-col justify-between relative overflow-hidden flex-shrink-0 sticky top-0 h-screen">
         {/* Background Pattern */}
         <div className="absolute inset-0 opacity-10">
           <div className="absolute top-20 left-20 w-72 h-72 bg-white rounded-full blur-3xl" />
@@ -334,7 +334,7 @@ export default function Setup3() {
       </div>
 
       {/* Right Side - Setup Content */}
-      <div className="flex-1 bg-gray-50 overflow-auto">
+      <div className="flex-1 bg-gray-50 overflow-y-auto h-screen">
         {/* Page Header */}
       <div className="bg-white border-b border-gray-200 px-6 py-4">
         <div className="flex items-center justify-between">
