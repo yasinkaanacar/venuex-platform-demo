@@ -19,13 +19,9 @@ import {
   Info,
   Users,
   UserPlus,
-  ChevronRight,
-  Zap,
-  Target,
-  BarChart3
+  ChevronRight
 } from 'lucide-react';
 import { SiGoogle, SiMeta, SiTiktok, SiApple } from 'react-icons/si';
-import koctasLogo from '@assets/image_1764932445923.png';
 import { 
   Dialog,
   DialogTitle,
@@ -213,103 +209,44 @@ export default function Setup2() {
 
   const progressPercent = Math.round(((activeStep + 1) / steps.length) * 100);
 
-  const features = [
-    { icon: MapPin, title: 'Multi-Location Management', desc: 'Manage thousands of locations from one dashboard' },
-    { icon: Target, title: 'Offline Attribution', desc: 'Connect in-store sales to digital campaigns' },
-    { icon: BarChart3, title: 'AI-Powered Insights', desc: 'Get actionable recommendations automatically' },
-  ];
-
   return (
-    <div className="min-h-screen flex">
-      {/* Left Side - Branding & Features */}
-      <div className="hidden lg:flex lg:w-[400px] bg-gradient-to-br from-blue-600 via-indigo-600 to-purple-700 p-8 flex-col justify-between relative overflow-hidden flex-shrink-0">
-        {/* Background Pattern */}
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-20 left-20 w-72 h-72 bg-white rounded-full blur-3xl" />
-          <div className="absolute bottom-20 right-20 w-96 h-96 bg-white rounded-full blur-3xl" />
-        </div>
-        
-        {/* Logo */}
-        <div className="relative z-10">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-white/20 backdrop-blur-sm rounded-xl flex items-center justify-center">
-              <Zap className="w-6 h-6 text-white" />
+    <div className="min-h-screen bg-gray-50">
+      {/* Page Header */}
+      <div className="bg-white border-b border-gray-200 px-6 py-4">
+        <div className="flex items-center justify-between">
+          <div>
+            <div className="flex items-center gap-2 mb-1">
+              <span className="px-2 py-0.5 bg-blue-100 text-blue-700 text-xs font-medium rounded">#{integrationId}</span>
+              <span className="text-gray-400">•</span>
+              <span className="text-sm text-gray-600">{companyName}</span>
             </div>
-            <span className="text-2xl font-bold text-white">VenueX</span>
+            <h1 className="text-xl font-semibold text-gray-900">Account Setup</h1>
           </div>
-          <p className="mt-3 text-sm text-white/80 max-w-sm">
-            Connect your in-store data with digital advertising for unprecedented insights and performance.
-          </p>
-        </div>
-
-        {/* Features */}
-        <div className="relative z-10 space-y-4">
-          {features.map((feature, index) => (
-            <div key={index} className="flex items-start gap-3">
-              <div className="w-10 h-10 bg-white/20 backdrop-blur-sm rounded-xl flex items-center justify-center flex-shrink-0">
-                <feature.icon className="w-5 h-5 text-white" />
-              </div>
-              <div>
-                <h3 className="text-sm font-semibold text-white">{feature.title}</h3>
-                <p className="text-white/70 text-xs">{feature.desc}</p>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        {/* Testimonial */}
-        <div className="relative z-10 bg-white/10 backdrop-blur-sm rounded-xl p-4 border border-white/20">
-          <p className="text-white/90 italic text-sm mb-3">"By linking our 1st-party store data with digital channels, we measured the true conversions of our campaigns and carried our advertising performance to the peak."</p>
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 bg-white rounded-lg flex items-center justify-center overflow-hidden">
-              <img src={koctasLogo} alt="Koçtaş" className="w-6 h-6 object-contain" />
+            <div className="text-right mr-4">
+              <span className="text-sm text-gray-500">Progress</span>
+              <div className="flex items-center gap-2">
+                <div className="w-24 h-2 bg-gray-200 rounded-full overflow-hidden">
+                  <div className="h-full bg-blue-600 rounded-full transition-all" style={{ width: `${progressPercent}%` }} />
+                </div>
+                <span className="text-sm font-medium text-blue-600">{progressPercent}%</span>
+              </div>
             </div>
-            <div>
-              <p className="text-white font-medium text-sm">Mehmet Emre</p>
-              <p className="text-white/60 text-xs">Senior Marketing Manager, Koçtaş</p>
-            </div>
+            <button
+              onClick={() => setInviteTeamModalOpen(true)}
+              className="flex items-center gap-2 px-3 py-2 text-sm text-gray-600 hover:text-gray-900 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 transition-all"
+              data-testid="button-invite-team"
+            >
+              <Users size={16} />
+              Invite Team
+            </button>
           </div>
         </div>
       </div>
 
-      {/* Right Side - Setup Content */}
-      <div className="flex-1 bg-gray-50 overflow-auto">
-        {/* Page Header */}
-        <div className="bg-white border-b border-gray-200 px-6 py-4">
-          <div className="flex items-center justify-between">
-            <div>
-              <div className="flex items-center gap-2 mb-1">
-                <span className="px-2 py-0.5 bg-blue-100 text-blue-700 text-xs font-medium rounded">#{integrationId}</span>
-                <span className="text-gray-400">•</span>
-                <span className="text-sm text-gray-600">{companyName}</span>
-              </div>
-              <h1 className="text-xl font-semibold text-gray-900">Account Setup</h1>
-            </div>
-            <div className="flex items-center gap-3">
-              <div className="text-right mr-4">
-                <span className="text-sm text-gray-500">Progress</span>
-                <div className="flex items-center gap-2">
-                  <div className="w-24 h-2 bg-gray-200 rounded-full overflow-hidden">
-                    <div className="h-full bg-blue-600 rounded-full transition-all" style={{ width: `${progressPercent}%` }} />
-                  </div>
-                  <span className="text-sm font-medium text-blue-600">{progressPercent}%</span>
-                </div>
-              </div>
-              <button
-                onClick={() => setInviteTeamModalOpen(true)}
-                className="flex items-center gap-2 px-3 py-2 text-sm text-gray-600 hover:text-gray-900 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 transition-all"
-                data-testid="button-invite-team"
-              >
-                <Users size={16} />
-                Invite Team
-              </button>
-            </div>
-          </div>
-        </div>
-
-        {/* Main Content */}
-        <div className="p-6">
-          <div className="max-w-4xl mx-auto">
+      {/* Main Content */}
+      <div className="p-6">
+        <div className="max-w-4xl mx-auto">
           {/* Horizontal Step Tabs */}
           <div className="bg-white rounded-lg border border-gray-200 p-1 mb-6">
             <div className="flex gap-1">
@@ -578,7 +515,6 @@ export default function Setup2() {
                 </div>
               </div>
             )}
-          </div>
         </div>
       </div>
 
