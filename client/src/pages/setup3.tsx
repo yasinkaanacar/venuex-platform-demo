@@ -222,7 +222,7 @@ export default function Setup3() {
   return (
     <div className="min-h-screen flex">
       {/* Left Side - Branding & Features */}
-      <div className="hidden lg:flex lg:w-80 bg-gradient-to-br from-blue-600 via-indigo-600 to-purple-700 p-8 flex-col justify-between relative overflow-hidden flex-shrink-0">
+      <div className="hidden lg:flex lg:w-[400px] bg-gradient-to-br from-blue-600 via-indigo-600 to-purple-700 p-10 flex-col justify-between relative overflow-hidden flex-shrink-0">
         {/* Background Pattern */}
         <div className="absolute inset-0 opacity-10">
           <div className="absolute top-20 left-20 w-72 h-72 bg-white rounded-full blur-3xl" />
