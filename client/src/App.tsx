@@ -48,6 +48,7 @@ function Router() {
       <Route path="/onboarding" component={OnboardingUnified} />
       <Route path="/signup" component={Signup} />
       <Route path="/welcome" component={Welcome} />
+      <Route path="/setup3" component={Setup3} />
       
       {/* Main app with sidebar */}
       <Route>
@@ -71,7 +72,6 @@ function Router() {
               <Route path="/venuex-ai" component={VenueXAI} />
               <Route path="/setup" component={Setup} />
               <Route path="/setup2" component={Setup2} />
-              <Route path="/setup3" component={Setup3} />
               <Route component={NotFound} />
             </Switch>
           </main>
