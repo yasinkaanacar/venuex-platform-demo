@@ -25,7 +25,7 @@ import {
   BarChart3
 } from 'lucide-react';
 import koctasLogo from '@assets/image_1764932445923.png';
-import venuexLogo from '@assets/vx-logo-1000x1000_(2)_1766150750328.png';
+import venuexLogo from '@assets/vx-logo-white-1000x1000_(2)_1766150821989.png';
 import { SiGoogle, SiMeta, SiTiktok, SiApple } from 'react-icons/si';
 import { 
   Dialog,
@@ -276,7 +276,7 @@ export default function Setup3() {
         {/* Logo */}
         <div className="relative z-10">
           <div className="flex items-center gap-3">
-            <img src={venuexLogo} alt="VenueX" className="h-10 object-contain" />
+            <img src={venuexLogo} alt="VenueX" className="w-40" />
           </div>
           <p className="mt-3 text-sm text-white/80">
             Connect your in-store data with digital advertising for unprecedented insights.
