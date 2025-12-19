@@ -300,7 +300,7 @@ export default function Setup3() {
 
         {/* Testimonial Carousel */}
         <div className="relative z-10">
-          <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4 border border-white/20 transition-all duration-500">
+          <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4 border border-white/20 transition-all duration-500 min-h-[140px]">
             <div className="flex items-center justify-between mb-3">
               <div className="flex items-center gap-2">
                 <div className="w-8 h-8 bg-white rounded-lg flex items-center justify-center overflow-hidden">
