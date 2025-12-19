@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { 
   Building2, 
   MapPin, 
@@ -105,6 +105,41 @@ const features = [
   { icon: BarChart3, title: 'AI-Powered Insights', desc: 'Get actionable recommendations automatically' },
 ];
 
+const testimonials = [
+  { 
+    quote: "By linking our 1st-party store data with digital channels, we measured the true conversions of our campaigns.",
+    name: "Mehmet Emre",
+    role: "Senior Marketing Manager",
+    company: "Koçtaş",
+    kpi: "+47%",
+    kpiLabel: "ROAS Increase"
+  },
+  { 
+    quote: "VenueX helped us understand which campaigns actually drive foot traffic to our stores.",
+    name: "Ayşe Yılmaz",
+    role: "Digital Marketing Director",
+    company: "Migros",
+    kpi: "2.3x",
+    kpiLabel: "Store Visits"
+  },
+  { 
+    quote: "Finally we can prove the ROI of our local campaigns with real sales data.",
+    name: "Can Özdemir",
+    role: "CMO",
+    company: "Teknosa",
+    kpi: "+62%",
+    kpiLabel: "Conversion Rate"
+  },
+  { 
+    quote: "The AI recommendations helped us optimize our ad spend across 500+ locations.",
+    name: "Elif Kaya",
+    role: "Performance Marketing Lead",
+    company: "LC Waikiki",
+    kpi: "-35%",
+    kpiLabel: "Cost per Visit"
+  },
+];
+
 interface IntegrationCardProps {
   name: string;
   description: string;
@@ -190,6 +225,14 @@ export default function Setup3() {
     privateKey: '',
   });
   const [urlSegments, setUrlSegments] = useState<string[]>([]);
+  const [testimonialIndex, setTestimonialIndex] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setTestimonialIndex((prev) => (prev + 1) % testimonials.length);
+    }, 10000);
+    return () => clearInterval(interval);
+  }, []);
 
   const handleBrandInfoChange = (field: string, value: string | string[]) => {
     setBrandInfo(prev => ({ ...prev, [field]: value }));
@@ -257,17 +300,35 @@ export default function Setup3() {
           ))}
         </div>
 
-        {/* Testimonial */}
-        <div className="relative z-10 bg-white/10 backdrop-blur-sm rounded-xl p-4 border border-white/20">
-          <p className="text-white/90 italic text-xs mb-3">"By linking our 1st-party store data with digital channels, we measured the true conversions of our campaigns."</p>
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-white rounded-lg flex items-center justify-center overflow-hidden">
-              <img src={koctasLogo} alt="Koçtaş" className="w-6 h-6 object-contain" />
+        {/* Testimonial Carousel */}
+        <div className="relative z-10">
+          <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4 border border-white/20 transition-all duration-500">
+            <div className="flex items-center justify-between mb-3">
+              <div className="flex items-center gap-2">
+                <div className="w-8 h-8 bg-white rounded-lg flex items-center justify-center overflow-hidden">
+                  <span className="text-xs font-bold text-blue-600">{testimonials[testimonialIndex].company.charAt(0)}</span>
+                </div>
+                <div>
+                  <p className="text-white font-medium text-xs">{testimonials[testimonialIndex].name}</p>
+                  <p className="text-white/60 text-[10px]">{testimonials[testimonialIndex].role}, {testimonials[testimonialIndex].company}</p>
+                </div>
+              </div>
+              <div className="text-right">
+                <p className="text-white font-bold text-lg">{testimonials[testimonialIndex].kpi}</p>
+                <p className="text-white/60 text-[10px]">{testimonials[testimonialIndex].kpiLabel}</p>
+              </div>
             </div>
-            <div>
-              <p className="text-white font-medium text-xs">Mehmet Emre</p>
-              <p className="text-white/60 text-[10px]">Senior Marketing Manager, Koçtaş</p>
-            </div>
+            <p className="text-white/90 italic text-xs">"{testimonials[testimonialIndex].quote}"</p>
+          </div>
+          {/* Carousel Dots */}
+          <div className="flex justify-center gap-1.5 mt-3">
+            {testimonials.map((_, idx) => (
+              <button
+                key={idx}
+                onClick={() => setTestimonialIndex(idx)}
+                className={`w-2 h-2 rounded-full transition-all ${idx === testimonialIndex ? 'bg-white w-4' : 'bg-white/40'}`}
+              />
+            ))}
           </div>
         </div>
       </div>
