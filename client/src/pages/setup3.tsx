@@ -19,8 +19,12 @@ import {
   Info,
   Users,
   UserPlus,
-  ChevronRight
+  ChevronRight,
+  Zap,
+  Target,
+  BarChart3
 } from 'lucide-react';
+import koctasLogo from '@assets/image_1764932445923.png';
 import { SiGoogle, SiMeta, SiTiktok, SiApple } from 'react-icons/si';
 import { 
   Dialog,
@@ -93,6 +97,12 @@ const steps = [
   { id: 1, label: 'Locations', icon: MapPin, description: 'Connect location profiles' },
   { id: 2, label: 'Sales', icon: ShoppingCart, description: 'Sales data & conversions' },
   { id: 3, label: 'Catalog', icon: Package, description: 'Product catalog sync' },
+];
+
+const features = [
+  { icon: MapPin, title: 'Multi-Location Management', desc: 'Manage thousands of locations from one dashboard' },
+  { icon: Target, title: 'Offline Attribution', desc: 'Connect in-store sales to digital campaigns' },
+  { icon: BarChart3, title: 'AI-Powered Insights', desc: 'Get actionable recommendations automatically' },
 ];
 
 interface IntegrationCardProps {
@@ -210,8 +220,61 @@ export default function Setup3() {
   const progressPercent = Math.round(((activeStep + 1) / steps.length) * 100);
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Page Header */}
+    <div className="min-h-screen flex">
+      {/* Left Side - Branding & Features */}
+      <div className="hidden lg:flex lg:w-80 bg-gradient-to-br from-blue-600 via-indigo-600 to-purple-700 p-8 flex-col justify-between relative overflow-hidden flex-shrink-0">
+        {/* Background Pattern */}
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute top-20 left-20 w-72 h-72 bg-white rounded-full blur-3xl" />
+          <div className="absolute bottom-20 right-20 w-96 h-96 bg-white rounded-full blur-3xl" />
+        </div>
+        
+        {/* Logo */}
+        <div className="relative z-10">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 bg-white/20 backdrop-blur-sm rounded-xl flex items-center justify-center">
+              <Zap className="w-6 h-6 text-white" />
+            </div>
+            <span className="text-2xl font-bold text-white">VenueX</span>
+          </div>
+          <p className="mt-3 text-sm text-white/80">
+            Connect your in-store data with digital advertising for unprecedented insights.
+          </p>
+        </div>
+
+        {/* Features */}
+        <div className="relative z-10 space-y-4">
+          {features.map((feature, index) => (
+            <div key={index} className="flex items-start gap-3">
+              <div className="w-10 h-10 bg-white/20 backdrop-blur-sm rounded-xl flex items-center justify-center flex-shrink-0">
+                <feature.icon className="w-5 h-5 text-white" />
+              </div>
+              <div>
+                <h3 className="text-sm font-semibold text-white">{feature.title}</h3>
+                <p className="text-white/70 text-xs">{feature.desc}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Testimonial */}
+        <div className="relative z-10 bg-white/10 backdrop-blur-sm rounded-xl p-4 border border-white/20">
+          <p className="text-white/90 italic text-xs mb-3">"By linking our 1st-party store data with digital channels, we measured the true conversions of our campaigns."</p>
+          <div className="flex items-center gap-2">
+            <div className="w-8 h-8 bg-white rounded-lg flex items-center justify-center overflow-hidden">
+              <img src={koctasLogo} alt="Koçtaş" className="w-6 h-6 object-contain" />
+            </div>
+            <div>
+              <p className="text-white font-medium text-xs">Mehmet Emre</p>
+              <p className="text-white/60 text-[10px]">Senior Marketing Manager, Koçtaş</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Right Side - Setup Content */}
+      <div className="flex-1 bg-gray-50 overflow-auto">
+        {/* Page Header */}
       <div className="bg-white border-b border-gray-200 px-6 py-4">
         <div className="flex items-center justify-between">
           <div>
@@ -516,6 +579,7 @@ export default function Setup3() {
               </div>
             )}
         </div>
+      </div>
       </div>
 
       {/* Sales Data Modal */}
