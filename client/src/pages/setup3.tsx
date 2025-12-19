@@ -95,6 +95,41 @@ const steps = [
   { id: 3, label: 'Catalog', icon: Package, description: 'Product catalog sync' },
 ];
 
+const stepVisuals = [
+  {
+    id: 0,
+    icon: Building2,
+    gradient: 'from-violet-500 to-purple-600',
+    title: 'Brand Info',
+    subtitle: 'Company profile & team access',
+    benefits: ['Business details', 'Contact info', 'Social media']
+  },
+  {
+    id: 1,
+    icon: MapPin,
+    gradient: 'from-blue-500 to-cyan-500',
+    title: 'Locations',
+    subtitle: 'Sync locations across platforms',
+    benefits: ['Multi-platform sync', 'Real-time updates', 'Location insights']
+  },
+  {
+    id: 2,
+    icon: ShoppingCart,
+    gradient: 'from-amber-500 to-orange-500',
+    title: 'Sales Data',
+    subtitle: 'Track in-store conversions',
+    benefits: ['Sales data mapping', 'Attribution modeling', 'Revenue insights']
+  },
+  {
+    id: 3,
+    icon: Package,
+    gradient: 'from-emerald-500 to-teal-500',
+    title: 'Catalog',
+    subtitle: 'Sync your product catalog',
+    benefits: ['Product feeds', 'Stock sync', 'Local campaigns']
+  }
+];
+
 interface IntegrationCardProps {
   name: string;
   description: string;
@@ -244,48 +279,65 @@ export default function Setup3() {
         </div>
       </div>
 
-      {/* Main Content */}
-      <div className="p-6">
-        <div className="max-w-4xl mx-auto">
-          {/* Horizontal Step Tabs */}
-          <div className="bg-white rounded-lg border border-gray-200 p-1 mb-6">
-            <div className="flex gap-1">
-              {steps.map((step, index) => {
-                const isActive = index === activeStep;
-                const isCompleted = index < activeStep;
-                const Icon = step.icon;
-                
-                return (
-                  <button
-                    key={step.id}
-                    onClick={() => setActiveStep(index)}
-                    className={`flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-lg transition-all ${
-                      isActive 
-                        ? 'bg-blue-600 text-white' 
-                        : 'hover:bg-gray-50 text-gray-600'
-                    }`}
-                    data-testid={`step-tab-${index}`}
-                  >
-                    <div className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-medium ${
-                      isCompleted 
-                        ? 'bg-green-500 text-white' 
-                        : isActive 
-                          ? 'bg-white text-blue-600' 
-                          : 'bg-gray-100 text-gray-500'
-                    }`}>
-                      {isCompleted ? <Check size={12} /> : index + 1}
+      {/* Main Content - Two Column Layout */}
+      <div className="flex min-h-[calc(100vh-120px)]">
+        {/* Left Side - Step Cards */}
+        <div className="w-[320px] bg-white border-r border-gray-200 p-6">
+          <div className="space-y-4">
+            {stepVisuals.map((visual, index) => {
+              const isActive = index === activeStep;
+              const isCompleted = index < activeStep;
+              const StepIcon = visual.icon;
+              
+              return (
+                <div
+                  key={visual.id}
+                  onClick={() => setActiveStep(index)}
+                  className={`cursor-pointer group transition-all duration-300 ${isActive ? 'scale-[1.02]' : 'hover:scale-[1.01]'}`}
+                  data-testid={`step-card-${index}`}
+                >
+                  <div className={`h-[140px] rounded-xl overflow-hidden relative transition-shadow duration-300 ${
+                    isActive 
+                      ? 'shadow-lg shadow-blue-500/20 ring-2 ring-blue-500' 
+                      : isCompleted 
+                        ? 'shadow-md ring-2 ring-green-400' 
+                        : 'shadow-sm hover:shadow-md'
+                  }`}>
+                    <div className={`absolute inset-0 bg-gradient-to-br ${visual.gradient} ${
+                      !isActive && !isCompleted ? 'opacity-70' : 'opacity-100'
+                    } transition-opacity duration-300`} />
+                    
+                    <div className="absolute inset-0 p-4 flex flex-col justify-between text-white">
+                      <div className="flex items-center justify-between">
+                        <div className={`w-10 h-10 rounded-lg bg-white/20 backdrop-blur-sm flex items-center justify-center ${isActive ? 'ring-2 ring-white/50' : ''}`}>
+                          <StepIcon className="w-5 h-5 text-white" />
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <span className="text-xs font-medium bg-white/20 backdrop-blur-sm px-2 py-0.5 rounded-full">
+                            Step {index + 1}
+                          </span>
+                          {isCompleted && (
+                            <div className="w-5 h-5 bg-green-400 rounded-full flex items-center justify-center">
+                              <Check size={12} className="text-white" />
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                      <div>
+                        <h3 className="text-base font-bold mb-0.5">{visual.title}</h3>
+                        <p className="text-xs text-white/80">{visual.subtitle}</p>
+                      </div>
                     </div>
-                    <div className="flex items-center gap-2">
-                      <Icon size={16} className={isActive ? 'text-white' : 'text-gray-400'} />
-                      <span className={`text-sm font-medium ${isActive ? 'text-white' : 'text-gray-700'}`}>
-                        {step.label}
-                      </span>
-                    </div>
-                  </button>
-                );
-              })}
-            </div>
+                  </div>
+                </div>
+              );
+            })}
           </div>
+        </div>
+
+        {/* Right Side - Content Panel */}
+        <div className="flex-1 p-6 overflow-auto">
+          <div className="max-w-3xl">
             {/* Brand Info */}
             {activeStep === 0 && (
               <div data-testid="tab-panel-brand">
@@ -515,6 +567,7 @@ export default function Setup3() {
                 </div>
               </div>
             )}
+          </div>
         </div>
       </div>
 
