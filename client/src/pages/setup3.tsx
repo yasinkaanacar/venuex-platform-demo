@@ -25,7 +25,7 @@ import {
   BarChart3
 } from 'lucide-react';
 import koctasLogo from '@assets/image_1764932445923.png';
-import venuexLogo from '@assets/vx-logo-white-1000x1000_(2)_1766150821989.png';
+import venuexLogo from '@assets/venuex-logo-1000-200_1766151107474.png';
 import { SiGoogle, SiMeta, SiTiktok, SiApple } from 'react-icons/si';
 import { 
   Dialog,
