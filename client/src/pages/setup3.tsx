@@ -276,7 +276,9 @@ export default function Setup3() {
         {/* Logo */}
         <div className="relative z-10">
           <div className="flex items-center gap-3">
-            <img src={venuexLogo} alt="VenueX" className="w-40" />
+            <div className="w-40 h-10 overflow-hidden">
+              <img src={venuexLogo} alt="VenueX" className="w-full scale-[2.5] object-contain" />
+            </div>
           </div>
           <p className="mt-3 text-sm text-white/80">
             Connect your in-store data with digital advertising for unprecedented insights.
