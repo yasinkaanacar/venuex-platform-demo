@@ -397,7 +397,7 @@ export default function Setup3() {
   return (
     <div className="min-h-screen flex">
       {/* Left Side - Branding & Features */}
-      <div className="hidden lg:flex lg:w-[400px] bg-gradient-to-br from-blue-600 via-indigo-600 to-purple-700 p-10 flex-col justify-between relative overflow-hidden flex-shrink-0 sticky top-0 h-screen">
+      <div className="hidden lg:flex lg:w-[400px] bg-gradient-to-br from-blue-600 via-indigo-600 to-purple-700 p-10 flex-col relative overflow-hidden flex-shrink-0 sticky top-0 h-screen">
         {/* Background Pattern */}
         <div className="absolute inset-0 opacity-10">
           <div className="absolute top-20 left-20 w-72 h-72 bg-white rounded-full blur-3xl" />
@@ -405,7 +405,7 @@ export default function Setup3() {
         </div>
         
         {/* Logo */}
-        <div className="relative z-10">
+        <div className="relative z-10 mb-8">
           <div className="flex items-center gap-3">
             <img src={venuexLogo} alt="VenueX" className="w-40" />
           </div>
@@ -417,7 +417,7 @@ export default function Setup3() {
         </div>
 
         {/* Features or Step Guide */}
-        <div className={`relative z-10 ${activeStep === 0 ? '' : 'flex-1 overflow-y-auto'}`}>
+        <div className="relative z-10 flex-1 overflow-y-auto">
           {activeStep === 0 ? (
             <div className="space-y-5">
               {features.map((feature, index) => (
@@ -461,7 +461,7 @@ export default function Setup3() {
 
         {/* Testimonial Carousel - only on Brand Info */}
         {activeStep === 0 && (
-          <div className="relative z-10">
+          <div className="relative z-10 mt-8">
             <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4 border border-white/20 transition-all duration-500 min-h-[140px]">
               <div className="flex items-center justify-between mb-3">
                 <div className="flex items-center gap-2">
