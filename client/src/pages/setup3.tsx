@@ -386,9 +386,11 @@ export default function Setup3() {
           <div className="flex items-center gap-3">
             <img src={venuexLogo} alt="VenueX" className="w-40" />
           </div>
-          <p className="mt-3 text-sm text-white/80">
-            Connect your in-store data with digital advertising for unprecedented insights.
-          </p>
+          {activeStep === 0 && (
+            <p className="mt-3 text-sm text-white/80">
+              Connect your in-store data with digital advertising for unprecedented insights.
+            </p>
+          )}
         </div>
 
         {/* Features or Step Guide */}
