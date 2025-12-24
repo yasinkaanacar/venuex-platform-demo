@@ -106,6 +106,96 @@ const features = [
   { icon: BarChart3, title: 'AI-Powered Insights', desc: 'Get actionable recommendations automatically' },
 ];
 
+const stepGuides = {
+  locations: {
+    title: 'Locations Guide',
+    sections: [
+      {
+        heading: 'Before you begin',
+        items: [
+          'Your locations should be managed under a single GBP group/account',
+          'You need Owner-level access in GBP (Manager is not enough)',
+          'For Apple sync, you must have an Apple Business Connect account'
+        ]
+      },
+      {
+        heading: 'Step 1 — Your Address Data',
+        items: [
+          'Each store needs a unique Store Code (your ERP identifier)',
+          'Use consistent Store Code across all files (locations, sales, inventory)'
+        ]
+      },
+      {
+        heading: 'Step 2 — Where to Sync',
+        items: [
+          'Google (GBP)',
+          'Apple (ABC) — requires ABC account',
+          'Yandex (optional)'
+        ]
+      }
+    ]
+  },
+  sales: {
+    title: 'Offline Sales Guide',
+    sections: [
+      {
+        heading: 'Before you begin',
+        items: [
+          'VenueX ingests data via SFTP/FTP',
+          'File format must be CSV (UTF-8)',
+          'Recommended frequency: daily (minimum weekly)',
+          'Identifiers must be SHA-256 hashed (no raw PII)'
+        ]
+      },
+      {
+        heading: 'Required Fields',
+        items: [
+          'Country, Conversion Name, Conversion Time (ISO-8601)',
+          'Conversion Value, Currency',
+          'Email & Phone (SHA-256 hashed, strongly recommended)'
+        ]
+      },
+      {
+        heading: 'Tips',
+        items: [
+          'Normalize email (lowercase/trim) before hashing',
+          'Phone must be E.164 format before hashing',
+          'Backfill up to 90 days for pilots'
+        ]
+      }
+    ]
+  },
+  catalog: {
+    title: 'Local Inventory Guide',
+    sections: [
+      {
+        heading: 'Before you begin',
+        items: [
+          'You need store-level availability data',
+          'Product ID must match Merchant Center identifier',
+          'Store Code must be consistent with Locations'
+        ]
+      },
+      {
+        heading: 'Required Fields',
+        items: [
+          'Product ID (matches catalog)',
+          'Store Code (same as Locations)',
+          'Availability (in_stock / out_of_stock)'
+        ]
+      },
+      {
+        heading: 'Optional Fields',
+        items: [
+          'Price (if store price differs from online)',
+          'Quantity',
+          'Daily updates recommended'
+        ]
+      }
+    ]
+  }
+};
+
 const testimonials = [
   { 
     quote: "1P mağaza verilerimizi dijital kanallarla ilişkilendirerek dijital kampanyalarımızın gerçek dönüşümlerini ölçümledik ve reklam performansımızı zirveye taşıdık.",
@@ -301,19 +391,47 @@ export default function Setup3() {
           </p>
         </div>
 
-        {/* Features */}
-        <div className="relative z-10 space-y-4">
-          {features.map((feature, index) => (
-            <div key={index} className="flex items-start gap-3">
-              <div className="w-10 h-10 bg-white/20 backdrop-blur-sm rounded-xl flex items-center justify-center flex-shrink-0">
-                <feature.icon className="w-5 h-5 text-white" />
-              </div>
-              <div>
-                <h3 className="text-sm font-semibold text-white">{feature.title}</h3>
-                <p className="text-white/70 text-xs">{feature.desc}</p>
-              </div>
+        {/* Features or Step Guide */}
+        <div className="relative z-10 flex-1 overflow-y-auto">
+          {activeStep === 0 ? (
+            <div className="space-y-4">
+              {features.map((feature, index) => (
+                <div key={index} className="flex items-start gap-3">
+                  <div className="w-10 h-10 bg-white/20 backdrop-blur-sm rounded-xl flex items-center justify-center flex-shrink-0">
+                    <feature.icon className="w-5 h-5 text-white" />
+                  </div>
+                  <div>
+                    <h3 className="text-sm font-semibold text-white">{feature.title}</h3>
+                    <p className="text-white/70 text-xs">{feature.desc}</p>
+                  </div>
+                </div>
+              ))}
             </div>
-          ))}
+          ) : (
+            <div className="space-y-4">
+              {(() => {
+                const guide = activeStep === 1 ? stepGuides.locations : activeStep === 2 ? stepGuides.sales : stepGuides.catalog;
+                return (
+                  <>
+                    <h3 className="text-sm font-bold text-white mb-3">{guide.title}</h3>
+                    {guide.sections.map((section, idx) => (
+                      <div key={idx} className="bg-white/10 backdrop-blur-sm rounded-lg p-3 border border-white/20">
+                        <h4 className="text-xs font-semibold text-white mb-2">{section.heading}</h4>
+                        <ul className="space-y-1">
+                          {section.items.map((item, itemIdx) => (
+                            <li key={itemIdx} className="flex items-start gap-2 text-white/80 text-xs">
+                              <ChevronRight className="w-3 h-3 mt-0.5 flex-shrink-0" />
+                              <span>{item}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    ))}
+                  </>
+                );
+              })()}
+            </div>
+          )}
         </div>
 
         {/* Testimonial Carousel */}

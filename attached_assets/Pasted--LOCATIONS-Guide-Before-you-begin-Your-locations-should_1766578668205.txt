@@ -1,0 +1,81 @@
+# LOCATIONS — Guide
+
+## Before you begin
+- Your locations should be managed under a single Google Business Profile (GBP) group/account to avoid split ownership and missing locations.
+- You will need someone who can grant **Owner-level access** in GBP (Manager access is not enough in many cases).
+- If you plan to sync to Apple, you must have an **Apple Business Connect (ABC)** account (or be ready to create one).
+
+## Step 1 — Your Address Data
+To import and match locations reliably:
+- Each store should have a unique **Store Code** (your ERP/store identifier).
+- The same Store Code should be used consistently across all files you share (locations, sales, inventory).
+
+## Step 2 — Where to Sync
+Choose where VenueX will publish/update your location data:
+- Google (GBP)
+- Apple (ABC) — requires an ABC account
+- Yandex (optional)
+
+## Step 3 — Review & Connect
+What happens after you connect GBP:
+- VenueX will automatically import your location information.
+- After import, Review Management can be enabled with a single action.
+
+Tip: You can pause and continue later — your Integration ID keeps your progress.
+------------------------------------------------------------
+
+# OFFLINE SALES — Guide
+
+## Before you begin
+- VenueX ingests data via **SFTP/FTP**. During setup, we’ll ask for a **file/folder URL**.
+- File format must be **CSV (UTF-8)**.
+- Recommended frequency is **daily** (minimum weekly). Fresher data improves attribution quality.
+- We never ask for raw PII. If you include identifiers (email/phone), they must be **SHA-256 hashed on your side**.
+
+## Step 1 — Your Offline Data (what your export must include)
+Required fields:
+- Country
+- Conversion Name
+- Conversion Time (ISO-8601)
+- Conversion Value
+- Currency
+
+Strongly recommended (for matching):
+- Email (lowercase, trimmed) — SHA-256 hashed
+- Phone (E.164 format, e.g. +90...) — SHA-256 hashed
+
+Optional but useful:
+- Store Code (must be consistent across all files)
+- Order ID (unique transaction ID)
+
+## Step 2 — Build Mapping
+To avoid “data received but not matched” issues:
+- Email must be normalized (lowercase/trim) before hashing.
+- Phone must be normalized to E.164 before hashing.
+- Dates must be ISO-8601 (including timezone).
+
+## Step 3 — Review & Save
+- You can backfill offline sales data up to **90 days** (useful for pilots and validation).
+------------------------------------------------------------
+
+# LOCAL INVENTORY — Guide
+
+## Before you begin
+Local Inventory requires store-level availability. Make sure you can export:
+- Product ID (must match your Merchant Center product identifier)
+- Store Code (same standard as Locations & Offline Sales)
+- Availability (in_stock / out_of_stock)
+
+Optional fields (recommended if available):
+- Price (if store price differs from online)
+- Quantity
+
+## Step 1 — Your Inventory Data
+- Store Code must match your Locations store code format exactly.
+- Product ID must match the ID used in your product catalog (Merchant Center alignment).
+
+## Step 2 — Build Mapping
+- Inventory data is also delivered via **SFTP/FTP** as **CSV (UTF-8)**.
+
+## Step 3 — Review & Save
+- Daily updates are strongly recommended to keep availability accurate.
