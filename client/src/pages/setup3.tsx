@@ -459,37 +459,39 @@ export default function Setup3() {
           )}
         </div>
 
-        {/* Testimonial Carousel */}
-        <div className="relative z-10">
-          <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4 border border-white/20 transition-all duration-500 min-h-[140px]">
-            <div className="flex items-center justify-between mb-3">
-              <div className="flex items-center gap-2">
-                <div className="w-8 h-8 bg-white rounded-lg flex items-center justify-center overflow-hidden">
-                  <span className="text-xs font-bold text-blue-600">{testimonials[testimonialIndex].company.charAt(0)}</span>
+        {/* Testimonial Carousel - only on Brand Info */}
+        {activeStep === 0 && (
+          <div className="relative z-10">
+            <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4 border border-white/20 transition-all duration-500 min-h-[140px]">
+              <div className="flex items-center justify-between mb-3">
+                <div className="flex items-center gap-2">
+                  <div className="w-8 h-8 bg-white rounded-lg flex items-center justify-center overflow-hidden">
+                    <span className="text-xs font-bold text-blue-600">{testimonials[testimonialIndex].company.charAt(0)}</span>
+                  </div>
+                  <div>
+                    <p className="text-white font-medium text-xs">{testimonials[testimonialIndex].name}</p>
+                    <p className="text-white/60 text-[10px]">{testimonials[testimonialIndex].role}, {testimonials[testimonialIndex].company}</p>
+                  </div>
                 </div>
-                <div>
-                  <p className="text-white font-medium text-xs">{testimonials[testimonialIndex].name}</p>
-                  <p className="text-white/60 text-[10px]">{testimonials[testimonialIndex].role}, {testimonials[testimonialIndex].company}</p>
+                <div className="text-right">
+                  <p className="text-white font-bold text-lg">{testimonials[testimonialIndex].kpi}</p>
+                  <p className="text-white/60 text-[10px]">{testimonials[testimonialIndex].kpiLabel}</p>
                 </div>
               </div>
-              <div className="text-right">
-                <p className="text-white font-bold text-lg">{testimonials[testimonialIndex].kpi}</p>
-                <p className="text-white/60 text-[10px]">{testimonials[testimonialIndex].kpiLabel}</p>
-              </div>
+              <p className="text-white/90 italic text-xs">"{testimonials[testimonialIndex].quote}"</p>
             </div>
-            <p className="text-white/90 italic text-xs">"{testimonials[testimonialIndex].quote}"</p>
+            {/* Carousel Dots */}
+            <div className="flex justify-center gap-1.5 mt-3">
+              {testimonials.map((_, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => setTestimonialIndex(idx)}
+                  className={`w-2 h-2 rounded-full transition-all ${idx === testimonialIndex ? 'bg-white w-4' : 'bg-white/40'}`}
+                />
+              ))}
+            </div>
           </div>
-          {/* Carousel Dots */}
-          <div className="flex justify-center gap-1.5 mt-3">
-            {testimonials.map((_, idx) => (
-              <button
-                key={idx}
-                onClick={() => setTestimonialIndex(idx)}
-                className={`w-2 h-2 rounded-full transition-all ${idx === testimonialIndex ? 'bg-white w-4' : 'bg-white/40'}`}
-              />
-            ))}
-          </div>
-        </div>
+        )}
       </div>
 
       {/* Right Side - Setup Content */}
