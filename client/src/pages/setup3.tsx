@@ -111,26 +111,33 @@ const stepGuides = {
     title: 'Locations Guide',
     sections: [
       {
-        heading: 'Before you begin',
+        heading: 'Before you connect',
         items: [
-          'Your locations should be managed under a single GBP group/account',
-          'You need Owner-level access in GBP (Manager is not enough)',
-          'For Apple sync, you must have an Apple Business Connect account'
+          'Make sure your business details are accurate (name, category, address, phone, website, hours)',
+          'Fix any Unverified/Suspended/Duplicate locations in GBP first',
+          'Assign a unique, standardized store code to every location',
+          'You need Owner/Primary Owner access in GBP (Manager cannot manage access)'
         ]
       },
       {
         heading: 'Step 1 — Your Address Data',
         items: [
-          'Each store needs a unique Store Code (your ERP identifier)',
-          'Use consistent Store Code across all files (locations, sales, inventory)'
+          'Check consistency: Name–Address–Phone, category, hours (incl. special days), map pin, links',
+          'Confirm each location has a unique store code with consistent format'
         ]
       },
       {
         heading: 'Step 2 — Where to Sync',
         items: [
-          'Google (GBP)',
-          'Apple (ABC) — requires ABC account',
-          'Yandex (optional)'
+          'Select platforms to sync (Google, Apple, etc.)',
+          'Apple requires an Apple Business Connect account'
+        ]
+      },
+      {
+        heading: 'Step 3 — Review & Connect',
+        items: [
+          'After connecting GBP, VenueX imports your locations automatically',
+          'Reviews can be enabled right after import'
         ]
       }
     ]
@@ -141,26 +148,34 @@ const stepGuides = {
       {
         heading: 'Before you begin',
         items: [
-          'VenueX ingests data via SFTP/FTP',
+          'VenueX ingests sales files via SFTP/FTP',
           'File format must be CSV (UTF-8)',
           'Recommended frequency: daily (minimum weekly)',
-          'Identifiers must be SHA-256 hashed (no raw PII)'
+          'PII (email/phone/name) must be SHA-256 hashed on your side'
         ]
       },
       {
         heading: 'Required Fields',
         items: [
-          'Country, Conversion Name, Conversion Time (ISO-8601)',
-          'Conversion Value, Currency',
-          'Email & Phone (SHA-256 hashed, strongly recommended)'
+          'Country (ISO code), Conversion Name',
+          'Conversion Time (ISO-8601 with timezone)',
+          'Conversion Value (numeric), Currency (ISO code)'
+        ]
+      },
+      {
+        heading: 'Strongly Recommended',
+        items: [
+          'Email (lowercase + trimmed, then SHA-256)',
+          'Phone (E.164 format, then SHA-256)',
+          'Store Code (must match Locations), Order ID'
         ]
       },
       {
         heading: 'Tips',
         items: [
-          'Normalize email (lowercase/trim) before hashing',
-          'Phone must be E.164 format before hashing',
-          'Backfill up to 90 days for pilots'
+          'Normalize identifiers BEFORE hashing',
+          'Start with a small test file to validate mapping',
+          'Backfill up to 90 days of data for pilots'
         ]
       }
     ]
@@ -171,25 +186,33 @@ const stepGuides = {
       {
         heading: 'Before you begin',
         items: [
-          'You need store-level availability data',
-          'Product ID must match Merchant Center identifier',
-          'Store Code must be consistent with Locations'
+          'You need store-level availability by Product ID + Store Code',
+          'Product IDs must match your catalog (e.g., Merchant Center)',
+          'Data delivery: SFTP/FTP + CSV (UTF-8)',
+          'Store Codes must match Locations/Sales exactly'
         ]
       },
       {
         heading: 'Required Fields',
         items: [
-          'Product ID (matches catalog)',
-          'Store Code (same as Locations)',
+          'Product ID (must match catalog identifier)',
+          'Store Code',
           'Availability (in_stock / out_of_stock)'
         ]
       },
       {
         heading: 'Optional Fields',
         items: [
-          'Price (if store price differs from online)',
-          'Quantity',
-          'Daily updates recommended'
+          'Price (if store price differs)',
+          'Quantity'
+        ]
+      },
+      {
+        heading: 'Tips',
+        items: [
+          'Confirm Product ID and Store Code formats match exactly',
+          'Standardize availability values',
+          'Daily updates strongly recommended'
         ]
       }
     ]
