@@ -392,9 +392,9 @@ export default function Setup3() {
         </div>
 
         {/* Features or Step Guide */}
-        <div className="relative z-10 flex-1 overflow-y-auto">
+        <div className={`relative z-10 ${activeStep === 0 ? '' : 'flex-1 overflow-y-auto'}`}>
           {activeStep === 0 ? (
-            <div className="space-y-4">
+            <div className="space-y-5">
               {features.map((feature, index) => (
                 <div key={index} className="flex items-start gap-3">
                   <div className="w-10 h-10 bg-white/20 backdrop-blur-sm rounded-xl flex items-center justify-center flex-shrink-0">
@@ -408,7 +408,7 @@ export default function Setup3() {
               ))}
             </div>
           ) : (
-            <div className="space-y-4">
+            <div className="space-y-3">
               {(() => {
                 const guide = activeStep === 1 ? stepGuides.locations : activeStep === 2 ? stepGuides.sales : stepGuides.catalog;
                 return (
