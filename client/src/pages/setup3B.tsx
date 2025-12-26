@@ -37,6 +37,7 @@ import {
   Autocomplete,
   Chip
 } from '@mui/material';
+import { Tooltip } from '@/components/ui/tooltip';
 
 const integrationId = '59796';
 const companyName = 'Acarlar Perakende';
@@ -106,39 +107,54 @@ const features = [
   { icon: BarChart3, title: 'AI-Powered Insights', desc: 'Get actionable recommendations automatically' },
 ];
 
-const stepGuides = {
+interface GuideItem {
+  text: string;
+  tooltip: string;
+}
+
+interface GuideSection {
+  heading: string;
+  items: GuideItem[];
+}
+
+interface StepGuide {
+  title: string;
+  sections: GuideSection[];
+}
+
+const stepGuides: Record<string, StepGuide> = {
   locations: {
     title: 'Locations Guide',
     sections: [
       {
         heading: 'Before you connect',
         items: [
-          'Your locations must be listed under a single group in Google Business Profile',
-          'Make sure your business details are accurate (name, category, address, phone, website, hours)',
-          'Fix any Unverified/Suspended/Duplicate locations in GBP first',
-          'Assign a unique, standardized store code to every location',
-          'You need Owner/Primary Owner access in GBP (Manager cannot manage access)'
+          { text: 'Your locations must be listed under a single group in Google Business Profile', tooltip: 'All your store locations should be organized within one Business Group in GBP. This allows VenueX to import and manage them together.' },
+          { text: 'Make sure your business details are accurate (name, category, address, phone, website, hours)', tooltip: 'Accurate NAP (Name, Address, Phone) data ensures proper syncing and avoids duplicate entries across platforms.' },
+          { text: 'Fix any Unverified/Suspended/Duplicate locations in GBP first', tooltip: 'Problematic listings can cause sync failures. Resolve these issues in Google Business Profile before connecting.' },
+          { text: 'Assign a unique, standardized store code to every location', tooltip: 'Store codes link your locations to sales data. Use a consistent format like "STORE001" across all systems.' },
+          { text: 'You need Owner/Primary Owner access in GBP (Manager cannot manage access)', tooltip: 'Only Owner or Primary Owner roles can grant VenueX the necessary permissions for full integration.' }
         ]
       },
       {
         heading: 'Step 1 — Your Address Data',
         items: [
-          'Check consistency: Name–Address–Phone, category, hours (incl. special days), map pin, links',
-          'Confirm each location has a unique store code with consistent format'
+          { text: 'Check consistency: Name–Address–Phone, category, hours (incl. special days), map pin, links', tooltip: 'Consistent data across all fields improves search visibility and customer trust.' },
+          { text: 'Confirm each location has a unique store code with consistent format', tooltip: 'Store codes are critical for matching sales and inventory data to specific locations.' }
         ]
       },
       {
         heading: 'Step 2 — Where to Sync',
         items: [
-          'Select platforms to sync (Google, Apple, etc.)',
-          'Apple requires an Apple Business Connect account'
+          { text: 'Select platforms to sync (Google, Apple, etc.)', tooltip: 'Choose which platforms you want to keep in sync with VenueX.' },
+          { text: 'Apple requires an Apple Business Connect account', tooltip: 'Create an Apple Business Connect account at business.apple.com before enabling Apple Maps sync.' }
         ]
       },
       {
         heading: 'Step 3 — Review & Connect',
         items: [
-          'After connecting GBP, VenueX imports your locations automatically',
-          'Reviews can be enabled right after import'
+          { text: 'After connecting GBP, VenueX imports your locations automatically', tooltip: 'The import process typically takes a few minutes depending on the number of locations.' },
+          { text: 'Reviews can be enabled right after import', tooltip: 'Enable review monitoring to track and respond to customer reviews from one dashboard.' }
         ]
       }
     ]
@@ -149,34 +165,34 @@ const stepGuides = {
       {
         heading: 'Before you begin',
         items: [
-          'VenueX ingests sales files via SFTP/FTP',
-          'File format must be CSV (UTF-8)',
-          'Recommended frequency: daily (minimum weekly)',
-          'PII (email/phone/name) must be SHA-256 hashed on your side'
+          { text: 'VenueX ingests sales files via SFTP/FTP', tooltip: 'We provide secure SFTP/FTP credentials for automated file uploads from your POS or ERP system.' },
+          { text: 'File format must be CSV (UTF-8)', tooltip: 'Use UTF-8 encoding to ensure special characters (Turkish İ, ş, ğ, etc.) are handled correctly.' },
+          { text: 'Recommended frequency: daily (minimum weekly)', tooltip: 'More frequent uploads enable faster attribution and more accurate campaign optimization.' },
+          { text: 'PII (email/phone/name) must be SHA-256 hashed on your side', tooltip: 'Hash personally identifiable information before sending. This protects customer privacy while enabling match rates.' }
         ]
       },
       {
         heading: 'Required Fields',
         items: [
-          'Country (ISO code), Conversion Name',
-          'Conversion Time (ISO-8601 with timezone)',
-          'Conversion Value (numeric), Currency (ISO code)'
+          { text: 'Country (ISO code), Conversion Name', tooltip: 'Use 2-letter ISO country codes (TR, US, DE). Conversion name identifies the type of sale.' },
+          { text: 'Conversion Time (ISO-8601 with timezone)', tooltip: 'Format: 2024-01-15T14:30:00+03:00. Include timezone for accurate attribution.' },
+          { text: 'Conversion Value (numeric), Currency (ISO code)', tooltip: 'Value should be numeric without symbols. Use ISO currency codes: TRY, USD, EUR.' }
         ]
       },
       {
         heading: 'Strongly Recommended',
         items: [
-          'Email (lowercase + trimmed, then SHA-256)',
-          'Phone (E.164 format, then SHA-256)',
-          'Store Code (must match Locations), Order ID'
+          { text: 'Email (lowercase + trimmed, then SHA-256)', tooltip: 'Normalize email: lowercase, trim spaces, then hash. Example: "User@Email.com " → "user@email.com" → hash.' },
+          { text: 'Phone (E.164 format, then SHA-256)', tooltip: 'E.164 format includes country code: +905551234567. Remove spaces and dashes before hashing.' },
+          { text: 'Store Code (must match Locations), Order ID', tooltip: 'Store codes must exactly match your location data. Order ID helps with deduplication.' }
         ]
       },
       {
         heading: 'Tips',
         items: [
-          'Normalize identifiers BEFORE hashing',
-          'Start with a small test file to validate mapping',
-          'Backfill up to 90 days of data for pilots'
+          { text: 'Normalize identifiers BEFORE hashing', tooltip: 'Inconsistent formatting before hashing creates different hashes, reducing match rates.' },
+          { text: 'Start with a small test file to validate mapping', tooltip: 'Upload 10-50 rows first to verify field mappings are correct before sending full data.' },
+          { text: 'Backfill up to 90 days of data for pilots', tooltip: 'Historical data helps establish baseline performance and improves attribution models.' }
         ]
       }
     ]
@@ -187,33 +203,33 @@ const stepGuides = {
       {
         heading: 'Before you begin',
         items: [
-          'You need store-level availability by Product ID + Store Code',
-          'Product IDs must match your catalog (e.g., Merchant Center)',
-          'Data delivery: SFTP/FTP + CSV (UTF-8)',
-          'Store Codes must match Locations/Sales exactly'
+          { text: 'You need store-level availability by Product ID + Store Code', tooltip: 'Each row should indicate which product is available at which store location.' },
+          { text: 'Product IDs must match your catalog (e.g., Merchant Center)', tooltip: 'Use the same product identifiers as in Google Merchant Center or your e-commerce platform.' },
+          { text: 'Data delivery: SFTP/FTP + CSV (UTF-8)', tooltip: 'Same secure file transfer method as sales data. Use UTF-8 encoding.' },
+          { text: 'Store Codes must match Locations/Sales exactly', tooltip: 'Mismatched store codes will prevent inventory from being associated with the correct location.' }
         ]
       },
       {
         heading: 'Required Fields',
         items: [
-          'Product ID (must match catalog identifier)',
-          'Store Code',
-          'Availability (in_stock / out_of_stock)'
+          { text: 'Product ID (must match catalog identifier)', tooltip: 'The unique SKU or GTIN that identifies the product in your catalog system.' },
+          { text: 'Store Code', tooltip: 'The store identifier that matches your location data in VenueX.' },
+          { text: 'Availability (in_stock / out_of_stock)', tooltip: 'Simple boolean status. Use "in_stock" or "out_of_stock" as values.' }
         ]
       },
       {
         heading: 'Optional Fields',
         items: [
-          'Price (if store price differs)',
-          'Quantity'
+          { text: 'Price (if store price differs)', tooltip: 'Include local price only if it differs from your online/catalog price.' },
+          { text: 'Quantity', tooltip: 'Stock quantity helps with "limited availability" messaging in ads.' }
         ]
       },
       {
         heading: 'Tips',
         items: [
-          'Confirm Product ID and Store Code formats match exactly',
-          'Standardize availability values',
-          'Daily updates strongly recommended'
+          { text: 'Confirm Product ID and Store Code formats match exactly', tooltip: 'Even small differences (spaces, case) will cause matching failures.' },
+          { text: 'Standardize availability values', tooltip: 'Use consistent values across all rows: "in_stock" not "InStock" or "available".' },
+          { text: 'Daily updates strongly recommended', tooltip: 'Frequent updates prevent showing out-of-stock items in local inventory ads.' }
         ]
       }
     ]
@@ -457,23 +473,24 @@ export default function Setup3B() {
                             
                             if (isBeforeSection(section.heading)) {
                               return (
-                                <li 
-                                  key={itemIdx} 
-                                  className="flex items-start gap-2 text-white/80 text-xs cursor-pointer hover:text-white transition-colors"
-                                  onClick={() => toggleCheckItem(checkKey)}
-                                >
-                                  <div className={`w-4 h-4 rounded border-2 flex-shrink-0 mt-0.5 flex items-center justify-center transition-all ${isChecked ? 'bg-green-500 border-green-500' : 'border-white/50'}`}>
-                                    {isChecked && <Check className="w-3 h-3 text-white" />}
-                                  </div>
-                                  <span className={isChecked ? 'line-through opacity-60' : ''}>{item}</span>
-                                </li>
+                                <Tooltip key={itemIdx} title={item.tooltip} arrow placement="right">
+                                  <li 
+                                    className="flex items-start gap-2 text-white/80 text-xs cursor-pointer hover:text-white transition-colors"
+                                    onClick={() => toggleCheckItem(checkKey)}
+                                  >
+                                    <div className={`w-4 h-4 rounded border-2 flex-shrink-0 mt-0.5 flex items-center justify-center transition-all ${isChecked ? 'bg-green-500 border-green-500' : 'border-white/50'}`}>
+                                      {isChecked && <Check className="w-3 h-3 text-white" />}
+                                    </div>
+                                    <span className={isChecked ? 'line-through opacity-60' : ''}>{item.text}</span>
+                                  </li>
+                                </Tooltip>
                               );
                             }
                             
                             return (
                               <li key={itemIdx} className="flex items-start gap-2 text-white/80 text-xs">
                                 <ChevronRight className="w-3 h-3 mt-0.5 flex-shrink-0" />
-                                <span>{item}</span>
+                                <span>{item.text}</span>
                               </li>
                             );
                           })}
