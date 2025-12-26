@@ -473,17 +473,23 @@ export default function Setup3B() {
                             
                             if (isBeforeSection(section.heading)) {
                               return (
-                                <Tooltip key={itemIdx} title={item.tooltip} arrow placement="right">
-                                  <li 
-                                    className="flex items-start gap-2 text-white/80 text-xs cursor-pointer hover:text-white transition-colors"
+                                <li 
+                                  key={itemIdx}
+                                  className="flex items-start gap-2 text-white/80 text-xs"
+                                >
+                                  <div 
+                                    className={`w-4 h-4 rounded border-2 flex-shrink-0 mt-0.5 flex items-center justify-center transition-all cursor-pointer ${isChecked ? 'bg-green-500 border-green-500' : 'border-white/50 hover:border-white'}`}
                                     onClick={() => toggleCheckItem(checkKey)}
                                   >
-                                    <div className={`w-4 h-4 rounded border-2 flex-shrink-0 mt-0.5 flex items-center justify-center transition-all ${isChecked ? 'bg-green-500 border-green-500' : 'border-white/50'}`}>
-                                      {isChecked && <Check className="w-3 h-3 text-white" />}
-                                    </div>
-                                    <span className={isChecked ? 'line-through opacity-60' : ''}>{item.text}</span>
-                                  </li>
-                                </Tooltip>
+                                    {isChecked && <Check className="w-3 h-3 text-white" />}
+                                  </div>
+                                  <span className={`flex-1 ${isChecked ? 'line-through opacity-60' : ''}`}>{item.text}</span>
+                                  <Tooltip title={item.tooltip} arrow placement="right">
+                                    <button className="w-4 h-4 rounded-full bg-white/20 hover:bg-white/30 flex items-center justify-center flex-shrink-0 transition-colors">
+                                      <Info className="w-2.5 h-2.5 text-white" />
+                                    </button>
+                                  </Tooltip>
+                                </li>
                               );
                             }
                             
