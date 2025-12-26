@@ -22,9 +22,7 @@ import {
   ChevronRight,
   Zap,
   Target,
-  BarChart3,
-  Download,
-  FileText
+  BarChart3
 } from 'lucide-react';
 import koctasLogo from '@assets/image_1764932445923.png';
 import venuexLogo from '@assets/venuex-logo-1000-200_1766151107474.png';
@@ -367,104 +365,6 @@ export default function Setup3B() {
     setCheckedItems(prev => ({ ...prev, [key]: !prev[key] }));
   };
 
-  const getChecklistData = () => {
-    const data: { section: string; item: string; checked: boolean }[] = [];
-    const guides = { locations: stepGuides.locations, sales: stepGuides.sales, catalog: stepGuides.catalog };
-    
-    Object.entries(guides).forEach(([guideKey, guide]) => {
-      guide.sections.forEach((section, sectionIdx) => {
-        if (section.heading.toLowerCase().includes('before')) {
-          section.items.forEach((item, itemIdx) => {
-            const checkKey = `${guideKey}-${sectionIdx}-${itemIdx}`;
-            data.push({
-              section: `${guide.title} - ${section.heading}`,
-              item,
-              checked: checkedItems[checkKey] || false
-            });
-          });
-        }
-      });
-    });
-    return data;
-  };
-
-  const exportToCSV = () => {
-    const data = getChecklistData();
-    const headers = ['Section', 'Item', 'Status'];
-    const rows = data.map(d => [d.section, d.item, d.checked ? 'Completed' : 'Pending']);
-    const csvContent = [headers, ...rows].map(row => row.map(cell => `"${cell}"`).join(',')).join('\n');
-    
-    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-    const link = document.createElement('a');
-    link.href = URL.createObjectURL(blob);
-    link.download = `venuex-setup-checklist-${new Date().toISOString().split('T')[0]}.csv`;
-    link.click();
-  };
-
-  const exportToPDF = () => {
-    const data = getChecklistData();
-    const printWindow = window.open('', '_blank');
-    if (!printWindow) return;
-    
-    const completedCount = data.filter(d => d.checked).length;
-    const totalCount = data.length;
-    
-    const html = `
-      <!DOCTYPE html>
-      <html>
-      <head>
-        <title>VenueX Setup Checklist</title>
-        <style>
-          body { font-family: Arial, sans-serif; padding: 40px; max-width: 800px; margin: 0 auto; }
-          h1 { color: #1e40af; margin-bottom: 8px; }
-          .subtitle { color: #6b7280; margin-bottom: 24px; }
-          .progress { background: #e5e7eb; border-radius: 8px; height: 12px; margin-bottom: 32px; }
-          .progress-bar { background: #3b82f6; height: 100%; border-radius: 8px; }
-          .section { margin-bottom: 24px; }
-          .section-title { font-size: 14px; font-weight: 600; color: #374151; margin-bottom: 12px; border-bottom: 1px solid #e5e7eb; padding-bottom: 8px; }
-          .item { display: flex; align-items: flex-start; gap: 12px; padding: 8px 0; border-bottom: 1px solid #f3f4f6; }
-          .checkbox { width: 18px; height: 18px; border: 2px solid #d1d5db; border-radius: 4px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
-          .checkbox.checked { background: #22c55e; border-color: #22c55e; color: white; }
-          .item-text { font-size: 13px; color: #4b5563; }
-          .item-text.checked { text-decoration: line-through; color: #9ca3af; }
-          .footer { margin-top: 32px; font-size: 12px; color: #9ca3af; text-align: center; }
-        </style>
-      </head>
-      <body>
-        <h1>VenueX Setup Checklist</h1>
-        <p class="subtitle">${companyName} - Generated on ${new Date().toLocaleDateString()}</p>
-        <div class="progress"><div class="progress-bar" style="width: ${Math.round((completedCount / totalCount) * 100)}%"></div></div>
-        <p style="margin-bottom: 24px; font-size: 14px;"><strong>${completedCount} of ${totalCount}</strong> items completed</p>
-        ${(() => {
-          const sections: Record<string, typeof data> = {};
-          data.forEach(d => {
-            if (!sections[d.section]) sections[d.section] = [];
-            sections[d.section].push(d);
-          });
-          return Object.entries(sections).map(([section, items]) => `
-            <div class="section">
-              <div class="section-title">${section}</div>
-              ${items.map(item => `
-                <div class="item">
-                  <div class="checkbox ${item.checked ? 'checked' : ''}">${item.checked ? '✓' : ''}</div>
-                  <span class="item-text ${item.checked ? 'checked' : ''}">${item.item}</span>
-                </div>
-              `).join('')}
-            </div>
-          `).join('');
-        })()}
-        <div class="footer">VenueX Setup Checklist Export</div>
-      </body>
-      </html>
-    `;
-    
-    printWindow.document.write(html);
-    printWindow.document.close();
-    printWindow.onload = () => {
-      printWindow.print();
-    };
-  };
-
   useEffect(() => {
     const interval = setInterval(() => {
       setTestimonialIndex((prev) => (prev + 1) % testimonials.length);
@@ -667,26 +567,6 @@ export default function Setup3B() {
               <Users size={16} />
               Invite Team
             </button>
-            <div className="flex items-center gap-1 border-l border-gray-200 pl-3">
-              <button
-                onClick={exportToCSV}
-                className="flex items-center gap-1.5 px-2.5 py-2 text-sm text-gray-600 hover:text-gray-900 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 transition-all"
-                data-testid="button-export-csv"
-                title="Export checklist as CSV"
-              >
-                <Download size={14} />
-                CSV
-              </button>
-              <button
-                onClick={exportToPDF}
-                className="flex items-center gap-1.5 px-2.5 py-2 text-sm text-gray-600 hover:text-gray-900 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 transition-all"
-                data-testid="button-export-pdf"
-                title="Export checklist as PDF"
-              >
-                <FileText size={14} />
-                PDF
-              </button>
-            </div>
           </div>
         </div>
       </div>
