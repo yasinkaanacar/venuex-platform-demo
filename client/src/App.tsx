@@ -18,6 +18,7 @@ import VenueXAI from "@/pages/venuex-ai";
 import Setup from "@/pages/setup";
 import Setup2 from "@/pages/setup2";
 import Setup3 from "@/pages/setup3";
+import Setup3B from "@/pages/setup3B";
 import OnboardingUnified from "@/pages/onboarding-unified";
 import Signup from "@/pages/signup";
 import Welcome from "@/pages/welcome";
@@ -49,6 +50,7 @@ function Router() {
       <Route path="/signup" component={Signup} />
       <Route path="/welcome" component={Welcome} />
       <Route path="/setup3" component={Setup3} />
+      <Route path="/setup3B" component={Setup3B} />
       
       {/* Main app with sidebar */}
       <Route>
