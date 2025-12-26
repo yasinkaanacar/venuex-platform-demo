@@ -719,10 +719,6 @@ export default function Setup3() {
                       <p className="text-sm text-gray-500">Connect to sync location listings and reviews</p>
                     </div>
                   </div>
-                  <div className="bg-amber-50 border border-amber-100 rounded-lg p-3 mb-4 flex items-start gap-2">
-                    <Info className="w-4 h-4 text-amber-600 mt-0.5" />
-                    <p className="text-sm text-amber-800">GBP locations should be listed under a single group</p>
-                  </div>
                   <div className="flex gap-3">
                     <button className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors">
                       <Plug size={16} /> Connect Account
