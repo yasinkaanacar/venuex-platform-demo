@@ -113,6 +113,7 @@ const stepGuides = {
       {
         heading: 'Before you connect',
         items: [
+          'Your locations must be listed under a single group in Google Business Profile',
           'Make sure your business details are accurate (name, category, address, phone, website, hours)',
           'Fix any Unverified/Suspended/Duplicate locations in GBP first',
           'Assign a unique, standardized store code to every location',
