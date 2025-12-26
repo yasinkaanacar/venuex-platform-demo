@@ -358,6 +358,11 @@ export default function Setup3B() {
   });
   const [urlSegments, setUrlSegments] = useState<string[]>([]);
   const [testimonialIndex, setTestimonialIndex] = useState(0);
+  const [checkedItems, setCheckedItems] = useState<Record<string, boolean>>({});
+
+  const toggleCheckItem = (key: string) => {
+    setCheckedItems(prev => ({ ...prev, [key]: !prev[key] }));
+  };
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -436,6 +441,8 @@ export default function Setup3B() {
             <div className="space-y-3">
               {(() => {
                 const guide = activeStep === 1 ? stepGuides.locations : activeStep === 2 ? stepGuides.sales : stepGuides.catalog;
+                const guideKey = activeStep === 1 ? 'locations' : activeStep === 2 ? 'sales' : 'catalog';
+                const isBeforeSection = (heading: string) => heading.toLowerCase().includes('before');
                 return (
                   <>
                     <h3 className="text-sm font-bold text-white mb-3">{guide.title}</h3>
@@ -443,12 +450,32 @@ export default function Setup3B() {
                       <div key={idx} className="bg-white/10 backdrop-blur-sm rounded-lg p-3 border border-white/20">
                         <h4 className="text-xs font-semibold text-white mb-2">{section.heading}</h4>
                         <ul className="space-y-1">
-                          {section.items.map((item, itemIdx) => (
-                            <li key={itemIdx} className="flex items-start gap-2 text-white/80 text-xs">
-                              <ChevronRight className="w-3 h-3 mt-0.5 flex-shrink-0" />
-                              <span>{item}</span>
-                            </li>
-                          ))}
+                          {section.items.map((item, itemIdx) => {
+                            const checkKey = `${guideKey}-${idx}-${itemIdx}`;
+                            const isChecked = checkedItems[checkKey] || false;
+                            
+                            if (isBeforeSection(section.heading)) {
+                              return (
+                                <li 
+                                  key={itemIdx} 
+                                  className="flex items-start gap-2 text-white/80 text-xs cursor-pointer hover:text-white transition-colors"
+                                  onClick={() => toggleCheckItem(checkKey)}
+                                >
+                                  <div className={`w-4 h-4 rounded border-2 flex-shrink-0 mt-0.5 flex items-center justify-center transition-all ${isChecked ? 'bg-green-500 border-green-500' : 'border-white/50'}`}>
+                                    {isChecked && <Check className="w-3 h-3 text-white" />}
+                                  </div>
+                                  <span className={isChecked ? 'line-through opacity-60' : ''}>{item}</span>
+                                </li>
+                              );
+                            }
+                            
+                            return (
+                              <li key={itemIdx} className="flex items-start gap-2 text-white/80 text-xs">
+                                <ChevronRight className="w-3 h-3 mt-0.5 flex-shrink-0" />
+                                <span>{item}</span>
+                              </li>
+                            );
+                          })}
                         </ul>
                       </div>
                     ))}
