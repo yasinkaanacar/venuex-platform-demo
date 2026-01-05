@@ -324,6 +324,11 @@ export default function Setup3B() {
   const [inviteTeamModalOpen, setInviteTeamModalOpen] = useState(false);
   const [inviteForm, setInviteForm] = useState({ firstName: '', lastName: '', email: '', role: 'Viewer' });
   const [inviteSentTo, setInviteSentTo] = useState<string | null>(null);
+  const [invitedUsers, setInvitedUsers] = useState([
+    { firstName: 'Ahmet', lastName: 'Yılmaz', email: 'ahmet@company.com', role: 'Admin', status: 'accepted' as const },
+    { firstName: 'Elif', lastName: 'Demir', email: 'elif@company.com', role: 'Manager', status: 'pending' as const },
+    { firstName: 'Mehmet', lastName: 'Kaya', email: 'mehmet@company.com', role: 'Viewer', status: 'pending' as const },
+  ]);
   const [adminMode, setAdminMode] = useState(() => {
     return localStorage.getItem('venuex_admin_mode') === 'true';
   });
@@ -401,6 +406,15 @@ export default function Setup3B() {
   };
 
   const handleSendInvite = () => {
+    if (inviteForm.email) {
+      setInvitedUsers(prev => [...prev, {
+        firstName: inviteForm.firstName || 'New',
+        lastName: inviteForm.lastName || 'User',
+        email: inviteForm.email,
+        role: inviteForm.role,
+        status: 'pending' as const
+      }]);
+    }
     const fullName = `${inviteForm.firstName} ${inviteForm.lastName}`.trim();
     setInviteSentTo(fullName || 'Team Member');
     setInviteForm({ firstName: '', lastName: '', email: '', role: 'Viewer' });
@@ -1120,6 +1134,51 @@ export default function Setup3B() {
               <Info className="w-4 h-4 text-blue-600 mt-0.5 flex-shrink-0" />
               <p className="text-xs text-blue-700">An invitation email will be sent to the provided address. The invite link expires in 7 days.</p>
             </div>
+
+            {/* Invited Users List */}
+            {invitedUsers.length > 0 && (
+              <div className="border-t border-gray-200 pt-5 mt-2">
+                <h3 className="text-sm font-medium text-gray-900 mb-3">Team Members</h3>
+                <div className="border border-gray-200 rounded-lg overflow-hidden">
+                  <table className="w-full text-sm">
+                    <thead className="bg-gray-50">
+                      <tr>
+                        <th className="text-left px-3 py-2 text-xs font-medium text-gray-500">Name</th>
+                        <th className="text-left px-3 py-2 text-xs font-medium text-gray-500">Email</th>
+                        <th className="text-left px-3 py-2 text-xs font-medium text-gray-500">Role</th>
+                        <th className="text-left px-3 py-2 text-xs font-medium text-gray-500">Status</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-gray-100">
+                      {invitedUsers.map((user, idx) => (
+                        <tr key={idx} className="hover:bg-gray-50">
+                          <td className="px-3 py-2 text-gray-900">{user.firstName} {user.lastName}</td>
+                          <td className="px-3 py-2 text-gray-600">{user.email}</td>
+                          <td className="px-3 py-2">
+                            <span className={`inline-flex px-2 py-0.5 text-xs font-medium rounded ${
+                              user.role === 'Admin' ? 'bg-purple-100 text-purple-700' :
+                              user.role === 'Manager' ? 'bg-blue-100 text-blue-700' :
+                              'bg-gray-100 text-gray-600'
+                            }`}>{user.role}</span>
+                          </td>
+                          <td className="px-3 py-2">
+                            <span className={`inline-flex items-center gap-1 px-2 py-0.5 text-xs font-medium rounded ${
+                              user.status === 'accepted' ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700'
+                            }`}>
+                              {user.status === 'accepted' ? (
+                                <><Check size={10} /> Accepted</>
+                              ) : (
+                                <><Mail size={10} /> Pending</>
+                              )}
+                            </span>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            )}
           </div>
         </DialogContent>
         <DialogActions sx={{ borderTop: '1px solid #e5e7eb', p: 2.5, gap: 1 }}>
