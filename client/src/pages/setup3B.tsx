@@ -322,12 +322,11 @@ export default function Setup3B() {
   const [salesDataModalOpen, setSalesDataModalOpen] = useState(false);
   const [dataMappingModalOpen, setDataMappingModalOpen] = useState(false);
   const [inviteTeamModalOpen, setInviteTeamModalOpen] = useState(false);
-  const [inviteForm, setInviteForm] = useState({ firstName: '', lastName: '', email: '', role: 'Viewer' });
+  const [inviteForm, setInviteForm] = useState({ firstName: '', lastName: '', email: '', role: 'Manager' });
   const [inviteSentTo, setInviteSentTo] = useState<string | null>(null);
   const [invitedUsers, setInvitedUsers] = useState([
     { firstName: 'Ahmet', lastName: 'Yılmaz', email: 'ahmet@company.com', role: 'Admin', status: 'accepted' as const },
     { firstName: 'Elif', lastName: 'Demir', email: 'elif@company.com', role: 'Manager', status: 'pending' as const },
-    { firstName: 'Mehmet', lastName: 'Kaya', email: 'mehmet@company.com', role: 'Viewer', status: 'pending' as const },
   ]);
   const [adminMode, setAdminMode] = useState(() => {
     return localStorage.getItem('venuex_admin_mode') === 'true';
@@ -417,7 +416,7 @@ export default function Setup3B() {
     }
     const fullName = `${inviteForm.firstName} ${inviteForm.lastName}`.trim();
     setInviteSentTo(fullName || 'Team Member');
-    setInviteForm({ firstName: '', lastName: '', email: '', role: 'Viewer' });
+    setInviteForm({ firstName: '', lastName: '', email: '', role: 'Manager' });
   };
 
   const addUrlSegment = () => setUrlSegments([...urlSegments, '']);
@@ -1106,11 +1105,10 @@ export default function Setup3B() {
 
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">Select Role</label>
-              <div className="grid grid-cols-3 gap-2" data-testid="select-role">
+              <div className="grid grid-cols-2 gap-2" data-testid="select-role">
                 {[
                   { value: 'Admin', icon: Shield, desc: 'Full access' },
                   { value: 'Manager', icon: Users, desc: 'Edit & manage' },
-                  { value: 'Viewer', icon: Users, desc: 'View only' },
                 ].map((role) => (
                   <button
                     key={role.value}
