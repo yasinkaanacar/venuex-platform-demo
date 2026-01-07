@@ -20,12 +20,9 @@ import {
   Users,
   UserPlus,
   ChevronRight,
-  ChevronDown,
   Zap,
   Target,
-  BarChart3,
-  Download,
-  ExternalLink
+  BarChart3
 } from 'lucide-react';
 import koctasLogo from '@assets/image_1764932445923.png';
 import venuexLogo from '@assets/venuex-logo-1000-200_1766151107474.png';
@@ -331,7 +328,6 @@ export default function Setup3B() {
     { firstName: 'Ahmet', lastName: 'Yılmaz', email: 'ahmet@company.com', role: 'Admin', status: 'accepted' as const },
     { firstName: 'Elif', lastName: 'Demir', email: 'elif@company.com', role: 'Manager', status: 'pending' as const },
   ]);
-  const [socialMediaExpanded, setSocialMediaExpanded] = useState(false);
   const [adminMode, setAdminMode] = useState(() => {
     return localStorage.getItem('venuex_admin_mode') === 'true';
   });
@@ -383,39 +379,10 @@ export default function Setup3B() {
   });
   const [urlSegments, setUrlSegments] = useState<string[]>([]);
   const [testimonialIndex, setTestimonialIndex] = useState(0);
-  const [checkedItems, setCheckedItems] = useState<Record<string, boolean>>(() => {
-    const saved = localStorage.getItem('venuex_checklist_state');
-    return saved ? JSON.parse(saved) : {};
-  });
+  const [checkedItems, setCheckedItems] = useState<Record<string, boolean>>({});
 
   const toggleCheckItem = (key: string) => {
-    setCheckedItems(prev => {
-      const newState = { ...prev, [key]: !prev[key] };
-      localStorage.setItem('venuex_checklist_state', JSON.stringify(newState));
-      return newState;
-    });
-  };
-
-  // Calculate step completion status
-  const getStepStatus = (stepIndex: number): { complete: boolean; missing: number } => {
-    if (stepIndex === 0) {
-      const required = [brandInfo.businessName, brandInfo.categories.length > 0];
-      const missing = required.filter(r => !r).length;
-      return { complete: missing === 0, missing };
-    }
-    if (stepIndex === 1) {
-      // Locations - check if GBP connected (mock: always incomplete for demo)
-      return { complete: false, missing: 1 };
-    }
-    if (stepIndex === 2) {
-      // Sales - check if data source connected (mock)
-      return { complete: false, missing: 1 };
-    }
-    if (stepIndex === 3) {
-      // Catalog - check if data source connected (mock)
-      return { complete: false, missing: 1 };
-    }
-    return { complete: false, missing: 0 };
+    setCheckedItems(prev => ({ ...prev, [key]: !prev[key] }));
   };
 
   useEffect(() => {
@@ -459,31 +426,6 @@ export default function Setup3B() {
     setUrlSegments(newSegments);
   };
   const removeUrlSegment = (index: number) => setUrlSegments(urlSegments.filter((_, i) => i !== index));
-
-  const downloadSalesTemplate = () => {
-    const csvContent = `country,conversion_name,conversion_time,conversion_value,currency,email_hash,phone_hash,store_code,order_id
-TR,purchase,2024-01-15T14:30:00+03:00,150.00,TRY,sha256_hash_here,sha256_hash_here,STORE001,ORD-12345
-TR,purchase,2024-01-15T15:45:00+03:00,250.50,TRY,sha256_hash_here,sha256_hash_here,STORE002,ORD-12346`;
-    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-    const link = document.createElement('a');
-    link.href = URL.createObjectURL(blob);
-    link.download = 'venuex_sales_template.csv';
-    link.click();
-    URL.revokeObjectURL(link.href);
-  };
-
-  const downloadCatalogTemplate = () => {
-    const csvContent = `product_id,store_code,availability,price,quantity
-SKU-001,STORE001,in_stock,149.99,25
-SKU-002,STORE001,out_of_stock,,0
-SKU-001,STORE002,in_stock,149.99,12`;
-    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-    const link = document.createElement('a');
-    link.href = URL.createObjectURL(blob);
-    link.download = 'venuex_catalog_template.csv';
-    link.click();
-    URL.revokeObjectURL(link.href);
-  };
 
   const progressPercent = Math.round(((activeStep + 1) / steps.length) * 100);
 
@@ -673,8 +615,7 @@ SKU-001,STORE002,in_stock,149.99,12`;
             <div className="flex gap-1">
               {steps.map((step, index) => {
                 const isActive = index === activeStep;
-                const stepStatus = getStepStatus(index);
-                const isCompleted = adminMode || stepStatus.complete;
+                const isCompleted = adminMode || index < activeStep;
                 const Icon = step.icon;
                 
                 return (
@@ -697,16 +638,11 @@ SKU-001,STORE002,in_stock,149.99,12`;
                     }`}>
                       {isCompleted ? <Check size={12} /> : index + 1}
                     </div>
-                    <div className="flex flex-col items-start">
-                      <div className="flex items-center gap-2">
-                        <Icon size={16} className={isActive ? 'text-white' : 'text-gray-400'} />
-                        <span className={`text-sm font-medium ${isActive ? 'text-white' : 'text-gray-700'}`}>
-                          {step.label}
-                        </span>
-                      </div>
-                      {!isCompleted && !isActive && stepStatus.missing > 0 && (
-                        <span className="text-[10px] text-orange-500 ml-6">{stepStatus.missing} required</span>
-                      )}
+                    <div className="flex items-center gap-2">
+                      <Icon size={16} className={isActive ? 'text-white' : 'text-gray-400'} />
+                      <span className={`text-sm font-medium ${isActive ? 'text-white' : 'text-gray-700'}`}>
+                        {step.label}
+                      </span>
                     </div>
                   </button>
                 );
@@ -716,25 +652,6 @@ SKU-001,STORE002,in_stock,149.99,12`;
             {/* Brand Info */}
             {activeStep === 0 && (
               <div data-testid="tab-panel-brand">
-                {/* Action CTA Banner */}
-                <div className="bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-lg p-4 mb-4 flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
-                      <Building2 className="w-5 h-5 text-blue-600" />
-                    </div>
-                    <div>
-                      <p className="text-sm font-medium text-gray-900">Complete your brand profile</p>
-                      <p className="text-xs text-gray-500">Fill in the required fields to continue setup</p>
-                    </div>
-                  </div>
-                  <button 
-                    onClick={() => setActiveStep(1)}
-                    className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-lg transition-colors flex items-center gap-2"
-                  >
-                    Continue to Locations <ChevronRight size={16} />
-                  </button>
-                </div>
-
                 <div className="bg-white rounded-lg border border-gray-200 p-6">
                   <h2 className="text-lg font-semibold text-gray-900 mb-1">Brand Information</h2>
                   <p className="text-sm text-gray-500 mb-6">Keep your brand details consistent across all platforms</p>
@@ -742,10 +659,7 @@ SKU-001,STORE002,in_stock,149.99,12`;
                   <div className="space-y-5">
                     {/* Logo */}
                     <div>
-                      <div className="flex items-center gap-2 mb-2">
-                        <label className="block text-sm font-medium text-gray-700">Logo</label>
-                        <span className="px-1.5 py-0.5 text-[10px] font-medium bg-gray-100 text-gray-500 rounded">Optional</span>
-                      </div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Logo</label>
                       <div className="border-2 border-dashed border-gray-200 rounded-lg p-6 text-center hover:border-blue-300 transition-colors cursor-pointer">
                         <ImageIcon className="w-8 h-8 text-gray-300 mx-auto mb-2" />
                         <p className="text-sm text-gray-500">Drag & drop or click to upload</p>
@@ -754,26 +668,16 @@ SKU-001,STORE002,in_stock,149.99,12`;
                     </div>
 
                     {/* Business Name */}
-                    <div>
-                      <div className="flex items-center gap-2 mb-1">
-                        <label className="block text-sm font-medium text-gray-700">Business Name</label>
-                        <span className="px-1.5 py-0.5 text-[10px] font-medium bg-red-100 text-red-600 rounded">Required</span>
-                      </div>
-                      <TextField
-                        value={brandInfo.businessName}
-                        onChange={(e) => handleBrandInfoChange('businessName', e.target.value)}
-                        fullWidth
-                        size="small"
-                        placeholder="Enter your business name"
-                      />
-                    </div>
+                    <TextField
+                      label="Business Name"
+                      value={brandInfo.businessName}
+                      onChange={(e) => handleBrandInfoChange('businessName', e.target.value)}
+                      fullWidth
+                      size="small"
+                    />
 
                     {/* Categories */}
                     <div>
-                      <div className="flex items-center gap-2 mb-1">
-                        <label className="block text-sm font-medium text-gray-700">Categories</label>
-                        <span className="px-1.5 py-0.5 text-[10px] font-medium bg-red-100 text-red-600 rounded">Required</span>
-                      </div>
                       <Autocomplete
                         multiple
                         options={categoryOptions}
@@ -784,66 +688,45 @@ SKU-001,STORE002,in_stock,149.99,12`;
                             <Chip {...getTagProps({ index })} key={option} label={option} size="small" sx={{ backgroundColor: '#dbeafe', color: '#1e40af' }} />
                           ))
                         }
-                        renderInput={(params) => <TextField {...params} placeholder="Select categories..." size="small" />}
+                        renderInput={(params) => <TextField {...params} label="Categories" placeholder="Select categories..." size="small" />}
                       />
                       <p className="text-xs text-gray-400 mt-1">First category is primary. GBP accepts 9, Apple 2, Meta 2 categories.</p>
                     </div>
 
                     {/* Description */}
-                    <div>
-                      <div className="flex items-center gap-2 mb-1">
-                        <label className="block text-sm font-medium text-gray-700">Description</label>
-                        <span className="px-1.5 py-0.5 text-[10px] font-medium bg-gray-100 text-gray-500 rounded">Optional</span>
-                      </div>
-                      <TextField
-                        value={brandInfo.description}
-                        onChange={(e) => handleBrandInfoChange('description', e.target.value)}
-                        fullWidth
-                        multiline
-                        rows={3}
-                        size="small"
-                        placeholder="Describe your business..."
-                      />
-                    </div>
+                    <TextField
+                      label="Description"
+                      value={brandInfo.description}
+                      onChange={(e) => handleBrandInfoChange('description', e.target.value)}
+                      fullWidth
+                      multiline
+                      rows={3}
+                      size="small"
+                    />
 
                     {/* Contact Info */}
                     <div className="grid grid-cols-2 gap-4">
-                      <div>
-                        <div className="flex items-center gap-2 mb-1">
-                          <label className="block text-sm font-medium text-gray-700">Email</label>
-                          <span className="px-1.5 py-0.5 text-[10px] font-medium bg-gray-100 text-gray-500 rounded">Optional</span>
-                        </div>
-                        <TextField
-                          value={brandInfo.email}
-                          onChange={(e) => handleBrandInfoChange('email', e.target.value)}
-                          fullWidth
-                          size="small"
-                          placeholder="contact@company.com"
-                          InputProps={{ startAdornment: <Mail className="w-4 h-4 text-gray-400 mr-2" /> }}
-                        />
-                      </div>
-                      <div>
-                        <div className="flex items-center gap-2 mb-1">
-                          <label className="block text-sm font-medium text-gray-700">Website</label>
-                          <span className="px-1.5 py-0.5 text-[10px] font-medium bg-gray-100 text-gray-500 rounded">Optional</span>
-                        </div>
-                        <TextField
-                          value={brandInfo.website}
-                          onChange={(e) => handleBrandInfoChange('website', e.target.value)}
-                          fullWidth
-                          size="small"
-                          placeholder="www.company.com"
-                          InputProps={{ startAdornment: <Globe className="w-4 h-4 text-gray-400 mr-2" /> }}
-                        />
-                      </div>
+                      <TextField
+                        label="Email"
+                        value={brandInfo.email}
+                        onChange={(e) => handleBrandInfoChange('email', e.target.value)}
+                        fullWidth
+                        size="small"
+                        InputProps={{ startAdornment: <Mail className="w-4 h-4 text-gray-400 mr-2" /> }}
+                      />
+                      <TextField
+                        label="Website"
+                        value={brandInfo.website}
+                        onChange={(e) => handleBrandInfoChange('website', e.target.value)}
+                        fullWidth
+                        size="small"
+                        InputProps={{ startAdornment: <Globe className="w-4 h-4 text-gray-400 mr-2" /> }}
+                      />
                     </div>
 
                     {/* Phone */}
                     <div>
-                      <div className="flex items-center gap-2 mb-1">
-                        <label className="block text-sm font-medium text-gray-700">Phone</label>
-                        <span className="px-1.5 py-0.5 text-[10px] font-medium bg-gray-100 text-gray-500 rounded">Optional</span>
-                      </div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">Phone</label>
                       <div className="flex gap-2">
                         <select
                           value={brandInfo.phoneCountryCode}
@@ -864,34 +747,23 @@ SKU-001,STORE002,in_stock,149.99,12`;
                       </div>
                     </div>
 
-                    {/* Social Media - Collapsible */}
-                    <div className="border-t border-gray-100 pt-4">
-                      <button
-                        onClick={() => setSocialMediaExpanded(!socialMediaExpanded)}
-                        className="w-full flex items-center justify-between py-2 text-left hover:bg-gray-50 rounded-lg px-2 -mx-2 transition-colors"
-                      >
-                        <div className="flex items-center gap-2">
-                          <h3 className="text-sm font-medium text-gray-700">Social Media Links</h3>
-                          <span className="px-1.5 py-0.5 text-[10px] font-medium bg-gray-100 text-gray-500 rounded">Optional</span>
-                        </div>
-                        <ChevronDown className={`w-4 h-4 text-gray-400 transition-transform ${socialMediaExpanded ? 'rotate-180' : ''}`} />
-                      </button>
-                      {socialMediaExpanded && (
-                        <div className="grid grid-cols-2 gap-3 mt-3">
-                          <TextField label="Facebook" value={brandInfo.facebook} onChange={(e) => handleBrandInfoChange('facebook', e.target.value)} fullWidth size="small" />
-                          <TextField label="Instagram" value={brandInfo.instagram} onChange={(e) => handleBrandInfoChange('instagram', e.target.value)} fullWidth size="small" />
-                          <TextField label="X (Twitter)" value={brandInfo.twitter} onChange={(e) => handleBrandInfoChange('twitter', e.target.value)} fullWidth size="small" />
-                          <TextField label="TikTok" value={brandInfo.tiktok} onChange={(e) => handleBrandInfoChange('tiktok', e.target.value)} fullWidth size="small" />
-                          <TextField label="YouTube" value={brandInfo.youtube} onChange={(e) => handleBrandInfoChange('youtube', e.target.value)} fullWidth size="small" />
-                          <TextField label="LinkedIn" value={brandInfo.linkedin} onChange={(e) => handleBrandInfoChange('linkedin', e.target.value)} fullWidth size="small" />
-                        </div>
-                      )}
+                    {/* Social Media */}
+                    <div className="border-t border-gray-100 pt-5">
+                      <h3 className="text-sm font-medium text-gray-700 mb-3">Social Media</h3>
+                      <div className="grid grid-cols-2 gap-3">
+                        <TextField label="Facebook" value={brandInfo.facebook} onChange={(e) => handleBrandInfoChange('facebook', e.target.value)} fullWidth size="small" />
+                        <TextField label="Instagram" value={brandInfo.instagram} onChange={(e) => handleBrandInfoChange('instagram', e.target.value)} fullWidth size="small" />
+                        <TextField label="X (Twitter)" value={brandInfo.twitter} onChange={(e) => handleBrandInfoChange('twitter', e.target.value)} fullWidth size="small" />
+                        <TextField label="TikTok" value={brandInfo.tiktok} onChange={(e) => handleBrandInfoChange('tiktok', e.target.value)} fullWidth size="small" />
+                        <TextField label="YouTube" value={brandInfo.youtube} onChange={(e) => handleBrandInfoChange('youtube', e.target.value)} fullWidth size="small" />
+                        <TextField label="LinkedIn" value={brandInfo.linkedin} onChange={(e) => handleBrandInfoChange('linkedin', e.target.value)} fullWidth size="small" />
+                      </div>
                     </div>
 
                     {/* Save Button */}
                     <div className="flex justify-end pt-4 border-t border-gray-100">
                       <button className="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors">
-                        Save & Continue
+                        Save Changes
                       </button>
                     </div>
                   </div>
@@ -902,22 +774,6 @@ SKU-001,STORE002,in_stock,149.99,12`;
             {/* Locations */}
             {activeStep === 1 && (
               <div data-testid="tab-panel-locations" className="space-y-4">
-                {/* Action CTA Banner */}
-                <div className="bg-gradient-to-r from-green-50 to-emerald-50 border border-green-200 rounded-lg p-4 flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
-                      <MapPin className="w-5 h-5 text-green-600" />
-                    </div>
-                    <div>
-                      <p className="text-sm font-medium text-gray-900">Connect your Google Business Profile</p>
-                      <p className="text-xs text-gray-500">This is required to sync your store locations</p>
-                    </div>
-                  </div>
-                  <button className="px-4 py-2 bg-green-600 hover:bg-green-700 text-white text-sm font-medium rounded-lg transition-colors flex items-center gap-2">
-                    <Plug size={16} /> Connect GBP
-                  </button>
-                </div>
-
                 {/* Google Business Profile */}
                 <div className="bg-white rounded-lg border border-gray-200 p-6">
                   <div className="flex items-center gap-3 mb-4">
@@ -964,25 +820,6 @@ SKU-001,STORE002,in_stock,149.99,12`;
             {/* Sales */}
             {activeStep === 2 && (
               <div data-testid="tab-panel-sales" className="space-y-4">
-                {/* Action CTA Banner */}
-                <div className="bg-gradient-to-r from-purple-50 to-violet-50 border border-purple-200 rounded-lg p-4 flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center">
-                      <ShoppingCart className="w-5 h-5 text-purple-600" />
-                    </div>
-                    <div>
-                      <p className="text-sm font-medium text-gray-900">Upload your sales data</p>
-                      <p className="text-xs text-gray-500">Download our template to format your data correctly</p>
-                    </div>
-                  </div>
-                  <button 
-                    onClick={downloadSalesTemplate}
-                    className="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white text-sm font-medium rounded-lg transition-colors flex items-center gap-2"
-                  >
-                    <Download size={16} /> Download CSV Template
-                  </button>
-                </div>
-
                 <div className="bg-white rounded-lg border border-gray-200 p-6">
                   <h2 className="text-lg font-semibold text-gray-900 mb-1">Sales Data</h2>
                   <p className="text-sm text-gray-500 mb-6">Connect your sales data sources and ad platforms</p>
@@ -1002,18 +839,6 @@ SKU-001,STORE002,in_stock,149.99,12`;
                     </button>
                   </div>
 
-                  {/* Quick Help */}
-                  <div className="bg-gray-50 rounded-lg p-4 mb-6 flex items-start gap-3">
-                    <Info className="w-5 h-5 text-gray-400 mt-0.5 flex-shrink-0" />
-                    <div>
-                      <p className="text-sm font-medium text-gray-700">Need help with data formatting?</p>
-                      <p className="text-xs text-gray-500 mt-1">Our team can assist with file setup and field mapping.</p>
-                      <button className="mt-2 text-xs text-blue-600 hover:text-blue-700 font-medium flex items-center gap-1">
-                        Contact Support <ExternalLink size={10} />
-                      </button>
-                    </div>
-                  </div>
-
                   <h3 className="font-medium text-gray-900 mb-3">Ad Platforms</h3>
                   <div className="grid grid-cols-3 gap-3">
                     {mockPlatformCards.sales.map((card) => (
@@ -1027,25 +852,6 @@ SKU-001,STORE002,in_stock,149.99,12`;
             {/* Catalog */}
             {activeStep === 3 && (
               <div data-testid="tab-panel-catalog" className="space-y-4">
-                {/* Action CTA Banner */}
-                <div className="bg-gradient-to-r from-orange-50 to-amber-50 border border-orange-200 rounded-lg p-4 flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 bg-orange-100 rounded-lg flex items-center justify-center">
-                      <Package className="w-5 h-5 text-orange-600" />
-                    </div>
-                    <div>
-                      <p className="text-sm font-medium text-gray-900">Upload your inventory data</p>
-                      <p className="text-xs text-gray-500">Download our template to format your catalog correctly</p>
-                    </div>
-                  </div>
-                  <button 
-                    onClick={downloadCatalogTemplate}
-                    className="px-4 py-2 bg-orange-600 hover:bg-orange-700 text-white text-sm font-medium rounded-lg transition-colors flex items-center gap-2"
-                  >
-                    <Download size={16} /> Download CSV Template
-                  </button>
-                </div>
-
                 <div className="bg-white rounded-lg border border-gray-200 p-6">
                   <h2 className="text-lg font-semibold text-gray-900 mb-1">Catalog Data</h2>
                   <p className="text-sm text-gray-500 mb-6">Sync your product catalog across platforms</p>
@@ -1057,18 +863,6 @@ SKU-001,STORE002,in_stock,149.99,12`;
                     <button className="flex items-center gap-2 px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors">
                       <Settings size={16} /> 2. Data Mapping
                     </button>
-                  </div>
-
-                  {/* Quick Help */}
-                  <div className="bg-gray-50 rounded-lg p-4 mb-6 flex items-start gap-3">
-                    <Info className="w-5 h-5 text-gray-400 mt-0.5 flex-shrink-0" />
-                    <div>
-                      <p className="text-sm font-medium text-gray-700">Need help with inventory setup?</p>
-                      <p className="text-xs text-gray-500 mt-1">Our team can assist with catalog integration and field mapping.</p>
-                      <button className="mt-2 text-xs text-blue-600 hover:text-blue-700 font-medium flex items-center gap-1">
-                        Contact Support <ExternalLink size={10} />
-                      </button>
-                    </div>
                   </div>
 
                   <h3 className="font-medium text-gray-900 mb-3">Catalog Platforms</h3>
