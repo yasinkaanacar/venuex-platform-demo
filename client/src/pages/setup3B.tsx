@@ -15,16 +15,16 @@ import {
   Image as ImageIcon,
   Plus,
   Shield,
-  Upload,
   Info,
   Users,
   UserPlus,
   ChevronRight,
   Zap,
   Target,
-  BarChart3
+  BarChart3,
+  ArrowRight,
+  Sparkles
 } from 'lucide-react';
-import koctasLogo from '@assets/image_1764932445923.png';
 import venuexLogo from '@assets/venuex-logo-1000-200_1766151107474.png';
 import { SiGoogle, SiMeta, SiTiktok, SiApple } from 'react-icons/si';
 import { 
@@ -53,16 +53,6 @@ const categoryOptions = [
   'Electrical supply store',
   'Tool store',
   'Garden center',
-  'Tile store',
-  'Kitchen supply store',
-  'Bathroom supply store',
-  'Lighting store',
-  'Door store',
-  'Window store',
-  'Roofing supply store',
-  'Insulation supplier',
-  'Concrete supplier',
-  'Brick supplier',
 ];
 
 type IntegrationStatus = 'connect' | 'connected' | 'coming_soon';
@@ -95,16 +85,16 @@ const mockPlatformCards: { locations: PlatformCard[]; sales: PlatformCard[]; cat
 };
 
 const steps = [
-  { id: 0, label: 'Brand Info', icon: Building2, description: 'Business details & contact' },
-  { id: 1, label: 'Locations', icon: MapPin, description: 'Connect location profiles' },
-  { id: 2, label: 'Sales', icon: ShoppingCart, description: 'Sales data & conversions' },
-  { id: 3, label: 'Catalog', icon: Package, description: 'Product catalog sync' },
+  { id: 0, label: 'Brand', icon: Building2, description: 'Identity & contact' },
+  { id: 1, label: 'Locations', icon: MapPin, description: 'Store profiles' },
+  { id: 2, label: 'Sales', icon: ShoppingCart, description: 'Conversions' },
+  { id: 3, label: 'Catalog', icon: Package, description: 'Products' },
 ];
 
 const features = [
-  { icon: MapPin, title: 'Multi-Location Management', desc: 'Manage thousands of locations from one dashboard' },
-  { icon: Target, title: 'Offline Attribution', desc: 'Connect in-store sales to digital campaigns' },
-  { icon: BarChart3, title: 'AI-Powered Insights', desc: 'Get actionable recommendations automatically' },
+  { icon: MapPin, title: 'Multi-Location', desc: 'Manage thousands of locations' },
+  { icon: Target, title: 'Attribution', desc: 'Connect store sales to ads' },
+  { icon: BarChart3, title: 'AI Insights', desc: 'Smart recommendations' },
 ];
 
 interface GuideItem {
@@ -124,112 +114,74 @@ interface StepGuide {
 
 const stepGuides: Record<string, StepGuide> = {
   locations: {
-    title: 'Locations Guide',
+    title: 'Locations',
     sections: [
       {
         heading: 'Before you connect',
         items: [
-          { text: 'Your locations must be listed under a single group in Google Business Profile', tooltip: 'All your store locations should be organized within one Business Group in GBP. This allows VenueX to import and manage them together.' },
-          { text: 'Make sure your business details are accurate (name, category, address, phone, website, hours)', tooltip: 'Accurate NAP (Name, Address, Phone) data ensures proper syncing and avoids duplicate entries across platforms.' },
-          { text: 'Fix any Unverified/Suspended/Duplicate locations in GBP first', tooltip: 'Problematic listings can cause sync failures. Resolve these issues in Google Business Profile before connecting.' },
-          { text: 'Assign a unique, standardized store code to every location', tooltip: 'Store codes link your locations to sales data. Use a consistent format like "STORE001" across all systems.' },
-          { text: 'You need Owner/Primary Owner access in GBP (Manager cannot manage access)', tooltip: 'Only Owner or Primary Owner roles can grant VenueX the necessary permissions for full integration.' }
+          { text: 'Locations under single GBP group', tooltip: 'All your store locations should be organized within one Business Group in GBP.' },
+          { text: 'Accurate business details', tooltip: 'Accurate NAP data ensures proper syncing and avoids duplicate entries.' },
+          { text: 'Fix unverified locations first', tooltip: 'Problematic listings can cause sync failures.' },
+          { text: 'Unique store codes assigned', tooltip: 'Store codes link your locations to sales data.' },
+          { text: 'Owner access in GBP', tooltip: 'Only Owner roles can grant VenueX necessary permissions.' }
         ]
       },
       {
-        heading: 'Step 1 — Your Address Data',
+        heading: 'Step 1 — Address Data',
         items: [
-          { text: 'Check consistency: Name–Address–Phone, category, hours (incl. special days), map pin, links', tooltip: 'Consistent data across all fields improves search visibility and customer trust.' },
-          { text: 'Confirm each location has a unique store code with consistent format', tooltip: 'Store codes are critical for matching sales and inventory data to specific locations.' }
+          { text: 'Check NAP consistency', tooltip: 'Consistent data improves search visibility.' },
+          { text: 'Confirm store code format', tooltip: 'Store codes are critical for matching data.' }
         ]
       },
       {
-        heading: 'Step 2 — Where to Sync',
+        heading: 'Step 2 — Platforms',
         items: [
-          { text: 'Select platforms to sync (Google, Apple, etc.)', tooltip: 'Choose which platforms you want to keep in sync with VenueX.' },
-          { text: 'Apple requires an Apple Business Connect account', tooltip: 'Create an Apple Business Connect account at business.apple.com before enabling Apple Maps sync.' }
-        ]
-      },
-      {
-        heading: 'Step 3 — Review & Connect',
-        items: [
-          { text: 'After connecting GBP, VenueX imports your locations automatically', tooltip: 'The import process typically takes a few minutes depending on the number of locations.' },
-          { text: 'Reviews can be enabled right after import', tooltip: 'Enable review monitoring to track and respond to customer reviews from one dashboard.' }
+          { text: 'Select sync platforms', tooltip: 'Choose which platforms to sync with VenueX.' },
+          { text: 'Apple needs Business Connect', tooltip: 'Create account at business.apple.com first.' }
         ]
       }
     ]
   },
   sales: {
-    title: 'Offline Sales Guide',
+    title: 'Offline Sales',
     sections: [
       {
         heading: 'Before you begin',
         items: [
-          { text: 'VenueX ingests sales files via SFTP/FTP', tooltip: 'We provide secure SFTP/FTP credentials for automated file uploads from your POS or ERP system.' },
-          { text: 'File format must be CSV (UTF-8)', tooltip: 'Use UTF-8 encoding to ensure special characters (Turkish İ, ş, ğ, etc.) are handled correctly.' },
-          { text: 'Recommended frequency: daily (minimum weekly)', tooltip: 'More frequent uploads enable faster attribution and more accurate campaign optimization.' },
-          { text: 'PII (email/phone/name) must be SHA-256 hashed on your side', tooltip: 'Hash personally identifiable information before sending. This protects customer privacy while enabling match rates.' }
+          { text: 'SFTP/FTP ingestion ready', tooltip: 'We provide secure credentials for automated uploads.' },
+          { text: 'CSV format (UTF-8)', tooltip: 'UTF-8 ensures special characters handled correctly.' },
+          { text: 'Daily frequency preferred', tooltip: 'More frequent uploads enable faster attribution.' },
+          { text: 'PII SHA-256 hashed', tooltip: 'Hash personal info to protect privacy.' }
         ]
       },
       {
         heading: 'Required Fields',
         items: [
-          { text: 'Country (ISO code), Conversion Name', tooltip: 'Use 2-letter ISO country codes (TR, US, DE). Conversion name identifies the type of sale.' },
-          { text: 'Conversion Time (ISO-8601 with timezone)', tooltip: 'Format: 2024-01-15T14:30:00+03:00. Include timezone for accurate attribution.' },
-          { text: 'Conversion Value (numeric), Currency (ISO code)', tooltip: 'Value should be numeric without symbols. Use ISO currency codes: TRY, USD, EUR.' }
-        ]
-      },
-      {
-        heading: 'Strongly Recommended',
-        items: [
-          { text: 'Email (lowercase + trimmed, then SHA-256)', tooltip: 'Normalize email: lowercase, trim spaces, then hash. Example: "User@Email.com " → "user@email.com" → hash.' },
-          { text: 'Phone (E.164 format, then SHA-256)', tooltip: 'E.164 format includes country code: +905551234567. Remove spaces and dashes before hashing.' },
-          { text: 'Store Code (must match Locations), Order ID', tooltip: 'Store codes must exactly match your location data. Order ID helps with deduplication.' }
-        ]
-      },
-      {
-        heading: 'Tips',
-        items: [
-          { text: 'Normalize identifiers BEFORE hashing', tooltip: 'Inconsistent formatting before hashing creates different hashes, reducing match rates.' },
-          { text: 'Start with a small test file to validate mapping', tooltip: 'Upload 10-50 rows first to verify field mappings are correct before sending full data.' },
-          { text: 'Backfill up to 90 days of data for pilots', tooltip: 'Historical data helps establish baseline performance and improves attribution models.' }
+          { text: 'Country, Conversion Name', tooltip: 'Use 2-letter ISO country codes.' },
+          { text: 'Conversion Time (ISO-8601)', tooltip: 'Include timezone for accurate attribution.' },
+          { text: 'Value & Currency', tooltip: 'Use ISO currency codes: TRY, USD, EUR.' }
         ]
       }
     ]
   },
   catalog: {
-    title: 'Local Inventory Guide',
+    title: 'Local Inventory',
     sections: [
       {
         heading: 'Before you begin',
         items: [
-          { text: 'You need store-level availability by Product ID + Store Code', tooltip: 'Each row should indicate which product is available at which store location.' },
-          { text: 'Product IDs must match your catalog (e.g., Merchant Center)', tooltip: 'Use the same product identifiers as in Google Merchant Center or your e-commerce platform.' },
-          { text: 'Data delivery: SFTP/FTP + CSV (UTF-8)', tooltip: 'Same secure file transfer method as sales data. Use UTF-8 encoding.' },
-          { text: 'Store Codes must match Locations/Sales exactly', tooltip: 'Mismatched store codes will prevent inventory from being associated with the correct location.' }
+          { text: 'Store-level availability data', tooltip: 'Each row indicates product availability at store.' },
+          { text: 'Product IDs match catalog', tooltip: 'Use same identifiers as Merchant Center.' },
+          { text: 'SFTP/FTP + CSV (UTF-8)', tooltip: 'Same secure transfer as sales data.' },
+          { text: 'Store codes match exactly', tooltip: 'Mismatched codes prevent association.' }
         ]
       },
       {
         heading: 'Required Fields',
         items: [
-          { text: 'Product ID (must match catalog identifier)', tooltip: 'The unique SKU or GTIN that identifies the product in your catalog system.' },
-          { text: 'Store Code', tooltip: 'The store identifier that matches your location data in VenueX.' },
-          { text: 'Availability (in_stock / out_of_stock)', tooltip: 'Simple boolean status. Use "in_stock" or "out_of_stock" as values.' }
-        ]
-      },
-      {
-        heading: 'Optional Fields',
-        items: [
-          { text: 'Price (if store price differs)', tooltip: 'Include local price only if it differs from your online/catalog price.' },
-          { text: 'Quantity', tooltip: 'Stock quantity helps with "limited availability" messaging in ads.' }
-        ]
-      },
-      {
-        heading: 'Tips',
-        items: [
-          { text: 'Confirm Product ID and Store Code formats match exactly', tooltip: 'Even small differences (spaces, case) will cause matching failures.' },
-          { text: 'Standardize availability values', tooltip: 'Use consistent values across all rows: "in_stock" not "InStock" or "available".' },
-          { text: 'Daily updates strongly recommended', tooltip: 'Frequent updates prevent showing out-of-stock items in local inventory ads.' }
+          { text: 'Product ID', tooltip: 'Unique SKU or GTIN from your catalog.' },
+          { text: 'Store Code', tooltip: 'Must match location data in VenueX.' },
+          { text: 'Availability status', tooltip: 'Use in_stock or out_of_stock values.' }
         ]
       }
     ]
@@ -238,78 +190,57 @@ const stepGuides: Record<string, StepGuide> = {
 
 const testimonials = [
   { 
-    quote: "1P mağaza verilerimizi dijital kanallarla ilişkilendirerek dijital kampanyalarımızın gerçek dönüşümlerini ölçümledik ve reklam performansımızı zirveye taşıdık.",
+    quote: "Dijital kampanyalarımızın gerçek dönüşümlerini ölçümledik ve reklam performansımızı zirveye taşıdık.",
     name: "Mehmet Emre",
-    role: "Kıdemli Pazarlama ve Kurumsal İletişim Müdürü",
+    role: "Pazarlama Müdürü",
     company: "Koçtaş",
     kpi: "4.6x",
-    kpiLabel: "Offline ROAS"
+    kpiLabel: "ROAS"
   },
   { 
-    quote: "VenueX helped us uncover the true impact of our digital campaigns on store sales—unlocking higher returns and smarter spend allocation.",
+    quote: "VenueX helped us uncover the true impact of our digital campaigns on store sales.",
     name: "Mustafa Cengiz",
-    role: "Director of Growth & Digital Marketing",
-    company: "Boyner",
-    kpi: "3x",
-    kpiLabel: "Offline ROAS"
-  },
-  { 
-    quote: "Performans ve büyüme odaklı dijital pazarlama çözümleri sunan Ingage olarak, iş ortağımız VenueX ile Koçtaş'ın omnichannel deneyimini güçlendirdik.",
-    name: "Kemal Kar",
-    role: "Teknoloji ve Ürün Direktörü",
-    company: "Ingage",
-    kpi: "+112%",
-    kpiLabel: "Mağaza Ziyareti"
-  },
-  { 
-    quote: "VenueX integrated our CRM, POS, and inventory systems with major digital platforms enabling end-to-end visibility and optimization.",
-    name: "Mustafa Cengiz",
-    role: "Director of Growth & Digital Marketing",
-    company: "Boyner",
-    kpi: "208K+",
-    kpiLabel: "Products Synced"
+    role: "Digital Director",
+    company: "MediaMarkt",
+    kpi: "2.8x",
+    kpiLabel: "Attribution"
   },
 ];
 
-interface IntegrationCardProps {
-  name: string;
-  description: string;
-  logo: string;
-  status: IntegrationStatus;
-}
-
-function IntegrationCard({ name, description, logo, status }: IntegrationCardProps) {
+function IntegrationCard({ name, description, logo, status }: PlatformCard) {
   const getLogo = () => {
+    const logoClass = "w-5 h-5";
     switch (logo) {
-      case 'google': return <SiGoogle className="w-6 h-6 text-[#4285F4]" />;
-      case 'meta': return <SiMeta className="w-6 h-6 text-[#0081FB]" />;
-      case 'tiktok': return <SiTiktok className="w-6 h-6 text-black" />;
-      case 'apple': return <SiApple className="w-6 h-6 text-black" />;
-      case 'yandex': return <div className="w-6 h-6 bg-red-500 rounded flex items-center justify-center text-white font-bold text-xs">Y</div>;
-      case 'togg': return <div className="w-6 h-6 bg-blue-600 rounded flex items-center justify-center text-white font-bold text-xs">T</div>;
-      default: return <div className="w-6 h-6 bg-gray-300 rounded" />;
+      case 'google': return <SiGoogle className={`${logoClass} text-amber-400`} />;
+      case 'meta': return <SiMeta className={`${logoClass} text-amber-400`} />;
+      case 'tiktok': return <SiTiktok className={`${logoClass} text-amber-400`} />;
+      case 'apple': return <SiApple className={`${logoClass} text-amber-400`} />;
+      default: return <Zap className={`${logoClass} text-amber-400`} />;
     }
   };
 
   return (
-    <div className="bg-white border border-gray-200 rounded-lg p-4 hover:border-blue-300 transition-all flex flex-col h-full">
-      <div className="flex items-center gap-3 mb-3 flex-1">
-        <div className="p-2 bg-gray-50 rounded-lg">{getLogo()}</div>
-        <div className="flex-1">
-          <h4 className="font-medium text-gray-900 text-sm">{name}</h4>
-          <p className="text-xs text-gray-500">{description}</p>
+    <div className="group relative bg-gradient-to-br from-zinc-900/80 to-zinc-800/60 backdrop-blur-xl border border-zinc-700/50 rounded-2xl p-5 hover:border-amber-500/40 transition-all duration-500 hover:shadow-[0_0_40px_rgba(251,191,36,0.08)]">
+      <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-amber-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+      <div className="relative flex items-start gap-4">
+        <div className="w-12 h-12 bg-zinc-800/80 rounded-xl flex items-center justify-center border border-zinc-700/50 group-hover:border-amber-500/30 transition-colors">
+          {getLogo()}
+        </div>
+        <div className="flex-1 min-w-0">
+          <h4 className="font-medium text-zinc-100 text-sm tracking-wide">{name}</h4>
+          <p className="text-xs text-zinc-500 mt-0.5 leading-relaxed">{description}</p>
         </div>
       </div>
-      <div className="mt-auto">
+      <div className="relative mt-4">
         {status === 'connected' ? (
-          <button className="flex items-center gap-1 px-3 py-1.5 bg-green-500 hover:bg-green-600 text-white text-xs font-medium rounded transition-colors">
-            <Unplug size={12} /> Disconnect
+          <button className="w-full flex items-center justify-center gap-2 px-4 py-2.5 bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-medium rounded-xl hover:bg-emerald-500/20 transition-all">
+            <Check size={14} /> Connected
           </button>
         ) : status === 'coming_soon' ? (
-          <span className="inline-flex px-2 py-1.5 bg-gray-100 text-gray-400 text-xs font-medium rounded">Coming Soon</span>
+          <span className="w-full flex items-center justify-center px-4 py-2.5 bg-zinc-800/50 text-zinc-500 text-xs font-medium rounded-xl border border-zinc-700/30">Soon</span>
         ) : (
-          <button className="flex items-center gap-1 px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white text-xs font-medium rounded transition-colors">
-            <Plug size={12} /> Connect
+          <button className="w-full flex items-center justify-center gap-2 px-4 py-2.5 bg-amber-500/10 border border-amber-500/30 text-amber-400 text-xs font-medium rounded-xl hover:bg-amber-500/20 hover:border-amber-500/50 transition-all">
+            <Plug size={14} /> Connect
           </button>
         )}
       </div>
@@ -346,22 +277,20 @@ export default function Setup3B() {
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
+
   const [brandInfo, setBrandInfo] = useState({
     businessName: 'Demo VenueX',
-    description: "That's a description box",
+    description: "Premium retail experience",
     website: 'venuex.io',
     phoneCountryCode: '+90',
     phone: '',
     email: '',
     categories: ['Building materials store', 'Hardware store'],
-    facebook: 'https://www.facebook.com/',
-    instagram: 'https://www.instagram.com/',
-    twitter: 'https://www.twitter.com/',
-    tiktok: '',
-    youtube: 'https://www.youtube.com/user/',
-    pinterest: '',
-    linkedin: '',
+    facebook: '',
+    instagram: '',
+    twitter: '',
   });
+
   const [salesConfig, setSalesConfig] = useState({
     dataSourceType: 'HTTP',
     fileUrlType: 'File URL',
@@ -377,6 +306,7 @@ export default function Setup3B() {
     password: '',
     privateKey: '',
   });
+
   const [urlSegments, setUrlSegments] = useState<string[]>([]);
   const [testimonialIndex, setTestimonialIndex] = useState(0);
   const [checkedItems, setCheckedItems] = useState<Record<string, boolean>>({});
@@ -388,9 +318,11 @@ export default function Setup3B() {
   useEffect(() => {
     const interval = setInterval(() => {
       setTestimonialIndex((prev) => (prev + 1) % testimonials.length);
-    }, 10000);
+    }, 6000);
     return () => clearInterval(interval);
   }, []);
+
+  const progressPercent = Math.round(((activeStep) / steps.length) * 100);
 
   const handleBrandInfoChange = (field: string, value: string | string[]) => {
     setBrandInfo(prev => ({ ...prev, [field]: value }));
@@ -427,59 +359,128 @@ export default function Setup3B() {
   };
   const removeUrlSegment = (index: number) => setUrlSegments(urlSegments.filter((_, i) => i !== index));
 
-  const progressPercent = Math.round(((activeStep + 1) / steps.length) * 100);
-
   return (
-    <div className="min-h-screen flex">
-      {/* Left Side - Branding & Features */}
-      <div className="hidden lg:flex lg:w-[400px] bg-gradient-to-br from-blue-600 via-indigo-600 to-purple-700 p-10 flex-col relative overflow-hidden flex-shrink-0 sticky top-0 h-screen">
-        {/* Background Pattern */}
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-20 left-20 w-72 h-72 bg-white rounded-full blur-3xl" />
-          <div className="absolute bottom-20 right-20 w-96 h-96 bg-white rounded-full blur-3xl" />
-        </div>
+    <div className="flex min-h-screen bg-zinc-950">
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Crimson+Pro:ital,wght@0,400;0,500;1,400&display=swap');
+        
+        .font-display { font-family: 'Outfit', sans-serif; }
+        .font-editorial { font-family: 'Crimson Pro', serif; }
+        
+        @keyframes float {
+          0%, 100% { transform: translateY(0px); }
+          50% { transform: translateY(-10px); }
+        }
+        
+        @keyframes pulse-glow {
+          0%, 100% { box-shadow: 0 0 20px rgba(251,191,36,0.1); }
+          50% { box-shadow: 0 0 40px rgba(251,191,36,0.2); }
+        }
+        
+        @keyframes grain {
+          0%, 100% { transform: translate(0, 0); }
+          10% { transform: translate(-5%, -10%); }
+          30% { transform: translate(3%, -15%); }
+          50% { transform: translate(12%, 9%); }
+          70% { transform: translate(9%, 4%); }
+          90% { transform: translate(-1%, 7%); }
+        }
+        
+        .noise-overlay::before {
+          content: '';
+          position: absolute;
+          inset: 0;
+          background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+          opacity: 0.03;
+          pointer-events: none;
+          animation: grain 8s steps(10) infinite;
+        }
+        
+        .stagger-1 { animation-delay: 0.1s; }
+        .stagger-2 { animation-delay: 0.2s; }
+        .stagger-3 { animation-delay: 0.3s; }
+        .stagger-4 { animation-delay: 0.4s; }
+        
+        @keyframes fadeSlideUp {
+          from { opacity: 0; transform: translateY(20px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .animate-fade-slide {
+          animation: fadeSlideUp 0.6s ease-out forwards;
+          opacity: 0;
+        }
+        
+        .glass-card {
+          background: linear-gradient(135deg, rgba(39,39,42,0.6) 0%, rgba(24,24,27,0.8) 100%);
+          backdrop-filter: blur(20px);
+          border: 1px solid rgba(113,113,122,0.2);
+        }
+        
+        .input-luxury {
+          background: rgba(39,39,42,0.5);
+          border: 1px solid rgba(113,113,122,0.3);
+          transition: all 0.3s ease;
+        }
+        
+        .input-luxury:focus {
+          border-color: rgba(251,191,36,0.5);
+          box-shadow: 0 0 0 3px rgba(251,191,36,0.1);
+          outline: none;
+        }
+      `}</style>
+
+      {/* Left Panel - Luxury Dark */}
+      <div className="w-[420px] bg-zinc-950 relative overflow-hidden flex flex-col p-8 noise-overlay sticky top-0 h-screen">
+        {/* Ambient glow */}
+        <div className="absolute top-0 right-0 w-96 h-96 bg-amber-500/10 rounded-full blur-[120px] pointer-events-none" />
+        <div className="absolute bottom-0 left-0 w-72 h-72 bg-amber-600/5 rounded-full blur-[100px] pointer-events-none" />
+        
+        {/* Decorative line */}
+        <div className="absolute left-0 top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-amber-500/30 to-transparent" />
         
         {/* Logo */}
-        <div className="relative z-10 mb-8">
-          <div className="flex items-center gap-3">
-            <img src={venuexLogo} alt="VenueX" className="w-40" />
-          </div>
+        <div className="relative z-10 mb-12 animate-fade-slide">
+          <img src={venuexLogo} alt="VenueX" className="w-36 opacity-90" />
           {activeStep === 0 && (
-            <p className="mt-3 text-sm text-white/80">
+            <p className="mt-4 text-sm text-zinc-500 font-display leading-relaxed max-w-[280px]">
               Connect your in-store data with digital advertising for unprecedented insights.
             </p>
           )}
         </div>
 
-        {/* Features or Step Guide */}
+        {/* Content Area */}
         <div className="relative z-10 flex-1 overflow-y-auto">
           {activeStep === 0 ? (
-            <div className="space-y-5">
+            <div className="space-y-6">
               {features.map((feature, index) => (
-                <div key={index} className="flex items-start gap-3">
-                  <div className="w-10 h-10 bg-white/20 backdrop-blur-sm rounded-xl flex items-center justify-center flex-shrink-0">
-                    <feature.icon className="w-5 h-5 text-white" />
+                <div 
+                  key={index} 
+                  className={`animate-fade-slide stagger-${index + 1} group flex items-start gap-4 p-4 rounded-2xl hover:bg-zinc-900/50 transition-all duration-300 cursor-default`}
+                >
+                  <div className="w-12 h-12 bg-gradient-to-br from-amber-500/20 to-amber-600/10 rounded-xl flex items-center justify-center border border-amber-500/20 group-hover:border-amber-500/40 transition-colors">
+                    <feature.icon className="w-5 h-5 text-amber-400" />
                   </div>
                   <div>
-                    <h3 className="text-sm font-semibold text-white">{feature.title}</h3>
-                    <p className="text-white/70 text-xs">{feature.desc}</p>
+                    <h3 className="text-sm font-display font-medium text-zinc-200 tracking-wide">{feature.title}</h3>
+                    <p className="text-zinc-500 text-xs mt-1 font-display">{feature.desc}</p>
                   </div>
                 </div>
               ))}
             </div>
           ) : (
-            <div className="space-y-3">
+            <div className="space-y-4 animate-fade-slide">
               {(() => {
                 const guide = activeStep === 1 ? stepGuides.locations : activeStep === 2 ? stepGuides.sales : stepGuides.catalog;
                 const guideKey = activeStep === 1 ? 'locations' : activeStep === 2 ? 'sales' : 'catalog';
                 const isBeforeSection = (heading: string) => heading.toLowerCase().includes('before');
                 return (
                   <>
-                    <h3 className="text-sm font-bold text-white mb-3">{guide.title}</h3>
+                    <h3 className="text-xs font-display font-semibold text-amber-400 tracking-[0.2em] uppercase mb-4">{guide.title}</h3>
                     {guide.sections.map((section, idx) => (
-                      <div key={idx} className="bg-white/10 backdrop-blur-sm rounded-lg p-3 border border-white/20">
-                        <h4 className="text-xs font-semibold text-white mb-2">{section.heading}</h4>
-                        <ul className="space-y-1">
+                      <div key={idx} className="glass-card rounded-2xl p-4 mb-3">
+                        <h4 className="text-xs font-display font-medium text-zinc-300 mb-3 tracking-wide">{section.heading}</h4>
+                        <ul className="space-y-2">
                           {section.items.map((item, itemIdx) => {
                             const checkKey = `${guideKey}-${idx}-${itemIdx}`;
                             const isChecked = checkedItems[checkKey] || false;
@@ -488,18 +489,18 @@ export default function Setup3B() {
                               return (
                                 <li 
                                   key={itemIdx}
-                                  className="flex items-start gap-2 text-white/80 text-xs"
+                                  className="flex items-start gap-3 text-zinc-400 text-xs font-display group"
                                 >
-                                  <div 
-                                    className={`w-4 h-4 rounded border-2 flex-shrink-0 mt-0.5 flex items-center justify-center transition-all cursor-pointer ${isChecked ? 'bg-green-500 border-green-500' : 'border-white/50 hover:border-white'}`}
+                                  <button 
+                                    className={`w-4 h-4 rounded-md border flex-shrink-0 mt-0.5 flex items-center justify-center transition-all ${isChecked ? 'bg-amber-500 border-amber-500' : 'border-zinc-600 hover:border-amber-500/50'}`}
                                     onClick={() => toggleCheckItem(checkKey)}
                                   >
-                                    {isChecked && <Check className="w-3 h-3 text-white" />}
-                                  </div>
-                                  <span className={`flex-1 ${isChecked ? 'line-through opacity-60' : ''}`}>{item.text}</span>
+                                    {isChecked && <Check className="w-2.5 h-2.5 text-zinc-900" />}
+                                  </button>
+                                  <span className={`flex-1 leading-relaxed ${isChecked ? 'line-through text-zinc-600' : ''}`}>{item.text}</span>
                                   <Tooltip title={item.tooltip} arrow placement="right">
-                                    <button className="w-4 h-4 rounded-full bg-white/20 hover:bg-white/30 flex items-center justify-center flex-shrink-0 transition-colors">
-                                      <Info className="w-2.5 h-2.5 text-white" />
+                                    <button className="w-4 h-4 rounded-full bg-zinc-800 hover:bg-amber-500/20 flex items-center justify-center flex-shrink-0 opacity-0 group-hover:opacity-100 transition-all">
+                                      <Info className="w-2.5 h-2.5 text-zinc-500" />
                                     </button>
                                   </Tooltip>
                                 </li>
@@ -507,9 +508,9 @@ export default function Setup3B() {
                             }
                             
                             return (
-                              <li key={itemIdx} className="flex items-start gap-2 text-white/80 text-xs">
-                                <ChevronRight className="w-3 h-3 mt-0.5 flex-shrink-0" />
-                                <span>{item.text}</span>
+                              <li key={itemIdx} className="flex items-start gap-3 text-zinc-400 text-xs font-display">
+                                <ChevronRight className="w-3 h-3 mt-0.5 flex-shrink-0 text-amber-500/50" />
+                                <span className="leading-relaxed">{item.text}</span>
                               </li>
                             );
                           })}
@@ -523,34 +524,31 @@ export default function Setup3B() {
           )}
         </div>
 
-        {/* Testimonial Carousel - only on Brand Info */}
+        {/* Testimonial */}
         {activeStep === 0 && (
-          <div className="relative z-10 mt-8">
-            <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4 border border-white/20 transition-all duration-500 min-h-[140px]">
-              <div className="flex items-center justify-between mb-3">
-                <div className="flex items-center gap-2">
-                  <div className="w-8 h-8 bg-white rounded-lg flex items-center justify-center overflow-hidden">
-                    <span className="text-xs font-bold text-blue-600">{testimonials[testimonialIndex].company.charAt(0)}</span>
-                  </div>
-                  <div>
-                    <p className="text-white font-medium text-xs">{testimonials[testimonialIndex].name}</p>
-                    <p className="text-white/60 text-[10px]">{testimonials[testimonialIndex].role}, {testimonials[testimonialIndex].company}</p>
-                  </div>
+          <div className="relative z-10 mt-8 animate-fade-slide stagger-4">
+            <div className="glass-card rounded-2xl p-5 transition-all duration-700">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-10 h-10 bg-gradient-to-br from-amber-400 to-amber-600 rounded-full flex items-center justify-center">
+                  <span className="text-sm font-display font-bold text-zinc-900">{testimonials[testimonialIndex].company.charAt(0)}</span>
+                </div>
+                <div className="flex-1">
+                  <p className="text-zinc-200 font-display text-sm font-medium">{testimonials[testimonialIndex].name}</p>
+                  <p className="text-zinc-500 text-xs font-display">{testimonials[testimonialIndex].role}</p>
                 </div>
                 <div className="text-right">
-                  <p className="text-white font-bold text-lg">{testimonials[testimonialIndex].kpi}</p>
-                  <p className="text-white/60 text-[10px]">{testimonials[testimonialIndex].kpiLabel}</p>
+                  <p className="text-amber-400 font-display font-bold text-xl">{testimonials[testimonialIndex].kpi}</p>
+                  <p className="text-zinc-600 text-[10px] font-display uppercase tracking-wider">{testimonials[testimonialIndex].kpiLabel}</p>
                 </div>
               </div>
-              <p className="text-white/90 italic text-xs">"{testimonials[testimonialIndex].quote}"</p>
+              <p className="text-zinc-400 font-editorial italic text-sm leading-relaxed">"{testimonials[testimonialIndex].quote}"</p>
             </div>
-            {/* Carousel Dots */}
-            <div className="flex justify-center gap-1.5 mt-3">
+            <div className="flex justify-center gap-2 mt-4">
               {testimonials.map((_, idx) => (
                 <button
                   key={idx}
                   onClick={() => setTestimonialIndex(idx)}
-                  className={`w-2 h-2 rounded-full transition-all ${idx === testimonialIndex ? 'bg-white w-4' : 'bg-white/40'}`}
+                  className={`h-1 rounded-full transition-all duration-300 ${idx === testimonialIndex ? 'w-6 bg-amber-500' : 'w-2 bg-zinc-700 hover:bg-zinc-600'}`}
                 />
               ))}
             </div>
@@ -559,125 +557,143 @@ export default function Setup3B() {
       </div>
 
       {/* Right Side - Setup Content */}
-      <div className="flex-1 bg-gray-50 overflow-y-auto h-screen">
-        {/* Page Header */}
-      <div className="bg-white border-b border-gray-200 px-6 py-4 sticky top-0 z-10">
-        <div className="flex items-center justify-between">
-          <div>
-            <div className="flex items-center gap-2 mb-1">
-              <span className="px-2 py-0.5 bg-blue-100 text-blue-700 text-xs font-medium rounded">#{integrationId}</span>
-              <span className="text-gray-400">•</span>
-              <span className="text-sm text-gray-600">{companyName}</span>
-            </div>
-            <h1 className="text-xl font-semibold text-gray-900">Account Setup</h1>
-          </div>
-          <div className="flex items-center gap-3">
-            {adminMode && (
-              <button
-                onClick={() => {
-                  setAdminMode(false);
-                  localStorage.setItem('venuex_admin_mode', 'false');
-                }}
-                className="flex items-center gap-1.5 px-2 py-1 text-xs font-medium text-orange-700 bg-orange-100 border border-orange-200 rounded-lg hover:bg-orange-200 transition-all"
-                title="Admin Mode aktif - tüm adımları atlayabilirsiniz. Kapatmak için tıklayın veya Ctrl+Shift+A"
-                data-testid="admin-mode-badge"
-              >
-                <Shield size={12} />
-                Admin
-              </button>
-            )}
-            <div className="text-right mr-4">
-              <span className="text-sm text-gray-500">Progress</span>
-              <div className="flex items-center gap-2">
-                <div className="w-24 h-2 bg-gray-200 rounded-full overflow-hidden">
-                  <div className="h-full bg-blue-600 rounded-full transition-all" style={{ width: `${adminMode ? 100 : progressPercent}%` }} />
-                </div>
-                <span className="text-sm font-medium text-blue-600">{adminMode ? 100 : progressPercent}%</span>
+      <div className="flex-1 bg-zinc-900 overflow-y-auto h-screen">
+        {/* Header */}
+        <div className="bg-zinc-900/95 backdrop-blur-xl border-b border-zinc-800 px-8 py-5 sticky top-0 z-10">
+          <div className="flex items-center justify-between max-w-4xl mx-auto">
+            <div>
+              <div className="flex items-center gap-3 mb-1">
+                <span className="px-2.5 py-1 bg-amber-500/10 text-amber-400 text-xs font-display font-medium rounded-lg border border-amber-500/20">#{integrationId}</span>
+                <span className="text-zinc-600">•</span>
+                <span className="text-sm text-zinc-400 font-display">{companyName}</span>
               </div>
+              <h1 className="text-xl font-display font-semibold text-zinc-100 tracking-tight">Account Setup</h1>
             </div>
-            <button
-              onClick={() => setInviteTeamModalOpen(true)}
-              className="flex items-center gap-2 px-3 py-2 text-sm text-gray-600 hover:text-gray-900 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 transition-all"
-              data-testid="button-invite-team"
-            >
-              <Users size={16} />
-              Invite Team
-            </button>
+            <div className="flex items-center gap-4">
+              {adminMode && (
+                <button
+                  onClick={() => {
+                    setAdminMode(false);
+                    localStorage.setItem('venuex_admin_mode', 'false');
+                  }}
+                  className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-display font-medium text-amber-400 bg-amber-500/10 border border-amber-500/20 rounded-lg hover:bg-amber-500/20 transition-all"
+                  data-testid="admin-mode-badge"
+                >
+                  <Shield size={12} />
+                  Admin
+                </button>
+              )}
+              <div className="text-right mr-2">
+                <span className="text-xs text-zinc-500 font-display uppercase tracking-wider">Progress</span>
+                <div className="flex items-center gap-3 mt-1">
+                  <div className="w-28 h-1.5 bg-zinc-800 rounded-full overflow-hidden">
+                    <div className="h-full bg-gradient-to-r from-amber-500 to-amber-400 rounded-full transition-all duration-500" style={{ width: `${adminMode ? 100 : progressPercent}%` }} />
+                  </div>
+                  <span className="text-sm font-display font-medium text-amber-400">{adminMode ? 100 : progressPercent}%</span>
+                </div>
+              </div>
+              <button
+                onClick={() => setInviteTeamModalOpen(true)}
+                className="flex items-center gap-2 px-4 py-2.5 text-sm font-display text-zinc-300 bg-zinc-800 border border-zinc-700 rounded-xl hover:bg-zinc-700 hover:border-zinc-600 transition-all"
+                data-testid="button-invite-team"
+              >
+                <Users size={16} />
+                Invite
+              </button>
+            </div>
           </div>
         </div>
-      </div>
 
-      {/* Main Content */}
-      <div className="p-6">
-        <div className="max-w-4xl mx-auto">
-          {/* Horizontal Step Tabs */}
-          <div className="bg-white rounded-lg border border-gray-200 p-1 mb-6">
-            <div className="flex gap-1">
-              {steps.map((step, index) => {
-                const isActive = index === activeStep;
-                const isCompleted = adminMode || index < activeStep;
-                const Icon = step.icon;
-                
-                return (
-                  <button
-                    key={step.id}
-                    onClick={() => setActiveStep(index)}
-                    className={`flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-lg transition-all ${
-                      isActive 
-                        ? 'bg-blue-600 text-white' 
-                        : 'hover:bg-gray-50 text-gray-600'
-                    }`}
-                    data-testid={`step-tab-${index}`}
-                  >
-                    <div className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-medium ${
-                      isCompleted 
-                        ? 'bg-green-500 text-white' 
-                        : isActive 
-                          ? 'bg-white text-blue-600' 
-                          : 'bg-gray-100 text-gray-500'
-                    }`}>
-                      {isCompleted ? <Check size={12} /> : index + 1}
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <Icon size={16} className={isActive ? 'text-white' : 'text-gray-400'} />
-                      <span className={`text-sm font-medium ${isActive ? 'text-white' : 'text-gray-700'}`}>
-                        {step.label}
-                      </span>
-                    </div>
-                  </button>
-                );
-              })}
+        {/* Main Content */}
+        <div className="p-8">
+          <div className="max-w-4xl mx-auto">
+            {/* Step Navigation */}
+            <div className="glass-card rounded-2xl p-2 mb-8">
+              <div className="flex gap-2">
+                {steps.map((step, index) => {
+                  const isActive = index === activeStep;
+                  const isCompleted = adminMode || index < activeStep;
+                  const Icon = step.icon;
+                  
+                  return (
+                    <button
+                      key={step.id}
+                      onClick={() => setActiveStep(index)}
+                      className={`flex-1 flex items-center justify-center gap-3 px-5 py-4 rounded-xl transition-all duration-300 ${
+                        isActive 
+                          ? 'bg-gradient-to-r from-amber-500 to-amber-400 text-zinc-900 shadow-lg shadow-amber-500/20' 
+                          : 'hover:bg-zinc-800/50 text-zinc-400'
+                      }`}
+                      data-testid={`step-tab-${index}`}
+                    >
+                      <div className={`w-7 h-7 rounded-lg flex items-center justify-center text-xs font-display font-semibold ${
+                        isCompleted 
+                          ? 'bg-emerald-500 text-white' 
+                          : isActive 
+                            ? 'bg-zinc-900/30 text-amber-900' 
+                            : 'bg-zinc-800 text-zinc-500'
+                      }`}>
+                        {isCompleted ? <Check size={14} /> : index + 1}
+                      </div>
+                      <div className="text-left">
+                        <span className={`text-sm font-display font-medium block ${isActive ? 'text-zinc-900' : 'text-zinc-300'}`}>
+                          {step.label}
+                        </span>
+                        <span className={`text-[10px] font-display ${isActive ? 'text-zinc-800' : 'text-zinc-500'}`}>
+                          {step.description}
+                        </span>
+                      </div>
+                    </button>
+                  );
+                })}
+              </div>
             </div>
-          </div>
+
             {/* Brand Info */}
             {activeStep === 0 && (
-              <div data-testid="tab-panel-brand">
-                <div className="bg-white rounded-lg border border-gray-200 p-6">
-                  <h2 className="text-lg font-semibold text-gray-900 mb-1">Brand Information</h2>
-                  <p className="text-sm text-gray-500 mb-6">Keep your brand details consistent across all platforms</p>
-                  
-                  <div className="space-y-5">
-                    {/* Logo */}
+              <div data-testid="tab-panel-brand" className="animate-fade-slide">
+                <div className="glass-card rounded-2xl p-8">
+                  <div className="flex items-center gap-3 mb-6">
+                    <Sparkles className="w-5 h-5 text-amber-400" />
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Logo</label>
-                      <div className="border-2 border-dashed border-gray-200 rounded-lg p-6 text-center hover:border-blue-300 transition-colors cursor-pointer">
-                        <ImageIcon className="w-8 h-8 text-gray-300 mx-auto mb-2" />
-                        <p className="text-sm text-gray-500">Drag & drop or click to upload</p>
-                        <p className="text-xs text-gray-400 mt-1">JPG, PNG, GIF (min 250x250px)</p>
+                      <h2 className="text-lg font-display font-semibold text-zinc-100">Brand Identity</h2>
+                      <p className="text-sm text-zinc-500 font-display">Keep your brand consistent across platforms</p>
+                    </div>
+                  </div>
+                  
+                  <div className="space-y-6">
+                    <div>
+                      <label className="block text-xs font-display font-medium text-zinc-400 mb-2 uppercase tracking-wider">Logo</label>
+                      <div className="border-2 border-dashed border-zinc-700 rounded-2xl p-8 text-center hover:border-amber-500/40 transition-colors cursor-pointer group">
+                        <ImageIcon className="w-10 h-10 text-zinc-600 mx-auto mb-3 group-hover:text-amber-500/50 transition-colors" />
+                        <p className="text-sm text-zinc-400 font-display">Drop your logo here</p>
+                        <p className="text-xs text-zinc-600 mt-1 font-display">PNG, JPG, SVG up to 2MB</p>
                       </div>
                     </div>
 
-                    {/* Business Name */}
-                    <TextField
-                      label="Business Name"
-                      value={brandInfo.businessName}
-                      onChange={(e) => handleBrandInfoChange('businessName', e.target.value)}
-                      fullWidth
-                      size="small"
-                    />
+                    <div className="grid grid-cols-2 gap-5">
+                      <div>
+                        <label className="block text-xs font-display font-medium text-zinc-400 mb-2 uppercase tracking-wider">Business Name</label>
+                        <input
+                          type="text"
+                          value={brandInfo.businessName}
+                          onChange={(e) => handleBrandInfoChange('businessName', e.target.value)}
+                          className="w-full px-4 py-3 input-luxury rounded-xl text-zinc-200 font-display text-sm"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-xs font-display font-medium text-zinc-400 mb-2 uppercase tracking-wider">Website</label>
+                        <input
+                          type="text"
+                          value={brandInfo.website}
+                          onChange={(e) => handleBrandInfoChange('website', e.target.value)}
+                          className="w-full px-4 py-3 input-luxury rounded-xl text-zinc-200 font-display text-sm"
+                        />
+                      </div>
+                    </div>
 
-                    {/* Categories */}
                     <div>
+                      <label className="block text-xs font-display font-medium text-zinc-400 mb-2 uppercase tracking-wider">Categories</label>
                       <Autocomplete
                         multiple
                         options={categoryOptions}
@@ -685,85 +701,42 @@ export default function Setup3B() {
                         onChange={(_, newValue) => handleBrandInfoChange('categories', newValue)}
                         renderTags={(value, getTagProps) =>
                           value.map((option, index) => (
-                            <Chip {...getTagProps({ index })} key={option} label={option} size="small" sx={{ backgroundColor: '#dbeafe', color: '#1e40af' }} />
+                            <Chip {...getTagProps({ index })} key={option} label={option} size="small" sx={{ backgroundColor: 'rgba(251,191,36,0.15)', color: '#fbbf24', border: '1px solid rgba(251,191,36,0.3)', fontFamily: 'Outfit' }} />
                           ))
                         }
-                        renderInput={(params) => <TextField {...params} label="Categories" placeholder="Select categories..." size="small" />}
-                      />
-                      <p className="text-xs text-gray-400 mt-1">First category is primary. GBP accepts 9, Apple 2, Meta 2 categories.</p>
-                    </div>
-
-                    {/* Description */}
-                    <TextField
-                      label="Description"
-                      value={brandInfo.description}
-                      onChange={(e) => handleBrandInfoChange('description', e.target.value)}
-                      fullWidth
-                      multiline
-                      rows={3}
-                      size="small"
-                    />
-
-                    {/* Contact Info */}
-                    <div className="grid grid-cols-2 gap-4">
-                      <TextField
-                        label="Email"
-                        value={brandInfo.email}
-                        onChange={(e) => handleBrandInfoChange('email', e.target.value)}
-                        fullWidth
-                        size="small"
-                        InputProps={{ startAdornment: <Mail className="w-4 h-4 text-gray-400 mr-2" /> }}
-                      />
-                      <TextField
-                        label="Website"
-                        value={brandInfo.website}
-                        onChange={(e) => handleBrandInfoChange('website', e.target.value)}
-                        fullWidth
-                        size="small"
-                        InputProps={{ startAdornment: <Globe className="w-4 h-4 text-gray-400 mr-2" /> }}
+                        renderInput={(params) => (
+                          <TextField 
+                            {...params} 
+                            placeholder="Select categories..." 
+                            size="small"
+                            sx={{
+                              '& .MuiOutlinedInput-root': {
+                                backgroundColor: 'rgba(39,39,42,0.5)',
+                                borderRadius: '12px',
+                                '& fieldset': { borderColor: 'rgba(113,113,122,0.3)' },
+                                '&:hover fieldset': { borderColor: 'rgba(251,191,36,0.4)' },
+                                '&.Mui-focused fieldset': { borderColor: 'rgba(251,191,36,0.5)' },
+                              },
+                              '& .MuiInputBase-input': { color: '#e4e4e7', fontFamily: 'Outfit' },
+                            }}
+                          />
+                        )}
                       />
                     </div>
 
-                    {/* Phone */}
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">Phone</label>
-                      <div className="flex gap-2">
-                        <select
-                          value={brandInfo.phoneCountryCode}
-                          onChange={(e) => handleBrandInfoChange('phoneCountryCode', e.target.value)}
-                          className="w-20 px-2 py-2 border border-gray-300 rounded-lg text-sm"
-                        >
-                          <option value="+90">+90</option>
-                          <option value="+1">+1</option>
-                          <option value="+44">+44</option>
-                        </select>
-                        <TextField
-                          value={brandInfo.phone}
-                          onChange={(e) => handleBrandInfoChange('phone', e.target.value)}
-                          fullWidth
-                          size="small"
-                          placeholder="Phone number"
-                        />
-                      </div>
+                      <label className="block text-xs font-display font-medium text-zinc-400 mb-2 uppercase tracking-wider">Description</label>
+                      <textarea
+                        value={brandInfo.description}
+                        onChange={(e) => handleBrandInfoChange('description', e.target.value)}
+                        rows={3}
+                        className="w-full px-4 py-3 input-luxury rounded-xl text-zinc-200 font-display text-sm resize-none"
+                      />
                     </div>
 
-                    {/* Social Media */}
-                    <div className="border-t border-gray-100 pt-5">
-                      <h3 className="text-sm font-medium text-gray-700 mb-3">Social Media</h3>
-                      <div className="grid grid-cols-2 gap-3">
-                        <TextField label="Facebook" value={brandInfo.facebook} onChange={(e) => handleBrandInfoChange('facebook', e.target.value)} fullWidth size="small" />
-                        <TextField label="Instagram" value={brandInfo.instagram} onChange={(e) => handleBrandInfoChange('instagram', e.target.value)} fullWidth size="small" />
-                        <TextField label="X (Twitter)" value={brandInfo.twitter} onChange={(e) => handleBrandInfoChange('twitter', e.target.value)} fullWidth size="small" />
-                        <TextField label="TikTok" value={brandInfo.tiktok} onChange={(e) => handleBrandInfoChange('tiktok', e.target.value)} fullWidth size="small" />
-                        <TextField label="YouTube" value={brandInfo.youtube} onChange={(e) => handleBrandInfoChange('youtube', e.target.value)} fullWidth size="small" />
-                        <TextField label="LinkedIn" value={brandInfo.linkedin} onChange={(e) => handleBrandInfoChange('linkedin', e.target.value)} fullWidth size="small" />
-                      </div>
-                    </div>
-
-                    {/* Save Button */}
-                    <div className="flex justify-end pt-4 border-t border-gray-100">
-                      <button className="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors">
-                        Save Changes
+                    <div className="flex justify-end pt-4 border-t border-zinc-800">
+                      <button className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-amber-500 to-amber-400 hover:from-amber-400 hover:to-amber-300 text-zinc-900 font-display font-medium rounded-xl transition-all shadow-lg shadow-amber-500/20">
+                        Continue <ArrowRight size={16} />
                       </button>
                     </div>
                   </div>
@@ -773,42 +746,30 @@ export default function Setup3B() {
 
             {/* Locations */}
             {activeStep === 1 && (
-              <div data-testid="tab-panel-locations" className="space-y-4">
-                {/* Google Business Profile */}
-                <div className="bg-white rounded-lg border border-gray-200 p-6">
-                  <div className="flex items-center gap-3 mb-4">
-                    <SiGoogle className="w-6 h-6 text-[#4285F4]" />
+              <div data-testid="tab-panel-locations" className="space-y-5 animate-fade-slide">
+                <div className="glass-card rounded-2xl p-6">
+                  <div className="flex items-center gap-4 mb-5">
+                    <div className="w-14 h-14 bg-gradient-to-br from-blue-500/20 to-blue-600/10 rounded-2xl flex items-center justify-center border border-blue-500/20">
+                      <SiGoogle className="w-6 h-6 text-blue-400" />
+                    </div>
                     <div>
-                      <h3 className="font-semibold text-gray-900">Google Business Profile</h3>
-                      <p className="text-sm text-gray-500">Connect to sync location listings and reviews</p>
+                      <h3 className="font-display font-semibold text-zinc-100">Google Business Profile</h3>
+                      <p className="text-sm text-zinc-500 font-display">Sync location listings and reviews</p>
                     </div>
                   </div>
                   <div className="flex gap-3">
-                    <button className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors">
+                    <button className="flex items-center gap-2 px-5 py-3 bg-gradient-to-r from-amber-500 to-amber-400 text-zinc-900 font-display font-medium rounded-xl transition-all shadow-lg shadow-amber-500/20 hover:shadow-amber-500/30">
                       <Plug size={16} /> Connect Account
                     </button>
-                    <button className="flex items-center gap-2 px-4 py-2 bg-white border border-gray-200 text-gray-700 font-medium rounded-lg hover:bg-gray-50 transition-colors">
+                    <button className="flex items-center gap-2 px-5 py-3 bg-zinc-800 border border-zinc-700 text-zinc-300 font-display font-medium rounded-xl hover:bg-zinc-700 transition-all">
                       Activate Reviews
                     </button>
                   </div>
                 </div>
 
-                {/* Check Location Data */}
-                <div className="bg-white rounded-lg border border-gray-200 p-6">
-                  <div className="flex items-center gap-3 mb-3">
-                    <Database className="w-5 h-5 text-blue-600" />
-                    <h3 className="font-semibold text-gray-900">Verify Location Data</h3>
-                  </div>
-                  <p className="text-sm text-gray-500 mb-4">Check that your location data is synced correctly with VenueX</p>
-                  <button className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors">
-                    <Database size={16} /> Check Locations
-                  </button>
-                </div>
-
-                {/* Other Platforms */}
-                <div className="bg-white rounded-lg border border-gray-200 p-6">
-                  <h3 className="font-semibold text-gray-900 mb-4">Other Platforms</h3>
-                  <div className="grid grid-cols-2 gap-3">
+                <div className="glass-card rounded-2xl p-6">
+                  <h3 className="font-display font-semibold text-zinc-100 mb-4">Other Platforms</h3>
+                  <div className="grid grid-cols-2 gap-4">
                     {mockPlatformCards.locations.map((card) => (
                       <IntegrationCard key={card.id} {...card} />
                     ))}
@@ -819,28 +780,33 @@ export default function Setup3B() {
 
             {/* Sales */}
             {activeStep === 2 && (
-              <div data-testid="tab-panel-sales" className="space-y-4">
-                <div className="bg-white rounded-lg border border-gray-200 p-6">
-                  <h2 className="text-lg font-semibold text-gray-900 mb-1">Sales Data</h2>
-                  <p className="text-sm text-gray-500 mb-6">Connect your sales data sources and ad platforms</p>
+              <div data-testid="tab-panel-sales" className="space-y-5 animate-fade-slide">
+                <div className="glass-card rounded-2xl p-6">
+                  <div className="flex items-center gap-3 mb-5">
+                    <Database className="w-5 h-5 text-amber-400" />
+                    <div>
+                      <h2 className="text-lg font-display font-semibold text-zinc-100">Sales Data</h2>
+                      <p className="text-sm text-zinc-500 font-display">Connect your sales sources and ad platforms</p>
+                    </div>
+                  </div>
                   
                   <div className="flex gap-3 mb-6">
                     <button
                       onClick={() => setSalesDataModalOpen(true)}
-                      className="flex items-center gap-2 px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors"
+                      className="flex items-center gap-2 px-5 py-3 bg-gradient-to-r from-amber-500 to-amber-400 text-zinc-900 font-display font-medium rounded-xl transition-all shadow-lg shadow-amber-500/20"
                     >
-                      <Database size={16} /> 1. Connect Data Source
+                      <Database size={16} /> 1. Data Source
                     </button>
                     <button
                       onClick={() => setDataMappingModalOpen(true)}
-                      className="flex items-center gap-2 px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors"
+                      className="flex items-center gap-2 px-5 py-3 bg-zinc-800 border border-zinc-700 text-zinc-300 font-display font-medium rounded-xl hover:bg-zinc-700 transition-all"
                     >
-                      <Settings size={16} /> 2. Data Mapping
+                      <Settings size={16} /> 2. Mapping
                     </button>
                   </div>
 
-                  <h3 className="font-medium text-gray-900 mb-3">Ad Platforms</h3>
-                  <div className="grid grid-cols-3 gap-3">
+                  <h3 className="font-display font-medium text-zinc-300 mb-4 text-sm uppercase tracking-wider">Ad Platforms</h3>
+                  <div className="grid grid-cols-3 gap-4">
                     {mockPlatformCards.sales.map((card) => (
                       <IntegrationCard key={card.id} {...card} />
                     ))}
@@ -851,22 +817,27 @@ export default function Setup3B() {
 
             {/* Catalog */}
             {activeStep === 3 && (
-              <div data-testid="tab-panel-catalog" className="space-y-4">
-                <div className="bg-white rounded-lg border border-gray-200 p-6">
-                  <h2 className="text-lg font-semibold text-gray-900 mb-1">Catalog Data</h2>
-                  <p className="text-sm text-gray-500 mb-6">Sync your product catalog across platforms</p>
+              <div data-testid="tab-panel-catalog" className="space-y-5 animate-fade-slide">
+                <div className="glass-card rounded-2xl p-6">
+                  <div className="flex items-center gap-3 mb-5">
+                    <Package className="w-5 h-5 text-amber-400" />
+                    <div>
+                      <h2 className="text-lg font-display font-semibold text-zinc-100">Catalog Data</h2>
+                      <p className="text-sm text-zinc-500 font-display">Sync products across platforms</p>
+                    </div>
+                  </div>
                   
                   <div className="flex gap-3 mb-6">
-                    <button className="flex items-center gap-2 px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors">
-                      <Database size={16} /> 1. Connect Data Source
+                    <button className="flex items-center gap-2 px-5 py-3 bg-gradient-to-r from-amber-500 to-amber-400 text-zinc-900 font-display font-medium rounded-xl transition-all shadow-lg shadow-amber-500/20">
+                      <Database size={16} /> 1. Data Source
                     </button>
-                    <button className="flex items-center gap-2 px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors">
-                      <Settings size={16} /> 2. Data Mapping
+                    <button className="flex items-center gap-2 px-5 py-3 bg-zinc-800 border border-zinc-700 text-zinc-300 font-display font-medium rounded-xl hover:bg-zinc-700 transition-all">
+                      <Settings size={16} /> 2. Mapping
                     </button>
                   </div>
 
-                  <h3 className="font-medium text-gray-900 mb-3">Catalog Platforms</h3>
-                  <div className="grid grid-cols-3 gap-3">
+                  <h3 className="font-display font-medium text-zinc-300 mb-4 text-sm uppercase tracking-wider">Catalog Platforms</h3>
+                  <div className="grid grid-cols-3 gap-4">
                     {mockPlatformCards.catalog.map((card) => (
                       <IntegrationCard key={card.id} {...card} />
                     ))}
@@ -874,30 +845,45 @@ export default function Setup3B() {
                 </div>
               </div>
             )}
+          </div>
         </div>
-      </div>
       </div>
 
       {/* Sales Data Modal */}
-      <Dialog open={salesDataModalOpen} onClose={() => setSalesDataModalOpen(false)} maxWidth="md" fullWidth PaperProps={{ sx: { borderRadius: '12px' } }}>
-        <DialogTitle sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid #e5e7eb', pb: 2 }}>
+      <Dialog 
+        open={salesDataModalOpen} 
+        onClose={() => setSalesDataModalOpen(false)} 
+        maxWidth="md" 
+        fullWidth 
+        PaperProps={{ 
+          sx: { 
+            borderRadius: '24px', 
+            backgroundColor: '#18181b',
+            backgroundImage: 'linear-gradient(135deg, rgba(39,39,42,0.8) 0%, rgba(24,24,27,1) 100%)',
+            border: '1px solid rgba(113,113,122,0.2)',
+          } 
+        }}
+      >
+        <DialogTitle sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid rgba(113,113,122,0.2)', pb: 2, px: 3, pt: 3 }}>
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
-              <Database className="w-5 h-5 text-blue-600" />
+            <div className="w-12 h-12 bg-gradient-to-br from-amber-500/20 to-amber-600/10 rounded-xl flex items-center justify-center border border-amber-500/20">
+              <Database className="w-6 h-6 text-amber-400" />
             </div>
             <div>
-              <h2 className="text-lg font-semibold text-gray-900">Sales Data Settings</h2>
-              <p className="text-sm text-gray-500">Configure your data source connection</p>
+              <h2 className="text-lg font-display font-semibold text-zinc-100">Data Source</h2>
+              <p className="text-sm text-zinc-500 font-display">Configure your connection</p>
             </div>
           </div>
-          <IconButton onClick={() => setSalesDataModalOpen(false)} size="small"><X className="w-5 h-5 text-gray-500" /></IconButton>
+          <IconButton onClick={() => setSalesDataModalOpen(false)} size="small" sx={{ bgcolor: 'rgba(39,39,42,0.8)', '&:hover': { bgcolor: 'rgba(63,63,70,0.8)' } }}>
+            <X className="w-4 h-4 text-zinc-400" />
+          </IconButton>
         </DialogTitle>
-        <DialogContent sx={{ pt: 3 }}>
+        <DialogContent sx={{ pt: 3, pb: 3, px: 3 }}>
           <div className="space-y-5">
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-xs font-medium text-gray-500 mb-1">Data Source Type</label>
-                <select className="w-full p-2 border border-gray-200 rounded-lg text-sm" value={salesConfig.dataSourceType} onChange={(e) => handleSalesConfigChange('dataSourceType', e.target.value)}>
+                <label className="block text-xs font-display font-medium text-zinc-400 mb-2 uppercase tracking-wider">Source Type</label>
+                <select className="w-full p-3 input-luxury rounded-xl text-zinc-200 font-display text-sm" value={salesConfig.dataSourceType} onChange={(e) => handleSalesConfigChange('dataSourceType', e.target.value)}>
                   <option value="HTTP">HTTP</option>
                   <option value="FTP">FTP</option>
                   <option value="SFTP">SFTP</option>
@@ -905,183 +891,166 @@ export default function Setup3B() {
                 </select>
               </div>
               <div>
-                <label className="block text-xs font-medium text-gray-500 mb-1">File URL Type</label>
-                <select className="w-full p-2 border border-gray-200 rounded-lg text-sm" value={salesConfig.fileUrlType} onChange={(e) => handleSalesConfigChange('fileUrlType', e.target.value)}>
+                <label className="block text-xs font-display font-medium text-zinc-400 mb-2 uppercase tracking-wider">URL Type</label>
+                <select className="w-full p-3 input-luxury rounded-xl text-zinc-200 font-display text-sm" value={salesConfig.fileUrlType} onChange={(e) => handleSalesConfigChange('fileUrlType', e.target.value)}>
                   <option value="File URL">File URL</option>
                   <option value="Folder Path">Folder Path</option>
                 </select>
               </div>
             </div>
-            <TextField label="File URL" value={salesConfig.fileUrl} onChange={(e) => handleSalesConfigChange('fileUrl', e.target.value)} fullWidth size="small" placeholder="https://example.com/data/sales.csv" />
-            <div className="bg-gray-50 rounded-lg p-4">
-              <div className="flex items-center justify-between mb-2">
-                <label className="text-xs font-medium text-gray-700">Dynamic URL Path</label>
-                <button onClick={addUrlSegment} className="flex items-center gap-1 px-2 py-1 text-xs text-blue-600 hover:bg-blue-50 rounded"><Plus size={12} />Add</button>
-              </div>
-              {urlSegments.length === 0 ? (
-                <p className="text-xs text-gray-400">No segments added</p>
-              ) : (
-                <div className="space-y-2">
-                  {urlSegments.map((segment, index) => (
-                    <div key={index} className="flex items-center gap-2">
-                      <input type="text" value={segment} onChange={(e) => updateUrlSegment(index, e.target.value)} className="flex-1 p-2 border border-gray-200 rounded text-sm" placeholder={`Segment ${index + 1}`} />
-                      <button onClick={() => removeUrlSegment(index)} className="p-1 text-red-500 hover:bg-red-50 rounded"><X size={14} /></button>
-                    </div>
-                  ))}
-                </div>
-              )}
-              <p className="text-xs text-gray-500 mt-2">URL segments will override the path in the main URL.</p>
+            <div>
+              <label className="block text-xs font-display font-medium text-zinc-400 mb-2 uppercase tracking-wider">File URL</label>
+              <input 
+                type="text"
+                value={salesConfig.fileUrl} 
+                onChange={(e) => handleSalesConfigChange('fileUrl', e.target.value)} 
+                className="w-full p-3 input-luxury rounded-xl text-zinc-200 font-display text-sm"
+                placeholder="https://example.com/data/sales.csv"
+              />
             </div>
-            <TextField label="File Regex" value={salesConfig.fileRegex} onChange={(e) => handleSalesConfigChange('fileRegex', e.target.value)} fullWidth size="small" placeholder="*.csv, store-sales-*, inventory-*.xml" helperText="Pattern to match files: *.csv, store-sales-*, etc." />
-            <TextField label="Date Format" value={salesConfig.dateFormat} onChange={(e) => handleSalesConfigChange('dateFormat', e.target.value)} fullWidth size="small" placeholder="YYYY-MM-DD" helperText="Date format used in file names" />
-            <TextField label="Content Field Path" value={salesConfig.contentFieldPath} onChange={(e) => handleSalesConfigChange('contentFieldPath', e.target.value)} fullWidth size="small" placeholder="$.list.datas or $.items" helperText="Path to access content inside the file (like xpath)" />
             <div className="grid grid-cols-3 gap-4">
               <div>
-                <label className="block text-xs font-medium text-gray-500 mb-1">Frequency</label>
-                <select className="w-full p-2 border border-gray-200 rounded-lg text-sm" value={salesConfig.schedulerFrequency} onChange={(e) => handleSalesConfigChange('schedulerFrequency', e.target.value)}>
-                  <option value="HOURLY">HOURLY</option>
-                  <option value="DAILY">DAILY</option>
-                  <option value="WEEKLY">WEEKLY</option>
+                <label className="block text-xs font-display font-medium text-zinc-400 mb-2 uppercase tracking-wider">Frequency</label>
+                <select className="w-full p-3 input-luxury rounded-xl text-zinc-200 font-display text-sm" value={salesConfig.schedulerFrequency} onChange={(e) => handleSalesConfigChange('schedulerFrequency', e.target.value)}>
+                  <option value="HOURLY">Hourly</option>
+                  <option value="DAILY">Daily</option>
+                  <option value="WEEKLY">Weekly</option>
                 </select>
               </div>
               <div>
-                <label className="block text-xs font-medium text-gray-500 mb-1">Time</label>
-                <input type="time" className="w-full p-2 border border-gray-200 rounded-lg text-sm" value={salesConfig.schedulerTime} onChange={(e) => handleSalesConfigChange('schedulerTime', e.target.value)} />
+                <label className="block text-xs font-display font-medium text-zinc-400 mb-2 uppercase tracking-wider">Time</label>
+                <input type="time" className="w-full p-3 input-luxury rounded-xl text-zinc-200 font-display text-sm" value={salesConfig.schedulerTime} onChange={(e) => handleSalesConfigChange('schedulerTime', e.target.value)} />
               </div>
               <div>
-                <label className="block text-xs font-medium text-gray-500 mb-1">Timezone</label>
-                <select className="w-full p-2 border border-gray-200 rounded-lg text-sm" value={salesConfig.timezone} onChange={(e) => handleSalesConfigChange('timezone', e.target.value)}>
-                  <option value="Europe/Istanbul">Europe/Istanbul</option>
+                <label className="block text-xs font-display font-medium text-zinc-400 mb-2 uppercase tracking-wider">Timezone</label>
+                <select className="w-full p-3 input-luxury rounded-xl text-zinc-200 font-display text-sm" value={salesConfig.timezone} onChange={(e) => handleSalesConfigChange('timezone', e.target.value)}>
+                  <option value="Europe/Istanbul">Istanbul</option>
                   <option value="UTC">UTC</option>
                 </select>
               </div>
             </div>
-            <div className="border-t border-gray-200 pt-4">
-              <h4 className="text-sm font-medium text-gray-900 mb-3">Authentication (Optional)</h4>
-              <div className="grid grid-cols-2 gap-4 mb-4">
-                <TextField label="Username" value={salesConfig.username} onChange={(e) => handleSalesConfigChange('username', e.target.value)} fullWidth size="small" />
-                <TextField label="Password" type="password" value={salesConfig.password} onChange={(e) => handleSalesConfigChange('password', e.target.value)} fullWidth size="small" />
-              </div>
-              <TextField label="Private Key" value={salesConfig.privateKey} onChange={(e) => handleSalesConfigChange('privateKey', e.target.value)} fullWidth multiline rows={2} size="small" placeholder="Paste .pem file content here" helperText="For connections requiring private key authentication" />
-            </div>
-            <div className="bg-blue-50 rounded-lg p-4 flex items-start gap-3">
-              <Shield className="w-5 h-5 text-blue-600 mt-0.5" />
-              <div>
-                <h4 className="text-sm font-medium text-blue-900">IP Restrictions</h4>
-                <p className="text-xs text-blue-700 mb-2">Allow access only from these IPs:</p>
-                <div className="flex flex-wrap gap-2">
-                  <code className="px-2 py-1 bg-white rounded text-xs font-mono text-gray-700">18.197.128.133</code>
-                  <code className="px-2 py-1 bg-white rounded text-xs font-mono text-gray-700">18.197.126.156</code>
-                  <code className="px-2 py-1 bg-white rounded text-xs font-mono text-gray-700">3.65.9.112</code>
-                </div>
-              </div>
-            </div>
           </div>
         </DialogContent>
-        <DialogActions sx={{ borderTop: '1px solid #e5e7eb', p: 2 }}>
-          <button onClick={() => setSalesDataModalOpen(false)} className="px-4 py-2 text-gray-600 font-medium rounded-lg hover:bg-gray-100">Cancel</button>
-          <button onClick={() => setSalesDataModalOpen(false)} className="px-5 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg">Save</button>
+        <DialogActions sx={{ borderTop: '1px solid rgba(113,113,122,0.2)', p: 2.5, gap: 1.5 }}>
+          <button onClick={() => setSalesDataModalOpen(false)} className="px-5 py-2.5 text-zinc-400 font-display font-medium rounded-xl hover:bg-zinc-800 transition-colors">Cancel</button>
+          <button onClick={() => setSalesDataModalOpen(false)} className="px-6 py-2.5 bg-gradient-to-r from-amber-500 to-amber-400 text-zinc-900 font-display font-medium rounded-xl shadow-lg shadow-amber-500/20">Save</button>
         </DialogActions>
       </Dialog>
 
       {/* Data Mapping Modal */}
-      <Dialog open={dataMappingModalOpen} onClose={() => setDataMappingModalOpen(false)} maxWidth="sm" fullWidth PaperProps={{ sx: { borderRadius: '12px' } }}>
-        <DialogTitle sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid #e5e7eb', pb: 2 }}>
+      <Dialog 
+        open={dataMappingModalOpen} 
+        onClose={() => setDataMappingModalOpen(false)} 
+        maxWidth="md" 
+        fullWidth 
+        PaperProps={{ 
+          sx: { 
+            borderRadius: '24px', 
+            backgroundColor: '#18181b',
+            backgroundImage: 'linear-gradient(135deg, rgba(39,39,42,0.8) 0%, rgba(24,24,27,1) 100%)',
+            border: '1px solid rgba(113,113,122,0.2)',
+          } 
+        }}
+      >
+        <DialogTitle sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid rgba(113,113,122,0.2)', pb: 2, px: 3, pt: 3 }}>
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
-              <Settings className="w-5 h-5 text-blue-600" />
+            <div className="w-12 h-12 bg-gradient-to-br from-amber-500/20 to-amber-600/10 rounded-xl flex items-center justify-center border border-amber-500/20">
+              <Settings className="w-6 h-6 text-amber-400" />
             </div>
             <div>
-              <h2 className="text-lg font-semibold text-gray-900">Data Mapping</h2>
-              <p className="text-sm text-gray-500">Map your data columns</p>
+              <h2 className="text-lg font-display font-semibold text-zinc-100">Data Mapping</h2>
+              <p className="text-sm text-zinc-500 font-display">Map your fields to VenueX</p>
             </div>
           </div>
-          <IconButton onClick={() => setDataMappingModalOpen(false)} size="small"><X className="w-5 h-5 text-gray-500" /></IconButton>
+          <IconButton onClick={() => setDataMappingModalOpen(false)} size="small" sx={{ bgcolor: 'rgba(39,39,42,0.8)', '&:hover': { bgcolor: 'rgba(63,63,70,0.8)' } }}>
+            <X className="w-4 h-4 text-zinc-400" />
+          </IconButton>
         </DialogTitle>
-        <DialogContent sx={{ pt: 3 }}>
+        <DialogContent sx={{ pt: 3, pb: 3, px: 3 }}>
           <div className="space-y-4">
-            <div className="border-2 border-dashed border-gray-200 rounded-lg p-6 text-center hover:border-blue-300 transition-colors cursor-pointer">
-              <Upload className="w-10 h-10 text-gray-300 mx-auto mb-3" />
-              <h4 className="font-medium text-gray-900 mb-1">Upload Sample File</h4>
-              <p className="text-sm text-gray-500 mb-3">Upload a file to analyze column structure</p>
-              <button className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg">Choose File</button>
-              <p className="text-xs text-gray-400 mt-2">CSV, XLSX, XML, JSON</p>
-            </div>
-            <div className="bg-gray-50 rounded-lg p-4">
-              <h4 className="text-sm font-medium text-gray-700 mb-3">What happens next?</h4>
-              <ul className="space-y-2">
-                <li className="flex items-start gap-2 text-sm text-gray-600">
-                  <div className="w-5 h-5 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
-                    <span className="text-xs font-medium text-blue-600">1</span>
-                  </div>
-                  <span>We'll analyze your file structure and column names</span>
-                </li>
-                <li className="flex items-start gap-2 text-sm text-gray-600">
-                  <div className="w-5 h-5 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
-                    <span className="text-xs font-medium text-blue-600">2</span>
-                  </div>
-                  <span>Match columns to VenueX data fields automatically</span>
-                </li>
-                <li className="flex items-start gap-2 text-sm text-gray-600">
-                  <div className="w-5 h-5 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
-                    <span className="text-xs font-medium text-blue-600">3</span>
-                  </div>
-                  <span>Review and confirm the mapping before saving</span>
-                </li>
+            <div className="glass-card rounded-xl p-5">
+              <div className="flex items-center gap-3 mb-4">
+                <Sparkles className="w-5 h-5 text-amber-400" />
+                <h3 className="text-sm font-display font-medium text-zinc-200">How it works</h3>
+              </div>
+              <ul className="space-y-3">
+                {['Analyze file structure', 'Auto-match columns', 'Review and confirm'].map((step, i) => (
+                  <li key={i} className="flex items-start gap-3 text-sm text-zinc-400 font-display">
+                    <div className="w-6 h-6 bg-amber-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                      <span className="text-xs font-medium text-amber-400">{i + 1}</span>
+                    </div>
+                    <span>{step}</span>
+                  </li>
+                ))}
               </ul>
             </div>
           </div>
         </DialogContent>
-        <DialogActions sx={{ borderTop: '1px solid #e5e7eb', p: 2 }}>
-          <button onClick={() => setDataMappingModalOpen(false)} className="px-4 py-2 text-gray-600 font-medium rounded-lg hover:bg-gray-100">Cancel</button>
-          <button onClick={() => setDataMappingModalOpen(false)} className="px-5 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg">Continue</button>
+        <DialogActions sx={{ borderTop: '1px solid rgba(113,113,122,0.2)', p: 2.5, gap: 1.5 }}>
+          <button onClick={() => setDataMappingModalOpen(false)} className="px-5 py-2.5 text-zinc-400 font-display font-medium rounded-xl hover:bg-zinc-800 transition-colors">Cancel</button>
+          <button onClick={() => setDataMappingModalOpen(false)} className="px-6 py-2.5 bg-gradient-to-r from-amber-500 to-amber-400 text-zinc-900 font-display font-medium rounded-xl shadow-lg shadow-amber-500/20">Continue</button>
         </DialogActions>
       </Dialog>
 
       {/* Invite Team Modal */}
-      <Dialog open={inviteTeamModalOpen} onClose={() => setInviteTeamModalOpen(false)} maxWidth="sm" fullWidth PaperProps={{ sx: { borderRadius: '16px' } }}>
-        <DialogTitle sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid #e5e7eb', pb: 2, px: 3, pt: 3 }}>
+      <Dialog 
+        open={inviteTeamModalOpen} 
+        onClose={() => setInviteTeamModalOpen(false)} 
+        maxWidth="sm" 
+        fullWidth 
+        PaperProps={{ 
+          sx: { 
+            borderRadius: '24px', 
+            backgroundColor: '#18181b',
+            backgroundImage: 'linear-gradient(135deg, rgba(39,39,42,0.8) 0%, rgba(24,24,27,1) 100%)',
+            border: '1px solid rgba(113,113,122,0.2)',
+          } 
+        }}
+      >
+        <DialogTitle sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid rgba(113,113,122,0.2)', pb: 2, px: 3, pt: 3 }}>
           <div className="flex items-center gap-3">
-            <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center shadow-lg shadow-blue-500/20">
-              <UserPlus className="w-6 h-6 text-white" />
+            <div className="w-12 h-12 bg-gradient-to-br from-amber-500/20 to-amber-600/10 rounded-xl flex items-center justify-center border border-amber-500/20">
+              <UserPlus className="w-6 h-6 text-amber-400" />
             </div>
             <div>
-              <h2 className="text-xl font-semibold text-gray-900">Invite Team Member</h2>
-              <p className="text-sm text-gray-500">Collaborate with your team on VenueX</p>
+              <h2 className="text-lg font-display font-semibold text-zinc-100">Invite Team</h2>
+              <p className="text-sm text-zinc-500 font-display">Collaborate on VenueX</p>
             </div>
           </div>
-          <IconButton onClick={() => setInviteTeamModalOpen(false)} size="small" sx={{ bgcolor: '#f3f4f6', '&:hover': { bgcolor: '#e5e7eb' } }}><X className="w-4 h-4 text-gray-500" /></IconButton>
+          <IconButton onClick={() => setInviteTeamModalOpen(false)} size="small" sx={{ bgcolor: 'rgba(39,39,42,0.8)', '&:hover': { bgcolor: 'rgba(63,63,70,0.8)' } }}>
+            <X className="w-4 h-4 text-zinc-400" />
+          </IconButton>
         </DialogTitle>
-        <DialogContent sx={{ pt: '20px', pb: '20px', px: 3 }}>
+        <DialogContent sx={{ pt: 3, pb: 3, px: 3 }}>
           {inviteSentTo && (
-            <div className="mb-5 bg-green-50 border border-green-200 rounded-lg p-3 flex items-center gap-2">
-              <Check className="w-5 h-5 text-green-600 flex-shrink-0" />
-              <p className="text-sm text-green-800 font-medium">Davetiniz {inviteSentTo}'a gönderildi.</p>
-              <button onClick={() => setInviteSentTo(null)} className="ml-auto text-green-600 hover:text-green-700">
+            <div className="mb-5 bg-emerald-500/10 border border-emerald-500/30 rounded-xl p-3 flex items-center gap-2">
+              <Check className="w-5 h-5 text-emerald-400 flex-shrink-0" />
+              <p className="text-sm text-emerald-300 font-display font-medium">Invite sent to {inviteSentTo}</p>
+              <button onClick={() => setInviteSentTo(null)} className="ml-auto text-emerald-400 hover:text-emerald-300">
                 <X size={16} />
               </button>
             </div>
           )}
           <div className="space-y-5">
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1.5">First Name</label>
+                <label className="block text-xs font-display font-medium text-zinc-400 mb-2 uppercase tracking-wider">First Name</label>
                 <input 
                   type="text"
                   value={inviteForm.firstName} 
                   onChange={(e) => handleInviteFormChange('firstName', e.target.value)} 
-                  className="w-full px-3 py-2.5 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                  className="w-full px-4 py-3 input-luxury rounded-xl text-zinc-200 font-display text-sm"
                   placeholder="John"
                   data-testid="input-first-name"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1.5">Last Name</label>
+                <label className="block text-xs font-display font-medium text-zinc-400 mb-2 uppercase tracking-wider">Last Name</label>
                 <input 
                   type="text"
                   value={inviteForm.lastName} 
                   onChange={(e) => handleInviteFormChange('lastName', e.target.value)} 
-                  className="w-full px-3 py-2.5 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                  className="w-full px-4 py-3 input-luxury rounded-xl text-zinc-200 font-display text-sm"
                   placeholder="Doe"
                   data-testid="input-last-name"
                 />
@@ -1089,14 +1058,14 @@ export default function Setup3B() {
             </div>
             
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1.5">Email Address</label>
+              <label className="block text-xs font-display font-medium text-zinc-400 mb-2 uppercase tracking-wider">Email</label>
               <div className="relative">
-                <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
+                <Mail className="absolute left-4 top-1/2 transform -translate-y-1/2 w-4 h-4 text-zinc-500" />
                 <input 
                   type="email"
                   value={inviteForm.email} 
                   onChange={(e) => handleInviteFormChange('email', e.target.value)} 
-                  className="w-full pl-10 pr-3 py-2.5 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                  className="w-full pl-11 pr-4 py-3 input-luxury rounded-xl text-zinc-200 font-display text-sm"
                   placeholder="john@company.com"
                   data-testid="input-email"
                 />
@@ -1104,8 +1073,8 @@ export default function Setup3B() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Select Role</label>
-              <div className="grid grid-cols-2 gap-2" data-testid="select-role">
+              <label className="block text-xs font-display font-medium text-zinc-400 mb-3 uppercase tracking-wider">Role</label>
+              <div className="grid grid-cols-2 gap-3" data-testid="select-role">
                 {[
                   { value: 'Admin', icon: Shield, desc: 'Full access' },
                   { value: 'Manager', icon: Users, desc: 'Edit & manage' },
@@ -1114,60 +1083,53 @@ export default function Setup3B() {
                     key={role.value}
                     type="button"
                     onClick={() => handleInviteFormChange('role', role.value)}
-                    className={`p-3 rounded-lg border-2 transition-all text-center ${
+                    className={`p-4 rounded-xl border-2 transition-all text-center ${
                       inviteForm.role === role.value
-                        ? 'border-blue-500 bg-blue-50'
-                        : 'border-gray-200 hover:border-gray-300 bg-white'
+                        ? 'border-amber-500/50 bg-amber-500/10'
+                        : 'border-zinc-700 hover:border-zinc-600 bg-zinc-800/50'
                     }`}
                   >
-                    <role.icon className={`w-5 h-5 mx-auto mb-1 ${inviteForm.role === role.value ? 'text-blue-600' : 'text-gray-400'}`} />
-                    <p className={`text-sm font-medium ${inviteForm.role === role.value ? 'text-blue-900' : 'text-gray-700'}`}>{role.value}</p>
-                    <p className="text-xs text-gray-400">{role.desc}</p>
+                    <role.icon className={`w-5 h-5 mx-auto mb-2 ${inviteForm.role === role.value ? 'text-amber-400' : 'text-zinc-500'}`} />
+                    <p className={`text-sm font-display font-medium ${inviteForm.role === role.value ? 'text-zinc-100' : 'text-zinc-400'}`}>{role.value}</p>
+                    <p className="text-xs text-zinc-500 font-display mt-0.5">{role.desc}</p>
                   </button>
                 ))}
               </div>
             </div>
 
-            <div className="bg-blue-50 rounded-lg p-3 flex items-start gap-2">
-              <Info className="w-4 h-4 text-blue-600 mt-0.5 flex-shrink-0" />
-              <p className="text-xs text-blue-700">An invitation email will be sent to the provided address. The invite link expires in 7 days.</p>
-            </div>
-
-            {/* Invited Users List */}
             {invitedUsers.length > 0 && (
-              <div className="border-t border-gray-200 pt-5 mt-2">
-                <h3 className="text-sm font-medium text-gray-900 mb-3">Team Members</h3>
-                <div className="border border-gray-200 rounded-lg overflow-hidden">
+              <div className="border-t border-zinc-800 pt-5">
+                <h3 className="text-xs font-display font-medium text-zinc-400 mb-3 uppercase tracking-wider">Team Members</h3>
+                <div className="glass-card rounded-xl overflow-hidden">
                   <table className="w-full text-sm">
-                    <thead className="bg-gray-50">
+                    <thead className="bg-zinc-800/50">
                       <tr>
-                        <th className="text-left px-3 py-2 text-xs font-medium text-gray-500">Name</th>
-                        <th className="text-left px-3 py-2 text-xs font-medium text-gray-500">Email</th>
-                        <th className="text-left px-3 py-2 text-xs font-medium text-gray-500">Role</th>
-                        <th className="text-left px-3 py-2 text-xs font-medium text-gray-500">Status</th>
+                        <th className="text-left px-4 py-3 text-xs font-display font-medium text-zinc-500 uppercase tracking-wider">Name</th>
+                        <th className="text-left px-4 py-3 text-xs font-display font-medium text-zinc-500 uppercase tracking-wider">Role</th>
+                        <th className="text-left px-4 py-3 text-xs font-display font-medium text-zinc-500 uppercase tracking-wider">Status</th>
                       </tr>
                     </thead>
-                    <tbody className="divide-y divide-gray-100">
+                    <tbody className="divide-y divide-zinc-800">
                       {invitedUsers.map((user, idx) => (
-                        <tr key={idx} className="hover:bg-gray-50">
-                          <td className="px-3 py-2 text-gray-900">{user.firstName} {user.lastName}</td>
-                          <td className="px-3 py-2 text-gray-600">{user.email}</td>
-                          <td className="px-3 py-2">
-                            <span className={`inline-flex px-2 py-0.5 text-xs font-medium rounded ${
-                              user.role === 'Admin' ? 'bg-purple-100 text-purple-700' :
-                              user.role === 'Manager' ? 'bg-blue-100 text-blue-700' :
-                              'bg-gray-100 text-gray-600'
+                        <tr key={idx} className="hover:bg-zinc-800/30 transition-colors">
+                          <td className="px-4 py-3">
+                            <div>
+                              <p className="text-zinc-200 font-display">{user.firstName} {user.lastName}</p>
+                              <p className="text-zinc-500 text-xs font-display">{user.email}</p>
+                            </div>
+                          </td>
+                          <td className="px-4 py-3">
+                            <span className={`inline-flex px-2.5 py-1 text-xs font-display font-medium rounded-lg ${
+                              user.role === 'Admin' ? 'bg-purple-500/20 text-purple-400 border border-purple-500/30' :
+                              'bg-amber-500/20 text-amber-400 border border-amber-500/30'
                             }`}>{user.role}</span>
                           </td>
-                          <td className="px-3 py-2">
-                            <span className={`inline-flex items-center gap-1 px-2 py-0.5 text-xs font-medium rounded ${
-                              user.status === 'accepted' ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700'
+                          <td className="px-4 py-3">
+                            <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-display font-medium rounded-lg ${
+                              user.status === 'accepted' ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30' : 'bg-yellow-500/20 text-yellow-400 border border-yellow-500/30'
                             }`}>
-                              {user.status === 'accepted' ? (
-                                <><Check size={10} /> Accepted</>
-                              ) : (
-                                <><Mail size={10} /> Pending</>
-                              )}
+                              {user.status === 'accepted' ? <Check size={12} /> : <Mail size={12} />}
+                              {user.status === 'accepted' ? 'Active' : 'Pending'}
                             </span>
                           </td>
                         </tr>
@@ -1179,10 +1141,10 @@ export default function Setup3B() {
             )}
           </div>
         </DialogContent>
-        <DialogActions sx={{ borderTop: '1px solid #e5e7eb', p: 2.5, gap: 1 }}>
-          <button onClick={() => setInviteTeamModalOpen(false)} className="px-5 py-2.5 text-gray-600 font-medium rounded-lg hover:bg-gray-100 transition-colors">Cancel</button>
-          <button onClick={handleSendInvite} className="px-6 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg flex items-center gap-2 shadow-lg shadow-blue-500/20 transition-all" data-testid="button-send-invite">
-            <Mail size={16} /> Send Invitation
+        <DialogActions sx={{ borderTop: '1px solid rgba(113,113,122,0.2)', p: 2.5, gap: 1.5 }}>
+          <button onClick={() => setInviteTeamModalOpen(false)} className="px-5 py-2.5 text-zinc-400 font-display font-medium rounded-xl hover:bg-zinc-800 transition-colors">Cancel</button>
+          <button onClick={handleSendInvite} className="flex items-center gap-2 px-6 py-2.5 bg-gradient-to-r from-amber-500 to-amber-400 text-zinc-900 font-display font-medium rounded-xl shadow-lg shadow-amber-500/20" data-testid="button-send-invite">
+            <Mail size={16} /> Send Invite
           </button>
         </DialogActions>
       </Dialog>
