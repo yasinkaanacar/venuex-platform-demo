@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { 
-  Package, 
   Search, 
   AlertTriangle, 
   CheckCircle, 
@@ -15,7 +14,6 @@ import {
   TrendingUp
 } from 'lucide-react';
 import { SiGoogle, SiMeta } from 'react-icons/si';
-import Sidebar from '@/components/layout/sidebar';
 
 const mockMetrics = {
   totalSKUs: 142853,
@@ -54,7 +52,6 @@ const mockStoreMatrix = [
 ];
 
 export default function Catalog() {
-  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResult, setSearchResult] = useState<{ sku: string; name: string; stores: typeof mockStoreMatrix } | null>(null);
   const [isSearching, setIsSearching] = useState(false);
@@ -77,10 +74,8 @@ export default function Catalog() {
   };
 
   return (
-    <div className="flex min-h-screen bg-gray-50">
-      <Sidebar collapsed={sidebarCollapsed} onToggle={() => setSidebarCollapsed(!sidebarCollapsed)} />
-      <div className={`flex-1 ${sidebarCollapsed ? 'ml-20' : 'ml-64'}`}>
-        <div className="p-6">
+    <div className="min-h-screen bg-gray-50">
+      <div className="p-6">
           <div className="flex items-center justify-between mb-6">
             <div>
               <h1 className="text-2xl font-bold text-gray-900">Local Inventory</h1>
@@ -372,7 +367,6 @@ export default function Catalog() {
             </div>
           </div>
         </div>
-      </div>
     </div>
   );
 }
