@@ -1,32 +1,11 @@
 import { useState } from 'react';
 import { 
   Search, 
-  AlertTriangle, 
-  CheckCircle, 
-  XCircle, 
-  Activity,
-  RefreshCw,
-  DollarSign,
-  TrendingDown,
-  Zap,
-  Database,
-  Download,
-  Eye,
-  ChevronRight,
-  X,
-  Star,
-  AlertCircle,
+  ArrowRight,
   Package,
-  Minus
+  X
 } from 'lucide-react';
 import { SiGoogle, SiMeta } from 'react-icons/si';
-
-const mockPipelineStatus = {
-  erp: { status: 'connected', label: 'Client ERP', lastSync: '2 min ago' },
-  engine: { status: 'processing', label: 'VenueX Engine', itemsProcessed: '124,500' },
-  google: { status: 'connected', label: 'Google Merchant' },
-  meta: { status: 'connected', label: 'Meta Commerce' }
-};
 
 const mockKPIs = {
   adBudgetSaved: 4250,
@@ -36,43 +15,68 @@ const mockKPIs = {
 };
 
 const mockQuadrantData = {
-  starItems: { count: 8420, label: 'Star Items', desc: 'High Demand + In Stock' },
-  criticalAlerts: { count: 142, label: 'Critical Alerts', desc: 'High Demand + Out of Stock' },
-  deadStock: { count: 3150, label: 'Dead Stock', desc: 'Low Demand + In Stock' },
-  ignore: { count: 890, label: 'Ignore', desc: 'Low Demand + Out of Stock' }
+  stars: [
+    { sku: 'NKE-AM270-BLK', name: 'Nike Air Max 270', clicks: 2450 },
+    { sku: 'ADI-UB22-WHT', name: 'Adidas Ultraboost 22', clicks: 1820 },
+    { sku: 'NKE-AF1-WHT', name: 'Nike Air Force 1', clicks: 1650 },
+  ],
+  criticalOOS: [
+    { sku: 'NKE-DK2-GRY', name: 'Nike Dunk Low', clicks: 3200 },
+    { sku: 'ADI-YZY-BLK', name: 'Adidas Yeezy 350', clicks: 2100 },
+    { sku: 'NB-550-WHT', name: 'New Balance 550', clicks: 1900 },
+  ],
+  deadStock: [
+    { sku: 'ASC-GT2-BLU', name: 'Asics GT-2000', days: 45 },
+    { sku: 'PUM-RS-X', name: 'Puma RS-X', days: 38 },
+    { sku: 'RBK-CL-WHT', name: 'Reebok Classic', days: 32 },
+  ],
+  ignore: [
+    { sku: 'SKC-WALK-BRN', name: 'Skechers Walk', days: 60 },
+    { sku: 'FLA-DIS-BLK', name: 'Fila Disruptor', days: 55 },
+  ]
 };
 
 const mockIssues = [
-  { id: 1, errorType: 'Store Code Mismatch', count: 23, platform: 'google', severity: 'high' },
-  { id: 2, errorType: 'Price Anomaly', count: 15, platform: 'meta', severity: 'medium' },
-  { id: 3, errorType: 'Missing GTIN', count: 8, platform: 'google', severity: 'low' },
-  { id: 4, errorType: 'Image URL Invalid', count: 12, platform: 'both', severity: 'medium' },
+  { id: 1, errorType: 'Store Code Mismatch', count: 23, platform: 'google' },
+  { id: 2, errorType: 'Price Anomaly', count: 15, platform: 'meta' },
+  { id: 3, errorType: 'Missing GTIN', count: 8, platform: 'google' },
+  { id: 4, errorType: 'Image URL Invalid', count: 12, platform: 'both' },
+  { id: 5, errorType: 'Description Too Long', count: 5, platform: 'google' },
 ];
 
-const mockBatchActivity = [
-  { id: 1, batchId: '992', platform: 'meta', items: 5000, status: 'success', duration: '1.2s', timestamp: '2 min ago' },
-  { id: 2, batchId: '991', platform: 'google', items: 12500, status: 'success', duration: '3.4s', timestamp: '15 min ago' },
-  { id: 3, batchId: '990', platform: 'meta', items: 3200, status: 'partial', duration: '2.1s', timestamp: '32 min ago', errors: 12 },
-  { id: 4, batchId: '989', platform: 'google', items: 8700, status: 'success', duration: '2.8s', timestamp: '1 hr ago' },
+const mockActivityLog = [
+  { time: '14:02', message: 'Batch #992 synced to Meta (200 OK)' },
+  { time: '14:01', message: 'Batch #991 synced to Google (200 OK)' },
+  { time: '13:58', message: 'Price update received from ERP' },
+  { time: '13:55', message: 'Batch #990 partial sync to Meta (12 errors)' },
+  { time: '13:52', message: 'Availability delta: 142 items OOS' },
+  { time: '13:50', message: 'Batch #989 synced to Google (200 OK)' },
+  { time: '13:45', message: 'New product feed received (5,200 items)' },
+  { time: '13:40', message: 'Batch #988 synced to Meta (200 OK)' },
+  { time: '13:35', message: 'Store IST-003 marked offline' },
+  { time: '13:30', message: 'Batch #987 synced to Google (200 OK)' },
 ];
 
 const mockStoreAvailability = [
-  { storeCode: 'IST-001', storeName: 'İstanbul Kadıköy', available: true, localPrice: 299.99, onlinePrice: 279.99 },
-  { storeCode: 'IST-002', storeName: 'İstanbul Beşiktaş', available: true, localPrice: 299.99, onlinePrice: 279.99 },
-  { storeCode: 'IST-003', storeName: 'İstanbul Şişli', available: false, localPrice: 299.99, onlinePrice: 279.99 },
-  { storeCode: 'ANK-001', storeName: 'Ankara Çankaya', available: true, localPrice: 289.99, onlinePrice: 279.99 },
-  { storeCode: 'ANK-002', storeName: 'Ankara Kızılay', available: false, localPrice: 289.99, onlinePrice: 279.99 },
-  { storeCode: 'IZM-001', storeName: 'İzmir Alsancak', available: true, localPrice: 299.99, onlinePrice: 279.99 },
-  { storeCode: 'IZM-002', storeName: 'İzmir Karşıyaka', available: false, localPrice: 299.99, onlinePrice: 279.99 },
-  { storeCode: 'ANT-001', storeName: 'Antalya Merkez', available: true, localPrice: 309.99, onlinePrice: 279.99 },
-  { storeCode: 'BUR-001', storeName: 'Bursa Nilüfer', available: true, localPrice: 299.99, onlinePrice: 279.99 },
+  { storeCode: 'IST-001', storeName: 'İstanbul Kadıköy', available: true, localPrice: 299.99 },
+  { storeCode: 'IST-002', storeName: 'İstanbul Beşiktaş', available: true, localPrice: 299.99 },
+  { storeCode: 'IST-003', storeName: 'İstanbul Şişli', available: false, localPrice: 299.99 },
+  { storeCode: 'ANK-001', storeName: 'Ankara Çankaya', available: true, localPrice: 289.99 },
+  { storeCode: 'ANK-002', storeName: 'Ankara Kızılay', available: false, localPrice: 289.99 },
+  { storeCode: 'IZM-001', storeName: 'İzmir Alsancak', available: true, localPrice: 299.99 },
+  { storeCode: 'IZM-002', storeName: 'İzmir Karşıyaka', available: false, localPrice: 299.99 },
+  { storeCode: 'ANT-001', storeName: 'Antalya Merkez', available: true, localPrice: 309.99 },
+  { storeCode: 'BUR-001', storeName: 'Bursa Nilüfer', available: true, localPrice: 299.99 },
+  { storeCode: 'BUR-002', storeName: 'Bursa Osmangazi', available: false, localPrice: 299.99 },
+  { storeCode: 'KON-001', storeName: 'Konya Selçuklu', available: true, localPrice: 289.99 },
+  { storeCode: 'ADN-001', storeName: 'Adana Seyhan', available: true, localPrice: 299.99 },
 ];
 
 export default function Catalog() {
   const [searchQuery, setSearchQuery] = useState('');
-  const [searchResult, setSearchResult] = useState<{ sku: string; name: string; stores: typeof mockStoreAvailability } | null>(null);
+  const [searchResult, setSearchResult] = useState<{ sku: string; name: string; globalPrice: number; stores: typeof mockStoreAvailability } | null>(null);
   const [isSearching, setIsSearching] = useState(false);
-  const [showBatchDrawer, setShowBatchDrawer] = useState(false);
+  const [devView, setDevView] = useState<'dashboard' | 'search'>('dashboard');
 
   const handleSearch = () => {
     if (!searchQuery.trim()) return;
@@ -81,372 +85,266 @@ export default function Catalog() {
       setSearchResult({
         sku: searchQuery.toUpperCase(),
         name: 'Nike Air Max 270 - Black/White',
+        globalPrice: 279.99,
         stores: mockStoreAvailability
       });
       setIsSearching(false);
-    }, 500);
+      setDevView('search');
+    }, 300);
   };
 
   const clearSearch = () => {
     setSearchQuery('');
     setSearchResult(null);
+    setDevView('dashboard');
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter') handleSearch();
   };
 
-  const availableCount = searchResult?.stores.filter(s => s.available).length || 0;
-  const unavailableCount = searchResult?.stores.filter(s => !s.available).length || 0;
+  const showSearchView = devView === 'search' && searchResult;
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="p-6">
-        
-        {/* Data Pipeline Visualizer */}
-        <div className="bg-white rounded-xl border border-gray-200 p-4 mb-6 shadow-sm">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-8">
-              {/* ERP Node */}
-              <div className="flex items-center gap-3">
-                <div className="relative">
-                  <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
-                  <div className="absolute inset-0 w-3 h-3 bg-green-500 rounded-full animate-ping opacity-50"></div>
-                </div>
-                <div>
-                  <p className="text-sm font-medium text-gray-900">{mockPipelineStatus.erp.label}</p>
-                  <p className="text-xs text-gray-500">{mockPipelineStatus.erp.lastSync}</p>
-                </div>
-              </div>
-
-              {/* Arrow */}
-              <div className="flex items-center gap-2">
-                <div className="w-12 h-0.5 bg-gradient-to-r from-green-500 to-blue-500"></div>
-                <ChevronRight className="w-4 h-4 text-blue-500" />
-              </div>
-
-              {/* VenueX Engine */}
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center">
-                  <Zap className="w-5 h-5 text-white" />
-                </div>
-                <div>
-                  <p className="text-sm font-medium text-gray-900">{mockPipelineStatus.engine.label}</p>
-                  <p className="text-xs text-blue-600">Processing {mockPipelineStatus.engine.itemsProcessed} items</p>
-                </div>
-              </div>
-
-              {/* Arrow */}
-              <div className="flex items-center gap-2">
-                <div className="w-12 h-0.5 bg-gradient-to-r from-blue-500 to-green-500"></div>
-                <ChevronRight className="w-4 h-4 text-green-500" />
-              </div>
-
-              {/* Platforms */}
-              <div className="flex items-center gap-6">
-                <div className="flex items-center gap-2">
-                  <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                  <SiGoogle className="w-5 h-5 text-gray-700" />
-                  <span className="text-sm text-gray-600">Merchant</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                  <SiMeta className="w-5 h-5 text-gray-700" />
-                  <span className="text-sm text-gray-600">Commerce</span>
-                </div>
-              </div>
-            </div>
-
-            <button 
-              onClick={() => setShowBatchDrawer(!showBatchDrawer)}
-              className="flex items-center gap-2 px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg transition-colors"
-            >
-              <Activity className="w-4 h-4" />
-              <span className="text-sm">Activity Log</span>
-            </button>
+    <div className="min-h-screen bg-white">
+      {/* Pipeline Header */}
+      <div className="border-b-2 border-black py-4">
+        <div className="flex items-center justify-center gap-6">
+          <div className="flex items-center gap-2 px-4 py-2 border-2 border-black">
+            <div className="w-2 h-2 bg-black rounded-full"></div>
+            <span className="font-bold text-sm">CLIENT ERP</span>
           </div>
-        </div>
-
-        {/* KPI Cards */}
-        <div className="grid grid-cols-4 gap-4 mb-6">
-          {/* Ad Budget Saved - Hero Card */}
-          <div className="bg-gradient-to-br from-green-50 to-white rounded-xl border border-green-200 p-5 shadow-sm">
-            <div className="flex items-start justify-between mb-3">
-              <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center">
-                <DollarSign className="w-6 h-6 text-green-600" />
-              </div>
-              <span className="px-2 py-1 bg-green-100 text-green-700 text-xs font-medium rounded-full">This Month</span>
-            </div>
-            <p className="text-3xl font-bold text-green-600 mb-1">${mockKPIs.adBudgetSaved.toLocaleString()}</p>
-            <p className="text-sm font-medium text-gray-900">Ad Budget Saved</p>
-            <p className="text-xs text-gray-500 mt-1">Saved by pausing ads for OOS items</p>
+          <ArrowRight className="w-6 h-6" />
+          <div className="flex items-center gap-2 px-4 py-2 border-2 border-black bg-gray-100">
+            <span className="font-bold text-sm">VENUEX ENGINE</span>
           </div>
-
-          {/* Missed Revenue Risks */}
-          <div className="bg-white rounded-xl border border-gray-200 p-5 shadow-sm">
-            <div className="flex items-start justify-between mb-3">
-              <div className="w-12 h-12 bg-red-100 rounded-xl flex items-center justify-center">
-                <TrendingDown className="w-6 h-6 text-red-600" />
-              </div>
-              <span className="px-2 py-1 bg-red-100 text-red-700 text-xs font-medium rounded-full">Action Needed</span>
-            </div>
-            <p className="text-3xl font-bold text-red-600 mb-1">{mockKPIs.missedRevenueRisks}</p>
-            <p className="text-sm font-medium text-gray-900">Missed Revenue Risks</p>
-            <p className="text-xs text-gray-500 mt-1">High clicks + Out of stock</p>
-          </div>
-
-          {/* Sync Success Rate */}
-          <div className="bg-white rounded-xl border border-gray-200 p-5 shadow-sm">
-            <div className="flex items-start justify-between mb-3">
-              <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center">
-                <RefreshCw className="w-6 h-6 text-blue-600" />
-              </div>
-            </div>
-            <p className="text-3xl font-bold text-gray-900 mb-1">{mockKPIs.syncSuccessRate}%</p>
-            <p className="text-sm font-medium text-gray-900">Sync Success Rate</p>
-            <p className="text-xs text-gray-500 mt-1">Last 24 hours</p>
-          </div>
-
-          {/* Total SKUs */}
-          <div className="bg-white rounded-xl border border-gray-200 p-5 shadow-sm">
-            <div className="flex items-start justify-between mb-3">
-              <div className="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center">
-                <Database className="w-6 h-6 text-purple-600" />
-              </div>
-            </div>
-            <p className="text-3xl font-bold text-gray-900 mb-1">{mockKPIs.totalSKUs.toLocaleString()}</p>
-            <p className="text-sm font-medium text-gray-900">Total SKUs Monitored</p>
-            <p className="text-xs text-gray-500 mt-1">Across all platforms</p>
-          </div>
-        </div>
-
-        {/* Spot Check Search Bar */}
-        <div className="bg-white rounded-xl border border-gray-200 p-4 mb-6 shadow-sm">
+          <ArrowRight className="w-6 h-6" />
           <div className="flex items-center gap-4">
+            <div className="flex items-center gap-2 px-4 py-2 border-2 border-black">
+              <SiGoogle className="w-4 h-4" />
+              <span className="font-bold text-sm">GOOGLE</span>
+            </div>
+            <div className="flex items-center gap-2 px-4 py-2 border-2 border-black">
+              <SiMeta className="w-4 h-4" />
+              <span className="font-bold text-sm">META</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Main Layout: 75% Left/Center + 25% Right Sidebar */}
+      <div className="flex">
+        {/* Main Dashboard Area (75%) */}
+        <div className="w-3/4 border-r-2 border-black">
+          
+          {/* KPI Row */}
+          <div className="grid grid-cols-4 border-b-2 border-black">
+            {/* Ad Budget Saved - Larger */}
+            <div className="col-span-1 p-6 border-r-2 border-black bg-gray-50">
+              <p className="text-xs font-bold uppercase tracking-wide text-gray-600 mb-2">AD BUDGET SAVED</p>
+              <p className="text-4xl font-black">${mockKPIs.adBudgetSaved.toLocaleString()}</p>
+              <p className="text-xs text-gray-500 mt-1">Paused ads for OOS items</p>
+            </div>
+            
+            <div className="col-span-1 p-4 border-r-2 border-black">
+              <p className="text-xs font-bold uppercase tracking-wide text-gray-600 mb-1">MISSED REVENUE RISKS</p>
+              <p className="text-2xl font-black">{mockKPIs.missedRevenueRisks}</p>
+              <p className="text-xs text-gray-500">High clicks + OOS</p>
+            </div>
+            
+            <div className="col-span-1 p-4 border-r-2 border-black">
+              <p className="text-xs font-bold uppercase tracking-wide text-gray-600 mb-1">SYNC SUCCESS RATE</p>
+              <p className="text-2xl font-black">{mockKPIs.syncSuccessRate}%</p>
+              <p className="text-xs text-gray-500">Last 24 hours</p>
+            </div>
+            
+            <div className="col-span-1 p-4">
+              <p className="text-xs font-bold uppercase tracking-wide text-gray-600 mb-1">TOTAL SKUs</p>
+              <p className="text-2xl font-black">{mockKPIs.totalSKUs.toLocaleString()}</p>
+              <p className="text-xs text-gray-500">Monitored</p>
+            </div>
+          </div>
+
+          {/* Search Bar */}
+          <div className="border-b-2 border-black p-4 flex gap-4">
             <div className="flex-1 relative">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
               <input
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 onKeyPress={handleKeyPress}
-                placeholder="Search by SKU, Product Name, or Store Code..."
-                className="w-full pl-12 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                placeholder="Enter SKU or Store Code to inspect..."
+                className="w-full pl-10 pr-4 py-3 border-2 border-black font-mono text-sm focus:outline-none focus:bg-gray-50"
               />
               {searchQuery && (
-                <button onClick={clearSearch} className="absolute right-4 top-1/2 -translate-y-1/2">
-                  <X className="w-5 h-5 text-gray-400 hover:text-gray-600" />
+                <button onClick={clearSearch} className="absolute right-3 top-1/2 -translate-y-1/2">
+                  <X className="w-5 h-5 text-gray-500 hover:text-black" />
                 </button>
               )}
             </div>
             <button 
               onClick={handleSearch}
               disabled={isSearching}
-              className="px-6 py-3 bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white rounded-lg font-medium transition-colors flex items-center gap-2"
+              className="px-6 py-3 bg-black text-white font-bold text-sm hover:bg-gray-800 disabled:bg-gray-400"
             >
-              {isSearching ? <RefreshCw className="w-4 h-4 animate-spin" /> : <Search className="w-4 h-4" />}
-              Spot Check
+              INSPECT
+            </button>
+            {/* Dev Toggle */}
+            <button 
+              onClick={() => setDevView(devView === 'dashboard' ? 'search' : 'dashboard')}
+              className="px-4 py-3 border-2 border-black font-mono text-xs hover:bg-gray-100"
+            >
+              DEV: {devView.toUpperCase()}
             </button>
           </div>
-        </div>
 
-        {/* Main Content Area */}
-        {searchResult ? (
-          /* Store Availability Map */
-          <div className="bg-white rounded-xl border border-gray-200 p-6 shadow-sm">
-            <div className="flex items-start justify-between mb-6">
-              <div className="flex items-center gap-4">
-                <div className="w-16 h-16 bg-gray-100 rounded-lg flex items-center justify-center">
-                  <Package className="w-8 h-8 text-gray-400" />
+          {/* Content View */}
+          {showSearchView ? (
+            /* VIEW 2: Search Result - Store Map */
+            <div className="p-6">
+              {/* Product Header */}
+              <div className="flex items-start gap-4 mb-6 pb-4 border-b-2 border-black">
+                <div className="w-20 h-20 border-2 border-black flex items-center justify-center bg-gray-100">
+                  <Package className="w-10 h-10 text-gray-400" />
                 </div>
-                <div>
-                  <p className="text-xs text-gray-500 font-mono">SKU: {searchResult.sku}</p>
-                  <h2 className="text-xl font-semibold text-gray-900">{searchResult.name}</h2>
-                  <div className="flex items-center gap-4 mt-2">
-                    <span className="flex items-center gap-1 text-sm text-green-600">
-                      <CheckCircle className="w-4 h-4" /> {availableCount} Available
-                    </span>
-                    <span className="flex items-center gap-1 text-sm text-red-600">
-                      <XCircle className="w-4 h-4" /> {unavailableCount} Out of Stock
-                    </span>
-                  </div>
+                <div className="flex-1">
+                  <p className="font-mono text-xs text-gray-500">SKU: {searchResult.sku}</p>
+                  <h2 className="text-xl font-black">{searchResult.name}</h2>
+                  <p className="text-sm font-bold mt-1">Global Price: ₺{searchResult.globalPrice}</p>
                 </div>
+                <button onClick={clearSearch} className="px-4 py-2 border-2 border-black font-bold text-sm hover:bg-gray-100">
+                  BACK
+                </button>
               </div>
-              <button onClick={clearSearch} className="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg text-sm transition-colors">
-                Back to Dashboard
-              </button>
-            </div>
 
-            <div className="grid grid-cols-3 gap-4">
-              {searchResult.stores.map((store) => (
-                <div 
-                  key={store.storeCode}
-                  className={`p-4 rounded-lg border ${
-                    store.available 
-                      ? 'bg-green-50 border-green-200' 
-                      : 'bg-red-50 border-red-200'
-                  }`}
-                >
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="text-xs font-mono text-gray-500">{store.storeCode}</span>
-                    {store.available ? (
-                      <CheckCircle className="w-5 h-5 text-green-600" />
-                    ) : (
-                      <XCircle className="w-5 h-5 text-red-600" />
-                    )}
-                  </div>
-                  <p className="font-medium text-gray-900 text-sm mb-2">{store.storeName}</p>
-                  <div className="flex items-center justify-between text-xs">
-                    <span className="text-gray-500">Local: ₺{store.localPrice}</span>
-                    <span className="text-blue-600">Online: ₺{store.onlinePrice}</span>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        ) : (
-          /* Intelligence Matrix + Issues Feed */
-          <div className="grid grid-cols-2 gap-6">
-            {/* Left: 2x2 Matrix */}
-            <div className="bg-white rounded-xl border border-gray-200 p-6 shadow-sm">
-              <h2 className="text-lg font-semibold text-gray-900 mb-1">Intelligence Matrix</h2>
-              <p className="text-sm text-gray-500 mb-6">Supply vs. Demand Analysis</p>
-              
-              <div className="grid grid-cols-2 gap-4">
-                {/* Star Items - High Demand + In Stock */}
-                <div className="p-4 bg-yellow-50 border border-yellow-200 rounded-lg cursor-pointer hover:bg-yellow-100 transition-colors">
-                  <div className="flex items-center gap-2 mb-2">
-                    <Star className="w-5 h-5 text-yellow-600" />
-                    <span className="text-sm font-medium text-yellow-700">{mockQuadrantData.starItems.label}</span>
-                  </div>
-                  <p className="text-2xl font-bold text-gray-900">{mockQuadrantData.starItems.count.toLocaleString()}</p>
-                  <p className="text-xs text-gray-500 mt-1">{mockQuadrantData.starItems.desc}</p>
-                </div>
-
-                {/* Critical Alerts - High Demand + Out of Stock */}
-                <div className="p-4 bg-red-50 border border-red-200 rounded-lg cursor-pointer hover:bg-red-100 transition-colors">
-                  <div className="flex items-center gap-2 mb-2">
-                    <AlertCircle className="w-5 h-5 text-red-600" />
-                    <span className="text-sm font-medium text-red-700">{mockQuadrantData.criticalAlerts.label}</span>
-                  </div>
-                  <p className="text-2xl font-bold text-gray-900">{mockQuadrantData.criticalAlerts.count}</p>
-                  <p className="text-xs text-gray-500 mt-1">{mockQuadrantData.criticalAlerts.desc}</p>
-                </div>
-
-                {/* Dead Stock - Low Demand + In Stock */}
-                <div className="p-4 bg-orange-50 border border-orange-200 rounded-lg cursor-pointer hover:bg-orange-100 transition-colors">
-                  <div className="flex items-center gap-2 mb-2">
-                    <Package className="w-5 h-5 text-orange-600" />
-                    <span className="text-sm font-medium text-orange-700">{mockQuadrantData.deadStock.label}</span>
-                  </div>
-                  <p className="text-2xl font-bold text-gray-900">{mockQuadrantData.deadStock.count.toLocaleString()}</p>
-                  <p className="text-xs text-gray-500 mt-1">{mockQuadrantData.deadStock.desc}</p>
-                </div>
-
-                {/* Ignore - Low Demand + Out of Stock */}
-                <div className="p-4 bg-gray-50 border border-gray-200 rounded-lg cursor-pointer hover:bg-gray-100 transition-colors">
-                  <div className="flex items-center gap-2 mb-2">
-                    <Minus className="w-5 h-5 text-gray-500" />
-                    <span className="text-sm font-medium text-gray-600">{mockQuadrantData.ignore.label}</span>
-                  </div>
-                  <p className="text-2xl font-bold text-gray-900">{mockQuadrantData.ignore.count}</p>
-                  <p className="text-xs text-gray-500 mt-1">{mockQuadrantData.ignore.desc}</p>
-                </div>
-              </div>
-            </div>
-
-            {/* Right: Issues Feed */}
-            <div className="bg-white rounded-xl border border-gray-200 shadow-sm">
-              <div className="flex items-center justify-between px-6 py-4 border-b border-gray-200">
-                <div>
-                  <h2 className="text-lg font-semibold text-gray-900">Issues Feed</h2>
-                  <p className="text-sm text-gray-500">Grouped error summary</p>
-                </div>
-                <span className="px-3 py-1 bg-red-100 text-red-700 text-sm font-medium rounded-full">
-                  {mockIssues.reduce((acc, i) => acc + i.count, 0)} Total
-                </span>
-              </div>
-              
-              <div className="divide-y divide-gray-100">
-                {mockIssues.map((issue) => (
-                  <div key={issue.id} className="px-6 py-4 hover:bg-gray-50 transition-colors">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-3">
-                        <div className={`w-2 h-2 rounded-full ${
-                          issue.severity === 'high' ? 'bg-red-500' :
-                          issue.severity === 'medium' ? 'bg-yellow-500' : 'bg-gray-400'
-                        }`}></div>
-                        <div>
-                          <p className="font-medium text-gray-900 text-sm">{issue.errorType}</p>
-                          <div className="flex items-center gap-2 mt-1">
-                            {issue.platform === 'google' && <SiGoogle className="w-3 h-3 text-gray-400" />}
-                            {issue.platform === 'meta' && <SiMeta className="w-3 h-3 text-gray-400" />}
-                            {issue.platform === 'both' && (
-                              <>
-                                <SiGoogle className="w-3 h-3 text-gray-400" />
-                                <SiMeta className="w-3 h-3 text-gray-400" />
-                              </>
-                            )}
-                            <span className="text-xs text-gray-500 capitalize">{issue.platform}</span>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="flex items-center gap-3">
-                        <span className="text-lg font-semibold text-gray-900">{issue.count}</span>
-                        <div className="flex gap-1">
-                          <button className="p-1.5 hover:bg-gray-100 rounded transition-colors" title="View Samples">
-                            <Eye className="w-4 h-4 text-gray-500" />
-                          </button>
-                          <button className="p-1.5 hover:bg-gray-100 rounded transition-colors" title="Download CSV">
-                            <Download className="w-4 h-4 text-gray-500" />
-                          </button>
-                        </div>
-                      </div>
+              {/* Store Grid */}
+              <div className="grid grid-cols-4 gap-3">
+                {searchResult.stores.map((store) => (
+                  <div 
+                    key={store.storeCode}
+                    className="border-2 border-black p-3"
+                  >
+                    <div className="flex items-center gap-2 mb-2">
+                      <div className={`w-3 h-3 rounded-full ${store.available ? 'bg-black' : 'border-2 border-black'}`}></div>
+                      <span className="font-mono text-xs">{store.storeCode}</span>
                     </div>
+                    <p className="font-bold text-sm">{store.storeName}</p>
+                    {store.localPrice !== searchResult.globalPrice && (
+                      <p className="text-xs text-gray-600 mt-1">Local: ₺{store.localPrice}</p>
+                    )}
                   </div>
                 ))}
               </div>
             </div>
-          </div>
-        )}
-      </div>
+          ) : (
+            /* VIEW 1: Default Dashboard - Intelligence View */
+            <div className="flex">
+              {/* Left: 2x2 Matrix Grid (50%) */}
+              <div className="w-1/2 border-r-2 border-black">
+                <div className="grid grid-cols-2">
+                  {/* Top-Left: Stars */}
+                  <div className="border-b-2 border-r-2 border-black p-4">
+                    <p className="text-xs font-bold uppercase tracking-wide mb-3">★ STARS</p>
+                    <div className="space-y-2">
+                      {mockQuadrantData.stars.map((item) => (
+                        <div key={item.sku} className="flex justify-between text-xs">
+                          <span className="font-mono truncate flex-1">{item.sku}</span>
+                          <span className="font-bold ml-2">{item.clicks} clicks</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
 
-      {/* Batch Activity Drawer */}
-      {showBatchDrawer && (
-        <div className="fixed right-0 top-0 h-full w-80 bg-white border-l border-gray-200 shadow-2xl z-50">
-          <div className="flex items-center justify-between p-4 border-b border-gray-200">
-            <h3 className="font-semibold text-gray-900">Batch Activity Log</h3>
-            <button onClick={() => setShowBatchDrawer(false)} className="p-1 hover:bg-gray-100 rounded">
-              <X className="w-5 h-5 text-gray-500" />
-            </button>
+                  {/* Top-Right: Critical OOS */}
+                  <div className="border-b-2 border-black p-4">
+                    <p className="text-xs font-bold uppercase tracking-wide mb-3">⚠ CRITICAL OOS</p>
+                    <div className="space-y-2">
+                      {mockQuadrantData.criticalOOS.map((item) => (
+                        <div key={item.sku} className="flex justify-between text-xs">
+                          <span className="font-mono truncate flex-1">{item.sku}</span>
+                          <span className="font-bold ml-2">{item.clicks} clicks</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Bottom-Left: Dead Stock */}
+                  <div className="border-r-2 border-black p-4">
+                    <p className="text-xs font-bold uppercase tracking-wide mb-3">📦 DEAD STOCK</p>
+                    <div className="space-y-2">
+                      {mockQuadrantData.deadStock.map((item) => (
+                        <div key={item.sku} className="flex justify-between text-xs">
+                          <span className="font-mono truncate flex-1">{item.sku}</span>
+                          <span className="text-gray-500 ml-2">{item.days}d stale</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Bottom-Right: Ignore */}
+                  <div className="p-4">
+                    <p className="text-xs font-bold uppercase tracking-wide mb-3 text-gray-400">— IGNORE</p>
+                    <div className="space-y-2">
+                      {mockQuadrantData.ignore.map((item) => (
+                        <div key={item.sku} className="flex justify-between text-xs text-gray-400">
+                          <span className="font-mono truncate flex-1">{item.sku}</span>
+                          <span className="ml-2">{item.days}d</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Right: Issues Table (50%) */}
+              <div className="w-1/2">
+                <div className="p-4 border-b-2 border-black">
+                  <p className="text-xs font-bold uppercase tracking-wide">ISSUES FEED</p>
+                </div>
+                <table className="w-full">
+                  <thead>
+                    <tr className="border-b border-gray-300">
+                      <th className="text-left text-xs font-bold uppercase p-3">Error Type</th>
+                      <th className="text-right text-xs font-bold uppercase p-3">Count</th>
+                      <th className="text-center text-xs font-bold uppercase p-3">Platform</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {mockIssues.map((issue) => (
+                      <tr key={issue.id} className="border-b border-gray-200 hover:bg-gray-50">
+                        <td className="p-3 text-sm">{issue.errorType}</td>
+                        <td className="p-3 text-sm text-right font-bold">{issue.count}</td>
+                        <td className="p-3 text-center">
+                          <div className="flex items-center justify-center gap-1">
+                            {(issue.platform === 'google' || issue.platform === 'both') && <SiGoogle className="w-4 h-4" />}
+                            {(issue.platform === 'meta' || issue.platform === 'both') && <SiMeta className="w-4 h-4" />}
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* Right Sidebar: Live Activity Log (25%) */}
+        <div className="w-1/4 bg-gray-50">
+          <div className="p-4 border-b-2 border-black">
+            <p className="text-xs font-bold uppercase tracking-wide">LIVE ACTIVITY LOG</p>
           </div>
-          <div className="p-4 space-y-3 overflow-y-auto max-h-[calc(100vh-64px)]">
-            {mockBatchActivity.map((batch) => (
-              <div key={batch.id} className="p-3 bg-gray-50 rounded-lg border border-gray-200">
-                <div className="flex items-center justify-between mb-2">
-                  <span className="text-sm font-medium text-gray-900">Batch #{batch.batchId}</span>
-                  <span className={`text-xs px-2 py-0.5 rounded-full ${
-                    batch.status === 'success' ? 'bg-green-100 text-green-700' :
-                    batch.status === 'partial' ? 'bg-yellow-100 text-yellow-700' :
-                    'bg-red-100 text-red-700'
-                  }`}>
-                    {batch.status === 'success' ? 'Success' : 
-                     batch.status === 'partial' ? `Partial (${batch.errors} errors)` : 'Failed'}
-                  </span>
-                </div>
-                <div className="flex items-center gap-2 text-xs text-gray-500">
-                  {batch.platform === 'google' ? <SiGoogle className="w-3 h-3" /> : <SiMeta className="w-3 h-3" />}
-                  <span>{batch.items.toLocaleString()} items</span>
-                  <span>•</span>
-                  <span>{batch.duration}</span>
-                  <span>•</span>
-                  <span>{batch.timestamp}</span>
-                </div>
+          <div className="p-4 space-y-2 overflow-y-auto max-h-[calc(100vh-200px)]">
+            {mockActivityLog.map((log, idx) => (
+              <div key={idx} className="font-mono text-xs">
+                <span className="text-gray-500">{log.time}:</span>{' '}
+                <span>{log.message}</span>
               </div>
             ))}
           </div>
         </div>
-      )}
+      </div>
     </div>
   );
 }
