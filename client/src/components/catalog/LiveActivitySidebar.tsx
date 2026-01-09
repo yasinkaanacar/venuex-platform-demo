@@ -1,108 +1,240 @@
 import { useState, useEffect, useRef } from 'react';
 import { SiGoogle, SiMeta } from 'react-icons/si';
+import { CheckCircle, AlertTriangle, XCircle, RefreshCw, ExternalLink } from 'lucide-react';
 
-interface LogEntry {
+type EventType = 'ingestion' | 'processing' | 'outcome';
+type EventStatus = 'success' | 'warning' | 'error' | 'pending';
+
+interface JobLogEntry {
   id: number;
   timestamp: string;
+  batchId: string;
+  eventType: EventType;
+  title: string;
   message: string;
-  statusCode: number;
-  platform: 'google' | 'meta';
-  type: 'success' | 'warning' | 'error';
+  status: EventStatus;
+  platform?: 'google' | 'meta' | 'erp';
+  issueCount?: number;
+  errorReason?: string;
 }
 
-const initialLogs: LogEntry[] = [
-  { id: 1, timestamp: '14:32:01', message: 'SKU-9921 updated on Meta', statusCode: 200, platform: 'meta', type: 'success' },
-  { id: 2, timestamp: '14:31:58', message: 'Batch #992 completed', statusCode: 200, platform: 'google', type: 'success' },
-  { id: 3, timestamp: '14:31:45', message: 'Price sync for IST-001', statusCode: 200, platform: 'google', type: 'success' },
-  { id: 4, timestamp: '14:31:32', message: 'SKU-4421 inventory update', statusCode: 200, platform: 'meta', type: 'success' },
-  { id: 5, timestamp: '14:31:20', message: 'Rate limit warning', statusCode: 429, platform: 'google', type: 'warning' },
-  { id: 6, timestamp: '14:31:12', message: 'SKU-1122 availability sync', statusCode: 200, platform: 'meta', type: 'success' },
-  { id: 7, timestamp: '14:30:58', message: 'Store ANK-002 data refresh', statusCode: 200, platform: 'google', type: 'success' },
-  { id: 8, timestamp: '14:30:45', message: 'Batch #991 started', statusCode: 200, platform: 'meta', type: 'success' },
+const initialLogs: JobLogEntry[] = [
+  { 
+    id: 5, 
+    timestamp: '14:32:45', 
+    batchId: '204',
+    eventType: 'outcome',
+    title: 'Sync Failed: Meta',
+    message: 'API connection timed out after 30s',
+    status: 'error',
+    platform: 'meta',
+    errorReason: 'API Timeout'
+  },
+  { 
+    id: 4, 
+    timestamp: '14:32:12', 
+    batchId: '204',
+    eventType: 'processing',
+    title: 'Sync Started: Meta Commerce',
+    message: 'Initiating product feed sync...',
+    status: 'pending',
+    platform: 'meta'
+  },
+  { 
+    id: 3, 
+    timestamp: '14:31:58', 
+    batchId: '204',
+    eventType: 'outcome',
+    title: 'Sync Completed: Google',
+    message: '124,850 products synced successfully',
+    status: 'warning',
+    platform: 'google',
+    issueCount: 45
+  },
+  { 
+    id: 2, 
+    timestamp: '14:31:15', 
+    batchId: '204',
+    eventType: 'processing',
+    title: 'Sync Started: Google Merchant',
+    message: 'Pushing inventory updates...',
+    status: 'success',
+    platform: 'google'
+  },
+  { 
+    id: 1, 
+    timestamp: '14:30:02', 
+    batchId: '204',
+    eventType: 'ingestion',
+    title: 'Data Received from ERP',
+    message: 'Successfully pulled 125,000 items',
+    status: 'success',
+    platform: 'erp'
+  },
 ];
 
-const simulatedMessages = [
-  { message: 'SKU-{sku} updated', platform: 'meta' as const, statusCode: 200, type: 'success' as const },
-  { message: 'Inventory sync for {store}', platform: 'google' as const, statusCode: 200, type: 'success' as const },
-  { message: 'Price update confirmed', platform: 'meta' as const, statusCode: 200, type: 'success' as const },
-  { message: 'Batch #{batch} processed', platform: 'google' as const, statusCode: 200, type: 'success' as const },
-  { message: 'Rate limit approaching', platform: 'google' as const, statusCode: 429, type: 'warning' as const },
-  { message: 'Availability sync complete', platform: 'meta' as const, statusCode: 200, type: 'success' as const },
+const simulatedEvents: Omit<JobLogEntry, 'id' | 'timestamp'>[] = [
+  { 
+    batchId: '205',
+    eventType: 'ingestion',
+    title: 'Data Received from ERP',
+    message: 'Successfully pulled 118,420 items',
+    status: 'success',
+    platform: 'erp'
+  },
+  { 
+    batchId: '205',
+    eventType: 'processing',
+    title: 'Sync Started: Google Merchant',
+    message: 'Processing inventory updates...',
+    status: 'success',
+    platform: 'google'
+  },
+  { 
+    batchId: '205',
+    eventType: 'outcome',
+    title: 'Sync Completed: Google',
+    message: '118,420 products synced',
+    status: 'success',
+    platform: 'google'
+  },
+  { 
+    batchId: '205',
+    eventType: 'processing',
+    title: 'Sync Started: Meta Commerce',
+    message: 'Initiating catalog sync...',
+    status: 'pending',
+    platform: 'meta'
+  },
+  { 
+    batchId: '205',
+    eventType: 'outcome',
+    title: 'Sync Completed: Meta',
+    message: '118,200 products synced',
+    status: 'warning',
+    platform: 'meta',
+    issueCount: 12
+  },
 ];
-
-const stores = ['IST-001', 'IST-002', 'ANK-001', 'IZM-001', 'BUR-001'];
 
 export default function LiveActivitySidebar() {
-  const [logs, setLogs] = useState<LogEntry[]>(initialLogs);
+  const [logs, setLogs] = useState<JobLogEntry[]>(initialLogs);
   const nextIdRef = useRef(initialLogs.length + 1);
+  const eventIndexRef = useRef(0);
 
   useEffect(() => {
     const interval = setInterval(() => {
       const now = new Date();
       const timestamp = now.toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' });
       
-      const template = simulatedMessages[Math.floor(Math.random() * simulatedMessages.length)];
-      let message = template.message
-        .replace('{sku}', String(1000 + Math.floor(Math.random() * 9000)))
-        .replace('{store}', stores[Math.floor(Math.random() * stores.length)])
-        .replace('{batch}', String(990 + Math.floor(Math.random() * 20)));
-
-      const newLog: LogEntry = {
+      const eventTemplate = simulatedEvents[eventIndexRef.current % simulatedEvents.length];
+      
+      const newLog: JobLogEntry = {
+        ...eventTemplate,
         id: nextIdRef.current,
         timestamp,
-        message,
-        statusCode: template.statusCode,
-        platform: template.platform,
-        type: template.type,
       };
 
       nextIdRef.current += 1;
-      setLogs(prev => [newLog, ...prev.slice(0, 49)]);
-    }, 3000);
+      eventIndexRef.current += 1;
+      setLogs(prev => [newLog, ...prev.slice(0, 19)]);
+    }, 5000);
 
     return () => clearInterval(interval);
   }, []);
 
-  const getStatusColor = (type: 'success' | 'warning' | 'error') => {
-    switch (type) {
-      case 'success': return 'text-green-600';
-      case 'warning': return 'text-yellow-600';
-      case 'error': return 'text-red-600';
+  const getStatusIcon = (status: EventStatus) => {
+    switch (status) {
+      case 'success': return <CheckCircle className="w-4 h-4 text-green-600" />;
+      case 'warning': return <AlertTriangle className="w-4 h-4 text-yellow-600" />;
+      case 'error': return <XCircle className="w-4 h-4 text-red-600" />;
+      case 'pending': return <RefreshCw className="w-4 h-4 text-blue-600 animate-spin" />;
+    }
+  };
+
+  const getStatusBgColor = (status: EventStatus) => {
+    switch (status) {
+      case 'success': return 'bg-green-50 border-green-200';
+      case 'warning': return 'bg-yellow-50 border-yellow-200';
+      case 'error': return 'bg-red-50 border-red-200';
+      case 'pending': return 'bg-blue-50 border-blue-200';
+    }
+  };
+
+  const getStatusText = (entry: JobLogEntry) => {
+    switch (entry.status) {
+      case 'success': return 'Completed Successfully';
+      case 'warning': return `Completed with ${entry.issueCount} Issues`;
+      case 'error': return `Failed: ${entry.errorReason}`;
+      case 'pending': return 'In Progress...';
+    }
+  };
+
+  const getStatusTextColor = (status: EventStatus) => {
+    switch (status) {
+      case 'success': return 'text-green-700';
+      case 'warning': return 'text-yellow-700';
+      case 'error': return 'text-red-700';
+      case 'pending': return 'text-blue-700';
+    }
+  };
+
+  const getPlatformIcon = (platform?: 'google' | 'meta' | 'erp') => {
+    switch (platform) {
+      case 'google': return <SiGoogle className="w-3.5 h-3.5 text-gray-500" />;
+      case 'meta': return <SiMeta className="w-3.5 h-3.5 text-gray-500" />;
+      default: return null;
     }
   };
 
   return (
-    <div className="w-72 bg-white border-l border-gray-200 flex flex-col min-h-full">
+    <div className="w-80 bg-white border-l border-gray-200 flex flex-col min-h-full">
       {/* Header */}
       <div className="flex items-center gap-2 px-4 py-3 border-b border-gray-200">
         <div className="relative">
           <div className="w-2 h-2 bg-green-500 rounded-full"></div>
           <div className="absolute inset-0 w-2 h-2 bg-green-500 rounded-full animate-ping opacity-50"></div>
         </div>
-        <h3 className="font-semibold text-gray-900 text-sm">Live Stream</h3>
+        <h3 className="font-semibold text-gray-900 text-sm">Pipeline Activity</h3>
       </div>
 
       {/* Log Entries */}
-      <div className="flex-1 overflow-y-auto">
+      <div className="flex-1 overflow-y-auto p-3 space-y-3">
         {logs.map((log) => (
           <div 
             key={log.id} 
-            className="px-3 py-2 border-b border-gray-100 hover:bg-gray-50 transition-colors"
+            className={`rounded-lg border p-3 ${getStatusBgColor(log.status)}`}
           >
-            <div className="flex items-center gap-2 mb-1">
-              <span className="text-xs font-mono text-gray-400">{log.timestamp}</span>
-              {log.platform === 'google' ? (
-                <SiGoogle className="w-3 h-3 text-gray-400" />
-              ) : (
-                <SiMeta className="w-3 h-3 text-gray-400" />
-              )}
-              <span className={`text-xs font-mono ${getStatusColor(log.type)}`}>
-                [{log.statusCode}]
-              </span>
+            {/* Header */}
+            <div className="flex items-center justify-between mb-2">
+              <div className="flex items-center gap-2">
+                <span className="text-xs font-mono text-gray-500">{log.timestamp}</span>
+                {getPlatformIcon(log.platform)}
+              </div>
+              <span className="text-xs font-medium text-gray-500">Batch #{log.batchId}</span>
             </div>
-            <p className={`text-xs font-mono ${getStatusColor(log.type)}`}>
-              {log.message}
-            </p>
+
+            {/* Title */}
+            <h4 className="text-sm font-medium text-gray-900 mb-1">{log.title}</h4>
+            
+            {/* Message */}
+            <p className="text-xs text-gray-600 mb-2">{log.message}</p>
+
+            {/* Footer/Status */}
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-1.5">
+                {getStatusIcon(log.status)}
+                <span className={`text-xs font-medium ${getStatusTextColor(log.status)}`}>
+                  {getStatusText(log)}
+                </span>
+              </div>
+              
+              {(log.status === 'warning' || log.status === 'error') && (
+                <button className="flex items-center gap-1 text-xs text-blue-600 hover:text-blue-700 font-medium">
+                  See Details <ExternalLink className="w-3 h-3" />
+                </button>
+              )}
+            </div>
           </div>
         ))}
       </div>
