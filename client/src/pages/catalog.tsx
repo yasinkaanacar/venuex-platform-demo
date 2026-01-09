@@ -1,5 +1,6 @@
 import PipelineStatus from '@/components/catalog/PipelineStatus';
 import LiveActivitySidebar from '@/components/catalog/LiveActivitySidebar';
+import MainDashboardContent from '@/components/catalog/MainDashboardContent';
 
 export default function Catalog() {
   return (
@@ -21,8 +22,7 @@ export default function Catalog() {
 
         {/* Content Area */}
         <div className="flex-1 px-6 pb-6 overflow-auto">
-          <h1 className="text-2xl font-bold text-gray-900 mb-4">Local Inventory</h1>
-          {/* Additional components will go here */}
+          <MainDashboardContent />
         </div>
       </div>
 
