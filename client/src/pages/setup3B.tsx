@@ -22,7 +22,16 @@ import {
   ChevronRight,
   Zap,
   Target,
-  BarChart3
+  BarChart3,
+  Search,
+  AlertTriangle,
+  Clock,
+  Activity,
+  RefreshCw,
+  ExternalLink,
+  CheckCircle2,
+  XCircle,
+  Eye
 } from 'lucide-react';
 import koctasLogo from '@assets/image_1764932445923.png';
 import venuexLogo from '@assets/venuex-logo-1000-200_1766151107474.png';
@@ -99,6 +108,42 @@ const steps = [
   { id: 1, label: 'Locations', icon: MapPin, description: 'Connect location profiles' },
   { id: 2, label: 'Sales', icon: ShoppingCart, description: 'Sales data & conversions' },
   { id: 3, label: 'Catalog', icon: Package, description: 'Product catalog sync' },
+];
+
+const inventoryMetrics = {
+  totalSKUs: 124847,
+  availablePercent: 87.3,
+  notAvailablePercent: 12.7,
+  syncErrors: 142,
+  lastSync: '2 min ago',
+  apiLatency: {
+    google: 124,
+    meta: 89
+  }
+};
+
+const inventoryIssues = [
+  { id: 1, errorType: 'Store Code Mismatch', description: 'SKU references unknown store codes', impactedSKUs: 89, platform: 'google', severity: 'high' },
+  { id: 2, errorType: 'API Timeout', description: 'Connection timeout during sync', impactedSKUs: 34, platform: 'meta', severity: 'medium' },
+  { id: 3, errorType: 'Invalid Product ID', description: 'Product ID not found in Merchant Center', impactedSKUs: 12, platform: 'google', severity: 'high' },
+  { id: 4, errorType: 'Rate Limit Exceeded', description: 'Too many requests in short period', impactedSKUs: 7, platform: 'meta', severity: 'low' },
+];
+
+const batchActivityLog = [
+  { id: 992, items: 10420, status: 'success', timestamp: '14:32', platform: 'google' },
+  { id: 991, items: 8750, status: 'success', timestamp: '14:15', platform: 'meta' },
+  { id: 990, items: 12100, status: 'partial', timestamp: '13:58', platform: 'google' },
+  { id: 989, items: 9200, status: 'success', timestamp: '13:41', platform: 'meta' },
+  { id: 988, items: 11500, status: 'failed', timestamp: '13:24', platform: 'google' },
+];
+
+const mockStoreMatrix = [
+  { storeCode: 'IST-001', storeName: 'Kadıköy', available: true },
+  { storeCode: 'IST-002', storeName: 'Beşiktaş', available: true },
+  { storeCode: 'IST-003', storeName: 'Üsküdar', available: false },
+  { storeCode: 'ANK-001', storeName: 'Kızılay', available: true },
+  { storeCode: 'ANK-002', storeName: 'Çankaya', available: false },
+  { storeCode: 'IZM-001', storeName: 'Konak', available: true },
 ];
 
 const features = [
@@ -328,6 +373,9 @@ export default function Setup3B() {
     { firstName: 'Ahmet', lastName: 'Yılmaz', email: 'ahmet@company.com', role: 'Admin', status: 'accepted' as const },
     { firstName: 'Elif', lastName: 'Demir', email: 'elif@company.com', role: 'Manager', status: 'pending' as const },
   ]);
+  const [skuSearch, setSkuSearch] = useState('');
+  const [searchResult, setSearchResult] = useState<{ sku: string; productName: string } | null>(null);
+  const [viewSampleModal, setViewSampleModal] = useState<{ open: boolean; errorType: string; skus: string[] }>({ open: false, errorType: '', skus: [] });
   const [adminMode, setAdminMode] = useState(() => {
     return localStorage.getItem('venuex_admin_mode') === 'true';
   });
