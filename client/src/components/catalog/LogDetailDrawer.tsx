@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { X, Download, ExternalLink, ChevronRight } from 'lucide-react';
+import { X, Download, ChevronRight } from 'lucide-react';
 import { SiGoogle, SiMeta } from 'react-icons/si';
 
 interface ErrorItem {
@@ -148,14 +148,10 @@ export default function LogDetailDrawer({ isOpen, onClose, event }: LogDetailDra
         </div>
 
         {/* Footer Section (Sticky) */}
-        <div className="px-6 py-4 border-t border-gray-200 bg-white space-y-3">
+        <div className="px-6 py-4 border-t border-gray-200 bg-white">
           <button className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-white border border-gray-300 text-slate-700 font-medium rounded-lg hover:bg-gray-50 shadow-sm transition-colors">
             <Download className="w-4 h-4" />
             Download Error Report (.CSV)
-          </button>
-          <button className="w-full flex items-center justify-center gap-2 text-sm text-slate-500 hover:text-slate-700 transition-colors py-1">
-            <ExternalLink className="w-4 h-4" />
-            View in Google Merchant Center
           </button>
         </div>
       </div>
