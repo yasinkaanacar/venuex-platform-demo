@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { SiGoogle, SiMeta } from 'react-icons/si';
 import { CheckCircle, AlertTriangle, XCircle, RefreshCw, ExternalLink } from 'lucide-react';
+import LogDetailDrawer from './LogDetailDrawer';
 
 type EventType = 'ingestion' | 'processing' | 'outcome';
 type EventStatus = 'success' | 'warning' | 'error' | 'pending';
@@ -119,6 +120,8 @@ const simulatedEvents: Omit<JobLogEntry, 'id' | 'timestamp'>[] = [
 
 export default function LiveActivitySidebar() {
   const [logs, setLogs] = useState<JobLogEntry[]>(initialLogs);
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  const [drawerScenario, setDrawerScenario] = useState<'issues' | 'fatal' | 'success'>('issues');
   const nextIdRef = useRef(initialLogs.length + 1);
   const eventIndexRef = useRef(0);
 
@@ -142,6 +145,17 @@ export default function LiveActivitySidebar() {
 
     return () => clearInterval(interval);
   }, []);
+
+  const handleOpenDetails = (entry: JobLogEntry) => {
+    if (entry.status === 'error') {
+      setDrawerScenario('fatal');
+    } else if (entry.status === 'warning') {
+      setDrawerScenario('issues');
+    } else {
+      setDrawerScenario('success');
+    }
+    setDrawerOpen(true);
+  };
 
   const getStatusIcon = (status: EventStatus) => {
     switch (status) {
@@ -188,56 +202,67 @@ export default function LiveActivitySidebar() {
   };
 
   return (
-    <div className="w-80 bg-white border-l border-gray-200 flex flex-col min-h-full">
-      {/* Header */}
-      <div className="flex items-center gap-2 px-4 py-3 border-b border-gray-200">
-        <div className="relative">
-          <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-          <div className="absolute inset-0 w-2 h-2 bg-green-500 rounded-full animate-ping opacity-50"></div>
-        </div>
-        <h3 className="font-semibold text-gray-900 text-sm">Pipeline Activity</h3>
-      </div>
-
-      {/* Log Entries */}
-      <div className="flex-1 overflow-y-auto p-3 space-y-3">
-        {logs.map((log) => (
-          <div 
-            key={log.id} 
-            className={`rounded-lg border p-3 ${getStatusBgColor(log.status)}`}
-          >
-            {/* Header */}
-            <div className="flex items-center justify-between mb-2">
-              <div className="flex items-center gap-2">
-                <span className="text-xs font-mono text-gray-500">{log.timestamp}</span>
-                {getPlatformIcon(log.platform)}
-              </div>
-              <span className="text-xs font-medium text-gray-500">Batch #{log.batchId}</span>
-            </div>
-
-            {/* Title */}
-            <h4 className="text-sm font-medium text-gray-900 mb-1">{log.title}</h4>
-            
-            {/* Message */}
-            <p className="text-xs text-gray-600 mb-2">{log.message}</p>
-
-            {/* Footer/Status */}
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-1.5">
-                {getStatusIcon(log.status)}
-                <span className={`text-xs font-medium ${getStatusTextColor(log.status)}`}>
-                  {getStatusText(log)}
-                </span>
-              </div>
-              
-              {(log.status === 'warning' || log.status === 'error') && (
-                <button className="flex items-center gap-1 text-xs text-blue-600 hover:text-blue-700 font-medium">
-                  See Details <ExternalLink className="w-3 h-3" />
-                </button>
-              )}
-            </div>
+    <>
+      <div className="w-80 bg-white border-l border-gray-200 flex flex-col min-h-full">
+        {/* Header */}
+        <div className="flex items-center gap-2 px-4 py-3 border-b border-gray-200">
+          <div className="relative">
+            <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+            <div className="absolute inset-0 w-2 h-2 bg-green-500 rounded-full animate-ping opacity-50"></div>
           </div>
-        ))}
+          <h3 className="font-semibold text-gray-900 text-sm">Pipeline Activity</h3>
+        </div>
+
+        {/* Log Entries */}
+        <div className="flex-1 overflow-y-auto p-3 space-y-3">
+          {logs.map((log) => (
+            <div 
+              key={log.id} 
+              className={`rounded-lg border p-3 ${getStatusBgColor(log.status)}`}
+            >
+              {/* Header */}
+              <div className="flex items-center justify-between mb-2">
+                <div className="flex items-center gap-2">
+                  <span className="text-xs font-mono text-gray-500">{log.timestamp}</span>
+                  {getPlatformIcon(log.platform)}
+                </div>
+                <span className="text-xs font-medium text-gray-500">Batch #{log.batchId}</span>
+              </div>
+
+              {/* Title */}
+              <h4 className="text-sm font-medium text-gray-900 mb-1">{log.title}</h4>
+              
+              {/* Message */}
+              <p className="text-xs text-gray-600 mb-2">{log.message}</p>
+
+              {/* Footer/Status */}
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-1.5">
+                  {getStatusIcon(log.status)}
+                  <span className={`text-xs font-medium ${getStatusTextColor(log.status)}`}>
+                    {getStatusText(log)}
+                  </span>
+                </div>
+                
+                {(log.status === 'warning' || log.status === 'error') && (
+                  <button 
+                    onClick={() => handleOpenDetails(log)}
+                    className="flex items-center gap-1 text-xs text-blue-600 hover:text-blue-700 font-medium"
+                  >
+                    See Details <ExternalLink className="w-3 h-3" />
+                  </button>
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
-    </div>
+
+      <LogDetailDrawer 
+        isOpen={drawerOpen}
+        onClose={() => setDrawerOpen(false)}
+        scenario={drawerScenario}
+      />
+    </>
   );
 }

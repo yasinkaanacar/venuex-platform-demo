@@ -1,0 +1,58 @@
+I need to create a `LogDetailDrawer` component.
+This is a slide-over panel that opens from the right side of the screen when a user clicks "See Details" on an Activity Log entry.
+
+**UX Behavior:**
+- Overlay: Darkens the main dashboard slightly (backdrop-blur).
+- Animation: Slides in from the right.
+- Width: Wide enough to read tables (approx 600px or 40% of screen).
+- Close Action: 'X' button in top right or clicking outside closes it.
+
+**Dynamic Content States (We need 3 Mock Variations):**
+
+**Scenario A: The "Issues" View (Most Important)**
+*Use this mock data: "Sync Completed - Google Merchant Center" (Status: Warning)*
+1.  **Header:**
+    - Title: "Batch #8821 Report"
+    - Status Badge: Yellow "Completed with Issues".
+    - Time: "Today, 14:45"
+2.  **Summary Cards (Row):**
+    - Total Items: 12,400
+    - Successful: 12,250
+    - Failed/Skipped: 150 (Red text)
+3.  **The "Error Grouping" Table (Crucial):**
+    - Do NOT list 150 items. Group them by error type.
+    - **Row 1:**
+        - Type: "Price Mismatch (Local > Online)"
+        - Count: 120 items
+        - Action: [View Sample SKUs] (Mock button)
+    - **Row 2:**
+        - Type: "Invalid Store Code (TR-99)"
+        - Count: 30 items
+        - Action: [View Sample SKUs]
+4.  **Footer:** Button "Download Full Error Report (.CSV)"
+
+**Scenario B: The "Fatal Error" View**
+*Use this mock data: "Ingestion Failed - Client ERP" (Status: Failure)*
+1.  **Header:** Status Badge: Red "Failed".
+2.  **Error Banner:** A prominent red box.
+    - Icon: Alert Triangle.
+    - Message: "Connection Refused: Could not reach source server."
+3.  **Technical Details (Code Block):**
+    - A dark terminal-like box showing the raw error: `Error 503: Service Unavailable at https://api.client-erp.com/v1/inventory...`
+4.  **Footer:** Button "Retry Connection".
+
+**Scenario C: The "Success" View**
+*Use this mock data: "Sync Successful - Meta Commerce" (Status: Success)*
+1.  **Header:** Status Badge: Green "Success".
+2.  **Success Graphic:** A large Green Checkmark icon centered.
+3.  **Stats List:**
+    - Processed: 5,000
+    - Updated: 420
+    - Unchanged: 4,580
+    - Latency: 1.2s
+4.  **Footer:** Button "View on Meta Commerce Manager" (External Link).
+
+**Technical Instructions:**
+- Use Tailwind for styling (Dark mode: bg-gray-900).
+- Create a `mockState` variable to toggle between these 3 scenarios easily for review.
+- Ensure the "Error Grouping Table" looks clean and actionable.
