@@ -114,13 +114,12 @@ export default function LiveActivitySidebar() {
       case 'processing': 
         return (
           <div className="relative">
-            <Loader2 className="w-5 h-5 text-blue-500 animate-spin" />
-            <div className="absolute inset-0 w-5 h-5 bg-blue-500 rounded-full opacity-20 animate-ping"></div>
+            <Loader2 className="w-5 h-5 text-blue-600 animate-spin" />
           </div>
         );
-      case 'success': return <CheckCircle className="w-5 h-5 text-green-500" />;
-      case 'warning': return <AlertTriangle className="w-5 h-5 text-yellow-500" />;
-      case 'error': return <XCircle className="w-5 h-5 text-red-500" />;
+      case 'success': return <CheckCircle className="w-5 h-5 text-green-600" />;
+      case 'warning': return <AlertTriangle className="w-5 h-5 text-yellow-600" />;
+      case 'error': return <XCircle className="w-5 h-5 text-red-600" />;
     }
   };
 
@@ -130,6 +129,15 @@ export default function LiveActivitySidebar() {
       case 'success': return 'bg-green-500';
       case 'warning': return 'bg-yellow-500';
       case 'error': return 'bg-red-500';
+    }
+  };
+
+  const getCardBg = (status: EventStatus) => {
+    switch (status) {
+      case 'processing': return 'bg-blue-50 border-blue-200';
+      case 'success': return 'bg-green-50 border-green-200';
+      case 'warning': return 'bg-yellow-50 border-yellow-200';
+      case 'error': return 'bg-red-50 border-red-200';
     }
   };
 
@@ -143,36 +151,36 @@ export default function LiveActivitySidebar() {
 
   return (
     <>
-      <div className="w-80 bg-gray-900 flex flex-col min-h-full">
+      <div className="w-80 bg-white border-l border-gray-200 flex flex-col min-h-full">
         {/* Header */}
-        <div className="flex items-center gap-2 px-4 py-3 border-b border-gray-700">
+        <div className="flex items-center gap-2 px-4 py-3 border-b border-gray-200">
           <div className="relative">
             <div className="w-2 h-2 bg-green-500 rounded-full"></div>
             <div className="absolute inset-0 w-2 h-2 bg-green-500 rounded-full animate-ping opacity-50"></div>
           </div>
-          <h3 className="font-semibold text-white text-sm">Activity Feed</h3>
+          <h3 className="font-semibold text-gray-900 text-sm">Activity Feed</h3>
         </div>
 
         {/* Timeline Events */}
         <div className="flex-1 overflow-y-auto py-4">
           <div className="relative">
             {/* Vertical Timeline Line */}
-            <div className="absolute left-6 top-0 bottom-0 w-0.5 bg-gray-700"></div>
+            <div className="absolute left-6 top-0 bottom-0 w-0.5 bg-gray-200"></div>
 
             {/* Events */}
             <div className="space-y-1">
               {events.map((event, index) => (
                 <div key={event.id} className="relative pl-12 pr-4">
                   {/* Timeline Dot */}
-                  <div className={`absolute left-[18px] top-3 w-3 h-3 rounded-full ${getStatusBg(event.status)} ring-4 ring-gray-900`}></div>
+                  <div className={`absolute left-[18px] top-3 w-3 h-3 rounded-full ${getStatusBg(event.status)} ring-4 ring-white`}></div>
 
                   {/* Event Card */}
-                  <div className="bg-gray-800 rounded-lg p-3 hover:bg-gray-750 transition-colors">
+                  <div className={`rounded-lg border p-3 ${getCardBg(event.status)} transition-colors`}>
                     {/* Header Row */}
                     <div className="flex items-center justify-between mb-2">
                       <div className="flex items-center gap-2">
                         <span className="text-[10px] font-mono text-gray-500">{event.timestamp}</span>
-                        <div className="text-gray-400">
+                        <div className="text-gray-500">
                           {getPlatformIcon(event.platform)}
                         </div>
                       </div>
@@ -183,19 +191,19 @@ export default function LiveActivitySidebar() {
                     <div className="flex items-start gap-2">
                       {getStatusIcon(event.status)}
                       <div className="flex-1 min-w-0">
-                        <h4 className="text-sm font-medium text-white truncate">
+                        <h4 className="text-sm font-medium text-gray-900 truncate">
                           {event.title}
                           {event.progress !== undefined && (
-                            <span className="text-blue-400 ml-1">({event.progress}%)</span>
+                            <span className="text-blue-600 ml-1">({event.progress}%)</span>
                           )}
                         </h4>
-                        <p className="text-xs text-gray-400 mt-0.5">{event.subtitle}</p>
+                        <p className="text-xs text-gray-600 mt-0.5">{event.subtitle}</p>
                       </div>
                     </div>
 
                     {/* Progress Bar for Processing */}
                     {event.status === 'processing' && event.progress !== undefined && (
-                      <div className="mt-2 h-1 bg-gray-700 rounded-full overflow-hidden">
+                      <div className="mt-2 h-1 bg-blue-200 rounded-full overflow-hidden">
                         <div 
                           className="h-full bg-blue-500 transition-all duration-500"
                           style={{ width: `${event.progress}%` }}
@@ -207,7 +215,7 @@ export default function LiveActivitySidebar() {
                     {event.status === 'warning' && (
                       <button 
                         onClick={() => handleReview(event)}
-                        className="mt-2 w-full text-xs font-medium text-yellow-400 bg-yellow-500/10 hover:bg-yellow-500/20 py-1.5 rounded transition-colors"
+                        className="mt-2 w-full text-xs font-medium text-yellow-700 bg-yellow-100 hover:bg-yellow-200 border border-yellow-300 py-1.5 rounded transition-colors"
                       >
                         Review Issues
                       </button>
@@ -215,7 +223,7 @@ export default function LiveActivitySidebar() {
                     {event.status === 'error' && (
                       <button 
                         onClick={() => handleRetry(event)}
-                        className="mt-2 w-full flex items-center justify-center gap-1.5 text-xs font-medium text-red-400 bg-red-500/10 hover:bg-red-500/20 py-1.5 rounded transition-colors"
+                        className="mt-2 w-full flex items-center justify-center gap-1.5 text-xs font-medium text-red-700 bg-red-100 hover:bg-red-200 border border-red-300 py-1.5 rounded transition-colors"
                       >
                         <RefreshCw className="w-3 h-3" />
                         Retry
