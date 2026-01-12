@@ -74,14 +74,12 @@ interface LocationData {
 interface FilterState {
   search: string;
   platform: PlatformKey | 'all';
-  errorType: ErrorTypeFilter;
   storeSet: string;
 }
 
 const initialFilters: FilterState = {
   search: '',
   platform: 'all',
-  errorType: 'all',
   storeSet: 'all'
 };
 
@@ -528,7 +526,6 @@ const mockLocations: LocationData[] = [
 ];
 
 type PlatformKey = 'google' | 'meta' | 'apple' | 'yandex';
-type ErrorTypeFilter = 'all' | 'sync_error';
 
 const getWarningIcon = (type: WarningType) => {
   switch (type) {
@@ -712,7 +709,7 @@ function FilterToolbar({
   resultCount: number;
   totalCount: number;
 }) {
-  const hasActiveFilters = filters.search !== '' || filters.platform !== 'all' || filters.errorType !== 'all' || filters.storeSet !== 'all';
+  const hasActiveFilters = filters.search !== '' || filters.platform !== 'all' || filters.storeSet !== 'all';
 
   const updateFilter = <K extends keyof FilterState>(key: K, value: FilterState[K]) => {
     setFilters({ ...filters, [key]: value });
@@ -729,11 +726,6 @@ function FilterToolbar({
     return labels[filters.platform] || 'Platform';
   };
 
-  const getStatusLabel = () => {
-    if (filters.errorType === 'all') return 'Durum';
-    if (filters.errorType === 'sync_error') return 'Sync Hataları';
-    return 'İçerik Eksikleri';
-  };
 
   return (
     <div className="flex flex-row items-center justify-between gap-4 px-4 py-3 bg-white border-b border-gray-200">
@@ -767,12 +759,6 @@ function FilterToolbar({
           </SelectContent>
         </Select>
 
-        <Select value={filters.errorType} onValueChange={(v) => updateFilter('errorType', v as ErrorTypeFilter)} displayLabel={getStatusLabel()} width={150}>
-          <SelectContent>
-            <SelectItem value="all">Tüm Durumlar</SelectItem>
-            <SelectItem value="sync_error">Sync Hataları</SelectItem>
-          </SelectContent>
-        </Select>
 
         {hasActiveFilters && (
           <Button 
@@ -1661,22 +1647,9 @@ export default function LocationStatusTable() {
         return platformData.status !== 'verified' || platformData.warnings.length > 0;
       })();
 
-      const errorTypeMatch = filters.errorType === 'all' || (() => {
-        const allWarnings = [
-          ...location.google.warnings,
-          ...location.meta.warnings,
-          ...location.apple.warnings,
-          ...location.yandex.warnings
-        ];
-        if (filters.errorType === 'sync_error') {
-          return allWarnings.some(w => w.type === 'sync_error');
-        }
-        return true;
-      })();
-
       const storeSetMatch = filters.storeSet === 'all' || location.storeSet === filters.storeSet;
 
-      return searchMatch && platformMatch && errorTypeMatch && storeSetMatch;
+      return searchMatch && platformMatch && storeSetMatch;
     });
   }, [filters]);
 
