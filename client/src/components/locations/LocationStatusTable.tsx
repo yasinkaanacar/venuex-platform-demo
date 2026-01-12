@@ -76,6 +76,7 @@ const initialFilters: FilterState = {
 };
 
 const mockLocations: LocationData[] = [
+  // 1. HAPPY PATH (Sorunsuz Mağaza)
   {
     id: 1,
     storeCode: 'DY_001',
@@ -83,33 +84,49 @@ const mockLocations: LocationData[] = [
     address: 'Caferağa Mah. Moda Cad. No:12',
     phone: '+90 216 555 0001',
     email: 'kadikoy@doyuyo.com',
-    imageUrl: 'https://example.com/kadikoy.jpg',
-    website: 'https://doyuyo.com/kadikoy',
+    imageUrl: 'https://example.com/img1.jpg',
+    website: 'https://doyuyo.com',
     workingHours: '09:00 - 22:00',
-    description: 'Kadıköy şubemiz, Moda sahilinde hizmet vermektedir.',
+    description: 'Moda sahil şubesi',
     storeSet: 'Cadde',
     google: { status: 'verified', lastSync: '2 dk önce', warnings: [] },
     meta: { status: 'verified', lastSync: '5 dk önce', warnings: [] },
     apple: { status: 'verified', lastSync: '10 dk önce', warnings: [] },
     yandex: { status: 'verified', lastSync: '15 dk önce', warnings: [] }
   },
+
+  // 2. AUTH ERROR (Token Patlaması - Meta)
   {
-    id: 2,
-    storeCode: 'DY_002',
-    name: 'İstanbul - Beşiktaş',
-    address: 'Sinanpaşa Mah. Ortabahçe Cad. No:8',
-    phone: '',
-    email: 'besiktas@doyuyo.com',
-    imageUrl: '',
-    website: '',
-    workingHours: '10:00 - 21:00',
-    description: '',
-    storeSet: 'AVM',
-    google: { status: 'verified', lastSync: '1 saat önce', warnings: [{ type: 'phone_missing', label: 'Telefon Eksik' }] },
-    meta: { status: 'unverified', lastSync: '45 dk önce', warnings: [] },
-    apple: { status: 'action_required', lastSync: '2 saat önce', warnings: [{ type: 'image_missing', label: 'Görsel Eksik' }] },
-    yandex: { status: 'verified', lastSync: '3 saat önce', warnings: [{ type: 'phone_missing', label: 'Telefon Eksik' }] }
+    id: 4,
+    storeCode: 'DY_004',
+    name: 'İzmir - Alsancak',
+    address: 'Alsancak Mah. Kıbrıs Şehitleri Cad. No:22',
+    phone: '+90 232 555 0004',
+    email: 'alsancak@doyuyo.com',
+    imageUrl: 'https://example.com/img2.jpg',
+    website: 'https://doyuyo.com',
+    workingHours: '08:00 - 23:00',
+    description: 'Kordon şubesi',
+    storeSet: 'Express',
+    google: { status: 'verified', lastSync: '15 dk önce', warnings: [] },
+    meta: { 
+      status: 'action_required',
+      lastSync: '1 gün önce', 
+      warnings: [
+        { 
+          type: 'sync_error', 
+          label: 'Bağlantı Kesildi', 
+          errorCode: 'auth_expired', 
+          platform: 'meta', 
+          errorLog: 'Error 190: Invalid OAuth Access Token. The user has changed the password or revoked access.' 
+        }
+      ]
+    },
+    apple: { status: 'verified', lastSync: '2 saat önce', warnings: [] },
+    yandex: { status: 'verified', lastSync: '30 dk önce', warnings: [] }
   },
+
+  // 3. GEO ERROR (Koordinat Eksik - Google)
   {
     id: 3,
     storeCode: 'DY_076',
@@ -118,55 +135,31 @@ const mockLocations: LocationData[] = [
     phone: '+90 312 555 0076',
     email: '',
     imageUrl: '',
-    website: 'https://doyuyo.com/cankaya',
+    website: '',
     workingHours: '',
-    description: 'Ankara merkezde hizmet veren şubemiz.',
+    description: '',
     storeSet: 'Cadde',
-    google: { status: 'action_required', lastSync: '3 saat önce', warnings: [
-      { type: 'sync_error', label: 'Koordinat Eksik', errorCode: 'missing_coordinates', platform: 'google', errorLog: 'Error: Missing coordinates\nTimestamp: 2026-01-12T14:32:00Z\nAPI Response: 400 Bad Request\nDetails: Latitude and longitude are required for listing.' },
-      { type: 'email_missing', label: 'Email Eksik' },
-      { type: 'image_missing', label: 'Görsel Eksik' }
-    ]},
+    google: { 
+      status: 'action_required', 
+      lastSync: 'Failed', 
+      warnings: [
+        { 
+          type: 'sync_error', 
+          label: 'Koordinat Eksik', 
+          errorCode: 'missing_coordinates', 
+          platform: 'google', 
+          errorLog: '400 Bad Request: Missing Lat/Long. Geocoding failed for the provided address.' 
+        },
+        { type: 'email_missing', label: 'Email Eksik' },
+        { type: 'image_missing', label: 'Görsel Eksik' }
+      ]
+    },
     meta: { status: 'fully_passive', lastSync: null, warnings: [] },
     apple: { status: 'unverified', lastSync: '1 gün önce', warnings: [] },
     yandex: { status: 'verified', lastSync: null, warnings: [] }
   },
-  {
-    id: 4,
-    storeCode: 'DY_004',
-    name: 'İzmir - Alsancak',
-    address: 'Alsancak Mah. Kıbrıs Şehitleri Cad. No:22',
-    phone: '+90 232 555 0004',
-    email: 'alsancak@doyuyo.com',
-    imageUrl: 'https://example.com/alsancak.jpg',
-    website: 'https://doyuyo.com/alsancak',
-    workingHours: '08:00 - 23:00',
-    description: 'Alsancak kordon üzerinde bulunan şubemiz.',
-    storeSet: 'Express',
-    google: { status: 'verified', lastSync: '15 dk önce', warnings: [] },
-    meta: { status: 'verified', lastSync: '1 gün önce', warnings: [
-      { type: 'sync_error', label: 'Bağlantı Kesildi', errorCode: 'auth_expired', platform: 'meta', errorLog: 'Error: API Token expired\nTimestamp: 2026-01-11T09:15:00Z\nAPI Response: 401 Unauthorized\nDetails: The OAuth token has expired. Please re-authenticate.' }
-    ]},
-    apple: { status: 'temporarily_passive', lastSync: null, warnings: [] },
-    yandex: { status: 'verified', lastSync: '30 dk önce', warnings: [] }
-  },
-  {
-    id: 5,
-    storeCode: 'DY_005',
-    name: 'Bursa - Nilüfer',
-    address: 'Özlüce Mah. Mudanya Cad. No:100',
-    phone: '+90 224 555 0005',
-    email: 'nilufer@doyuyo.com',
-    imageUrl: 'https://example.com/nilufer.jpg',
-    website: 'https://doyuyo.com/nilufer',
-    workingHours: '09:00 - 21:00',
-    description: 'Bursa Nilüfer ilçesinde hizmet veren şubemiz.',
-    storeSet: 'AVM',
-    google: { status: 'fully_passive', lastSync: null, warnings: [] },
-    meta: { status: 'fully_passive', lastSync: null, warnings: [] },
-    apple: { status: 'fully_passive', lastSync: null, warnings: [] },
-    yandex: { status: 'verified', lastSync: null, warnings: [] }
-  },
+
+  // 4. VALIDATION ERROR (Format Hatası - Meta)
   {
     id: 6,
     storeCode: 'DY_006',
@@ -176,94 +169,57 @@ const mockLocations: LocationData[] = [
     email: '',
     imageUrl: '',
     website: '',
-    workingHours: '',
+    workingHours: 'Sabah 9 - Akşam 10',
     description: '',
     storeSet: 'Express',
-    google: { status: 'unverified', lastSync: '30 dk önce', warnings: [{ type: 'address_error', label: 'Adres Hatalı' }] },
-    meta: { status: 'verified', lastSync: '20 dk önce', warnings: [
-      { type: 'sync_error', label: 'Saat Formatı Hatalı', errorCode: 'validation_error', platform: 'meta', errorLog: 'Error: Invalid working hours format\nTimestamp: 2026-01-12T10:45:00Z\nAPI Response: 400 Bad Request\nDetails: Working hours must be in HH:MM - HH:MM format.' },
-      { type: 'phone_missing', label: 'Telefon Eksik' },
-      { type: 'email_missing', label: 'Email Eksik' },
-      { type: 'image_missing', label: 'Görsel Eksik' }
-    ]},
+    google: { status: 'verified', lastSync: '30 dk önce', warnings: [] },
+    meta: { 
+      status: 'unverified', 
+      lastSync: 'Failed', 
+      warnings: [
+        { 
+          type: 'sync_error', 
+          label: 'Saat Formatı Hatalı', 
+          errorCode: 'validation_error', 
+          platform: 'meta', 
+          errorLog: 'Param validation failed: working_hours must be in HH:MM - HH:MM format.' 
+        },
+        { type: 'phone_missing', label: 'Telefon Eksik' }
+      ]
+    },
     apple: { status: 'verified', lastSync: '1 saat önce', warnings: [] },
-    yandex: { status: 'verified', lastSync: '2 saat önce', warnings: [{ type: 'address_error', label: 'Adres Hatalı' }] }
+    yandex: { status: 'verified', lastSync: '2 saat önce', warnings: [] }
   },
+
+  // 5. RATE LIMIT (Trafik - Apple)
   {
     id: 7,
     storeCode: 'DY_007',
-    name: 'İstanbul - Ataşehir',
-    address: 'Ataşehir Blv. Metropol AVM No:18',
-    phone: '+90 216 555 0007',
-    email: 'atasehir@doyuyo.com',
-    imageUrl: 'https://example.com/atasehir.jpg',
-    website: 'https://doyuyo.com/atasehir',
-    workingHours: '10:00 - 22:00',
-    description: 'Ataşehir Metropol AVM şubemiz.',
-    storeSet: 'AVM',
-    google: { status: 'action_required', lastSync: '5 saat önce', warnings: [
-      { type: 'sync_error', label: 'Bağlantı Kesildi', errorCode: 'auth_expired', platform: 'google', errorLog: 'Error: Google OAuth Token Expired\nTimestamp: 2026-01-12T03:22:00Z\nAPI Response: 401 Unauthenticated\nEndpoint: mybusiness.googleapis.com/v4/accounts\nDetails: Request had invalid authentication credentials. Expected OAuth 2 access token.\nAction Required: Please re-authenticate with Google Business Profile.' }
-    ]},
-    meta: { status: 'verified', lastSync: '2 saat önce', warnings: [] },
-    apple: { status: 'verified', lastSync: '3 saat önce', warnings: [] },
-    yandex: { status: 'verified', lastSync: '4 saat önce', warnings: [] }
-  },
-  {
-    id: 8,
-    storeCode: 'DY_008',
-    name: 'İzmir - Karşıyaka',
-    address: 'Karşıyaka Çarşı Mah. No:33',
-    phone: '+90 232 555 0008',
-    email: 'karsiyaka@doyuyo.com',
-    imageUrl: 'https://example.com/karsiyaka.jpg',
-    website: 'https://doyuyo.com/karsiyaka',
-    workingHours: '09:00 - 21:00',
-    description: 'İzmir Karşıyaka şubemiz.',
-    storeSet: 'Cadde',
-    google: { status: 'verified', lastSync: '1 saat önce', warnings: [] },
-    meta: { status: 'verified', lastSync: '45 dk önce', warnings: [] },
-    apple: { status: 'action_required', lastSync: '6 saat önce', warnings: [
-      { type: 'sync_error', label: 'Kategori Uyumsuz', errorCode: 'validation_error', platform: 'apple', errorLog: 'Error: Category Validation Failed\nTimestamp: 2026-01-12T08:14:00Z\nAPI Response: 409 Conflict\nEndpoint: businessconnect.apple.com/v1/locations\nDetails: The specified business category "Fast Food Restaurant" does not match the existing category "Cafe". Please update the category or contact support.\nField: primaryCategory\nExpected: Cafe\nProvided: Fast Food Restaurant' }
-    ]},
-    yandex: { status: 'verified', lastSync: '2 saat önce', warnings: [] }
-  },
-  {
-    id: 9,
-    storeCode: 'DY_009',
-    name: 'Ankara - Kızılay',
-    address: 'Kızılay Meydanı No:5',
-    phone: '+90 312 555 0009',
-    email: 'kizilay@doyuyo.com',
-    imageUrl: 'https://example.com/kizilay.jpg',
-    website: 'https://doyuyo.com/kizilay',
-    workingHours: '08:00 - 23:00',
-    description: 'Ankara Kızılay merkezde şubemiz.',
-    storeSet: 'Express',
-    google: { status: 'verified', lastSync: '20 dk önce', warnings: [
-      { type: 'sync_error', label: 'API Limiti', errorCode: 'rate_limit', platform: 'google', errorLog: 'Error: Rate Limit Exceeded\nTimestamp: 2026-01-12T11:58:00Z\nAPI Response: 429 Too Many Requests\nEndpoint: mybusiness.googleapis.com/v4/locations\nDetails: Quota exceeded for quota metric "Requests" and limit "Requests per minute per user" of service "mybusiness.googleapis.com".\nRetry-After: 60 seconds\nQuota Reset: 2026-01-12T12:00:00Z' }
-    ]},
-    meta: { status: 'verified', lastSync: '30 dk önce', warnings: [] },
-    apple: { status: 'verified', lastSync: '1 saat önce', warnings: [] },
-    yandex: { status: 'verified', lastSync: '45 dk önce', warnings: [] }
-  },
-  {
-    id: 10,
-    storeCode: 'DY_010',
-    name: 'Adana - Seyhan',
-    address: 'Seyhan Mah. Atatürk Cad. No:77',
-    phone: '+90 322 555 0010',
-    email: 'seyhan@doyuyo.com',
-    imageUrl: '',
+    name: 'Bodrum - Marina',
+    address: 'Neyzen Tevfik Cad.',
+    phone: '+90 252 000 0000',
+    email: 'bodrum@doyuyo.com',
+    imageUrl: 'https://example.com/img3.jpg',
     website: '',
-    workingHours: '09:00 - 20:00',
+    workingHours: '10:00 - 02:00',
     description: '',
-    storeSet: 'Cadde',
-    google: { status: 'verified', lastSync: '10 dk önce', warnings: [] },
-    meta: { status: 'action_required', lastSync: '4 saat önce', warnings: [
-      { type: 'sync_error', label: 'Sunucu Hatası', errorCode: 'unknown', platform: 'meta', errorLog: 'Error: Internal Server Error\nTimestamp: 2026-01-12T06:33:00Z\nAPI Response: 500 Internal Server Error\nEndpoint: graph.facebook.com/v18.0/me/locations\nDetails: An unexpected error occurred while processing the request. Please try again later.\nRequest ID: f7k2m9x3n1p5\nCorrelation ID: abc123-def456-ghi789\nStack Trace: [Redacted for security]\nSupport Reference: FB-ERR-2026011206330012' }
-    ]},
-    apple: { status: 'verified', lastSync: '2 saat önce', warnings: [] },
-    yandex: { status: 'fully_passive', lastSync: null, warnings: [] }
+    storeSet: 'Sezonluk',
+    google: { status: 'verified', lastSync: '1 dk önce', warnings: [] },
+    meta: { status: 'verified', lastSync: '1 dk önce', warnings: [] },
+    apple: { 
+      status: 'action_required', 
+      lastSync: 'Pending', 
+      warnings: [
+        { 
+          type: 'sync_error', 
+          label: 'Sıraya Alındı', 
+          errorCode: 'rate_limit', 
+          platform: 'apple', 
+          errorLog: '429 Too Many Requests. Retry-After: 60s' 
+        }
+      ]
+    },
+    yandex: { status: 'verified', lastSync: '1 dk önce', warnings: [] }
   }
 ];
 
