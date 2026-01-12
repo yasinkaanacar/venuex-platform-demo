@@ -1355,12 +1355,6 @@ export default function LocationStatusTable() {
 
       <div className="flex items-center justify-between px-4 py-3 bg-gray-50 border-b border-gray-200">
         <StatusLegend />
-        <Link href="/locations">
-          <Button variant="outline" size="sm" className="gap-1.5">
-            <ExternalLink className="w-3.5 h-3.5" />
-            Lokasyon Listesine Git
-          </Button>
-        </Link>
       </div>
       
       <table className="w-full">
