@@ -1,5 +1,6 @@
+import { useState } from 'react';
 import { SiGoogle, SiMeta, SiApple } from 'react-icons/si';
-import { Clock, AlertTriangle, Phone, Mail, MapPin, Image, ShieldCheck, ShieldAlert, XCircle, PauseCircle, ChevronDown } from 'lucide-react';
+import { Clock, AlertTriangle, Phone, Mail, MapPin, Image, ShieldCheck, ShieldAlert, XCircle, PauseCircle, ChevronRight } from 'lucide-react';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 
 type WarningType = 'phone_missing' | 'email_missing' | 'address_error' | 'image_missing' | 'sync_error';
@@ -227,6 +228,7 @@ export default function LocationStatusTable() {
 }
 
 function PlatformCell({ platform, cellKey, showStatusLabel = true }: { platform: PlatformData; cellKey: string; showStatusLabel?: boolean }) {
+  const [isOpen, setIsOpen] = useState(false);
   const statusConfig = getStatusConfig(platform.status);
   const isPassive = platform.status === 'fully_passive' || platform.status === 'temporarily_passive';
 
@@ -248,9 +250,7 @@ function PlatformCell({ platform, cellKey, showStatusLabel = true }: { platform:
     return 0;
   });
 
-  const visibleWarnings = sortedWarnings.slice(0, 2);
-  const hiddenWarnings = sortedWarnings.slice(2);
-  const hiddenCount = hiddenWarnings.length;
+  const hasWarnings = sortedWarnings.length > 0;
 
   return (
     <div className="flex flex-col items-center gap-3">
@@ -267,31 +267,29 @@ function PlatformCell({ platform, cellKey, showStatusLabel = true }: { platform:
         </div>
       </div>
 
-      {sortedWarnings.length > 0 && (
+      {hasWarnings && (
         <div className="flex flex-wrap justify-center gap-1">
-          {visibleWarnings.map((warning, idx) => (
+          {!isOpen && sortedWarnings.slice(0, 2).map((warning, idx) => (
             <WarningBubble key={`${cellKey}-${idx}`} warning={warning} cellKey={cellKey} idx={idx} />
           ))}
-          {hiddenCount > 0 && (
-            <Popover>
-              <PopoverTrigger asChild>
-                <button
-                  className="inline-flex items-center gap-0.5 px-2 py-0.5 text-[10px] font-medium rounded-full border bg-gray-100 text-gray-600 border-gray-200 hover:bg-gray-200 transition-colors cursor-pointer"
-                >
-                  +{hiddenCount}
-                  <ChevronDown className="w-3 h-3" />
-                </button>
-              </PopoverTrigger>
-              <PopoverContent className="w-auto p-2" align="center" side="bottom">
-                <div className="flex flex-col gap-1.5">
-                  <span className="text-[10px] text-gray-500 font-medium mb-1">Diğer Uyarılar</span>
-                  {hiddenWarnings.map((warning, idx) => (
-                    <WarningBubble key={`${cellKey}-hidden-${idx}`} warning={warning} cellKey={`${cellKey}-hidden`} idx={idx} />
-                  ))}
-                </div>
-              </PopoverContent>
-            </Popover>
-          )}
+          <Popover open={isOpen} onOpenChange={setIsOpen}>
+            <PopoverTrigger asChild>
+              <button
+                className="inline-flex items-center gap-0.5 px-2 py-0.5 text-[10px] font-medium rounded-full border bg-gray-100 text-gray-600 border-gray-200 hover:bg-gray-200 transition-colors cursor-pointer"
+              >
+                {isOpen ? 'Kapat' : (sortedWarnings.length > 2 ? `+${sortedWarnings.length - 2}` : `${sortedWarnings.length}`)}
+                <ChevronRight className={`w-3 h-3 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
+              </button>
+            </PopoverTrigger>
+            <PopoverContent className="w-auto p-2" align="start" side="right" sideOffset={8}>
+              <div className="flex flex-col gap-1.5">
+                <span className="text-[10px] text-gray-500 font-medium mb-1">Tüm Uyarılar ({sortedWarnings.length})</span>
+                {sortedWarnings.map((warning, idx) => (
+                  <WarningBubble key={`${cellKey}-all-${idx}`} warning={warning} cellKey={`${cellKey}-all`} idx={idx} />
+                ))}
+              </div>
+            </PopoverContent>
+          </Popover>
         </div>
       )}
     </div>
