@@ -23,6 +23,7 @@ import OnboardingUnified from "@/pages/onboarding-unified";
 import Signup from "@/pages/signup";
 import Welcome from "@/pages/welcome";
 import NotFound from "@/pages/not-found";
+import Components from "@/pages/components";
 import { useState, useEffect } from "react";
 import { useLocation } from "wouter";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
@@ -74,6 +75,7 @@ function Router() {
               <Route path="/venuex-ai" component={VenueXAI} />
               <Route path="/setup" component={Setup} />
               <Route path="/setup2" component={Setup2} />
+              <Route path="/components" component={Components} />
               <Route component={NotFound} />
             </Switch>
           </main>
