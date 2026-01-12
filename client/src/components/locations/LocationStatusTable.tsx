@@ -15,10 +15,14 @@ import { Textarea } from '@/components/ui/textarea';
 
 type WarningType = 'phone_missing' | 'email_missing' | 'address_error' | 'image_missing' | 'sync_error';
 
+type SyncErrorCode = 'auth_expired' | 'missing_coordinates' | 'validation_error' | 'rate_limit' | 'unknown';
+
 interface LocationWarning {
   type: WarningType;
   label: string;
   errorLog?: string;
+  errorCode?: SyncErrorCode;
+  platform?: PlatformKey;
 }
 
 type PlatformStatusType = 'verified' | 'unverified' | 'action_required' | 'fully_passive' | 'temporarily_passive';
@@ -109,7 +113,7 @@ const mockLocations: LocationData[] = [
     description: 'Ankara merkezde hizmet veren şubemiz.',
     storeSet: 'Cadde',
     google: { status: 'action_required', lastSync: '3 saat önce', warnings: [
-      { type: 'sync_error', label: 'Sync Hatası', errorLog: 'Error: Store ID mismatch (Google: 76 vs VenueX: 76_TR)\nTimestamp: 2026-01-12T14:32:00Z\nAPI Response: 400 Bad Request\nDetails: The store identifier format does not match the expected pattern.' },
+      { type: 'sync_error', label: 'Koordinat Eksik', errorCode: 'missing_coordinates', platform: 'google', errorLog: 'Error: Missing coordinates\nTimestamp: 2026-01-12T14:32:00Z\nAPI Response: 400 Bad Request\nDetails: Latitude and longitude are required for listing.' },
       { type: 'email_missing', label: 'Email Eksik' },
       { type: 'image_missing', label: 'Görsel Eksik' }
     ]},
@@ -131,7 +135,7 @@ const mockLocations: LocationData[] = [
     storeSet: 'Express',
     google: { status: 'verified', lastSync: '15 dk önce', warnings: [] },
     meta: { status: 'verified', lastSync: '1 gün önce', warnings: [
-      { type: 'sync_error', label: 'Sync Hatası', errorLog: 'Error: API Token expired\nTimestamp: 2026-01-11T09:15:00Z\nAPI Response: 401 Unauthorized\nDetails: The OAuth token has expired. Please re-authenticate.' }
+      { type: 'sync_error', label: 'Bağlantı Kesildi', errorCode: 'auth_expired', platform: 'meta', errorLog: 'Error: API Token expired\nTimestamp: 2026-01-11T09:15:00Z\nAPI Response: 401 Unauthorized\nDetails: The OAuth token has expired. Please re-authenticate.' }
     ]},
     apple: { status: 'temporarily_passive', lastSync: null, warnings: [] },
     yandex: { status: 'verified', lastSync: '30 dk önce', warnings: [] }
@@ -167,7 +171,7 @@ const mockLocations: LocationData[] = [
     storeSet: 'Express',
     google: { status: 'unverified', lastSync: '30 dk önce', warnings: [{ type: 'address_error', label: 'Adres Hatalı' }] },
     meta: { status: 'verified', lastSync: '20 dk önce', warnings: [
-      { type: 'sync_error', label: 'Sync Hatası', errorLog: 'Error: Rate limit exceeded\nTimestamp: 2026-01-12T10:45:00Z\nAPI Response: 429 Too Many Requests\nDetails: You have exceeded the rate limit. Please retry after 60 seconds.' },
+      { type: 'sync_error', label: 'Saat Formatı Hatalı', errorCode: 'validation_error', platform: 'meta', errorLog: 'Error: Invalid working hours format\nTimestamp: 2026-01-12T10:45:00Z\nAPI Response: 400 Bad Request\nDetails: Working hours must be in HH:MM - HH:MM format.' },
       { type: 'phone_missing', label: 'Telefon Eksik' },
       { type: 'email_missing', label: 'Email Eksik' },
       { type: 'image_missing', label: 'Görsel Eksik' }
@@ -691,37 +695,235 @@ function SyncErrorBubble({
   );
 }
 
-function ErrorDetailModal({ open, onClose, warning, locationName, storeCode }: { open: boolean; onClose: () => void; warning: LocationWarning | null; locationName: string; storeCode: string }) {
-  if (!warning) return null;
-  
+function SmartFixSheet({ 
+  open, 
+  onClose, 
+  warning, 
+  location 
+}: { 
+  open: boolean; 
+  onClose: () => void; 
+  warning: LocationWarning | null; 
+  location: LocationData | null;
+}) {
+  const [coordinates, setCoordinates] = useState({ lat: '', lng: '' });
+  const [workingHours, setWorkingHours] = useState('');
+
+  useEffect(() => {
+    if (open && location) {
+      setCoordinates({ lat: '', lng: '' });
+      setWorkingHours(location.workingHours || '');
+    }
+  }, [open, location, warning]);
+
+  if (!warning || !location) return null;
+
+  const errorCode = warning.errorCode || 'unknown';
+  const platform = warning.platform;
+
+  const getPlatformIcon = () => {
+    switch (platform) {
+      case 'google': return <SiGoogle className="w-5 h-5" />;
+      case 'meta': return <SiMeta className="w-5 h-5" />;
+      case 'apple': return <SiApple className="w-5 h-5" />;
+      case 'yandex': return <span className="text-red-500 font-bold text-lg">Я</span>;
+      default: return <AlertTriangle className="w-5 h-5" />;
+    }
+  };
+
+  const getPlatformName = () => {
+    switch (platform) {
+      case 'google': return 'Google';
+      case 'meta': return 'Meta';
+      case 'apple': return 'Apple';
+      case 'yandex': return 'Yandex';
+      default: return 'Platform';
+    }
+  };
+
+  const getErrorTitle = () => {
+    switch (errorCode) {
+      case 'auth_expired': return 'Hesap Bağlantısı Kesildi';
+      case 'missing_coordinates': return 'Koordinat Eksik';
+      case 'validation_error': return 'Format Hatası';
+      case 'rate_limit': return 'API Limiti Aşıldı';
+      default: return 'Sync Hatası';
+    }
+  };
+
+  const getErrorDescription = () => {
+    switch (errorCode) {
+      case 'auth_expired': 
+        return `${getPlatformName()} hesabınızla bağlantı kesildi. Listelenmeye devam etmek için tekrar bağlanmanız gerekiyor.`;
+      case 'missing_coordinates': 
+        return 'Bu lokasyonun koordinat bilgisi eksik. Haritada listelenebilmesi için enlem ve boylam bilgisi gerekli.';
+      case 'validation_error': 
+        return 'Gönderilen veri formatı platforma uygun değil. Lütfen aşağıdaki alanı düzeltin.';
+      case 'rate_limit': 
+        return 'API istek limiti aşıldı. Birkaç dakika sonra otomatik olarak tekrar denenecek.';
+      default: 
+        return 'Senkronizasyon sırasında bir hata oluştu.';
+    }
+  };
+
   return (
-    <Dialog open={open} onOpenChange={onClose}>
-      <DialogContent className="max-w-lg">
-        <DialogHeader>
-          <DialogTitle className="flex items-center gap-2 text-red-700">
-            <AlertTriangle className="w-5 h-5" />
-            Sync Hatası Detayı
-          </DialogTitle>
-          <DialogDescription>
-            {locationName} ({storeCode})
-          </DialogDescription>
-        </DialogHeader>
-        <div className="mt-4">
-          <div className="bg-gray-900 text-gray-100 rounded-lg p-4 font-mono text-xs overflow-x-auto whitespace-pre-wrap">
-            {warning.errorLog || 'Hata detayı bulunamadı.'}
+    <Sheet open={open} onOpenChange={onClose}>
+      <SheetContent className="w-[400px] sm:w-[480px] overflow-y-auto">
+        <SheetHeader>
+          <SheetTitle className="flex items-center gap-2">
+            <div className={`p-2 rounded-lg ${errorCode === 'auth_expired' ? 'bg-orange-100 text-orange-600' : errorCode === 'missing_coordinates' ? 'bg-blue-100 text-blue-600' : 'bg-red-100 text-red-600'}`}>
+              {getPlatformIcon()}
+            </div>
+            <div>
+              <span className="text-base">{getErrorTitle()}</span>
+              <p className="text-xs font-normal text-gray-500 mt-0.5">{getPlatformName()}</p>
+            </div>
+          </SheetTitle>
+          <SheetDescription className="flex items-center gap-2 pt-2">
+            <Building2 className="w-4 h-4 text-gray-400" />
+            <span>{location.name}</span>
+            <span className="text-gray-400">#{location.storeCode}</span>
+          </SheetDescription>
+        </SheetHeader>
+
+        <div className="mt-6 space-y-6">
+          <div className="bg-gray-50 border border-gray-200 rounded-lg p-4">
+            <p className="text-sm text-gray-700">{getErrorDescription()}</p>
           </div>
-          <div className="mt-4 flex gap-2 justify-end">
-            <Button variant="outline" size="sm" onClick={onClose}>
+
+          {errorCode === 'auth_expired' && (
+            <div className="space-y-4">
+              <div className="flex items-center gap-3 p-4 bg-orange-50 border border-orange-200 rounded-lg">
+                <div className="p-2 bg-orange-100 rounded-full">
+                  <Link2 className="w-5 h-5 text-orange-600" />
+                </div>
+                <div className="flex-1">
+                  <p className="text-sm font-medium text-orange-800">Yeniden Bağlanma Gerekli</p>
+                  <p className="text-xs text-orange-600 mt-0.5">OAuth tokenı süresi dolmuş</p>
+                </div>
+              </div>
+              <Button className="w-full gap-2" size="lg">
+                {getPlatformIcon()}
+                {getPlatformName()} ile Yeniden Bağlan
+              </Button>
+            </div>
+          )}
+
+          {errorCode === 'missing_coordinates' && (
+            <div className="space-y-4">
+              <div className="p-4 bg-blue-50 border border-blue-200 rounded-lg">
+                <div className="flex items-center gap-2 mb-3">
+                  <MapPin className="w-4 h-4 text-blue-600" />
+                  <span className="text-sm font-medium text-blue-800">Adres</span>
+                </div>
+                <p className="text-sm text-blue-700">{location.address}</p>
+              </div>
+
+              <div className="grid grid-cols-2 gap-3">
+                <div className="space-y-2">
+                  <Label htmlFor="lat" className="text-sm font-medium">Enlem (Latitude)</Label>
+                  <Input
+                    id="lat"
+                    value={coordinates.lat}
+                    onChange={(e) => setCoordinates({ ...coordinates, lat: e.target.value })}
+                    placeholder="41.0082"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="lng" className="text-sm font-medium">Boylam (Longitude)</Label>
+                  <Input
+                    id="lng"
+                    value={coordinates.lng}
+                    onChange={(e) => setCoordinates({ ...coordinates, lng: e.target.value })}
+                    placeholder="28.9784"
+                  />
+                </div>
+              </div>
+
+              <Button variant="outline" className="w-full gap-2">
+                <MapPin className="w-4 h-4" />
+                Adresten Koordinat Al
+              </Button>
+
+              <Button className="w-full gap-2" size="lg">
+                <Save className="w-4 h-4" />
+                Kaydet ve Sync
+              </Button>
+            </div>
+          )}
+
+          {errorCode === 'validation_error' && (
+            <div className="space-y-4">
+              <div className="p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
+                <div className="flex items-center gap-2 mb-2">
+                  <Clock className="w-4 h-4 text-yellow-600" />
+                  <span className="text-sm font-medium text-yellow-800">Beklenen Format</span>
+                </div>
+                <code className="text-xs bg-yellow-100 px-2 py-1 rounded text-yellow-800">HH:MM - HH:MM</code>
+                <p className="text-xs text-yellow-600 mt-2">Örnek: 09:00 - 22:00</p>
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="workingHours" className="text-sm font-medium">Çalışma Saatleri</Label>
+                <Input
+                  id="workingHours"
+                  value={workingHours}
+                  onChange={(e) => setWorkingHours(e.target.value)}
+                  placeholder="09:00 - 22:00"
+                />
+              </div>
+
+              <Button className="w-full gap-2" size="lg">
+                <Save className="w-4 h-4" />
+                Düzelt ve Sync
+              </Button>
+            </div>
+          )}
+
+          {errorCode === 'rate_limit' && (
+            <div className="space-y-4">
+              <div className="flex items-center gap-3 p-4 bg-gray-100 border border-gray-200 rounded-lg">
+                <div className="p-2 bg-gray-200 rounded-full">
+                  <Clock className="w-5 h-5 text-gray-600" />
+                </div>
+                <div className="flex-1">
+                  <p className="text-sm font-medium text-gray-800">Bekleme Süresi</p>
+                  <p className="text-xs text-gray-500 mt-0.5">~60 saniye sonra otomatik retry</p>
+                </div>
+              </div>
+              <Button variant="outline" className="w-full gap-2">
+                <RefreshCw className="w-4 h-4" />
+                Şimdi Tekrar Dene
+              </Button>
+            </div>
+          )}
+
+          {errorCode === 'unknown' && (
+            <div className="space-y-4">
+              <details className="group">
+                <summary className="flex items-center gap-2 cursor-pointer text-sm font-medium text-gray-600 hover:text-gray-800">
+                  <ChevronRight className="w-4 h-4 group-open:rotate-90 transition-transform" />
+                  Hata Detayını Göster
+                </summary>
+                <div className="mt-3 bg-gray-900 text-gray-100 rounded-lg p-4 font-mono text-xs overflow-x-auto whitespace-pre-wrap">
+                  {warning.errorLog || 'Hata detayı bulunamadı.'}
+                </div>
+              </details>
+              <Button className="w-full gap-2">
+                <RefreshCw className="w-4 h-4" />
+                Tekrar Dene
+              </Button>
+            </div>
+          )}
+
+          <div className="pt-4 border-t">
+            <Button variant="ghost" className="w-full text-gray-500" onClick={onClose}>
               Kapat
-            </Button>
-            <Button size="sm" className="gap-1.5">
-              <RefreshCw className="w-3.5 h-3.5" />
-              Tekrar Dene
             </Button>
           </div>
         </div>
-      </DialogContent>
-    </Dialog>
+      </SheetContent>
+    </Sheet>
   );
 }
 
@@ -817,11 +1019,10 @@ function ActionsMenu({ location, platform }: { location: LocationData; platform:
 export default function LocationStatusTable() {
   const [selectedIds, setSelectedIds] = useState<Set<number>>(new Set());
   const [filters, setFilters] = useState<FilterState>(initialFilters);
-  const [errorModal, setErrorModal] = useState<{ open: boolean; warning: LocationWarning | null; locationName: string; storeCode: string }>({
+  const [smartFixSheet, setSmartFixSheet] = useState<{ open: boolean; warning: LocationWarning | null; location: LocationData | null }>({
     open: false,
     warning: null,
-    locationName: '',
-    storeCode: ''
+    location: null
   });
   const [editSheet, setEditSheet] = useState<{ open: boolean; location: LocationData | null }>({
     open: false,
@@ -867,7 +1068,7 @@ export default function LocationStatusTable() {
   }, [filters]);
 
   const handleSyncErrorClick = (warning: LocationWarning, location: LocationData) => {
-    setErrorModal({ open: true, warning, locationName: location.name, storeCode: location.storeCode });
+    setSmartFixSheet({ open: true, warning, location });
   };
 
   const toggleSelect = (id: number) => {
@@ -1019,12 +1220,11 @@ export default function LocationStatusTable() {
         </tbody>
       </table>
       
-      <ErrorDetailModal
-        open={errorModal.open}
-        onClose={() => setErrorModal({ ...errorModal, open: false })}
-        warning={errorModal.warning}
-        locationName={errorModal.locationName}
-        storeCode={errorModal.storeCode}
+      <SmartFixSheet
+        open={smartFixSheet.open}
+        onClose={() => setSmartFixSheet({ ...smartFixSheet, open: false })}
+        warning={smartFixSheet.warning}
+        location={smartFixSheet.location}
       />
 
       <LocationEditSheet
