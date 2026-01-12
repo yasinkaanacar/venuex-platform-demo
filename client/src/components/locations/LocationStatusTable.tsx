@@ -299,7 +299,7 @@ function FilterToolbar({
   };
 
   const getStoreSetLabel = () => {
-    if (filters.storeSet === 'all') return 'Mağaza Grubu';
+    if (filters.storeSet === 'all') return 'Grup';
     return filters.storeSet;
   };
 
