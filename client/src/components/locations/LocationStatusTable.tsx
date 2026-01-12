@@ -316,18 +316,19 @@ function DataHealthBar({
     <button 
       onClick={onClick}
       disabled={!isClickable}
-      className={`flex items-center gap-2 mt-1.5 w-full text-left ${isClickable ? 'cursor-pointer hover:opacity-80 transition-opacity' : 'cursor-default'}`}
+      className={`flex items-center gap-2 mt-2 px-2 py-1.5 -mx-2 rounded-md w-full text-left transition-all ${isClickable ? 'cursor-pointer hover:bg-blue-50 hover:shadow-sm active:scale-[0.98]' : 'cursor-default'}`}
     >
-      <span className="text-[10px] text-gray-400">Data Quality</span>
-      <div className="flex-1 h-1.5 bg-gray-100 rounded-full overflow-hidden max-w-[60px]">
+      <span className={`text-[10px] ${isClickable ? 'text-blue-600' : 'text-gray-400'}`}>Veri Kalitesi</span>
+      <div className="flex-1 h-2 bg-gray-100 rounded-full overflow-hidden max-w-[60px]">
         <div 
           className={`h-full rounded-full transition-all ${getColor()}`}
           style={{ width: `${percentage}%` }}
         />
       </div>
-      <span className={`text-[10px] font-medium ${isClickable ? 'text-blue-600 underline underline-offset-2' : 'text-gray-500'}`}>
-        {percentage}%
+      <span className={`text-[10px] font-semibold ${isClickable ? 'text-blue-600' : 'text-gray-500'}`}>
+        %{percentage}
       </span>
+      {isClickable && <ChevronRight className="w-3 h-3 text-blue-400" />}
     </button>
   );
 }
