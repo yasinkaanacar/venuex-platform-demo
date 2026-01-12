@@ -298,8 +298,25 @@ function FilterToolbar({
     setFilters({ ...filters, [key]: value });
   };
 
+  const getStoreSetLabel = () => {
+    if (filters.storeSet === 'all') return 'Mağaza Grubu';
+    return filters.storeSet;
+  };
+
+  const getPlatformLabel = () => {
+    if (filters.platform === 'all') return 'Platform';
+    const labels: Record<string, string> = { google: 'Google', meta: 'Meta', apple: 'Apple', yandex: 'Yandex' };
+    return labels[filters.platform] || 'Platform';
+  };
+
+  const getStatusLabel = () => {
+    if (filters.errorType === 'all') return 'Durum';
+    if (filters.errorType === 'sync_error') return 'Sync Hataları';
+    return 'İçerik Eksikleri';
+  };
+
   return (
-    <div className="flex flex-col md:flex-row md:items-center gap-3 px-4 py-3 bg-white border-b border-gray-200">
+    <div className="flex flex-row items-center justify-between gap-4 px-4 py-3 bg-white border-b border-gray-200">
       <div className="relative flex-1 min-w-[200px] max-w-[320px]">
         <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
         <Input
@@ -310,12 +327,27 @@ function FilterToolbar({
         />
       </div>
 
-      <div className="flex flex-wrap items-center gap-2 md:ml-auto">
-        <Select value={filters.platform} onValueChange={(v) => updateFilter('platform', v as PlatformKey | 'all')}>
-          <SelectTrigger className="w-[150px] h-9">
+      <div className="flex items-center gap-3">
+        <Select value={filters.storeSet} onValueChange={(v) => updateFilter('storeSet', v)}>
+          <SelectTrigger className="w-40 h-9">
             <div className="flex items-center gap-2">
-              <Filter className="w-3.5 h-3.5 text-gray-500" />
-              <SelectValue placeholder="Platform" />
+              <Building2 className="w-3.5 h-3.5 text-gray-500 shrink-0" />
+              <span className="truncate">{getStoreSetLabel()}</span>
+            </div>
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">Tüm Gruplar</SelectItem>
+            {storeSets.map((set) => (
+              <SelectItem key={set} value={set}>{set}</SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+
+        <Select value={filters.platform} onValueChange={(v) => updateFilter('platform', v as PlatformKey | 'all')}>
+          <SelectTrigger className="w-40 h-9">
+            <div className="flex items-center gap-2">
+              <Filter className="w-3.5 h-3.5 text-gray-500 shrink-0" />
+              <span className="truncate">{getPlatformLabel()}</span>
             </div>
           </SelectTrigger>
           <SelectContent>
@@ -348,10 +380,10 @@ function FilterToolbar({
         </Select>
 
         <Select value={filters.errorType} onValueChange={(v) => updateFilter('errorType', v as ErrorTypeFilter)}>
-          <SelectTrigger className="w-[150px] h-9">
+          <SelectTrigger className="w-40 h-9">
             <div className="flex items-center gap-2">
-              <AlertTriangle className="w-3.5 h-3.5 text-gray-500" />
-              <SelectValue placeholder="Durum" />
+              <AlertTriangle className="w-3.5 h-3.5 text-gray-500 shrink-0" />
+              <span className="truncate">{getStatusLabel()}</span>
             </div>
           </SelectTrigger>
           <SelectContent>
@@ -371,21 +403,6 @@ function FilterToolbar({
           </SelectContent>
         </Select>
 
-        <Select value={filters.storeSet} onValueChange={(v) => updateFilter('storeSet', v)}>
-          <SelectTrigger className="w-[140px] h-9">
-            <div className="flex items-center gap-2">
-              <Building2 className="w-3.5 h-3.5 text-gray-500" />
-              <SelectValue placeholder="Set" />
-            </div>
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">Tüm Setler</SelectItem>
-            {storeSets.map((set) => (
-              <SelectItem key={set} value={set}>{set}</SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-
         {hasActiveFilters && (
           <Button 
             variant="ghost" 
@@ -398,7 +415,7 @@ function FilterToolbar({
           </Button>
         )}
 
-        <div className="text-xs text-gray-500 ml-2">
+        <div className="text-xs text-gray-500 whitespace-nowrap">
           {hasActiveFilters ? (
             <span>{resultCount} / {totalCount}</span>
           ) : (
