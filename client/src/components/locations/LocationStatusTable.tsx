@@ -1,6 +1,6 @@
-import { useState } from 'react';
 import { SiGoogle, SiMeta, SiApple } from 'react-icons/si';
-import { Clock, AlertTriangle, Phone, Mail, MapPin, Image, ShieldCheck, ShieldAlert, XCircle, PauseCircle, ChevronDown, ChevronUp } from 'lucide-react';
+import { Clock, AlertTriangle, Phone, Mail, MapPin, Image, ShieldCheck, ShieldAlert, XCircle, PauseCircle, ChevronDown } from 'lucide-react';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 
 type WarningType = 'phone_missing' | 'email_missing' | 'address_error' | 'image_missing' | 'sync_error';
 
@@ -134,6 +134,18 @@ const getStatusConfig = (status: PlatformStatusType) => {
   }
 };
 
+function WarningBubble({ warning, cellKey, idx }: { warning: LocationWarning; cellKey: string; idx: number }) {
+  return (
+    <span 
+      key={`${cellKey}-${idx}`}
+      className={`inline-flex items-center gap-1 px-2 py-0.5 text-[10px] font-medium rounded-full border ${getWarningColor(warning.type)}`}
+    >
+      {getWarningIcon(warning.type)}
+      {warning.label}
+    </span>
+  );
+}
+
 function StatusLegend() {
   const statuses: PlatformStatusType[] = ['verified', 'unverified', 'action_required', 'fully_passive', 'temporarily_passive'];
   
@@ -215,7 +227,6 @@ export default function LocationStatusTable() {
 }
 
 function PlatformCell({ platform, cellKey, showStatusLabel = true }: { platform: PlatformData; cellKey: string; showStatusLabel?: boolean }) {
-  const [expanded, setExpanded] = useState(false);
   const statusConfig = getStatusConfig(platform.status);
   const isPassive = platform.status === 'fully_passive' || platform.status === 'temporarily_passive';
 
@@ -237,9 +248,9 @@ function PlatformCell({ platform, cellKey, showStatusLabel = true }: { platform:
     return 0;
   });
 
-  const hasHiddenWarnings = sortedWarnings.length > 2;
-  const visibleWarnings = expanded ? sortedWarnings : sortedWarnings.slice(0, 2);
-  const hiddenCount = sortedWarnings.length - 2;
+  const visibleWarnings = sortedWarnings.slice(0, 2);
+  const hiddenWarnings = sortedWarnings.slice(2);
+  const hiddenCount = hiddenWarnings.length;
 
   return (
     <div className="flex flex-col items-center gap-3">
@@ -259,31 +270,27 @@ function PlatformCell({ platform, cellKey, showStatusLabel = true }: { platform:
       {sortedWarnings.length > 0 && (
         <div className="flex flex-wrap justify-center gap-1">
           {visibleWarnings.map((warning, idx) => (
-            <span 
-              key={`${cellKey}-${idx}`}
-              className={`inline-flex items-center gap-1 px-2 py-0.5 text-[10px] font-medium rounded-full border ${getWarningColor(warning.type)}`}
-            >
-              {getWarningIcon(warning.type)}
-              {warning.label}
-            </span>
+            <WarningBubble key={`${cellKey}-${idx}`} warning={warning} cellKey={cellKey} idx={idx} />
           ))}
-          {hasHiddenWarnings && (
-            <button
-              onClick={() => setExpanded(!expanded)}
-              className="inline-flex items-center gap-0.5 px-2 py-0.5 text-[10px] font-medium rounded-full border bg-gray-100 text-gray-600 border-gray-200 hover:bg-gray-200 transition-colors cursor-pointer"
-            >
-              {expanded ? (
-                <>
-                  <ChevronUp className="w-3 h-3" />
-                  Kapat
-                </>
-              ) : (
-                <>
+          {hiddenCount > 0 && (
+            <Popover>
+              <PopoverTrigger asChild>
+                <button
+                  className="inline-flex items-center gap-0.5 px-2 py-0.5 text-[10px] font-medium rounded-full border bg-gray-100 text-gray-600 border-gray-200 hover:bg-gray-200 transition-colors cursor-pointer"
+                >
                   +{hiddenCount}
                   <ChevronDown className="w-3 h-3" />
-                </>
-              )}
-            </button>
+                </button>
+              </PopoverTrigger>
+              <PopoverContent className="w-auto p-2" align="center" side="bottom">
+                <div className="flex flex-col gap-1.5">
+                  <span className="text-[10px] text-gray-500 font-medium mb-1">Diğer Uyarılar</span>
+                  {hiddenWarnings.map((warning, idx) => (
+                    <WarningBubble key={`${cellKey}-hidden-${idx}`} warning={warning} cellKey={`${cellKey}-hidden`} idx={idx} />
+                  ))}
+                </div>
+              </PopoverContent>
+            </Popover>
           )}
         </div>
       )}
