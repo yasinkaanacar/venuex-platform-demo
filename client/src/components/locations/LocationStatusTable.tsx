@@ -1533,13 +1533,9 @@ function PlatformCell({
     );
   }
 
-  const sortedWarnings = [...platform.warnings].sort((a, b) => {
-    if (a.type === 'sync_error') return -1;
-    if (b.type === 'sync_error') return 1;
-    return 0;
-  });
+  const syncErrors = platform.warnings.filter(w => w.type === 'sync_error');
 
-  const hasWarnings = sortedWarnings.length > 0;
+  const hasSyncErrors = syncErrors.length > 0;
 
   return (
     <div className="flex flex-col items-center gap-3">
@@ -1556,54 +1552,34 @@ function PlatformCell({
         </div>
       </div>
 
-      {hasWarnings && (
+      {hasSyncErrors && (
         <div className="flex flex-wrap justify-center gap-1">
-          {!isOpen && sortedWarnings.slice(0, 2).map((warning, idx) => (
-            warning.type === 'sync_error' ? (
-              <SyncErrorBubble 
-                key={`${cellKey}-${idx}`}
-                warning={warning}
-                onErrorClick={() => onSyncErrorClick?.(warning)}
-              />
-            ) : (
-              <InlineFieldEditorPopover
-                key={`${cellKey}-${idx}`}
-                warning={warning}
-                location={location}
-                cellKey={cellKey}
-                idx={idx}
-              />
-            )
+          {syncErrors.slice(0, 2).map((warning, idx) => (
+            <SyncErrorBubble 
+              key={`${cellKey}-${idx}`}
+              warning={warning}
+              onErrorClick={() => onSyncErrorClick?.(warning)}
+            />
           ))}
-          {sortedWarnings.length > 2 && (
+          {syncErrors.length > 2 && (
             <Popover open={isOpen} onOpenChange={setIsOpen}>
               <PopoverTrigger asChild>
                 <button
                   className="inline-flex items-center gap-0.5 px-2 py-0.5 text-[10px] font-medium rounded-full border bg-gray-100 text-gray-600 border-gray-200 hover:bg-gray-200 transition-colors cursor-pointer"
                 >
-                  {isOpen ? 'Kapat' : `+${sortedWarnings.length - 2}`}
+                  {isOpen ? 'Kapat' : `+${syncErrors.length - 2}`}
                   <ChevronRight className={`w-3 h-3 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
                 </button>
               </PopoverTrigger>
               <PopoverContent className="w-auto p-2" align="start" side="right" sideOffset={8}>
                 <div className="flex flex-col gap-1.5">
-                  <span className="text-[10px] text-gray-500 font-medium mb-1">Tüm Uyarılar ({sortedWarnings.length})</span>
-                  {sortedWarnings.map((warning, idx) => (
-                    warning.type === 'sync_error' ? (
-                      <SyncErrorBubble 
-                        key={`${cellKey}-all-${idx}`}
-                        warning={warning}
-                        onErrorClick={() => onSyncErrorClick?.(warning)}
-                      />
-                    ) : (
-                      <InlineFieldEditorPopover
-                        key={`${cellKey}-all-${idx}`}
-                        warning={warning}
-                        location={location}
-                        cellKey={`${cellKey}-all`}
-                        idx={idx}
-                      />
-                    )
+                  <span className="text-[10px] text-gray-500 font-medium mb-1">Sync Hataları ({syncErrors.length})</span>
+                  {syncErrors.map((warning, idx) => (
+                    <SyncErrorBubble 
+                      key={`${cellKey}-all-${idx}`}
+                      warning={warning}
+                      onErrorClick={() => onSyncErrorClick?.(warning)}
+                    />
                   ))}
                 </div>
               </PopoverContent>
