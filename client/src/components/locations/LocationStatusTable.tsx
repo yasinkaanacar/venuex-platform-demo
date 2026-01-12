@@ -135,9 +135,16 @@ function PlatformCell({ platform }: { platform: PlatformStatus }) {
           <XCircle className="w-4 h-4" />
           <span className="text-xs font-medium">Pasif</span>
         </div>
+        <span className="text-[10px] text-gray-400">Henüz sync yok</span>
       </div>
     );
   }
+
+  const sortedWarnings = [...platform.warnings].sort((a, b) => {
+    if (a.type === 'sync_error') return -1;
+    if (b.type === 'sync_error') return 1;
+    return 0;
+  });
 
   return (
     <div className="flex flex-col items-center gap-2">
@@ -153,10 +160,10 @@ function PlatformCell({ platform }: { platform: PlatformStatus }) {
         </div>
       </div>
 
-      {/* Warning Bubbles */}
-      {platform.warnings.length > 0 && (
+      {/* Warning Bubbles - sync errors first */}
+      {sortedWarnings.length > 0 && (
         <div className="flex flex-wrap justify-center gap-1">
-          {platform.warnings.map((warning, idx) => (
+          {sortedWarnings.map((warning, idx) => (
             <span 
               key={idx}
               className={`inline-flex items-center gap-1 px-2 py-0.5 text-[10px] font-medium rounded-full border ${getWarningColor(warning.type)}`}
