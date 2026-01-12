@@ -1,0 +1,38 @@
+Harika, önceki mesajımı görmediysen sıfırdan ve objektif bir gözle bu ekranı "Doyuyo Krizini Çözer mi?" testine sokalım.
+
+Tasarımın (UI) çok temiz, okunabilir ve modern. Bir "Monitoring Dashboard" (İzleme Paneli) olarak %90 hazır. Ancak bir Product Manager gözüyle bakarsak, bu ekranın "Operasyonel" (İş bitirici) tarafında kritik eksikleri var.
+
+Şu anki haliyle bu ekran "Haber Veriyor" ama "Çözdürmüyor".
+
+Gel bu tasarımı senin Doyuyo krizine uygulayalım:
+
+1. "Sync Hatası"nı Görüyorum ama "Nedenini" Görmüyorum
+Tasarımda "Ankara - Çankaya" satırında pembe bir Sync Hatası etiketi var.
+
+Senaryo: Destek ekibinden biri Doyuyo'nun 76 numaralı mağazası için bu hatayı gördü.
+
+Sorun: Bu hatanın sebebi ne? API Token süresi mi doldu? Store Code mu uyuşmuyor? Yoksa Google servisi mi çöktü?
+
+Eksik: Hata detayına inemiyorum (Drill-down).
+
+Çözüm: O pembe Sync Hatası butonunu tıklanabilir yapmalısın. Tıklayınca küçük bir pop-up (modal) açılmalı ve teknik logu göstermeli: "Error: Store ID mismatch (Google: 76 vs Venuex: 76_TR)".
+
+2. Müdahale Edecek Buton Yok (Actionability)
+Doyuyo mailinde "Hatalar devam ediyor" dendiğinde senin ekibin ne yapacak?
+
+Senaryo: Hatayı gördük, sebebi anladık (ID uyuşmazlığı). Şimdi düzeltip "Tekrar Dene" dememiz lazım.
+
+Sorun: Tasarımda bir "Yenile" (Refresh), "Tekrar Dene" (Retry) veya "Bağla" (Link) butonu yok. Bu ekran şu an sadece "Read-Only" (Sadece Okunabilir).
+
+Çözüm:
+
+Satırın en sağına (veya hücre içine) bir "Actions" (3 nokta) menüsü veya direkt bir "Sync Now" ikonu eklemelisin.
+
+Özellikle "Unverified" (Turuncu kalkan) olanlarda "Connect" butonu hayat kurtarır.
+
+3. ID Eksikliği (Yine Karşına Çıkacak)
+Doyuyo vakasında sorunu nasıl tespit ettik? "Store 69'dan sonrası bozuk" diyerek.
+
+Sorun: Tasarımda sadece "İstanbul - Kadıköy" yazıyor. Eğer müşterinin Kadıköy'de 3 şubesi varsa (Örn: Kadıköy Çarşı, Kadıköy Rıhtım, Kadıköy Moda) hangisinin 76 numaralı ID olduğunu nereden bileceğiz?
+
+Çözüm: Lokasyon isminin hemen altına, adresin yanına silik bir şekilde #ID: 76 veya #StoreCode: DY_076 yazmalısın. Yazılımcılar ve destek ekibi isimle değil, ID ile konuşur.
