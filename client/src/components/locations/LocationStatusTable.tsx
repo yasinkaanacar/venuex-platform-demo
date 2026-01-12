@@ -10,7 +10,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription } from '@/components/ui/sheet';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Select, SelectContent, SelectItem } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
 
 type WarningType = 'phone_missing' | 'email_missing' | 'address_error' | 'image_missing' | 'sync_error';
@@ -328,13 +328,7 @@ function FilterToolbar({
       </div>
 
       <div className="flex items-center gap-3">
-        <Select value={filters.storeSet} onValueChange={(v) => updateFilter('storeSet', v)}>
-          <SelectTrigger className="w-40 h-9">
-            <div className="flex items-center gap-2">
-              <Building2 className="w-3.5 h-3.5 text-gray-500 shrink-0" />
-              <span className="truncate">{getStoreSetLabel()}</span>
-            </div>
-          </SelectTrigger>
+        <Select value={filters.storeSet} onValueChange={(v) => updateFilter('storeSet', v)} displayLabel={getStoreSetLabel()}>
           <SelectContent>
             <SelectItem value="all">Tüm Gruplar</SelectItem>
             {storeSets.map((set) => (
@@ -343,63 +337,21 @@ function FilterToolbar({
           </SelectContent>
         </Select>
 
-        <Select value={filters.platform} onValueChange={(v) => updateFilter('platform', v as PlatformKey | 'all')}>
-          <SelectTrigger className="w-40 h-9">
-            <div className="flex items-center gap-2">
-              <Filter className="w-3.5 h-3.5 text-gray-500 shrink-0" />
-              <span className="truncate">{getPlatformLabel()}</span>
-            </div>
-          </SelectTrigger>
+        <Select value={filters.platform} onValueChange={(v) => updateFilter('platform', v as PlatformKey | 'all')} displayLabel={getPlatformLabel()}>
           <SelectContent>
             <SelectItem value="all">Tüm Platformlar</SelectItem>
-            <SelectItem value="google">
-              <div className="flex items-center gap-2">
-                <SiGoogle className="w-3.5 h-3.5" />
-                Google
-              </div>
-            </SelectItem>
-            <SelectItem value="meta">
-              <div className="flex items-center gap-2">
-                <SiMeta className="w-3.5 h-3.5" />
-                Meta
-              </div>
-            </SelectItem>
-            <SelectItem value="apple">
-              <div className="flex items-center gap-2">
-                <SiApple className="w-3.5 h-3.5" />
-                Apple
-              </div>
-            </SelectItem>
-            <SelectItem value="yandex">
-              <div className="flex items-center gap-2">
-                <span className="text-red-500 font-bold text-xs">Я</span>
-                Yandex
-              </div>
-            </SelectItem>
+            <SelectItem value="google">Google</SelectItem>
+            <SelectItem value="meta">Meta</SelectItem>
+            <SelectItem value="apple">Apple</SelectItem>
+            <SelectItem value="yandex">Yandex</SelectItem>
           </SelectContent>
         </Select>
 
-        <Select value={filters.errorType} onValueChange={(v) => updateFilter('errorType', v as ErrorTypeFilter)}>
-          <SelectTrigger className="w-40 h-9">
-            <div className="flex items-center gap-2">
-              <AlertTriangle className="w-3.5 h-3.5 text-gray-500 shrink-0" />
-              <span className="truncate">{getStatusLabel()}</span>
-            </div>
-          </SelectTrigger>
+        <Select value={filters.errorType} onValueChange={(v) => updateFilter('errorType', v as ErrorTypeFilter)} displayLabel={getStatusLabel()}>
           <SelectContent>
             <SelectItem value="all">Tüm Durumlar</SelectItem>
-            <SelectItem value="sync_error">
-              <div className="flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-red-500" />
-                Sync Hataları
-              </div>
-            </SelectItem>
-            <SelectItem value="content_error">
-              <div className="flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-yellow-500" />
-                İçerik Eksikleri
-              </div>
-            </SelectItem>
+            <SelectItem value="sync_error">Sync Hataları</SelectItem>
+            <SelectItem value="content_error">İçerik Eksikleri</SelectItem>
           </SelectContent>
         </Select>
 
