@@ -329,7 +329,7 @@ function FilterToolbar({
       </div>
 
       <div className="flex items-center gap-3">
-        <Select value={filters.storeSet} onValueChange={(v) => updateFilter('storeSet', v)} displayLabel={getStoreSetLabel()}>
+        <Select value={filters.storeSet} onValueChange={(v) => updateFilter('storeSet', v)} displayLabel={getStoreSetLabel()} width={150}>
           <SelectContent>
             <SelectItem value="all">Tüm Gruplar</SelectItem>
             {storeSets.map((set) => (
@@ -338,7 +338,7 @@ function FilterToolbar({
           </SelectContent>
         </Select>
 
-        <Select value={filters.platform} onValueChange={(v) => updateFilter('platform', v as PlatformKey | 'all')} displayLabel={getPlatformLabel()}>
+        <Select value={filters.platform} onValueChange={(v) => updateFilter('platform', v as PlatformKey | 'all')} displayLabel={getPlatformLabel()} width={150}>
           <SelectContent>
             <SelectItem value="all">Tüm Platformlar</SelectItem>
             <SelectItem value="google">Google</SelectItem>
@@ -348,7 +348,7 @@ function FilterToolbar({
           </SelectContent>
         </Select>
 
-        <Select value={filters.errorType} onValueChange={(v) => updateFilter('errorType', v as ErrorTypeFilter)} displayLabel={getStatusLabel()}>
+        <Select value={filters.errorType} onValueChange={(v) => updateFilter('errorType', v as ErrorTypeFilter)} displayLabel={getStatusLabel()} width={150}>
           <SelectContent>
             <SelectItem value="all">Tüm Durumlar</SelectItem>
             <SelectItem value="sync_error">Sync Hataları</SelectItem>

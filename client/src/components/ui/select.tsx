@@ -34,9 +34,11 @@ interface SelectProps extends Omit<MuiSelectProps, 'children'> {
   value?: string
   defaultValue?: string
   displayLabel?: string
+  width?: number | string
+  fullWidth?: boolean
 }
 
-const Select = ({ children, onValueChange, displayLabel, ...props }: SelectProps) => {
+const Select = ({ children, onValueChange, displayLabel, width, fullWidth = false, ...props }: SelectProps) => {
   const handleChange = (event: any) => {
     if (onValueChange) {
       onValueChange(event.target.value)
@@ -60,7 +62,7 @@ const Select = ({ children, onValueChange, displayLabel, ...props }: SelectProps
   }
 
   return (
-    <StyledFormControl size="small" fullWidth>
+    <StyledFormControl size="small" fullWidth={fullWidth} sx={width ? { width } : undefined}>
       <StyledSelect 
         {...props} 
         onChange={handleChange}
