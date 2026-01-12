@@ -1,10 +1,15 @@
 import { useState } from 'react';
+import { Link } from 'wouter';
 import { SiGoogle, SiMeta, SiApple } from 'react-icons/si';
-import { Clock, AlertTriangle, Phone, Mail, MapPin, Image, ShieldCheck, ShieldAlert, XCircle, PauseCircle, ChevronRight, MoreHorizontal, RefreshCw, Link2, Unlink } from 'lucide-react';
+import { Clock, AlertTriangle, Phone, Mail, MapPin, Image, ShieldCheck, ShieldAlert, XCircle, PauseCircle, ChevronRight, MoreHorizontal, RefreshCw, Link2, Unlink, ExternalLink, Download, X, Save, Upload } from 'lucide-react';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { Button } from '@/components/ui/button';
+import { Checkbox } from '@/components/ui/checkbox';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription } from '@/components/ui/sheet';
 
 type WarningType = 'phone_missing' | 'email_missing' | 'address_error' | 'image_missing' | 'sync_error';
 
@@ -27,6 +32,9 @@ interface LocationData {
   storeCode: string;
   name: string;
   address: string;
+  phone: string;
+  email: string;
+  imageUrl: string;
   google: PlatformData;
   meta: PlatformData;
   apple: PlatformData;
@@ -39,6 +47,9 @@ const mockLocations: LocationData[] = [
     storeCode: 'DY_001',
     name: 'İstanbul - Kadıköy',
     address: 'Caferağa Mah. Moda Cad. No:12',
+    phone: '+90 216 555 0001',
+    email: 'kadikoy@doyuyo.com',
+    imageUrl: 'https://example.com/kadikoy.jpg',
     google: { status: 'verified', lastSync: '2 dk önce', warnings: [] },
     meta: { status: 'verified', lastSync: '5 dk önce', warnings: [] },
     apple: { status: 'verified', lastSync: '10 dk önce', warnings: [] },
@@ -49,6 +60,9 @@ const mockLocations: LocationData[] = [
     storeCode: 'DY_002',
     name: 'İstanbul - Beşiktaş',
     address: 'Sinanpaşa Mah. Ortabahçe Cad. No:8',
+    phone: '',
+    email: 'besiktas@doyuyo.com',
+    imageUrl: '',
     google: { status: 'verified', lastSync: '1 saat önce', warnings: [{ type: 'phone_missing', label: 'Telefon Eksik' }] },
     meta: { status: 'unverified', lastSync: '45 dk önce', warnings: [] },
     apple: { status: 'action_required', lastSync: '2 saat önce', warnings: [{ type: 'image_missing', label: 'Görsel Eksik' }] },
@@ -59,6 +73,9 @@ const mockLocations: LocationData[] = [
     storeCode: 'DY_076',
     name: 'Ankara - Çankaya',
     address: 'Kızılay Mah. Atatürk Blv. No:45',
+    phone: '+90 312 555 0076',
+    email: '',
+    imageUrl: '',
     google: { status: 'action_required', lastSync: '3 saat önce', warnings: [
       { type: 'sync_error', label: 'Sync Hatası', errorLog: 'Error: Store ID mismatch (Google: 76 vs VenueX: 76_TR)\nTimestamp: 2026-01-12T14:32:00Z\nAPI Response: 400 Bad Request\nDetails: The store identifier format does not match the expected pattern.' },
       { type: 'email_missing', label: 'Email Eksik' },
@@ -73,6 +90,9 @@ const mockLocations: LocationData[] = [
     storeCode: 'DY_004',
     name: 'İzmir - Alsancak',
     address: 'Alsancak Mah. Kıbrıs Şehitleri Cad. No:22',
+    phone: '+90 232 555 0004',
+    email: 'alsancak@doyuyo.com',
+    imageUrl: 'https://example.com/alsancak.jpg',
     google: { status: 'verified', lastSync: '15 dk önce', warnings: [] },
     meta: { status: 'verified', lastSync: '1 gün önce', warnings: [
       { type: 'sync_error', label: 'Sync Hatası', errorLog: 'Error: API Token expired\nTimestamp: 2026-01-11T09:15:00Z\nAPI Response: 401 Unauthorized\nDetails: The OAuth token has expired. Please re-authenticate.' }
@@ -85,6 +105,9 @@ const mockLocations: LocationData[] = [
     storeCode: 'DY_005',
     name: 'Bursa - Nilüfer',
     address: 'Özlüce Mah. Mudanya Cad. No:100',
+    phone: '+90 224 555 0005',
+    email: 'nilufer@doyuyo.com',
+    imageUrl: 'https://example.com/nilufer.jpg',
     google: { status: 'fully_passive', lastSync: null, warnings: [] },
     meta: { status: 'fully_passive', lastSync: null, warnings: [] },
     apple: { status: 'fully_passive', lastSync: null, warnings: [] },
@@ -95,6 +118,9 @@ const mockLocations: LocationData[] = [
     storeCode: 'DY_006',
     name: 'Antalya - Muratpaşa',
     address: 'Konyaaltı Cad. No:55',
+    phone: '',
+    email: '',
+    imageUrl: '',
     google: { status: 'unverified', lastSync: '30 dk önce', warnings: [{ type: 'address_error', label: 'Adres Hatalı' }] },
     meta: { status: 'verified', lastSync: '20 dk önce', warnings: [
       { type: 'sync_error', label: 'Sync Hatası', errorLog: 'Error: Rate limit exceeded\nTimestamp: 2026-01-12T10:45:00Z\nAPI Response: 429 Too Many Requests\nDetails: You have exceeded the rate limit. Please retry after 60 seconds.' },
@@ -158,13 +184,11 @@ const getStatusConfig = (status: PlatformStatusType) => {
 };
 
 function WarningBubble({ warning, cellKey, idx, onClick }: { warning: LocationWarning; cellKey: string; idx: number; onClick?: () => void }) {
-  const isClickable = warning.type === 'sync_error' && warning.errorLog;
-  
   return (
     <span 
       key={`${cellKey}-${idx}`}
-      onClick={isClickable ? onClick : undefined}
-      className={`inline-flex items-center gap-1 px-2 py-0.5 text-[10px] font-medium rounded-full border ${getWarningColor(warning.type)} ${isClickable ? 'cursor-pointer hover:opacity-80' : ''}`}
+      onClick={onClick}
+      className={`inline-flex items-center gap-1 px-2 py-0.5 text-[10px] font-medium rounded-full border cursor-pointer hover:opacity-80 transition-opacity ${getWarningColor(warning.type)}`}
     >
       {getWarningIcon(warning.type)}
       {warning.label}
@@ -203,6 +227,167 @@ function ErrorDetailModal({ open, onClose, warning, locationName, storeCode }: {
         </div>
       </DialogContent>
     </Dialog>
+  );
+}
+
+function LocationDetailDrawer({ 
+  open, 
+  onClose, 
+  location, 
+  highlightField 
+}: { 
+  open: boolean; 
+  onClose: () => void; 
+  location: LocationData | null; 
+  highlightField: WarningType | null;
+}) {
+  const [formData, setFormData] = useState({
+    phone: location?.phone || '',
+    email: location?.email || '',
+    address: location?.address || '',
+    imageUrl: location?.imageUrl || ''
+  });
+
+  if (!location) return null;
+
+  const getFieldHighlight = (field: string) => {
+    const fieldMap: Record<string, WarningType> = {
+      phone: 'phone_missing',
+      email: 'email_missing',
+      address: 'address_error',
+      imageUrl: 'image_missing'
+    };
+    return highlightField === fieldMap[field] ? 'ring-2 ring-yellow-400 bg-yellow-50' : '';
+  };
+
+  return (
+    <Sheet open={open} onOpenChange={onClose}>
+      <SheetContent className="w-[400px] sm:w-[540px]">
+        <SheetHeader>
+          <SheetTitle className="flex items-center gap-2">
+            <MapPin className="w-5 h-5 text-blue-600" />
+            Lokasyon Detayları
+          </SheetTitle>
+          <SheetDescription>
+            {location.name} <span className="text-gray-400">#{location.storeCode}</span>
+          </SheetDescription>
+        </SheetHeader>
+        
+        <div className="mt-6 space-y-5">
+          <div className="space-y-2">
+            <Label htmlFor="phone" className="flex items-center gap-2 text-sm font-medium">
+              <Phone className="w-4 h-4" />
+              Telefon
+            </Label>
+            <Input
+              id="phone"
+              value={formData.phone}
+              onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+              placeholder="+90 5XX XXX XX XX"
+              className={getFieldHighlight('phone')}
+            />
+            {!formData.phone && (
+              <p className="text-xs text-yellow-600">Bu alan eksik - platformlarda görünmüyor</p>
+            )}
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="email" className="flex items-center gap-2 text-sm font-medium">
+              <Mail className="w-4 h-4" />
+              Email
+            </Label>
+            <Input
+              id="email"
+              type="email"
+              value={formData.email}
+              onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+              placeholder="magaza@example.com"
+              className={getFieldHighlight('email')}
+            />
+            {!formData.email && (
+              <p className="text-xs text-yellow-600">Bu alan eksik - platformlarda görünmüyor</p>
+            )}
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="address" className="flex items-center gap-2 text-sm font-medium">
+              <MapPin className="w-4 h-4" />
+              Adres
+            </Label>
+            <Input
+              id="address"
+              value={formData.address}
+              onChange={(e) => setFormData({ ...formData, address: e.target.value })}
+              placeholder="Mahalle, Cadde, No"
+              className={getFieldHighlight('address')}
+            />
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="imageUrl" className="flex items-center gap-2 text-sm font-medium">
+              <Image className="w-4 h-4" />
+              Görsel URL
+            </Label>
+            <div className="flex gap-2">
+              <Input
+                id="imageUrl"
+                value={formData.imageUrl}
+                onChange={(e) => setFormData({ ...formData, imageUrl: e.target.value })}
+                placeholder="https://..."
+                className={`flex-1 ${getFieldHighlight('imageUrl')}`}
+              />
+              <Button variant="outline" size="icon" className="shrink-0">
+                <Upload className="w-4 h-4" />
+              </Button>
+            </div>
+            {!formData.imageUrl && (
+              <p className="text-xs text-yellow-600">Bu alan eksik - platformlarda görünmüyor</p>
+            )}
+          </div>
+
+          <div className="pt-4 border-t flex gap-2 justify-end">
+            <Button variant="outline" onClick={onClose}>
+              İptal
+            </Button>
+            <Button className="gap-1.5">
+              <Save className="w-4 h-4" />
+              Kaydet ve Sync
+            </Button>
+          </div>
+
+          <div className="pt-4 border-t">
+            <Link href="/locations">
+              <Button variant="ghost" className="w-full gap-2 text-gray-600">
+                <ExternalLink className="w-4 h-4" />
+                Lokasyon Listesine Git
+              </Button>
+            </Link>
+          </div>
+        </div>
+      </SheetContent>
+    </Sheet>
+  );
+}
+
+function BulkActionBar({ selectedCount, onClear }: { selectedCount: number; onClear: () => void }) {
+  if (selectedCount === 0) return null;
+
+  return (
+    <div className="fixed bottom-6 left-1/2 -translate-x-1/2 bg-gray-900 text-white px-6 py-3 rounded-lg shadow-xl flex items-center gap-4 z-50 animate-in slide-in-from-bottom-4">
+      <span className="text-sm font-medium">{selectedCount} lokasyon seçildi</span>
+      <div className="h-4 w-px bg-gray-600" />
+      <Button size="sm" variant="secondary" className="gap-1.5 h-8">
+        <RefreshCw className="w-3.5 h-3.5" />
+        Retry Sync
+      </Button>
+      <Button size="sm" variant="secondary" className="gap-1.5 h-8">
+        <Download className="w-3.5 h-3.5" />
+        Export
+      </Button>
+      <Button size="sm" variant="ghost" className="h-8 text-gray-400 hover:text-white" onClick={onClear}>
+        <X className="w-4 h-4" />
+      </Button>
+    </div>
   );
 }
 
@@ -274,23 +459,66 @@ function ActionsMenu({ location, platform }: { location: LocationData; platform:
 }
 
 export default function LocationStatusTable() {
+  const [selectedIds, setSelectedIds] = useState<Set<number>>(new Set());
   const [errorModal, setErrorModal] = useState<{ open: boolean; warning: LocationWarning | null; locationName: string; storeCode: string }>({
     open: false,
     warning: null,
     locationName: '',
     storeCode: ''
   });
+  const [detailDrawer, setDetailDrawer] = useState<{ open: boolean; location: LocationData | null; highlightField: WarningType | null }>({
+    open: false,
+    location: null,
+    highlightField: null
+  });
 
-  const handleErrorClick = (warning: LocationWarning, locationName: string, storeCode: string) => {
-    setErrorModal({ open: true, warning, locationName, storeCode });
+  const handleWarningClick = (warning: LocationWarning, location: LocationData) => {
+    if (warning.type === 'sync_error' && warning.errorLog) {
+      setErrorModal({ open: true, warning, locationName: location.name, storeCode: location.storeCode });
+    } else {
+      setDetailDrawer({ open: true, location, highlightField: warning.type });
+    }
+  };
+
+  const toggleSelect = (id: number) => {
+    const newSet = new Set(selectedIds);
+    if (newSet.has(id)) {
+      newSet.delete(id);
+    } else {
+      newSet.add(id);
+    }
+    setSelectedIds(newSet);
+  };
+
+  const toggleSelectAll = () => {
+    if (selectedIds.size === mockLocations.length) {
+      setSelectedIds(new Set());
+    } else {
+      setSelectedIds(new Set(mockLocations.map(l => l.id)));
+    }
   };
 
   return (
     <div className="bg-white border border-gray-200 rounded-lg overflow-hidden">
-      <StatusLegend />
+      <div className="flex items-center justify-between px-4 py-3 border-b border-gray-200">
+        <StatusLegend />
+        <Link href="/locations">
+          <Button variant="outline" size="sm" className="gap-1.5">
+            <ExternalLink className="w-3.5 h-3.5" />
+            Lokasyon Listesine Git
+          </Button>
+        </Link>
+      </div>
+      
       <table className="w-full">
         <thead className="bg-gray-50 border-b border-gray-200">
           <tr>
+            <th className="text-center px-3 py-3 w-10">
+              <Checkbox
+                checked={selectedIds.size === mockLocations.length}
+                onChange={toggleSelectAll}
+              />
+            </th>
             <th className="text-left text-xs font-medium text-gray-500 uppercase px-4 py-3">Lokasyon</th>
             <th className="text-center text-xs font-medium text-gray-500 uppercase px-4 py-3">
               <div className="flex items-center justify-center gap-1.5">
@@ -321,7 +549,13 @@ export default function LocationStatusTable() {
         </thead>
         <tbody className="divide-y divide-gray-100">
           {mockLocations.map((location) => (
-            <tr key={location.id} className="hover:bg-blue-50/50 transition-colors">
+            <tr key={location.id} className={`hover:bg-blue-50/50 transition-colors ${selectedIds.has(location.id) ? 'bg-blue-50' : ''}`}>
+              <td className="text-center px-3 py-4">
+                <Checkbox
+                  checked={selectedIds.has(location.id)}
+                  onChange={() => toggleSelect(location.id)}
+                />
+              </td>
               <td className="px-4 py-4">
                 <p className="text-sm font-medium text-gray-900">{location.name}</p>
                 <p className="text-xs text-gray-500">{location.address}</p>
@@ -331,21 +565,21 @@ export default function LocationStatusTable() {
                 <PlatformCell 
                   platform={location.google} 
                   cellKey={`${location.id}-google`}
-                  onErrorClick={(warning) => handleErrorClick(warning, location.name, location.storeCode)}
+                  onWarningClick={(warning) => handleWarningClick(warning, location)}
                 />
               </td>
               <td className="px-4 py-4">
                 <PlatformCell 
                   platform={location.meta} 
                   cellKey={`${location.id}-meta`}
-                  onErrorClick={(warning) => handleErrorClick(warning, location.name, location.storeCode)}
+                  onWarningClick={(warning) => handleWarningClick(warning, location)}
                 />
               </td>
               <td className="px-4 py-4">
                 <PlatformCell 
                   platform={location.apple} 
                   cellKey={`${location.id}-apple`}
-                  onErrorClick={(warning) => handleErrorClick(warning, location.name, location.storeCode)}
+                  onWarningClick={(warning) => handleWarningClick(warning, location)}
                 />
               </td>
               <td className="px-4 py-4">
@@ -353,7 +587,7 @@ export default function LocationStatusTable() {
                   platform={location.yandex} 
                   cellKey={`${location.id}-yandex`} 
                   showStatusLabel={false}
-                  onErrorClick={(warning) => handleErrorClick(warning, location.name, location.storeCode)}
+                  onWarningClick={(warning) => handleWarningClick(warning, location)}
                 />
               </td>
               <td className="px-4 py-4">
@@ -371,11 +605,23 @@ export default function LocationStatusTable() {
         locationName={errorModal.locationName}
         storeCode={errorModal.storeCode}
       />
+
+      <LocationDetailDrawer
+        open={detailDrawer.open}
+        onClose={() => setDetailDrawer({ ...detailDrawer, open: false })}
+        location={detailDrawer.location}
+        highlightField={detailDrawer.highlightField}
+      />
+
+      <BulkActionBar 
+        selectedCount={selectedIds.size} 
+        onClear={() => setSelectedIds(new Set())} 
+      />
     </div>
   );
 }
 
-function PlatformCell({ platform, cellKey, showStatusLabel = true, onErrorClick }: { platform: PlatformData; cellKey: string; showStatusLabel?: boolean; onErrorClick?: (warning: LocationWarning) => void }) {
+function PlatformCell({ platform, cellKey, showStatusLabel = true, onWarningClick }: { platform: PlatformData; cellKey: string; showStatusLabel?: boolean; onWarningClick?: (warning: LocationWarning) => void }) {
   const [isOpen, setIsOpen] = useState(false);
   const statusConfig = getStatusConfig(platform.status);
   const isPassive = platform.status === 'fully_passive' || platform.status === 'temporarily_passive';
@@ -423,7 +669,7 @@ function PlatformCell({ platform, cellKey, showStatusLabel = true, onErrorClick 
               warning={warning} 
               cellKey={cellKey} 
               idx={idx}
-              onClick={() => warning.type === 'sync_error' && warning.errorLog && onErrorClick?.(warning)}
+              onClick={() => onWarningClick?.(warning)}
             />
           ))}
           <Popover open={isOpen} onOpenChange={setIsOpen}>
@@ -444,7 +690,7 @@ function PlatformCell({ platform, cellKey, showStatusLabel = true, onErrorClick 
                     warning={warning} 
                     cellKey={`${cellKey}-all`} 
                     idx={idx}
-                    onClick={() => warning.type === 'sync_error' && warning.errorLog && onErrorClick?.(warning)}
+                    onClick={() => onWarningClick?.(warning)}
                   />
                 ))}
               </div>
