@@ -725,6 +725,16 @@ function InlineFieldEditorPopover({
   );
 }
 
+const getActionLabel = (errorCode?: SyncErrorCode): string => {
+  switch (errorCode) {
+    case 'auth_expired': return 'Tekrar Bağla';
+    case 'missing_coordinates': return 'Koordinat Ekle';
+    case 'validation_error': return 'Düzelt';
+    case 'rate_limit': return 'Bekliyor...';
+    default: return 'Onar';
+  }
+};
+
 function SyncErrorBubble({ 
   warning, 
   onErrorClick 
@@ -732,14 +742,17 @@ function SyncErrorBubble({
   warning: LocationWarning; 
   onErrorClick: () => void;
 }) {
+  const actionLabel = getActionLabel(warning.errorCode);
+  
   return (
-    <span 
+    <button 
       onClick={onErrorClick}
-      className={`inline-flex items-center gap-1 px-2 py-0.5 text-[10px] font-medium rounded-full border cursor-pointer hover:opacity-80 transition-opacity ${getWarningColor(warning.type)}`}
+      className="inline-flex items-center gap-1.5 px-2.5 py-1 text-[10px] font-semibold rounded-full border cursor-pointer transition-all bg-red-50 text-red-700 border-red-300 hover:bg-red-100 hover:border-red-400 hover:shadow-sm active:scale-95"
     >
-      {getWarningIcon(warning.type)}
-      {warning.label}
-    </span>
+      <AlertTriangle className="w-3 h-3" />
+      {actionLabel}
+      <ChevronRight className="w-3 h-3" />
+    </button>
   );
 }
 
