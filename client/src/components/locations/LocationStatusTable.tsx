@@ -528,7 +528,7 @@ const mockLocations: LocationData[] = [
 ];
 
 type PlatformKey = 'google' | 'meta' | 'apple' | 'yandex';
-type ErrorTypeFilter = 'all' | 'sync_error' | 'content_error';
+type ErrorTypeFilter = 'all' | 'sync_error';
 
 const getWarningIcon = (type: WarningType) => {
   switch (type) {
@@ -771,7 +771,6 @@ function FilterToolbar({
           <SelectContent>
             <SelectItem value="all">Tüm Durumlar</SelectItem>
             <SelectItem value="sync_error">Sync Hataları</SelectItem>
-            <SelectItem value="content_error">İçerik Eksikleri</SelectItem>
           </SelectContent>
         </Select>
 
@@ -1579,24 +1578,6 @@ function BulkActionBar({ selectedCount, onClear }: { selectedCount: number; onCl
   );
 }
 
-function StatusLegend() {
-  const statuses: PlatformStatusType[] = ['verified', 'unverified', 'action_required', 'fully_passive', 'temporarily_passive'];
-  
-  return (
-    <div className="flex flex-wrap items-center gap-4">
-      <span className="text-xs font-medium text-gray-500 uppercase">Durumlar:</span>
-      {statuses.map((status) => {
-        const config = getStatusConfig(status);
-        return (
-          <div key={status} className={`flex items-center gap-1.5 ${config.color}`}>
-            {config.icon}
-            <span className="text-xs font-medium">{config.label}</span>
-          </div>
-        );
-      })}
-    </div>
-  );
-}
 
 function ActionsMenu({ location, platform }: { location: LocationData; platform: PlatformData }) {
   const isPassive = platform.status === 'fully_passive' || platform.status === 'temporarily_passive';
@@ -1689,8 +1670,6 @@ export default function LocationStatusTable() {
         ];
         if (filters.errorType === 'sync_error') {
           return allWarnings.some(w => w.type === 'sync_error');
-        } else if (filters.errorType === 'content_error') {
-          return allWarnings.some(w => w.type !== 'sync_error');
         }
         return true;
       })();
