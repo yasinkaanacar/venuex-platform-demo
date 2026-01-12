@@ -268,6 +268,7 @@ function DataHealthBar({ percentage }: { percentage: number }) {
 
   return (
     <div className="flex items-center gap-2 mt-1.5">
+      <span className="text-[10px] text-gray-400">Data Quality</span>
       <div className="flex-1 h-1.5 bg-gray-100 rounded-full overflow-hidden max-w-[60px]">
         <div 
           className={`h-full rounded-full transition-all ${getColor()}`}
