@@ -1,7 +1,7 @@
 import { useState, useMemo, useEffect } from 'react';
 import { Link } from 'wouter';
 import { SiGoogle, SiMeta, SiApple } from 'react-icons/si';
-import { Clock, AlertTriangle, Phone, Mail, MapPin, Image, ShieldCheck, ShieldAlert, XCircle, PauseCircle, ChevronRight, MoreHorizontal, RefreshCw, Link2, Unlink, ExternalLink, Download, X, Save, Upload, Layers, Search, Filter, Building2 } from 'lucide-react';
+import { Clock, AlertTriangle, Phone, Mail, MapPin, Image, ShieldCheck, ShieldAlert, XCircle, PauseCircle, ChevronRight, MoreHorizontal, RefreshCw, Link2, Unlink, ExternalLink, Download, X, Save, Upload, Layers, Search, Filter, Building2, Ban, Unplug, Clock3, Trash2, XOctagon } from 'lucide-react';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
@@ -35,7 +35,17 @@ interface LocationWarning {
   platform?: PlatformKey;
 }
 
-type PlatformStatusType = 'verified' | 'unverified' | 'action_required' | 'fully_passive' | 'temporarily_passive';
+type PlatformStatusType = 
+  | 'verified'           // ✅ Yayında
+  | 'unverified'         // 🟠 Doğrulama Bekliyor
+  | 'action_required'    // 🟡 Aksiyon Gerekli
+  | 'pending_review'     // 🟡 İnceleme Bekliyor (Google/Apple)
+  | 'rejected'           // 🔴 Reddedildi (Apple)
+  | 'suspended'          // 🔴 Askıya Alındı (Google/Apple/Meta)
+  | 'disconnected'       // 🔴 Bağlantı Koptu (Google/Meta)
+  | 'deleted'            // ⚫ Silindi (Apple)
+  | 'fully_passive'      // Kapalı
+  | 'temporarily_passive'; // Geçici Kapalı
 
 interface PlatformData {
   status: PlatformStatusType;
@@ -74,6 +84,95 @@ const initialFilters: FilterState = {
   errorType: 'all',
   storeSet: 'all'
 };
+
+// ========== API STATUS MAPPING TYPES ==========
+
+interface GoogleLocationState {
+  isPublished: boolean;
+  isDisabled: boolean;
+  isDisconnected: boolean;
+  isDuplicate: boolean;
+  hasPendingEdits: boolean;
+  isVerified: boolean;
+}
+
+type AppleStatusEnum = 'PUBLISHED' | 'PENDING_REVIEW' | 'REJECTED' | 'SUSPENDED' | 'DELETED' | 'NEEDS_VERIFICATION';
+
+interface MetaPageState {
+  is_published: boolean;
+  has_added_app: boolean;
+  verification_status?: 'verified' | 'not_verified';
+  error_code?: number; // Error 4/17 for rate limiting
+}
+
+interface StatusMappingResult {
+  status: PlatformStatusType;
+  reasonCode: string;
+  message: string;
+}
+
+// ========== API STATUS MAPPING HELPERS ==========
+
+// Google: PM Priority Order - isDisabled > isDuplicate > isDisconnected > !isVerified > hasPendingEdits > isPublished
+const mapGoogleLocationState = (state: GoogleLocationState): StatusMappingResult => {
+  if (state.isDisabled) {
+    return { status: 'suspended', reasonCode: 'disabled', message: 'Google tarafından askıya alındı' };
+  }
+  if (state.isDuplicate) {
+    return { status: 'unverified', reasonCode: 'duplicate', message: 'Kopya lokasyon tespit edildi' };
+  }
+  if (state.isDisconnected) {
+    return { status: 'disconnected', reasonCode: 'disconnected', message: 'Hesap bağlantısı koptu' };
+  }
+  if (!state.isVerified) {
+    return { status: 'unverified', reasonCode: 'unverified', message: 'Doğrulama bekliyor' };
+  }
+  if (state.hasPendingEdits) {
+    return { status: 'pending_review', reasonCode: 'pending_edits', message: 'Değişiklikler inceleniyor' };
+  }
+  if (state.isPublished) {
+    return { status: 'verified', reasonCode: 'published', message: 'Yayında' };
+  }
+  return { status: 'temporarily_passive', reasonCode: 'unknown', message: 'Durum belirlenemedi' };
+};
+
+// Apple: Direct enum mapping - REJECTED triggers validation_error in SmartFix
+const mapAppleStatus = (status: AppleStatusEnum): StatusMappingResult => {
+  switch (status) {
+    case 'PUBLISHED':
+      return { status: 'verified', reasonCode: 'published', message: 'Yayında' };
+    case 'PENDING_REVIEW':
+      return { status: 'pending_review', reasonCode: 'pending_review', message: 'Apple incelemesi bekliyor (1-3 gün)' };
+    case 'REJECTED':
+      // REJECTED → triggers SmartFix with validation_error flow (address/category fix)
+      return { status: 'rejected', reasonCode: 'validation_error', message: 'Reddedildi - düzeltme gerekli' };
+    case 'SUSPENDED':
+      return { status: 'suspended', reasonCode: 'suspended', message: 'Apple tarafından askıya alındı' };
+    case 'DELETED':
+      return { status: 'deleted', reasonCode: 'deleted', message: 'Lokasyon silindi' };
+    case 'NEEDS_VERIFICATION':
+      return { status: 'unverified', reasonCode: 'needs_verification', message: 'Sahiplik doğrulaması gerekli' };
+    default:
+      return { status: 'temporarily_passive', reasonCode: 'unknown', message: 'Durum belirlenemedi' };
+  }
+};
+
+// Meta: Priority - error_code > has_added_app > is_published
+const mapMetaPageState = (state: MetaPageState): StatusMappingResult => {
+  // Error 4 or 17 = Rate Limit
+  if (state.error_code === 4 || state.error_code === 17) {
+    return { status: 'action_required', reasonCode: 'rate_limit', message: 'API limiti aşıldı - otomatik yeniden deneniyor' };
+  }
+  if (!state.has_added_app) {
+    return { status: 'disconnected', reasonCode: 'app_revoked', message: 'VenueX erişim izni kaldırıldı' };
+  }
+  if (!state.is_published) {
+    return { status: 'suspended', reasonCode: 'unpublished', message: 'Sayfa yayından kaldırıldı' };
+  }
+  return { status: 'verified', reasonCode: 'published', message: 'Yayında' };
+};
+
+// ========== MOCK DATA ==========
 
 const mockLocations: LocationData[] = [
   // 1. HAPPY PATH (Sorunsuz Mağaza)
@@ -220,6 +319,211 @@ const mockLocations: LocationData[] = [
       ]
     },
     yandex: { status: 'verified', lastSync: '1 dk önce', warnings: [] }
+  },
+
+  // 6. GOOGLE SUSPENDED (Askıya Alındı)
+  {
+    id: 8,
+    storeCode: 'DY_008',
+    name: 'Bursa - Osmangazi',
+    address: 'Heykel Mah. Atatürk Cad. No:10',
+    phone: '+90 224 555 0008',
+    email: 'osmangazi@doyuyo.com',
+    imageUrl: 'https://example.com/img4.jpg',
+    website: 'https://doyuyo.com',
+    workingHours: '09:00 - 21:00',
+    description: 'Bursa merkez şubesi',
+    storeSet: 'Cadde',
+    google: { 
+      status: 'suspended', 
+      lastSync: 'Askıda', 
+      warnings: [
+        { 
+          type: 'sync_error', 
+          label: 'Askıya Alındı', 
+          errorCode: 'unknown', 
+          platform: 'google', 
+          errorLog: 'Location suspended due to quality policy violation. Contact Google Support.' 
+        }
+      ]
+    },
+    meta: { status: 'verified', lastSync: '10 dk önce', warnings: [] },
+    apple: { status: 'verified', lastSync: '15 dk önce', warnings: [] },
+    yandex: { status: 'verified', lastSync: '20 dk önce', warnings: [] }
+  },
+
+  // 7. GOOGLE DISCONNECTED (Bağlantı Koptu)
+  {
+    id: 9,
+    storeCode: 'DY_009',
+    name: 'Konya - Selçuklu',
+    address: 'Selçuklu Mah. Mevlana Cad. No:33',
+    phone: '+90 332 555 0009',
+    email: 'selcuklu@doyuyo.com',
+    imageUrl: 'https://example.com/img5.jpg',
+    website: 'https://doyuyo.com',
+    workingHours: '08:00 - 22:00',
+    description: 'Konya şubesi',
+    storeSet: 'Cadde',
+    google: { 
+      status: 'disconnected', 
+      lastSync: 'Bağlantı Yok', 
+      warnings: [
+        { 
+          type: 'sync_error', 
+          label: 'Bağlantı Koptu', 
+          errorCode: 'auth_expired', 
+          platform: 'google', 
+          errorLog: '403 Permission Denied: Location ownership has been transferred. Please reconnect.' 
+        }
+      ]
+    },
+    meta: { status: 'verified', lastSync: '5 dk önce', warnings: [] },
+    apple: { status: 'verified', lastSync: '8 dk önce', warnings: [] },
+    yandex: { status: 'verified', lastSync: '12 dk önce', warnings: [] }
+  },
+
+  // 8. APPLE REJECTED (Reddedildi)
+  {
+    id: 10,
+    storeCode: 'DY_010',
+    name: 'Eskişehir - Tepebaşı',
+    address: 'Tepebaşı Mah. İsmet İnönü Cad. No:55',
+    phone: '+90 222 555 0010',
+    email: 'tepebasi@doyuyo.com',
+    imageUrl: 'https://example.com/img6.jpg',
+    website: 'https://doyuyo.com',
+    workingHours: '09:00 - 20:00',
+    description: 'Eskişehir şubesi',
+    storeSet: 'Express',
+    google: { status: 'verified', lastSync: '3 dk önce', warnings: [] },
+    meta: { status: 'verified', lastSync: '7 dk önce', warnings: [] },
+    apple: { 
+      status: 'rejected', 
+      lastSync: 'Reddedildi', 
+      warnings: [
+        { 
+          type: 'sync_error', 
+          label: 'Adres Formatı Hatalı', 
+          errorCode: 'validation_error', 
+          platform: 'apple', 
+          errorLog: 'REJECTED: Address format does not match Apple Maps database. Please verify postal code and street name.' 
+        }
+      ]
+    },
+    yandex: { status: 'verified', lastSync: '15 dk önce', warnings: [] }
+  },
+
+  // 9. APPLE PENDING REVIEW (İnceleme Bekliyor)
+  {
+    id: 11,
+    storeCode: 'DY_011',
+    name: 'Gaziantep - Şahinbey',
+    address: 'Şahinbey Mah. Gaziler Cad. No:88',
+    phone: '+90 342 555 0011',
+    email: 'sahinbey@doyuyo.com',
+    imageUrl: 'https://example.com/img7.jpg',
+    website: 'https://doyuyo.com',
+    workingHours: '08:00 - 23:00',
+    description: 'Gaziantep şubesi',
+    storeSet: 'AVM',
+    google: { status: 'verified', lastSync: '2 dk önce', warnings: [] },
+    meta: { status: 'verified', lastSync: '4 dk önce', warnings: [] },
+    apple: { status: 'pending_review', lastSync: 'İnceleniyor', warnings: [] },
+    yandex: { status: 'verified', lastSync: '6 dk önce', warnings: [] }
+  },
+
+  // 10. META DISCONNECTED (Yetki Yok)
+  {
+    id: 12,
+    storeCode: 'DY_012',
+    name: 'Trabzon - Ortahisar',
+    address: 'Ortahisar Mah. Maraş Cad. No:22',
+    phone: '+90 462 555 0012',
+    email: 'ortahisar@doyuyo.com',
+    imageUrl: 'https://example.com/img8.jpg',
+    website: 'https://doyuyo.com',
+    workingHours: '09:00 - 21:00',
+    description: 'Trabzon şubesi',
+    storeSet: 'Cadde',
+    google: { status: 'verified', lastSync: '5 dk önce', warnings: [] },
+    meta: { 
+      status: 'disconnected', 
+      lastSync: 'Yetki Yok', 
+      warnings: [
+        { 
+          type: 'sync_error', 
+          label: 'Erişim İzni Kaldırıldı', 
+          errorCode: 'auth_expired', 
+          platform: 'meta', 
+          errorLog: 'Error 10: Application does not have permission for this action. VenueX app access has been revoked.' 
+        }
+      ]
+    },
+    apple: { status: 'verified', lastSync: '10 dk önce', warnings: [] },
+    yandex: { status: 'verified', lastSync: '15 dk önce', warnings: [] }
+  },
+
+  // 11. META SUSPENDED (Sayfa Kapalı)
+  {
+    id: 13,
+    storeCode: 'DY_013',
+    name: 'Samsun - Atakum',
+    address: 'Atakum Mah. Sahil Yolu No:100',
+    phone: '+90 362 555 0013',
+    email: 'atakum@doyuyo.com',
+    imageUrl: 'https://example.com/img9.jpg',
+    website: 'https://doyuyo.com',
+    workingHours: '10:00 - 22:00',
+    description: 'Samsun sahil şubesi',
+    storeSet: 'Sezonluk',
+    google: { status: 'verified', lastSync: '3 dk önce', warnings: [] },
+    meta: { 
+      status: 'suspended', 
+      lastSync: 'Kapalı', 
+      warnings: [
+        { 
+          type: 'sync_error', 
+          label: 'Sayfa Yayından Kaldırıldı', 
+          errorCode: 'unknown', 
+          platform: 'meta', 
+          errorLog: 'Page unpublished by administrator or disabled by Meta for policy violations.' 
+        }
+      ]
+    },
+    apple: { status: 'verified', lastSync: '8 dk önce', warnings: [] },
+    yandex: { status: 'fully_passive', lastSync: null, warnings: [] }
+  },
+
+  // 12. APPLE DELETED (Silindi)
+  {
+    id: 14,
+    storeCode: 'DY_014',
+    name: 'Mersin - Mezitli',
+    address: 'Mezitli Mah. Sahil Cad. No:45',
+    phone: '+90 324 555 0014',
+    email: 'mezitli@doyuyo.com',
+    imageUrl: '',
+    website: '',
+    workingHours: '',
+    description: '',
+    storeSet: 'Sezonluk',
+    google: { status: 'verified', lastSync: '5 dk önce', warnings: [] },
+    meta: { status: 'verified', lastSync: '10 dk önce', warnings: [] },
+    apple: { 
+      status: 'deleted', 
+      lastSync: 'Silindi', 
+      warnings: [
+        { 
+          type: 'sync_error', 
+          label: 'Lokasyon Silindi', 
+          errorCode: 'unknown', 
+          platform: 'apple', 
+          errorLog: 'DELETED: Location has been permanently removed from Apple Business Connect.' 
+        }
+      ]
+    },
+    yandex: { status: 'verified', lastSync: '15 dk önce', warnings: [] }
   }
 ];
 
@@ -246,13 +550,13 @@ const getStatusConfig = (status: PlatformStatusType) => {
     case 'verified':
       return {
         icon: <ShieldCheck className="w-4 h-4" />,
-        label: 'Verified',
+        label: 'Yayında',
         color: 'text-green-600'
       };
     case 'unverified':
       return {
         icon: <ShieldAlert className="w-4 h-4" />,
-        label: 'Unverified',
+        label: 'Doğrulama Bekliyor',
         color: 'text-orange-500'
       };
     case 'action_required':
@@ -261,10 +565,40 @@ const getStatusConfig = (status: PlatformStatusType) => {
         label: 'Aksiyon Gerekli',
         color: 'text-amber-600'
       };
+    case 'pending_review':
+      return {
+        icon: <Clock3 className="w-4 h-4" />,
+        label: 'İnceleme Bekliyor',
+        color: 'text-yellow-600'
+      };
+    case 'rejected':
+      return {
+        icon: <XOctagon className="w-4 h-4" />,
+        label: 'Reddedildi',
+        color: 'text-red-600'
+      };
+    case 'suspended':
+      return {
+        icon: <Ban className="w-4 h-4" />,
+        label: 'Askıya Alındı',
+        color: 'text-red-700'
+      };
+    case 'disconnected':
+      return {
+        icon: <Unplug className="w-4 h-4" />,
+        label: 'Bağlantı Koptu',
+        color: 'text-red-600'
+      };
+    case 'deleted':
+      return {
+        icon: <Trash2 className="w-4 h-4" />,
+        label: 'Silindi',
+        color: 'text-gray-500'
+      };
     case 'fully_passive':
       return {
         icon: <XCircle className="w-4 h-4" />,
-        label: 'Tamamen Kapalı',
+        label: 'Kapalı',
         color: 'text-gray-400'
       };
     case 'temporarily_passive':
