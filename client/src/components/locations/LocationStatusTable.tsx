@@ -40,11 +40,26 @@ interface LocationData {
   website: string;
   workingHours: string;
   description: string;
+  storeSet: string;
   google: PlatformData;
   meta: PlatformData;
   apple: PlatformData;
   yandex: PlatformData;
 }
+
+interface FilterState {
+  search: string;
+  platform: PlatformKey | 'all';
+  errorType: ErrorTypeFilter;
+  storeSet: string;
+}
+
+const initialFilters: FilterState = {
+  search: '',
+  platform: 'all',
+  errorType: 'all',
+  storeSet: 'all'
+};
 
 const mockLocations: LocationData[] = [
   {
@@ -58,6 +73,7 @@ const mockLocations: LocationData[] = [
     website: 'https://doyuyo.com/kadikoy',
     workingHours: '09:00 - 22:00',
     description: 'Kadıköy şubemiz, Moda sahilinde hizmet vermektedir.',
+    storeSet: 'Cadde',
     google: { status: 'verified', lastSync: '2 dk önce', warnings: [] },
     meta: { status: 'verified', lastSync: '5 dk önce', warnings: [] },
     apple: { status: 'verified', lastSync: '10 dk önce', warnings: [] },
@@ -74,6 +90,7 @@ const mockLocations: LocationData[] = [
     website: '',
     workingHours: '10:00 - 21:00',
     description: '',
+    storeSet: 'AVM',
     google: { status: 'verified', lastSync: '1 saat önce', warnings: [{ type: 'phone_missing', label: 'Telefon Eksik' }] },
     meta: { status: 'unverified', lastSync: '45 dk önce', warnings: [] },
     apple: { status: 'action_required', lastSync: '2 saat önce', warnings: [{ type: 'image_missing', label: 'Görsel Eksik' }] },
@@ -90,6 +107,7 @@ const mockLocations: LocationData[] = [
     website: 'https://doyuyo.com/cankaya',
     workingHours: '',
     description: 'Ankara merkezde hizmet veren şubemiz.',
+    storeSet: 'Cadde',
     google: { status: 'action_required', lastSync: '3 saat önce', warnings: [
       { type: 'sync_error', label: 'Sync Hatası', errorLog: 'Error: Store ID mismatch (Google: 76 vs VenueX: 76_TR)\nTimestamp: 2026-01-12T14:32:00Z\nAPI Response: 400 Bad Request\nDetails: The store identifier format does not match the expected pattern.' },
       { type: 'email_missing', label: 'Email Eksik' },
@@ -110,6 +128,7 @@ const mockLocations: LocationData[] = [
     website: 'https://doyuyo.com/alsancak',
     workingHours: '08:00 - 23:00',
     description: 'Alsancak kordon üzerinde bulunan şubemiz.',
+    storeSet: 'Express',
     google: { status: 'verified', lastSync: '15 dk önce', warnings: [] },
     meta: { status: 'verified', lastSync: '1 gün önce', warnings: [
       { type: 'sync_error', label: 'Sync Hatası', errorLog: 'Error: API Token expired\nTimestamp: 2026-01-11T09:15:00Z\nAPI Response: 401 Unauthorized\nDetails: The OAuth token has expired. Please re-authenticate.' }
@@ -128,6 +147,7 @@ const mockLocations: LocationData[] = [
     website: 'https://doyuyo.com/nilufer',
     workingHours: '09:00 - 21:00',
     description: 'Bursa Nilüfer ilçesinde hizmet veren şubemiz.',
+    storeSet: 'AVM',
     google: { status: 'fully_passive', lastSync: null, warnings: [] },
     meta: { status: 'fully_passive', lastSync: null, warnings: [] },
     apple: { status: 'fully_passive', lastSync: null, warnings: [] },
@@ -144,6 +164,7 @@ const mockLocations: LocationData[] = [
     website: '',
     workingHours: '',
     description: '',
+    storeSet: 'Express',
     google: { status: 'unverified', lastSync: '30 dk önce', warnings: [{ type: 'address_error', label: 'Adres Hatalı' }] },
     meta: { status: 'verified', lastSync: '20 dk önce', warnings: [
       { type: 'sync_error', label: 'Sync Hatası', errorLog: 'Error: Rate limit exceeded\nTimestamp: 2026-01-12T10:45:00Z\nAPI Response: 429 Too Many Requests\nDetails: You have exceeded the rate limit. Please retry after 60 seconds.' },
@@ -259,120 +280,131 @@ function DataHealthBar({ percentage }: { percentage: number }) {
 }
 
 function FilterToolbar({ 
-  searchQuery, 
-  setSearchQuery,
-  platformFilter,
-  setPlatformFilter,
-  errorTypeFilter,
-  setErrorTypeFilter,
+  filters,
+  setFilters,
+  storeSets,
   resultCount,
   totalCount
 }: { 
-  searchQuery: string;
-  setSearchQuery: (q: string) => void;
-  platformFilter: PlatformKey | 'all';
-  setPlatformFilter: (p: PlatformKey | 'all') => void;
-  errorTypeFilter: ErrorTypeFilter;
-  setErrorTypeFilter: (e: ErrorTypeFilter) => void;
+  filters: FilterState;
+  setFilters: (f: FilterState) => void;
+  storeSets: string[];
   resultCount: number;
   totalCount: number;
 }) {
-  const hasActiveFilters = searchQuery || platformFilter !== 'all' || errorTypeFilter !== 'all';
+  const hasActiveFilters = filters.search !== '' || filters.platform !== 'all' || filters.errorType !== 'all' || filters.storeSet !== 'all';
+
+  const updateFilter = <K extends keyof FilterState>(key: K, value: FilterState[K]) => {
+    setFilters({ ...filters, [key]: value });
+  };
 
   return (
-    <div className="flex flex-wrap items-center gap-3 px-4 py-3 bg-white border-b border-gray-200">
-      <div className="relative flex-1 min-w-[200px] max-w-[300px]">
+    <div className="flex flex-col md:flex-row md:items-center gap-3 px-4 py-3 bg-white border-b border-gray-200">
+      <div className="relative flex-1 min-w-[200px] max-w-[320px]">
         <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
         <Input
           placeholder="Store ID veya isim ara..."
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
+          value={filters.search}
+          onChange={(e) => updateFilter('search', e.target.value)}
           className="pl-9 h-9"
         />
       </div>
 
-      <Select value={platformFilter} onValueChange={(v) => setPlatformFilter(v as PlatformKey | 'all')}>
-        <SelectTrigger className="w-[160px] h-9">
-          <div className="flex items-center gap-2">
-            <Filter className="w-3.5 h-3.5 text-gray-500" />
-            <SelectValue placeholder="Platform" />
-          </div>
-        </SelectTrigger>
-        <SelectContent>
-          <SelectItem value="all">Tüm Platformlar</SelectItem>
-          <SelectItem value="google">
+      <div className="flex flex-wrap items-center gap-2 md:ml-auto">
+        <Select value={filters.platform} onValueChange={(v) => updateFilter('platform', v as PlatformKey | 'all')}>
+          <SelectTrigger className="w-[150px] h-9">
             <div className="flex items-center gap-2">
-              <SiGoogle className="w-3.5 h-3.5" />
-              Google
+              <Filter className="w-3.5 h-3.5 text-gray-500" />
+              <SelectValue placeholder="Platform" />
             </div>
-          </SelectItem>
-          <SelectItem value="meta">
-            <div className="flex items-center gap-2">
-              <SiMeta className="w-3.5 h-3.5" />
-              Meta
-            </div>
-          </SelectItem>
-          <SelectItem value="apple">
-            <div className="flex items-center gap-2">
-              <SiApple className="w-3.5 h-3.5" />
-              Apple
-            </div>
-          </SelectItem>
-          <SelectItem value="yandex">
-            <div className="flex items-center gap-2">
-              <span className="text-red-500 font-bold text-xs">Я</span>
-              Yandex
-            </div>
-          </SelectItem>
-        </SelectContent>
-      </Select>
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">Tüm Platformlar</SelectItem>
+            <SelectItem value="google">
+              <div className="flex items-center gap-2">
+                <SiGoogle className="w-3.5 h-3.5" />
+                Google
+              </div>
+            </SelectItem>
+            <SelectItem value="meta">
+              <div className="flex items-center gap-2">
+                <SiMeta className="w-3.5 h-3.5" />
+                Meta
+              </div>
+            </SelectItem>
+            <SelectItem value="apple">
+              <div className="flex items-center gap-2">
+                <SiApple className="w-3.5 h-3.5" />
+                Apple
+              </div>
+            </SelectItem>
+            <SelectItem value="yandex">
+              <div className="flex items-center gap-2">
+                <span className="text-red-500 font-bold text-xs">Я</span>
+                Yandex
+              </div>
+            </SelectItem>
+          </SelectContent>
+        </Select>
 
-      <Select value={errorTypeFilter} onValueChange={(v) => setErrorTypeFilter(v as ErrorTypeFilter)}>
-        <SelectTrigger className="w-[160px] h-9">
-          <div className="flex items-center gap-2">
-            <AlertTriangle className="w-3.5 h-3.5 text-gray-500" />
-            <SelectValue placeholder="Hata Tipi" />
-          </div>
-        </SelectTrigger>
-        <SelectContent>
-          <SelectItem value="all">Tüm Hatalar</SelectItem>
-          <SelectItem value="sync_error">
+        <Select value={filters.errorType} onValueChange={(v) => updateFilter('errorType', v as ErrorTypeFilter)}>
+          <SelectTrigger className="w-[150px] h-9">
             <div className="flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-red-500" />
-              Sync Hataları
+              <AlertTriangle className="w-3.5 h-3.5 text-gray-500" />
+              <SelectValue placeholder="Durum" />
             </div>
-          </SelectItem>
-          <SelectItem value="content_error">
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">Tüm Durumlar</SelectItem>
+            <SelectItem value="sync_error">
+              <div className="flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-red-500" />
+                Sync Hataları
+              </div>
+            </SelectItem>
+            <SelectItem value="content_error">
+              <div className="flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-yellow-500" />
+                İçerik Eksikleri
+              </div>
+            </SelectItem>
+          </SelectContent>
+        </Select>
+
+        <Select value={filters.storeSet} onValueChange={(v) => updateFilter('storeSet', v)}>
+          <SelectTrigger className="w-[140px] h-9">
             <div className="flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-yellow-500" />
-              İçerik Eksikleri
+              <Building2 className="w-3.5 h-3.5 text-gray-500" />
+              <SelectValue placeholder="Set" />
             </div>
-          </SelectItem>
-        </SelectContent>
-      </Select>
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">Tüm Setler</SelectItem>
+            {storeSets.map((set) => (
+              <SelectItem key={set} value={set}>{set}</SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
 
-      {hasActiveFilters && (
-        <Button 
-          variant="ghost" 
-          size="sm" 
-          className="h-9 px-3 text-gray-500"
-          onClick={() => {
-            setSearchQuery('');
-            setPlatformFilter('all');
-            setErrorTypeFilter('all');
-          }}
-        >
-          <X className="w-3.5 h-3.5 mr-1" />
-          Temizle
-        </Button>
-      )}
-
-      <div className="ml-auto text-xs text-gray-500">
-        {hasActiveFilters ? (
-          <span>{resultCount} / {totalCount} lokasyon</span>
-        ) : (
-          <span>{totalCount} lokasyon</span>
+        {hasActiveFilters && (
+          <Button 
+            variant="ghost" 
+            size="sm" 
+            className="h-9 px-3 text-gray-500"
+            onClick={() => setFilters(initialFilters)}
+          >
+            <X className="w-3.5 h-3.5 mr-1" />
+            Temizle
+          </Button>
         )}
+
+        <div className="text-xs text-gray-500 ml-2">
+          {hasActiveFilters ? (
+            <span>{resultCount} / {totalCount}</span>
+          ) : (
+            <span>{totalCount} lokasyon</span>
+          )}
+        </div>
       </div>
     </div>
   );
@@ -814,9 +846,7 @@ function ActionsMenu({ location, platform }: { location: LocationData; platform:
 
 export default function LocationStatusTable() {
   const [selectedIds, setSelectedIds] = useState<Set<number>>(new Set());
-  const [searchQuery, setSearchQuery] = useState('');
-  const [platformFilter, setPlatformFilter] = useState<PlatformKey | 'all'>('all');
-  const [errorTypeFilter, setErrorTypeFilter] = useState<ErrorTypeFilter>('all');
+  const [filters, setFilters] = useState<FilterState>(initialFilters);
   const [errorModal, setErrorModal] = useState<{ open: boolean; warning: LocationWarning | null; locationName: string; storeCode: string }>({
     open: false,
     warning: null,
@@ -828,41 +858,43 @@ export default function LocationStatusTable() {
     location: null
   });
 
+  const uniqueStoreSets = useMemo(() => {
+    const sets = new Set(mockLocations.map(l => l.storeSet));
+    return Array.from(sets).sort();
+  }, []);
+
   const filteredLocations = useMemo(() => {
     return mockLocations.filter(location => {
-      if (searchQuery) {
-        const query = searchQuery.toLowerCase();
-        const matchesName = location.name.toLowerCase().includes(query);
-        const matchesCode = location.storeCode.toLowerCase().includes(query);
-        if (!matchesName && !matchesCode) return false;
-      }
+      const searchMatch = filters.search === '' || 
+        location.name.toLowerCase().includes(filters.search.toLowerCase()) ||
+        location.storeCode.toLowerCase().includes(filters.search.toLowerCase()) ||
+        location.address.toLowerCase().includes(filters.search.toLowerCase());
 
-      if (platformFilter !== 'all') {
-        const platformData = location[platformFilter];
-        const hasIssue = platformData.status !== 'verified' || platformData.warnings.length > 0;
-        if (!hasIssue) return false;
-      }
+      const platformMatch = filters.platform === 'all' || (() => {
+        const platformData = location[filters.platform];
+        return platformData.status !== 'verified' || platformData.warnings.length > 0;
+      })();
 
-      if (errorTypeFilter !== 'all') {
+      const errorTypeMatch = filters.errorType === 'all' || (() => {
         const allWarnings = [
           ...location.google.warnings,
           ...location.meta.warnings,
           ...location.apple.warnings,
           ...location.yandex.warnings
         ];
-        
-        if (errorTypeFilter === 'sync_error') {
-          const hasSyncError = allWarnings.some(w => w.type === 'sync_error');
-          if (!hasSyncError) return false;
-        } else if (errorTypeFilter === 'content_error') {
-          const hasContentError = allWarnings.some(w => w.type !== 'sync_error');
-          if (!hasContentError) return false;
+        if (filters.errorType === 'sync_error') {
+          return allWarnings.some(w => w.type === 'sync_error');
+        } else if (filters.errorType === 'content_error') {
+          return allWarnings.some(w => w.type !== 'sync_error');
         }
-      }
+        return true;
+      })();
 
-      return true;
+      const storeSetMatch = filters.storeSet === 'all' || location.storeSet === filters.storeSet;
+
+      return searchMatch && platformMatch && errorTypeMatch && storeSetMatch;
     });
-  }, [searchQuery, platformFilter, errorTypeFilter]);
+  }, [filters]);
 
   const handleSyncErrorClick = (warning: LocationWarning, location: LocationData) => {
     setErrorModal({ open: true, warning, locationName: location.name, storeCode: location.storeCode });
@@ -889,12 +921,9 @@ export default function LocationStatusTable() {
   return (
     <div className="bg-white border border-gray-200 rounded-lg overflow-hidden">
       <FilterToolbar
-        searchQuery={searchQuery}
-        setSearchQuery={setSearchQuery}
-        platformFilter={platformFilter}
-        setPlatformFilter={setPlatformFilter}
-        errorTypeFilter={errorTypeFilter}
-        setErrorTypeFilter={setErrorTypeFilter}
+        filters={filters}
+        setFilters={setFilters}
+        storeSets={uniqueStoreSets}
         resultCount={filteredLocations.length}
         totalCount={mockLocations.length}
       />
