@@ -17,6 +17,16 @@ type WarningType = 'phone_missing' | 'email_missing' | 'address_error' | 'image_
 
 type SyncErrorCode = 'auth_expired' | 'missing_coordinates' | 'validation_error' | 'rate_limit' | 'unknown';
 
+type MissingFieldKey = 'phone' | 'email' | 'address' | 'imageUrl' | 'website' | 'workingHours' | 'description';
+
+interface MissingFieldInfo {
+  key: MissingFieldKey;
+  label: string;
+  placeholder: string;
+  type: 'text' | 'tel' | 'email' | 'url' | 'textarea';
+  icon: JSX.Element;
+}
+
 interface LocationWarning {
   type: WarningType;
   label: string;
@@ -263,15 +273,51 @@ const calculateDataHealth = (location: LocationData): number => {
   return Math.round((filledFields / fields.length) * 100);
 };
 
-function DataHealthBar({ percentage }: { percentage: number }) {
+const allFieldsInfo: MissingFieldInfo[] = [
+  { key: 'phone', label: 'Telefon Numarası', placeholder: '+90 5XX XXX XX XX', type: 'tel', icon: <Phone className="w-4 h-4" /> },
+  { key: 'email', label: 'Email Adresi', placeholder: 'magaza@example.com', type: 'email', icon: <Mail className="w-4 h-4" /> },
+  { key: 'address', label: 'Adres', placeholder: 'Mahalle, Cadde, No', type: 'text', icon: <MapPin className="w-4 h-4" /> },
+  { key: 'imageUrl', label: 'Logo / Görsel', placeholder: 'https://example.com/logo.png', type: 'url', icon: <Image className="w-4 h-4" /> },
+  { key: 'website', label: 'Website', placeholder: 'https://example.com', type: 'url', icon: <ExternalLink className="w-4 h-4" /> },
+  { key: 'workingHours', label: 'Çalışma Saatleri', placeholder: '09:00 - 22:00', type: 'text', icon: <Clock className="w-4 h-4" /> },
+  { key: 'description', label: 'Açıklama', placeholder: 'Mağazanız hakkında kısa bir açıklama...', type: 'textarea', icon: <Layers className="w-4 h-4" /> }
+];
+
+const getMissingFields = (location: LocationData): MissingFieldInfo[] => {
+  return allFieldsInfo.filter(field => {
+    const value = location[field.key];
+    return !value || value.trim() === '';
+  });
+};
+
+const getFilledFields = (location: LocationData): MissingFieldInfo[] => {
+  return allFieldsInfo.filter(field => {
+    const value = location[field.key];
+    return value && value.trim() !== '';
+  });
+};
+
+function DataHealthBar({ 
+  percentage, 
+  onClick 
+}: { 
+  percentage: number; 
+  onClick?: () => void;
+}) {
   const getColor = () => {
     if (percentage >= 80) return 'bg-green-500';
     if (percentage >= 50) return 'bg-yellow-500';
     return 'bg-red-500';
   };
 
+  const isClickable = percentage < 100 && onClick;
+
   return (
-    <div className="flex items-center gap-2 mt-1.5">
+    <button 
+      onClick={onClick}
+      disabled={!isClickable}
+      className={`flex items-center gap-2 mt-1.5 w-full text-left ${isClickable ? 'cursor-pointer hover:opacity-80 transition-opacity' : 'cursor-default'}`}
+    >
       <span className="text-[10px] text-gray-400">Data Quality</span>
       <div className="flex-1 h-1.5 bg-gray-100 rounded-full overflow-hidden max-w-[60px]">
         <div 
@@ -279,8 +325,10 @@ function DataHealthBar({ percentage }: { percentage: number }) {
           style={{ width: `${percentage}%` }}
         />
       </div>
-      <span className="text-[10px] text-gray-500 font-medium">{percentage}%</span>
-    </div>
+      <span className={`text-[10px] font-medium ${isClickable ? 'text-blue-600 underline underline-offset-2' : 'text-gray-500'}`}>
+        {percentage}%
+      </span>
+    </button>
   );
 }
 
@@ -927,6 +975,208 @@ function SmartFixSheet({
   );
 }
 
+function DataQualitySheet({
+  open,
+  onClose,
+  location
+}: {
+  open: boolean;
+  onClose: () => void;
+  location: LocationData | null;
+}) {
+  const [editingField, setEditingField] = useState<MissingFieldKey | null>(null);
+  const [fieldValues, setFieldValues] = useState<Record<MissingFieldKey, string>>({
+    phone: '', email: '', address: '', imageUrl: '', website: '', workingHours: '', description: ''
+  });
+  const [savedFields, setSavedFields] = useState<Set<MissingFieldKey>>(new Set());
+
+  useEffect(() => {
+    if (open && location) {
+      setFieldValues({
+        phone: location.phone || '',
+        email: location.email || '',
+        address: location.address || '',
+        imageUrl: location.imageUrl || '',
+        website: location.website || '',
+        workingHours: location.workingHours || '',
+        description: location.description || ''
+      });
+      setEditingField(null);
+      setSavedFields(new Set());
+    }
+  }, [open, location]);
+
+  if (!location) return null;
+
+  const missingFields = getMissingFields(location);
+  const filledFields = getFilledFields(location);
+  const totalFields = allFieldsInfo.length;
+  const completedCount = filledFields.length + savedFields.size;
+  const progressPercent = Math.round((completedCount / totalFields) * 100);
+
+  const handleSave = (fieldKey: MissingFieldKey) => {
+    const newSavedFields = new Set(savedFields);
+    if (fieldValues[fieldKey].trim() !== '') {
+      newSavedFields.add(fieldKey);
+    } else {
+      newSavedFields.delete(fieldKey);
+    }
+    setSavedFields(newSavedFields);
+    setEditingField(null);
+  };
+
+  const isFieldComplete = (field: MissingFieldInfo) => {
+    return savedFields.has(field.key) || (location[field.key] && location[field.key].trim() !== '');
+  };
+
+  return (
+    <Sheet open={open} onOpenChange={(isOpen) => !isOpen && onClose()}>
+      <SheetContent side="right" className="w-[440px] sm:max-w-[440px] overflow-y-auto">
+        <SheetHeader className="space-y-3 mb-6">
+          <SheetTitle className="flex items-center gap-2">
+            <Layers className="w-5 h-5 text-blue-600" />
+            Veri Tamamlama
+          </SheetTitle>
+          <SheetDescription>
+            {location.name} için eksik bilgileri tamamlayın
+          </SheetDescription>
+        </SheetHeader>
+
+        <div className="space-y-6">
+          <div className="p-4 bg-gray-50 border border-gray-200 rounded-lg">
+            <div className="flex items-center justify-between mb-3">
+              <span className="text-sm font-medium text-gray-700">Tamamlanma Oranı</span>
+              <span className={`text-lg font-bold ${progressPercent >= 100 ? 'text-green-600' : progressPercent >= 70 ? 'text-yellow-600' : 'text-red-600'}`}>
+                %{progressPercent}
+              </span>
+            </div>
+            <div className="w-full h-3 bg-gray-200 rounded-full overflow-hidden">
+              <div 
+                className={`h-full rounded-full transition-all duration-500 ${progressPercent >= 100 ? 'bg-green-500' : progressPercent >= 70 ? 'bg-yellow-500' : 'bg-red-500'}`}
+                style={{ width: `${progressPercent}%` }}
+              />
+            </div>
+            <p className="text-xs text-gray-500 mt-2">{completedCount}/{totalFields} alan tamamlandı</p>
+          </div>
+
+          {missingFields.filter(f => !savedFields.has(f.key)).length > 0 && (
+            <div className="space-y-3">
+              <h3 className="text-sm font-medium text-gray-900 flex items-center gap-2">
+                <AlertTriangle className="w-4 h-4 text-amber-500" />
+                Eksik Alanlar ({missingFields.filter(f => !savedFields.has(f.key)).length})
+              </h3>
+              <div className="space-y-2">
+                {missingFields.filter(f => !savedFields.has(f.key)).map((field) => (
+                  <div key={field.key} className="border border-amber-200 bg-amber-50 rounded-lg overflow-hidden">
+                    {editingField === field.key ? (
+                      <div className="p-3 space-y-3">
+                        <div className="flex items-center gap-2">
+                          <span className="text-amber-600">{field.icon}</span>
+                          <Label className="text-sm font-medium text-amber-800">{field.label}</Label>
+                        </div>
+                        {field.type === 'textarea' ? (
+                          <Textarea
+                            value={fieldValues[field.key]}
+                            onChange={(e) => setFieldValues({ ...fieldValues, [field.key]: e.target.value })}
+                            placeholder={field.placeholder}
+                            rows={3}
+                            className="bg-white"
+                          />
+                        ) : (
+                          <Input
+                            type={field.type}
+                            value={fieldValues[field.key]}
+                            onChange={(e) => setFieldValues({ ...fieldValues, [field.key]: e.target.value })}
+                            placeholder={field.placeholder}
+                            className="bg-white"
+                          />
+                        )}
+                        <div className="flex gap-2">
+                          <Button 
+                            size="sm" 
+                            className="flex-1 gap-1.5"
+                            onClick={() => handleSave(field.key)}
+                            disabled={!fieldValues[field.key].trim()}
+                          >
+                            <Save className="w-3.5 h-3.5" />
+                            Kaydet & Sync Et
+                          </Button>
+                          <Button 
+                            size="sm" 
+                            variant="ghost" 
+                            onClick={() => setEditingField(null)}
+                          >
+                            İptal
+                          </Button>
+                        </div>
+                      </div>
+                    ) : (
+                      <button
+                        onClick={() => setEditingField(field.key)}
+                        className="w-full flex items-center justify-between p-3 text-left hover:bg-amber-100 transition-colors"
+                      >
+                        <div className="flex items-center gap-3">
+                          <span className="text-amber-600">{field.icon}</span>
+                          <div>
+                            <p className="text-sm font-medium text-amber-800">{field.label}</p>
+                            <p className="text-xs text-amber-600">Tamamlamak için tıkla</p>
+                          </div>
+                        </div>
+                        <ChevronRight className="w-4 h-4 text-amber-400" />
+                      </button>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {(filledFields.length > 0 || savedFields.size > 0) && (
+            <div className="space-y-3">
+              <h3 className="text-sm font-medium text-gray-900 flex items-center gap-2">
+                <ShieldCheck className="w-4 h-4 text-green-500" />
+                Tamamlanan Alanlar ({completedCount})
+              </h3>
+              <div className="space-y-2">
+                {allFieldsInfo.filter(f => isFieldComplete(f)).map((field) => (
+                  <div key={field.key} className="border border-green-200 bg-green-50 rounded-lg">
+                    <div className="flex items-center justify-between p-3">
+                      <div className="flex items-center gap-3">
+                        <span className="text-green-600">{field.icon}</span>
+                        <div>
+                          <p className="text-sm font-medium text-green-800">{field.label}</p>
+                          <p className="text-xs text-green-600 truncate max-w-[240px]">
+                            {savedFields.has(field.key) ? fieldValues[field.key] : location[field.key]}
+                          </p>
+                        </div>
+                      </div>
+                      <ShieldCheck className="w-4 h-4 text-green-500" />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {progressPercent >= 100 && (
+            <div className="p-4 bg-green-50 border border-green-200 rounded-lg text-center">
+              <ShieldCheck className="w-8 h-8 text-green-500 mx-auto mb-2" />
+              <p className="text-sm font-medium text-green-800">Tebrikler!</p>
+              <p className="text-xs text-green-600 mt-1">Tüm alanlar tamamlandı. Veriler platformlara sync edilecek.</p>
+            </div>
+          )}
+
+          <div className="pt-4 border-t">
+            <Button variant="ghost" className="w-full text-gray-500" onClick={onClose}>
+              Kapat
+            </Button>
+          </div>
+        </div>
+      </SheetContent>
+    </Sheet>
+  );
+}
+
 function BulkActionBar({ selectedCount, onClear }: { selectedCount: number; onClear: () => void }) {
   if (selectedCount === 0) return null;
 
@@ -1025,6 +1275,10 @@ export default function LocationStatusTable() {
     location: null
   });
   const [editSheet, setEditSheet] = useState<{ open: boolean; location: LocationData | null }>({
+    open: false,
+    location: null
+  });
+  const [dataQualitySheet, setDataQualitySheet] = useState<{ open: boolean; location: LocationData | null }>({
     open: false,
     location: null
   });
@@ -1166,7 +1420,10 @@ export default function LocationStatusTable() {
                     <p className="text-xs text-gray-500">{location.address}</p>
                     <p className="text-[10px] text-gray-400 mt-0.5">#{location.storeCode}</p>
                   </button>
-                  <DataHealthBar percentage={dataHealth} />
+                  <DataHealthBar 
+                    percentage={dataHealth} 
+                    onClick={() => setDataQualitySheet({ open: true, location })}
+                  />
                 </td>
                 <td className="px-4 py-4">
                   <PlatformCell 
@@ -1231,6 +1488,12 @@ export default function LocationStatusTable() {
         open={editSheet.open}
         onClose={() => setEditSheet({ open: false, location: null })}
         location={editSheet.location}
+      />
+
+      <DataQualitySheet
+        open={dataQualitySheet.open}
+        onClose={() => setDataQualitySheet({ open: false, location: null })}
+        location={dataQualitySheet.location}
       />
 
       <BulkActionBar 
