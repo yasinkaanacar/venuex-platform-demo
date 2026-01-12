@@ -1,5 +1,6 @@
+import { useState } from 'react';
 import { SiGoogle, SiMeta, SiApple } from 'react-icons/si';
-import { Clock, AlertTriangle, Phone, Mail, MapPin, Image, ShieldCheck, ShieldAlert, XCircle, PauseCircle } from 'lucide-react';
+import { Clock, AlertTriangle, Phone, Mail, MapPin, Image, ShieldCheck, ShieldAlert, XCircle, PauseCircle, ChevronDown, ChevronUp } from 'lucide-react';
 
 type WarningType = 'phone_missing' | 'email_missing' | 'address_error' | 'image_missing' | 'sync_error';
 
@@ -121,13 +122,13 @@ const getStatusConfig = (status: PlatformStatusType) => {
     case 'fully_passive':
       return {
         icon: <XCircle className="w-4 h-4" />,
-        label: 'Tamamen Pasif',
+        label: 'Tamamen Kapalı',
         color: 'text-gray-400'
       };
     case 'temporarily_passive':
       return {
         icon: <PauseCircle className="w-4 h-4" />,
-        label: 'Geçici Pasif',
+        label: 'Geçici Kapalı',
         color: 'text-gray-500'
       };
   }
@@ -194,16 +195,16 @@ export default function LocationStatusTable() {
                 <p className="text-xs text-gray-500">{location.address}</p>
               </td>
               <td className="px-4 py-4">
-                <PlatformCell platform={location.google} />
+                <PlatformCell platform={location.google} cellKey={`${location.id}-google`} />
               </td>
               <td className="px-4 py-4">
-                <PlatformCell platform={location.meta} />
+                <PlatformCell platform={location.meta} cellKey={`${location.id}-meta`} />
               </td>
               <td className="px-4 py-4">
-                <PlatformCell platform={location.apple} />
+                <PlatformCell platform={location.apple} cellKey={`${location.id}-apple`} />
               </td>
               <td className="px-4 py-4">
-                <PlatformCell platform={location.yandex} showStatusLabel={false} />
+                <PlatformCell platform={location.yandex} cellKey={`${location.id}-yandex`} showStatusLabel={false} />
               </td>
             </tr>
           ))}
@@ -213,7 +214,8 @@ export default function LocationStatusTable() {
   );
 }
 
-function PlatformCell({ platform, showStatusLabel = true }: { platform: PlatformData; showStatusLabel?: boolean }) {
+function PlatformCell({ platform, cellKey, showStatusLabel = true }: { platform: PlatformData; cellKey: string; showStatusLabel?: boolean }) {
+  const [expanded, setExpanded] = useState(false);
   const statusConfig = getStatusConfig(platform.status);
   const isPassive = platform.status === 'fully_passive' || platform.status === 'temporarily_passive';
 
@@ -235,7 +237,8 @@ function PlatformCell({ platform, showStatusLabel = true }: { platform: Platform
     return 0;
   });
 
-  const visibleWarnings = sortedWarnings.slice(0, 2);
+  const hasHiddenWarnings = sortedWarnings.length > 2;
+  const visibleWarnings = expanded ? sortedWarnings : sortedWarnings.slice(0, 2);
   const hiddenCount = sortedWarnings.length - 2;
 
   return (
@@ -257,17 +260,30 @@ function PlatformCell({ platform, showStatusLabel = true }: { platform: Platform
         <div className="flex flex-wrap justify-center gap-1">
           {visibleWarnings.map((warning, idx) => (
             <span 
-              key={idx}
+              key={`${cellKey}-${idx}`}
               className={`inline-flex items-center gap-1 px-2 py-0.5 text-[10px] font-medium rounded-full border ${getWarningColor(warning.type)}`}
             >
               {getWarningIcon(warning.type)}
               {warning.label}
             </span>
           ))}
-          {hiddenCount > 0 && (
-            <span className="inline-flex items-center px-2 py-0.5 text-[10px] font-medium rounded-full border bg-gray-100 text-gray-600 border-gray-200">
-              +{hiddenCount}
-            </span>
+          {hasHiddenWarnings && (
+            <button
+              onClick={() => setExpanded(!expanded)}
+              className="inline-flex items-center gap-0.5 px-2 py-0.5 text-[10px] font-medium rounded-full border bg-gray-100 text-gray-600 border-gray-200 hover:bg-gray-200 transition-colors cursor-pointer"
+            >
+              {expanded ? (
+                <>
+                  <ChevronUp className="w-3 h-3" />
+                  Kapat
+                </>
+              ) : (
+                <>
+                  +{hiddenCount}
+                  <ChevronDown className="w-3 h-3" />
+                </>
+              )}
+            </button>
           )}
         </div>
       )}
