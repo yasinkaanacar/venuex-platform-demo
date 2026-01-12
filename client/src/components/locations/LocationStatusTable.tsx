@@ -1,15 +1,13 @@
 import { useState } from 'react';
 import { Link } from 'wouter';
 import { SiGoogle, SiMeta, SiApple } from 'react-icons/si';
-import { Clock, AlertTriangle, Phone, Mail, MapPin, Image, ShieldCheck, ShieldAlert, XCircle, PauseCircle, ChevronRight, MoreHorizontal, RefreshCw, Link2, Unlink, ExternalLink, Download, X, Save, Upload } from 'lucide-react';
+import { Clock, AlertTriangle, Phone, Mail, MapPin, Image, ShieldCheck, ShieldAlert, XCircle, PauseCircle, ChevronRight, MoreHorizontal, RefreshCw, Link2, Unlink, ExternalLink, Download, X, Save, Upload, Layers } from 'lucide-react';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription } from '@/components/ui/sheet';
 
 type WarningType = 'phone_missing' | 'email_missing' | 'address_error' | 'image_missing' | 'sync_error';
 
@@ -183,11 +181,128 @@ const getStatusConfig = (status: PlatformStatusType) => {
   }
 };
 
-function WarningBubble({ warning, cellKey, idx, onClick }: { warning: LocationWarning; cellKey: string; idx: number; onClick?: () => void }) {
+const getFieldConfig = (warningType: WarningType) => {
+  switch (warningType) {
+    case 'phone_missing':
+      return { label: 'Telefon', placeholder: '+90 5XX XXX XX XX', icon: <Phone className="w-4 h-4" />, type: 'tel' };
+    case 'email_missing':
+      return { label: 'Email', placeholder: 'magaza@example.com', icon: <Mail className="w-4 h-4" />, type: 'email' };
+    case 'address_error':
+      return { label: 'Adres', placeholder: 'Mahalle, Cadde, No', icon: <MapPin className="w-4 h-4" />, type: 'text' };
+    case 'image_missing':
+      return { label: 'Görsel URL', placeholder: 'https://...', icon: <Image className="w-4 h-4" />, type: 'url' };
+    default:
+      return null;
+  }
+};
+
+function InlineFieldEditorPopover({ 
+  warning, 
+  location, 
+  cellKey,
+  idx 
+}: { 
+  warning: LocationWarning; 
+  location: LocationData; 
+  cellKey: string;
+  idx: number;
+}) {
+  const [isOpen, setIsOpen] = useState(false);
+  const [value, setValue] = useState('');
+  
+  const fieldConfig = getFieldConfig(warning.type);
+  if (!fieldConfig) return null;
+
+  const getCurrentValue = () => {
+    switch (warning.type) {
+      case 'phone_missing': return location.phone;
+      case 'email_missing': return location.email;
+      case 'address_error': return location.address;
+      case 'image_missing': return location.imageUrl;
+      default: return '';
+    }
+  };
+
+  const handleOpen = (open: boolean) => {
+    if (open) {
+      setValue(getCurrentValue());
+    }
+    setIsOpen(open);
+  };
+
+  return (
+    <Popover open={isOpen} onOpenChange={handleOpen}>
+      <PopoverTrigger asChild>
+        <span 
+          className={`inline-flex items-center gap-1 px-2 py-0.5 text-[10px] font-medium rounded-full border cursor-pointer hover:opacity-80 transition-opacity ${getWarningColor(warning.type)}`}
+        >
+          {getWarningIcon(warning.type)}
+          {warning.label}
+        </span>
+      </PopoverTrigger>
+      <PopoverContent className="w-72 p-3" align="start" side="right" sideOffset={8}>
+        <div className="space-y-3">
+          <div className="flex items-center gap-2 pb-2 border-b border-gray-100">
+            <div className="p-1.5 bg-gray-100 rounded">
+              {fieldConfig.icon}
+            </div>
+            <div>
+              <p className="text-xs font-medium text-gray-900">{location.name}</p>
+              <p className="text-[10px] text-gray-500">#{location.storeCode}</p>
+            </div>
+          </div>
+          
+          <div className="space-y-2">
+            <label className="text-xs font-medium text-gray-700">{fieldConfig.label}</label>
+            <div className="flex gap-2">
+              <Input
+                type={fieldConfig.type}
+                value={value}
+                onChange={(e) => setValue(e.target.value)}
+                placeholder={fieldConfig.placeholder}
+                className="h-8 text-sm"
+              />
+              {warning.type === 'image_missing' && (
+                <Button variant="outline" size="sm" className="h-8 px-2">
+                  <Upload className="w-3.5 h-3.5" />
+                </Button>
+              )}
+            </div>
+          </div>
+
+          <div className="flex gap-2 pt-2">
+            <Button size="sm" className="flex-1 h-8 gap-1.5 text-xs" onClick={() => setIsOpen(false)}>
+              <Save className="w-3 h-3" />
+              Kaydet
+            </Button>
+          </div>
+
+          <div className="pt-2 border-t border-gray-100">
+            <Link href="/locations">
+              <Button variant="ghost" size="sm" className="w-full h-8 gap-1.5 text-xs text-gray-600">
+                <Layers className="w-3.5 h-3.5" />
+                Toplu İşlemler
+              </Button>
+            </Link>
+          </div>
+        </div>
+      </PopoverContent>
+    </Popover>
+  );
+}
+
+function SyncErrorBubble({ 
+  warning, 
+  location, 
+  onErrorClick 
+}: { 
+  warning: LocationWarning; 
+  location: LocationData; 
+  onErrorClick: () => void;
+}) {
   return (
     <span 
-      key={`${cellKey}-${idx}`}
-      onClick={onClick}
+      onClick={onErrorClick}
       className={`inline-flex items-center gap-1 px-2 py-0.5 text-[10px] font-medium rounded-full border cursor-pointer hover:opacity-80 transition-opacity ${getWarningColor(warning.type)}`}
     >
       {getWarningIcon(warning.type)}
@@ -230,145 +345,6 @@ function ErrorDetailModal({ open, onClose, warning, locationName, storeCode }: {
   );
 }
 
-function LocationDetailDrawer({ 
-  open, 
-  onClose, 
-  location, 
-  highlightField 
-}: { 
-  open: boolean; 
-  onClose: () => void; 
-  location: LocationData | null; 
-  highlightField: WarningType | null;
-}) {
-  const [formData, setFormData] = useState({
-    phone: location?.phone || '',
-    email: location?.email || '',
-    address: location?.address || '',
-    imageUrl: location?.imageUrl || ''
-  });
-
-  if (!location) return null;
-
-  const getFieldHighlight = (field: string) => {
-    const fieldMap: Record<string, WarningType> = {
-      phone: 'phone_missing',
-      email: 'email_missing',
-      address: 'address_error',
-      imageUrl: 'image_missing'
-    };
-    return highlightField === fieldMap[field] ? 'ring-2 ring-yellow-400 bg-yellow-50' : '';
-  };
-
-  return (
-    <Sheet open={open} onOpenChange={onClose}>
-      <SheetContent className="w-[400px] sm:w-[540px]">
-        <SheetHeader>
-          <SheetTitle className="flex items-center gap-2">
-            <MapPin className="w-5 h-5 text-blue-600" />
-            Lokasyon Detayları
-          </SheetTitle>
-          <SheetDescription>
-            {location.name} <span className="text-gray-400">#{location.storeCode}</span>
-          </SheetDescription>
-        </SheetHeader>
-        
-        <div className="mt-6 space-y-5">
-          <div className="space-y-2">
-            <Label htmlFor="phone" className="flex items-center gap-2 text-sm font-medium">
-              <Phone className="w-4 h-4" />
-              Telefon
-            </Label>
-            <Input
-              id="phone"
-              value={formData.phone}
-              onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-              placeholder="+90 5XX XXX XX XX"
-              className={getFieldHighlight('phone')}
-            />
-            {!formData.phone && (
-              <p className="text-xs text-yellow-600">Bu alan eksik - platformlarda görünmüyor</p>
-            )}
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="email" className="flex items-center gap-2 text-sm font-medium">
-              <Mail className="w-4 h-4" />
-              Email
-            </Label>
-            <Input
-              id="email"
-              type="email"
-              value={formData.email}
-              onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-              placeholder="magaza@example.com"
-              className={getFieldHighlight('email')}
-            />
-            {!formData.email && (
-              <p className="text-xs text-yellow-600">Bu alan eksik - platformlarda görünmüyor</p>
-            )}
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="address" className="flex items-center gap-2 text-sm font-medium">
-              <MapPin className="w-4 h-4" />
-              Adres
-            </Label>
-            <Input
-              id="address"
-              value={formData.address}
-              onChange={(e) => setFormData({ ...formData, address: e.target.value })}
-              placeholder="Mahalle, Cadde, No"
-              className={getFieldHighlight('address')}
-            />
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="imageUrl" className="flex items-center gap-2 text-sm font-medium">
-              <Image className="w-4 h-4" />
-              Görsel URL
-            </Label>
-            <div className="flex gap-2">
-              <Input
-                id="imageUrl"
-                value={formData.imageUrl}
-                onChange={(e) => setFormData({ ...formData, imageUrl: e.target.value })}
-                placeholder="https://..."
-                className={`flex-1 ${getFieldHighlight('imageUrl')}`}
-              />
-              <Button variant="outline" size="icon" className="shrink-0">
-                <Upload className="w-4 h-4" />
-              </Button>
-            </div>
-            {!formData.imageUrl && (
-              <p className="text-xs text-yellow-600">Bu alan eksik - platformlarda görünmüyor</p>
-            )}
-          </div>
-
-          <div className="pt-4 border-t flex gap-2 justify-end">
-            <Button variant="outline" onClick={onClose}>
-              İptal
-            </Button>
-            <Button className="gap-1.5">
-              <Save className="w-4 h-4" />
-              Kaydet ve Sync
-            </Button>
-          </div>
-
-          <div className="pt-4 border-t">
-            <Link href="/locations">
-              <Button variant="ghost" className="w-full gap-2 text-gray-600">
-                <ExternalLink className="w-4 h-4" />
-                Lokasyon Listesine Git
-              </Button>
-            </Link>
-          </div>
-        </div>
-      </SheetContent>
-    </Sheet>
-  );
-}
-
 function BulkActionBar({ selectedCount, onClear }: { selectedCount: number; onClear: () => void }) {
   if (selectedCount === 0) return null;
 
@@ -395,7 +371,7 @@ function StatusLegend() {
   const statuses: PlatformStatusType[] = ['verified', 'unverified', 'action_required', 'fully_passive', 'temporarily_passive'];
   
   return (
-    <div className="flex flex-wrap items-center gap-4 px-4 py-3 bg-gray-50 border-b border-gray-200">
+    <div className="flex flex-wrap items-center gap-4">
       <span className="text-xs font-medium text-gray-500 uppercase">Durumlar:</span>
       {statuses.map((status) => {
         const config = getStatusConfig(status);
@@ -466,18 +442,9 @@ export default function LocationStatusTable() {
     locationName: '',
     storeCode: ''
   });
-  const [detailDrawer, setDetailDrawer] = useState<{ open: boolean; location: LocationData | null; highlightField: WarningType | null }>({
-    open: false,
-    location: null,
-    highlightField: null
-  });
 
-  const handleWarningClick = (warning: LocationWarning, location: LocationData) => {
-    if (warning.type === 'sync_error' && warning.errorLog) {
-      setErrorModal({ open: true, warning, locationName: location.name, storeCode: location.storeCode });
-    } else {
-      setDetailDrawer({ open: true, location, highlightField: warning.type });
-    }
+  const handleSyncErrorClick = (warning: LocationWarning, location: LocationData) => {
+    setErrorModal({ open: true, warning, locationName: location.name, storeCode: location.storeCode });
   };
 
   const toggleSelect = (id: number) => {
@@ -500,7 +467,7 @@ export default function LocationStatusTable() {
 
   return (
     <div className="bg-white border border-gray-200 rounded-lg overflow-hidden">
-      <div className="flex items-center justify-between px-4 py-3 border-b border-gray-200">
+      <div className="flex items-center justify-between px-4 py-3 bg-gray-50 border-b border-gray-200">
         <StatusLegend />
         <Link href="/locations">
           <Button variant="outline" size="sm" className="gap-1.5">
@@ -564,30 +531,34 @@ export default function LocationStatusTable() {
               <td className="px-4 py-4">
                 <PlatformCell 
                   platform={location.google} 
+                  location={location}
                   cellKey={`${location.id}-google`}
-                  onWarningClick={(warning) => handleWarningClick(warning, location)}
+                  onSyncErrorClick={(warning) => handleSyncErrorClick(warning, location)}
                 />
               </td>
               <td className="px-4 py-4">
                 <PlatformCell 
                   platform={location.meta} 
+                  location={location}
                   cellKey={`${location.id}-meta`}
-                  onWarningClick={(warning) => handleWarningClick(warning, location)}
+                  onSyncErrorClick={(warning) => handleSyncErrorClick(warning, location)}
                 />
               </td>
               <td className="px-4 py-4">
                 <PlatformCell 
                   platform={location.apple} 
+                  location={location}
                   cellKey={`${location.id}-apple`}
-                  onWarningClick={(warning) => handleWarningClick(warning, location)}
+                  onSyncErrorClick={(warning) => handleSyncErrorClick(warning, location)}
                 />
               </td>
               <td className="px-4 py-4">
                 <PlatformCell 
                   platform={location.yandex} 
+                  location={location}
                   cellKey={`${location.id}-yandex`} 
                   showStatusLabel={false}
-                  onWarningClick={(warning) => handleWarningClick(warning, location)}
+                  onSyncErrorClick={(warning) => handleSyncErrorClick(warning, location)}
                 />
               </td>
               <td className="px-4 py-4">
@@ -606,13 +577,6 @@ export default function LocationStatusTable() {
         storeCode={errorModal.storeCode}
       />
 
-      <LocationDetailDrawer
-        open={detailDrawer.open}
-        onClose={() => setDetailDrawer({ ...detailDrawer, open: false })}
-        location={detailDrawer.location}
-        highlightField={detailDrawer.highlightField}
-      />
-
       <BulkActionBar 
         selectedCount={selectedIds.size} 
         onClear={() => setSelectedIds(new Set())} 
@@ -621,7 +585,19 @@ export default function LocationStatusTable() {
   );
 }
 
-function PlatformCell({ platform, cellKey, showStatusLabel = true, onWarningClick }: { platform: PlatformData; cellKey: string; showStatusLabel?: boolean; onWarningClick?: (warning: LocationWarning) => void }) {
+function PlatformCell({ 
+  platform, 
+  location,
+  cellKey, 
+  showStatusLabel = true, 
+  onSyncErrorClick 
+}: { 
+  platform: PlatformData; 
+  location: LocationData;
+  cellKey: string; 
+  showStatusLabel?: boolean; 
+  onSyncErrorClick?: (warning: LocationWarning) => void;
+}) {
   const [isOpen, setIsOpen] = useState(false);
   const statusConfig = getStatusConfig(platform.status);
   const isPassive = platform.status === 'fully_passive' || platform.status === 'temporarily_passive';
@@ -664,38 +640,58 @@ function PlatformCell({ platform, cellKey, showStatusLabel = true, onWarningClic
       {hasWarnings && (
         <div className="flex flex-wrap justify-center gap-1">
           {!isOpen && sortedWarnings.slice(0, 2).map((warning, idx) => (
-            <WarningBubble 
-              key={`${cellKey}-${idx}`} 
-              warning={warning} 
-              cellKey={cellKey} 
-              idx={idx}
-              onClick={() => onWarningClick?.(warning)}
-            />
+            warning.type === 'sync_error' ? (
+              <SyncErrorBubble 
+                key={`${cellKey}-${idx}`}
+                warning={warning}
+                location={location}
+                onErrorClick={() => onSyncErrorClick?.(warning)}
+              />
+            ) : (
+              <InlineFieldEditorPopover
+                key={`${cellKey}-${idx}`}
+                warning={warning}
+                location={location}
+                cellKey={cellKey}
+                idx={idx}
+              />
+            )
           ))}
-          <Popover open={isOpen} onOpenChange={setIsOpen}>
-            <PopoverTrigger asChild>
-              <button
-                className="inline-flex items-center gap-0.5 px-2 py-0.5 text-[10px] font-medium rounded-full border bg-gray-100 text-gray-600 border-gray-200 hover:bg-gray-200 transition-colors cursor-pointer"
-              >
-                {isOpen ? 'Kapat' : (sortedWarnings.length > 2 ? `+${sortedWarnings.length - 2}` : `${sortedWarnings.length}`)}
-                <ChevronRight className={`w-3 h-3 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
-              </button>
-            </PopoverTrigger>
-            <PopoverContent className="w-auto p-2" align="start" side="right" sideOffset={8}>
-              <div className="flex flex-col gap-1.5">
-                <span className="text-[10px] text-gray-500 font-medium mb-1">Tüm Uyarılar ({sortedWarnings.length})</span>
-                {sortedWarnings.map((warning, idx) => (
-                  <WarningBubble 
-                    key={`${cellKey}-all-${idx}`} 
-                    warning={warning} 
-                    cellKey={`${cellKey}-all`} 
-                    idx={idx}
-                    onClick={() => onWarningClick?.(warning)}
-                  />
-                ))}
-              </div>
-            </PopoverContent>
-          </Popover>
+          {sortedWarnings.length > 2 && (
+            <Popover open={isOpen} onOpenChange={setIsOpen}>
+              <PopoverTrigger asChild>
+                <button
+                  className="inline-flex items-center gap-0.5 px-2 py-0.5 text-[10px] font-medium rounded-full border bg-gray-100 text-gray-600 border-gray-200 hover:bg-gray-200 transition-colors cursor-pointer"
+                >
+                  {isOpen ? 'Kapat' : `+${sortedWarnings.length - 2}`}
+                  <ChevronRight className={`w-3 h-3 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
+                </button>
+              </PopoverTrigger>
+              <PopoverContent className="w-auto p-2" align="start" side="right" sideOffset={8}>
+                <div className="flex flex-col gap-1.5">
+                  <span className="text-[10px] text-gray-500 font-medium mb-1">Tüm Uyarılar ({sortedWarnings.length})</span>
+                  {sortedWarnings.map((warning, idx) => (
+                    warning.type === 'sync_error' ? (
+                      <SyncErrorBubble 
+                        key={`${cellKey}-all-${idx}`}
+                        warning={warning}
+                        location={location}
+                        onErrorClick={() => onSyncErrorClick?.(warning)}
+                      />
+                    ) : (
+                      <InlineFieldEditorPopover
+                        key={`${cellKey}-all-${idx}`}
+                        warning={warning}
+                        location={location}
+                        cellKey={`${cellKey}-all`}
+                        idx={idx}
+                      />
+                    )
+                  ))}
+                </div>
+              </PopoverContent>
+            </Popover>
+          )}
         </div>
       )}
     </div>
