@@ -1,13 +1,17 @@
-import { useState } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { Link } from 'wouter';
 import { SiGoogle, SiMeta, SiApple } from 'react-icons/si';
-import { Clock, AlertTriangle, Phone, Mail, MapPin, Image, ShieldCheck, ShieldAlert, XCircle, PauseCircle, ChevronRight, MoreHorizontal, RefreshCw, Link2, Unlink, ExternalLink, Download, X, Save, Upload, Layers } from 'lucide-react';
+import { Clock, AlertTriangle, Phone, Mail, MapPin, Image, ShieldCheck, ShieldAlert, XCircle, PauseCircle, ChevronRight, MoreHorizontal, RefreshCw, Link2, Unlink, ExternalLink, Download, X, Save, Upload, Layers, Search, Filter, Building2 } from 'lucide-react';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription } from '@/components/ui/sheet';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Textarea } from '@/components/ui/textarea';
 
 type WarningType = 'phone_missing' | 'email_missing' | 'address_error' | 'image_missing' | 'sync_error';
 
@@ -33,6 +37,9 @@ interface LocationData {
   phone: string;
   email: string;
   imageUrl: string;
+  website: string;
+  workingHours: string;
+  description: string;
   google: PlatformData;
   meta: PlatformData;
   apple: PlatformData;
@@ -48,6 +55,9 @@ const mockLocations: LocationData[] = [
     phone: '+90 216 555 0001',
     email: 'kadikoy@doyuyo.com',
     imageUrl: 'https://example.com/kadikoy.jpg',
+    website: 'https://doyuyo.com/kadikoy',
+    workingHours: '09:00 - 22:00',
+    description: 'Kadıköy şubemiz, Moda sahilinde hizmet vermektedir.',
     google: { status: 'verified', lastSync: '2 dk önce', warnings: [] },
     meta: { status: 'verified', lastSync: '5 dk önce', warnings: [] },
     apple: { status: 'verified', lastSync: '10 dk önce', warnings: [] },
@@ -61,6 +71,9 @@ const mockLocations: LocationData[] = [
     phone: '',
     email: 'besiktas@doyuyo.com',
     imageUrl: '',
+    website: '',
+    workingHours: '10:00 - 21:00',
+    description: '',
     google: { status: 'verified', lastSync: '1 saat önce', warnings: [{ type: 'phone_missing', label: 'Telefon Eksik' }] },
     meta: { status: 'unverified', lastSync: '45 dk önce', warnings: [] },
     apple: { status: 'action_required', lastSync: '2 saat önce', warnings: [{ type: 'image_missing', label: 'Görsel Eksik' }] },
@@ -74,6 +87,9 @@ const mockLocations: LocationData[] = [
     phone: '+90 312 555 0076',
     email: '',
     imageUrl: '',
+    website: 'https://doyuyo.com/cankaya',
+    workingHours: '',
+    description: 'Ankara merkezde hizmet veren şubemiz.',
     google: { status: 'action_required', lastSync: '3 saat önce', warnings: [
       { type: 'sync_error', label: 'Sync Hatası', errorLog: 'Error: Store ID mismatch (Google: 76 vs VenueX: 76_TR)\nTimestamp: 2026-01-12T14:32:00Z\nAPI Response: 400 Bad Request\nDetails: The store identifier format does not match the expected pattern.' },
       { type: 'email_missing', label: 'Email Eksik' },
@@ -91,6 +107,9 @@ const mockLocations: LocationData[] = [
     phone: '+90 232 555 0004',
     email: 'alsancak@doyuyo.com',
     imageUrl: 'https://example.com/alsancak.jpg',
+    website: 'https://doyuyo.com/alsancak',
+    workingHours: '08:00 - 23:00',
+    description: 'Alsancak kordon üzerinde bulunan şubemiz.',
     google: { status: 'verified', lastSync: '15 dk önce', warnings: [] },
     meta: { status: 'verified', lastSync: '1 gün önce', warnings: [
       { type: 'sync_error', label: 'Sync Hatası', errorLog: 'Error: API Token expired\nTimestamp: 2026-01-11T09:15:00Z\nAPI Response: 401 Unauthorized\nDetails: The OAuth token has expired. Please re-authenticate.' }
@@ -106,6 +125,9 @@ const mockLocations: LocationData[] = [
     phone: '+90 224 555 0005',
     email: 'nilufer@doyuyo.com',
     imageUrl: 'https://example.com/nilufer.jpg',
+    website: 'https://doyuyo.com/nilufer',
+    workingHours: '09:00 - 21:00',
+    description: 'Bursa Nilüfer ilçesinde hizmet veren şubemiz.',
     google: { status: 'fully_passive', lastSync: null, warnings: [] },
     meta: { status: 'fully_passive', lastSync: null, warnings: [] },
     apple: { status: 'fully_passive', lastSync: null, warnings: [] },
@@ -119,6 +141,9 @@ const mockLocations: LocationData[] = [
     phone: '',
     email: '',
     imageUrl: '',
+    website: '',
+    workingHours: '',
+    description: '',
     google: { status: 'unverified', lastSync: '30 dk önce', warnings: [{ type: 'address_error', label: 'Adres Hatalı' }] },
     meta: { status: 'verified', lastSync: '20 dk önce', warnings: [
       { type: 'sync_error', label: 'Sync Hatası', errorLog: 'Error: Rate limit exceeded\nTimestamp: 2026-01-12T10:45:00Z\nAPI Response: 429 Too Many Requests\nDetails: You have exceeded the rate limit. Please retry after 60 seconds.' },
@@ -130,6 +155,9 @@ const mockLocations: LocationData[] = [
     yandex: { status: 'verified', lastSync: '2 saat önce', warnings: [{ type: 'address_error', label: 'Adres Hatalı' }] }
   }
 ];
+
+type PlatformKey = 'google' | 'meta' | 'apple' | 'yandex';
+type ErrorTypeFilter = 'all' | 'sync_error' | 'content_error';
 
 const getWarningIcon = (type: WarningType) => {
   switch (type) {
@@ -195,6 +223,358 @@ const getFieldConfig = (warningType: WarningType) => {
       return null;
   }
 };
+
+const calculateDataHealth = (location: LocationData): number => {
+  const fields = [
+    location.phone,
+    location.email,
+    location.address,
+    location.imageUrl,
+    location.website,
+    location.workingHours,
+    location.description
+  ];
+  const filledFields = fields.filter(f => f && f.trim() !== '').length;
+  return Math.round((filledFields / fields.length) * 100);
+};
+
+function DataHealthBar({ percentage }: { percentage: number }) {
+  const getColor = () => {
+    if (percentage >= 80) return 'bg-green-500';
+    if (percentage >= 50) return 'bg-yellow-500';
+    return 'bg-red-500';
+  };
+
+  return (
+    <div className="flex items-center gap-2 mt-1.5">
+      <div className="flex-1 h-1.5 bg-gray-100 rounded-full overflow-hidden max-w-[60px]">
+        <div 
+          className={`h-full rounded-full transition-all ${getColor()}`}
+          style={{ width: `${percentage}%` }}
+        />
+      </div>
+      <span className="text-[10px] text-gray-500 font-medium">{percentage}%</span>
+    </div>
+  );
+}
+
+function FilterToolbar({ 
+  searchQuery, 
+  setSearchQuery,
+  platformFilter,
+  setPlatformFilter,
+  errorTypeFilter,
+  setErrorTypeFilter,
+  resultCount,
+  totalCount
+}: { 
+  searchQuery: string;
+  setSearchQuery: (q: string) => void;
+  platformFilter: PlatformKey | 'all';
+  setPlatformFilter: (p: PlatformKey | 'all') => void;
+  errorTypeFilter: ErrorTypeFilter;
+  setErrorTypeFilter: (e: ErrorTypeFilter) => void;
+  resultCount: number;
+  totalCount: number;
+}) {
+  const hasActiveFilters = searchQuery || platformFilter !== 'all' || errorTypeFilter !== 'all';
+
+  return (
+    <div className="flex flex-wrap items-center gap-3 px-4 py-3 bg-white border-b border-gray-200">
+      <div className="relative flex-1 min-w-[200px] max-w-[300px]">
+        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+        <Input
+          placeholder="Store ID veya isim ara..."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          className="pl-9 h-9"
+        />
+      </div>
+
+      <Select value={platformFilter} onValueChange={(v) => setPlatformFilter(v as PlatformKey | 'all')}>
+        <SelectTrigger className="w-[160px] h-9">
+          <div className="flex items-center gap-2">
+            <Filter className="w-3.5 h-3.5 text-gray-500" />
+            <SelectValue placeholder="Platform" />
+          </div>
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem value="all">Tüm Platformlar</SelectItem>
+          <SelectItem value="google">
+            <div className="flex items-center gap-2">
+              <SiGoogle className="w-3.5 h-3.5" />
+              Google
+            </div>
+          </SelectItem>
+          <SelectItem value="meta">
+            <div className="flex items-center gap-2">
+              <SiMeta className="w-3.5 h-3.5" />
+              Meta
+            </div>
+          </SelectItem>
+          <SelectItem value="apple">
+            <div className="flex items-center gap-2">
+              <SiApple className="w-3.5 h-3.5" />
+              Apple
+            </div>
+          </SelectItem>
+          <SelectItem value="yandex">
+            <div className="flex items-center gap-2">
+              <span className="text-red-500 font-bold text-xs">Я</span>
+              Yandex
+            </div>
+          </SelectItem>
+        </SelectContent>
+      </Select>
+
+      <Select value={errorTypeFilter} onValueChange={(v) => setErrorTypeFilter(v as ErrorTypeFilter)}>
+        <SelectTrigger className="w-[160px] h-9">
+          <div className="flex items-center gap-2">
+            <AlertTriangle className="w-3.5 h-3.5 text-gray-500" />
+            <SelectValue placeholder="Hata Tipi" />
+          </div>
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem value="all">Tüm Hatalar</SelectItem>
+          <SelectItem value="sync_error">
+            <div className="flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-red-500" />
+              Sync Hataları
+            </div>
+          </SelectItem>
+          <SelectItem value="content_error">
+            <div className="flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-yellow-500" />
+              İçerik Eksikleri
+            </div>
+          </SelectItem>
+        </SelectContent>
+      </Select>
+
+      {hasActiveFilters && (
+        <Button 
+          variant="ghost" 
+          size="sm" 
+          className="h-9 px-3 text-gray-500"
+          onClick={() => {
+            setSearchQuery('');
+            setPlatformFilter('all');
+            setErrorTypeFilter('all');
+          }}
+        >
+          <X className="w-3.5 h-3.5 mr-1" />
+          Temizle
+        </Button>
+      )}
+
+      <div className="ml-auto text-xs text-gray-500">
+        {hasActiveFilters ? (
+          <span>{resultCount} / {totalCount} lokasyon</span>
+        ) : (
+          <span>{totalCount} lokasyon</span>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function LocationEditSheet({ 
+  open, 
+  onClose, 
+  location 
+}: { 
+  open: boolean; 
+  onClose: () => void; 
+  location: LocationData | null;
+}) {
+  const [formData, setFormData] = useState({
+    name: '',
+    address: '',
+    phone: '',
+    email: '',
+    website: '',
+    workingHours: '',
+    description: '',
+    imageUrl: ''
+  });
+
+  useEffect(() => {
+    if (location) {
+      setFormData({
+        name: location.name,
+        address: location.address,
+        phone: location.phone,
+        email: location.email,
+        website: location.website,
+        workingHours: location.workingHours,
+        description: location.description,
+        imageUrl: location.imageUrl
+      });
+    }
+  }, [location]);
+
+  const handleOpen = (isOpen: boolean) => {
+    if (isOpen && location) {
+      setFormData({
+        name: location.name,
+        address: location.address,
+        phone: location.phone,
+        email: location.email,
+        website: location.website,
+        workingHours: location.workingHours,
+        description: location.description,
+        imageUrl: location.imageUrl
+      });
+    }
+    if (!isOpen) {
+      onClose();
+    }
+  };
+
+  if (!location) return null;
+
+  const dataHealth = calculateDataHealth(location);
+
+  return (
+    <Sheet open={open} onOpenChange={handleOpen}>
+      <SheetContent className="w-[400px] sm:w-[480px] overflow-y-auto">
+        <SheetHeader>
+          <SheetTitle className="flex items-center gap-2">
+            <Building2 className="w-5 h-5 text-blue-600" />
+            POI Veri Yönetimi
+          </SheetTitle>
+          <SheetDescription className="flex items-center justify-between">
+            <span>{location.name} <span className="text-gray-400">#{location.storeCode}</span></span>
+            <span className={`text-xs font-medium ${dataHealth >= 80 ? 'text-green-600' : dataHealth >= 50 ? 'text-yellow-600' : 'text-red-600'}`}>
+              Veri Doluluk: {dataHealth}%
+            </span>
+          </SheetDescription>
+        </SheetHeader>
+        
+        <div className="mt-6 space-y-5">
+          <div className="space-y-2">
+            <Label htmlFor="name" className="text-sm font-medium">Lokasyon Adı</Label>
+            <Input
+              id="name"
+              value={formData.name}
+              onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+              placeholder="Şube adı"
+            />
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="address" className="flex items-center gap-2 text-sm font-medium">
+              <MapPin className="w-4 h-4 text-gray-500" />
+              Adres
+            </Label>
+            <Textarea
+              id="address"
+              value={formData.address}
+              onChange={(e) => setFormData({ ...formData, address: e.target.value })}
+              placeholder="Mahalle, Cadde, No, İlçe/İl"
+              rows={2}
+            />
+          </div>
+
+          <div className="grid grid-cols-2 gap-4">
+            <div className="space-y-2">
+              <Label htmlFor="phone" className="flex items-center gap-2 text-sm font-medium">
+                <Phone className="w-4 h-4 text-gray-500" />
+                Telefon
+              </Label>
+              <Input
+                id="phone"
+                value={formData.phone}
+                onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                placeholder="+90 5XX XXX XX XX"
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="email" className="flex items-center gap-2 text-sm font-medium">
+                <Mail className="w-4 h-4 text-gray-500" />
+                Email
+              </Label>
+              <Input
+                id="email"
+                type="email"
+                value={formData.email}
+                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                placeholder="magaza@example.com"
+              />
+            </div>
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="website" className="flex items-center gap-2 text-sm font-medium">
+              <ExternalLink className="w-4 h-4 text-gray-500" />
+              Website
+            </Label>
+            <Input
+              id="website"
+              value={formData.website}
+              onChange={(e) => setFormData({ ...formData, website: e.target.value })}
+              placeholder="https://..."
+            />
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="workingHours" className="flex items-center gap-2 text-sm font-medium">
+              <Clock className="w-4 h-4 text-gray-500" />
+              Çalışma Saatleri
+            </Label>
+            <Input
+              id="workingHours"
+              value={formData.workingHours}
+              onChange={(e) => setFormData({ ...formData, workingHours: e.target.value })}
+              placeholder="09:00 - 22:00"
+            />
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="description" className="text-sm font-medium">Açıklama</Label>
+            <Textarea
+              id="description"
+              value={formData.description}
+              onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+              placeholder="Şube hakkında kısa bilgi..."
+              rows={3}
+            />
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="imageUrl" className="flex items-center gap-2 text-sm font-medium">
+              <Image className="w-4 h-4 text-gray-500" />
+              Görsel
+            </Label>
+            <div className="flex gap-2">
+              <Input
+                id="imageUrl"
+                value={formData.imageUrl}
+                onChange={(e) => setFormData({ ...formData, imageUrl: e.target.value })}
+                placeholder="https://..."
+                className="flex-1"
+              />
+              <Button variant="outline" size="icon">
+                <Upload className="w-4 h-4" />
+              </Button>
+            </div>
+          </div>
+
+          <div className="pt-4 border-t flex gap-2 justify-end">
+            <Button variant="outline" onClick={onClose}>
+              İptal
+            </Button>
+            <Button className="gap-1.5" onClick={onClose}>
+              <Save className="w-4 h-4" />
+              Kaydet ve Sync
+            </Button>
+          </div>
+        </div>
+      </SheetContent>
+    </Sheet>
+  );
+}
 
 function InlineFieldEditorPopover({ 
   warning, 
@@ -293,11 +673,9 @@ function InlineFieldEditorPopover({
 
 function SyncErrorBubble({ 
   warning, 
-  location, 
   onErrorClick 
 }: { 
   warning: LocationWarning; 
-  location: LocationData; 
   onErrorClick: () => void;
 }) {
   return (
@@ -436,12 +814,55 @@ function ActionsMenu({ location, platform }: { location: LocationData; platform:
 
 export default function LocationStatusTable() {
   const [selectedIds, setSelectedIds] = useState<Set<number>>(new Set());
+  const [searchQuery, setSearchQuery] = useState('');
+  const [platformFilter, setPlatformFilter] = useState<PlatformKey | 'all'>('all');
+  const [errorTypeFilter, setErrorTypeFilter] = useState<ErrorTypeFilter>('all');
   const [errorModal, setErrorModal] = useState<{ open: boolean; warning: LocationWarning | null; locationName: string; storeCode: string }>({
     open: false,
     warning: null,
     locationName: '',
     storeCode: ''
   });
+  const [editSheet, setEditSheet] = useState<{ open: boolean; location: LocationData | null }>({
+    open: false,
+    location: null
+  });
+
+  const filteredLocations = useMemo(() => {
+    return mockLocations.filter(location => {
+      if (searchQuery) {
+        const query = searchQuery.toLowerCase();
+        const matchesName = location.name.toLowerCase().includes(query);
+        const matchesCode = location.storeCode.toLowerCase().includes(query);
+        if (!matchesName && !matchesCode) return false;
+      }
+
+      if (platformFilter !== 'all') {
+        const platformData = location[platformFilter];
+        const hasIssue = platformData.status !== 'verified' || platformData.warnings.length > 0;
+        if (!hasIssue) return false;
+      }
+
+      if (errorTypeFilter !== 'all') {
+        const allWarnings = [
+          ...location.google.warnings,
+          ...location.meta.warnings,
+          ...location.apple.warnings,
+          ...location.yandex.warnings
+        ];
+        
+        if (errorTypeFilter === 'sync_error') {
+          const hasSyncError = allWarnings.some(w => w.type === 'sync_error');
+          if (!hasSyncError) return false;
+        } else if (errorTypeFilter === 'content_error') {
+          const hasContentError = allWarnings.some(w => w.type !== 'sync_error');
+          if (!hasContentError) return false;
+        }
+      }
+
+      return true;
+    });
+  }, [searchQuery, platformFilter, errorTypeFilter]);
 
   const handleSyncErrorClick = (warning: LocationWarning, location: LocationData) => {
     setErrorModal({ open: true, warning, locationName: location.name, storeCode: location.storeCode });
@@ -458,15 +879,26 @@ export default function LocationStatusTable() {
   };
 
   const toggleSelectAll = () => {
-    if (selectedIds.size === mockLocations.length) {
+    if (selectedIds.size === filteredLocations.length) {
       setSelectedIds(new Set());
     } else {
-      setSelectedIds(new Set(mockLocations.map(l => l.id)));
+      setSelectedIds(new Set(filteredLocations.map(l => l.id)));
     }
   };
 
   return (
     <div className="bg-white border border-gray-200 rounded-lg overflow-hidden">
+      <FilterToolbar
+        searchQuery={searchQuery}
+        setSearchQuery={setSearchQuery}
+        platformFilter={platformFilter}
+        setPlatformFilter={setPlatformFilter}
+        errorTypeFilter={errorTypeFilter}
+        setErrorTypeFilter={setErrorTypeFilter}
+        resultCount={filteredLocations.length}
+        totalCount={mockLocations.length}
+      />
+
       <div className="flex items-center justify-between px-4 py-3 bg-gray-50 border-b border-gray-200">
         <StatusLegend />
         <Link href="/locations">
@@ -482,7 +914,7 @@ export default function LocationStatusTable() {
           <tr>
             <th className="text-center px-3 py-3 w-10">
               <Checkbox
-                checked={selectedIds.size === mockLocations.length}
+                checked={selectedIds.size === filteredLocations.length && filteredLocations.length > 0}
                 onChange={toggleSelectAll}
               />
             </th>
@@ -515,57 +947,76 @@ export default function LocationStatusTable() {
           </tr>
         </thead>
         <tbody className="divide-y divide-gray-100">
-          {mockLocations.map((location) => (
-            <tr key={location.id} className={`hover:bg-blue-50/50 transition-colors ${selectedIds.has(location.id) ? 'bg-blue-50' : ''}`}>
-              <td className="text-center px-3 py-4">
-                <Checkbox
-                  checked={selectedIds.has(location.id)}
-                  onChange={() => toggleSelect(location.id)}
-                />
-              </td>
-              <td className="px-4 py-4">
-                <p className="text-sm font-medium text-gray-900">{location.name}</p>
-                <p className="text-xs text-gray-500">{location.address}</p>
-                <p className="text-[10px] text-gray-400 mt-0.5">#{location.storeCode}</p>
-              </td>
-              <td className="px-4 py-4">
-                <PlatformCell 
-                  platform={location.google} 
-                  location={location}
-                  cellKey={`${location.id}-google`}
-                  onSyncErrorClick={(warning) => handleSyncErrorClick(warning, location)}
-                />
-              </td>
-              <td className="px-4 py-4">
-                <PlatformCell 
-                  platform={location.meta} 
-                  location={location}
-                  cellKey={`${location.id}-meta`}
-                  onSyncErrorClick={(warning) => handleSyncErrorClick(warning, location)}
-                />
-              </td>
-              <td className="px-4 py-4">
-                <PlatformCell 
-                  platform={location.apple} 
-                  location={location}
-                  cellKey={`${location.id}-apple`}
-                  onSyncErrorClick={(warning) => handleSyncErrorClick(warning, location)}
-                />
-              </td>
-              <td className="px-4 py-4">
-                <PlatformCell 
-                  platform={location.yandex} 
-                  location={location}
-                  cellKey={`${location.id}-yandex`} 
-                  showStatusLabel={false}
-                  onSyncErrorClick={(warning) => handleSyncErrorClick(warning, location)}
-                />
-              </td>
-              <td className="px-4 py-4">
-                <ActionsMenu location={location} platform={location.google} />
+          {filteredLocations.map((location) => {
+            const dataHealth = calculateDataHealth(location);
+            return (
+              <tr key={location.id} className={`hover:bg-blue-50/50 transition-colors ${selectedIds.has(location.id) ? 'bg-blue-50' : ''}`}>
+                <td className="text-center px-3 py-4">
+                  <Checkbox
+                    checked={selectedIds.has(location.id)}
+                    onChange={() => toggleSelect(location.id)}
+                  />
+                </td>
+                <td className="px-4 py-4">
+                  <button 
+                    onClick={() => setEditSheet({ open: true, location })}
+                    className="text-left hover:bg-gray-50 rounded-md p-1 -m-1 transition-colors group"
+                  >
+                    <p className="text-sm font-medium text-gray-900 group-hover:text-blue-600 transition-colors">{location.name}</p>
+                    <p className="text-xs text-gray-500">{location.address}</p>
+                    <p className="text-[10px] text-gray-400 mt-0.5">#{location.storeCode}</p>
+                  </button>
+                  <DataHealthBar percentage={dataHealth} />
+                </td>
+                <td className="px-4 py-4">
+                  <PlatformCell 
+                    platform={location.google} 
+                    location={location}
+                    cellKey={`${location.id}-google`}
+                    onSyncErrorClick={(warning) => handleSyncErrorClick(warning, location)}
+                  />
+                </td>
+                <td className="px-4 py-4">
+                  <PlatformCell 
+                    platform={location.meta} 
+                    location={location}
+                    cellKey={`${location.id}-meta`}
+                    onSyncErrorClick={(warning) => handleSyncErrorClick(warning, location)}
+                  />
+                </td>
+                <td className="px-4 py-4">
+                  <PlatformCell 
+                    platform={location.apple} 
+                    location={location}
+                    cellKey={`${location.id}-apple`}
+                    onSyncErrorClick={(warning) => handleSyncErrorClick(warning, location)}
+                  />
+                </td>
+                <td className="px-4 py-4">
+                  <PlatformCell 
+                    platform={location.yandex} 
+                    location={location}
+                    cellKey={`${location.id}-yandex`} 
+                    showStatusLabel={false}
+                    onSyncErrorClick={(warning) => handleSyncErrorClick(warning, location)}
+                  />
+                </td>
+                <td className="px-4 py-4">
+                  <ActionsMenu location={location} platform={location.google} />
+                </td>
+              </tr>
+            );
+          })}
+          {filteredLocations.length === 0 && (
+            <tr>
+              <td colSpan={7} className="px-4 py-12 text-center">
+                <div className="text-gray-400">
+                  <Search className="w-8 h-8 mx-auto mb-2 opacity-50" />
+                  <p className="text-sm">Filtrelerle eşleşen lokasyon bulunamadı</p>
+                </div>
               </td>
             </tr>
-          ))}
+          )}
         </tbody>
       </table>
       
@@ -575,6 +1026,12 @@ export default function LocationStatusTable() {
         warning={errorModal.warning}
         locationName={errorModal.locationName}
         storeCode={errorModal.storeCode}
+      />
+
+      <LocationEditSheet
+        open={editSheet.open}
+        onClose={() => setEditSheet({ open: false, location: null })}
+        location={editSheet.location}
       />
 
       <BulkActionBar 
@@ -644,7 +1101,6 @@ function PlatformCell({
               <SyncErrorBubble 
                 key={`${cellKey}-${idx}`}
                 warning={warning}
-                location={location}
                 onErrorClick={() => onSyncErrorClick?.(warning)}
               />
             ) : (
@@ -675,7 +1131,6 @@ function PlatformCell({
                       <SyncErrorBubble 
                         key={`${cellKey}-all-${idx}`}
                         warning={warning}
-                        location={location}
                         onErrorClick={() => onSyncErrorClick?.(warning)}
                       />
                     ) : (
