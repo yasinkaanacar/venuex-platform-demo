@@ -65,7 +65,8 @@ const navigationGroups = [
     title: "DEV",
     items: [
       { name: 'Onboarding', href: '/onboarding', icon: Rocket },
-      { name: 'Signup', href: '/signup', icon: UserPlus }
+      { name: 'Signup', href: '/signup', icon: UserPlus },
+      { name: 'Components', href: '/components', icon: Code }
     ]
   }
 ];
