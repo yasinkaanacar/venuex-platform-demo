@@ -1,7 +1,7 @@
 import { useState, useMemo, useEffect } from 'react';
 import { Link } from 'wouter';
 import { SiGoogle, SiMeta, SiApple } from 'react-icons/si';
-import { Clock, AlertTriangle, Phone, Mail, MapPin, Image, ShieldCheck, ShieldAlert, XCircle, PauseCircle, ChevronRight, MoreHorizontal, RefreshCw, Link2, Unlink, ExternalLink, Download, X, Save, Upload, Layers, Search, Filter, Building2, Ban, Unplug, Clock3, Trash2, XOctagon } from 'lucide-react';
+import { Clock, AlertTriangle, AlertCircle, CheckCircle2, Phone, Mail, MapPin, Image, ShieldCheck, ShieldAlert, XCircle, PauseCircle, ChevronRight, MoreHorizontal, RefreshCw, Link2, Unlink, ExternalLink, Download, X, Save, Upload, Layers, Search, Filter, Building2, Ban, Unplug, Clock3, Trash2, XOctagon } from 'lucide-react';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
@@ -35,7 +35,7 @@ interface LocationWarning {
   platform?: PlatformKey;
 }
 
-type PlatformStatusType = 
+type PlatformStatusType =
   | 'verified'           // ✅ Yayında
   | 'unverified'         // 🟠 Doğrulama Bekliyor
   | 'action_required'    // 🟡 Aksiyon Gerekli
@@ -53,9 +53,14 @@ interface PlatformData {
   warnings: LocationWarning[];
 }
 
+type BusinessStatus = 'open' | 'closed' | 'temporarily_closed';
+
 interface LocationData {
   id: number;
   storeCode: string;
+  brand: string;
+  city: string;
+  district: string;
   name: string;
   address: string;
   phone: string;
@@ -65,6 +70,7 @@ interface LocationData {
   workingHours: string;
   description: string;
   storeSet: string;
+  businessStatus: BusinessStatus;
   google: PlatformData;
   meta: PlatformData;
   apple: PlatformData;
@@ -177,7 +183,10 @@ const mockLocations: LocationData[] = [
   {
     id: 1,
     storeCode: 'DY_001',
-    name: 'İstanbul - Kadıköy',
+    brand: 'Doyuyo',
+    city: 'İstanbul',
+    district: 'Kadıköy',
+    name: 'Doyuyo - İstanbul - Kadıköy',
     address: 'Caferağa Mah. Moda Cad. No:12',
     phone: '+90 216 555 0001',
     email: 'kadikoy@doyuyo.com',
@@ -186,6 +195,7 @@ const mockLocations: LocationData[] = [
     workingHours: '09:00 - 22:00',
     description: 'Moda sahil şubesi',
     storeSet: 'Cadde',
+    businessStatus: 'open',
     google: { status: 'verified', lastSync: '2 dk önce', warnings: [] },
     meta: { status: 'verified', lastSync: '5 dk önce', warnings: [] },
     apple: { status: 'verified', lastSync: '10 dk önce', warnings: [] },
@@ -196,7 +206,10 @@ const mockLocations: LocationData[] = [
   {
     id: 4,
     storeCode: 'DY_004',
-    name: 'İzmir - Alsancak',
+    brand: 'Doyuyo',
+    city: 'İzmir',
+    district: 'Alsancak',
+    name: 'Doyuyo - İzmir - Alsancak',
     address: 'Alsancak Mah. Kıbrıs Şehitleri Cad. No:22',
     phone: '+90 232 555 0004',
     email: 'alsancak@doyuyo.com',
@@ -205,24 +218,25 @@ const mockLocations: LocationData[] = [
     workingHours: '08:00 - 23:00',
     description: 'Kordon şubesi',
     storeSet: 'Express',
+    businessStatus: 'open',
     google: { status: 'verified', lastSync: '15 dk önce', warnings: [] },
-    meta: { 
+    meta: {
       status: 'action_required',
-      lastSync: '1 gün önce', 
+      lastSync: '1 gün önce',
       warnings: [
-        { 
-          type: 'sync_error', 
-          label: 'Bağlantı Kesildi', 
-          errorCode: 'auth_expired', 
-          platform: 'meta', 
-          errorLog: 'Error 190: Invalid OAuth Access Token. The user has changed the password or revoked access.' 
+        {
+          type: 'sync_error',
+          label: 'Bağlantı Kesildi',
+          errorCode: 'auth_expired',
+          platform: 'meta',
+          errorLog: 'Error 190: Invalid OAuth Access Token. The user has changed the password or revoked access.'
         }
       ]
     },
     apple: { status: 'verified', lastSync: '2 saat önce', warnings: [] },
-    yandex: { 
-      status: 'action_required', 
-      lastSync: '30 dk önce', 
+    yandex: {
+      status: 'action_required',
+      lastSync: '30 dk önce',
       warnings: [
         { type: 'sync_error', label: 'Telefon Eksik', errorCode: 'validation_error', platform: 'yandex', errorLog: 'Missing required field: phone' },
         { type: 'sync_error', label: 'Koordinat Eksik', errorCode: 'missing_coordinates', platform: 'yandex', errorLog: 'Missing required field: coordinates' }
@@ -234,7 +248,10 @@ const mockLocations: LocationData[] = [
   {
     id: 3,
     storeCode: 'DY_076',
-    name: 'Ankara - Çankaya',
+    brand: 'Doyuyo',
+    city: 'Ankara',
+    district: 'Çankaya',
+    name: 'Doyuyo - Ankara - Çankaya',
     address: 'Kızılay Mah. Atatürk Blv. No:45',
     phone: '+90 312 555 0076',
     email: '',
@@ -243,16 +260,17 @@ const mockLocations: LocationData[] = [
     workingHours: '',
     description: '',
     storeSet: 'Cadde',
-    google: { 
-      status: 'action_required', 
-      lastSync: 'Failed', 
+    businessStatus: 'open',
+    google: {
+      status: 'action_required',
+      lastSync: 'Failed',
       warnings: [
-        { 
-          type: 'sync_error', 
-          label: 'Koordinat Eksik', 
-          errorCode: 'missing_coordinates', 
-          platform: 'google', 
-          errorLog: '400 Bad Request: Missing Lat/Long. Geocoding failed for the provided address.' 
+        {
+          type: 'sync_error',
+          label: 'Koordinat Eksik',
+          errorCode: 'missing_coordinates',
+          platform: 'google',
+          errorLog: '400 Bad Request: Missing Lat/Long. Geocoding failed for the provided address.'
         },
         { type: 'email_missing', label: 'Email Eksik' },
         { type: 'image_missing', label: 'Görsel Eksik' }
@@ -267,7 +285,10 @@ const mockLocations: LocationData[] = [
   {
     id: 6,
     storeCode: 'DY_006',
-    name: 'Antalya - Muratpaşa',
+    brand: 'Doyuyo',
+    city: 'Antalya',
+    district: 'Muratpaşa',
+    name: 'Doyuyo - Antalya - Muratpaşa',
     address: 'Konyaaltı Cad. No:55',
     phone: '',
     email: '',
@@ -276,25 +297,26 @@ const mockLocations: LocationData[] = [
     workingHours: 'Sabah 9 - Akşam 10',
     description: '',
     storeSet: 'Express',
+    businessStatus: 'temporarily_closed',
     google: { status: 'verified', lastSync: '30 dk önce', warnings: [] },
-    meta: { 
-      status: 'unverified', 
-      lastSync: 'Failed', 
+    meta: {
+      status: 'unverified',
+      lastSync: 'Failed',
       warnings: [
-        { 
-          type: 'sync_error', 
-          label: 'Saat Formatı Hatalı', 
-          errorCode: 'validation_error', 
-          platform: 'meta', 
-          errorLog: 'Param validation failed: working_hours must be in HH:MM - HH:MM format.' 
+        {
+          type: 'sync_error',
+          label: 'Saat Formatı Hatalı',
+          errorCode: 'validation_error',
+          platform: 'meta',
+          errorLog: 'Param validation failed: working_hours must be in HH:MM - HH:MM format.'
         },
         { type: 'phone_missing', label: 'Telefon Eksik' }
       ]
     },
     apple: { status: 'verified', lastSync: '1 saat önce', warnings: [] },
-    yandex: { 
-      status: 'action_required', 
-      lastSync: '2 saat önce', 
+    yandex: {
+      status: 'action_required',
+      lastSync: '2 saat önce',
       warnings: [
         { type: 'sync_error', label: 'Website Eksik', errorCode: 'validation_error', platform: 'yandex', errorLog: 'Missing required field: website' },
         { type: 'sync_error', label: 'Çalışma Saatleri Eksik', errorCode: 'validation_error', platform: 'yandex', errorLog: 'Missing required field: working_hours' },
@@ -307,7 +329,10 @@ const mockLocations: LocationData[] = [
   {
     id: 7,
     storeCode: 'DY_007',
-    name: 'Bodrum - Marina',
+    brand: 'Doyuyo',
+    city: 'Muğla',
+    district: 'Bodrum',
+    name: 'Doyuyo - Muğla - Bodrum',
     address: 'Neyzen Tevfik Cad.',
     phone: '+90 252 000 0000',
     email: 'bodrum@doyuyo.com',
@@ -316,18 +341,19 @@ const mockLocations: LocationData[] = [
     workingHours: '10:00 - 02:00',
     description: '',
     storeSet: 'Sezonluk',
+    businessStatus: 'open',
     google: { status: 'verified', lastSync: '1 dk önce', warnings: [] },
     meta: { status: 'verified', lastSync: '1 dk önce', warnings: [] },
-    apple: { 
-      status: 'action_required', 
-      lastSync: 'Pending', 
+    apple: {
+      status: 'action_required',
+      lastSync: 'Pending',
       warnings: [
-        { 
-          type: 'sync_error', 
-          label: 'Sıraya Alındı', 
-          errorCode: 'rate_limit', 
-          platform: 'apple', 
-          errorLog: '429 Too Many Requests. Retry-After: 60s' 
+        {
+          type: 'sync_error',
+          label: 'Sıraya Alındı',
+          errorCode: 'rate_limit',
+          platform: 'apple',
+          errorLog: '429 Too Many Requests. Retry-After: 60s'
         }
       ]
     },
@@ -338,7 +364,10 @@ const mockLocations: LocationData[] = [
   {
     id: 8,
     storeCode: 'DY_008',
-    name: 'Bursa - Osmangazi',
+    brand: 'Doyuyo',
+    city: 'Bursa',
+    district: 'Osmangazi',
+    name: 'Doyuyo - Bursa - Osmangazi',
     address: 'Heykel Mah. Atatürk Cad. No:10',
     phone: '+90 224 555 0008',
     email: 'osmangazi@doyuyo.com',
@@ -347,16 +376,17 @@ const mockLocations: LocationData[] = [
     workingHours: '09:00 - 21:00',
     description: 'Bursa merkez şubesi',
     storeSet: 'Cadde',
-    google: { 
-      status: 'suspended', 
-      lastSync: 'Askıda', 
+    businessStatus: 'closed',
+    google: {
+      status: 'suspended',
+      lastSync: 'Askıda',
       warnings: [
-        { 
-          type: 'sync_error', 
-          label: 'Askıya Alındı', 
-          errorCode: 'unknown', 
-          platform: 'google', 
-          errorLog: 'Location suspended due to quality policy violation. Contact Google Support.' 
+        {
+          type: 'sync_error',
+          label: 'Askıya Alındı',
+          errorCode: 'unknown',
+          platform: 'google',
+          errorLog: 'Location suspended due to quality policy violation. Contact Google Support.'
         }
       ]
     },
@@ -369,7 +399,10 @@ const mockLocations: LocationData[] = [
   {
     id: 9,
     storeCode: 'DY_009',
-    name: 'Konya - Selçuklu',
+    brand: 'Doyuyo',
+    city: 'Konya',
+    district: 'Selçuklu',
+    name: 'Doyuyo - Konya - Selçuklu',
     address: 'Selçuklu Mah. Mevlana Cad. No:33',
     phone: '+90 332 555 0009',
     email: 'selcuklu@doyuyo.com',
@@ -378,16 +411,17 @@ const mockLocations: LocationData[] = [
     workingHours: '08:00 - 22:00',
     description: 'Konya şubesi',
     storeSet: 'Cadde',
-    google: { 
-      status: 'disconnected', 
-      lastSync: 'Bağlantı Yok', 
+    businessStatus: 'open',
+    google: {
+      status: 'disconnected',
+      lastSync: 'Bağlantı Yok',
       warnings: [
-        { 
-          type: 'sync_error', 
-          label: 'Bağlantı Koptu', 
-          errorCode: 'auth_expired', 
-          platform: 'google', 
-          errorLog: '403 Permission Denied: Location ownership has been transferred. Please reconnect.' 
+        {
+          type: 'sync_error',
+          label: 'Bağlantı Koptu',
+          errorCode: 'auth_expired',
+          platform: 'google',
+          errorLog: '403 Permission Denied: Location ownership has been transferred. Please reconnect.'
         }
       ]
     },
@@ -400,7 +434,10 @@ const mockLocations: LocationData[] = [
   {
     id: 10,
     storeCode: 'DY_010',
-    name: 'Eskişehir - Tepebaşı',
+    brand: 'Doyuyo',
+    city: 'Eskişehir',
+    district: 'Tepebaşı',
+    name: 'Doyuyo - Eskişehir - Tepebaşı',
     address: 'Tepebaşı Mah. İsmet İnönü Cad. No:55',
     phone: '+90 222 555 0010',
     email: 'tepebasi@doyuyo.com',
@@ -409,18 +446,19 @@ const mockLocations: LocationData[] = [
     workingHours: '09:00 - 20:00',
     description: 'Eskişehir şubesi',
     storeSet: 'Express',
+    businessStatus: 'open',
     google: { status: 'verified', lastSync: '3 dk önce', warnings: [] },
     meta: { status: 'verified', lastSync: '7 dk önce', warnings: [] },
-    apple: { 
-      status: 'rejected', 
-      lastSync: 'Reddedildi', 
+    apple: {
+      status: 'rejected',
+      lastSync: 'Reddedildi',
       warnings: [
-        { 
-          type: 'sync_error', 
-          label: 'Adres Formatı Hatalı', 
-          errorCode: 'validation_error', 
-          platform: 'apple', 
-          errorLog: 'REJECTED: Address format does not match Apple Maps database. Please verify postal code and street name.' 
+        {
+          type: 'sync_error',
+          label: 'Adres Formatı Hatalı',
+          errorCode: 'validation_error',
+          platform: 'apple',
+          errorLog: 'REJECTED: Address format does not match Apple Maps database. Please verify postal code and street name.'
         }
       ]
     },
@@ -431,7 +469,10 @@ const mockLocations: LocationData[] = [
   {
     id: 11,
     storeCode: 'DY_011',
-    name: 'Gaziantep - Şahinbey',
+    brand: 'Doyuyo',
+    city: 'Gaziantep',
+    district: 'Şahinbey',
+    name: 'Doyuyo - Gaziantep - Şahinbey',
     address: 'Şahinbey Mah. Gaziler Cad. No:88',
     phone: '+90 342 555 0011',
     email: 'sahinbey@doyuyo.com',
@@ -440,6 +481,7 @@ const mockLocations: LocationData[] = [
     workingHours: '08:00 - 23:00',
     description: 'Gaziantep şubesi',
     storeSet: 'AVM',
+    businessStatus: 'open',
     google: { status: 'verified', lastSync: '2 dk önce', warnings: [] },
     meta: { status: 'verified', lastSync: '4 dk önce', warnings: [] },
     apple: { status: 'pending_review', lastSync: 'İnceleniyor', warnings: [] },
@@ -450,7 +492,10 @@ const mockLocations: LocationData[] = [
   {
     id: 12,
     storeCode: 'DY_012',
-    name: 'Trabzon - Ortahisar',
+    brand: 'Doyuyo',
+    city: 'Trabzon',
+    district: 'Ortahisar',
+    name: 'Doyuyo - Trabzon - Ortahisar',
     address: 'Ortahisar Mah. Maraş Cad. No:22',
     phone: '+90 462 555 0012',
     email: 'ortahisar@doyuyo.com',
@@ -459,17 +504,18 @@ const mockLocations: LocationData[] = [
     workingHours: '09:00 - 21:00',
     description: 'Trabzon şubesi',
     storeSet: 'Cadde',
+    businessStatus: 'temporarily_closed',
     google: { status: 'verified', lastSync: '5 dk önce', warnings: [] },
-    meta: { 
-      status: 'disconnected', 
-      lastSync: 'Yetki Yok', 
+    meta: {
+      status: 'disconnected',
+      lastSync: 'Yetki Yok',
       warnings: [
-        { 
-          type: 'sync_error', 
-          label: 'Erişim İzni Kaldırıldı', 
-          errorCode: 'auth_expired', 
-          platform: 'meta', 
-          errorLog: 'Error 10: Application does not have permission for this action. VenueX app access has been revoked.' 
+        {
+          type: 'sync_error',
+          label: 'Erişim İzni Kaldırıldı',
+          errorCode: 'auth_expired',
+          platform: 'meta',
+          errorLog: 'Error 10: Application does not have permission for this action. VenueX app access has been revoked.'
         }
       ]
     },
@@ -481,7 +527,10 @@ const mockLocations: LocationData[] = [
   {
     id: 13,
     storeCode: 'DY_013',
-    name: 'Samsun - Atakum',
+    brand: 'Doyuyo',
+    city: 'Samsun',
+    district: 'Atakum',
+    name: 'Doyuyo - Samsun - Atakum',
     address: 'Atakum Mah. Sahil Yolu No:100',
     phone: '+90 362 555 0013',
     email: 'atakum@doyuyo.com',
@@ -490,17 +539,18 @@ const mockLocations: LocationData[] = [
     workingHours: '10:00 - 22:00',
     description: 'Samsun sahil şubesi',
     storeSet: 'Sezonluk',
+    businessStatus: 'closed',
     google: { status: 'verified', lastSync: '3 dk önce', warnings: [] },
-    meta: { 
-      status: 'suspended', 
-      lastSync: 'Kapalı', 
+    meta: {
+      status: 'suspended',
+      lastSync: 'Kapalı',
       warnings: [
-        { 
-          type: 'sync_error', 
-          label: 'Sayfa Yayından Kaldırıldı', 
-          errorCode: 'unknown', 
-          platform: 'meta', 
-          errorLog: 'Page unpublished by administrator or disabled by Meta for policy violations.' 
+        {
+          type: 'sync_error',
+          label: 'Sayfa Yayından Kaldırıldı',
+          errorCode: 'unknown',
+          platform: 'meta',
+          errorLog: 'Page unpublished by administrator or disabled by Meta for policy violations.'
         }
       ]
     },
@@ -512,7 +562,10 @@ const mockLocations: LocationData[] = [
   {
     id: 14,
     storeCode: 'DY_014',
-    name: 'Mersin - Mezitli',
+    brand: 'Doyuyo',
+    city: 'Mersin',
+    district: 'Mezitli',
+    name: 'Doyuyo - Mersin - Mezitli',
     address: 'Mezitli Mah. Sahil Cad. No:45',
     phone: '+90 324 555 0014',
     email: 'mezitli@doyuyo.com',
@@ -521,18 +574,19 @@ const mockLocations: LocationData[] = [
     workingHours: '',
     description: '',
     storeSet: 'Sezonluk',
+    businessStatus: 'open',
     google: { status: 'verified', lastSync: '5 dk önce', warnings: [] },
     meta: { status: 'verified', lastSync: '10 dk önce', warnings: [] },
-    apple: { 
-      status: 'deleted', 
-      lastSync: 'Silindi', 
+    apple: {
+      status: 'deleted',
+      lastSync: 'Silindi',
       warnings: [
-        { 
-          type: 'sync_error', 
-          label: 'Lokasyon Silindi', 
-          errorCode: 'unknown', 
-          platform: 'apple', 
-          errorLog: 'DELETED: Location has been permanently removed from Apple Business Connect.' 
+        {
+          type: 'sync_error',
+          label: 'Lokasyon Silindi',
+          errorCode: 'unknown',
+          platform: 'apple',
+          errorLog: 'DELETED: Location has been permanently removed from Apple Business Connect.'
         }
       ]
     },
@@ -561,63 +615,99 @@ const getStatusConfig = (status: PlatformStatusType) => {
   switch (status) {
     case 'verified':
       return {
-        icon: <ShieldCheck className="w-4 h-4" />,
+        icon: <ShieldCheck className="w-3.5 h-3.5" />,
         label: 'Yayında',
-        color: 'text-green-600'
+        color: 'text-emerald-600',
+        dotColor: 'bg-emerald-500'
       };
     case 'unverified':
       return {
-        icon: <ShieldAlert className="w-4 h-4" />,
+        icon: <ShieldAlert className="w-3.5 h-3.5" />,
         label: 'Doğrulama Bekliyor',
-        color: 'text-orange-500'
+        color: 'text-orange-500',
+        dotColor: 'bg-orange-400'
       };
     case 'action_required':
       return {
-        icon: <AlertTriangle className="w-4 h-4" />,
+        icon: <AlertTriangle className="w-3.5 h-3.5" />,
         label: 'Aksiyon Gerekli',
-        color: 'text-amber-600'
+        color: 'text-amber-600',
+        dotColor: 'bg-amber-500'
       };
     case 'pending_review':
       return {
-        icon: <Clock3 className="w-4 h-4" />,
-        label: 'İnceleme Bekliyor',
-        color: 'text-yellow-600'
+        icon: <Clock3 className="w-3.5 h-3.5" />,
+        label: 'Bekliyor',
+        color: 'text-sky-600',
+        dotColor: 'bg-sky-500'
       };
     case 'rejected':
       return {
-        icon: <XOctagon className="w-4 h-4" />,
+        icon: <XOctagon className="w-3.5 h-3.5" />,
         label: 'Reddedildi',
-        color: 'text-red-600'
+        color: 'text-rose-600',
+        dotColor: 'bg-rose-500'
       };
     case 'suspended':
       return {
-        icon: <Ban className="w-4 h-4" />,
-        label: 'Askıya Alındı',
-        color: 'text-red-700'
+        icon: <Ban className="w-3.5 h-3.5" />,
+        label: 'Askıda',
+        color: 'text-red-600',
+        dotColor: 'bg-red-500'
       };
     case 'disconnected':
       return {
-        icon: <Unplug className="w-4 h-4" />,
-        label: 'Bağlantı Koptu',
-        color: 'text-red-600'
+        icon: <Unplug className="w-3.5 h-3.5" />,
+        label: 'Bağlantı Yok',
+        color: 'text-rose-600',
+        dotColor: 'bg-rose-500'
       };
     case 'deleted':
       return {
-        icon: <Trash2 className="w-4 h-4" />,
+        icon: <Trash2 className="w-3.5 h-3.5" />,
         label: 'Silindi',
-        color: 'text-gray-500'
+        color: 'text-slate-500',
+        dotColor: 'bg-slate-400'
       };
     case 'fully_passive':
       return {
-        icon: <XCircle className="w-4 h-4" />,
+        icon: <XCircle className="w-3.5 h-3.5" />,
         label: 'Kapalı',
-        color: 'text-gray-400'
+        color: 'text-slate-400',
+        dotColor: 'bg-slate-300'
       };
     case 'temporarily_passive':
       return {
-        icon: <PauseCircle className="w-4 h-4" />,
+        icon: <PauseCircle className="w-3.5 h-3.5" />,
+        label: 'Pasif',
+        color: 'text-slate-500',
+        dotColor: 'bg-slate-400'
+      };
+  }
+};
+
+const getBusinessStatusConfig = (status: BusinessStatus) => {
+  switch (status) {
+    case 'open':
+      return {
+        label: 'Açık',
+        color: 'text-emerald-600',
+        bgColor: 'bg-emerald-50',
+        dotColor: 'bg-emerald-500'
+      };
+    case 'closed':
+      return {
+        label: 'Kapalı',
+        color: 'text-slate-500',
+        bgColor: 'bg-slate-100',
+        dotColor: 'bg-slate-400'
+      };
+    case 'temporarily_closed':
+      return {
         label: 'Geçici Kapalı',
-        color: 'text-gray-500'
+        color: 'text-amber-600',
+        bgColor: 'bg-amber-50',
+        dotColor: 'bg-amber-500'
       };
   }
 };
@@ -675,49 +765,72 @@ const getFilledFields = (location: LocationData): MissingFieldInfo[] => {
   });
 };
 
-function DataHealthBar({ 
-  percentage, 
-  onClick 
-}: { 
-  percentage: number; 
+function DataHealthBar({
+  percentage,
+  missingCount,
+  onClick
+}: {
+  percentage: number;
+  missingCount: number;
   onClick?: () => void;
 }) {
-  const getColor = () => {
-    if (percentage >= 80) return 'bg-green-500';
-    if (percentage >= 50) return 'bg-yellow-500';
-    return 'bg-red-500';
+  const getGradient = () => {
+    if (percentage >= 80) return 'from-green-400 to-green-500';
+    if (percentage >= 50) return 'from-yellow-400 to-orange-400';
+    return 'from-red-400 to-red-500';
+  };
+
+  const getTextColor = () => {
+    if (percentage >= 80) return 'text-green-600';
+    if (percentage >= 50) return 'text-amber-600';
+    return 'text-red-600';
+  };
+
+  const getStatusIcon = () => {
+    if (percentage >= 100) {
+      return <CheckCircle2 className="w-4 h-4 text-emerald-500" />;
+    }
+    if (percentage >= 70) {
+      return <AlertCircle className="w-4 h-4 text-amber-500" />;
+    }
+    return <XCircle className="w-4 h-4 text-rose-500" />;
   };
 
   const isClickable = percentage < 100 && onClick;
 
   return (
-    <button 
+    <button
       onClick={onClick}
       disabled={!isClickable}
-      className={`flex items-center gap-2 mt-2 px-2 py-1.5 -mx-2 rounded-md w-full text-left transition-all ${isClickable ? 'cursor-pointer hover:bg-blue-50 hover:shadow-sm active:scale-[0.98]' : 'cursor-default'}`}
+      className={`group flex items-center gap-2 mt-2 px-2.5 py-2 -mx-2 rounded-lg w-full text-left transition-all duration-200 ${isClickable ? 'cursor-pointer hover:bg-gradient-to-r hover:from-blue-50 hover:to-indigo-50 hover:shadow-md active:scale-[0.98]' : 'cursor-default'}`}
     >
-      <span className={`text-[10px] ${isClickable ? 'text-blue-600' : 'text-gray-400'}`}>Veri Kalitesi</span>
-      <div className="flex-1 h-2 bg-gray-100 rounded-full overflow-hidden max-w-[60px]">
-        <div 
-          className={`h-full rounded-full transition-all ${getColor()}`}
+      {getStatusIcon()}
+      <div className="flex-1 h-2 bg-gray-100 rounded-full overflow-hidden max-w-[60px] shadow-inner">
+        <div
+          className={`h-full rounded-full transition-all duration-500 bg-gradient-to-r ${getGradient()}`}
           style={{ width: `${percentage}%` }}
         />
       </div>
-      <span className={`text-[10px] font-semibold ${isClickable ? 'text-blue-600' : 'text-gray-500'}`}>
-        %{percentage}
+      <span className={`text-xs font-bold ${getTextColor()} tabular-nums`}>
+        {percentage}%
       </span>
-      {isClickable && <ChevronRight className="w-3 h-3 text-blue-400" />}
+      {missingCount > 0 && (
+        <span className="text-xs font-semibold text-rose-500">
+          ({missingCount} eksik)
+        </span>
+      )}
+      {isClickable && <ChevronRight className="w-3.5 h-3.5 text-blue-400 group-hover:translate-x-0.5 transition-transform" />}
     </button>
   );
 }
 
-function FilterToolbar({ 
+function FilterToolbar({
   filters,
   setFilters,
   storeSets,
   resultCount,
   totalCount
-}: { 
+}: {
   filters: FilterState;
   setFilters: (f: FilterState) => void;
   storeSets: string[];
@@ -743,69 +856,93 @@ function FilterToolbar({
 
 
   return (
-    <div className="flex flex-row items-center justify-between gap-4 px-4 py-3 bg-white border-b border-gray-200">
-      <div className="relative flex-1 min-w-[200px] max-w-[320px]">
-        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-        <Input
-          placeholder="Store ID veya isim ara..."
-          value={filters.search}
-          onChange={(e) => updateFilter('search', e.target.value)}
-          className="pl-9 h-9"
-        />
+    <div className="flex flex-col gap-3 px-4 py-4 bg-gradient-to-r from-gray-50/50 to-white border-b border-gray-200">
+      {/* Main Filter Row */}
+      <div className="flex flex-row items-center justify-between gap-4">
+        <div className="relative flex-1 min-w-[200px] max-w-[320px]">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+          <Input
+            placeholder="Store ID veya isim ara..."
+            value={filters.search}
+            onChange={(e) => updateFilter('search', e.target.value)}
+            className="pl-9 h-10 bg-white border-gray-200 focus:border-blue-400 focus:ring-2 focus:ring-blue-100 transition-all"
+          />
+        </div>
+
+        <div className="flex items-center gap-3">
+          <Select value={filters.storeSet} onValueChange={(v) => updateFilter('storeSet', v)} displayLabel={getStoreSetLabel()} width={150}>
+            <SelectContent>
+              <SelectItem value="all">Tüm Gruplar</SelectItem>
+              {storeSets.map((set) => (
+                <SelectItem key={set} value={set}>{set}</SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+
+          <Select value={filters.platform} onValueChange={(v) => updateFilter('platform', v as PlatformKey | 'all')} displayLabel={getPlatformLabel()} width={150}>
+            <SelectContent>
+              <SelectItem value="all">Tüm Platformlar</SelectItem>
+              <SelectItem value="google">Google</SelectItem>
+              <SelectItem value="meta">Meta</SelectItem>
+              <SelectItem value="apple">Apple</SelectItem>
+              <SelectItem value="yandex">Yandex</SelectItem>
+            </SelectContent>
+          </Select>
+
+          {hasActiveFilters && (
+            <Button
+              variant="ghost"
+              size="sm"
+              className="h-9 px-3 text-gray-500 hover:text-red-500 hover:bg-red-50 transition-all"
+              onClick={() => setFilters(initialFilters)}
+            >
+              <X className="w-3.5 h-3.5 mr-1" />
+              Temizle
+            </Button>
+          )}
+
+          <div className="flex items-center gap-1.5 px-3 py-1.5 bg-white border border-gray-200 rounded-full text-xs text-gray-600 font-medium shadow-sm">
+            <span className="text-blue-600 font-bold">{resultCount}</span>
+            <span className="text-gray-400">/</span>
+            <span>{totalCount}</span>
+            <span className="text-gray-400 ml-0.5">lokasyon</span>
+          </div>
+        </div>
       </div>
 
-      <div className="flex items-center gap-3">
-        <Select value={filters.storeSet} onValueChange={(v) => updateFilter('storeSet', v)} displayLabel={getStoreSetLabel()} width={150}>
-          <SelectContent>
-            <SelectItem value="all">Tüm Gruplar</SelectItem>
-            {storeSets.map((set) => (
-              <SelectItem key={set} value={set}>{set}</SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-
-        <Select value={filters.platform} onValueChange={(v) => updateFilter('platform', v as PlatformKey | 'all')} displayLabel={getPlatformLabel()} width={150}>
-          <SelectContent>
-            <SelectItem value="all">Tüm Platformlar</SelectItem>
-            <SelectItem value="google">Google</SelectItem>
-            <SelectItem value="meta">Meta</SelectItem>
-            <SelectItem value="apple">Apple</SelectItem>
-            <SelectItem value="yandex">Yandex</SelectItem>
-          </SelectContent>
-        </Select>
-
-
-        {hasActiveFilters && (
-          <Button 
-            variant="ghost" 
-            size="sm" 
-            className="h-9 px-3 text-gray-500"
-            onClick={() => setFilters(initialFilters)}
-          >
-            <X className="w-3.5 h-3.5 mr-1" />
-            Temizle
-          </Button>
-        )}
-
-        <div className="text-xs text-gray-500 whitespace-nowrap">
-          {hasActiveFilters ? (
-            <span>{resultCount} / {totalCount}</span>
-          ) : (
-            <span>{totalCount} lokasyon</span>
-          )}
+      {/* Quick Filter Chips */}
+      <div className="flex items-center gap-2">
+        <span className="text-[10px] text-slate-400 font-medium">Hızlı:</span>
+        <div className="flex items-center gap-1.5">
+          <button className="inline-flex items-center gap-1 px-2.5 py-1 text-[11px] font-medium rounded-md bg-rose-50 text-rose-600 hover:bg-rose-100 transition-colors">
+            <AlertTriangle className="w-3 h-3" />
+            Hatalı
+          </button>
+          <button className="inline-flex items-center gap-1 px-2.5 py-1 text-[11px] font-medium rounded-md bg-amber-50 text-amber-600 hover:bg-amber-100 transition-colors">
+            <RefreshCw className="w-3 h-3" />
+            Sync
+          </button>
+          <button className="inline-flex items-center gap-1 px-2.5 py-1 text-[11px] font-medium rounded-md bg-emerald-50 text-emerald-600 hover:bg-emerald-100 transition-colors">
+            <ShieldCheck className="w-3 h-3" />
+            Yayında
+          </button>
+          <button className="inline-flex items-center gap-1 px-2.5 py-1 text-[11px] font-medium rounded-md bg-slate-100 text-slate-500 hover:bg-slate-200 transition-colors">
+            <Clock className="w-3 h-3" />
+            Bekliyor
+          </button>
         </div>
       </div>
     </div>
   );
 }
 
-function LocationEditSheet({ 
-  open, 
-  onClose, 
-  location 
-}: { 
-  open: boolean; 
-  onClose: () => void; 
+function LocationEditSheet({
+  open,
+  onClose,
+  location
+}: {
+  open: boolean;
+  onClose: () => void;
   location: LocationData | null;
 }) {
   const [formData, setFormData] = useState({
@@ -871,7 +1008,7 @@ function LocationEditSheet({
             </span>
           </SheetDescription>
         </SheetHeader>
-        
+
         <div className="mt-6 space-y-5">
           <div className="space-y-2">
             <Label htmlFor="name" className="text-sm font-medium">Lokasyon Adı</Label>
@@ -997,20 +1134,20 @@ function LocationEditSheet({
   );
 }
 
-function InlineFieldEditorPopover({ 
-  warning, 
-  location, 
+function InlineFieldEditorPopover({
+  warning,
+  location,
   cellKey,
-  idx 
-}: { 
-  warning: LocationWarning; 
-  location: LocationData; 
+  idx
+}: {
+  warning: LocationWarning;
+  location: LocationData;
   cellKey: string;
   idx: number;
 }) {
   const [isOpen, setIsOpen] = useState(false);
   const [value, setValue] = useState('');
-  
+
   const fieldConfig = getFieldConfig(warning.type);
   if (!fieldConfig) return null;
 
@@ -1034,7 +1171,7 @@ function InlineFieldEditorPopover({
   return (
     <Popover open={isOpen} onOpenChange={handleOpen}>
       <PopoverTrigger asChild>
-        <span 
+        <span
           className={`inline-flex items-center gap-1 px-2 py-0.5 text-[10px] font-medium rounded-full border cursor-pointer hover:opacity-80 transition-opacity ${getWarningColor(warning.type)}`}
         >
           {getWarningIcon(warning.type)}
@@ -1052,7 +1189,7 @@ function InlineFieldEditorPopover({
               <p className="text-[10px] text-gray-500">#{location.storeCode}</p>
             </div>
           </div>
-          
+
           <div className="space-y-2">
             <label className="text-xs font-medium text-gray-700">{fieldConfig.label}</label>
             <div className="flex gap-2">
@@ -1102,36 +1239,37 @@ const getActionLabel = (errorCode?: SyncErrorCode): string => {
   }
 };
 
-function SyncErrorBubble({ 
-  warning, 
-  onErrorClick 
-}: { 
-  warning: LocationWarning; 
+function SyncErrorBubble({
+  warning,
+  onErrorClick
+}: {
+  warning: LocationWarning;
   onErrorClick: () => void;
 }) {
   const actionLabel = getActionLabel(warning.errorCode);
-  
+  const isWaiting = warning.errorCode === 'rate_limit';
+
   return (
-    <button 
+    <button
       onClick={onErrorClick}
-      className="inline-flex items-center gap-1.5 px-2.5 py-1 text-[10px] font-semibold rounded-full border cursor-pointer transition-all bg-red-50 text-red-700 border-red-300 hover:bg-red-100 hover:border-red-400 hover:shadow-sm active:scale-95"
+      disabled={isWaiting}
+      className={`inline-flex items-center gap-1 px-2 py-1 text-[10px] font-medium rounded-md transition-all duration-150 ${isWaiting ? 'bg-slate-100 text-slate-400 cursor-wait' : 'bg-rose-50 text-rose-600 hover:bg-rose-100 active:scale-95'}`}
     >
       <AlertTriangle className="w-3 h-3" />
-      {actionLabel}
-      <ChevronRight className="w-3 h-3" />
+      <span>{actionLabel}</span>
     </button>
   );
 }
 
-function SmartFixSheet({ 
-  open, 
-  onClose, 
-  warning, 
-  location 
-}: { 
-  open: boolean; 
-  onClose: () => void; 
-  warning: LocationWarning | null; 
+function SmartFixSheet({
+  open,
+  onClose,
+  warning,
+  location
+}: {
+  open: boolean;
+  onClose: () => void;
+  warning: LocationWarning | null;
   location: LocationData | null;
 }) {
   const [coordinates, setCoordinates] = useState({ lat: '', lng: '' });
@@ -1181,15 +1319,15 @@ function SmartFixSheet({
 
   const getErrorDescription = () => {
     switch (errorCode) {
-      case 'auth_expired': 
+      case 'auth_expired':
         return `${getPlatformName()} hesabınızla bağlantı kesildi. Listelenmeye devam etmek için tekrar bağlanmanız gerekiyor.`;
-      case 'missing_coordinates': 
+      case 'missing_coordinates':
         return 'Bu lokasyonun koordinat bilgisi eksik. Haritada listelenebilmesi için enlem ve boylam bilgisi gerekli.';
-      case 'validation_error': 
+      case 'validation_error':
         return 'Gönderilen veri formatı platforma uygun değil. Lütfen aşağıdaki alanı düzeltin.';
-      case 'rate_limit': 
+      case 'rate_limit':
         return 'API istek limiti aşıldı. Birkaç dakika sonra otomatik olarak tekrar denenecek.';
-      default: 
+      default:
         return 'Senkronizasyon sırasında bir hata oluştu.';
     }
   };
@@ -1431,7 +1569,7 @@ function DataQualitySheet({
               </span>
             </div>
             <div className="w-full h-3 bg-gray-200 rounded-full overflow-hidden">
-              <div 
+              <div
                 className={`h-full rounded-full transition-all duration-500 ${progressPercent >= 100 ? 'bg-green-500' : progressPercent >= 70 ? 'bg-yellow-500' : 'bg-red-500'}`}
                 style={{ width: `${progressPercent}%` }}
               />
@@ -1472,8 +1610,8 @@ function DataQualitySheet({
                           />
                         )}
                         <div className="flex gap-2">
-                          <Button 
-                            size="sm" 
+                          <Button
+                            size="sm"
                             className="flex-1 gap-1.5"
                             onClick={() => handleSave(field.key)}
                             disabled={!fieldValues[field.key].trim()}
@@ -1481,9 +1619,9 @@ function DataQualitySheet({
                             <Save className="w-3.5 h-3.5" />
                             Kaydet & Sync Et
                           </Button>
-                          <Button 
-                            size="sm" 
-                            variant="ghost" 
+                          <Button
+                            size="sm"
+                            variant="ghost"
                             onClick={() => setEditingField(null)}
                           >
                             İptal
@@ -1584,7 +1722,7 @@ function ActionsMenu({ location, platform }: { location: LocationData; platform:
   const isPassive = platform.status === 'fully_passive' || platform.status === 'temporarily_passive';
   const isUnverified = platform.status === 'unverified';
   const hasSyncError = platform.warnings.some(w => w.type === 'sync_error');
-  
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -1652,7 +1790,7 @@ export default function LocationStatusTable() {
 
   const filteredLocations = useMemo(() => {
     return mockLocations.filter(location => {
-      const searchMatch = filters.search === '' || 
+      const searchMatch = filters.search === '' ||
         location.name.toLowerCase().includes(filters.search.toLowerCase()) ||
         location.storeCode.toLowerCase().includes(filters.search.toLowerCase()) ||
         location.address.toLowerCase().includes(filters.search.toLowerCase());
@@ -1667,6 +1805,16 @@ export default function LocationStatusTable() {
       return searchMatch && platformMatch && storeSetMatch;
     });
   }, [filters]);
+
+  // Calculate active (verified) locations per platform
+  const platformCounts = useMemo(() => {
+    return {
+      google: filteredLocations.filter(l => l.google.status === 'verified').length,
+      meta: filteredLocations.filter(l => l.meta.status === 'verified').length,
+      apple: filteredLocations.filter(l => l.apple.status === 'verified').length,
+      yandex: filteredLocations.filter(l => l.yandex.status === 'verified').length,
+    };
+  }, [filteredLocations]);
 
   const handleSyncErrorClick = (warning: LocationWarning, location: LocationData) => {
     setSmartFixSheet({ open: true, warning, location });
@@ -1691,7 +1839,7 @@ export default function LocationStatusTable() {
   };
 
   return (
-    <div className="bg-white border border-gray-200 rounded-lg overflow-hidden">
+    <div className="bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden">
       <FilterToolbar
         filters={filters}
         setFilters={setFilters}
@@ -1701,47 +1849,53 @@ export default function LocationStatusTable() {
       />
 
       <table className="w-full">
-        <thead className="bg-gray-50 border-b border-gray-200">
+        <thead className="bg-gradient-to-r from-gray-50 to-gray-100/50 border-b border-gray-200">
           <tr>
-            <th className="text-center px-3 py-3 w-10">
+            <th className="text-center px-3 py-4 w-10">
               <Checkbox
                 checked={selectedIds.size === filteredLocations.length && filteredLocations.length > 0}
                 onChange={toggleSelectAll}
               />
             </th>
-            <th className="text-left text-xs font-medium text-gray-500 uppercase px-4 py-3">Lokasyon</th>
-            <th className="text-center text-xs font-medium text-gray-500 uppercase px-4 py-3">
+            <th className="text-left text-[11px] font-semibold text-gray-600 uppercase tracking-wider px-4 py-4">Lokasyon</th>
+            <th className="text-center text-[11px] font-semibold text-gray-600 uppercase tracking-wider px-4 py-4">Durum</th>
+            <th className="text-center text-[11px] font-semibold text-gray-600 uppercase tracking-wider px-4 py-4">
               <div className="flex items-center justify-center gap-1.5">
                 <SiGoogle className="w-3.5 h-3.5" />
                 Google
+                <span className="text-[10px] font-normal text-gray-400">({platformCounts.google})</span>
               </div>
             </th>
-            <th className="text-center text-xs font-medium text-gray-500 uppercase px-4 py-3">
+            <th className="text-center text-[11px] font-semibold text-gray-600 uppercase tracking-wider px-4 py-4">
               <div className="flex items-center justify-center gap-1.5">
                 <SiMeta className="w-3.5 h-3.5" />
                 Meta
+                <span className="text-[10px] font-normal text-gray-400">({platformCounts.meta})</span>
               </div>
             </th>
-            <th className="text-center text-xs font-medium text-gray-500 uppercase px-4 py-3">
+            <th className="text-center text-[11px] font-semibold text-gray-600 uppercase tracking-wider px-4 py-4">
               <div className="flex items-center justify-center gap-1.5">
                 <SiApple className="w-3.5 h-3.5" />
                 Apple
+                <span className="text-[10px] font-normal text-gray-400">({platformCounts.apple})</span>
               </div>
             </th>
-            <th className="text-center text-xs font-medium text-gray-500 uppercase px-4 py-3">
+            <th className="text-center text-[11px] font-semibold text-gray-600 uppercase tracking-wider px-4 py-4">
               <div className="flex items-center justify-center gap-1.5">
                 <span className="text-red-500 font-bold text-sm">Я</span>
                 Yandex
+                <span className="text-[10px] font-normal text-gray-400">({platformCounts.yandex})</span>
               </div>
             </th>
-            <th className="text-center text-xs font-medium text-gray-500 uppercase px-4 py-3 w-12"></th>
+            <th className="text-center text-[11px] font-semibold text-gray-600 uppercase tracking-wider px-4 py-4 w-12"></th>
           </tr>
         </thead>
         <tbody className="divide-y divide-gray-100">
           {filteredLocations.map((location) => {
             const dataHealth = calculateDataHealth(location);
+            const missingFields = getMissingFields(location);
             return (
-              <tr key={location.id} className={`hover:bg-blue-50/50 transition-colors ${selectedIds.has(location.id) ? 'bg-blue-50' : ''}`}>
+              <tr key={location.id} className={`group transition-all duration-200 hover:bg-gradient-to-r hover:from-blue-50/40 hover:to-indigo-50/40 hover:shadow-sm ${selectedIds.has(location.id) ? 'bg-blue-50/70' : 'bg-white'}`}>
                 <td className="text-center px-3 py-4">
                   <Checkbox
                     checked={selectedIds.has(location.id)}
@@ -1749,48 +1903,62 @@ export default function LocationStatusTable() {
                   />
                 </td>
                 <td className="px-4 py-4">
-                  <button 
+                  <button
                     onClick={() => setEditSheet({ open: true, location })}
                     className="text-left hover:bg-gray-50 rounded-md p-1 -m-1 transition-colors group"
                   >
                     <p className="text-sm font-medium text-gray-900 group-hover:text-blue-600 transition-colors">{location.name}</p>
                     <p className="text-xs text-gray-500">{location.address}</p>
-                    <p className="text-[10px] text-gray-400 mt-0.5">#{location.storeCode}</p>
+                    <p className="text-xs font-semibold text-blue-600 mt-0.5">#{location.storeCode}</p>
                   </button>
-                  <DataHealthBar 
-                    percentage={dataHealth} 
+                  <DataHealthBar
+                    percentage={dataHealth}
+                    missingCount={missingFields.length}
                     onClick={() => setDataQualitySheet({ open: true, location })}
                   />
                 </td>
                 <td className="px-4 py-4">
-                  <PlatformCell 
-                    platform={location.google} 
+                  {(() => {
+                    const statusConfig = getBusinessStatusConfig(location.businessStatus);
+                    return (
+                      <div className="flex items-center justify-center">
+                        <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-medium ${statusConfig.bgColor} ${statusConfig.color}`}>
+                          <span className={`w-1.5 h-1.5 rounded-full ${statusConfig.dotColor}`}></span>
+                          {statusConfig.label}
+                        </span>
+                      </div>
+                    );
+                  })()}
+                </td>
+                <td className="px-4 py-4">
+                  <PlatformCell
+                    platform={location.google}
                     location={location}
                     cellKey={`${location.id}-google`}
                     onSyncErrorClick={(warning) => handleSyncErrorClick(warning, location)}
                   />
                 </td>
                 <td className="px-4 py-4">
-                  <PlatformCell 
-                    platform={location.meta} 
+                  <PlatformCell
+                    platform={location.meta}
                     location={location}
                     cellKey={`${location.id}-meta`}
                     onSyncErrorClick={(warning) => handleSyncErrorClick(warning, location)}
                   />
                 </td>
                 <td className="px-4 py-4">
-                  <PlatformCell 
-                    platform={location.apple} 
+                  <PlatformCell
+                    platform={location.apple}
                     location={location}
                     cellKey={`${location.id}-apple`}
                     onSyncErrorClick={(warning) => handleSyncErrorClick(warning, location)}
                   />
                 </td>
                 <td className="px-4 py-4">
-                  <PlatformCell 
-                    platform={location.yandex} 
+                  <PlatformCell
+                    platform={location.yandex}
                     location={location}
-                    cellKey={`${location.id}-yandex`} 
+                    cellKey={`${location.id}-yandex`}
                     showStatusLabel={false}
                     onSyncErrorClick={(warning) => handleSyncErrorClick(warning, location)}
                   />
@@ -1803,7 +1971,7 @@ export default function LocationStatusTable() {
           })}
           {filteredLocations.length === 0 && (
             <tr>
-              <td colSpan={7} className="px-4 py-12 text-center">
+              <td colSpan={8} className="px-4 py-12 text-center">
                 <div className="text-gray-400">
                   <Search className="w-8 h-8 mx-auto mb-2 opacity-50" />
                   <p className="text-sm">Filtrelerle eşleşen lokasyon bulunamadı</p>
@@ -1813,7 +1981,7 @@ export default function LocationStatusTable() {
           )}
         </tbody>
       </table>
-      
+
       <SmartFixSheet
         open={smartFixSheet.open}
         onClose={() => setSmartFixSheet({ ...smartFixSheet, open: false })}
@@ -1833,87 +2001,84 @@ export default function LocationStatusTable() {
         location={dataQualitySheet.location}
       />
 
-      <BulkActionBar 
-        selectedCount={selectedIds.size} 
-        onClear={() => setSelectedIds(new Set())} 
+      <BulkActionBar
+        selectedCount={selectedIds.size}
+        onClear={() => setSelectedIds(new Set())}
       />
     </div>
   );
 }
 
-function PlatformCell({ 
-  platform, 
+function PlatformCell({
+  platform,
   location,
-  cellKey, 
-  showStatusLabel = true, 
-  onSyncErrorClick 
-}: { 
-  platform: PlatformData; 
+  cellKey,
+  showStatusLabel = true,
+  onSyncErrorClick
+}: {
+  platform: PlatformData;
   location: LocationData;
-  cellKey: string; 
-  showStatusLabel?: boolean; 
+  cellKey: string;
+  showStatusLabel?: boolean;
   onSyncErrorClick?: (warning: LocationWarning) => void;
 }) {
   const [isOpen, setIsOpen] = useState(false);
-  const statusConfig = getStatusConfig(platform.status);
-  const isPassive = platform.status === 'fully_passive' || platform.status === 'temporarily_passive';
+
+  // If business is closed, show passive status for all platforms
+  const isBusinessClosed = location.businessStatus === 'closed' || location.businessStatus === 'temporarily_closed';
+  const effectiveStatus = isBusinessClosed ? 'fully_passive' : platform.status;
+  const statusConfig = getStatusConfig(effectiveStatus);
+  const isPassive = effectiveStatus === 'fully_passive' || effectiveStatus === 'temporarily_passive';
 
   if (isPassive) {
     return (
-      <div className="flex flex-col items-center gap-2">
+      <div className="flex flex-col items-center justify-center h-20 text-center">
         <div className={`flex items-center gap-1.5 ${statusConfig.color}`}>
           {statusConfig.icon}
           <span className="text-xs font-medium">{statusConfig.label}</span>
         </div>
-        <span className="text-[10px] text-gray-400">Henüz sync yok</span>
+        <span className="text-[10px] text-slate-400 mt-1">—</span>
       </div>
     );
   }
 
   const syncErrors = platform.warnings.filter(w => w.type === 'sync_error');
-
   const hasSyncErrors = syncErrors.length > 0;
 
   return (
-    <div className="flex flex-col items-center gap-3">
-      <div className="flex flex-col items-center gap-1">
-        {showStatusLabel && (
-          <div className={`flex items-center gap-1 ${statusConfig.color}`}>
-            {statusConfig.icon}
-            <span className="text-xs font-medium">{statusConfig.label}</span>
-          </div>
-        )}
-        <div className="flex items-center gap-1 text-gray-400">
-          <Clock className="w-3 h-3" />
-          <span className="text-xs">{platform.lastSync || 'Bilgi yok'}</span>
-        </div>
+    <div className="flex flex-col items-center justify-center h-20 text-center">
+      {/* Status Row */}
+      <div className="flex items-center gap-1.5">
+        <span className={`w-2 h-2 rounded-full ${statusConfig.dotColor}`}></span>
+        <span className={`text-xs font-medium ${statusConfig.color}`}>{statusConfig.label}</span>
       </div>
 
+      {/* Timestamp */}
+      <span className="text-[10px] text-slate-400 mt-0.5">{platform.lastSync || '—'}</span>
+
+      {/* Error Actions */}
       {hasSyncErrors && (
-        <div className="flex flex-wrap justify-center gap-1">
-          {syncErrors.slice(0, 2).map((warning, idx) => (
-            <SyncErrorBubble 
+        <div className="flex flex-wrap justify-center gap-1 mt-2">
+          {syncErrors.slice(0, 1).map((warning, idx) => (
+            <SyncErrorBubble
               key={`${cellKey}-${idx}`}
               warning={warning}
               onErrorClick={() => onSyncErrorClick?.(warning)}
             />
           ))}
-          {syncErrors.length > 2 && (
+          {syncErrors.length > 1 && (
             <Popover open={isOpen} onOpenChange={setIsOpen}>
               <PopoverTrigger asChild>
-                <button
-                  className="inline-flex items-center gap-0.5 px-2 py-0.5 text-[10px] font-medium rounded-full border bg-gray-100 text-gray-600 border-gray-200 hover:bg-gray-200 transition-colors cursor-pointer"
-                >
-                  {isOpen ? 'Kapat' : `+${syncErrors.length - 2}`}
-                  <ChevronRight className={`w-3 h-3 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
+                <button className="inline-flex items-center justify-center w-6 h-6 text-[10px] font-semibold rounded-full bg-slate-100 text-slate-600 hover:bg-slate-200 transition-colors">
+                  +{syncErrors.length - 1}
                 </button>
               </PopoverTrigger>
-              <PopoverContent className="w-auto p-2" align="start" side="right" sideOffset={8}>
-                <div className="flex flex-col gap-1.5">
-                  <span className="text-[10px] text-gray-500 font-medium mb-1">Sync Hataları ({syncErrors.length})</span>
-                  {syncErrors.map((warning, idx) => (
-                    <SyncErrorBubble 
-                      key={`${cellKey}-all-${idx}`}
+              <PopoverContent className="w-auto p-3 shadow-lg" align="center" side="bottom" sideOffset={4}>
+                <div className="flex flex-col gap-2">
+                  <span className="text-[10px] text-slate-500 font-medium">Diğer Hatalar</span>
+                  {syncErrors.slice(1).map((warning, idx) => (
+                    <SyncErrorBubble
+                      key={`${cellKey}-more-${idx}`}
                       warning={warning}
                       onErrorClick={() => onSyncErrorClick?.(warning)}
                     />
