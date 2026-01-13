@@ -220,7 +220,14 @@ const mockLocations: LocationData[] = [
       ]
     },
     apple: { status: 'verified', lastSync: '2 saat önce', warnings: [] },
-    yandex: { status: 'verified', lastSync: '30 dk önce', warnings: [] }
+    yandex: { 
+      status: 'action_required', 
+      lastSync: '30 dk önce', 
+      warnings: [
+        { type: 'sync_error', label: 'Telefon Eksik', errorCode: 'validation_error', platform: 'yandex', errorLog: 'Missing required field: phone' },
+        { type: 'sync_error', label: 'Koordinat Eksik', errorCode: 'missing_coordinates', platform: 'yandex', errorLog: 'Missing required field: coordinates' }
+      ]
+    }
   },
 
   // 3. GEO ERROR (Koordinat Eksik - Google)
@@ -285,7 +292,15 @@ const mockLocations: LocationData[] = [
       ]
     },
     apple: { status: 'verified', lastSync: '1 saat önce', warnings: [] },
-    yandex: { status: 'verified', lastSync: '2 saat önce', warnings: [] }
+    yandex: { 
+      status: 'action_required', 
+      lastSync: '2 saat önce', 
+      warnings: [
+        { type: 'sync_error', label: 'Website Eksik', errorCode: 'validation_error', platform: 'yandex', errorLog: 'Missing required field: website' },
+        { type: 'sync_error', label: 'Çalışma Saatleri Eksik', errorCode: 'validation_error', platform: 'yandex', errorLog: 'Missing required field: working_hours' },
+        { type: 'sync_error', label: 'Kategori Eksik', errorCode: 'validation_error', platform: 'yandex', errorLog: 'Missing required field: category' }
+      ]
+    }
   },
 
   // 5. RATE LIMIT (Trafik - Apple)
