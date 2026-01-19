@@ -6,6 +6,7 @@ import Overview from "@/pages/overview";
 import OfflineConversions from "@/pages/offline-conversions";
 import OfflineConversionsMVP from "@/pages/offline-conversionsMVP";
 import Locations from "@/pages/locations";
+import Locations2 from "@/pages/locations2";
 import Reviews from "@/pages/reviews";
 import ReviewsX from "@/pages/reviewsX";
 import ReviewsMVP from "@/pages/reviewsMVP";
@@ -52,7 +53,7 @@ function Router() {
       <Route path="/welcome" component={Welcome} />
       <Route path="/setup3" component={Setup3} />
       <Route path="/setup3B" component={Setup3B} />
-      
+
       {/* Main app with sidebar */}
       <Route>
         <div className="flex min-h-screen bg-white dark:bg-gray-900">
@@ -64,6 +65,7 @@ function Router() {
               <Route path="/offline-conversionsMVP" component={OfflineConversionsMVP} />
               <Route path="/locations" component={Locations} />
               <Route path="/locations/posts" component={Locations} />
+              <Route path="/locations2" component={Locations2} />
               <Route path="/reviews" component={Reviews} />
               <Route path="/reviewsX" component={ReviewsX} />
               <Route path="/reviewsMVP" component={ReviewsMVP} />

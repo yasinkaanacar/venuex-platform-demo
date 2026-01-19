@@ -1,7 +1,7 @@
 import { useState, useMemo, useEffect } from 'react';
 import { Link } from 'wouter';
 import { SiGoogle, SiMeta, SiApple } from 'react-icons/si';
-import { Clock, AlertTriangle, AlertCircle, CheckCircle2, Phone, Mail, MapPin, Image, ShieldCheck, ShieldAlert, XCircle, PauseCircle, ChevronRight, MoreHorizontal, RefreshCw, Link2, Unlink, ExternalLink, Download, X, Save, Upload, Layers, Search, Filter, Building2, Ban, Unplug, Clock3, Trash2, XOctagon, Plus } from 'lucide-react';
+import { Clock, AlertTriangle, AlertCircle, CheckCircle2, Phone, Mail, MapPin, Image, ShieldCheck, ShieldAlert, XCircle, PauseCircle, ChevronRight, MoreHorizontal, RefreshCw, Link2, Unlink, ExternalLink, Download, X, Save, Upload, Layers, Search, Filter, Building2, Ban, Unplug, Clock3, Trash2, XOctagon, Plus, Pencil, Info, Edit } from 'lucide-react';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
@@ -1287,7 +1287,12 @@ function ActionsMenu({ location, platform }: { location: LocationData; platform:
   );
 }
 
-export default function LocationStatusTable() {
+interface LocationStatusTableProps {
+  onAddNewLocation?: () => void;
+  onUploadLocations?: () => void;
+}
+
+export default function LocationStatusTable({ onAddNewLocation, onUploadLocations }: LocationStatusTableProps) {
   const [selectedIds, setSelectedIds] = useState<Set<number>>(new Set());
   const [filters, setFilters] = useState<FilterState>(initialFilters);
   const [smartFixSheet, setSmartFixSheet] = useState<{ open: boolean; warning: LocationWarning | null; location: LocationData | null }>({
@@ -1389,9 +1394,44 @@ export default function LocationStatusTable() {
   return (
     <div className="bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden">
       {/* Header */}
-      <div className="px-4 py-4 border-b border-gray-100 bg-gradient-to-b from-white to-gray-50/50">
-        <h3 className="text-base font-semibold text-gray-900">Lokasyonlar</h3>
-        <p className="text-xs text-gray-500 mt-1">Tüm lokasyonların platform durumları ve senkronizasyon bilgileri</p>
+      <div className="px-4 py-4 border-b border-gray-100 bg-gradient-to-b from-white to-gray-50/50 flex items-center justify-between gap-4">
+        <div>
+          <div className="flex items-center gap-1.5">
+            <h3 className="text-base font-semibold text-gray-900">Lokasyonlar</h3>
+            <div className="relative group">
+              <Info className="w-3.5 h-3.5 text-gray-400 cursor-help" />
+              <div className="absolute left-full top-1/2 -translate-y-1/2 ml-2 px-3 py-2 bg-gray-900 text-white text-xs rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 whitespace-nowrap z-[9999]">
+                Her lokasyonun platform bazında canlı durumunu ve senkronizasyon hatalarını gösterir.
+                <div className="absolute right-full top-1/2 -translate-y-1/2 w-0 h-0 border-t-4 border-b-4 border-r-4 border-transparent border-r-gray-900"></div>
+              </div>
+            </div>
+          </div>
+          <p className="text-xs text-gray-500 mt-1">Tüm lokasyonların platform durumları ve senkronizasyon bilgileri</p>
+        </div>
+
+        <div className="flex items-center gap-3">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={onAddNewLocation}
+            className="h-9 bg-white hover:bg-gray-50 text-gray-700 border-gray-300 shadow-sm"
+            data-testid="btn-add-new-location"
+          >
+            <Plus className="w-3.5 h-3.5 mr-1.5" />
+            Yeni Lokasyon Ekle
+          </Button>
+
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={onUploadLocations}
+            className="h-9 bg-white hover:bg-gray-50 text-gray-700 border-gray-300 shadow-sm"
+            data-testid="btn-bulk-updates"
+          >
+            <Edit className="w-3.5 h-3.5 mr-1.5" />
+            Toplu Güncelleme
+          </Button>
+        </div>
       </div>
 
       <FilterToolbar
@@ -1527,7 +1567,16 @@ export default function LocationStatusTable() {
                   />
                 </td>
                 <td className="px-4 py-4">
-                  <ActionsMenu location={location} platform={location.google} />
+                  <div className="flex items-center gap-1">
+                    <button
+                      onClick={() => setEditSheet({ open: true, location })}
+                      className="p-1.5 hover:bg-blue-100 rounded-md transition-colors group/edit"
+                      title="Düzenle"
+                    >
+                      <Pencil className="w-4 h-4 text-gray-400 group-hover/edit:text-blue-600" />
+                    </button>
+                    <ActionsMenu location={location} platform={location.google} />
+                  </div>
                 </td>
               </tr>
             );

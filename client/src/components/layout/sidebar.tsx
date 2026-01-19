@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import { Link, useLocation } from 'wouter';
-import { 
-  BarChart3, 
-  MapPin, 
-  Package, 
-  ArrowRightLeft, 
-  CheckCircle, 
+import {
+  BarChart3,
+  MapPin,
+  Package,
+  ArrowRightLeft,
+  CheckCircle,
   Bell,
   ChevronDown,
   ChevronRight,
@@ -36,11 +36,12 @@ const navigationGroups = [
     title: "LOCATION",
     items: [
       { name: 'Locations', href: '/locations', icon: MapPin },
+      { name: 'Locations2', href: '/locations2', icon: MapPin },
       { name: 'Reviews', href: '/reviewsMVP', icon: MessageSquare }
     ]
   },
   {
-    title: "SALES", 
+    title: "SALES",
     items: [
       { name: 'Local Inventory', href: '/catalog', icon: Package },
       { name: 'Offline Conversions', href: '/offline-conversionsMVP', icon: TrendingUp }
@@ -95,16 +96,16 @@ export default function Sidebar({ collapsed, onToggle }: SidebarProps) {
         <Link href="/">
           <div className="flex items-center justify-center h-full cursor-pointer">
             {!collapsed && (
-              <img 
-                src={venueXLogo} 
-                alt="VenueX Logo" 
+              <img
+                src={venueXLogo}
+                alt="VenueX Logo"
                 className="w-[183px] h-[183px] object-contain"
               />
             )}
             {collapsed && (
-              <img 
-                src={venueXFavicon} 
-                alt="VenueX Logo" 
+              <img
+                src={venueXFavicon}
+                alt="VenueX Logo"
                 className="w-10 h-10 object-contain"
               />
             )}
@@ -118,9 +119,9 @@ export default function Sidebar({ collapsed, onToggle }: SidebarProps) {
             <div className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-800 rounded-md border border-gray-200 dark:border-gray-700">
               <div className="flex items-center space-x-3">
                 <div className="w-10 h-10 rounded-lg bg-white flex items-center justify-center shadow-sm overflow-hidden">
-                  <img 
-                    src={venueXLogoSmall} 
-                    alt="VenueX Logo" 
+                  <img
+                    src={venueXLogoSmall}
+                    alt="VenueX Logo"
                     className="w-8 h-8 object-contain"
                   />
                 </div>
@@ -130,7 +131,7 @@ export default function Sidebar({ collapsed, onToggle }: SidebarProps) {
             </div>
           </div>
         )}
-        
+
         {/* Toggle Button - only show here when expanded */}
         {!collapsed && (
           <button
@@ -151,12 +152,12 @@ export default function Sidebar({ collapsed, onToggle }: SidebarProps) {
             return (
               <li key={item.name}>
                 <Link href={item.href}>
-                  <div 
+                  <div
                     className={cn(
                       "flex items-center rounded-md text-sm transition-colors cursor-pointer",
                       collapsed ? "px-3 py-2 justify-center" : "space-x-3 px-3 py-2",
-                      isActive 
-                        ? "bg-blue-600 text-white" 
+                      isActive
+                        ? "bg-blue-600 text-white"
                         : "text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800"
                     )}
                     data-testid={`nav-${item.name.toLowerCase().replace(/\s+/g, '-')}`}
@@ -169,7 +170,7 @@ export default function Sidebar({ collapsed, onToggle }: SidebarProps) {
               </li>
             );
           })}
-          
+
           {/* Grouped Items */}
           {navigationGroups.map((group, index) => (
             <li key={group.title} className={index === 0 ? "pt-4" : "pt-4"}>
@@ -182,18 +183,18 @@ export default function Sidebar({ collapsed, onToggle }: SidebarProps) {
                 {group.items.map((item) => {
                   const isActive = location === item.href;
                   const isVenueXAI = item.name === 'VenueX AI';
-                  
+
                   return (
                     <li key={item.name}>
                       {isVenueXAI && !collapsed ? (
                         <div>
                           <div className="flex items-center">
                             <Link href={item.href} className="flex-1">
-                              <div 
+                              <div
                                 className={cn(
                                   "flex items-center rounded-md text-sm transition-colors cursor-pointer space-x-3 px-3 py-2",
-                                  isActive 
-                                    ? "bg-blue-600 text-white" 
+                                  isActive
+                                    ? "bg-blue-600 text-white"
                                     : "text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800"
                                 )}
                                 data-testid={`nav-${item.name.toLowerCase().replace(/\s+/g, '-')}`}
@@ -219,7 +220,7 @@ export default function Sidebar({ collapsed, onToggle }: SidebarProps) {
                               {recentChats.map((chat) => (
                                 <li key={chat.id}>
                                   <Link href="/venuex-ai">
-                                    <div 
+                                    <div
                                       className="px-3 py-1.5 text-xs text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded cursor-pointer truncate"
                                       data-testid={`chat-link-${chat.id}`}
                                       title={chat.title}
@@ -234,12 +235,12 @@ export default function Sidebar({ collapsed, onToggle }: SidebarProps) {
                         </div>
                       ) : (
                         <Link href={item.href}>
-                          <div 
+                          <div
                             className={cn(
                               "flex items-center rounded-md text-sm transition-colors cursor-pointer",
                               collapsed ? "px-3 py-2 justify-center" : "space-x-3 px-3 py-2",
-                              isActive 
-                                ? "bg-blue-600 text-white" 
+                              isActive
+                                ? "bg-blue-600 text-white"
                                 : "text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800"
                             )}
                             data-testid={`nav-${item.name.toLowerCase().replace(/\s+/g, '-')}`}
@@ -256,7 +257,7 @@ export default function Sidebar({ collapsed, onToggle }: SidebarProps) {
               </ul>
             </li>
           ))}
-          
+
           {/* Toggle Button - only show here when collapsed, at the end of menu */}
           {collapsed && (
             <li>

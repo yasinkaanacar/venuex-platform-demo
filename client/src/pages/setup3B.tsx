@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
-import { 
-  Building2, 
-  MapPin, 
-  ShoppingCart, 
+import {
+  Building2,
+  MapPin,
+  ShoppingCart,
   Package,
   Plug,
   Unplug,
@@ -27,7 +27,7 @@ import {
 import koctasLogo from '@assets/image_1764932445923.png';
 import venuexLogo from '@assets/venuex-logo-1000-200_1766151107474.png';
 import { SiGoogle, SiMeta, SiTiktok, SiApple } from 'react-icons/si';
-import { 
+import {
   Dialog,
   DialogTitle,
   DialogContent,
@@ -237,7 +237,7 @@ const stepGuides: Record<string, StepGuide> = {
 };
 
 const testimonials = [
-  { 
+  {
     quote: "1P mağaza verilerimizi dijital kanallarla ilişkilendirerek dijital kampanyalarımızın gerçek dönüşümlerini ölçümledik ve reklam performansımızı zirveye taşıdık.",
     name: "Mehmet Emre",
     role: "Kıdemli Pazarlama ve Kurumsal İletişim Müdürü",
@@ -245,7 +245,7 @@ const testimonials = [
     kpi: "4.6x",
     kpiLabel: "Offline ROAS"
   },
-  { 
+  {
     quote: "VenueX helped us uncover the true impact of our digital campaigns on store sales—unlocking higher returns and smarter spend allocation.",
     name: "Mustafa Cengiz",
     role: "Director of Growth & Digital Marketing",
@@ -253,7 +253,7 @@ const testimonials = [
     kpi: "3x",
     kpiLabel: "Offline ROAS"
   },
-  { 
+  {
     quote: "Performans ve büyüme odaklı dijital pazarlama çözümleri sunan Ingage olarak, iş ortağımız VenueX ile Koçtaş'ın omnichannel deneyimini güçlendirdik.",
     name: "Kemal Kar",
     role: "Teknoloji ve Ürün Direktörü",
@@ -261,7 +261,7 @@ const testimonials = [
     kpi: "+112%",
     kpiLabel: "Mağaza Ziyareti"
   },
-  { 
+  {
     quote: "VenueX integrated our CRM, POS, and inventory systems with major digital platforms enabling end-to-end visibility and optimization.",
     name: "Mustafa Cengiz",
     role: "Director of Growth & Digital Marketing",
@@ -345,6 +345,20 @@ export default function Setup3B() {
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
+
+  // Read URL hash to set initial step
+  useEffect(() => {
+    const hash = window.location.hash.replace('#', '');
+    const stepMap: Record<string, number> = {
+      'brand': 0,
+      'locations': 1,
+      'sales': 2,
+      'catalog': 3
+    };
+    if (hash && stepMap[hash] !== undefined) {
+      setActiveStep(stepMap[hash]);
+    }
   }, []);
   const [brandInfo, setBrandInfo] = useState({
     businessName: 'Demo VenueX',
@@ -438,7 +452,7 @@ export default function Setup3B() {
           <div className="absolute top-20 left-20 w-72 h-72 bg-white rounded-full blur-3xl" />
           <div className="absolute bottom-20 right-20 w-96 h-96 bg-white rounded-full blur-3xl" />
         </div>
-        
+
         {/* Logo */}
         <div className="relative z-10 mb-8">
           <div className="flex items-center gap-3">
@@ -483,14 +497,14 @@ export default function Setup3B() {
                           {section.items.map((item, itemIdx) => {
                             const checkKey = `${guideKey}-${idx}-${itemIdx}`;
                             const isChecked = checkedItems[checkKey] || false;
-                            
+
                             if (isBeforeSection(section.heading)) {
                               return (
-                                <li 
+                                <li
                                   key={itemIdx}
                                   className="flex items-start gap-2 text-white/80 text-xs"
                                 >
-                                  <div 
+                                  <div
                                     className={`w-4 h-4 rounded border-2 flex-shrink-0 mt-0.5 flex items-center justify-center transition-all cursor-pointer ${isChecked ? 'bg-green-500 border-green-500' : 'border-white/50 hover:border-white'}`}
                                     onClick={() => toggleCheckItem(checkKey)}
                                   >
@@ -505,7 +519,7 @@ export default function Setup3B() {
                                 </li>
                               );
                             }
-                            
+
                             return (
                               <li key={itemIdx} className="flex items-start gap-2 text-white/80 text-xs">
                                 <ChevronRight className="w-3 h-3 mt-0.5 flex-shrink-0" />
@@ -561,101 +575,99 @@ export default function Setup3B() {
       {/* Right Side - Setup Content */}
       <div className="flex-1 bg-gray-50 overflow-y-auto h-screen">
         {/* Page Header */}
-      <div className="bg-white border-b border-gray-200 px-6 py-4 sticky top-0 z-10">
-        <div className="flex items-center justify-between">
-          <div>
-            <div className="flex items-center gap-2 mb-1">
-              <span className="px-2 py-0.5 bg-blue-100 text-blue-700 text-xs font-medium rounded">#{integrationId}</span>
-              <span className="text-gray-400">•</span>
-              <span className="text-sm text-gray-600">{companyName}</span>
-            </div>
-            <h1 className="text-xl font-semibold text-gray-900">Account Setup</h1>
-          </div>
-          <div className="flex items-center gap-3">
-            {adminMode && (
-              <button
-                onClick={() => {
-                  setAdminMode(false);
-                  localStorage.setItem('venuex_admin_mode', 'false');
-                }}
-                className="flex items-center gap-1.5 px-2 py-1 text-xs font-medium text-orange-700 bg-orange-100 border border-orange-200 rounded-lg hover:bg-orange-200 transition-all"
-                title="Admin Mode aktif - tüm adımları atlayabilirsiniz. Kapatmak için tıklayın veya Ctrl+Shift+A"
-                data-testid="admin-mode-badge"
-              >
-                <Shield size={12} />
-                Admin
-              </button>
-            )}
-            <div className="text-right mr-4">
-              <span className="text-sm text-gray-500">Progress</span>
-              <div className="flex items-center gap-2">
-                <div className="w-24 h-2 bg-gray-200 rounded-full overflow-hidden">
-                  <div className="h-full bg-blue-600 rounded-full transition-all" style={{ width: `${adminMode ? 100 : progressPercent}%` }} />
-                </div>
-                <span className="text-sm font-medium text-blue-600">{adminMode ? 100 : progressPercent}%</span>
+        <div className="bg-white border-b border-gray-200 px-6 py-4 sticky top-0 z-10">
+          <div className="flex items-center justify-between">
+            <div>
+              <div className="flex items-center gap-2 mb-1">
+                <span className="px-2 py-0.5 bg-blue-100 text-blue-700 text-xs font-medium rounded">#{integrationId}</span>
+                <span className="text-gray-400">•</span>
+                <span className="text-sm text-gray-600">{companyName}</span>
               </div>
+              <h1 className="text-xl font-semibold text-gray-900">Account Setup</h1>
             </div>
-            <button
-              onClick={() => setInviteTeamModalOpen(true)}
-              className="flex items-center gap-2 px-3 py-2 text-sm text-gray-600 hover:text-gray-900 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 transition-all"
-              data-testid="button-invite-team"
-            >
-              <Users size={16} />
-              Invite Team
-            </button>
+            <div className="flex items-center gap-3">
+              {adminMode && (
+                <button
+                  onClick={() => {
+                    setAdminMode(false);
+                    localStorage.setItem('venuex_admin_mode', 'false');
+                  }}
+                  className="flex items-center gap-1.5 px-2 py-1 text-xs font-medium text-orange-700 bg-orange-100 border border-orange-200 rounded-lg hover:bg-orange-200 transition-all"
+                  title="Admin Mode aktif - tüm adımları atlayabilirsiniz. Kapatmak için tıklayın veya Ctrl+Shift+A"
+                  data-testid="admin-mode-badge"
+                >
+                  <Shield size={12} />
+                  Admin
+                </button>
+              )}
+              <div className="text-right mr-4">
+                <span className="text-sm text-gray-500">Progress</span>
+                <div className="flex items-center gap-2">
+                  <div className="w-24 h-2 bg-gray-200 rounded-full overflow-hidden">
+                    <div className="h-full bg-blue-600 rounded-full transition-all" style={{ width: `${adminMode ? 100 : progressPercent}%` }} />
+                  </div>
+                  <span className="text-sm font-medium text-blue-600">{adminMode ? 100 : progressPercent}%</span>
+                </div>
+              </div>
+              <button
+                onClick={() => setInviteTeamModalOpen(true)}
+                className="flex items-center gap-2 px-3 py-2 text-sm text-gray-600 hover:text-gray-900 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 transition-all"
+                data-testid="button-invite-team"
+              >
+                <Users size={16} />
+                Invite Team
+              </button>
+            </div>
           </div>
         </div>
-      </div>
 
-      {/* Main Content */}
-      <div className="p-6">
-        <div className="max-w-4xl mx-auto">
-          {/* Horizontal Step Tabs */}
-          <div className="bg-white rounded-lg border border-gray-200 p-1 mb-6">
-            <div className="flex gap-1">
-              {steps.map((step, index) => {
-                const isActive = index === activeStep;
-                const isCompleted = adminMode || index < activeStep;
-                const Icon = step.icon;
-                
-                return (
-                  <button
-                    key={step.id}
-                    onClick={() => setActiveStep(index)}
-                    className={`flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-lg transition-all ${
-                      isActive 
-                        ? 'bg-blue-600 text-white' 
-                        : 'hover:bg-gray-50 text-gray-600'
-                    }`}
-                    data-testid={`step-tab-${index}`}
-                  >
-                    <div className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-medium ${
-                      isCompleted 
-                        ? 'bg-green-500 text-white' 
-                        : isActive 
-                          ? 'bg-white text-blue-600' 
-                          : 'bg-gray-100 text-gray-500'
-                    }`}>
-                      {isCompleted ? <Check size={12} /> : index + 1}
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <Icon size={16} className={isActive ? 'text-white' : 'text-gray-400'} />
-                      <span className={`text-sm font-medium ${isActive ? 'text-white' : 'text-gray-700'}`}>
-                        {step.label}
-                      </span>
-                    </div>
-                  </button>
-                );
-              })}
+        {/* Main Content */}
+        <div className="p-6">
+          <div className="max-w-4xl mx-auto">
+            {/* Horizontal Step Tabs */}
+            <div className="bg-white rounded-lg border border-gray-200 p-1 mb-6">
+              <div className="flex gap-1">
+                {steps.map((step, index) => {
+                  const isActive = index === activeStep;
+                  const isCompleted = adminMode || index < activeStep;
+                  const Icon = step.icon;
+
+                  return (
+                    <button
+                      key={step.id}
+                      onClick={() => setActiveStep(index)}
+                      className={`flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-lg transition-all ${isActive
+                          ? 'bg-blue-600 text-white'
+                          : 'hover:bg-gray-50 text-gray-600'
+                        }`}
+                      data-testid={`step-tab-${index}`}
+                    >
+                      <div className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-medium ${isCompleted
+                          ? 'bg-green-500 text-white'
+                          : isActive
+                            ? 'bg-white text-blue-600'
+                            : 'bg-gray-100 text-gray-500'
+                        }`}>
+                        {isCompleted ? <Check size={12} /> : index + 1}
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <Icon size={16} className={isActive ? 'text-white' : 'text-gray-400'} />
+                        <span className={`text-sm font-medium ${isActive ? 'text-white' : 'text-gray-700'}`}>
+                          {step.label}
+                        </span>
+                      </div>
+                    </button>
+                  );
+                })}
+              </div>
             </div>
-          </div>
             {/* Brand Info */}
             {activeStep === 0 && (
               <div data-testid="tab-panel-brand">
                 <div className="bg-white rounded-lg border border-gray-200 p-6">
                   <h2 className="text-lg font-semibold text-gray-900 mb-1">Brand Information</h2>
                   <p className="text-sm text-gray-500 mb-6">Keep your brand details consistent across all platforms</p>
-                  
+
                   <div className="space-y-5">
                     {/* Logo */}
                     <div>
@@ -823,7 +835,7 @@ export default function Setup3B() {
                 <div className="bg-white rounded-lg border border-gray-200 p-6">
                   <h2 className="text-lg font-semibold text-gray-900 mb-1">Sales Data</h2>
                   <p className="text-sm text-gray-500 mb-6">Connect your sales data sources and ad platforms</p>
-                  
+
                   <div className="flex gap-3 mb-6">
                     <button
                       onClick={() => setSalesDataModalOpen(true)}
@@ -855,7 +867,7 @@ export default function Setup3B() {
                 <div className="bg-white rounded-lg border border-gray-200 p-6">
                   <h2 className="text-lg font-semibold text-gray-900 mb-1">Catalog Data</h2>
                   <p className="text-sm text-gray-500 mb-6">Sync your product catalog across platforms</p>
-                  
+
                   <div className="flex gap-3 mb-6">
                     <button className="flex items-center gap-2 px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors">
                       <Database size={16} /> 1. Connect Data Source
@@ -874,8 +886,8 @@ export default function Setup3B() {
                 </div>
               </div>
             )}
+          </div>
         </div>
-      </div>
       </div>
 
       {/* Sales Data Modal */}
@@ -1066,10 +1078,10 @@ export default function Setup3B() {
             <div className="grid grid-cols-2 gap-3">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1.5">First Name</label>
-                <input 
+                <input
                   type="text"
-                  value={inviteForm.firstName} 
-                  onChange={(e) => handleInviteFormChange('firstName', e.target.value)} 
+                  value={inviteForm.firstName}
+                  onChange={(e) => handleInviteFormChange('firstName', e.target.value)}
                   className="w-full px-3 py-2.5 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                   placeholder="John"
                   data-testid="input-first-name"
@@ -1077,25 +1089,25 @@ export default function Setup3B() {
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1.5">Last Name</label>
-                <input 
+                <input
                   type="text"
-                  value={inviteForm.lastName} 
-                  onChange={(e) => handleInviteFormChange('lastName', e.target.value)} 
+                  value={inviteForm.lastName}
+                  onChange={(e) => handleInviteFormChange('lastName', e.target.value)}
                   className="w-full px-3 py-2.5 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                   placeholder="Doe"
                   data-testid="input-last-name"
                 />
               </div>
             </div>
-            
+
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1.5">Email Address</label>
               <div className="relative">
                 <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
-                <input 
+                <input
                   type="email"
-                  value={inviteForm.email} 
-                  onChange={(e) => handleInviteFormChange('email', e.target.value)} 
+                  value={inviteForm.email}
+                  onChange={(e) => handleInviteFormChange('email', e.target.value)}
                   className="w-full pl-10 pr-3 py-2.5 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                   placeholder="john@company.com"
                   data-testid="input-email"
@@ -1114,11 +1126,10 @@ export default function Setup3B() {
                     key={role.value}
                     type="button"
                     onClick={() => handleInviteFormChange('role', role.value)}
-                    className={`p-3 rounded-lg border-2 transition-all text-center ${
-                      inviteForm.role === role.value
+                    className={`p-3 rounded-lg border-2 transition-all text-center ${inviteForm.role === role.value
                         ? 'border-blue-500 bg-blue-50'
                         : 'border-gray-200 hover:border-gray-300 bg-white'
-                    }`}
+                      }`}
                   >
                     <role.icon className={`w-5 h-5 mx-auto mb-1 ${inviteForm.role === role.value ? 'text-blue-600' : 'text-gray-400'}`} />
                     <p className={`text-sm font-medium ${inviteForm.role === role.value ? 'text-blue-900' : 'text-gray-700'}`}>{role.value}</p>
@@ -1153,16 +1164,14 @@ export default function Setup3B() {
                           <td className="px-3 py-2 text-gray-900">{user.firstName} {user.lastName}</td>
                           <td className="px-3 py-2 text-gray-600">{user.email}</td>
                           <td className="px-3 py-2">
-                            <span className={`inline-flex px-2 py-0.5 text-xs font-medium rounded ${
-                              user.role === 'Admin' ? 'bg-purple-100 text-purple-700' :
-                              user.role === 'Manager' ? 'bg-blue-100 text-blue-700' :
-                              'bg-gray-100 text-gray-600'
-                            }`}>{user.role}</span>
+                            <span className={`inline-flex px-2 py-0.5 text-xs font-medium rounded ${user.role === 'Admin' ? 'bg-purple-100 text-purple-700' :
+                                user.role === 'Manager' ? 'bg-blue-100 text-blue-700' :
+                                  'bg-gray-100 text-gray-600'
+                              }`}>{user.role}</span>
                           </td>
                           <td className="px-3 py-2">
-                            <span className={`inline-flex items-center gap-1 px-2 py-0.5 text-xs font-medium rounded ${
-                              user.status === 'accepted' ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700'
-                            }`}>
+                            <span className={`inline-flex items-center gap-1 px-2 py-0.5 text-xs font-medium rounded ${user.status === 'accepted' ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700'
+                              }`}>
                               {user.status === 'accepted' ? (
                                 <><Check size={10} /> Accepted</>
                               ) : (

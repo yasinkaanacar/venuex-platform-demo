@@ -1,4 +1,6 @@
 import LocationStatusTable from '@/components/locations/LocationStatusTable';
+import PlatformSummaryNew from '@/components/locations/PlatformSummaryNew';
+
 
 interface ComponentSectionProps {
   title: string;
@@ -29,8 +31,15 @@ export default function Components() {
       </div>
 
       <div className="space-y-6">
-        <ComponentSection 
-          title="LocationStatusTable" 
+        <ComponentSection
+          title="Platform Summary New"
+          description="Status checks & platform performance (New)"
+        >
+          <PlatformSummaryNew />
+        </ComponentSection>
+
+        <ComponentSection
+          title="LocationStatusTable"
           description="Platform activity, sync status, and warning indicators"
         >
           <LocationStatusTable />
