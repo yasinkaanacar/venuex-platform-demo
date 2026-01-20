@@ -33,19 +33,39 @@ export function FilterBar({
   filters,
   onFiltersChange,
 }: FilterBarProps) {
-  const cities = ["Istanbul", "Ankara", "İzmir", "Bursa", "Antalya", "Gaziantep"];
-  const businessStatuses = ["Open", "Closed", "Temporarily Closed"];
-  const platformStatuses = ["Optimal Waiting", "Needs Attention", "Connected"];
-  const storeSets = ["SMR", "Premium", "Express", "Standard", "Regional"];
-  const platforms = ["Google", "Facebook", "Instagram", "TikTok", "Apple Maps"];
-  
+  const businessStatuses = [
+    { value: "open", label: "Açık" },
+    { value: "temporarily_closed", label: "Geçici Kapalı" },
+    { value: "closed", label: "Kalıcı Kapalı" }
+  ];
+  const platformStatuses = [
+    { value: "live", label: "Yayında" },
+    { value: "pending", label: "Bekliyor" },
+    { value: "action_required", label: "Aksiyon Gerekli" },
+    { value: "suspended", label: "Askıda" },
+    { value: "rejected", label: "Reddedildi" }
+  ];
+  const storeSets = [
+    { value: "flagship", label: "Flagship" },
+    { value: "premium", label: "Premium" },
+    { value: "standard", label: "Standard" },
+    { value: "express", label: "Express" },
+    { value: "outlet", label: "Outlet" }
+  ];
+  const platforms = [
+    { value: "google", label: "Google" },
+    { value: "meta", label: "Meta" },
+    { value: "apple", label: "Apple" },
+    { value: "yandex", label: "Yandex" }
+  ];
+
   const dateRangePresets = [
-    { label: "Last 7 days", value: "7d" },
-    { label: "Last 30 days", value: "30d" },
-    { label: "Last 90 days", value: "90d" },
-    { label: "This month", value: "month" },
-    { label: "Last month", value: "lastMonth" },
-    { label: "Custom range", value: "custom" },
+    { label: "Son 7 gün", value: "7d" },
+    { label: "Son 30 gün", value: "30d" },
+    { label: "Son 90 gün", value: "90d" },
+    { label: "Bu ay", value: "month" },
+    { label: "Geçen ay", value: "lastMonth" },
+    { label: "Özel aralık", value: "custom" },
   ];
 
   const handleFilterChange = (key: keyof LocationsFilterState, value: string) => {
@@ -59,7 +79,7 @@ export function FilterBar({
     const today = new Date();
     let startDate: Date;
     let endDate = today;
-    
+
     switch (preset) {
       case "7d":
         startDate = subDays(today, 7);
@@ -80,7 +100,7 @@ export function FilterBar({
       default:
         startDate = subDays(today, 30);
     }
-    
+
     onFiltersChange({
       ...filters,
       dateRange: preset,
@@ -131,10 +151,10 @@ export function FilterBar({
       <div className="px-6 py-3">
         <div className="flex items-center gap-3">
           {/* Search */}
-          <div className="relative flex-1 max-w-[400px]">
+          <div className="relative flex-1 max-w-[300px]">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
             <Input
-              placeholder="Search by store code, store name or address"
+              placeholder="Mağaza kodu, isim veya adres ara"
               value={filters.search}
               onChange={(e) => handleFilterChange('search', e.target.value)}
               className="pl-10"
@@ -143,54 +163,54 @@ export function FilterBar({
           </div>
 
           {/* Business Status Filter */}
-          <Select value={filters.businessStatus || "All"} onValueChange={(value) => handleFilterChange('businessStatus', value === "All" ? "" : value)}>
-            <SelectTrigger className="w-[150px]" data-testid="filter-business-status">
+          <Select value={filters.businessStatus || "all"} onValueChange={(value) => handleFilterChange('businessStatus', value === "all" ? "" : value)}>
+            <SelectTrigger className="w-[140px]" data-testid="filter-business-status">
               <div className="flex flex-col items-start w-full">
-                <div className="text-xs text-gray-500">Business Status</div>
-                <div className="text-sm">{filters.businessStatus || "All"}</div>
+                <div className="text-xs text-gray-500">İşletme Durumu</div>
+                <div className="text-sm">{businessStatuses.find(s => s.value === filters.businessStatus)?.label || "Tümü"}</div>
               </div>
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="All">All</SelectItem>
-              {businessStatuses.map((status) => (
-                <SelectItem key={status} value={status}>
-                  {status}
+              <SelectItem value="all">Tümü</SelectItem>
+              {businessStatuses.map(({ value, label }) => (
+                <SelectItem key={value} value={value}>
+                  {label}
                 </SelectItem>
               ))}
             </SelectContent>
           </Select>
 
-          {/* Platform Status Filter */}
-          <Select value={filters.platformStatus || "All"} onValueChange={(value) => handleFilterChange('platformStatus', value === "All" ? "" : value)}>
-            <SelectTrigger className="w-[150px]" data-testid="filter-platform-status">
+          {/* Durum Filter */}
+          <Select value={filters.platformStatus || "all"} onValueChange={(value) => handleFilterChange('platformStatus', value === "all" ? "" : value)}>
+            <SelectTrigger className="w-[140px]" data-testid="filter-platform-status">
               <div className="flex flex-col items-start w-full">
-                <div className="text-xs text-gray-500">Platform Status</div>
-                <div className="text-sm">{filters.platformStatus || "All"}</div>
+                <div className="text-xs text-gray-500">Durum</div>
+                <div className="text-sm">{platformStatuses.find(s => s.value === filters.platformStatus)?.label || "Tümü"}</div>
               </div>
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="All">All</SelectItem>
-              {platformStatuses.map((status) => (
-                <SelectItem key={status} value={status}>
-                  {status}
+              <SelectItem value="all">Tümü</SelectItem>
+              {platformStatuses.map(({ value, label }) => (
+                <SelectItem key={value} value={value}>
+                  {label}
                 </SelectItem>
               ))}
             </SelectContent>
           </Select>
 
-          {/* Store Set Filter */}
-          <Select value={filters.storeSet || "All"} onValueChange={(value) => handleFilterChange('storeSet', value === "All" ? "" : value)}>
-            <SelectTrigger className="w-[150px]" data-testid="filter-store-set">
+          {/* Grup Filter */}
+          <Select value={filters.storeSet || "all"} onValueChange={(value) => handleFilterChange('storeSet', value === "all" ? "" : value)}>
+            <SelectTrigger className="w-[130px]" data-testid="filter-store-set">
               <div className="flex flex-col items-start w-full">
-                <div className="text-xs text-gray-500">Store Set</div>
-                <div className="text-sm">{filters.storeSet || "All"}</div>
+                <div className="text-xs text-gray-500">Grup</div>
+                <div className="text-sm">{storeSets.find(s => s.value === filters.storeSet)?.label || "Tümü"}</div>
               </div>
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="All">All</SelectItem>
-              {storeSets.map((set) => (
-                <SelectItem key={set} value={set}>
-                  {set}
+              <SelectItem value="all">Tümü</SelectItem>
+              {storeSets.map(({ value, label }) => (
+                <SelectItem key={value} value={value}>
+                  {label}
                 </SelectItem>
               ))}
             </SelectContent>
@@ -231,36 +251,35 @@ export function FilterBar({
           </Select>
 
           {/* Platform Filter */}
-          <Select value={filters.platform || "All"} onValueChange={(value) => handleFilterChange('platform', value === "All" ? "" : value)}>
-            <SelectTrigger className="w-[150px]" data-testid="filter-platform">
+          <Select value={filters.platform || "all"} onValueChange={(value) => handleFilterChange('platform', value === "all" ? "" : value)}>
+            <SelectTrigger className="w-[130px]" data-testid="filter-platform">
               <div className="flex flex-col items-start w-full">
                 <div className="text-xs text-gray-500">Platform</div>
-                <div className="text-sm">{filters.platform || "All"}</div>
+                <div className="text-sm">{platforms.find(p => p.value === filters.platform)?.label || "Tümü"}</div>
               </div>
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="All">All</SelectItem>
-              {platforms.map((platform) => (
-                <SelectItem key={platform} value={platform}>
-                  {platform}
+              <SelectItem value="all">Tümü</SelectItem>
+              {platforms.map(({ value, label }) => (
+                <SelectItem key={value} value={value}>
+                  {label}
                 </SelectItem>
               ))}
             </SelectContent>
           </Select>
 
-          {/* Compare Mode Toggle */}
-          <div className="flex items-center space-x-2 px-3 py-2 border border-gray-200 rounded-md" data-testid="compare-mode-toggle">
-            <GitCompare className="w-4 h-4 text-gray-500" />
-            <Label htmlFor="compare-mode" className="text-sm text-gray-600">Compare</Label>
+          {/* Aksiyon Gerekenler Toggle */}
+          <div className="flex items-center space-x-2 px-3 py-2 border border-amber-200 bg-amber-50 rounded-md" data-testid="problems-only-toggle">
+            <Label htmlFor="problems-only" className="text-sm text-amber-700 font-medium">Aksiyon Gerekenler</Label>
             <Switch
-              id="compare-mode"
-              checked={filters.compareMode || false}
-              onChange={(event) => handleCompareToggle(event.target.checked)}
-              className="data-[state=checked]:bg-blue-600"
+              id="problems-only"
+              checked={filters.showProblemsOnly || false}
+              onChange={(e) => onFiltersChange({ ...filters, showProblemsOnly: e.target.checked })}
+              className="data-[state=checked]:bg-amber-600"
             />
           </div>
         </div>
-        
+
         {/* Date Range Display */}
         {filters.startDate && filters.endDate && (
           <div className="mt-3 flex items-center gap-2 text-sm text-gray-600">

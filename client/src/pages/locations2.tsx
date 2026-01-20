@@ -434,10 +434,10 @@ export default function Locations2Page() {
           </div>
         </div>
       </header>
-      {/* Main Content */}
-      <div className="pb-6 bg-[#ffffff]">
-        {/* Tab Navigation */}
-        <div className="px-6 pt-5 pb-4">
+
+      {/* Tab Navigation - Sticky */}
+      <div className="sticky top-20 z-40 bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/60 border-b border-gray-200 shadow-sm transition-all duration-200">
+        <div className="max-w-7xl mx-auto px-6 py-3">
           <div className="inline-flex items-center gap-1 p-1 bg-gray-100/80 rounded-xl">
             <button
               onClick={() => setMainTab('locations')}
@@ -471,13 +471,16 @@ export default function Locations2Page() {
             </button>
           </div>
         </div>
+      </div>
+
+      {/* Main Content */}
+      <div className="pb-6 bg-[#ffffff]">
 
         {/* Locations Tab */}
         {mainTab === 'locations' && (
           <>
             {/* Platform Summary Section */}
-            <PlatformSummaryNew onViewLocation={handleViewLocation} />
-
+            <PlatformSummaryNew />
             {/* Location Actions + Location Status Table */}
             <div className="mx-6 mt-6">
               <div className="mt-4">

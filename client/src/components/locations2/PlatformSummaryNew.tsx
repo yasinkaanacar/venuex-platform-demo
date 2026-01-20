@@ -1,16 +1,13 @@
-import { useState, useMemo } from "react";
+import { useMemo } from "react";
 import {
   ChevronRight,
   ChevronDown,
   Phone,
   Navigation,
   Eye,
-  AlertTriangle,
-  CheckCircle2,
   TrendingUp,
   TrendingDown,
   Search,
-  ExternalLink,
   Info
 } from "lucide-react";
 import { SiGoogle, SiMeta, SiApple } from 'react-icons/si';
@@ -19,17 +16,6 @@ import { mockLocations, calculateDataHealth } from "@/lib/mock-locations";
 // --- Types ---
 
 type PlatformKey = 'google' | 'meta' | 'apple' | 'yandex';
-type ActionType = 'verification' | 'photo_missing' | 'info_mismatch' | 'suspended' | 'rejected';
-
-interface ActionItem {
-  id: string;
-  locationName: string;
-  locationId: string;
-  platform: PlatformKey;
-  type: ActionType;
-  message: string;
-  priority: 'high' | 'medium' | 'low';
-}
 
 interface EngagementMetric {
   label: string;
@@ -50,45 +36,6 @@ interface PlatformStats {
 }
 
 // --- Mock Data ---
-
-const MOCK_ACTION_ITEMS: ActionItem[] = [
-  {
-    id: '1',
-    locationName: 'Kadıköy Mağaza',
-    locationId: 'loc_001',
-    platform: 'google',
-    type: 'verification',
-    message: 'Google doğrulama bekliyor',
-    priority: 'high'
-  },
-  {
-    id: '2',
-    locationName: 'Beşiktaş Şube',
-    locationId: 'loc_002',
-    platform: 'meta',
-    type: 'photo_missing',
-    message: 'Profil fotoğrafı eksik',
-    priority: 'medium'
-  },
-  {
-    id: '3',
-    locationName: 'Şişli Merkez',
-    locationId: 'loc_003',
-    platform: 'apple',
-    type: 'info_mismatch',
-    message: 'Çalışma saatleri uyuşmuyor',
-    priority: 'medium'
-  },
-  {
-    id: '4',
-    locationName: 'Ataşehir AVM',
-    locationId: 'loc_004',
-    platform: 'google',
-    type: 'suspended',
-    message: 'Listeleme askıya alındı',
-    priority: 'high'
-  }
-];
 
 const MOCK_ENGAGEMENT: EngagementMetric[] = [
   { label: 'Görüntülenme', value: 12450, previousValue: 11200, icon: <Eye className="w-4 h-4" />, color: 'blue' },
@@ -115,117 +62,6 @@ const calculateChange = (current: number, previous: number) => {
 };
 
 // --- Sub-Components ---
-
-const ActionBanner = ({ items, isExpanded, onToggle, onViewLocation }: {
-  items: ActionItem[];
-  isExpanded: boolean;
-  onToggle: () => void;
-  onViewLocation?: (locationId: string) => void;
-}) => {
-  const highPriorityCount = items.filter(i => i.priority === 'high').length;
-  const mediumPriorityCount = items.filter(i => i.priority === 'medium').length;
-
-  if (items.length === 0) {
-    return (
-      <div className="px-4 py-4 bg-gradient-to-r from-emerald-50 to-green-50 border border-emerald-200 rounded-xl flex items-center gap-3 shadow-sm">
-        <div className="p-2 bg-emerald-100 rounded-full">
-          <CheckCircle2 className="w-5 h-5 text-emerald-600" />
-        </div>
-        <div>
-          <span className="text-sm font-semibold text-emerald-800">Tüm lokasyonlar yayında</span>
-          <p className="text-xs text-emerald-600 mt-0.5">Senkronizasyon tamamlandı</p>
-        </div>
-      </div>
-    );
-  }
-
-  return (
-    <div className="rounded-xl overflow-hidden border border-amber-200 shadow-sm">
-      {/* Header */}
-      <button
-        onClick={onToggle}
-        className="w-full px-4 py-3 bg-gradient-to-r from-amber-50 to-orange-50 flex items-center justify-between hover:from-amber-100 hover:to-orange-100 transition-all duration-200"
-      >
-        <div className="flex items-center gap-3">
-          <div className="p-2 bg-amber-100 rounded-full">
-            <AlertTriangle className="w-5 h-5 text-amber-600" />
-          </div>
-          <div className="text-left">
-            <span className="text-sm font-semibold text-amber-900">
-              {items.length} lokasyon ilgilenmenizi bekliyor
-            </span>
-            <div className="flex items-center gap-2 mt-1">
-              {highPriorityCount > 0 && (
-                <span className="inline-flex items-center gap-1 px-2 py-0.5 text-[10px] font-bold rounded-full bg-rose-100 text-rose-700 border border-rose-200">
-                  <span className="w-1.5 h-1.5 rounded-full bg-rose-500 animate-pulse"></span>
-                  {highPriorityCount} acil
-                </span>
-              )}
-              {mediumPriorityCount > 0 && (
-                <span className="inline-flex items-center gap-1 px-2 py-0.5 text-[10px] font-bold rounded-full bg-amber-100 text-amber-700 border border-amber-200">
-                  {mediumPriorityCount} orta
-                </span>
-              )}
-            </div>
-          </div>
-        </div>
-        <div className={`p-1 rounded-full bg-amber-100 transition-transform duration-200 ${isExpanded ? 'rotate-90' : ''}`}>
-          <ChevronRight className="w-4 h-4 text-amber-600" />
-        </div>
-      </button>
-
-      {/* Expanded Content */}
-      {isExpanded && (
-        <div className="bg-white divide-y divide-gray-100">
-          {items.slice(0, 5).map((item) => (
-            <div
-              key={item.id}
-              className="px-4 py-3 flex items-center justify-between hover:bg-gray-50 transition-colors group"
-            >
-              <div className="flex items-center gap-3">
-                {/* Priority Indicator */}
-                <div className={`w-1 h-10 rounded-full ${item.priority === 'high' ? 'bg-rose-500' :
-                  item.priority === 'medium' ? 'bg-amber-500' : 'bg-gray-300'
-                  }`} />
-
-                {/* Platform Icon */}
-                <div className={`p-2 rounded-lg ${item.priority === 'high' ? 'bg-rose-50' : 'bg-amber-50'
-                  }`}>
-                  {PLATFORM_CONFIG.find(p => p.key === item.platform)?.icon}
-                </div>
-
-                {/* Content */}
-                <div className="flex flex-col">
-                  <span className="text-sm font-medium text-gray-900">{item.locationName}</span>
-                  <span className="text-xs text-gray-500">{item.message}</span>
-                </div>
-              </div>
-
-              {/* Action Button */}
-              <button
-                onClick={() => onViewLocation?.(item.locationId)}
-                className="p-2 rounded-lg bg-gray-100 hover:bg-blue-100 text-gray-500 hover:text-blue-600 transition-all duration-200 opacity-60 group-hover:opacity-100"
-                title="Lokasyonu görüntüle"
-              >
-                <Eye className="w-4 h-4" />
-              </button>
-            </div>
-          ))}
-
-          {/* Show More */}
-          {items.length > 5 && (
-            <div className="px-4 py-3 bg-gray-50 flex items-center justify-center">
-              <button className="text-xs font-medium text-gray-600 hover:text-gray-900 flex items-center gap-1 transition-colors">
-                +{items.length - 5} daha göster
-                <ChevronDown className="w-3 h-3" />
-              </button>
-            </div>
-          )}
-        </div>
-      )}
-    </div>
-  );
-};
 
 const HealthCard = ({ platforms, totalLocations, businessStatus }: {
   platforms: Record<PlatformKey, PlatformStats>;
@@ -484,12 +320,7 @@ const StoreStatusRow = ({ businessStatus, totalLocations }: {
 
 // --- Main Component ---
 
-interface PlatformSummaryNewProps {
-  onViewLocation?: (locationId: string) => void;
-}
-
-export function PlatformSummaryNew({ onViewLocation }: PlatformSummaryNewProps = {}) {
-  const [isActionExpanded, setIsActionExpanded] = useState(true);
+export function PlatformSummaryNew() {
 
   const stats = useMemo(() => {
     const businessStatus = {

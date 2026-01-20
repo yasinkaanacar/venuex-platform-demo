@@ -38,6 +38,7 @@ export interface LocationsFilterState {
   endDate?: Date;
   compareStartDate?: Date;
   compareEndDate?: Date;
+  showProblemsOnly?: boolean;
 }
 
 export interface ChartDataPoint {

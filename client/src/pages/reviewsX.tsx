@@ -14,10 +14,10 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
-import { 
-  Search, 
-  Star, 
-  TrendingUp, 
+import {
+  Search,
+  Star,
+  TrendingUp,
   TrendingDown,
   List,
   Map,
@@ -66,17 +66,17 @@ import { MapContainer, TileLayer, Marker, Popup, Tooltip as LeafletTooltip, GeoJ
 import turkeyMapImage from '@assets/tr-02_1758876643793.jpg';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
-import { 
-  ComposedChart, 
-  Bar, 
-  Line, 
+import {
+  ComposedChart,
+  Bar,
+  Line,
   LineChart,
-  XAxis, 
-  YAxis, 
-  CartesianGrid, 
-  Tooltip as RechartsTooltip, 
-  Legend, 
-  ResponsiveContainer 
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip as RechartsTooltip,
+  Legend,
+  ResponsiveContainer
 } from 'recharts';
 import { useRef, useEffect } from 'react';
 
@@ -87,6 +87,60 @@ L.Icon.Default.mergeOptions({
   iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png',
   shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
 });
+
+// Interfaces for Type Safety
+interface HierarchicalNode {
+  name: string;
+  value: number;
+  avgRating: number;
+  sentiment: number;
+  totalReviews: number;
+  children?: HierarchicalNode[];
+  trend?: string;
+  themes?: string[];
+}
+
+interface OpenIssuesData {
+  unreplied: number;
+  slaRisk: number;
+  escalated: number;
+}
+
+interface ThemeDataItem {
+  theme: string;
+  volume: number;
+  sentiment: number;
+  total: number;
+  count?: number;
+}
+
+interface ThemesData {
+  positive: ThemeDataItem[];
+  negative: ThemeDataItem[];
+}
+
+interface LocationPerformance {
+  id: number;
+  name: string;
+  rating: number;
+  reviewCount: number;
+  responseRate: number;
+  trend: string;
+  avgRating?: number;
+}
+
+interface LeaderboardData {
+  topPerformers: LocationPerformance[];
+  needsAttention: LocationPerformance[];
+}
+
+interface KPIData {
+  averageRating: number;
+  totalReviews: number;
+  responseRate: number;
+  avgResponseTime: string;
+  sentimentIndex: number;
+}
 
 export default function ReviewsX() {
   const [activeTab, setActiveTab] = useState("overview");
@@ -99,7 +153,7 @@ export default function ReviewsX() {
   const [chartToggle, setChartToggle] = useState("source"); // "source" or "rating"
   const [inboxFilters, setInboxFilters] = useState({ source: null, rating: null, week: null });
   const [selectedSentimentDate, setSelectedSentimentDate] = useState(null);
-  
+
   // Theme Analysis state
   const [selectedTheme, setSelectedTheme] = useState(null);
   const [themeFilters, setThemeFilters] = useState({
@@ -128,7 +182,7 @@ export default function ReviewsX() {
     {
       id: 2,
       name: "Demo Bağdat Caddesi",
-      city: "Istanbul", 
+      city: "Istanbul",
       coordinates: [40.9673, 29.0815] as [number, number],
       reviewCount: 289,
       averageRating: 4.1,
@@ -191,7 +245,7 @@ export default function ReviewsX() {
   ];
 
   // Hierarchical data for treemap drill-down
-  const hierarchicalData = {
+  const hierarchicalData: HierarchicalNode = {
     name: "Turkey",
     value: 8,
     avgRating: 4.0,
@@ -216,7 +270,7 @@ export default function ReviewsX() {
             children: []
           },
           {
-            name: "Demo Bağdat Caddesi", 
+            name: "Demo Bağdat Caddesi",
             value: 289,
             avgRating: 4.1,
             sentiment: 0.78,
@@ -310,7 +364,7 @@ export default function ReviewsX() {
 
   // Choropleth state management
   const [currentLevel, setCurrentLevel] = useState<"country" | "region" | "location">("country");
-  const [currentData, setCurrentData] = useState(hierarchicalData);
+  const [currentData, setCurrentData] = useState<HierarchicalNode>(hierarchicalData);
   const [breadcrumbs, setBreadcrumbs] = useState<string[]>(["Turkey"]);
   const treemapRef = useRef<SVGSVGElement>(null);
 
@@ -329,7 +383,7 @@ export default function ReviewsX() {
         }
       },
       {
-        type: "Feature" as const, 
+        type: "Feature" as const,
         properties: { name: "Ankara", id: "06" },
         geometry: {
           type: "Polygon" as const,
@@ -342,7 +396,7 @@ export default function ReviewsX() {
         type: "Feature" as const,
         properties: { name: "Izmir", id: "35" },
         geometry: {
-          type: "Polygon" as const, 
+          type: "Polygon" as const,
           coordinates: [[
             [26.0, 39.0], [28.0, 39.0], [28.0, 37.8], [26.0, 37.8], [26.0, 39.0]
           ]]
@@ -413,11 +467,11 @@ export default function ReviewsX() {
   };
 
   // ChoroplethLayer component
-  const ChoroplethLayer = ({ data, currentLevel, onRegionClick }: any) => {
+  const ChoroplethLayer = ({ data, currentLevel, onRegionClick }: { data: HierarchicalNode; currentLevel: string; onRegionClick?: (node: HierarchicalNode) => void }) => {
     const getProvinceColor = (provinceName: string) => {
-      const provinceData = data.children?.find((child: any) => child.name === provinceName);
+      const provinceData = data.children?.find((child: HierarchicalNode) => child.name === provinceName);
       if (!provinceData) return '#f1f5f9'; // light gray for no data
-      
+
       const rating = provinceData.avgRating;
       if (rating >= 4.0) return '#1e3a8a'; // dark blue
       if (rating >= 3.5) return '#3b82f6'; // blue  
@@ -428,8 +482,8 @@ export default function ReviewsX() {
 
     const onEachProvince = (feature: any, layer: any) => {
       const provinceName = feature.properties.name;
-      const provinceData = data.children?.find((child: any) => child.name === provinceName);
-      
+      const provinceData = data.children?.find((child: HierarchicalNode) => child.name === provinceName);
+
       layer.on({
         mouseover: (e: any) => {
           const layer = e.target;
@@ -503,7 +557,7 @@ export default function ReviewsX() {
   const createCustomIcon = (rating: number, reviewCount: number) => {
     const color = getMarkerColor(rating);
     const size = getMarkerSize(reviewCount);
-    
+
     return L.divIcon({
       className: 'custom-marker',
       html: `<div style="
@@ -543,7 +597,7 @@ export default function ReviewsX() {
   };
 
   // Dynamic data extraction helpers for sections integration
-  const getOpenIssuesData = (data: any, level: string) => {
+  const getOpenIssuesData = (data: HierarchicalNode, level: string): OpenIssuesData => {
     if (level === "location") {
       // For individual locations, simulate issue counts based on rating and reviews
       const avgRating = data.avgRating || 0;
@@ -556,7 +610,7 @@ export default function ReviewsX() {
     } else {
       // For country/region, aggregate from children
       const children = data.children || [];
-      return children.reduce((acc: any, child: any) => {
+      return children.reduce((acc: OpenIssuesData, child: HierarchicalNode) => {
         const childIssues = getOpenIssuesData(child, level === "country" ? "region" : "location");
         return {
           unreplied: acc.unreplied + childIssues.unreplied,
@@ -567,7 +621,7 @@ export default function ReviewsX() {
     }
   };
 
-  const getThemesData = (data: any, level: string) => {
+  const getThemesData = (data: HierarchicalNode, level: string): ThemesData => {
     if (level === "location") {
       // For individual locations, use their themes
       const themes = data.themes || [];
@@ -591,15 +645,15 @@ export default function ReviewsX() {
       const children = data.children || [];
       const allPositiveThemes: any[] = [];
       const allNegativeThemes: any[] = [];
-      
-      children.forEach((child: any) => {
+
+      children.forEach((child: HierarchicalNode) => {
         const childThemes = getThemesData(child, level === "country" ? "region" : "location");
         allPositiveThemes.push(...childThemes.positive);
         allNegativeThemes.push(...childThemes.negative);
       });
 
       // Aggregate by theme name
-      const positiveAgg = allPositiveThemes.reduce((acc: any, theme: any) => {
+      const positiveAgg = allPositiveThemes.reduce((acc: Record<string, ThemeDataItem>, theme: any) => {
         if (!acc[theme.theme]) {
           acc[theme.theme] = { theme: theme.theme, volume: 0, sentiment: 0, total: 0, count: 0 };
         }
@@ -610,7 +664,7 @@ export default function ReviewsX() {
         return acc;
       }, {});
 
-      const negativeAgg = allNegativeThemes.reduce((acc: any, theme: any) => {
+      const negativeAgg = allNegativeThemes.reduce((acc: Record<string, ThemeDataItem>, theme: any) => {
         if (!acc[theme.theme]) {
           acc[theme.theme] = { theme: theme.theme, volume: 0, sentiment: 0, total: 0, count: 0 };
         }
@@ -622,19 +676,19 @@ export default function ReviewsX() {
       }, {});
 
       return {
-        positive: Object.values(positiveAgg).map((theme: any) => ({
+        positive: Object.values(positiveAgg).map((theme: ThemeDataItem) => ({
           ...theme,
-          sentiment: Math.floor(theme.sentiment / theme.count)
+          sentiment: Math.floor(theme.sentiment / (theme.count || 1))
         })).slice(0, 3),
-        negative: Object.values(negativeAgg).map((theme: any) => ({
+        negative: Object.values(negativeAgg).map((theme: ThemeDataItem) => ({
           ...theme,
-          sentiment: Math.floor(theme.sentiment / theme.count)
+          sentiment: Math.floor(theme.sentiment / (theme.count || 1))
         })).slice(0, 3)
       };
     }
   };
 
-  const getLocationLeaderboardData = (data: any, level: string) => {
+  const getLocationLeaderboardData = (data: HierarchicalNode, level: string): LeaderboardData => {
     if (level === "location") {
       // For individual location, return just that location
       return {
@@ -651,7 +705,7 @@ export default function ReviewsX() {
     } else {
       // For country/region, get children and sort by performance
       const children = data.children || [];
-      const locations = children.map((child: any, index: number) => ({
+      const locations = children.map((child: HierarchicalNode, index: number) => ({
         id: index + 1,
         name: child.name,
         rating: child.avgRating,
@@ -662,8 +716,8 @@ export default function ReviewsX() {
       }));
 
       const sorted = [...locations].sort((a, b) => b.rating - a.rating);
-      let topPerformers = sorted.filter(loc => loc.rating >= 4.0).slice(0, 3);
-      let needsAttention = sorted.filter(loc => loc.rating < 3.5).slice(0, 3);
+      const topPerformers = sorted.filter(loc => loc.rating >= 4.0).slice(0, 3);
+      const needsAttention = sorted.filter(loc => loc.rating < 3.5).slice(0, 3);
 
       // Mock location names for consistent display
       const mockTopPerformers = [
@@ -717,7 +771,7 @@ export default function ReviewsX() {
   };
 
   // Choropleth drill-down handlers
-  const handleTreemapDrillDown = (node: any) => {
+  const handleTreemapDrillDown = (node: HierarchicalNode) => {
     if (node.children) {
       setCurrentData(node);
       setCurrentLevel(currentLevel === "country" ? "region" : "location");
@@ -730,7 +784,7 @@ export default function ReviewsX() {
       const newBreadcrumbs = [...breadcrumbs];
       newBreadcrumbs.pop();
       setBreadcrumbs(newBreadcrumbs);
-      
+
       if (newBreadcrumbs.length === 1) {
         setCurrentData(hierarchicalData);
         setCurrentLevel("country");
@@ -739,7 +793,7 @@ export default function ReviewsX() {
         const parentPath = newBreadcrumbs.slice(1);
         let parentData = hierarchicalData;
         for (const name of parentPath) {
-          parentData = parentData.children?.find((child: any) => child.name === name) || parentData;
+          parentData = parentData.children?.find((child: HierarchicalNode) => child.name === name) || parentData;
         }
         setCurrentData(parentData);
         setCurrentLevel("region");
@@ -757,7 +811,7 @@ export default function ReviewsX() {
   const getRatingColorClass = (color: string) => {
     const colorMap: Record<string, string> = {
       green: 'bg-green-500',
-      lime: 'bg-lime-500', 
+      lime: 'bg-lime-500',
       yellow: 'bg-yellow-500',
       orange: 'bg-orange-500',
       red: 'bg-red-500'
@@ -766,7 +820,7 @@ export default function ReviewsX() {
   };
 
   // Compute KPI metrics from currentData (following hierarchical pattern)
-  const getKpiData = (data: any, level: string) => {
+  const getKpiData = (data: HierarchicalNode | null, level: string): KPIData => {
     if (!data) {
       return {
         averageRating: 0,
@@ -782,21 +836,21 @@ export default function ReviewsX() {
       const avgRating = data.avgRating || 0;
       const totalReviews = data.totalReviews || 0;
       const sentiment = data.sentiment || 0;
-      
+
       // Deterministic response rate and response time based on stable properties
       // Use name hash for consistency across renders
       const nameHash = data.name ? data.name.length + data.name.charCodeAt(0) : 0;
-      
+
       // Response rate: higher ratings = better response rate (75-95% vs 45-75%)
       const baseResponseRate = avgRating > 3.5 ? 85 : 60;
       const responseRateVariation = (nameHash % 10) - 5; // -5 to +4 variation
       const responseRate = Math.max(30, Math.min(95, baseResponseRate + responseRateVariation));
-      
+
       // Response time: higher ratings = faster response (8-20h vs 18-42h)
       const baseResponseTime = avgRating > 3.5 ? 14 : 30;
       const timeVariation = (nameHash % 12) - 6; // -6 to +5 hour variation
       const avgResponseTime = Math.max(4, baseResponseTime + timeVariation);
-      
+
       return {
         averageRating: Math.round(avgRating * 100) / 100,
         totalReviews,
@@ -849,29 +903,29 @@ export default function ReviewsX() {
   const getTrendData = () => {
     const today = new Date();
     const trendData = [];
-    
+
     for (let i = 13; i >= 0; i--) {
       const date = new Date(today);
       date.setDate(date.getDate() - i);
-      
+
       // Base volume depends on current data scope
       const baseVolume = currentData?.totalReviews ? Math.floor(currentData.totalReviews / 30) : 100;
-      
+
       // Deterministic daily variation based on day index
       const dayHash = (i * 17 + 23) % 100; // Deterministic "random" based on day
       const dailyVariation = Math.floor((dayHash / 100) * 0.4 * baseVolume) + baseVolume * 0.8;
-      
+
       // Deterministic channel distribution (realistic proportions)
       const channelHash = ((i * 13) % 10) / 100; // -0.05 to +0.05 variation
       const google = Math.floor(dailyVariation * (0.40 + channelHash));
       const website = Math.floor(dailyVariation * (0.25 + channelHash * 0.7));
       const app = Math.floor(dailyVariation * (0.15 + channelHash * 0.6));
-      
+
       // Deterministic rating trend that correlates with currentData
       const baseRating = currentData?.avgRating || 4.2;
       const ratingHash = ((i * 7 + 11) % 20 - 10) / 100; // -0.1 to +0.1 variation
       const avgRating = Math.max(1, Math.min(5, baseRating + ratingHash));
-      
+
       trendData.push({
         date: date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
         google,
@@ -881,7 +935,7 @@ export default function ReviewsX() {
         avgRating: Math.round(avgRating * 100) / 100
       });
     }
-    
+
     return trendData;
   };
 
@@ -891,7 +945,7 @@ export default function ReviewsX() {
   const detectUrgency = (rating: number, text: string) => {
     // Low rating threshold (1-2 stars)
     const hasLowRating = rating <= 2;
-    
+
     // Negative keyword triggers
     const urgentKeywords = [
       'poor', 'bad', 'terrible', 'awful', 'horrible', 'worst',
@@ -902,11 +956,11 @@ export default function ReviewsX() {
       'complaint', 'problem', 'issue', 'error', 'mistake',
       'never again', 'won\'t come back', 'avoid'
     ];
-    
-    const hasUrgentKeywords = urgentKeywords.some(keyword => 
+
+    const hasUrgentKeywords = urgentKeywords.some(keyword =>
       text.toLowerCase().includes(keyword.toLowerCase())
     );
-    
+
     return {
       isUrgent: hasLowRating || hasUrgentKeywords,
       urgencyReasons: {
@@ -1003,7 +1057,7 @@ export default function ReviewsX() {
     {
       id: 2,
       name: "Kanyon",
-      city: "Istanbul", 
+      city: "Istanbul",
       region: "Europe",
       rating: 4.2,
       reviewCount: 189,
@@ -1015,7 +1069,7 @@ export default function ReviewsX() {
       id: 3,
       name: "İstinye Park",
       city: "Istanbul",
-      region: "Europe", 
+      region: "Europe",
       rating: 4.6,
       reviewCount: 156,
       negativePercent: 12,
@@ -1039,7 +1093,7 @@ export default function ReviewsX() {
     {
       id: 2,
       name: "Sneaker - Beyaz",
-      sku: "BYN-SH-045", 
+      sku: "BYN-SH-045",
       category: "Ayakkabı",
       rating: 4.1,
       reviewCount: 234,
@@ -1054,7 +1108,7 @@ export default function ReviewsX() {
       category: "Outerwear",
       rating: 4.7,
       reviewCount: 43,
-      sentiment: "positive", 
+      sentiment: "positive",
       topComplaint: "cut",
       topCompliment: "fabric"
     }
@@ -1062,52 +1116,52 @@ export default function ReviewsX() {
 
   // Enhanced Theme Analysis data with deep-dive information
   const themeAnalysis = [
-    { 
-      theme: "Product Quality", 
-      positive: 78, 
-      neutral: 15, 
-      negative: 7, 
-      total: 450, 
+    {
+      theme: "Product Quality",
+      positive: 78,
+      neutral: 15,
+      negative: 7,
+      total: 450,
       trend: "up",
       id: "product_quality",
       description: "Customer feedback about product quality, materials, and durability"
     },
-    { 
-      theme: "Customer Service", 
-      positive: 82, 
-      neutral: 12, 
-      negative: 6, 
-      total: 380, 
+    {
+      theme: "Customer Service",
+      positive: 82,
+      neutral: 12,
+      negative: 6,
+      total: 380,
       trend: "up",
       id: "customer_service",
       description: "Reviews mentioning staff helpfulness, responsiveness, and service quality"
     },
-    { 
-      theme: "Store Atmosphere", 
-      positive: 71, 
-      neutral: 20, 
-      negative: 9, 
-      total: 325, 
+    {
+      theme: "Store Atmosphere",
+      positive: 71,
+      neutral: 20,
+      negative: 9,
+      total: 325,
       trend: "stable",
       id: "store_atmosphere",
       description: "Comments about store ambiance, cleanliness, and overall environment"
     },
-    { 
-      theme: "Price-Performance", 
-      positive: 65, 
-      neutral: 25, 
-      negative: 10, 
-      total: 290, 
+    {
+      theme: "Price-Performance",
+      positive: 65,
+      neutral: 25,
+      negative: 10,
+      total: 290,
       trend: "down",
       id: "price_performance",
       description: "Feedback on value for money, pricing, and cost expectations"
     },
-    { 
-      theme: "Product Variety", 
-      positive: 88, 
-      neutral: 8, 
-      negative: 4, 
-      total: 275, 
+    {
+      theme: "Product Variety",
+      positive: 88,
+      neutral: 8,
+      negative: 4,
+      total: 275,
       trend: "up",
       id: "product_variety",
       description: "Reviews about product selection, availability, and range of options"
@@ -1121,20 +1175,20 @@ export default function ReviewsX() {
       const date = new Date();
       date.setDate(date.getDate() - i);
       const dayOfWeek = date.getDay();
-      
+
       // Generate deterministic data based on theme and date
       const seedValue = themeId.length + date.getDate();
       let mentions = 8 + (seedValue % 12);
-      
+
       // Weekend patterns
       if (dayOfWeek === 0 || dayOfWeek === 6) {
         mentions = Math.floor(mentions * 0.7);
       }
-      
+
       // Theme-specific patterns
       if (themeId === "customer_service") mentions = Math.floor(mentions * 1.2);
       if (themeId === "price_performance") mentions = Math.floor(mentions * 0.8);
-      
+
       baseData.push({
         date: date.toISOString().split('T')[0],
         mentions: Math.max(1, mentions),
@@ -1148,25 +1202,25 @@ export default function ReviewsX() {
   const getThemeReviews = (themeId: string) => {
     const reviewData = {
       product_quality: [
-        { 
+        {
           snippet: "The **fabric quality** is exceptional - much better than expected for the price point.",
           sentiment: "positive",
           location: "Demo Nişantaşı",
           date: "2024-03-20"
         },
-        { 
+        {
           snippet: "**Material feels cheap** and started showing wear after just a few washes.",
           sentiment: "negative",
           location: "Demo Zorlu Center",
           date: "2024-03-18"
         },
-        { 
+        {
           snippet: "Good **construction** and **attention to detail** in the stitching and finishing.",
           sentiment: "positive",
           location: "Demo Ankara Kızılay",
           date: "2024-03-17"
         },
-        { 
+        {
           snippet: "The **durability** is questionable - seams came apart after minimal use.",
           sentiment: "negative",
           location: "Demo Izmir Bornova",
@@ -1174,25 +1228,25 @@ export default function ReviewsX() {
         }
       ],
       customer_service: [
-        { 
+        {
           snippet: "Staff was **incredibly helpful** and went out of their way to find my size.",
           sentiment: "positive",
           location: "Demo Nişantaşı",
           date: "2024-03-21"
         },
-        { 
+        {
           snippet: "**Waited 20 minutes** for someone to help me and they seemed disinterested.",
           sentiment: "negative",
           location: "Demo Bağdat Caddesi",
           date: "2024-03-19"
         },
-        { 
+        {
           snippet: "Excellent **product knowledge** and great **style recommendations** from the team.",
           sentiment: "positive",
           location: "Demo Zorlu Center",
           date: "2024-03-18"
         },
-        { 
+        {
           snippet: "**Unfriendly** service at checkout - felt rushed and unwelcome.",
           sentiment: "negative",
           location: "Demo Ankara Tunalı",
@@ -1200,25 +1254,25 @@ export default function ReviewsX() {
         }
       ],
       store_atmosphere: [
-        { 
+        {
           snippet: "Beautiful **store layout** and **clean environment** - really pleasant shopping experience.",
           sentiment: "positive",
           location: "Demo Zorlu Center",
           date: "2024-03-20"
         },
-        { 
+        {
           snippet: "Store was **messy** and **disorganized** - couldn't find anything easily.",
           sentiment: "negative",
           location: "Demo Izmir Bornova",
           date: "2024-03-17"
         },
-        { 
+        {
           snippet: "Great **ambiance** and **modern design** - feels like a premium shopping destination.",
           sentiment: "positive",
           location: "Demo Nişantaşı",
           date: "2024-03-19"
         },
-        { 
+        {
           snippet: "**Too crowded** and **noisy** - difficult to browse comfortably.",
           sentiment: "negative",
           location: "Demo Ankara Kızılay",
@@ -1226,25 +1280,25 @@ export default function ReviewsX() {
         }
       ],
       price_performance: [
-        { 
+        {
           snippet: "**Great value for money** - quality exceeds the price point significantly.",
           sentiment: "positive",
           location: "Demo Bağdat Caddesi",
           date: "2024-03-21"
         },
-        { 
+        {
           snippet: "**Overpriced** for what you get - similar items available elsewhere for less.",
           sentiment: "negative",
           location: "Demo Zorlu Center",
           date: "2024-03-18"
         },
-        { 
+        {
           snippet: "**Fair pricing** considering the brand quality and design aesthetics.",
           sentiment: "positive",
           location: "Demo Nişantaşı",
           date: "2024-03-16"
         },
-        { 
+        {
           snippet: "Expected **better quality** at this price range - disappointing value.",
           sentiment: "negative",
           location: "Demo Ankara Tunalı",
@@ -1252,25 +1306,25 @@ export default function ReviewsX() {
         }
       ],
       product_variety: [
-        { 
+        {
           snippet: "**Amazing selection** - found exactly what I was looking for and more options.",
           sentiment: "positive",
           location: "Demo Zorlu Center",
           date: "2024-03-20"
         },
-        { 
+        {
           snippet: "**Limited sizes** available in most styles - frustrating shopping experience.",
           sentiment: "negative",
           location: "Demo Izmir Bornova",
           date: "2024-03-17"
         },
-        { 
+        {
           snippet: "**Wide range of styles** and **current fashion trends** well represented.",
           sentiment: "positive",
           location: "Demo Nişantaşı",
           date: "2024-03-19"
         },
-        { 
+        {
           snippet: "**Outdated collection** - most items look like they're from last season.",
           sentiment: "negative",
           location: "Demo Ankara Kızılay",
@@ -1313,7 +1367,7 @@ export default function ReviewsX() {
             <ChevronRight className="w-4 h-4" />
             <span className="text-gray-900 font-medium">Overview</span>
           </div>
-          
+
           {/* Filters Row */}
           <div className="flex items-center justify-between gap-4">
             <div className="flex items-center gap-4">
@@ -1379,8 +1433,8 @@ export default function ReviewsX() {
               {/* Search */}
               <div className="relative">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
-                <Input 
-                  placeholder="Search reviews..." 
+                <Input
+                  placeholder="Search reviews..."
                   className="pl-10 w-64"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
@@ -1407,9 +1461,9 @@ export default function ReviewsX() {
                 )}
               </Button>
 
-              
 
-              
+
+
             </div>
           </div>
         </div>
@@ -1445,245 +1499,245 @@ export default function ReviewsX() {
 
           {/* Tab Content */}
           <div className="p-6">
-            
+
             {/* Overview Section */}
             <TabsContent value="overview" className="space-y-6">
               {/* KPI Summary Cards */}
               <TooltipProvider>
                 <div className="grid grid-cols-5 gap-4">
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <Card 
-                      className="cursor-pointer hover:shadow-md transition-shadow"
-                      onClick={() => setActiveTab("insights")}
-                      data-testid="card-average-rating"
-                    >
-                      <CardHeader className="pb-4">
-                        <CardTitle className="text-lg font-semibold text-gray-900">
-                          Average Rating
-                        </CardTitle>
-                    <div className="text-sm text-gray-500">(Last 30 days)</div>
-                  </CardHeader>
-                  <CardContent className="space-y-4">
-                    <div className="text-4xl font-bold text-gray-900">
-                      {kpiData.averageRating}
-                    </div>
-                    <div className="text-sm text-gray-500 mb-4">
-                      {kpiData.totalReviews.toLocaleString()} reviews
-                    </div>
-                    
-                    {/* Rating Distribution */}
-                    <div className="space-y-2">
-                      {[
-                        { stars: 5, percentage: 92, color: 'bg-yellow-500' },
-                        { stars: 4, percentage: 5, color: 'bg-orange-400' },
-                        { stars: 3, percentage: 1, color: 'bg-orange-400' },
-                        { stars: 2, percentage: 2, color: 'bg-orange-400' },
-                        { stars: 1, percentage: 2, color: 'bg-orange-400' }
-                      ].map((rating) => (
-                        <div key={rating.stars} className="flex items-center gap-3">
-                          <span className="text-sm font-medium w-2">{rating.stars}</span>
-                          <div className="flex-1 bg-gray-200 rounded-full h-2 relative">
-                            <div 
-                              className={`${rating.color} h-2 rounded-full`}
-                              style={{ width: `${rating.percentage}%` }}
-                            />
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <Card
+                        className="cursor-pointer hover:shadow-md transition-shadow"
+                        onClick={() => setActiveTab("insights")}
+                        data-testid="card-average-rating"
+                      >
+                        <CardHeader className="pb-4">
+                          <CardTitle className="text-lg font-semibold text-gray-900">
+                            Average Rating
+                          </CardTitle>
+                          <div className="text-sm text-gray-500">(Last 30 days)</div>
+                        </CardHeader>
+                        <CardContent className="space-y-4">
+                          <div className="text-4xl font-bold text-gray-900">
+                            {kpiData.averageRating}
                           </div>
-                          <span className="text-sm text-gray-600 w-8 text-right">{rating.percentage}%</span>
-                        </div>
-                      ))}
-                    </div>
-                    </CardContent>
-                    </Card>
-                  </TooltipTrigger>
-                  <TooltipContent>
-                  </TooltipContent>
-                </Tooltip>
+                          <div className="text-sm text-gray-500 mb-4">
+                            {kpiData.totalReviews.toLocaleString()} reviews
+                          </div>
 
-                <Card 
-                  className="cursor-pointer hover:shadow-md transition-shadow"
-                  onClick={() => setActiveTab("insights")}
-                  data-testid="card-review-volume"
-                >
-                        <CardHeader className="pb-3">
-                    <CardTitle className="tracking-tight text-[#111827] font-semibold text-[18px]">Review Volume</CardTitle>
-                    <div className="text-sm text-gray-500">(Last 30 Days)</div>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="space-y-3">
-                      <div>
-                        <div className="text-2xl font-bold text-gray-900">{kpiData.totalReviews.toLocaleString()}</div>
-                        <div className="flex items-center gap-1 text-xs text-green-600">
-                          <ArrowUp className="w-3 h-3" />
-                          +12% vs previous period
-                        </div>
-                      </div>
-                      
-                      <div className="grid grid-cols-2 gap-3 pt-1 border-t border-gray-100">
+                          {/* Rating Distribution */}
+                          <div className="space-y-2">
+                            {[
+                              { stars: 5, percentage: 92, color: 'bg-yellow-500' },
+                              { stars: 4, percentage: 5, color: 'bg-orange-400' },
+                              { stars: 3, percentage: 1, color: 'bg-orange-400' },
+                              { stars: 2, percentage: 2, color: 'bg-orange-400' },
+                              { stars: 1, percentage: 2, color: 'bg-orange-400' }
+                            ].map((rating) => (
+                              <div key={rating.stars} className="flex items-center gap-3">
+                                <span className="text-sm font-medium w-2">{rating.stars}</span>
+                                <div className="flex-1 bg-gray-200 rounded-full h-2 relative">
+                                  <div
+                                    className={`${rating.color} h-2 rounded-full`}
+                                    style={{ width: `${rating.percentage}%` }}
+                                  />
+                                </div>
+                                <span className="text-sm text-gray-600 w-8 text-right">{rating.percentage}%</span>
+                              </div>
+                            ))}
+                          </div>
+                        </CardContent>
+                      </Card>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                    </TooltipContent>
+                  </Tooltip>
+
+                  <Card
+                    className="cursor-pointer hover:shadow-md transition-shadow"
+                    onClick={() => setActiveTab("insights")}
+                    data-testid="card-review-volume"
+                  >
+                    <CardHeader className="pb-3">
+                      <CardTitle className="tracking-tight text-[#111827] font-semibold text-[18px]">Review Volume</CardTitle>
+                      <div className="text-sm text-gray-500">(Last 30 Days)</div>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="space-y-3">
                         <div>
-                          <div className="text-xs text-gray-600 mb-1">Reply Rate</div>
-                          <div className="text-base font-bold text-gray-900">{kpiData.responseRate}%</div>
+                          <div className="text-2xl font-bold text-gray-900">{kpiData.totalReviews.toLocaleString()}</div>
                           <div className="flex items-center gap-1 text-xs text-green-600">
-                            <ArrowUp className="w-2 h-2" />
-                            +5%
+                            <ArrowUp className="w-3 h-3" />
+                            +12% vs previous period
                           </div>
                         </div>
-                        
-                        <div>
+
+                        <div className="grid grid-cols-2 gap-3 pt-1 border-t border-gray-100">
+                          <div>
+                            <div className="text-xs text-gray-600 mb-1">Reply Rate</div>
+                            <div className="text-base font-bold text-gray-900">{kpiData.responseRate}%</div>
+                            <div className="flex items-center gap-1 text-xs text-green-600">
+                              <ArrowUp className="w-2 h-2" />
+                              +5%
+                            </div>
+                          </div>
+
+                          <div>
+                            <div className="flex items-center justify-between mb-1">
+                              <div className="text-xs text-gray-600">Response Time</div>
+                            </div>
+                            <div className="text-base font-bold text-gray-900">{kpiData.avgResponseTime}</div>
+                            <div className="flex items-center gap-1 text-xs text-red-600">
+                              <ArrowUp className="w-2 h-2" />
+                              +2h
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className="pt-1 border-t border-gray-100">
                           <div className="flex items-center justify-between mb-1">
-                            <div className="text-xs text-gray-600">Response Time</div>
+                            <div className="text-xs text-gray-600">Unanswered Count</div>
+                            <Badge variant="destructive" className="text-xs px-1 py-0.5" data-testid="badge-urgent-action">
+                              Urgent
+                            </Badge>
                           </div>
-                          <div className="text-base font-bold text-gray-900">{kpiData.avgResponseTime}</div>
-                          <div className="flex items-center gap-1 text-xs text-red-600">
-                            <ArrowUp className="w-2 h-2" />
-                            +2h
+                          <div className="flex items-center justify-between">
+                            <div className="text-base font-bold text-red-600">{openIssuesData.unreplied}</div>
+                            <div className="text-xs text-red-600">Needs attention</div>
                           </div>
                         </div>
                       </div>
-                      
-                      <div className="pt-1 border-t border-gray-100">
-                        <div className="flex items-center justify-between mb-1">
-                          <div className="text-xs text-gray-600">Unanswered Count</div>
-                          <Badge variant="destructive" className="text-xs px-1 py-0.5" data-testid="badge-urgent-action">
-                            Urgent
-                          </Badge>
-                        </div>
-                        <div className="flex items-center justify-between">
-                          <div className="text-base font-bold text-red-600">{openIssuesData.unreplied}</div>
-                          <div className="text-xs text-red-600">Needs attention</div>
-                        </div>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
+                    </CardContent>
+                  </Card>
 
-                <Card 
-                  className="cursor-pointer hover:shadow-md transition-shadow"
-                  onClick={() => setActiveTab("insights")}
-                  data-testid="card-top-themes"
-                >
-                  <CardHeader className="pb-3">
-                    <CardTitle className="tracking-tight text-[#111827] font-semibold text-[18px]">Top Themes</CardTitle>
-                    <div className="text-sm text-gray-500">(Last 30 Days)</div>
-                  </CardHeader>
-                  <CardContent className="flex items-center justify-center">
-                    <div className="space-y-4">
-                      {/* Most Positive Theme */}
-                      <div className="flex items-center gap-3">
-                        <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-                        <div className="flex-1">
-                          <div className="text-base font-bold text-gray-900">Staff Service</div>
-                          <div className="text-sm text-gray-600">91% positive • 156 mentions</div>
+                  <Card
+                    className="cursor-pointer hover:shadow-md transition-shadow"
+                    onClick={() => setActiveTab("insights")}
+                    data-testid="card-top-themes"
+                  >
+                    <CardHeader className="pb-3">
+                      <CardTitle className="tracking-tight text-[#111827] font-semibold text-[18px]">Top Themes</CardTitle>
+                      <div className="text-sm text-gray-500">(Last 30 Days)</div>
+                    </CardHeader>
+                    <CardContent className="flex items-center justify-center">
+                      <div className="space-y-4">
+                        {/* Most Positive Theme */}
+                        <div className="flex items-center gap-3">
+                          <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+                          <div className="flex-1">
+                            <div className="text-base font-bold text-gray-900">Staff Service</div>
+                            <div className="text-sm text-gray-600">91% positive • 156 mentions</div>
+                          </div>
                         </div>
-                      </div>
-                      
-                      {/* Most Negative Theme */}
-                      <div className="flex items-center gap-3">
-                        <div className="w-3 h-3 bg-red-500 rounded-full"></div>
-                        <div className="flex-1">
-                          <div className="text-base font-bold text-gray-900">Pricing</div>
-                          <div className="text-sm text-gray-600">55% negative • 98 mentions</div>
-                        </div>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
 
-                <Card 
-                  className="cursor-pointer hover:shadow-md transition-shadow"
-                  onClick={() => setActiveTab("insights")}
-                  data-testid="card-sentiment-index"
-                >
-                  <CardHeader className="pb-3">
-                    <CardTitle className="tracking-tight text-[#111827] font-semibold text-[18px]">Sentiment Index</CardTitle>
-                    <div className="text-sm text-gray-500">(Last 30 Days)</div>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="space-y-3">
-                      <div>
-                        <div className="text-2xl font-bold text-gray-900">{kpiData.sentimentIndex}%</div>
-                        <div className="flex items-center gap-1 text-xs text-green-600">
-                          <ArrowUp className="w-3 h-3" />
-                          +3% overall improvement
+                        {/* Most Negative Theme */}
+                        <div className="flex items-center gap-3">
+                          <div className="w-3 h-3 bg-red-500 rounded-full"></div>
+                          <div className="flex-1">
+                            <div className="text-base font-bold text-gray-900">Pricing</div>
+                            <div className="text-sm text-gray-600">55% negative • 98 mentions</div>
+                          </div>
                         </div>
                       </div>
-                      
-                      <div className="space-y-2 pt-1 border-t border-gray-100">
-                        <div className="flex items-center justify-between">
-                          <div className="flex items-center gap-2">
-                            <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                            <span className="text-xs text-gray-600">Positive</span>
-                          </div>
-                          <span className="text-sm font-bold text-green-600">68%</span>
-                        </div>
-                        
-                        <div className="flex items-center justify-between">
-                          <div className="flex items-center gap-2">
-                            <div className="w-2 h-2 bg-gray-400 rounded-full"></div>
-                            <span className="text-xs text-gray-600">Neutral</span>
-                          </div>
-                          <span className="text-sm font-bold text-gray-600">24%</span>
-                        </div>
-                        
-                        <div className="flex items-center justify-between">
-                          <div className="flex items-center gap-2">
-                            <div className="w-2 h-2 bg-red-500 rounded-full"></div>
-                            <span className="text-xs text-gray-600">Negative</span>
-                          </div>
-                          <span className="text-sm font-bold text-red-600">8%</span>
-                        </div>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
+                    </CardContent>
+                  </Card>
 
-                <Card 
-                  className="cursor-pointer hover:shadow-md transition-shadow"
-                  onClick={() => setActiveTab("inbox")}
-                  data-testid="card-sla-performance"
-                >
-                  <CardHeader className="pb-3">
-                    <CardTitle className="tracking-tight text-[#111827] font-semibold text-[18px]">SLA Performance</CardTitle>
-                    <div className="text-sm text-gray-500">(Last 30 Days)</div>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="space-y-3">
-                      <div>
-                        <div className="text-2xl font-bold text-gray-900">78%</div>
-                        <div className="flex items-center gap-1 text-xs text-orange-600">
-                          <ArrowDown className="w-3 h-3" />
-                          -5% below target
+                  <Card
+                    className="cursor-pointer hover:shadow-md transition-shadow"
+                    onClick={() => setActiveTab("insights")}
+                    data-testid="card-sentiment-index"
+                  >
+                    <CardHeader className="pb-3">
+                      <CardTitle className="tracking-tight text-[#111827] font-semibold text-[18px]">Sentiment Index</CardTitle>
+                      <div className="text-sm text-gray-500">(Last 30 Days)</div>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="space-y-3">
+                        <div>
+                          <div className="text-2xl font-bold text-gray-900">{kpiData.sentimentIndex}%</div>
+                          <div className="flex items-center gap-1 text-xs text-green-600">
+                            <ArrowUp className="w-3 h-3" />
+                            +3% overall improvement
+                          </div>
+                        </div>
+
+                        <div className="space-y-2 pt-1 border-t border-gray-100">
+                          <div className="flex items-center justify-between">
+                            <div className="flex items-center gap-2">
+                              <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                              <span className="text-xs text-gray-600">Positive</span>
+                            </div>
+                            <span className="text-sm font-bold text-green-600">68%</span>
+                          </div>
+
+                          <div className="flex items-center justify-between">
+                            <div className="flex items-center gap-2">
+                              <div className="w-2 h-2 bg-gray-400 rounded-full"></div>
+                              <span className="text-xs text-gray-600">Neutral</span>
+                            </div>
+                            <span className="text-sm font-bold text-gray-600">24%</span>
+                          </div>
+
+                          <div className="flex items-center justify-between">
+                            <div className="flex items-center gap-2">
+                              <div className="w-2 h-2 bg-red-500 rounded-full"></div>
+                              <span className="text-xs text-gray-600">Negative</span>
+                            </div>
+                            <span className="text-sm font-bold text-red-600">8%</span>
+                          </div>
                         </div>
                       </div>
-                      
-                      <div className="space-y-2 pt-1 border-t border-gray-100">
-                        <div className="flex items-center justify-between">
-                          <div className="flex items-center gap-2">
-                            <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                            <span className="text-xs text-gray-600">On Time</span>
+                    </CardContent>
+                  </Card>
+
+                  <Card
+                    className="cursor-pointer hover:shadow-md transition-shadow"
+                    onClick={() => setActiveTab("inbox")}
+                    data-testid="card-sla-performance"
+                  >
+                    <CardHeader className="pb-3">
+                      <CardTitle className="tracking-tight text-[#111827] font-semibold text-[18px]">SLA Performance</CardTitle>
+                      <div className="text-sm text-gray-500">(Last 30 Days)</div>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="space-y-3">
+                        <div>
+                          <div className="text-2xl font-bold text-gray-900">78%</div>
+                          <div className="flex items-center gap-1 text-xs text-orange-600">
+                            <ArrowDown className="w-3 h-3" />
+                            -5% below target
                           </div>
-                          <span className="text-sm font-bold text-green-600">78%</span>
                         </div>
-                        
-                        <div className="flex items-center justify-between">
-                          <div className="flex items-center gap-2">
-                            <div className="w-2 h-2 bg-orange-500 rounded-full"></div>
-                            <span className="text-xs text-gray-600">At Risk</span>
+
+                        <div className="space-y-2 pt-1 border-t border-gray-100">
+                          <div className="flex items-center justify-between">
+                            <div className="flex items-center gap-2">
+                              <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                              <span className="text-xs text-gray-600">On Time</span>
+                            </div>
+                            <span className="text-sm font-bold text-green-600">78%</span>
                           </div>
-                          <span className="text-sm font-bold text-orange-600">{openIssuesData.slaRisk}</span>
-                        </div>
-                        
-                        <div className="flex items-center justify-between">
-                          <div className="flex items-center gap-2">
-                            <div className="w-2 h-2 bg-red-500 rounded-full"></div>
-                            <span className="text-xs text-gray-600">Breached</span>
+
+                          <div className="flex items-center justify-between">
+                            <div className="flex items-center gap-2">
+                              <div className="w-2 h-2 bg-orange-500 rounded-full"></div>
+                              <span className="text-xs text-gray-600">At Risk</span>
+                            </div>
+                            <span className="text-sm font-bold text-orange-600">{openIssuesData.slaRisk}</span>
                           </div>
-                          <span className="text-sm font-bold text-red-600">{openIssuesData.escalated}</span>
+
+                          <div className="flex items-center justify-between">
+                            <div className="flex items-center gap-2">
+                              <div className="w-2 h-2 bg-red-500 rounded-full"></div>
+                              <span className="text-xs text-gray-600">Breached</span>
+                            </div>
+                            <span className="text-sm font-bold text-red-600">{openIssuesData.escalated}</span>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  </CardContent>
-                </Card>
+                    </CardContent>
+                  </Card>
                 </div>
               </TooltipProvider>
 
@@ -1713,35 +1767,35 @@ export default function ReviewsX() {
                           <span>100</span>
                           <span>0</span>
                         </div>
-                        
+
                         {/* Volume bars layer */}
                         <div className="absolute inset-0 flex items-end justify-between px-2 pb-6">
                           {[
-                            {week: 1, volume: 245, rating: 4.6},
-                            {week: 2, volume: 312, rating: 4.7},
-                            {week: 3, volume: 198, rating: 4.5},
-                            {week: 4, volume: 287, rating: 4.8},
-                            {week: 5, volume: 334, rating: 4.9},
-                            {week: 6, volume: 275, rating: 4.7},
-                            {week: 7, volume: 356, rating: 4.8},
-                            {week: 8, volume: 298, rating: 4.6},
-                            {week: 9, volume: 267, rating: 4.7},
-                            {week: 10, volume: 385, rating: 4.9},
-                            {week: 11, volume: 298, rating: 4.8},
-                            {week: 12, volume: 342, rating: 4.7}
+                            { week: 1, volume: 245, rating: 4.6 },
+                            { week: 2, volume: 312, rating: 4.7 },
+                            { week: 3, volume: 198, rating: 4.5 },
+                            { week: 4, volume: 287, rating: 4.8 },
+                            { week: 5, volume: 334, rating: 4.9 },
+                            { week: 6, volume: 275, rating: 4.7 },
+                            { week: 7, volume: 356, rating: 4.8 },
+                            { week: 8, volume: 298, rating: 4.6 },
+                            { week: 9, volume: 267, rating: 4.7 },
+                            { week: 10, volume: 385, rating: 4.9 },
+                            { week: 11, volume: 298, rating: 4.8 },
+                            { week: 12, volume: 342, rating: 4.7 }
                           ].map((data, i) => (
                             <div key={i} className="flex flex-col items-center gap-1 cursor-pointer hover:bg-gray-50 rounded p-1" onClick={() => navigateToInboxWithFilter('week', data.week)}>
                               {/* Volume bar */}
-                              <div 
-                                className="w-6 bg-blue-400 rounded-t hover:bg-blue-500 transition-colors" 
-                                style={{height: `${(data.volume / 400) * 160}px`}}
+                              <div
+                                className="w-6 bg-blue-400 rounded-t hover:bg-blue-500 transition-colors"
+                                style={{ height: `${(data.volume / 400) * 160}px` }}
                                 title={`${data.volume} reviews - Click to view`}
                               ></div>
                               <div className="text-xs text-gray-400">W{data.week}</div>
                             </div>
                           ))}
                         </div>
-                        
+
                       </div>
                     </div>
                   </CardContent>
@@ -1751,8 +1805,8 @@ export default function ReviewsX() {
                   <CardHeader>
                     <div className="flex items-center justify-between">
                       <CardTitle>{chartToggle === "source" ? "Source Distribution" : "Rating Distribution"}</CardTitle>
-                      <Button 
-                        variant="outline" 
+                      <Button
+                        variant="outline"
                         size="sm"
                         onClick={() => setChartToggle(chartToggle === "source" ? "rating" : "source")}
                       >
@@ -1774,9 +1828,9 @@ export default function ReviewsX() {
                           <span className="text-sm font-medium">65% (2,386 reviews)</span>
                         </div>
                         <div className="w-full bg-gray-200 rounded-full h-3">
-                          <div className="bg-red-500 h-3 rounded-full" style={{width: '65%'}}></div>
+                          <div className="bg-red-500 h-3 rounded-full" style={{ width: '65%' }}></div>
                         </div>
-                        
+
                         <div className="flex items-center justify-between cursor-pointer hover:bg-gray-50 p-2 rounded" onClick={() => navigateToInboxWithFilter('source', 'website')}>
                           <div className="flex items-center gap-2">
                             <div className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center">
@@ -1787,9 +1841,9 @@ export default function ReviewsX() {
                           <span className="text-sm font-medium">20% (734 reviews)</span>
                         </div>
                         <div className="w-full bg-gray-200 rounded-full h-3">
-                          <div className="bg-blue-500 h-3 rounded-full" style={{width: '20%'}}></div>
+                          <div className="bg-blue-500 h-3 rounded-full" style={{ width: '20%' }}></div>
                         </div>
-                        
+
                         <div className="flex items-center justify-between cursor-pointer hover:bg-gray-50 p-2 rounded" onClick={() => navigateToInboxWithFilter('source', 'yandex')}>
                           <div className="flex items-center gap-2">
                             <div className="w-8 h-8 bg-yellow-100 rounded-lg flex items-center justify-center">
@@ -1800,24 +1854,24 @@ export default function ReviewsX() {
                           <span className="text-sm font-medium">15% (552 reviews)</span>
                         </div>
                         <div className="w-full bg-gray-200 rounded-full h-3">
-                          <div className="bg-yellow-500 h-3 rounded-full" style={{width: '15%'}}></div>
+                          <div className="bg-yellow-500 h-3 rounded-full" style={{ width: '15%' }}></div>
                         </div>
                       </div>
                     ) : (
                       <div className="grid grid-cols-5 gap-4">
                         {[
-                          {stars: 5, count: 2890, percentage: 78.7, color: "green"},
-                          {stars: 4, count: 445, percentage: 12.1, color: "lime"},
-                          {stars: 3, count: 185, percentage: 5.0, color: "yellow"},
-                          {stars: 2, count: 89, percentage: 2.4, color: "orange"},
-                          {stars: 1, count: 63, percentage: 1.7, color: "red"}
+                          { stars: 5, count: 2890, percentage: 78.7, color: "green" },
+                          { stars: 4, count: 445, percentage: 12.1, color: "lime" },
+                          { stars: 3, count: 185, percentage: 5.0, color: "yellow" },
+                          { stars: 2, count: 89, percentage: 2.4, color: "orange" },
+                          { stars: 1, count: 63, percentage: 1.7, color: "red" }
                         ].map((rating) => (
                           <div key={rating.stars} className="text-center cursor-pointer hover:bg-gray-50 p-2 rounded" onClick={() => navigateToInboxWithFilter('rating', rating.stars)}>
                             <div className="text-lg font-bold">{rating.stars}★</div>
                             <div className="h-24 bg-gray-100 rounded mb-2 flex items-end justify-center">
-                              <div 
+                              <div
                                 className={`w-8 rounded-t ${getRatingColorClass(rating.color)}`}
-                                style={{height: `${rating.percentage}%`}}
+                                style={{ height: `${rating.percentage}%` }}
                               ></div>
                             </div>
                             <div className="text-sm font-medium">{rating.count}</div>
@@ -1841,22 +1895,22 @@ export default function ReviewsX() {
                       <TabsTrigger value="overall">Overall</TabsTrigger>
                       <TabsTrigger value="locations">By Location</TabsTrigger>
                     </TabsList>
-                    
+
                     <TabsContent value="overall" className="space-y-4">
                       <div className="grid grid-cols-5 gap-4">
                         {[
-                          {stars: 5, count: 2890, percentage: 78.7, color: "green"},
-                          {stars: 4, count: 445, percentage: 12.1, color: "lime"},
-                          {stars: 3, count: 185, percentage: 5.0, color: "yellow"},
-                          {stars: 2, count: 89, percentage: 2.4, color: "orange"},
-                          {stars: 1, count: 63, percentage: 1.7, color: "red"}
+                          { stars: 5, count: 2890, percentage: 78.7, color: "green" },
+                          { stars: 4, count: 445, percentage: 12.1, color: "lime" },
+                          { stars: 3, count: 185, percentage: 5.0, color: "yellow" },
+                          { stars: 2, count: 89, percentage: 2.4, color: "orange" },
+                          { stars: 1, count: 63, percentage: 1.7, color: "red" }
                         ].map((rating) => (
                           <div key={rating.stars} className="text-center">
                             <div className="text-lg font-bold">{rating.stars}★</div>
                             <div className="h-24 bg-gray-100 rounded mb-2 flex items-end justify-center">
-                              <div 
+                              <div
                                 className={`w-8 bg-${rating.color}-500 rounded-t`}
-                                style={{height: `${rating.percentage}%`}}
+                                style={{ height: `${rating.percentage}%` }}
                               ></div>
                             </div>
                             <div className="text-sm font-medium">{rating.count}</div>
@@ -1865,68 +1919,66 @@ export default function ReviewsX() {
                         ))}
                       </div>
                     </TabsContent>
-                    
+
                     <TabsContent value="locations" className="space-y-4">
                       <div className="text-sm text-gray-600 mb-4">Rating distribution for top 20 locations by review volume</div>
                       <div className="space-y-2 max-h-96 overflow-y-auto">
                         {[
-                          {name: "Demo Bağdat Caddesi", total: 542, ratings: {5: 420, 4: 75, 3: 28, 2: 12, 1: 7}, avg: 4.7},
-                          {name: "Demo Kanyon AVM", total: 489, ratings: {5: 380, 4: 68, 3: 25, 2: 10, 1: 6}, avg: 4.6},
-                          {name: "Demo İstinyePark", total: 456, ratings: {5: 345, 4: 78, 3: 22, 2: 8, 1: 3}, avg: 4.8},
-                          {name: "Demo Zorlu Center", total: 423, ratings: {5: 310, 4: 72, 3: 25, 2: 11, 1: 5}, avg: 4.6},
-                          {name: "Demo Nişantaşı", total: 398, ratings: {5: 295, 4: 68, 3: 20, 2: 10, 1: 5}, avg: 4.7},
-                          {name: "Demo Akasya AVM", total: 376, ratings: {5: 275, 4: 65, 3: 22, 2: 9, 1: 5}, avg: 4.6},
-                          {name: "Demo Cevahir AVM", total: 365, ratings: {5: 270, 4: 58, 3: 25, 2: 8, 1: 4}, avg: 4.7},
-                          {name: "Demo Emaar AVM", total: 342, ratings: {5: 245, 4: 62, 3: 20, 2: 10, 1: 5}, avg: 4.6},
-                          {name: "Demo Ankara Ankamall", total: 325, ratings: {5: 235, 4: 55, 3: 22, 2: 8, 1: 5}, avg: 4.6},
-                          {name: "Demo İzmir Forum", total: 312, ratings: {5: 220, 4: 58, 3: 20, 2: 9, 1: 5}, avg: 4.5},
-                          {name: "Demo Bursa Kent Meydanı", total: 298, ratings: {5: 210, 4: 52, 3: 23, 2: 8, 1: 5}, avg: 4.5},
-                          {name: "Demo Antalya Migros AVM", total: 287, ratings: {5: 200, 4: 55, 3: 20, 2: 7, 1: 5}, avg: 4.5},
-                          {name: "Demo Adana Optimum", total: 276, ratings: {5: 195, 4: 48, 3: 22, 2: 7, 1: 4}, avg: 4.5},
-                          {name: "Demo Mersin Forum", total: 265, ratings: {5: 185, 4: 52, 3: 18, 2: 6, 1: 4}, avg: 4.6},
-                          {name: "Demo Gaziantep Sanko Park", total: 254, ratings: {5: 175, 4: 48, 3: 20, 2: 7, 1: 4}, avg: 4.5},
-                          {name: "Demo Konya Kulesite", total: 243, ratings: {5: 165, 4: 45, 3: 22, 2: 7, 1: 4}, avg: 4.4},
-                          {name: "Demo Eskişehir Espark", total: 232, ratings: {5: 155, 4: 48, 3: 18, 2: 7, 1: 4}, avg: 4.5},
-                          {name: "Demo Kayseri Park", total: 221, ratings: {5: 145, 4: 44, 3: 20, 2: 8, 1: 4}, avg: 4.4},
-                          {name: "Demo Trabzon Forum", total: 210, ratings: {5: 140, 4: 42, 3: 18, 2: 6, 1: 4}, avg: 4.5},
-                          {name: "Demo Samsun Piazza", total: 198, ratings: {5: 130, 4: 38, 3: 20, 2: 6, 1: 4}, avg: 4.4}
+                          { name: "Demo Bağdat Caddesi", total: 542, ratings: { 5: 420, 4: 75, 3: 28, 2: 12, 1: 7 }, avg: 4.7 },
+                          { name: "Demo Kanyon AVM", total: 489, ratings: { 5: 380, 4: 68, 3: 25, 2: 10, 1: 6 }, avg: 4.6 },
+                          { name: "Demo İstinyePark", total: 456, ratings: { 5: 345, 4: 78, 3: 22, 2: 8, 1: 3 }, avg: 4.8 },
+                          { name: "Demo Zorlu Center", total: 423, ratings: { 5: 310, 4: 72, 3: 25, 2: 11, 1: 5 }, avg: 4.6 },
+                          { name: "Demo Nişantaşı", total: 398, ratings: { 5: 295, 4: 68, 3: 20, 2: 10, 1: 5 }, avg: 4.7 },
+                          { name: "Demo Akasya AVM", total: 376, ratings: { 5: 275, 4: 65, 3: 22, 2: 9, 1: 5 }, avg: 4.6 },
+                          { name: "Demo Cevahir AVM", total: 365, ratings: { 5: 270, 4: 58, 3: 25, 2: 8, 1: 4 }, avg: 4.7 },
+                          { name: "Demo Emaar AVM", total: 342, ratings: { 5: 245, 4: 62, 3: 20, 2: 10, 1: 5 }, avg: 4.6 },
+                          { name: "Demo Ankara Ankamall", total: 325, ratings: { 5: 235, 4: 55, 3: 22, 2: 8, 1: 5 }, avg: 4.6 },
+                          { name: "Demo İzmir Forum", total: 312, ratings: { 5: 220, 4: 58, 3: 20, 2: 9, 1: 5 }, avg: 4.5 },
+                          { name: "Demo Bursa Kent Meydanı", total: 298, ratings: { 5: 210, 4: 52, 3: 23, 2: 8, 1: 5 }, avg: 4.5 },
+                          { name: "Demo Antalya Migros AVM", total: 287, ratings: { 5: 200, 4: 55, 3: 20, 2: 7, 1: 5 }, avg: 4.5 },
+                          { name: "Demo Adana Optimum", total: 276, ratings: { 5: 195, 4: 48, 3: 22, 2: 7, 1: 4 }, avg: 4.5 },
+                          { name: "Demo Mersin Forum", total: 265, ratings: { 5: 185, 4: 52, 3: 18, 2: 6, 1: 4 }, avg: 4.6 },
+                          { name: "Demo Gaziantep Sanko Park", total: 254, ratings: { 5: 175, 4: 48, 3: 20, 2: 7, 1: 4 }, avg: 4.5 },
+                          { name: "Demo Konya Kulesite", total: 243, ratings: { 5: 165, 4: 45, 3: 22, 2: 7, 1: 4 }, avg: 4.4 },
+                          { name: "Demo Eskişehir Espark", total: 232, ratings: { 5: 155, 4: 48, 3: 18, 2: 7, 1: 4 }, avg: 4.5 },
+                          { name: "Demo Kayseri Park", total: 221, ratings: { 5: 145, 4: 44, 3: 20, 2: 8, 1: 4 }, avg: 4.4 },
+                          { name: "Demo Trabzon Forum", total: 210, ratings: { 5: 140, 4: 42, 3: 18, 2: 6, 1: 4 }, avg: 4.5 },
+                          { name: "Demo Samsun Piazza", total: 198, ratings: { 5: 130, 4: 38, 3: 20, 2: 6, 1: 4 }, avg: 4.4 }
                         ].map((location, index) => (
                           <div key={index} className="flex items-center gap-4 p-2 hover:bg-gray-50 rounded">
                             <div className="w-8 text-xs text-gray-500 font-mono">#{index + 1}</div>
                             <div className="w-48 text-sm font-medium">{location.name}</div>
                             <div className="flex-1 flex h-8 bg-gray-200 rounded overflow-hidden relative group">
                               {/* Stacked horizontal bar */}
-                              {[5,4,3,2,1].map((star) => {
+                              {[5, 4, 3, 2, 1].map((star) => {
                                 const count = location.ratings[star as keyof typeof location.ratings];
                                 const percentage = (count / location.total) * 100;
                                 return (
-                                  <div 
+                                  <div
                                     key={star}
-                                    className={`h-full ${
-                                      star === 5 ? 'bg-green-500' : 
-                                      star === 4 ? 'bg-lime-500' : 
-                                      star === 3 ? 'bg-yellow-500' : 
-                                      star === 2 ? 'bg-orange-500' : 'bg-red-500'
-                                    }`}
-                                    style={{width: `${percentage}%`}}
+                                    className={`h-full ${star === 5 ? 'bg-green-500' :
+                                      star === 4 ? 'bg-lime-500' :
+                                        star === 3 ? 'bg-yellow-500' :
+                                          star === 2 ? 'bg-orange-500' : 'bg-red-500'
+                                      }`}
+                                    style={{ width: `${percentage}%` }}
                                   ></div>
                                 );
                               })}
-                              
+
                               {/* Hover tooltip */}
                               <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-10 bg-black text-white text-xs px-3 py-2 rounded opacity-0 group-hover:opacity-100 transition-opacity z-10 min-w-max">
                                 <div className="space-y-1">
-                                  {[5,4,3,2,1].map((star) => {
+                                  {[5, 4, 3, 2, 1].map((star) => {
                                     const count = location.ratings[star as keyof typeof location.ratings];
                                     const percentage = (count / location.total) * 100;
                                     return (
                                       <div key={star} className="flex items-center gap-2">
-                                        <div className={`w-3 h-3 rounded ${
-                                          star === 5 ? 'bg-green-500' : 
-                                          star === 4 ? 'bg-lime-500' : 
-                                          star === 3 ? 'bg-yellow-500' : 
-                                          star === 2 ? 'bg-orange-500' : 'bg-red-500'
-                                        }`}></div>
+                                        <div className={`w-3 h-3 rounded ${star === 5 ? 'bg-green-500' :
+                                          star === 4 ? 'bg-lime-500' :
+                                            star === 3 ? 'bg-yellow-500' :
+                                              star === 2 ? 'bg-orange-500' : 'bg-red-500'
+                                          }`}></div>
                                         <span>{star}★: {count} ({percentage.toFixed(1)}%)</span>
                                       </div>
                                     );
@@ -1953,14 +2005,14 @@ export default function ReviewsX() {
                   <CardContent>
                     <div className="space-y-3">
                       {[
-                        {keyword: "store", mentions: 245, trend: "up"},
-                        {keyword: "product", mentions: 189, trend: "up"},
-                        {keyword: "staff", mentions: 156, trend: "stable"},
-                        {keyword: "quality", mentions: 134, trend: "up"},
-                        {keyword: "price", mentions: 98, trend: "down"},
-                        {keyword: "service", mentions: 87, trend: "up"},
-                        {keyword: "variety", mentions: 76, trend: "stable"},
-                        {keyword: "atmosphere", mentions: 65, trend: "up"}
+                        { keyword: "store", mentions: 245, trend: "up" },
+                        { keyword: "product", mentions: 189, trend: "up" },
+                        { keyword: "staff", mentions: 156, trend: "stable" },
+                        { keyword: "quality", mentions: 134, trend: "up" },
+                        { keyword: "price", mentions: 98, trend: "down" },
+                        { keyword: "service", mentions: 87, trend: "up" },
+                        { keyword: "variety", mentions: 76, trend: "stable" },
+                        { keyword: "atmosphere", mentions: 65, trend: "up" }
                       ].map((item, index) => (
                         <div key={index} className="flex items-center justify-between p-2 hover:bg-gray-50 rounded">
                           <div className="flex items-center gap-3">
@@ -1986,26 +2038,26 @@ export default function ReviewsX() {
                   <CardContent>
                     <div className="space-y-3">
                       {[
-                        {keyword: "store", positive: 78, negative: 22, sentiment: "positive"},
-                        {keyword: "product", positive: 82, negative: 18, sentiment: "positive"},
-                        {keyword: "staff", positive: 91, negative: 9, sentiment: "positive"},
-                        {keyword: "quality", positive: 88, negative: 12, sentiment: "positive"},
-                        {keyword: "price", positive: 45, negative: 55, sentiment: "negative"},
-                        {keyword: "service", positive: 76, negative: 24, sentiment: "positive"},
-                        {keyword: "variety", positive: 69, negative: 31, sentiment: "positive"},
-                        {keyword: "atmosphere", positive: 84, negative: 16, sentiment: "positive"}
+                        { keyword: "store", positive: 78, negative: 22, sentiment: "positive" },
+                        { keyword: "product", positive: 82, negative: 18, sentiment: "positive" },
+                        { keyword: "staff", positive: 91, negative: 9, sentiment: "positive" },
+                        { keyword: "quality", positive: 88, negative: 12, sentiment: "positive" },
+                        { keyword: "price", positive: 45, negative: 55, sentiment: "negative" },
+                        { keyword: "service", positive: 76, negative: 24, sentiment: "positive" },
+                        { keyword: "variety", positive: 69, negative: 31, sentiment: "positive" },
+                        { keyword: "atmosphere", positive: 84, negative: 16, sentiment: "positive" }
                       ].map((item, index) => (
                         <div key={index} className="flex items-center gap-3 p-2 hover:bg-gray-50 rounded">
                           <span className="font-mono text-xs text-gray-500 w-6">#{index + 1}</span>
                           <span className="font-medium w-20">{item.keyword}</span>
                           <div className="flex-1 flex bg-gray-200 rounded-full h-2">
-                            <div 
-                              className="bg-green-500 rounded-l-full h-2" 
-                              style={{width: `${item.positive}%`}}
+                            <div
+                              className="bg-green-500 rounded-l-full h-2"
+                              style={{ width: `${item.positive}%` }}
                             ></div>
-                            <div 
-                              className="bg-red-500 rounded-r-full h-2" 
-                              style={{width: `${item.negative}%`}}
+                            <div
+                              className="bg-red-500 rounded-r-full h-2"
+                              style={{ width: `${item.negative}%` }}
                             ></div>
                           </div>
                           <div className="flex gap-2 text-xs">
@@ -2032,13 +2084,12 @@ export default function ReviewsX() {
                         const urgencyDetection = detectUrgency(review.rating, review.text);
                         const isUrgent = urgencyDetection.isUrgent;
                         const urgencyReasons = urgencyDetection.urgencyReasons;
-                        
+
                         return (
-                          <div 
-                            key={review.id} 
-                            className={`flex items-start gap-3 p-3 border rounded-lg hover:bg-gray-50 cursor-pointer transition-colors ${
-                              isUrgent ? 'border-red-200 bg-red-50 hover:bg-red-100' : ''
-                            }`}
+                          <div
+                            key={review.id}
+                            className={`flex items-start gap-3 p-3 border rounded-lg hover:bg-gray-50 cursor-pointer transition-colors ${isUrgent ? 'border-red-200 bg-red-50 hover:bg-red-100' : ''
+                              }`}
                             onClick={() => {
                               // Preserved filter navigation - set urgency filter if urgent review
                               if (isUrgent) {
@@ -2068,24 +2119,24 @@ export default function ReviewsX() {
                                   </div>
                                 )}
                               </div>
-                            <div className="flex">
-                              {[...Array(5)].map((_, i) => (
-                                <Star
-                                  key={i}
-                                  className={`w-4 h-4 ${i < review.rating ? 'fill-yellow-400 text-yellow-400' : 'text-gray-300'}`}
-                                />
-                              ))}
+                              <div className="flex">
+                                {[...Array(5)].map((_, i) => (
+                                  <Star
+                                    key={i}
+                                    className={`w-4 h-4 ${i < review.rating ? 'fill-yellow-400 text-yellow-400' : 'text-gray-300'}`}
+                                  />
+                                ))}
+                              </div>
+                            </div>
+                            <div className="flex-1">
+                              <div className="font-medium text-sm flex items-center gap-2">
+                                <span>{review.reviewer} - {review.location}</span>
+                                {review.isUrgent && <span className="text-xs bg-red-100 text-red-600 px-2 py-1 rounded-full">URGENT</span>}
+                              </div>
+                              <div className="text-sm text-gray-600 line-clamp-2">{review.text}</div>
+                              <div className="text-xs text-gray-500 mt-1">{review.date}</div>
                             </div>
                           </div>
-                          <div className="flex-1">
-                            <div className="font-medium text-sm flex items-center gap-2">
-                              <span>{review.reviewer} - {review.location}</span>
-                              {review.isUrgent && <span className="text-xs bg-red-100 text-red-600 px-2 py-1 rounded-full">URGENT</span>}
-                            </div>
-                            <div className="text-sm text-gray-600 line-clamp-2">{review.text}</div>
-                            <div className="text-xs text-gray-500 mt-1">{review.date}</div>
-                          </div>
-                        </div>
                         );
                       })}
                     </div>
@@ -2099,7 +2150,7 @@ export default function ReviewsX() {
                   <CardContent>
                     <div className="space-y-4">
                       {/* Unreplied Reviews */}
-                      <div 
+                      <div
                         className="flex items-center justify-between p-3 bg-red-50 border border-red-200 rounded-lg cursor-pointer hover:bg-red-100 transition-colors"
                         onClick={() => {
                           setInboxFilters(prev => ({ ...prev, source: null, rating: null, week: null, status: 'unreplied' }));
@@ -2117,7 +2168,7 @@ export default function ReviewsX() {
                       </div>
 
                       {/* SLA At Risk */}
-                      <div 
+                      <div
                         className="flex items-center justify-between p-3 bg-orange-50 border border-orange-200 rounded-lg cursor-pointer hover:bg-orange-100 transition-colors"
                         onClick={() => {
                           setInboxFilters(prev => ({ ...prev, source: null, rating: null, week: null, status: 'sla-risk' }));
@@ -2135,7 +2186,7 @@ export default function ReviewsX() {
                       </div>
 
                       {/* Escalated Issues */}
-                      <div 
+                      <div
                         className="flex items-center justify-between p-3 bg-purple-50 border border-purple-200 rounded-lg cursor-pointer hover:bg-purple-100 transition-colors"
                         onClick={() => {
                           setInboxFilters(prev => ({ ...prev, source: null, rating: null, week: null, status: 'escalated' }));
@@ -2179,7 +2230,7 @@ export default function ReviewsX() {
                       </h4>
                       <div className="space-y-2">
                         {themesData.positive.map((item, index) => (
-                          <div 
+                          <div
                             key={index}
                             className="cursor-pointer hover:bg-green-50 p-2 rounded-lg border border-green-200 transition-colors"
                             onClick={() => {
@@ -2209,7 +2260,7 @@ export default function ReviewsX() {
                       </h4>
                       <div className="space-y-2">
                         {themesData.negative.map((item, index) => (
-                          <div 
+                          <div
                             key={index}
                             className="cursor-pointer hover:bg-red-50 p-2 rounded-lg border border-red-200 transition-colors"
                             onClick={() => {
@@ -2231,11 +2282,11 @@ export default function ReviewsX() {
                       </div>
                     </div>
                   </div>
-                  
+
                   <div className="mt-4 pt-4 border-t border-gray-200">
-                    <Button 
-                      variant="outline" 
-                      size="sm" 
+                    <Button
+                      variant="outline"
+                      size="sm"
                       onClick={() => setActiveTab("insights")}
                       className="text-blue-600 hover:text-blue-700"
                     >
@@ -2289,7 +2340,7 @@ export default function ReviewsX() {
                         ))}
                       </div>
                     </div>
-                    
+
                     <div>
                       <h4 className="font-medium text-red-600 mb-3 flex items-center gap-2">
                         <TrendingDown className="w-4 h-4" />
@@ -2327,10 +2378,10 @@ export default function ReviewsX() {
                       </div>
                     </div>
                   </div>
-                  
+
                   <div className="mt-6 text-center">
-                    <Button 
-                      variant="outline" 
+                    <Button
+                      variant="outline"
                       onClick={() => setActiveTab("locations")}
                       className="text-blue-600 hover:text-blue-700"
                     >
@@ -2399,8 +2450,8 @@ export default function ReviewsX() {
                                   </span>
                                 </div>
                               </div>
-                              <Button 
-                                size="sm" 
+                              <Button
+                                size="sm"
                                 className="w-full mt-3"
                                 onClick={() => {
                                   setLocationFilter(location.name);
@@ -2424,7 +2475,7 @@ export default function ReviewsX() {
                       ))}
                     </MapContainer>
                   </div>
-                  
+
                   {/* Map Legend */}
                   <div className="mt-4 flex items-center justify-between">
                     <div className="flex items-center gap-4">
@@ -2481,11 +2532,10 @@ export default function ReviewsX() {
                         <div key={index} className="flex items-center gap-2">
                           {index > 0 && <span className="text-gray-400">→</span>}
                           <button
-                            className={`px-2 py-1 rounded text-sm ${
-                              index === breadcrumbs.length - 1
-                                ? 'bg-blue-100 text-blue-700 font-medium'
-                                : 'text-gray-600 hover:text-blue-600'
-                            }`}
+                            className={`px-2 py-1 rounded text-sm ${index === breadcrumbs.length - 1
+                              ? 'bg-blue-100 text-blue-700 font-medium'
+                              : 'text-gray-600 hover:text-blue-600'
+                              }`}
                             onClick={() => {
                               if (index < breadcrumbs.length - 1) {
                                 const newBreadcrumbs = breadcrumbs.slice(0, index + 1);
@@ -2530,8 +2580,8 @@ export default function ReviewsX() {
                       <div>
                         <h4 className="font-semibold text-lg">{currentData.name}</h4>
                         <p className="text-sm text-gray-600">
-                          {currentLevel === "country" ? "Country Overview - Click provinces to drill down" : 
-                           currentLevel === "region" ? "Region Overview - Click cities to see details" : "Individual Locations"}
+                          {currentLevel === "country" ? "Country Overview - Click provinces to drill down" :
+                            currentLevel === "region" ? "Region Overview - Click cities to see details" : "Individual Locations"}
                         </p>
                       </div>
                       <div className="flex gap-4 text-sm">
@@ -2557,7 +2607,7 @@ export default function ReviewsX() {
 
                   {/* Turkey Map */}
                   <div className="h-96 rounded-lg overflow-hidden border bg-white flex items-center justify-center">
-                    <img 
+                    <img
                       src={turkeyMapImage}
                       alt="Turkey Map"
                       className="max-w-full max-h-full object-contain"
@@ -2571,23 +2621,23 @@ export default function ReviewsX() {
                       <h4 className="font-medium text-gray-700">Performance Scale:</h4>
                       <div className="flex items-center gap-3">
                         <div className="flex items-center gap-1">
-                          <div className="w-4 h-4 rounded" style={{backgroundColor: '#1e3a8a'}}></div>
+                          <div className="w-4 h-4 rounded" style={{ backgroundColor: '#1e3a8a' }}></div>
                           <span className="text-gray-600">Excellent (4.0+★)</span>
                         </div>
                         <div className="flex items-center gap-1">
-                          <div className="w-4 h-4 rounded" style={{backgroundColor: '#3b82f6'}}></div>
+                          <div className="w-4 h-4 rounded" style={{ backgroundColor: '#3b82f6' }}></div>
                           <span className="text-gray-600">Good (3.5-3.9★)</span>
                         </div>
                         <div className="flex items-center gap-1">
-                          <div className="w-4 h-4 rounded" style={{backgroundColor: '#93c5fd'}}></div>
+                          <div className="w-4 h-4 rounded" style={{ backgroundColor: '#93c5fd' }}></div>
                           <span className="text-gray-600">Average (3.0-3.4★)</span>
                         </div>
                         <div className="flex items-center gap-1">
-                          <div className="w-4 h-4 rounded" style={{backgroundColor: '#dbeafe'}}></div>
+                          <div className="w-4 h-4 rounded" style={{ backgroundColor: '#dbeafe' }}></div>
                           <span className="text-gray-600">Below Average (2.5-2.9★)</span>
                         </div>
                         <div className="flex items-center gap-1">
-                          <div className="w-4 h-4 rounded" style={{backgroundColor: '#f1f5f9'}}></div>
+                          <div className="w-4 h-4 rounded" style={{ backgroundColor: '#f1f5f9' }}></div>
                           <span className="text-gray-600">Poor (&lt;2.5★)</span>
                         </div>
                       </div>
@@ -2762,7 +2812,7 @@ export default function ReviewsX() {
                   </Button>
                 </div>
               </div>
-              
+
               {/* Active Filters Display */}
               {(inboxFilters.source || inboxFilters.rating || inboxFilters.week) && (
                 <div className="flex items-center gap-2 p-3 bg-blue-50 rounded-lg border border-blue-200">
@@ -2770,8 +2820,8 @@ export default function ReviewsX() {
                   {inboxFilters.source && (
                     <Badge variant="secondary" className="bg-blue-100 text-blue-800">
                       Source: {inboxFilters.source}
-                      <button 
-                        onClick={() => setInboxFilters({...inboxFilters, source: null})}
+                      <button
+                        onClick={() => setInboxFilters({ ...inboxFilters, source: null })}
                         className="ml-1 hover:bg-blue-200 rounded-full p-0.5"
                       >
                         ✕
@@ -2781,8 +2831,8 @@ export default function ReviewsX() {
                   {inboxFilters.rating && (
                     <Badge variant="secondary" className="bg-blue-100 text-blue-800">
                       Rating: {inboxFilters.rating}★
-                      <button 
-                        onClick={() => setInboxFilters({...inboxFilters, rating: null})}
+                      <button
+                        onClick={() => setInboxFilters({ ...inboxFilters, rating: null })}
                         className="ml-1 hover:bg-blue-200 rounded-full p-0.5"
                       >
                         ✕
@@ -2792,8 +2842,8 @@ export default function ReviewsX() {
                   {inboxFilters.week && (
                     <Badge variant="secondary" className="bg-blue-100 text-blue-800">
                       Week: {inboxFilters.week}
-                      <button 
-                        onClick={() => setInboxFilters({...inboxFilters, week: null})}
+                      <button
+                        onClick={() => setInboxFilters({ ...inboxFilters, week: null })}
                         className="ml-1 hover:bg-blue-200 rounded-full p-0.5"
                       >
                         ✕
@@ -2894,12 +2944,12 @@ export default function ReviewsX() {
                             </Button>
                           </div>
                         </div>
-                        
+
                         <Textarea
                           placeholder="Write your reply here..."
                           className="min-h-[100px]"
                         />
-                        
+
                         <div className="flex items-center justify-between">
                           <div className="flex items-center gap-2">
                             <Checkbox id="internal-note" />
@@ -2967,23 +3017,23 @@ export default function ReviewsX() {
                         <span className="font-medium">67%</span>
                       </div>
                       <div className="w-full bg-gray-200 rounded-full h-2">
-                        <div className="bg-green-600 h-2 rounded-full" style={{width: '67%'}}></div>
+                        <div className="bg-green-600 h-2 rounded-full" style={{ width: '67%' }}></div>
                       </div>
-                      
+
                       <div className="flex justify-between items-center">
                         <span className="text-sm">Within 48 hours</span>
                         <span className="font-medium">89%</span>
                       </div>
                       <div className="w-full bg-gray-200 rounded-full h-2">
-                        <div className="bg-yellow-600 h-2 rounded-full" style={{width: '89%'}}></div>
+                        <div className="bg-yellow-600 h-2 rounded-full" style={{ width: '89%' }}></div>
                       </div>
-                      
+
                       <div className="flex justify-between items-center">
                         <span className="text-sm">48+ hours</span>
                         <span className="font-medium text-red-600">11%</span>
                       </div>
                       <div className="w-full bg-gray-200 rounded-full h-2">
-                        <div className="bg-red-600 h-2 rounded-full" style={{width: '11%'}}></div>
+                        <div className="bg-red-600 h-2 rounded-full" style={{ width: '11%' }}></div>
                       </div>
                     </div>
 
@@ -2998,9 +3048,9 @@ export default function ReviewsX() {
                         <span className="font-medium">45%</span>
                       </div>
                       <div className="w-full bg-gray-200 rounded-full h-2">
-                        <div className="bg-green-600 h-2 rounded-full" style={{width: '45%'}}></div>
+                        <div className="bg-green-600 h-2 rounded-full" style={{ width: '45%' }}></div>
                       </div>
-                      
+
                       <div className="flex justify-between items-center">
                         <span className="text-sm flex items-center gap-2">
                           <span className="text-yellow-500">★★★★</span>
@@ -3009,9 +3059,9 @@ export default function ReviewsX() {
                         <span className="font-medium">72%</span>
                       </div>
                       <div className="w-full bg-gray-200 rounded-full h-2">
-                        <div className="bg-blue-600 h-2 rounded-full" style={{width: '72%'}}></div>
+                        <div className="bg-blue-600 h-2 rounded-full" style={{ width: '72%' }}></div>
                       </div>
-                      
+
                       <div className="flex justify-between items-center">
                         <span className="text-sm flex items-center gap-2">
                           <span className="text-yellow-500">★★★</span>
@@ -3020,9 +3070,9 @@ export default function ReviewsX() {
                         <span className="font-medium">85%</span>
                       </div>
                       <div className="w-full bg-gray-200 rounded-full h-2">
-                        <div className="bg-yellow-600 h-2 rounded-full" style={{width: '85%'}}></div>
+                        <div className="bg-yellow-600 h-2 rounded-full" style={{ width: '85%' }}></div>
                       </div>
-                      
+
                       <div className="flex justify-between items-center">
                         <span className="text-sm flex items-center gap-2">
                           <span className="text-yellow-500">★★</span>
@@ -3031,9 +3081,9 @@ export default function ReviewsX() {
                         <span className="font-medium">94%</span>
                       </div>
                       <div className="w-full bg-gray-200 rounded-full h-2">
-                        <div className="bg-orange-600 h-2 rounded-full" style={{width: '94%'}}></div>
+                        <div className="bg-orange-600 h-2 rounded-full" style={{ width: '94%' }}></div>
                       </div>
-                      
+
                       <div className="flex justify-between items-center">
                         <span className="text-sm flex items-center gap-2">
                           <span className="text-yellow-500">★</span>
@@ -3042,7 +3092,7 @@ export default function ReviewsX() {
                         <span className="font-medium">98%</span>
                       </div>
                       <div className="w-full bg-gray-200 rounded-full h-2">
-                        <div className="bg-red-600 h-2 rounded-full" style={{width: '98%'}}></div>
+                        <div className="bg-red-600 h-2 rounded-full" style={{ width: '98%' }}></div>
                       </div>
                     </div>
                   </div>
@@ -3084,20 +3134,20 @@ export default function ReviewsX() {
                             margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
                           >
                             <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
-                            <XAxis 
-                              dataKey="date" 
+                            <XAxis
+                              dataKey="date"
                               axisLine={false}
                               tickLine={false}
                               tick={{ fontSize: 12, fill: '#6b7280' }}
                             />
-                            <YAxis 
+                            <YAxis
                               domain={[0, 100]}
                               axisLine={false}
                               tickLine={false}
                               tick={{ fontSize: 12, fill: '#6b7280' }}
                               label={{ value: 'Sentiment Index', angle: -90, position: 'insideLeft' }}
                             />
-                            <RechartsTooltip 
+                            <RechartsTooltip
                               content={({ active, payload, label }) => {
                                 if (active && payload && payload.length) {
                                   const data = payload[0].payload;
@@ -3131,19 +3181,19 @@ export default function ReviewsX() {
                                 return null;
                               }}
                             />
-                            <Line 
-                              type="monotone" 
-                              dataKey="sentiment" 
-                              stroke="#3B82F6" 
+                            <Line
+                              type="monotone"
+                              dataKey="sentiment"
+                              stroke="#3B82F6"
                               strokeWidth={3}
-                              dot={{ 
-                                fill: '#3B82F6', 
-                                strokeWidth: 2, 
+                              dot={{
+                                fill: '#3B82F6',
+                                strokeWidth: 2,
                                 r: 5,
                                 cursor: 'pointer'
                               }}
-                              activeDot={{ 
-                                r: 7, 
+                              activeDot={{
+                                r: 7,
                                 fill: '#1D4ED8',
                                 cursor: 'pointer',
                                 onClick: (data) => {
@@ -3162,7 +3212,7 @@ export default function ReviewsX() {
                       <h4 className="font-semibold text-gray-700 mb-3">
                         {selectedSentimentDate ? `Key Sentences - ${selectedSentimentDate.date}` : 'Select a date point'}
                       </h4>
-                      
+
                       {selectedSentimentDate ? (
                         <div className="space-y-4">
                           {/* Positive Sentences */}
@@ -3244,116 +3294,116 @@ export default function ReviewsX() {
 
               {/* Trend Analysis - Standalone */}
               <Card>
-                  <CardHeader>
-                    <CardTitle>Trend Analysis</CardTitle>
-                    <div className="text-sm text-gray-600">Review volume by channel with rating overlay (Last 14 days)</div>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="h-64" data-testid="chart-trend-analysis">
-                      <ResponsiveContainer width="100%" height="100%">
-                        <ComposedChart data={trendData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
-                          <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
-                          <XAxis 
-                            dataKey="date" 
-                            axisLine={false}
-                            tickLine={false}
-                            tick={{ fontSize: 12, fill: '#6b7280' }}
-                          />
-                          <YAxis 
-                            yAxisId="volume"
-                            axisLine={false}
-                            tickLine={false}
-                            tick={{ fontSize: 12, fill: '#6b7280' }}
-                          />
-                          <YAxis 
-                            yAxisId="rating"
-                            orientation="right"
-                            domain={[1, 5]}
-                            axisLine={false}
-                            tickLine={false}
-                            tick={{ fontSize: 12, fill: '#6b7280' }}
-                          />
-                          <RechartsTooltip 
-                            content={({ active, payload, label }) => {
-                              if (active && payload && payload.length) {
-                                const total = payload.filter(p => p.dataKey !== 'avgRating').reduce((sum, p) => sum + (p.value || 0), 0);
-                                return (
-                                  <div className="bg-white p-3 border border-gray-200 rounded-lg shadow-lg">
-                                    <p className="font-semibold text-gray-900 mb-2">{label}</p>
-                                    <div className="space-y-1 text-sm">
-                                      <div className="flex justify-between items-center">
-                                        <span className="text-gray-600">Total Reviews:</span>
-                                        <span className="font-medium">{total}</span>
-                                      </div>
-                                      {payload.filter(p => p.dataKey !== 'avgRating').map((entry, index) => (
-                                        <div key={index} className="flex justify-between items-center">
-                                          <div className="flex items-center gap-2">
-                                            <div className="w-3 h-3 rounded" style={{ backgroundColor: entry.color }}></div>
-                                            <span className="text-gray-600 capitalize">{entry.dataKey}:</span>
-                                          </div>
-                                          <span className="font-medium">{entry.value}</span>
-                                        </div>
-                                      ))}
-                                      {payload.find(p => p.dataKey === 'avgRating') && (
-                                        <div className="flex justify-between items-center pt-1 border-t border-gray-100">
-                                          <span className="text-gray-600">Avg Rating:</span>
-                                          <span className="font-medium">{payload.find(p => p.dataKey === 'avgRating')?.value}★</span>
-                                        </div>
-                                      )}
+                <CardHeader>
+                  <CardTitle>Trend Analysis</CardTitle>
+                  <div className="text-sm text-gray-600">Review volume by channel with rating overlay (Last 14 days)</div>
+                </CardHeader>
+                <CardContent>
+                  <div className="h-64" data-testid="chart-trend-analysis">
+                    <ResponsiveContainer width="100%" height="100%">
+                      <ComposedChart data={trendData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
+                        <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+                        <XAxis
+                          dataKey="date"
+                          axisLine={false}
+                          tickLine={false}
+                          tick={{ fontSize: 12, fill: '#6b7280' }}
+                        />
+                        <YAxis
+                          yAxisId="volume"
+                          axisLine={false}
+                          tickLine={false}
+                          tick={{ fontSize: 12, fill: '#6b7280' }}
+                        />
+                        <YAxis
+                          yAxisId="rating"
+                          orientation="right"
+                          domain={[1, 5]}
+                          axisLine={false}
+                          tickLine={false}
+                          tick={{ fontSize: 12, fill: '#6b7280' }}
+                        />
+                        <RechartsTooltip
+                          content={({ active, payload, label }) => {
+                            if (active && payload && payload.length) {
+                              const total = payload.filter(p => p.dataKey !== 'avgRating').reduce((sum, p) => sum + (p.value || 0), 0);
+                              return (
+                                <div className="bg-white p-3 border border-gray-200 rounded-lg shadow-lg">
+                                  <p className="font-semibold text-gray-900 mb-2">{label}</p>
+                                  <div className="space-y-1 text-sm">
+                                    <div className="flex justify-between items-center">
+                                      <span className="text-gray-600">Total Reviews:</span>
+                                      <span className="font-medium">{total}</span>
                                     </div>
+                                    {payload.filter(p => p.dataKey !== 'avgRating').map((entry, index) => (
+                                      <div key={index} className="flex justify-between items-center">
+                                        <div className="flex items-center gap-2">
+                                          <div className="w-3 h-3 rounded" style={{ backgroundColor: entry.color }}></div>
+                                          <span className="text-gray-600 capitalize">{entry.dataKey}:</span>
+                                        </div>
+                                        <span className="font-medium">{entry.value}</span>
+                                      </div>
+                                    ))}
+                                    {payload.find(p => p.dataKey === 'avgRating') && (
+                                      <div className="flex justify-between items-center pt-1 border-t border-gray-100">
+                                        <span className="text-gray-600">Avg Rating:</span>
+                                        <span className="font-medium">{payload.find(p => p.dataKey === 'avgRating')?.value}★</span>
+                                      </div>
+                                    )}
                                   </div>
-                                );
-                              }
-                              return null;
-                            }}
-                          />
-                          <Legend 
-                            wrapperStyle={{ paddingTop: '10px' }}
-                            iconType="rect"
-                          />
-                          
-                          {/* Stacked bars for review channels */}
-                          <Bar 
-                            yAxisId="volume"
-                            dataKey="google" 
-                            stackId="reviews" 
-                            fill="#4285F4" 
-                            name="Google"
-                            radius={[0, 0, 0, 0]}
-                          />
-                          <Bar 
-                            yAxisId="volume"
-                            dataKey="website" 
-                            stackId="reviews" 
-                            fill="#10B981" 
-                            name="Website"
-                            radius={[0, 0, 0, 0]}
-                          />
-                          <Bar 
-                            yAxisId="volume"
-                            dataKey="app" 
-                            stackId="reviews" 
-                            fill="#8B5CF6" 
-                            name="App"
-                            radius={[2, 2, 0, 0]}
-                          />
-                          
-                          {/* Rating polyline overlay */}
-                          <Line 
-                            yAxisId="rating"
-                            type="monotone" 
-                            dataKey="avgRating" 
-                            stroke="#EF4444" 
-                            strokeWidth={3}
-                            dot={{ fill: '#EF4444', strokeWidth: 2, r: 4 }}
-                            name="Avg Rating"
-                            connectNulls={true}
-                          />
-                        </ComposedChart>
-                      </ResponsiveContainer>
-                    </div>
-                  </CardContent>
-                </Card>
+                                </div>
+                              );
+                            }
+                            return null;
+                          }}
+                        />
+                        <Legend
+                          wrapperStyle={{ paddingTop: '10px' }}
+                          iconType="rect"
+                        />
+
+                        {/* Stacked bars for review channels */}
+                        <Bar
+                          yAxisId="volume"
+                          dataKey="google"
+                          stackId="reviews"
+                          fill="#4285F4"
+                          name="Google"
+                          radius={[0, 0, 0, 0]}
+                        />
+                        <Bar
+                          yAxisId="volume"
+                          dataKey="website"
+                          stackId="reviews"
+                          fill="#10B981"
+                          name="Website"
+                          radius={[0, 0, 0, 0]}
+                        />
+                        <Bar
+                          yAxisId="volume"
+                          dataKey="app"
+                          stackId="reviews"
+                          fill="#8B5CF6"
+                          name="App"
+                          radius={[2, 2, 0, 0]}
+                        />
+
+                        {/* Rating polyline overlay */}
+                        <Line
+                          yAxisId="rating"
+                          type="monotone"
+                          dataKey="avgRating"
+                          stroke="#EF4444"
+                          strokeWidth={3}
+                          dot={{ fill: '#EF4444', strokeWidth: 2, r: 4 }}
+                          name="Avg Rating"
+                          connectNulls={true}
+                        />
+                      </ComposedChart>
+                    </ResponsiveContainer>
+                  </div>
+                </CardContent>
+              </Card>
 
               {/* Enhanced Theme Analysis View */}
               <Card className="col-span-full">
@@ -3369,9 +3419,9 @@ export default function ReviewsX() {
                       </p>
                     </div>
                     {selectedTheme && (
-                      <Button 
-                        variant="outline" 
-                        size="sm" 
+                      <Button
+                        variant="outline"
+                        size="sm"
                         onClick={() => setSelectedTheme(null)}
                         data-testid="button-clear-theme"
                       >
@@ -3388,10 +3438,10 @@ export default function ReviewsX() {
                       <Calendar className="w-4 h-4 text-gray-600" />
                       <span className="text-sm font-medium text-gray-700">Filters:</span>
                     </div>
-                    
+
                     {/* Date Range Filter */}
-                    <Select 
-                      value={themeFilters.dateRange} 
+                    <Select
+                      value={themeFilters.dateRange}
                       onValueChange={(value) => setThemeFilters(prev => ({ ...prev, dateRange: value }))}
                     >
                       <SelectTrigger className="w-40" data-testid="select-theme-date-range">
@@ -3406,8 +3456,8 @@ export default function ReviewsX() {
                     </Select>
 
                     {/* Location Hierarchy Filter */}
-                    <Select 
-                      value={themeFilters.location} 
+                    <Select
+                      value={themeFilters.location}
                       onValueChange={(value) => setThemeFilters(prev => ({ ...prev, location: value }))}
                     >
                       <SelectTrigger className="w-52" data-testid="select-theme-location">
@@ -3426,8 +3476,8 @@ export default function ReviewsX() {
                     </Select>
 
                     {/* Product Filter */}
-                    <Select 
-                      value={themeFilters.product} 
+                    <Select
+                      value={themeFilters.product}
                       onValueChange={(value) => setThemeFilters(prev => ({ ...prev, product: value }))}
                     >
                       <SelectTrigger className="w-44" data-testid="select-theme-product">
@@ -3451,7 +3501,7 @@ export default function ReviewsX() {
                         <h3 className="text-lg font-semibold">Theme Volume & Sentiment Overview</h3>
                         <p className="text-sm text-gray-500">Click any bar to drill down into specific theme analysis</p>
                       </div>
-                      
+
                       <div className="space-y-3">
                         {themeAnalysis.map((theme, index) => (
                           <div key={theme.id} className="group">
@@ -3463,9 +3513,9 @@ export default function ReviewsX() {
                                 {theme.trend === "down" && <ArrowDown className="w-3 h-3 text-red-600" />}
                                 {theme.trend === "stable" && <div className="w-3 h-0.5 bg-gray-400"></div>}
                               </div>
-                              <Button 
-                                variant="ghost" 
-                                size="sm" 
+                              <Button
+                                variant="ghost"
+                                size="sm"
                                 onClick={() => setSelectedTheme(theme)}
                                 className="opacity-0 group-hover:opacity-100 transition-opacity"
                                 data-testid={`button-select-theme-${theme.id}`}
@@ -3473,48 +3523,48 @@ export default function ReviewsX() {
                                 <ChevronRight className="w-4 h-4" />
                               </Button>
                             </div>
-                            
+
                             {/* Horizontal Segmented Bar Chart */}
-                            <div 
+                            <div
                               className="relative h-8 bg-gray-100 rounded-lg overflow-hidden cursor-pointer hover:shadow-md transition-shadow border"
                               onClick={() => setSelectedTheme(theme)}
                               data-testid={`bar-theme-${theme.id}`}
                             >
                               <div className="flex h-full">
                                 {/* Positive Segment */}
-                                <div 
+                                <div
                                   className="bg-green-500 flex items-center justify-center text-xs font-medium text-white"
                                   style={{ width: `${theme.positive}%` }}
                                 >
                                   {theme.positive > 15 ? `${theme.positive}%` : ''}
                                 </div>
                                 {/* Neutral Segment */}
-                                <div 
+                                <div
                                   className="bg-yellow-400 flex items-center justify-center text-xs font-medium text-gray-800"
                                   style={{ width: `${theme.neutral}%` }}
                                 >
                                   {theme.neutral > 15 ? `${theme.neutral}%` : ''}
                                 </div>
                                 {/* Negative Segment */}
-                                <div 
+                                <div
                                   className="bg-red-500 flex items-center justify-center text-xs font-medium text-white"
                                   style={{ width: `${theme.negative}%` }}
                                 >
                                   {theme.negative > 15 ? `${theme.negative}%` : ''}
                                 </div>
                               </div>
-                              
+
                               {/* Tooltip overlay */}
                               <div className="absolute inset-0 opacity-0 hover:opacity-100 bg-black bg-opacity-10 flex items-center justify-center text-xs text-white font-medium transition-opacity">
                                 Click to analyze "{theme.theme}"
                               </div>
                             </div>
-                            
+
                             <p className="text-xs text-gray-500 mt-1">{theme.description}</p>
                           </div>
                         ))}
                       </div>
-                      
+
                       {/* Legend */}
                       <div className="flex items-center justify-center gap-6 pt-4 border-t">
                         <div className="flex items-center gap-2">
@@ -3568,25 +3618,25 @@ export default function ReviewsX() {
                               <ResponsiveContainer width="100%" height="100%">
                                 <LineChart data={getThemeTimelineData(selectedTheme.id)}>
                                   <CartesianGrid strokeDasharray="3 3" stroke="#f3f4f6" />
-                                  <XAxis 
-                                    dataKey="date" 
+                                  <XAxis
+                                    dataKey="date"
                                     tick={{ fontSize: 12 }}
                                     tickFormatter={(date) => new Date(date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
                                     interval="preserveStartEnd"
                                   />
                                   <YAxis tick={{ fontSize: 12 }} />
-                                  <RechartsTooltip 
-                                    labelFormatter={(date) => new Date(date).toLocaleDateString('en-US', { 
-                                      weekday: 'short', 
-                                      month: 'short', 
-                                      day: 'numeric' 
+                                  <RechartsTooltip
+                                    labelFormatter={(date) => new Date(date).toLocaleDateString('en-US', {
+                                      weekday: 'short',
+                                      month: 'short',
+                                      day: 'numeric'
                                     })}
                                     formatter={(value) => [value, 'Mentions']}
                                   />
-                                  <Line 
-                                    type="monotone" 
-                                    dataKey="mentions" 
-                                    stroke="#3B82F6" 
+                                  <Line
+                                    type="monotone"
+                                    dataKey="mentions"
+                                    stroke="#3B82F6"
                                     strokeWidth={2}
                                     dot={{ fill: '#3B82F6', strokeWidth: 2, r: 3 }}
                                     activeDot={{ r: 5, fill: '#1D4ED8' }}
@@ -3640,25 +3690,24 @@ export default function ReviewsX() {
                         <CardContent>
                           <div className="space-y-4 max-h-80 overflow-y-auto">
                             {getThemeReviews(selectedTheme.id).map((review, index) => (
-                              <div 
-                                key={index} 
-                                className={`p-4 rounded-lg border-l-4 ${
-                                  review.sentiment === 'positive' 
-                                    ? 'bg-green-50 border-green-400' 
-                                    : 'bg-red-50 border-red-400'
-                                }`}
+                              <div
+                                key={index}
+                                className={`p-4 rounded-lg border-l-4 ${review.sentiment === 'positive'
+                                  ? 'bg-green-50 border-green-400'
+                                  : 'bg-red-50 border-red-400'
+                                  }`}
                               >
-                                <div 
+                                <div
                                   className="text-sm mb-2"
-                                  dangerouslySetInnerHTML={{ 
+                                  dangerouslySetInnerHTML={{
                                     __html: review.snippet.replace(/\*\*(.*?)\*\*/g, '<strong class="font-semibold">$1</strong>')
                                   }}
                                 />
                                 <div className="flex items-center justify-between text-xs text-gray-500">
                                   <span>{review.location}</span>
-                                  <span>{new Date(review.date).toLocaleDateString('en-US', { 
-                                    month: 'short', 
-                                    day: 'numeric' 
+                                  <span>{new Date(review.date).toLocaleDateString('en-US', {
+                                    month: 'short',
+                                    day: 'numeric'
                                   })}</span>
                                 </div>
                               </div>
@@ -3694,7 +3743,7 @@ export default function ReviewsX() {
                       </div>
                       <Badge variant="default">Connected ✅</Badge>
                     </div>
-                    
+
                     <div className="flex items-center justify-between p-3 border rounded-lg">
                       <div className="flex items-center gap-3">
                         <div className="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center">
@@ -3704,7 +3753,7 @@ export default function ReviewsX() {
                       </div>
                       <Badge variant="default">Connected ✅</Badge>
                     </div>
-                    
+
                     <div className="flex items-center justify-between p-3 border rounded-lg">
                       <div className="flex items-center gap-3">
                         <div className="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center">
@@ -3714,7 +3763,7 @@ export default function ReviewsX() {
                       </div>
                       <Badge variant="default">Connected ✅</Badge>
                     </div>
-                    
+
                     <div className="flex items-center justify-between p-3 border rounded-lg">
                       <div className="flex items-center gap-3">
                         <div className="w-8 h-8 bg-red-100 rounded-lg flex items-center justify-center">
@@ -3724,7 +3773,7 @@ export default function ReviewsX() {
                       </div>
                       <Badge variant="secondary">View Only</Badge>
                     </div>
-                    
+
                     <Button variant="outline" className="w-full">
                       <Plus className="w-4 h-4 mr-2" />
                       Add New Source
@@ -3754,7 +3803,7 @@ export default function ReviewsX() {
                         </div>
                       </div>
                     ))}
-                    
+
                     <Button variant="outline" className="w-full">
                       <Plus className="w-4 h-4 mr-2" />
                       Add New Template
@@ -3786,7 +3835,7 @@ export default function ReviewsX() {
                         <Checkbox defaultChecked />
                       </div>
                     </div>
-                    
+
                     <Button variant="outline" className="w-full">
                       <Mail className="w-4 h-4 mr-2" />
                       Edit Notification Settings
@@ -3818,8 +3867,8 @@ export default function ReviewsX() {
                         <Checkbox defaultChecked />
                       </div>
                     </div>
-                    
-                    
+
+
                   </CardContent>
                 </Card>
 
@@ -3851,7 +3900,7 @@ export default function ReviewsX() {
                           </Button>
                         </div>
                       </div>
-                      
+
                       {/* Uploaded Documents List */}
                       <div className="space-y-2">
                         <div className="flex items-center justify-between p-2 bg-gray-50 rounded">

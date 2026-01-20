@@ -1,6 +1,7 @@
 import PipelineStatus from '@/components/catalog/PipelineStatus';
 import LiveActivitySidebar from '@/components/catalog/LiveActivitySidebar';
-import MainDashboardContent from '@/components/catalog/MainDashboardContent';
+import ProductCatalogTable from '@/components/catalog/ProductCatalogTable';
+import InventorySummary from '@/components/catalog/InventorySummary';
 
 export default function Catalog() {
   return (
@@ -9,7 +10,7 @@ export default function Catalog() {
       <div className="flex-1 flex flex-col overflow-hidden">
         {/* Pipeline Header */}
         <div className="p-6 pb-4">
-          <PipelineStatus 
+          <PipelineStatus
             erpStatus="connected"
             erpLastSync="2 min ago"
             erpLatency={24}
@@ -21,8 +22,12 @@ export default function Catalog() {
         </div>
 
         {/* Content Area */}
-        <div className="flex-1 px-6 pb-6 overflow-auto">
-          <MainDashboardContent />
+        <div className="flex-1 px-6 pb-6 overflow-auto space-y-6">
+          {/* Summary Section */}
+          <InventorySummary />
+
+          {/* Product Catalog Table */}
+          <ProductCatalogTable />
         </div>
       </div>
 

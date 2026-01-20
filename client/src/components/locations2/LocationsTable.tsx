@@ -10,7 +10,7 @@ import {
   Calendar,
   TrendingUp,
 } from "lucide-react";
-import { FilterBar } from "@/components/locations/FilterBar";
+import { FilterBar } from "@/components/shared/locations/FilterBar";
 import { LocationDataTable } from "@/components/locations/LocationDataTable";
 import { LocationsFilterState } from "@/lib/types";
 import {
