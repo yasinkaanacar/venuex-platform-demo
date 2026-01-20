@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { useLocation } from 'wouter';
-import { 
-  Plus, Calendar, Globe, Smartphone, Eye, Trash2, Edit, ChevronDown, 
+import {
+  Plus, Calendar, Globe, Smartphone, Eye, Trash2, Edit, ChevronDown,
   Store, MapPin, Map, ChevronLeft, ChevronRight, List, LayoutGrid,
   ThumbsUp, Sparkles, Clock
 } from 'lucide-react';
@@ -170,24 +170,16 @@ export default function ManagePosts() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <div className="bg-white border-b border-gray-200 px-6 py-4">
-        <div className="max-w-6xl mx-auto flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-orange-500 to-red-500 flex items-center justify-center">
-              <Calendar className="w-5 h-5 text-white" />
-            </div>
-            <div>
-              <h1 className="text-xl font-bold text-gray-900" data-testid="text-page-title">Manage Posts</h1>
-              <p className="text-xs text-gray-500">View and manage all your business posts across platforms</p>
-            </div>
-          </div>
-          <div className="flex items-center gap-3">
+      {/* Header handled globally */}
+
+      <div className="p-6">
+        <div className="max-w-6xl mx-auto">
+          <div className="flex items-center gap-3 mb-6 justify-end">
             <div className="flex bg-gray-100 rounded-lg p-1">
               <button
                 onClick={() => setViewMode('list')}
-                className={`flex items-center gap-2 px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${
-                  viewMode === 'list' ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-600 hover:text-gray-900'
-                }`}
+                className={`flex items-center gap-2 px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${viewMode === 'list' ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-600 hover:text-gray-900'
+                  }`}
                 data-testid="button-list-view"
               >
                 <List size={16} />
@@ -195,9 +187,8 @@ export default function ManagePosts() {
               </button>
               <button
                 onClick={() => setViewMode('calendar')}
-                className={`flex items-center gap-2 px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${
-                  viewMode === 'calendar' ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-600 hover:text-gray-900'
-                }`}
+                className={`flex items-center gap-2 px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${viewMode === 'calendar' ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-600 hover:text-gray-900'
+                  }`}
                 data-testid="button-calendar-view"
               >
                 <LayoutGrid size={16} />
@@ -205,7 +196,7 @@ export default function ManagePosts() {
               </button>
             </div>
             <div className="relative" ref={dropdownRef}>
-              <button 
+              <button
                 onClick={() => setDropdownOpen(!dropdownOpen)}
                 className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors"
                 data-testid="button-create-post"
@@ -214,7 +205,7 @@ export default function ManagePosts() {
                 Create New Post
                 <ChevronDown size={16} className={`transition-transform ${dropdownOpen ? 'rotate-180' : ''}`} />
               </button>
-              
+
               {dropdownOpen && (
                 <div className="absolute right-0 mt-2 w-56 bg-white rounded-lg shadow-lg border border-gray-200 py-1 z-50">
                   <button
@@ -254,11 +245,6 @@ export default function ManagePosts() {
               )}
             </div>
           </div>
-        </div>
-      </div>
-
-      <div className="p-6">
-        <div className="max-w-6xl mx-auto">
           {viewMode === 'calendar' ? (
             <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
               <div className="border-b border-gray-100 p-4">
@@ -306,9 +292,8 @@ export default function ManagePosts() {
                           <button
                             key={type}
                             onClick={() => { setContentType(type); setContentTypeOpen(false); }}
-                            className={`w-full px-4 py-2 text-left text-sm hover:bg-gray-50 transition-colors ${
-                              contentType === type ? 'text-blue-600 bg-blue-50' : 'text-gray-700'
-                            }`}
+                            className={`w-full px-4 py-2 text-left text-sm hover:bg-gray-50 transition-colors ${contentType === type ? 'text-blue-600 bg-blue-50' : 'text-gray-700'
+                              }`}
                           >
                             {type}
                           </button>
@@ -325,16 +310,14 @@ export default function ManagePosts() {
                   return (
                     <div
                       key={index}
-                      className={`p-3 text-center border-r border-gray-100 last:border-r-0 ${
-                        isToday ? 'bg-blue-50' : ''
-                      }`}
+                      className={`p-3 text-center border-r border-gray-100 last:border-r-0 ${isToday ? 'bg-blue-50' : ''
+                        }`}
                     >
                       <div className="text-xs text-gray-500 uppercase tracking-wide mb-1">
                         {getDayName(day)}
                       </div>
-                      <div className={`inline-flex items-center justify-center w-8 h-8 rounded-full text-sm font-semibold ${
-                        isToday ? 'bg-blue-600 text-white' : 'text-gray-900'
-                      }`}>
+                      <div className={`inline-flex items-center justify-center w-8 h-8 rounded-full text-sm font-semibold ${isToday ? 'bg-blue-600 text-white' : 'text-gray-900'
+                        }`}>
                         {getDayNumber(day)}
                       </div>
                     </div>
@@ -347,18 +330,17 @@ export default function ManagePosts() {
                   const dayPosts = getPostsForDay(day);
                   const isToday = isSameDay(day, today);
                   const isSelected = selectedDay && isSameDay(selectedDay, day);
-                  
+
                   return (
                     <div
                       key={index}
-                      className={`border-r border-gray-100 last:border-r-0 p-2 relative cursor-pointer hover:bg-gray-50 transition-colors ${
-                        isToday ? 'bg-blue-50/50 hover:bg-blue-100/50' : ''
-                      } ${isSelected ? 'ring-2 ring-blue-500 ring-inset' : ''}`}
+                      className={`border-r border-gray-100 last:border-r-0 p-2 relative cursor-pointer hover:bg-gray-50 transition-colors ${isToday ? 'bg-blue-50/50 hover:bg-blue-100/50' : ''
+                        } ${isSelected ? 'ring-2 ring-blue-500 ring-inset' : ''}`}
                       onClick={() => handleDayClick(day)}
                       data-testid={`calendar-day-${format(day, 'yyyy-MM-dd')}`}
                     >
                       {isSelected && (
-                        <div 
+                        <div
                           ref={dayMenuRef}
                           className="absolute top-2 left-2 right-2 bg-white rounded-lg shadow-lg border border-gray-200 z-50 overflow-hidden"
                           onClick={(e) => e.stopPropagation()}
@@ -403,8 +385,8 @@ export default function ManagePosts() {
                           data-testid={`calendar-post-${post.id}`}
                         >
                           <div className="relative">
-                            <img 
-                              src={post.thumbnail} 
+                            <img
+                              src={post.thumbnail}
                               alt={post.title}
                               className="w-full h-20 object-cover"
                             />
@@ -435,7 +417,7 @@ export default function ManagePosts() {
                       ))}
 
                       {isToday && dayPosts.length === 0 && !isSelected && (
-                        <div 
+                        <div
                           className="bg-white rounded-lg border-2 border-dashed border-blue-200 p-3 text-center"
                           onClick={(e) => e.stopPropagation()}
                         >
@@ -445,7 +427,7 @@ export default function ManagePosts() {
                           <p className="text-xs text-gray-500 mb-2">
                             This week, your followers are most active at this time.
                           </p>
-                          <button 
+                          <button
                             onClick={() => handleDayClick(day)}
                             className="flex items-center justify-center gap-1 w-full text-xs font-medium text-blue-600 hover:text-blue-700"
                           >
@@ -475,11 +457,10 @@ export default function ManagePosts() {
                     <button
                       key={status}
                       onClick={() => setFilter(status)}
-                      className={`px-4 py-2 text-sm font-medium rounded-lg transition-colors ${
-                        filter === status
+                      className={`px-4 py-2 text-sm font-medium rounded-lg transition-colors ${filter === status
                           ? 'bg-blue-100 text-blue-700'
                           : 'bg-gray-50 text-gray-600 hover:bg-gray-100'
-                      }`}
+                        }`}
                       data-testid={`filter-${status}`}
                     >
                       {status.charAt(0).toUpperCase() + status.slice(1)}
@@ -493,7 +474,7 @@ export default function ManagePosts() {
                   <div key={post.id} className="p-4 hover:bg-gray-50 transition-colors" data-testid={`post-item-${post.id}`}>
                     <div className="flex items-start justify-between">
                       <div className="flex gap-4">
-                        <img 
+                        <img
                           src={post.thumbnail}
                           alt={post.title}
                           className="w-16 h-16 rounded-lg object-cover"
@@ -504,7 +485,7 @@ export default function ManagePosts() {
                             {getStatusBadge(post.status)}
                           </div>
                           <p className="text-sm text-gray-500 mb-3 line-clamp-1">{post.description}</p>
-                          
+
                           <div className="flex items-center gap-4 text-xs text-gray-400">
                             <div className="flex items-center gap-1">
                               {post.platforms.includes('google') && (
@@ -535,13 +516,13 @@ export default function ManagePosts() {
                       </div>
 
                       <div className="flex items-center gap-2">
-                        <button 
+                        <button
                           className="p-2 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
                           data-testid={`button-edit-${post.id}`}
                         >
                           <Edit size={16} />
                         </button>
-                        <button 
+                        <button
                           className="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
                           data-testid={`button-delete-${post.id}`}
                         >

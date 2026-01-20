@@ -61,7 +61,7 @@ import {
   X,
   Zap
 } from 'lucide-react';
-import Header from '@/components/overview/header';
+
 import { MapContainer, TileLayer, Marker, Popup, Tooltip as LeafletTooltip, GeoJSON } from 'react-leaflet';
 import turkeyMapImage from '@assets/tr-02_1758876643793.jpg';
 import 'leaflet/dist/leaflet.css';
@@ -1354,7 +1354,7 @@ export default function ReviewsX() {
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
-      <Header title="Reviews" />
+      {/* Header handled globally */}
       {/* Global Navigation Header */}
       <div className="bg-white border-b border-gray-200 shadow-sm">
         <div className="px-6 py-4">

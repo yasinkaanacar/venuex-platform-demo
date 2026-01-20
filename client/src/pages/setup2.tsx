@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import { 
-  Building2, 
-  MapPin, 
-  ShoppingCart, 
+import {
+  Building2,
+  MapPin,
+  ShoppingCart,
   Package,
   Plug,
   Unplug,
@@ -22,7 +22,7 @@ import {
   ChevronRight
 } from 'lucide-react';
 import { SiGoogle, SiMeta, SiTiktok, SiApple } from 'react-icons/si';
-import { 
+import {
   Dialog,
   DialogTitle,
   DialogContent,
@@ -212,41 +212,44 @@ export default function Setup2() {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Page Header */}
-      <div className="bg-white border-b border-gray-200 px-6 py-4">
-        <div className="flex items-center justify-between">
-          <div>
-            <div className="flex items-center gap-2 mb-1">
-              <span className="px-2 py-0.5 bg-blue-100 text-blue-700 text-xs font-medium rounded">#{integrationId}</span>
-              <span className="text-gray-400">•</span>
-              <span className="text-sm text-gray-600">{companyName}</span>
-            </div>
-            <h1 className="text-xl font-semibold text-gray-900">Account Setup</h1>
-          </div>
-          <div className="flex items-center gap-3">
-            <div className="text-right mr-4">
-              <span className="text-sm text-gray-500">Progress</span>
-              <div className="flex items-center gap-2">
-                <div className="w-24 h-2 bg-gray-200 rounded-full overflow-hidden">
-                  <div className="h-full bg-blue-600 rounded-full transition-all" style={{ width: `${progressPercent}%` }} />
-                </div>
-                <span className="text-sm font-medium text-blue-600">{progressPercent}%</span>
-              </div>
-            </div>
-            <button
-              onClick={() => setInviteTeamModalOpen(true)}
-              className="flex items-center gap-2 px-3 py-2 text-sm text-gray-600 hover:text-gray-900 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 transition-all"
-              data-testid="button-invite-team"
-            >
-              <Users size={16} />
-              Invite Team
-            </button>
-          </div>
-        </div>
-      </div>
+      {/* Header handled globally */}
 
       {/* Main Content */}
       <div className="p-6">
         <div className="max-w-4xl mx-auto">
+          {/* Header Info Card */}
+          <div className="bg-white border border-gray-200 rounded-lg px-6 py-4 mb-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <div className="flex items-center gap-2 mb-1">
+                  <span className="px-2 py-0.5 bg-blue-100 text-blue-700 text-xs font-medium rounded">#{integrationId}</span>
+                  <span className="text-gray-400">•</span>
+                  <span className="text-sm text-gray-600">{companyName}</span>
+                </div>
+                <h1 className="text-xl font-semibold text-gray-900">Account Setup</h1>
+              </div>
+              <div className="flex items-center gap-3">
+                <div className="text-right mr-4">
+                  <span className="text-sm text-gray-500">Progress</span>
+                  <div className="flex items-center gap-2">
+                    <div className="w-24 h-2 bg-gray-200 rounded-full overflow-hidden">
+                      <div className="h-full bg-blue-600 rounded-full transition-all" style={{ width: `${progressPercent}%` }} />
+                    </div>
+                    <span className="text-sm font-medium text-blue-600">{progressPercent}%</span>
+                  </div>
+                </div>
+                <button
+                  onClick={() => setInviteTeamModalOpen(true)}
+                  className="flex items-center gap-2 px-3 py-2 text-sm text-gray-600 hover:text-gray-900 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 transition-all"
+                  data-testid="button-invite-team"
+                >
+                  <Users size={16} />
+                  Invite Team
+                </button>
+              </div>
+            </div>
+          </div>
+
           {/* Horizontal Step Tabs */}
           <div className="bg-white rounded-lg border border-gray-200 p-1 mb-6">
             <div className="flex gap-1">
@@ -254,25 +257,23 @@ export default function Setup2() {
                 const isActive = index === activeStep;
                 const isCompleted = index < activeStep;
                 const Icon = step.icon;
-                
+
                 return (
                   <button
                     key={step.id}
                     onClick={() => setActiveStep(index)}
-                    className={`flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-lg transition-all ${
-                      isActive 
-                        ? 'bg-blue-600 text-white' 
+                    className={`flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-lg transition-all ${isActive
+                        ? 'bg-blue-600 text-white'
                         : 'hover:bg-gray-50 text-gray-600'
-                    }`}
+                      }`}
                     data-testid={`step-tab-${index}`}
                   >
-                    <div className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-medium ${
-                      isCompleted 
-                        ? 'bg-green-500 text-white' 
-                        : isActive 
-                          ? 'bg-white text-blue-600' 
+                    <div className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-medium ${isCompleted
+                        ? 'bg-green-500 text-white'
+                        : isActive
+                          ? 'bg-white text-blue-600'
                           : 'bg-gray-100 text-gray-500'
-                    }`}>
+                      }`}>
                       {isCompleted ? <Check size={12} /> : index + 1}
                     </div>
                     <div className="flex items-center gap-2">
@@ -286,235 +287,235 @@ export default function Setup2() {
               })}
             </div>
           </div>
-            {/* Brand Info */}
-            {activeStep === 0 && (
-              <div data-testid="tab-panel-brand">
-                <div className="bg-white rounded-lg border border-gray-200 p-6">
-                  <h2 className="text-lg font-semibold text-gray-900 mb-1">Brand Information</h2>
-                  <p className="text-sm text-gray-500 mb-6">Keep your brand details consistent across all platforms</p>
-                  
-                  <div className="space-y-5">
-                    {/* Logo */}
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Logo</label>
-                      <div className="border-2 border-dashed border-gray-200 rounded-lg p-6 text-center hover:border-blue-300 transition-colors cursor-pointer">
-                        <ImageIcon className="w-8 h-8 text-gray-300 mx-auto mb-2" />
-                        <p className="text-sm text-gray-500">Drag & drop or click to upload</p>
-                        <p className="text-xs text-gray-400 mt-1">JPG, PNG, GIF (min 250x250px)</p>
-                      </div>
-                    </div>
+          {/* Brand Info */}
+          {activeStep === 0 && (
+            <div data-testid="tab-panel-brand">
+              <div className="bg-white rounded-lg border border-gray-200 p-6">
+                <h2 className="text-lg font-semibold text-gray-900 mb-1">Brand Information</h2>
+                <p className="text-sm text-gray-500 mb-6">Keep your brand details consistent across all platforms</p>
 
-                    {/* Business Name */}
+                <div className="space-y-5">
+                  {/* Logo */}
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Logo</label>
+                    <div className="border-2 border-dashed border-gray-200 rounded-lg p-6 text-center hover:border-blue-300 transition-colors cursor-pointer">
+                      <ImageIcon className="w-8 h-8 text-gray-300 mx-auto mb-2" />
+                      <p className="text-sm text-gray-500">Drag & drop or click to upload</p>
+                      <p className="text-xs text-gray-400 mt-1">JPG, PNG, GIF (min 250x250px)</p>
+                    </div>
+                  </div>
+
+                  {/* Business Name */}
+                  <TextField
+                    label="Business Name"
+                    value={brandInfo.businessName}
+                    onChange={(e) => handleBrandInfoChange('businessName', e.target.value)}
+                    fullWidth
+                    size="small"
+                  />
+
+                  {/* Categories */}
+                  <div>
+                    <Autocomplete
+                      multiple
+                      options={categoryOptions}
+                      value={brandInfo.categories}
+                      onChange={(_, newValue) => handleBrandInfoChange('categories', newValue)}
+                      renderTags={(value, getTagProps) =>
+                        value.map((option, index) => (
+                          <Chip {...getTagProps({ index })} key={option} label={option} size="small" sx={{ backgroundColor: '#dbeafe', color: '#1e40af' }} />
+                        ))
+                      }
+                      renderInput={(params) => <TextField {...params} label="Categories" placeholder="Select categories..." size="small" />}
+                    />
+                    <p className="text-xs text-gray-400 mt-1">First category is primary. GBP accepts 9, Apple 2, Meta 2 categories.</p>
+                  </div>
+
+                  {/* Description */}
+                  <TextField
+                    label="Description"
+                    value={brandInfo.description}
+                    onChange={(e) => handleBrandInfoChange('description', e.target.value)}
+                    fullWidth
+                    multiline
+                    rows={3}
+                    size="small"
+                  />
+
+                  {/* Contact Info */}
+                  <div className="grid grid-cols-2 gap-4">
                     <TextField
-                      label="Business Name"
-                      value={brandInfo.businessName}
-                      onChange={(e) => handleBrandInfoChange('businessName', e.target.value)}
+                      label="Email"
+                      value={brandInfo.email}
+                      onChange={(e) => handleBrandInfoChange('email', e.target.value)}
                       fullWidth
                       size="small"
+                      InputProps={{ startAdornment: <Mail className="w-4 h-4 text-gray-400 mr-2" /> }}
                     />
-
-                    {/* Categories */}
-                    <div>
-                      <Autocomplete
-                        multiple
-                        options={categoryOptions}
-                        value={brandInfo.categories}
-                        onChange={(_, newValue) => handleBrandInfoChange('categories', newValue)}
-                        renderTags={(value, getTagProps) =>
-                          value.map((option, index) => (
-                            <Chip {...getTagProps({ index })} key={option} label={option} size="small" sx={{ backgroundColor: '#dbeafe', color: '#1e40af' }} />
-                          ))
-                        }
-                        renderInput={(params) => <TextField {...params} label="Categories" placeholder="Select categories..." size="small" />}
-                      />
-                      <p className="text-xs text-gray-400 mt-1">First category is primary. GBP accepts 9, Apple 2, Meta 2 categories.</p>
-                    </div>
-
-                    {/* Description */}
                     <TextField
-                      label="Description"
-                      value={brandInfo.description}
-                      onChange={(e) => handleBrandInfoChange('description', e.target.value)}
+                      label="Website"
+                      value={brandInfo.website}
+                      onChange={(e) => handleBrandInfoChange('website', e.target.value)}
                       fullWidth
-                      multiline
-                      rows={3}
                       size="small"
+                      InputProps={{ startAdornment: <Globe className="w-4 h-4 text-gray-400 mr-2" /> }}
                     />
+                  </div>
 
-                    {/* Contact Info */}
-                    <div className="grid grid-cols-2 gap-4">
+                  {/* Phone */}
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Phone</label>
+                    <div className="flex gap-2">
+                      <select
+                        value={brandInfo.phoneCountryCode}
+                        onChange={(e) => handleBrandInfoChange('phoneCountryCode', e.target.value)}
+                        className="w-20 px-2 py-2 border border-gray-300 rounded-lg text-sm"
+                      >
+                        <option value="+90">+90</option>
+                        <option value="+1">+1</option>
+                        <option value="+44">+44</option>
+                      </select>
                       <TextField
-                        label="Email"
-                        value={brandInfo.email}
-                        onChange={(e) => handleBrandInfoChange('email', e.target.value)}
+                        value={brandInfo.phone}
+                        onChange={(e) => handleBrandInfoChange('phone', e.target.value)}
                         fullWidth
                         size="small"
-                        InputProps={{ startAdornment: <Mail className="w-4 h-4 text-gray-400 mr-2" /> }}
-                      />
-                      <TextField
-                        label="Website"
-                        value={brandInfo.website}
-                        onChange={(e) => handleBrandInfoChange('website', e.target.value)}
-                        fullWidth
-                        size="small"
-                        InputProps={{ startAdornment: <Globe className="w-4 h-4 text-gray-400 mr-2" /> }}
+                        placeholder="Phone number"
                       />
                     </div>
+                  </div>
 
-                    {/* Phone */}
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">Phone</label>
-                      <div className="flex gap-2">
-                        <select
-                          value={brandInfo.phoneCountryCode}
-                          onChange={(e) => handleBrandInfoChange('phoneCountryCode', e.target.value)}
-                          className="w-20 px-2 py-2 border border-gray-300 rounded-lg text-sm"
-                        >
-                          <option value="+90">+90</option>
-                          <option value="+1">+1</option>
-                          <option value="+44">+44</option>
-                        </select>
-                        <TextField
-                          value={brandInfo.phone}
-                          onChange={(e) => handleBrandInfoChange('phone', e.target.value)}
-                          fullWidth
-                          size="small"
-                          placeholder="Phone number"
-                        />
-                      </div>
+                  {/* Social Media */}
+                  <div className="border-t border-gray-100 pt-5">
+                    <h3 className="text-sm font-medium text-gray-700 mb-3">Social Media</h3>
+                    <div className="grid grid-cols-2 gap-3">
+                      <TextField label="Facebook" value={brandInfo.facebook} onChange={(e) => handleBrandInfoChange('facebook', e.target.value)} fullWidth size="small" />
+                      <TextField label="Instagram" value={brandInfo.instagram} onChange={(e) => handleBrandInfoChange('instagram', e.target.value)} fullWidth size="small" />
+                      <TextField label="X (Twitter)" value={brandInfo.twitter} onChange={(e) => handleBrandInfoChange('twitter', e.target.value)} fullWidth size="small" />
+                      <TextField label="TikTok" value={brandInfo.tiktok} onChange={(e) => handleBrandInfoChange('tiktok', e.target.value)} fullWidth size="small" />
+                      <TextField label="YouTube" value={brandInfo.youtube} onChange={(e) => handleBrandInfoChange('youtube', e.target.value)} fullWidth size="small" />
+                      <TextField label="LinkedIn" value={brandInfo.linkedin} onChange={(e) => handleBrandInfoChange('linkedin', e.target.value)} fullWidth size="small" />
                     </div>
+                  </div>
 
-                    {/* Social Media */}
-                    <div className="border-t border-gray-100 pt-5">
-                      <h3 className="text-sm font-medium text-gray-700 mb-3">Social Media</h3>
-                      <div className="grid grid-cols-2 gap-3">
-                        <TextField label="Facebook" value={brandInfo.facebook} onChange={(e) => handleBrandInfoChange('facebook', e.target.value)} fullWidth size="small" />
-                        <TextField label="Instagram" value={brandInfo.instagram} onChange={(e) => handleBrandInfoChange('instagram', e.target.value)} fullWidth size="small" />
-                        <TextField label="X (Twitter)" value={brandInfo.twitter} onChange={(e) => handleBrandInfoChange('twitter', e.target.value)} fullWidth size="small" />
-                        <TextField label="TikTok" value={brandInfo.tiktok} onChange={(e) => handleBrandInfoChange('tiktok', e.target.value)} fullWidth size="small" />
-                        <TextField label="YouTube" value={brandInfo.youtube} onChange={(e) => handleBrandInfoChange('youtube', e.target.value)} fullWidth size="small" />
-                        <TextField label="LinkedIn" value={brandInfo.linkedin} onChange={(e) => handleBrandInfoChange('linkedin', e.target.value)} fullWidth size="small" />
-                      </div>
-                    </div>
-
-                    {/* Save Button */}
-                    <div className="flex justify-end pt-4 border-t border-gray-100">
-                      <button className="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors">
-                        Save Changes
-                      </button>
-                    </div>
+                  {/* Save Button */}
+                  <div className="flex justify-end pt-4 border-t border-gray-100">
+                    <button className="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors">
+                      Save Changes
+                    </button>
                   </div>
                 </div>
               </div>
-            )}
+            </div>
+          )}
 
-            {/* Locations */}
-            {activeStep === 1 && (
-              <div data-testid="tab-panel-locations" className="space-y-4">
-                {/* Google Business Profile */}
-                <div className="bg-white rounded-lg border border-gray-200 p-6">
-                  <div className="flex items-center gap-3 mb-4">
-                    <SiGoogle className="w-6 h-6 text-[#4285F4]" />
-                    <div>
-                      <h3 className="font-semibold text-gray-900">Google Business Profile</h3>
-                      <p className="text-sm text-gray-500">Connect to sync location listings and reviews</p>
-                    </div>
-                  </div>
-                  <div className="bg-amber-50 border border-amber-100 rounded-lg p-3 mb-4 flex items-start gap-2">
-                    <Info className="w-4 h-4 text-amber-600 mt-0.5" />
-                    <p className="text-sm text-amber-800">GBP locations should be listed under a single group</p>
-                  </div>
-                  <div className="flex gap-3">
-                    <button className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors">
-                      <Plug size={16} /> Connect Account
-                    </button>
-                    <button className="flex items-center gap-2 px-4 py-2 bg-white border border-gray-200 text-gray-700 font-medium rounded-lg hover:bg-gray-50 transition-colors">
-                      Activate Reviews
-                    </button>
+          {/* Locations */}
+          {activeStep === 1 && (
+            <div data-testid="tab-panel-locations" className="space-y-4">
+              {/* Google Business Profile */}
+              <div className="bg-white rounded-lg border border-gray-200 p-6">
+                <div className="flex items-center gap-3 mb-4">
+                  <SiGoogle className="w-6 h-6 text-[#4285F4]" />
+                  <div>
+                    <h3 className="font-semibold text-gray-900">Google Business Profile</h3>
+                    <p className="text-sm text-gray-500">Connect to sync location listings and reviews</p>
                   </div>
                 </div>
-
-                {/* Check Location Data */}
-                <div className="bg-white rounded-lg border border-gray-200 p-6">
-                  <div className="flex items-center gap-3 mb-3">
-                    <Database className="w-5 h-5 text-blue-600" />
-                    <h3 className="font-semibold text-gray-900">Verify Location Data</h3>
-                  </div>
-                  <p className="text-sm text-gray-500 mb-4">Check that your location data is synced correctly with VenueX</p>
+                <div className="bg-amber-50 border border-amber-100 rounded-lg p-3 mb-4 flex items-start gap-2">
+                  <Info className="w-4 h-4 text-amber-600 mt-0.5" />
+                  <p className="text-sm text-amber-800">GBP locations should be listed under a single group</p>
+                </div>
+                <div className="flex gap-3">
                   <button className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors">
-                    <Database size={16} /> Check Locations
+                    <Plug size={16} /> Connect Account
+                  </button>
+                  <button className="flex items-center gap-2 px-4 py-2 bg-white border border-gray-200 text-gray-700 font-medium rounded-lg hover:bg-gray-50 transition-colors">
+                    Activate Reviews
+                  </button>
+                </div>
+              </div>
+
+              {/* Check Location Data */}
+              <div className="bg-white rounded-lg border border-gray-200 p-6">
+                <div className="flex items-center gap-3 mb-3">
+                  <Database className="w-5 h-5 text-blue-600" />
+                  <h3 className="font-semibold text-gray-900">Verify Location Data</h3>
+                </div>
+                <p className="text-sm text-gray-500 mb-4">Check that your location data is synced correctly with VenueX</p>
+                <button className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors">
+                  <Database size={16} /> Check Locations
+                </button>
+              </div>
+
+              {/* Other Platforms */}
+              <div className="bg-white rounded-lg border border-gray-200 p-6">
+                <h3 className="font-semibold text-gray-900 mb-4">Other Platforms</h3>
+                <div className="grid grid-cols-2 gap-3">
+                  {mockPlatformCards.locations.map((card) => (
+                    <IntegrationCard key={card.id} {...card} />
+                  ))}
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Sales */}
+          {activeStep === 2 && (
+            <div data-testid="tab-panel-sales" className="space-y-4">
+              <div className="bg-white rounded-lg border border-gray-200 p-6">
+                <h2 className="text-lg font-semibold text-gray-900 mb-1">Sales Data</h2>
+                <p className="text-sm text-gray-500 mb-6">Connect your sales data sources and ad platforms</p>
+
+                <div className="flex gap-3 mb-6">
+                  <button
+                    onClick={() => setSalesDataModalOpen(true)}
+                    className="flex items-center gap-2 px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors"
+                  >
+                    <Database size={16} /> 1. Connect Data Source
+                  </button>
+                  <button
+                    onClick={() => setDataMappingModalOpen(true)}
+                    className="flex items-center gap-2 px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors"
+                  >
+                    <Settings size={16} /> 2. Data Mapping
                   </button>
                 </div>
 
-                {/* Other Platforms */}
-                <div className="bg-white rounded-lg border border-gray-200 p-6">
-                  <h3 className="font-semibold text-gray-900 mb-4">Other Platforms</h3>
-                  <div className="grid grid-cols-2 gap-3">
-                    {mockPlatformCards.locations.map((card) => (
-                      <IntegrationCard key={card.id} {...card} />
-                    ))}
-                  </div>
+                <h3 className="font-medium text-gray-900 mb-3">Ad Platforms</h3>
+                <div className="grid grid-cols-3 gap-3">
+                  {mockPlatformCards.sales.map((card) => (
+                    <IntegrationCard key={card.id} {...card} />
+                  ))}
                 </div>
               </div>
-            )}
+            </div>
+          )}
 
-            {/* Sales */}
-            {activeStep === 2 && (
-              <div data-testid="tab-panel-sales" className="space-y-4">
-                <div className="bg-white rounded-lg border border-gray-200 p-6">
-                  <h2 className="text-lg font-semibold text-gray-900 mb-1">Sales Data</h2>
-                  <p className="text-sm text-gray-500 mb-6">Connect your sales data sources and ad platforms</p>
-                  
-                  <div className="flex gap-3 mb-6">
-                    <button
-                      onClick={() => setSalesDataModalOpen(true)}
-                      className="flex items-center gap-2 px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors"
-                    >
-                      <Database size={16} /> 1. Connect Data Source
-                    </button>
-                    <button
-                      onClick={() => setDataMappingModalOpen(true)}
-                      className="flex items-center gap-2 px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors"
-                    >
-                      <Settings size={16} /> 2. Data Mapping
-                    </button>
-                  </div>
+          {/* Catalog */}
+          {activeStep === 3 && (
+            <div data-testid="tab-panel-catalog" className="space-y-4">
+              <div className="bg-white rounded-lg border border-gray-200 p-6">
+                <h2 className="text-lg font-semibold text-gray-900 mb-1">Catalog Data</h2>
+                <p className="text-sm text-gray-500 mb-6">Sync your product catalog across platforms</p>
 
-                  <h3 className="font-medium text-gray-900 mb-3">Ad Platforms</h3>
-                  <div className="grid grid-cols-3 gap-3">
-                    {mockPlatformCards.sales.map((card) => (
-                      <IntegrationCard key={card.id} {...card} />
-                    ))}
-                  </div>
+                <div className="flex gap-3 mb-6">
+                  <button className="flex items-center gap-2 px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors">
+                    <Database size={16} /> 1. Connect Data Source
+                  </button>
+                  <button className="flex items-center gap-2 px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors">
+                    <Settings size={16} /> 2. Data Mapping
+                  </button>
+                </div>
+
+                <h3 className="font-medium text-gray-900 mb-3">Catalog Platforms</h3>
+                <div className="grid grid-cols-3 gap-3">
+                  {mockPlatformCards.catalog.map((card) => (
+                    <IntegrationCard key={card.id} {...card} />
+                  ))}
                 </div>
               </div>
-            )}
-
-            {/* Catalog */}
-            {activeStep === 3 && (
-              <div data-testid="tab-panel-catalog" className="space-y-4">
-                <div className="bg-white rounded-lg border border-gray-200 p-6">
-                  <h2 className="text-lg font-semibold text-gray-900 mb-1">Catalog Data</h2>
-                  <p className="text-sm text-gray-500 mb-6">Sync your product catalog across platforms</p>
-                  
-                  <div className="flex gap-3 mb-6">
-                    <button className="flex items-center gap-2 px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors">
-                      <Database size={16} /> 1. Connect Data Source
-                    </button>
-                    <button className="flex items-center gap-2 px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors">
-                      <Settings size={16} /> 2. Data Mapping
-                    </button>
-                  </div>
-
-                  <h3 className="font-medium text-gray-900 mb-3">Catalog Platforms</h3>
-                  <div className="grid grid-cols-3 gap-3">
-                    {mockPlatformCards.catalog.map((card) => (
-                      <IntegrationCard key={card.id} {...card} />
-                    ))}
-                  </div>
-                </div>
-              </div>
-            )}
+            </div>
+          )}
         </div>
       </div>
 
@@ -706,10 +707,10 @@ export default function Setup2() {
             <div className="grid grid-cols-2 gap-3">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1.5">First Name</label>
-                <input 
+                <input
                   type="text"
-                  value={inviteForm.firstName} 
-                  onChange={(e) => handleInviteFormChange('firstName', e.target.value)} 
+                  value={inviteForm.firstName}
+                  onChange={(e) => handleInviteFormChange('firstName', e.target.value)}
                   className="w-full px-3 py-2.5 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                   placeholder="John"
                   data-testid="input-first-name"
@@ -717,25 +718,25 @@ export default function Setup2() {
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1.5">Last Name</label>
-                <input 
+                <input
                   type="text"
-                  value={inviteForm.lastName} 
-                  onChange={(e) => handleInviteFormChange('lastName', e.target.value)} 
+                  value={inviteForm.lastName}
+                  onChange={(e) => handleInviteFormChange('lastName', e.target.value)}
                   className="w-full px-3 py-2.5 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                   placeholder="Doe"
                   data-testid="input-last-name"
                 />
               </div>
             </div>
-            
+
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1.5">Email Address</label>
               <div className="relative">
                 <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
-                <input 
+                <input
                   type="email"
-                  value={inviteForm.email} 
-                  onChange={(e) => handleInviteFormChange('email', e.target.value)} 
+                  value={inviteForm.email}
+                  onChange={(e) => handleInviteFormChange('email', e.target.value)}
                   className="w-full pl-10 pr-3 py-2.5 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                   placeholder="john@company.com"
                   data-testid="input-email"
@@ -755,11 +756,10 @@ export default function Setup2() {
                     key={role.value}
                     type="button"
                     onClick={() => handleInviteFormChange('role', role.value)}
-                    className={`p-3 rounded-lg border-2 transition-all text-center ${
-                      inviteForm.role === role.value
+                    className={`p-3 rounded-lg border-2 transition-all text-center ${inviteForm.role === role.value
                         ? 'border-blue-500 bg-blue-50'
                         : 'border-gray-200 hover:border-gray-300 bg-white'
-                    }`}
+                      }`}
                   >
                     <role.icon className={`w-5 h-5 mx-auto mb-1 ${inviteForm.role === role.value ? 'text-blue-600' : 'text-gray-400'}`} />
                     <p className={`text-sm font-medium ${inviteForm.role === role.value ? 'text-blue-900' : 'text-gray-700'}`}>{role.value}</p>

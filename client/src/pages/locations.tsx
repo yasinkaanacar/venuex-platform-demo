@@ -294,7 +294,7 @@ export default function LocationsPage() {
     });
   };
 
-  
+
 
   const handleRowClick = (id: string) => {
     console.log('Location row clicked:', id);
@@ -370,84 +370,30 @@ export default function LocationsPage() {
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       {/* Header */}
-      <header className="bg-card border-b border-border sticky top-0 z-50 shadow-sm h-20">
-        <div className="max-w-7xl mx-auto px-6 h-full flex items-center bg-[#f9fafb]">
-          <div className="flex items-center justify-between w-full">
-            <div className="flex items-center space-x-2">
-              <div className="p-2">
-                <Store className="w-6 h-6" />
-              </div>
-              <div>
-                <h1 className="text-xl font-bold text-foreground" data-testid="text-app-title">Locations</h1>
-              </div>
-            </div>
-            
-            <div className="flex items-center space-x-8">
-              <div className="flex flex-col items-center">
-                <div className="flex items-center">
-                  {/* Step 1 - Completed */}
-                  <Tooltip title="İşletme Profili" arrow componentsProps={{ tooltip: { sx: { fontSize: '14px' } } }}>
-                    <div className="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center">
-                      <Check className="w-4 h-4 text-white" />
-                    </div>
-                  </Tooltip>
-                  <div className="w-8 h-0.5 bg-gray-300"></div>
-                  
-                  {/* Step 2 - Completed */}
-                  <Tooltip title="Satışlar ve Offline Conversion" arrow componentsProps={{ tooltip: { sx: { fontSize: '14px' } } }}>
-                    <div className="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center">
-                      <Check className="w-4 h-4 text-white" />
-                    </div>
-                  </Tooltip>
-                  <div className="w-8 h-0.5 bg-gray-300"></div>
-                  
-                  {/* Step 3 - Pending */}
-                  <Tooltip title="İşletme Profili" arrow componentsProps={{ tooltip: { sx: { fontSize: '14px' } } }}>
-                    <div className="w-6 h-6 border border-gray-400 bg-white rounded-full"></div>
-                  </Tooltip>
-                  <div className="w-8 h-0.5 bg-gray-300"></div>
-                  
-                  {/* Step 4 - Pending */}
-                  <Tooltip title="Satışlar ve Offline Conversion" arrow componentsProps={{ tooltip: { sx: { fontSize: '14px' } } }}>
-                    <div className="w-6 h-6 border border-gray-400 bg-white rounded-full"></div>
-                  </Tooltip>
-                </div>
-                <div className="text-xs text-gray-500 mt-2">VenueX Kurulum</div>
-              </div>
-                <div className="w-4"></div>
-              
-              <div className="flex items-center space-x-2">
-                <div className="w-8 h-8 bg-muted rounded-full flex items-center justify-center">
-                  <User className="w-4 h-4 text-muted-foreground" />
-                </div>
-                <span className="text-sm font-medium" data-testid="text-user-name">Kürşad Arman</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </header>
+      {/* Header handled globally */}
+
       {/* Main Content */}
-      <div className="pb-6 bg-[#ffffff]">
+      < div className="pb-6 bg-[#ffffff]" >
         {/* Data Health & Flow Banner */}
-        <div className="px-6 py-4">
-          <LocationsDataHealthAlerts 
+        < div className="px-6 py-4" >
+          <LocationsDataHealthAlerts
             bannerMode={true}
             locationsPageMode={true}
             onScrollToBottom={scrollToDataHealthDetails}
           />
-        </div>
+        </div >
 
         {/* Location Actions Section */}
-        <LocationActionsSection 
+        < LocationActionsSection
           onAddNewLocation={handleAddNewLocation}
           onUploadLocations={handleUploadLocations}
         />
 
         {/* Platform Summary Section */}
-        <PlatformSummarySection />
+        < PlatformSummarySection />
 
         {/* Content Calendar Section */}
-        <div className="px-6 pb-4">
+        < div className="px-6 pb-4" >
           <div className="rounded-xl shadow-sm border border-gray-200 overflow-hidden bg-[#fafaf9]">
             <div className="border-b border-gray-100 p-4">
               <div className="flex items-center justify-between">
@@ -494,9 +440,8 @@ export default function LocationsPage() {
                         <button
                           key={type}
                           onClick={() => { setContentType(type); setContentTypeOpen(false); }}
-                          className={`w-full px-4 py-2 text-left text-sm hover:bg-gray-50 transition-colors ${
-                            contentType === type ? 'text-blue-600 bg-blue-50' : 'text-gray-700'
-                          }`}
+                          className={`w-full px-4 py-2 text-left text-sm hover:bg-gray-50 transition-colors ${contentType === type ? 'text-blue-600 bg-blue-50' : 'text-gray-700'
+                            }`}
                         >
                           {type}
                         </button>
@@ -513,16 +458,14 @@ export default function LocationsPage() {
                 return (
                   <div
                     key={index}
-                    className={`p-3 text-center border-r border-gray-100 last:border-r-0 ${
-                      isToday ? 'bg-blue-50' : ''
-                    }`}
+                    className={`p-3 text-center border-r border-gray-100 last:border-r-0 ${isToday ? 'bg-blue-50' : ''
+                      }`}
                   >
                     <div className="text-xs text-gray-500 uppercase tracking-wide mb-1">
                       {getDayName(day)}
                     </div>
-                    <div className={`inline-flex items-center justify-center w-8 h-8 rounded-full text-sm font-semibold ${
-                      isToday ? 'bg-blue-600 text-white' : 'text-gray-900'
-                    }`}>
+                    <div className={`inline-flex items-center justify-center w-8 h-8 rounded-full text-sm font-semibold ${isToday ? 'bg-blue-600 text-white' : 'text-gray-900'
+                      }`}>
                       {getDayNumber(day)}
                     </div>
                   </div>
@@ -535,18 +478,17 @@ export default function LocationsPage() {
                 const dayPosts = getPostsForDay(day);
                 const isToday = isSameDay(day, today);
                 const isSelected = selectedDay && isSameDay(selectedDay, day);
-                
+
                 return (
                   <div
                     key={index}
-                    className={`border-r border-gray-100 last:border-r-0 p-2 relative cursor-pointer hover:bg-gray-50 transition-colors ${
-                      isToday ? 'bg-blue-50/50 hover:bg-blue-100/50' : ''
-                    } ${isSelected ? 'ring-2 ring-blue-500 ring-inset' : ''}`}
+                    className={`border-r border-gray-100 last:border-r-0 p-2 relative cursor-pointer hover:bg-gray-50 transition-colors ${isToday ? 'bg-blue-50/50 hover:bg-blue-100/50' : ''
+                      } ${isSelected ? 'ring-2 ring-blue-500 ring-inset' : ''}`}
                     onClick={() => handleDayClick(day)}
                     data-testid={`calendar-day-${format(day, 'yyyy-MM-dd')}`}
                   >
                     {isSelected && (
-                      <div 
+                      <div
                         ref={dayMenuRef}
                         className="absolute top-2 left-2 right-2 bg-white rounded-lg shadow-lg border border-gray-200 z-50 overflow-hidden"
                         onClick={(e) => e.stopPropagation()}
@@ -587,8 +529,8 @@ export default function LocationsPage() {
                         onClick={(e) => e.stopPropagation()}
                       >
                         <div className="relative">
-                          <img 
-                            src={post.thumbnail} 
+                          <img
+                            src={post.thumbnail}
                             alt={post.title}
                             className="w-full h-16 object-cover"
                           />
@@ -619,7 +561,7 @@ export default function LocationsPage() {
                     ))}
 
                     {isToday && dayPosts.length === 0 && !isSelected && (
-                      <div 
+                      <div
                         className="bg-white rounded-lg border-2 border-dashed border-blue-200 p-3 text-center"
                         onClick={(e) => e.stopPropagation()}
                       >
@@ -629,7 +571,7 @@ export default function LocationsPage() {
                         <p className="text-xs text-gray-500 mb-1">
                           Best time to post
                         </p>
-                        <button 
+                        <button
                           onClick={() => handleDayClick(day)}
                           className="flex items-center justify-center gap-1 w-full text-xs font-medium text-blue-600 hover:text-blue-700"
                         >
@@ -651,16 +593,16 @@ export default function LocationsPage() {
               })}
             </div>
           </div>
-        </div>
+        </div >
 
         {/* Test Section - Same structure as Platform Summary but without tabs */}
-        <div className="mx-6 mb-6 bg-white rounded-lg border border-slate-200 overflow-hidden shadow-none">
+        < div className="mx-6 mb-6 bg-white rounded-lg border border-slate-200 overflow-hidden shadow-none" >
           {/* Header without tabs */}
-          <div className="flex items-center justify-between border-b border-slate-200 px-6 py-4 bg-gradient-to-b from-white to-stone-50">
+          < div className="flex items-center justify-between border-b border-slate-200 px-6 py-4 bg-gradient-to-b from-white to-stone-50" >
             <h3 className="text-base font-semibold text-foreground">Performance</h3>
-          </div>
+          </div >
           {/* Content */}
-          <div className="bg-stone-50">
+          < div className="bg-stone-50" >
             <div className="px-6 py-3">
               <div className="flex items-center gap-3">
                 {/* Search */}
@@ -787,7 +729,7 @@ export default function LocationsPage() {
                   />
                 </div>
               </div>
-              
+
               {/* Active Filters Display */}
               {Object.values(filters).filter(value => value !== "").length > 0 && (
                 <div className="mt-3 flex items-center gap-2">
@@ -822,28 +764,27 @@ export default function LocationsPage() {
                 </div>
               )}
             </div>
-          </div>
-          
+          </div >
+
           {/* Separator */}
-          <div className="border-b border-slate-200"></div>
-          
+          < div className="border-b border-slate-200" ></div >
+
           {/* Business Profile Interaction Content */}
-          <div className="p-6 bg-stone-50">
+          < div className="p-6 bg-stone-50" >
             <h4 className="text-gray-900 dark:text-white mb-4 font-medium text-[16px]">
               Business Profile Interaction
             </h4>
-            
+
             {/* Tabs */}
             <div className="flex space-x-1 mb-6 bg-gray-100 dark:bg-gray-800 rounded-lg p-1">
               {tabs.map((tab, index) => (
                 <button
                   key={index}
                   onClick={() => setActiveTab(index)}
-                  className={`flex-1 px-4 py-2 rounded-md text-sm font-medium transition-colors ${
-                    activeTab === index
-                      ? "bg-white dark:bg-gray-700 text-blue-600 dark:text-blue-400"
-                      : "text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
-                  }`}
+                  className={`flex-1 px-4 py-2 rounded-md text-sm font-medium transition-colors ${activeTab === index
+                    ? "bg-white dark:bg-gray-700 text-blue-600 dark:text-blue-400"
+                    : "text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
+                    }`}
                 >
                   <div className="text-center">
                     <div className="font-medium">{tab.label}</div>
@@ -920,13 +861,13 @@ export default function LocationsPage() {
                 </LineChart>
               </ResponsiveContainer>
             </div>
-          </div>
-          
+          </div >
+
           {/* Second Separator */}
-          <div className="border-b border-slate-200"></div>
-          
+          < div className="border-b border-slate-200" ></div >
+
           {/* Profile Views and Total Searches Content */}
-          <div className="p-6 bg-stone-50">
+          < div className="p-6 bg-stone-50" >
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:divide-x lg:divide-slate-200">
               {/* Profile Views */}
               <div className="space-y-4 lg:pr-8">
@@ -1061,17 +1002,17 @@ export default function LocationsPage() {
                 </div>
               </div>
             </div>
-          </div>
-        </div>
+          </div >
+        </div >
 
         {/* Locations Section - Copy of Performance */}
-        <div className="mx-6 mb-6 bg-white rounded-lg border border-slate-200 overflow-hidden shadow-none">
+        < div className="mx-6 mb-6 bg-white rounded-lg border border-slate-200 overflow-hidden shadow-none" >
           {/* Header without tabs */}
-          <div className="flex items-center justify-between border-b border-slate-200 px-6 py-4 bg-gradient-to-b from-white to-stone-50">
+          < div className="flex items-center justify-between border-b border-slate-200 px-6 py-4 bg-gradient-to-b from-white to-stone-50" >
             <h3 className="text-base font-semibold text-foreground">Locations</h3>
-          </div>
+          </div >
           {/* Content */}
-          <div className="bg-stone-50">
+          < div className="bg-stone-50" >
             <div className="px-6 py-3">
               <div className="flex items-center gap-3">
                 {/* Search */}
@@ -1198,7 +1139,7 @@ export default function LocationsPage() {
                   />
                 </div>
               </div>
-              
+
               {/* Active Filters Display */}
               {Object.values(filters).filter(value => value !== "").length > 0 && (
                 <div className="mt-3 flex items-center gap-2">
@@ -1233,42 +1174,43 @@ export default function LocationsPage() {
                 </div>
               )}
             </div>
-          </div>
-          
+          </div >
+
           {/* Separator */}
-          <div className="border-b border-slate-200"></div>
-          
+          < div className="border-b border-slate-200" ></div >
+
           {/* Location Data Table Content */}
-          <CardContent className="p-0 bg-stone-50">
+          < CardContent className="p-0 bg-stone-50" >
             <LocationDataTable
               data={filteredData}
               onRowClick={handleRowClick}
               onEdit={handleEdit}
             />
-          </CardContent>
-        </div>
+          </CardContent >
+        </div >
 
 
 
         {/* Data Quality Assessment & Data Enrichment Suggestions */}
-        <div className="mx-6 mt-8">
+        < div className="mx-6 mt-8" >
           <DataQualityEnrichment context="locations" />
-        </div>
+        </div >
 
         {/* Alerts & Notifications (Expanded) */}
-        <div className="mx-6 mt-8" id="data-health-details">
-          <LocationsDataHealthAlerts 
+        < div className="mx-6 mt-8" id="data-health-details" >
+          <LocationsDataHealthAlerts
             bannerMode={false}
             alwaysExpanded={true}
             locationsPageMode={true}
           />
-        </div>
-      </div>
+        </div >
+      </div >
       {/* Field Management Dialog */}
-      <FieldManagementDialog 
+      < FieldManagementDialog
         isOpen={fieldManagementOpen}
-        onClose={() => setFieldManagementOpen(false)}
+        onClose={() => setFieldManagementOpen(false)
+        }
       />
-    </div>
+    </div >
   );
 }

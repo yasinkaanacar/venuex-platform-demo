@@ -3,7 +3,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem } from "@/components/ui/select";
-import { 
+import {
   Brain, TrendingUp, ChevronDown, ChevronUp,
   ArrowUpRight, Sparkles, Clock, Lightbulb, CheckCircle2, X
 } from "lucide-react";
@@ -157,17 +157,7 @@ export default function AIRecommendations() {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
-      <div className="bg-white border-b border-gray-200 px-6 py-4">
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-500 to-blue-500 flex items-center justify-center">
-            <Brain className="w-5 h-5 text-white" />
-          </div>
-          <div>
-            <h1 className="text-xl font-bold text-gray-900" data-testid="text-page-title">AI Recommendations</h1>
-            <p className="text-xs text-gray-500">Powered by VenueX AI</p>
-          </div>
-        </div>
-      </div>
+      {/* Header handled globally */}
       <div className="p-6 max-w-4xl mx-auto">
         {/* KPI Cards */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
@@ -204,8 +194,8 @@ export default function AIRecommendations() {
 
         {/* Filter Bar */}
         <div className="flex items-center gap-2 mb-4">
-          <Select 
-            value={filters.channel} 
+          <Select
+            value={filters.channel}
             onValueChange={(v) => setFilters(f => ({ ...f, channel: v }))}
             displayLabel={filters.channel === "all" ? "Channel" : filters.channel}
             data-testid="filter-channel"
@@ -218,8 +208,8 @@ export default function AIRecommendations() {
             </SelectContent>
           </Select>
 
-          <Select 
-            value={filters.region} 
+          <Select
+            value={filters.region}
             onValueChange={(v) => setFilters(f => ({ ...f, region: v }))}
             displayLabel={filters.region === "all" ? "Region" : filters.region}
             data-testid="filter-region"
@@ -233,8 +223,8 @@ export default function AIRecommendations() {
             </SelectContent>
           </Select>
 
-          <Select 
-            value={filters.category} 
+          <Select
+            value={filters.category}
             onValueChange={(v) => setFilters(f => ({ ...f, category: v }))}
             displayLabel={filters.category === "all" ? "Category" : filters.category}
             data-testid="filter-category"
@@ -254,13 +244,12 @@ export default function AIRecommendations() {
           {filteredRecommendations.map((rec) => {
             const isExpanded = expandedId === rec.id;
             const typeInfo = typeLabels[rec.type];
-            
+
             return (
               <div
                 key={rec.id}
-                className={`bg-white border rounded-xl overflow-hidden transition-all ${
-                  isExpanded ? "border-blue-300 shadow-md" : "border-gray-200 hover:border-gray-300"
-                }`}
+                className={`bg-white border rounded-xl overflow-hidden transition-all ${isExpanded ? "border-blue-300 shadow-md" : "border-gray-200 hover:border-gray-300"
+                  }`}
                 data-testid={`recommendation-card-${rec.id}`}
               >
                 {/* Collapsed Header - Always visible */}
@@ -274,12 +263,12 @@ export default function AIRecommendations() {
                       <Badge className={`${typeInfo.color} text-xs font-medium`}>
                         {typeInfo.label}
                       </Badge>
-                      
+
                       {/* Platform Icons */}
                       <div className="flex items-center gap-1">
                         {rec.channels.map(ch => (
-                          <span 
-                            key={ch} 
+                          <span
+                            key={ch}
                             className="w-6 h-6 rounded-full bg-gray-100 flex items-center justify-center"
                             title={ch}
                           >
@@ -289,13 +278,12 @@ export default function AIRecommendations() {
                       </div>
 
                       {/* Confidence */}
-                      <span className={`text-xs font-semibold px-2 py-0.5 rounded-full ${
-                        rec.confidence >= 80 ? "bg-green-100 text-green-700" : "bg-yellow-100 text-yellow-700"
-                      }`}>
+                      <span className={`text-xs font-semibold px-2 py-0.5 rounded-full ${rec.confidence >= 80 ? "bg-green-100 text-green-700" : "bg-yellow-100 text-yellow-700"
+                        }`}>
                         {rec.confidence}% Confidence
                       </span>
                     </div>
-                    
+
                     {/* Revenue & Expand */}
                     <div className="flex items-center gap-3">
                       <span className="text-sm font-bold text-green-600">{rec.estimatedRevenue}</span>
@@ -306,10 +294,10 @@ export default function AIRecommendations() {
                       )}
                     </div>
                   </div>
-                  
+
                   {/* Title */}
                   <h3 className="text-sm font-semibold text-gray-900 mt-2">{rec.title}</h3>
-                  
+
                   {/* Campaign & Region tags - compact */}
                   {!isExpanded && (
                     <div className="flex items-center gap-2 mt-2">

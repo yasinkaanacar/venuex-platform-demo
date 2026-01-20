@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import Header from '@/components/overview/header';
+
 import FilterBar from '@/components/overview/filter-bar';
 import KpiCards from '@/components/overview/kpi-cards';
 import PerformanceChart from '@/components/overview/performance-chart';
@@ -43,22 +43,22 @@ export default function Overview() {
 
   return (
     <div className="min-h-full bg-white dark:bg-gray-900">
-      <Header lastSync={overviewData?.lastSync} />
-      
+      {/* Header handled globally */}
+
       <div className="max-w-7xl mx-auto px-6 py-6">
         <div className="mb-6">
-          <DataHealthAlerts 
-            platforms={overviewData?.platforms} 
+          <DataHealthAlerts
+            platforms={overviewData?.platforms}
             alerts={overviewData?.alerts}
             locations={overviewData?.locations}
             bannerMode={true}
             onScrollToBottom={scrollToBottom}
           />
         </div>
-        
-        
+
+
         <FilterBar filters={filters} onFiltersChange={setFilters} />
-        
+
         {isLoading ? (
           <div className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -79,10 +79,10 @@ export default function Overview() {
             <TopPerformingLocations filters={filters} onFiltersChange={setFilters} />
             <TopPerformingCampaigns filters={filters} onFiltersChange={setFilters} />
             <DataQualityEnrichment context="dashboard" />
-            
+
             <div id="data-health-details">
-              <DataHealthAlerts 
-                platforms={overviewData?.platforms} 
+              <DataHealthAlerts
+                platforms={overviewData?.platforms}
                 alerts={overviewData?.alerts}
                 locations={overviewData?.locations}
                 bannerMode={false}

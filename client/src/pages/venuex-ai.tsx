@@ -13,7 +13,7 @@ const exampleQuestions = [
 interface ChatSession {
   id: string;
   title: string;
-  messages: {role: 'user' | 'assistant', content: string}[];
+  messages: { role: 'user' | 'assistant', content: string }[];
   createdAt: Date;
 }
 
@@ -77,15 +77,15 @@ export default function VenueXAI() {
   const handleSend = () => {
     if (inputValue.trim()) {
       if (activeChatId) {
-        setChatHistory(prev => prev.map(chat => 
-          chat.id === activeChatId 
+        setChatHistory(prev => prev.map(chat =>
+          chat.id === activeChatId
             ? { ...chat, messages: [...chat.messages, { role: 'user' as const, content: inputValue }] }
             : chat
         ));
         setInputValue('');
         setTimeout(() => {
-          setChatHistory(prev => prev.map(chat => 
-            chat.id === activeChatId 
+          setChatHistory(prev => prev.map(chat =>
+            chat.id === activeChatId
               ? { ...chat, messages: [...chat.messages, { role: 'assistant' as const, content: 'This is a demo response. Real AI integration will be added soon.' }] }
               : chat
           ));
@@ -101,8 +101,8 @@ export default function VenueXAI() {
         setActiveChatId(newChat.id);
         setInputValue('');
         setTimeout(() => {
-          setChatHistory(prev => prev.map(chat => 
-            chat.id === newChat.id 
+          setChatHistory(prev => prev.map(chat =>
+            chat.id === newChat.id
               ? { ...chat, messages: [...chat.messages, { role: 'assistant' as const, content: 'This is a demo response. Real AI integration will be added soon.' }] }
               : chat
           ));
@@ -121,8 +121,8 @@ export default function VenueXAI() {
     setChatHistory(prev => [newChat, ...prev]);
     setActiveChatId(newChat.id);
     setTimeout(() => {
-      setChatHistory(prev => prev.map(chat => 
-        chat.id === newChat.id 
+      setChatHistory(prev => prev.map(chat =>
+        chat.id === newChat.id
           ? { ...chat, messages: [...chat.messages, { role: 'assistant' as const, content: 'This is a demo response. Real AI integration will be added soon.' }] }
           : chat
       ));
@@ -145,7 +145,7 @@ export default function VenueXAI() {
 
   const handleSaveRename = (chatId: string) => {
     if (editingTitle.trim()) {
-      setChatHistory(prev => prev.map(chat => 
+      setChatHistory(prev => prev.map(chat =>
         chat.id === chatId ? { ...chat, title: editingTitle.trim() } : chat
       ));
     }
@@ -163,7 +163,7 @@ export default function VenueXAI() {
     const diffMs = now.getTime() - date.getTime();
     const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
     const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
-    
+
     if (diffHours < 1) return 'Just now';
     if (diffHours < 24) return `${diffHours}h ago`;
     if (diffDays === 1) return 'Yesterday';
@@ -179,8 +179,8 @@ export default function VenueXAI() {
             <Clock className="w-4 h-4 text-gray-400" />
             <span className="text-xs font-medium text-gray-500 uppercase tracking-wide">Chat History</span>
           </div>
-          
-          <Button 
+
+          <Button
             onClick={handleNewChat}
             className="w-full bg-blue-600 hover:bg-blue-700 text-white mb-3"
             data-testid="button-new-chat"
@@ -188,17 +188,16 @@ export default function VenueXAI() {
             <Plus className="w-4 h-4 mr-2" />
             New Chat
           </Button>
-          
+
           <div className="space-y-1">
             {chatHistory.map((chat) => (
               <div
                 key={chat.id}
                 onClick={() => editingChatId !== chat.id && setActiveChatId(chat.id)}
-                className={`w-full text-left px-3 py-2.5 rounded-lg transition-all group flex items-center justify-between cursor-pointer ${
-                  activeChatId === chat.id 
-                    ? 'bg-blue-50 border border-blue-200' 
+                className={`w-full text-left px-3 py-2.5 rounded-lg transition-all group flex items-center justify-between cursor-pointer ${activeChatId === chat.id
+                    ? 'bg-blue-50 border border-blue-200'
                     : 'hover:bg-gray-100 border border-transparent'
-                }`}
+                  }`}
                 data-testid={`chat-history-${chat.id}`}
               >
                 <div className="flex-1 min-w-0">
@@ -234,9 +233,8 @@ export default function VenueXAI() {
                     </div>
                   ) : (
                     <>
-                      <div className={`text-sm font-medium truncate ${
-                        activeChatId === chat.id ? 'text-blue-700' : 'text-gray-700'
-                      }`}>
+                      <div className={`text-sm font-medium truncate ${activeChatId === chat.id ? 'text-blue-700' : 'text-gray-700'
+                        }`}>
                         {chat.title}
                       </div>
                       <div className="text-xs text-gray-400 mt-0.5">
@@ -265,7 +263,7 @@ export default function VenueXAI() {
                 )}
               </div>
             ))}
-            
+
             {chatHistory.length === 0 && (
               <div className="text-center py-8 text-gray-400 text-sm">
                 No chat history yet
@@ -277,17 +275,7 @@ export default function VenueXAI() {
 
       {/* Main Chat Area */}
       <div className="flex-1 flex flex-col overflow-hidden">
-        <div className="bg-white border-b border-gray-200 px-6 py-4">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center">
-              <Bot className="w-5 h-5 text-white" />
-            </div>
-            <div>
-              <h1 className="text-xl font-bold text-gray-900" data-testid="text-page-title">VenueX AI Chat</h1>
-              <p className="text-xs text-gray-500">Ask questions about your locations and reviews</p>
-            </div>
-          </div>
-        </div>
+
 
         <div className="flex-1 p-6 overflow-hidden">
           <Card className="bg-white border border-gray-200 shadow-sm h-full flex flex-col overflow-hidden">
@@ -297,7 +285,7 @@ export default function VenueXAI() {
                   <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-2xl flex items-center justify-center mb-6">
                     <Bot className="w-8 h-8 text-white" />
                   </div>
-                  
+
                   <h2 className="text-xl font-semibold text-gray-900 mb-2">
                     Welcome to VenueX AI Assistant!
                   </h2>
@@ -336,11 +324,10 @@ export default function VenueXAI() {
                             <Bot className="w-5 h-5 text-white" />
                           </div>
                         )}
-                        <div className={`rounded-2xl px-4 py-3 ${
-                          message.role === 'user' 
-                            ? 'bg-blue-600 text-white' 
+                        <div className={`rounded-2xl px-4 py-3 ${message.role === 'user'
+                            ? 'bg-blue-600 text-white'
                             : 'bg-gray-100 text-gray-700'
-                        }`}>
+                          }`}>
                           {message.content}
                         </div>
                       </div>
@@ -362,7 +349,7 @@ export default function VenueXAI() {
                   className="flex-1"
                   data-testid="chat-input"
                 />
-                <Button 
+                <Button
                   variant="ghost"
                   size="icon"
                   className="text-gray-400 hover:text-gray-600"
@@ -370,7 +357,7 @@ export default function VenueXAI() {
                 >
                   <MessageSquare className="w-5 h-5" />
                 </Button>
-                <Button 
+                <Button
                   onClick={handleSend}
                   disabled={!inputValue.trim()}
                   className="bg-blue-600 hover:bg-blue-700 text-white"

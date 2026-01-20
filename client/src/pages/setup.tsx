@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { useLocation } from 'wouter';
-import { 
-  Building2, 
-  MapPin, 
-  ShoppingCart, 
+import {
+  Building2,
+  MapPin,
+  ShoppingCart,
   Package,
   Link as LinkIcon,
   Database,
@@ -26,7 +26,7 @@ import {
   UserPlus
 } from 'lucide-react';
 import { SiGoogle, SiMeta, SiTiktok, SiApple } from 'react-icons/si';
-import { 
+import {
   Dialog,
   DialogTitle,
   DialogContent,
@@ -76,79 +76,79 @@ interface PlatformCard {
 
 const mockPlatformCards: { locations: PlatformCard[]; sales: PlatformCard[]; catalog: PlatformCard[] } = {
   locations: [
-    { 
-      id: 'apple', 
-      name: 'Apple Business Connect', 
+    {
+      id: 'apple',
+      name: 'Apple Business Connect',
       description: 'Manage your presence on Apple Maps',
       logo: 'apple',
-      status: 'connect' 
+      status: 'connect'
     },
-    { 
-      id: 'meta', 
-      name: 'Meta Pages', 
+    {
+      id: 'meta',
+      name: 'Meta Pages',
       description: 'Connect your Facebook & Instagram pages',
       logo: 'meta',
-      status: 'connect' 
+      status: 'connect'
     },
-    { 
-      id: 'yandex', 
-      name: 'Yandex Business', 
+    {
+      id: 'yandex',
+      name: 'Yandex Business',
       description: 'Manage your Yandex Maps listing',
       logo: 'yandex',
-      status: 'coming_soon' 
+      status: 'coming_soon'
     },
-    { 
-      id: 'togg', 
-      name: 'Togg', 
+    {
+      id: 'togg',
+      name: 'Togg',
       description: 'Connect to Togg ecosystem',
       logo: 'togg',
-      status: 'connect' 
+      status: 'connect'
     },
   ],
   sales: [
-    { 
-      id: 'google-ads', 
-      name: 'Google Ads', 
+    {
+      id: 'google-ads',
+      name: 'Google Ads',
       description: 'Track offline conversions from Google Ads',
       logo: 'google',
-      status: 'connect' 
+      status: 'connect'
     },
-    { 
-      id: 'meta-conversions', 
-      name: 'Meta Conversions', 
+    {
+      id: 'meta-conversions',
+      name: 'Meta Conversions',
       description: 'Send conversion events to Meta',
       logo: 'meta',
-      status: 'connect' 
+      status: 'connect'
     },
-    { 
-      id: 'tiktok', 
-      name: 'TikTok Conversions', 
+    {
+      id: 'tiktok',
+      name: 'TikTok Conversions',
       description: 'Track TikTok ad conversions',
       logo: 'tiktok',
-      status: 'connect' 
+      status: 'connect'
     },
   ],
   catalog: [
-    { 
-      id: 'google-merchant', 
-      name: 'Google Merchant Center', 
+    {
+      id: 'google-merchant',
+      name: 'Google Merchant Center',
       description: 'Sync products with Google Shopping',
       logo: 'google',
-      status: 'connect' 
+      status: 'connect'
     },
-    { 
-      id: 'meta-catalog', 
-      name: 'Meta Catalog', 
+    {
+      id: 'meta-catalog',
+      name: 'Meta Catalog',
       description: 'Sync products with Meta Commerce',
       logo: 'meta',
-      status: 'connect' 
+      status: 'connect'
     },
-    { 
-      id: 'togg-catalog', 
-      name: 'Togg', 
+    {
+      id: 'togg-catalog',
+      name: 'Togg',
       description: 'Sync inventory with Togg',
       logo: 'togg',
-      status: 'connect' 
+      status: 'connect'
     },
   ],
 };
@@ -275,7 +275,7 @@ export default function Setup() {
     privateKey: '',
   });
   const [urlSegments, setUrlSegments] = useState<string[]>([]);
-  
+
   const handleStepClick = (stepIndex: number) => {
     setActiveStep(stepIndex);
   };
@@ -314,7 +314,7 @@ export default function Setup() {
   const [, navigate] = useLocation();
   const totalSteps = steps.length;
   const completedCount = activeStep;
-  
+
   const handleGoToDashboard = () => {
     navigate('/');
   };
@@ -322,27 +322,11 @@ export default function Setup() {
   return (
     <div className="bg-gradient-to-br from-slate-50 via-white to-blue-50 pb-6">
       {/* Header */}
-      <header className="bg-white/80 backdrop-blur-sm border-b border-gray-200/50 px-8 py-5 sticky top-0 z-40">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="flex items-center gap-2">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-600 to-indigo-600 flex items-center justify-center shadow-lg shadow-blue-500/20">
-                <Zap className="w-5 h-5 text-white" />
-              </div>
-              <span className="text-xl font-bold text-gray-900">VenueX</span>
-            </div>
-          </div>
-          <button
-            onClick={handleGoToDashboard}
-            className="px-4 py-2 text-sm text-gray-600 hover:text-gray-900 bg-white hover:bg-gray-50 border border-gray-200 rounded-lg transition-all shadow-sm flex items-center gap-2"
-            data-testid="button-go-dashboard"
-          >
-            Go to Dashboard <ArrowRight size={16} />
-          </button>
-        </div>
-        
+      {/* Sub-header with Context & Progress */}
+      <div className="bg-white/80 backdrop-blur-sm border-b border-gray-200/50 px-8 py-5 sticky top-16 z-40">
+
         {/* Integration ID Bar */}
-        <div className="mt-4 flex items-center gap-3">
+        <div className="flex items-center gap-3">
           <div className="flex items-center gap-2 bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-4 py-1.5 rounded-full shadow-md">
             <Lock size={14} />
             <span className="text-sm font-semibold">#{integrationId}</span>
@@ -353,7 +337,7 @@ export default function Setup() {
             <span className="text-xs">Save your progress anytime</span>
           </div>
         </div>
-        
+
         {/* Progress Bar */}
         <div className="mt-4">
           <div className="flex items-center justify-between mb-2">
@@ -361,13 +345,13 @@ export default function Setup() {
             <span className="text-xs font-semibold text-blue-600">{Math.round((completedCount / totalSteps) * 100)}%</span>
           </div>
           <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
-            <div 
+            <div
               className="h-full bg-gradient-to-r from-blue-500 to-indigo-500 rounded-full transition-all duration-500 ease-out"
               style={{ width: `${(completedCount / totalSteps) * 100}%` }}
             />
           </div>
         </div>
-      </header>
+      </div>
 
       <div className="max-w-5xl mx-auto px-6 py-6">
 
@@ -383,7 +367,7 @@ export default function Setup() {
               { bg: 'bg-indigo-600', shadow: 'shadow-indigo-500/30', ring: 'ring-indigo-400', desc: 'Product feeds & inventory' }
             ];
             const style = stepStyles[index] || { bg: 'bg-gray-500', shadow: 'shadow-gray-500/30', ring: 'ring-gray-400', desc: '' };
-            
+
             return (
               <div
                 key={step.label}
@@ -392,18 +376,16 @@ export default function Setup() {
                 data-testid={`step-card-${index}`}
               >
                 {/* Visual Card */}
-                <div className={`h-[180px] rounded-2xl overflow-hidden relative transition-all duration-300 ${
-                  isActive 
-                    ? `shadow-xl ${style.shadow} ring-2 ${style.ring}` 
-                    : isCompleted 
-                      ? 'shadow-lg ring-2 ring-green-400' 
+                <div className={`h-[180px] rounded-2xl overflow-hidden relative transition-all duration-300 ${isActive
+                    ? `shadow-xl ${style.shadow} ring-2 ${style.ring}`
+                    : isCompleted
+                      ? 'shadow-lg ring-2 ring-green-400'
                       : 'shadow-md hover:shadow-lg'
-                }`}>
+                  }`}>
                   {/* Solid Color Background */}
-                  <div className={`absolute inset-0 rounded-2xl ${style.bg} ${
-                    !isActive && !isCompleted ? 'opacity-50' : 'opacity-100'
-                  } transition-opacity duration-300`} />
-                  
+                  <div className={`absolute inset-0 rounded-2xl ${style.bg} ${!isActive && !isCompleted ? 'opacity-50' : 'opacity-100'
+                    } transition-opacity duration-300`} />
+
                   {/* Large Centered Background Icon */}
                   <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
                     {isCompleted ? (
@@ -412,7 +394,7 @@ export default function Setup() {
                       <StepIcon className="w-24 h-24 text-white/15" />
                     )}
                   </div>
-                  
+
                   {/* Content Overlay */}
                   <div className="absolute inset-0 p-4 flex flex-col text-white">
                     {/* Top Row - Step Badge */}
@@ -426,13 +408,13 @@ export default function Setup() {
                         </div>
                       )}
                     </div>
-                    
+
                     {/* Title and Description */}
                     <div className="flex-1 flex flex-col justify-end">
                       <h3 className="text-lg font-bold mb-1">{step.label}</h3>
                       <p className="text-xs text-white/80">{style.desc}</p>
                     </div>
-                    
+
                     {/* Status Badge */}
                     <div className="flex items-center gap-2 mt-2">
                       {isCompleted ? (
@@ -470,7 +452,7 @@ export default function Setup() {
                   <p className="text-sm text-gray-500">Keep your brand details consistent across all platforms</p>
                 </div>
               </div>
-              
+
               <div className="space-y-6">
                 {/* Logo Upload */}
                 <div>
@@ -580,7 +562,7 @@ export default function Setup() {
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1.5">Primary phone number</label>
                   <div className="flex gap-2">
-                    <select 
+                    <select
                       value={brandInfo.phoneCountryCode}
                       onChange={(e) => handleBrandInfoChange('phoneCountryCode', e.target.value)}
                       className="w-24 px-3 py-2 border border-gray-300 rounded-lg bg-white text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
@@ -672,7 +654,7 @@ export default function Setup() {
                     <p className="text-sm text-gray-600">
                       Your <span className="font-semibold">0</span> businesses will be updated with the changes made. Are you sure?
                     </p>
-                    <button 
+                    <button
                       className="px-6 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-xl transition-all shadow-md hover:shadow-lg"
                     >
                       Save Changes
@@ -695,21 +677,21 @@ export default function Setup() {
                   <p className="text-sm text-gray-500">Connect your business profiles and manage location data</p>
                 </div>
               </div>
-              
+
               <div className="space-y-6">
                 <div className="bg-gradient-to-r from-cyan-50 to-blue-50 rounded-xl p-5 border border-cyan-100">
                   <div className="flex items-center gap-3 mb-4">
                     <SiGoogle className="w-7 h-7 text-[#4285F4]" />
                     <h4 className="font-bold text-gray-900">Google Business Profile</h4>
                   </div>
-                  
+
                   <div className="bg-amber-50 border border-amber-200 rounded-lg p-3 mb-4 flex items-start gap-2">
                     <Info className="w-4 h-4 text-amber-600 flex-shrink-0 mt-0.5" />
                     <p className="text-sm text-amber-800">
                       GBP locations should be listed under a single group
                     </p>
                   </div>
-                  
+
                   <div className="flex flex-wrap gap-3">
                     <button className="flex items-center gap-2 px-4 py-2.5 bg-cyan-600 hover:bg-cyan-700 text-white font-medium rounded-xl transition-all shadow-md hover:shadow-lg">
                       <LinkIcon size={16} />
@@ -759,13 +741,13 @@ export default function Setup() {
                   <p className="text-sm text-gray-500">Connect your sales data sources and ad platforms</p>
                 </div>
               </div>
-              
+
               <div className="space-y-6">
                 {/* Setup Steps */}
                 <div className="bg-gradient-to-r from-emerald-50 to-green-50 rounded-xl p-5 border border-emerald-100">
                   <h4 className="font-bold text-gray-900 mb-4">Setup Steps</h4>
                   <div className="flex items-center gap-4">
-                    <button 
+                    <button
                       onClick={() => setSalesDataModalOpen(true)}
                       className="flex items-center gap-2 px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-medium rounded-xl transition-all shadow-md hover:shadow-lg"
                     >
@@ -773,7 +755,7 @@ export default function Setup() {
                       1. Connect Data Source
                     </button>
                     <div className="flex-1 h-0.5 bg-emerald-200 rounded-full" />
-                    <button 
+                    <button
                       onClick={() => setDataMappingModalOpen(true)}
                       className="flex items-center gap-2 px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-medium rounded-xl transition-all shadow-md hover:shadow-lg"
                     >
@@ -807,20 +789,20 @@ export default function Setup() {
                   <p className="text-sm text-gray-500">Sync your product catalog across platforms</p>
                 </div>
               </div>
-              
+
               <div className="space-y-6">
                 {/* Setup Steps */}
                 <div className="bg-gradient-to-r from-purple-50 to-indigo-50 rounded-xl p-5 border border-purple-100">
                   <h4 className="font-bold text-gray-900 mb-4">Setup Steps</h4>
                   <div className="flex items-center gap-4">
-                    <button 
+                    <button
                       className="flex items-center gap-2 px-4 py-2.5 bg-purple-600 hover:bg-purple-700 text-white font-medium rounded-xl transition-all shadow-md hover:shadow-lg"
                     >
                       <Database className="w-4 h-4" />
                       1. Connect Data Source
                     </button>
                     <div className="flex-1 h-0.5 bg-purple-200 rounded-full" />
-                    <button 
+                    <button
                       className="flex items-center gap-2 px-4 py-2.5 bg-purple-600 hover:bg-purple-700 text-white font-medium rounded-xl transition-all shadow-md hover:shadow-lg"
                     >
                       <Settings className="w-4 h-4" />
@@ -854,7 +836,7 @@ export default function Setup() {
                 <p className="text-indigo-100 text-sm">Collaborate with your team to complete setup faster</p>
               </div>
             </div>
-            <button 
+            <button
               onClick={() => setInviteTeamModalOpen(true)}
               className="flex items-center gap-2 px-5 py-3 bg-white hover:bg-gray-50 text-indigo-600 font-semibold rounded-xl transition-all shadow-md hover:shadow-lg"
               data-testid="button-invite-team"
@@ -863,7 +845,7 @@ export default function Setup() {
               Invite Team Members
             </button>
           </div>
-          
+
           {/* Team Roles Info */}
           <div className="mt-5 pt-5 border-t border-white/20">
             <div className="grid grid-cols-3 gap-4">
@@ -893,8 +875,8 @@ export default function Setup() {
         </div>
       </div>
 
-      <Dialog 
-        open={salesDataModalOpen} 
+      <Dialog
+        open={salesDataModalOpen}
         onClose={() => setSalesDataModalOpen(false)}
         maxWidth="md"
         fullWidth
@@ -905,9 +887,9 @@ export default function Setup() {
           }
         }}
       >
-        <DialogTitle sx={{ 
-          display: 'flex', 
-          justifyContent: 'space-between', 
+        <DialogTitle sx={{
+          display: 'flex',
+          justifyContent: 'space-between',
           alignItems: 'center',
           borderBottom: '1px solid #e5e7eb',
           pb: 2
@@ -925,7 +907,7 @@ export default function Setup() {
             <X className="w-5 h-5 text-gray-500" />
           </IconButton>
         </DialogTitle>
-        
+
         <DialogContent sx={{ pt: 3 }}>
           <div className="space-y-6">
             <div>
@@ -936,7 +918,7 @@ export default function Setup() {
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label className="block text-xs font-medium text-gray-500 mb-1">Data Source Type</label>
-                  <select 
+                  <select
                     className="w-full p-2 border border-gray-200 rounded-lg bg-white text-sm"
                     value={salesConfig.dataSourceType}
                     onChange={(e) => handleSalesConfigChange('dataSourceType', e.target.value)}
@@ -949,7 +931,7 @@ export default function Setup() {
                 </div>
                 <div>
                   <label className="block text-xs font-medium text-gray-500 mb-1">File URL Type</label>
-                  <select 
+                  <select
                     className="w-full p-2 border border-gray-200 rounded-lg bg-white text-sm"
                     value={salesConfig.fileUrlType}
                     onChange={(e) => handleSalesConfigChange('fileUrlType', e.target.value)}
@@ -964,7 +946,7 @@ export default function Setup() {
             <div className="border-t border-gray-200 pt-4">
               <div className="bg-amber-50 border border-amber-100 rounded-lg p-3 mb-4">
                 <p className="text-xs text-amber-800">
-                  Will the provided URL overwrite existing data in the same folder with each update, or generate a new file every time? 
+                  Will the provided URL overwrite existing data in the same folder with each update, or generate a new file every time?
                   Note that creating a new file for each update could significantly extend the process as it requires individually locating and managing multiple files.
                 </p>
               </div>
@@ -982,7 +964,7 @@ export default function Setup() {
                 <div className="bg-gray-50 rounded-lg p-4">
                   <div className="flex items-center justify-between mb-3">
                     <label className="text-xs font-medium text-gray-700">Dynamic URL Path</label>
-                    <button 
+                    <button
                       onClick={addUrlSegment}
                       className="flex items-center gap-1 px-2 py-1 text-xs text-blue-600 hover:bg-blue-50 rounded transition-colors"
                     >
@@ -1003,7 +985,7 @@ export default function Setup() {
                             className="flex-1 p-2 border border-gray-200 rounded text-sm"
                             placeholder={`Segment ${index + 1}`}
                           />
-                          <button 
+                          <button
                             onClick={() => removeUrlSegment(index)}
                             className="p-1 text-red-500 hover:bg-red-50 rounded"
                           >
@@ -1070,7 +1052,7 @@ export default function Setup() {
               <div className="grid grid-cols-3 gap-4">
                 <div>
                   <label className="block text-xs font-medium text-gray-500 mb-1">Frequency</label>
-                  <select 
+                  <select
                     className="w-full p-2 border border-gray-200 rounded-lg bg-white text-sm"
                     value={salesConfig.schedulerFrequency}
                     onChange={(e) => handleSalesConfigChange('schedulerFrequency', e.target.value)}
@@ -1092,7 +1074,7 @@ export default function Setup() {
                 </div>
                 <div>
                   <label className="block text-xs font-medium text-gray-500 mb-1">Time Zone</label>
-                  <select 
+                  <select
                     className="w-full p-2 border border-gray-200 rounded-lg bg-white text-sm"
                     value={salesConfig.timezone}
                     onChange={(e) => handleSalesConfigChange('timezone', e.target.value)}
@@ -1159,13 +1141,13 @@ export default function Setup() {
         </DialogContent>
 
         <DialogActions sx={{ borderTop: '1px solid #e5e7eb', p: 3 }}>
-          <button 
+          <button
             onClick={() => setSalesDataModalOpen(false)}
             className="px-4 py-2 text-gray-600 font-medium rounded-lg hover:bg-gray-100 transition-colors"
           >
             Cancel
           </button>
-          <button 
+          <button
             onClick={() => setSalesDataModalOpen(false)}
             className="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors"
           >
@@ -1174,8 +1156,8 @@ export default function Setup() {
         </DialogActions>
       </Dialog>
 
-      <Dialog 
-        open={dataMappingModalOpen} 
+      <Dialog
+        open={dataMappingModalOpen}
         onClose={() => setDataMappingModalOpen(false)}
         maxWidth="sm"
         fullWidth
@@ -1186,9 +1168,9 @@ export default function Setup() {
           }
         }}
       >
-        <DialogTitle sx={{ 
-          display: 'flex', 
-          justifyContent: 'space-between', 
+        <DialogTitle sx={{
+          display: 'flex',
+          justifyContent: 'space-between',
           alignItems: 'center',
           borderBottom: '1px solid #e5e7eb',
           pb: 2
@@ -1206,7 +1188,7 @@ export default function Setup() {
             <X className="w-5 h-5 text-gray-500" />
           </IconButton>
         </DialogTitle>
-        
+
         <DialogContent sx={{ pt: 3 }}>
           <div className="space-y-6">
             <div>
@@ -1259,13 +1241,13 @@ export default function Setup() {
         </DialogContent>
 
         <DialogActions sx={{ borderTop: '1px solid #e5e7eb', p: 3 }}>
-          <button 
+          <button
             onClick={() => setDataMappingModalOpen(false)}
             className="px-4 py-2 text-gray-600 font-medium rounded-lg hover:bg-gray-100 transition-colors"
           >
             Cancel
           </button>
-          <button 
+          <button
             onClick={() => setDataMappingModalOpen(false)}
             className="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors"
           >
@@ -1274,8 +1256,8 @@ export default function Setup() {
         </DialogActions>
       </Dialog>
 
-      <Dialog 
-        open={inviteTeamModalOpen} 
+      <Dialog
+        open={inviteTeamModalOpen}
         onClose={() => setInviteTeamModalOpen(false)}
         maxWidth="sm"
         fullWidth
@@ -1286,9 +1268,9 @@ export default function Setup() {
           }
         }}
       >
-        <DialogTitle sx={{ 
-          display: 'flex', 
-          justifyContent: 'space-between', 
+        <DialogTitle sx={{
+          display: 'flex',
+          justifyContent: 'space-between',
           alignItems: 'center',
           borderBottom: '1px solid #e5e7eb',
           pb: 2
@@ -1306,7 +1288,7 @@ export default function Setup() {
             <X className="w-5 h-5 text-gray-500" />
           </IconButton>
         </DialogTitle>
-        
+
         <DialogContent sx={{ pt: 3 }}>
           <div className="space-y-4">
             <div className="grid grid-cols-2 gap-4">
@@ -1327,7 +1309,7 @@ export default function Setup() {
                 data-testid="input-last-name"
               />
             </div>
-            
+
             <TextField
               label="E-mail"
               type="email"
@@ -1340,10 +1322,10 @@ export default function Setup() {
               }}
               data-testid="input-email"
             />
-            
+
             <div>
               <label className="block text-xs font-medium text-gray-500 mb-1">Role</label>
-              <select 
+              <select
                 className="w-full p-2.5 border border-gray-200 rounded-lg bg-white text-sm"
                 value={inviteForm.role}
                 onChange={(e) => handleInviteFormChange('role', e.target.value)}
@@ -1370,13 +1352,13 @@ export default function Setup() {
         </DialogContent>
 
         <DialogActions sx={{ borderTop: '1px solid #e5e7eb', p: 3 }}>
-          <button 
+          <button
             onClick={() => setInviteTeamModalOpen(false)}
             className="px-4 py-2 text-gray-600 font-medium rounded-lg hover:bg-gray-100 transition-colors"
           >
             Cancel
           </button>
-          <button 
+          <button
             onClick={handleSendInvite}
             className="px-6 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-lg transition-colors flex items-center gap-2"
             data-testid="button-send-invite"

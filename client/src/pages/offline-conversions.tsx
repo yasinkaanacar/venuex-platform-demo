@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import Header from '@/components/overview/header';
+
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -8,12 +8,12 @@ import DataQualityEnrichment from '@/components/overview/data-quality-enrichment
 import DataHealthAlerts from '@/components/overview/data-health-alerts';
 import WeeklySalesChart from '../components/overview/weekly-sales-chart';
 import PerformanceChart from '../components/overview/performance-chart';
-import { 
-  TrendingUp, 
-  DollarSign, 
-  Target, 
-  Store, 
-  ArrowUpRight, 
+import {
+  TrendingUp,
+  DollarSign,
+  Target,
+  Store,
+  ArrowUpRight,
   ArrowDownRight,
   Calendar,
   Download,
@@ -71,33 +71,9 @@ export default function OfflineConversions() {
 
   return (
     <div className="min-h-full bg-gray-50 dark:bg-gray-900">
-      <Header />
-      
+
       <div className="max-w-7xl mx-auto px-6 py-6">
-        {/* Strategic Header */}
-        <div className="mb-8">
-          <div className="flex items-center justify-between">
-            <div>
-              <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
-                Offline Conversions Intelligence Engine
-              </h1>
-              <p className="text-lg text-gray-600 dark:text-gray-400 max-w-3xl">
-                Strategic analytics transforming digital advertising impact into CFO-credible financial outcomes. 
-                Bridge the omnichannel gap with transaction-based proof of performance.
-              </p>
-            </div>
-            <div className="flex items-center space-x-3">
-              <Button variant="outline" className="flex items-center space-x-2">
-                <Download className="w-4 h-4" />
-                <span>Export Report</span>
-              </Button>
-              <Button className="bg-blue-600 hover:bg-blue-700 text-white">
-                <BarChart3 className="w-4 h-4 mr-2" />
-                Executive Summary
-              </Button>
-            </div>
-          </div>
-        </div>
+
 
         {/* Filter Controls */}
         <Card className="mb-8">
@@ -119,7 +95,7 @@ export default function OfflineConversions() {
                     <SelectItem value="last-year">Last year</SelectItem>
                   </SelectContent>
                 </Select>
-                
+
                 <div className="flex items-center space-x-2 ml-6">
                   <Filter className="w-4 h-4 text-gray-500" />
                   <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Platform:</span>
@@ -136,7 +112,7 @@ export default function OfflineConversions() {
                   </SelectContent>
                 </Select>
               </div>
-              
+
               <Badge variant="secondary" className="bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">
                 Live Data • Updated 2 min ago
               </Badge>
@@ -322,14 +298,13 @@ export default function OfflineConversions() {
               <div className="text-3xl font-bold text-gray-900 dark:text-white mb-3">
                 {formatCurrency(kpiData.attributedRevenue.current)}
               </div>
-              
+
               {/* Variance Indicator */}
               <div className="flex items-center justify-between mb-4">
-                <div className={`flex items-center space-x-2 px-3 py-1 rounded-full text-sm font-semibold ${
-                  kpiData.attributedRevenue.change > 0 
-                    ? 'bg-green-100 text-green-700 dark:bg-green-900/20 dark:text-green-400' 
-                    : 'bg-red-100 text-red-700 dark:bg-red-900/20 dark:text-red-400'
-                }`}>
+                <div className={`flex items-center space-x-2 px-3 py-1 rounded-full text-sm font-semibold ${kpiData.attributedRevenue.change > 0
+                  ? 'bg-green-100 text-green-700 dark:bg-green-900/20 dark:text-green-400'
+                  : 'bg-red-100 text-red-700 dark:bg-red-900/20 dark:text-red-400'
+                  }`}>
                   {kpiData.attributedRevenue.change > 0 ? (
                     <ArrowUpRight className="w-4 h-4" />
                   ) : (
@@ -339,20 +314,20 @@ export default function OfflineConversions() {
                 </div>
                 <div className="text-xs text-gray-500 font-medium">vs last period</div>
               </div>
-              
+
               {/* Comparison Value */}
               <div className="text-sm text-gray-600 dark:text-gray-400 bg-white/60 dark:bg-gray-800/60 rounded-md px-3 py-2">
                 <span className="font-medium">Previous:</span> {formatCurrency(kpiData.attributedRevenue.previous)}
               </div>
-              
+
               {/* Mini Trendline */}
               <div className="absolute bottom-0 right-0 w-24 h-12 opacity-20">
                 <svg className="w-full h-full" viewBox="0 0 96 48" preserveAspectRatio="none">
-                  <path 
-                    d="M0,40 Q24,32 48,24 T96,8" 
-                    stroke="currentColor" 
-                    strokeWidth="2" 
-                    fill="none" 
+                  <path
+                    d="M0,40 Q24,32 48,24 T96,8"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    fill="none"
                     className="text-blue-600"
                   />
                 </svg>
@@ -377,14 +352,13 @@ export default function OfflineConversions() {
               <div className="text-3xl font-bold text-gray-900 dark:text-white mb-3">
                 {kpiData.offlineROAS.current.toFixed(2)}:1
               </div>
-              
+
               {/* Variance Indicator */}
               <div className="flex items-center justify-between mb-4">
-                <div className={`flex items-center space-x-2 px-3 py-1 rounded-full text-sm font-semibold ${
-                  kpiData.offlineROAS.change > 0 
-                    ? 'bg-green-100 text-green-700 dark:bg-green-900/20 dark:text-green-400' 
-                    : 'bg-red-100 text-red-700 dark:bg-red-900/20 dark:text-red-400'
-                }`}>
+                <div className={`flex items-center space-x-2 px-3 py-1 rounded-full text-sm font-semibold ${kpiData.offlineROAS.change > 0
+                  ? 'bg-green-100 text-green-700 dark:bg-green-900/20 dark:text-green-400'
+                  : 'bg-red-100 text-red-700 dark:bg-red-900/20 dark:text-red-400'
+                  }`}>
                   {kpiData.offlineROAS.change > 0 ? (
                     <ArrowUpRight className="w-4 h-4" />
                   ) : (
@@ -394,20 +368,20 @@ export default function OfflineConversions() {
                 </div>
                 <div className="text-xs text-gray-500 font-medium">vs last period</div>
               </div>
-              
+
               {/* Comparison Value */}
               <div className="text-sm text-gray-600 dark:text-gray-400 bg-white/60 dark:bg-gray-800/60 rounded-md px-3 py-2">
                 <span className="font-medium">Previous:</span> {kpiData.offlineROAS.previous.toFixed(2)}:1
               </div>
-              
+
               {/* Mini Trendline */}
               <div className="absolute bottom-0 right-0 w-24 h-12 opacity-20">
                 <svg className="w-full h-full" viewBox="0 0 96 48" preserveAspectRatio="none">
-                  <path 
-                    d="M0,36 Q24,30 48,20 T96,12" 
-                    stroke="currentColor" 
-                    strokeWidth="2" 
-                    fill="none" 
+                  <path
+                    d="M0,36 Q24,30 48,20 T96,12"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    fill="none"
                     className="text-green-600"
                   />
                 </svg>
@@ -432,14 +406,13 @@ export default function OfflineConversions() {
               <div className="text-3xl font-bold text-gray-900 dark:text-white mb-3">
                 {formatNumber(kpiData.totalConversions.current)}
               </div>
-              
+
               {/* Variance Indicator */}
               <div className="flex items-center justify-between mb-4">
-                <div className={`flex items-center space-x-2 px-3 py-1 rounded-full text-sm font-semibold ${
-                  kpiData.totalConversions.change > 0 
-                    ? 'bg-green-100 text-green-700 dark:bg-green-900/20 dark:text-green-400' 
-                    : 'bg-red-100 text-red-700 dark:bg-red-900/20 dark:text-red-400'
-                }`}>
+                <div className={`flex items-center space-x-2 px-3 py-1 rounded-full text-sm font-semibold ${kpiData.totalConversions.change > 0
+                  ? 'bg-green-100 text-green-700 dark:bg-green-900/20 dark:text-green-400'
+                  : 'bg-red-100 text-red-700 dark:bg-red-900/20 dark:text-red-400'
+                  }`}>
                   {kpiData.totalConversions.change > 0 ? (
                     <ArrowUpRight className="w-4 h-4" />
                   ) : (
@@ -449,20 +422,20 @@ export default function OfflineConversions() {
                 </div>
                 <div className="text-xs text-gray-500 font-medium">vs last period</div>
               </div>
-              
+
               {/* Comparison Value */}
               <div className="text-sm text-gray-600 dark:text-gray-400 bg-white/60 dark:bg-gray-800/60 rounded-md px-3 py-2">
                 <span className="font-medium">Previous:</span> {formatNumber(kpiData.totalConversions.previous)}
               </div>
-              
+
               {/* Mini Trendline */}
               <div className="absolute bottom-0 right-0 w-24 h-12 opacity-20">
                 <svg className="w-full h-full" viewBox="0 0 96 48" preserveAspectRatio="none">
-                  <path 
-                    d="M0,42 Q24,38 48,28 T96,16" 
-                    stroke="currentColor" 
-                    strokeWidth="2" 
-                    fill="none" 
+                  <path
+                    d="M0,42 Q24,38 48,28 T96,16"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    fill="none"
                     className="text-purple-600"
                   />
                 </svg>
@@ -487,14 +460,13 @@ export default function OfflineConversions() {
               <div className="text-3xl font-bold text-gray-900 dark:text-white mb-3">
                 {formatCurrency(kpiData.avgOrderValue.current)}
               </div>
-              
+
               {/* Variance Indicator */}
               <div className="flex items-center justify-between mb-4">
-                <div className={`flex items-center space-x-2 px-3 py-1 rounded-full text-sm font-semibold ${
-                  kpiData.avgOrderValue.change > 0 
-                    ? 'bg-green-100 text-green-700 dark:bg-green-900/20 dark:text-green-400' 
-                    : 'bg-red-100 text-red-700 dark:bg-red-900/20 dark:text-red-400'
-                }`}>
+                <div className={`flex items-center space-x-2 px-3 py-1 rounded-full text-sm font-semibold ${kpiData.avgOrderValue.change > 0
+                  ? 'bg-green-100 text-green-700 dark:bg-green-900/20 dark:text-green-400'
+                  : 'bg-red-100 text-red-700 dark:bg-red-900/20 dark:text-red-400'
+                  }`}>
                   {kpiData.avgOrderValue.change > 0 ? (
                     <ArrowUpRight className="w-4 h-4" />
                   ) : (
@@ -504,20 +476,20 @@ export default function OfflineConversions() {
                 </div>
                 <div className="text-xs text-gray-500 font-medium">vs last period</div>
               </div>
-              
+
               {/* Comparison Value */}
               <div className="text-sm text-gray-600 dark:text-gray-400 bg-white/60 dark:bg-gray-800/60 rounded-md px-3 py-2">
                 <span className="font-medium">Previous:</span> {formatCurrency(kpiData.avgOrderValue.previous)}
               </div>
-              
+
               {/* Mini Trendline */}
               <div className="absolute bottom-0 right-0 w-24 h-12 opacity-20">
                 <svg className="w-full h-full" viewBox="0 0 96 48" preserveAspectRatio="none">
-                  <path 
-                    d="M0,44 Q24,38 48,26 T96,14" 
-                    stroke="currentColor" 
-                    strokeWidth="2" 
-                    fill="none" 
+                  <path
+                    d="M0,44 Q24,38 48,26 T96,14"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    fill="none"
                     className="text-orange-600"
                   />
                 </svg>
@@ -527,10 +499,13 @@ export default function OfflineConversions() {
         </div>
 
         {/* Online-to-Offline Conversion Funnel */}
-        <WeeklySalesChart />
+        <WeeklySalesChart
+          selectedPlatform={platform === 'tiktok' ? 'TikTok' : (platform === 'all' ? 'Google' : platform.charAt(0).toUpperCase() + platform.slice(1))}
+          onPlatformChange={(p) => setPlatform(p.toLowerCase())}
+        />
 
         {/* Performance Chart - Funnel Visualization */}
-        <PerformanceChart filters={{platform: platform, dateRange: dateRange, compareMode: false}} onFiltersChange={() => {}} />
+        <PerformanceChart filters={{ platform: platform, dateRange: dateRange, compareMode: false }} onFiltersChange={() => { }} />
 
         {/* Strategic Insights Section */}
         <div className="space-y-8 mb-8">
@@ -569,8 +544,8 @@ export default function OfflineConversions() {
                           </div>
                           <div className="flex items-center justify-between">
                             <div className="flex-1 bg-gray-200 dark:bg-gray-700 rounded-full h-2 mr-4">
-                              <div 
-                                className={`h-2 rounded-full ${item.color}`} 
+                              <div
+                                className={`h-2 rounded-full ${item.color}`}
                                 style={{ width: `${item.percentage}%` }}
                               ></div>
                             </div>
@@ -610,136 +585,136 @@ export default function OfflineConversions() {
 
           {/* Store-Level Conversion Insights */}
           <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center justify-between">
-              <div className="flex items-center space-x-2">
-                <MapPin className="w-5 h-5 text-green-600" />
-                <span>Store-Level Conversion Insights</span>
-              </div>
-              <Badge variant="outline" className="text-green-700 border-green-300">
-                Revenue Leaders
-              </Badge>
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-5">
-              {[
-                {
-                  store: 'Istanbul Zorlu Center',
-                  city: 'Istanbul',
-                  attributedRevenue: 487200,
-                  digitalOrders: 142,
-                  conversionRate: 3.8,
-                  avgOrderValue: 3431,
-                  topChannel: 'Google Ads',
-                  channelShare: 67,
-                  performance: 'excellent'
-                },
-                {
-                  store: 'Ankara Ankamall',
-                  city: 'Ankara', 
-                  attributedRevenue: 356800,
-                  digitalOrders: 124,
-                  conversionRate: 3.2,
-                  avgOrderValue: 2877,
-                  topChannel: 'Meta Ads',
-                  channelShare: 54,
-                  performance: 'excellent'
-                },
-                {
-                  store: 'Izmir Optimum',
-                  city: 'Izmir',
-                  attributedRevenue: 298600,
-                  digitalOrders: 96,
-                  conversionRate: 2.9,
-                  avgOrderValue: 3110,
-                  topChannel: 'Google Ads',
-                  channelShare: 61,
-                  performance: 'good'
-                },
-                {
-                  store: 'Bursa Kent Meydanı',
-                  city: 'Bursa',
-                  attributedRevenue: 189400,
-                  digitalOrders: 67,
-                  conversionRate: 2.4,
-                  avgOrderValue: 2827,
-                  topChannel: 'Meta Ads',
-                  channelShare: 48,
-                  performance: 'good'
-                },
-                {
-                  store: 'Antalya Terracity',
-                  city: 'Antalya',
-                  attributedRevenue: 156700,
-                  digitalOrders: 53,
-                  conversionRate: 2.1,
-                  avgOrderValue: 2957,
-                  topChannel: 'TikTok Ads',
-                  channelShare: 42,
-                  performance: 'moderate'
-                }
-              ].map((location, index) => {
-                const performanceColor = location.performance === 'excellent' ? 'border-l-green-500 bg-green-50 dark:bg-green-900/10' :
-                                       location.performance === 'good' ? 'border-l-blue-500 bg-blue-50 dark:bg-blue-900/10' :
-                                       'border-l-orange-500 bg-orange-50 dark:bg-orange-900/10';
-                
-                return (
-                  <div key={location.store} className={`border-l-4 ${performanceColor} rounded-lg p-4`}>
-                    <div className="flex items-start justify-between mb-3">
-                      <div>
-                        <div className="font-bold text-gray-900 dark:text-white text-sm">{location.store}</div>
-                        <div className="text-xs text-gray-600 dark:text-gray-400">{location.city} • #{index + 1} Revenue Performance</div>
+            <CardHeader>
+              <CardTitle className="flex items-center justify-between">
+                <div className="flex items-center space-x-2">
+                  <MapPin className="w-5 h-5 text-green-600" />
+                  <span>Store-Level Conversion Insights</span>
+                </div>
+                <Badge variant="outline" className="text-green-700 border-green-300">
+                  Revenue Leaders
+                </Badge>
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-5">
+                {[
+                  {
+                    store: 'Istanbul Zorlu Center',
+                    city: 'Istanbul',
+                    attributedRevenue: 487200,
+                    digitalOrders: 142,
+                    conversionRate: 3.8,
+                    avgOrderValue: 3431,
+                    topChannel: 'Google Ads',
+                    channelShare: 67,
+                    performance: 'excellent'
+                  },
+                  {
+                    store: 'Ankara Ankamall',
+                    city: 'Ankara',
+                    attributedRevenue: 356800,
+                    digitalOrders: 124,
+                    conversionRate: 3.2,
+                    avgOrderValue: 2877,
+                    topChannel: 'Meta Ads',
+                    channelShare: 54,
+                    performance: 'excellent'
+                  },
+                  {
+                    store: 'Izmir Optimum',
+                    city: 'Izmir',
+                    attributedRevenue: 298600,
+                    digitalOrders: 96,
+                    conversionRate: 2.9,
+                    avgOrderValue: 3110,
+                    topChannel: 'Google Ads',
+                    channelShare: 61,
+                    performance: 'good'
+                  },
+                  {
+                    store: 'Bursa Kent Meydanı',
+                    city: 'Bursa',
+                    attributedRevenue: 189400,
+                    digitalOrders: 67,
+                    conversionRate: 2.4,
+                    avgOrderValue: 2827,
+                    topChannel: 'Meta Ads',
+                    channelShare: 48,
+                    performance: 'good'
+                  },
+                  {
+                    store: 'Antalya Terracity',
+                    city: 'Antalya',
+                    attributedRevenue: 156700,
+                    digitalOrders: 53,
+                    conversionRate: 2.1,
+                    avgOrderValue: 2957,
+                    topChannel: 'TikTok Ads',
+                    channelShare: 42,
+                    performance: 'moderate'
+                  }
+                ].map((location, index) => {
+                  const performanceColor = location.performance === 'excellent' ? 'border-l-green-500 bg-green-50 dark:bg-green-900/10' :
+                    location.performance === 'good' ? 'border-l-blue-500 bg-blue-50 dark:bg-blue-900/10' :
+                      'border-l-orange-500 bg-orange-50 dark:bg-orange-900/10';
+
+                  return (
+                    <div key={location.store} className={`border-l-4 ${performanceColor} rounded-lg p-4`}>
+                      <div className="flex items-start justify-between mb-3">
+                        <div>
+                          <div className="font-bold text-gray-900 dark:text-white text-sm">{location.store}</div>
+                          <div className="text-xs text-gray-600 dark:text-gray-400">{location.city} • #{index + 1} Revenue Performance</div>
+                        </div>
+                        <div className="text-right">
+                          <div className="font-bold text-lg text-gray-900 dark:text-white">{formatCurrency(location.attributedRevenue)}</div>
+                          <div className="text-xs text-gray-500">Digital Attribution</div>
+                        </div>
                       </div>
-                      <div className="text-right">
-                        <div className="font-bold text-lg text-gray-900 dark:text-white">{formatCurrency(location.attributedRevenue)}</div>
-                        <div className="text-xs text-gray-500">Digital Attribution</div>
+
+                      <div className="grid grid-cols-2 gap-4 mt-4">
+                        <div className="space-y-2">
+                          <div className="flex items-center justify-between">
+                            <span className="text-xs text-gray-600 dark:text-gray-400">Digital Orders:</span>
+                            <span className="font-medium text-gray-900 dark:text-white">{formatNumber(location.digitalOrders)}</span>
+                          </div>
+                          <div className="flex items-center justify-between">
+                            <span className="text-xs text-gray-600 dark:text-gray-400">Conversion Rate:</span>
+                            <span className="font-medium text-gray-900 dark:text-white">{location.conversionRate}%</span>
+                          </div>
+                        </div>
+                        <div className="space-y-2">
+                          <div className="flex items-center justify-between">
+                            <span className="text-xs text-gray-600 dark:text-gray-400">Avg Order Value:</span>
+                            <span className="font-medium text-gray-900 dark:text-white">{formatCurrency(location.avgOrderValue)}</span>
+                          </div>
+                          <div className="flex items-center justify-between">
+                            <span className="text-xs text-gray-600 dark:text-gray-400">Top Channel:</span>
+                            <span className="font-medium text-gray-900 dark:text-white">{location.topChannel} ({location.channelShare}%)</span>
+                          </div>
+                        </div>
                       </div>
                     </div>
-                    
-                    <div className="grid grid-cols-2 gap-4 mt-4">
-                      <div className="space-y-2">
-                        <div className="flex items-center justify-between">
-                          <span className="text-xs text-gray-600 dark:text-gray-400">Digital Orders:</span>
-                          <span className="font-medium text-gray-900 dark:text-white">{formatNumber(location.digitalOrders)}</span>
-                        </div>
-                        <div className="flex items-center justify-between">
-                          <span className="text-xs text-gray-600 dark:text-gray-400">Conversion Rate:</span>
-                          <span className="font-medium text-gray-900 dark:text-white">{location.conversionRate}%</span>
-                        </div>
-                      </div>
-                      <div className="space-y-2">
-                        <div className="flex items-center justify-between">
-                          <span className="text-xs text-gray-600 dark:text-gray-400">Avg Order Value:</span>
-                          <span className="font-medium text-gray-900 dark:text-white">{formatCurrency(location.avgOrderValue)}</span>
-                        </div>
-                        <div className="flex items-center justify-between">
-                          <span className="text-xs text-gray-600 dark:text-gray-400">Top Channel:</span>
-                          <span className="font-medium text-gray-900 dark:text-white">{location.topChannel} ({location.channelShare}%)</span>
-                        </div>
-                      </div>
+                  );
+                })}
+
+                {/* Store Performance Summary */}
+                <div className="border-t pt-5 mt-6">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-4">
+                      <div className="text-lg font-bold text-gray-900 dark:text-white">{formatCurrency(1488700)}</div>
+                      <div className="text-sm font-medium text-gray-700 dark:text-gray-300">Total Store Revenue</div>
+                      <div className="text-xs text-gray-600 dark:text-gray-400 mt-1">From digital attribution across 5 locations</div>
                     </div>
-                  </div>
-                );
-              })}
-              
-              {/* Store Performance Summary */}
-              <div className="border-t pt-5 mt-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-4">
-                    <div className="text-lg font-bold text-gray-900 dark:text-white">{formatCurrency(1488700)}</div>
-                    <div className="text-sm font-medium text-gray-700 dark:text-gray-300">Total Store Revenue</div>
-                    <div className="text-xs text-gray-600 dark:text-gray-400 mt-1">From digital attribution across 5 locations</div>
-                  </div>
-                  <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-4">
-                    <div className="text-lg font-bold text-gray-900 dark:text-white">2.87%</div>
-                    <div className="text-sm font-medium text-gray-700 dark:text-gray-300">Avg Store Conversion Rate</div>
-                    <div className="text-xs text-gray-600 dark:text-gray-400 mt-1">Digital campaign to in-store purchase</div>
+                    <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-4">
+                      <div className="text-lg font-bold text-gray-900 dark:text-white">2.87%</div>
+                      <div className="text-sm font-medium text-gray-700 dark:text-gray-300">Avg Store Conversion Rate</div>
+                      <div className="text-xs text-gray-600 dark:text-gray-400 mt-1">Digital campaign to in-store purchase</div>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          </CardContent>
+            </CardContent>
           </Card>
         </div>
 
@@ -828,9 +803,9 @@ export default function OfflineConversions() {
                   }
                 ].map((campaign, index) => {
                   const performanceColor = campaign.performance === 'excellent' ? 'text-green-600 bg-green-50 dark:bg-green-900/20' :
-                                         campaign.performance === 'good' ? 'text-blue-600 bg-blue-50 dark:bg-blue-900/20' :
-                                         'text-orange-600 bg-orange-50 dark:bg-orange-900/20';
-                  
+                    campaign.performance === 'good' ? 'text-blue-600 bg-blue-50 dark:bg-blue-900/20' :
+                      'text-orange-600 bg-orange-50 dark:bg-orange-900/20';
+
                   return (
                     <div key={index} className="grid grid-cols-6 gap-4 px-4 py-4 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors">
                       <div>
@@ -919,7 +894,7 @@ export default function OfflineConversions() {
                     ].map((dayData, index) => {
                       const maxRevenue = 612700;
                       const percentage = (dayData.revenue / maxRevenue) * 100;
-                      
+
                       return (
                         <div key={dayData.day} className="flex items-center space-x-4">
                           <div className="w-16 text-xs text-gray-600 dark:text-gray-400 font-medium">{dayData.day}</div>
@@ -938,8 +913,8 @@ export default function OfflineConversions() {
                               </div>
                             </div>
                             <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
-                              <div 
-                                className="h-2 rounded-full bg-gradient-to-r from-blue-400 to-blue-600" 
+                              <div
+                                className="h-2 rounded-full bg-gradient-to-r from-blue-400 to-blue-600"
                                 style={{ width: `${percentage}%` }}
                               ></div>
                             </div>
@@ -998,9 +973,9 @@ export default function OfflineConversions() {
                       { time: '21:00-23:00', rate: 3.2, impact: 'medium', orders: 58 }
                     ].map((timeSlot, index) => {
                       const impactColor = timeSlot.impact === 'peak' ? 'border-green-500 bg-green-50 dark:bg-green-900/10' :
-                                         timeSlot.impact === 'high' ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/10' :
-                                         'border-orange-500 bg-orange-50 dark:bg-orange-900/10';
-                      
+                        timeSlot.impact === 'high' ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/10' :
+                          'border-orange-500 bg-orange-50 dark:bg-orange-900/10';
+
                       return (
                         <div key={index} className={`border-l-4 ${impactColor} rounded-lg p-3`}>
                           <div className="font-medium text-gray-900 dark:text-white text-sm">{timeSlot.time}</div>
@@ -1065,7 +1040,7 @@ export default function OfflineConversions() {
 
         {/* Data Health & Flow - Last Section */}
         <div className="mt-8">
-          <DataHealthAlerts 
+          <DataHealthAlerts
             bannerMode={false}
             alwaysExpanded={true}
           />

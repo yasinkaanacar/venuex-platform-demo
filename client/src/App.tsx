@@ -2,6 +2,7 @@ import { Switch, Route } from "wouter";
 import { queryClient } from "./lib/queryClient";
 import { QueryClientProvider } from "@tanstack/react-query";
 import Sidebar from "@/components/layout/sidebar";
+import Header from "@/components/layout/Header";
 import Overview from "@/pages/overview";
 import OfflineConversions from "@/pages/offline-conversions";
 import OfflineConversionsMVP from "@/pages/offline-conversionsMVP";
@@ -59,6 +60,7 @@ function Router() {
         <div className="flex min-h-screen bg-white dark:bg-gray-900">
           <Sidebar collapsed={sidebarCollapsed} onToggle={toggleSidebar} />
           <main className={`flex-1 min-h-screen overflow-auto transition-all duration-300 bg-white dark:bg-gray-800 ${sidebarCollapsed ? 'ml-0' : ''}`}>
+            <Header />
             <Switch>
               <Route path="/" component={Overview} />
               <Route path="/offline-conversions" component={OfflineConversions} />

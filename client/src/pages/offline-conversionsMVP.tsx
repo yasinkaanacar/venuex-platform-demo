@@ -16,22 +16,22 @@ import WeeklySalesChart from '../components/offline-conversions/weekly-sales-cha
 
 // Mock sparkline data for each KPI
 const revenueSparklineData = [
-  { value: 1100000 }, { value: 1050000 }, { value: 1150000 }, { value: 1200000 }, 
+  { value: 1100000 }, { value: 1050000 }, { value: 1150000 }, { value: 1200000 },
   { value: 1180000 }, { value: 1220000 }, { value: 1250000 }, { value: 1200000 }
 ];
 
 const conversionsSparklineData = [
-  { value: 1980 }, { value: 1920 }, { value: 2050 }, { value: 2100 }, 
+  { value: 1980 }, { value: 1920 }, { value: 2050 }, { value: 2100 },
   { value: 2080 }, { value: 2150 }, { value: 2200 }, { value: 2150 }
 ];
 
 const roasSparklineData = [
-  { value: 4.2 }, { value: 4.1 }, { value: 4.3 }, { value: 4.5 }, 
+  { value: 4.2 }, { value: 4.1 }, { value: 4.3 }, { value: 4.5 },
   { value: 4.4 }, { value: 4.6 }, { value: 4.7 }, { value: 4.6 }
 ];
 
 const contributionSparklineData = [
-  { value: 32 }, { value: 31 }, { value: 33 }, { value: 34 }, 
+  { value: 32 }, { value: 31 }, { value: 33 }, { value: 34 },
   { value: 34 }, { value: 35 }, { value: 36 }, { value: 35 }
 ];
 
@@ -56,8 +56,8 @@ function KPICard({ title, primaryMetric, changePercent, isPositiveChange, icon: 
   const TrendIcon = isPositiveChange ? TrendingUp : TrendingDown;
 
   return (
-    <div 
-      className="bg-[#f9fafb] shadow-none hover:shadow-sm transition-all duration-200 cursor-pointer hover:scale-105 rounded-lg border border-gray-200 overflow-hidden" 
+    <div
+      className="bg-[#f9fafb] shadow-none hover:shadow-sm transition-all duration-200 cursor-pointer hover:scale-105 rounded-lg border border-gray-200 overflow-hidden"
       data-testid={`kpi-card-${title.toLowerCase().replace(/\s+/g, '-')}`}
     >
       <div className="p-6 pt-3 bg-[#f9fafb]">
@@ -69,7 +69,7 @@ function KPICard({ title, primaryMetric, changePercent, isPositiveChange, icon: 
             <h3 className="text-sm font-medium text-muted-foreground whitespace-nowrap">{title}</h3>
           </div>
         </div>
-        
+
         <div className="flex items-center justify-between mb-2">
           <div className="text-2xl font-bold text-foreground" data-testid={`text-${title.toLowerCase().replace(/\s+/g, '-')}-metric`}>
             {primaryMetric}
@@ -79,7 +79,7 @@ function KPICard({ title, primaryMetric, changePercent, isPositiveChange, icon: 
             <span data-testid={`text-trend-${title.toLowerCase().replace(/\s+/g, '-')}`}>{isPositiveChange ? '+' : ''}{changePercent}%</span>
           </div>
         </div>
-        
+
         <div className="text-xs text-muted-foreground">
           vs {previousValue || primaryMetric} previous period
         </div>
@@ -129,7 +129,7 @@ const locationOptions = [
     stores: ["Demo Kadıköy Store", "Demo Beşiktaş Store", "Demo Şişli Store"]
   },
   {
-    region: "Ankara", 
+    region: "Ankara",
     stores: ["Demo Kızılay Store", "Demo Çankaya Store"]
   },
   {
@@ -189,53 +189,53 @@ interface GeoPerformanceData {
 // Mock geographic performance data for Turkish states
 const mockGeoData: GeoPerformanceData[] = [
   {
-    country: "Turkey", state: "Istanbul", spends: 450000, impressions: 2500000, interactions: 125000, directionRequests: 18000, callsMade: 8500, storeVisits: 45000, 
-    websiteVisits: 95000, onlineTransactions: 12500, offlineTransactions: 8900, 
+    country: "Turkey", state: "Istanbul", spends: 450000, impressions: 2500000, interactions: 125000, directionRequests: 18000, callsMade: 8500, storeVisits: 45000,
+    websiteVisits: 95000, onlineTransactions: 12500, offlineTransactions: 8900,
     onlineRevenue: 89000000, offlineRevenue: 80173725, onlineROAS: 87.6, offlineROAS: 78.8, aov: 9800, multiplier: 1.8
   },
   {
-    country: "Turkey", state: "Ankara", spends: 280000, impressions: 1800000, interactions: 78000, directionRequests: 12000, callsMade: 5800, storeVisits: 28000, 
-    websiteVisits: 62000, onlineTransactions: 8200, offlineTransactions: 5600, 
+    country: "Turkey", state: "Ankara", spends: 280000, impressions: 1800000, interactions: 78000, directionRequests: 12000, callsMade: 5800, storeVisits: 28000,
+    websiteVisits: 62000, onlineTransactions: 8200, offlineTransactions: 5600,
     onlineRevenue: 54000000, offlineRevenue: 48960000, onlineROAS: 85.2, offlineROAS: 77.3, aov: 9200, multiplier: 1.7
   },
   {
-    country: "Turkey", state: "Izmir", spends: 320000, impressions: 2100000, interactions: 89000, directionRequests: 14000, callsMade: 6700, storeVisits: 32000, 
-    websiteVisits: 71000, onlineTransactions: 9400, offlineTransactions: 6400, 
+    country: "Turkey", state: "Izmir", spends: 320000, impressions: 2100000, interactions: 89000, directionRequests: 14000, callsMade: 6700, storeVisits: 32000,
+    websiteVisits: 71000, onlineTransactions: 9400, offlineTransactions: 6400,
     onlineRevenue: 62000000, offlineRevenue: 55360000, onlineROAS: 85.8, offlineROAS: 76.5, aov: 9400, multiplier: 1.75
   },
   {
-    country: "Turkey", state: "Antalya", spends: 180000, impressions: 1400000, interactions: 52000, directionRequests: 8500, callsMade: 4200, storeVisits: 19000, 
-    websiteVisits: 42000, onlineTransactions: 5600, offlineTransactions: 3800, 
+    country: "Turkey", state: "Antalya", spends: 180000, impressions: 1400000, interactions: 52000, directionRequests: 8500, callsMade: 4200, storeVisits: 19000,
+    websiteVisits: 42000, onlineTransactions: 5600, offlineTransactions: 3800,
     onlineRevenue: 36000000, offlineRevenue: 32400000, onlineROAS: 88.4, offlineROAS: 79.6, aov: 10200, multiplier: 1.9
   },
   {
-    country: "Turkey", state: "Bursa", spends: 220000, impressions: 1600000, interactions: 61000, directionRequests: 9800, callsMade: 4900, storeVisits: 22000, 
-    websiteVisits: 49000, onlineTransactions: 6500, offlineTransactions: 4400, 
+    country: "Turkey", state: "Bursa", spends: 220000, impressions: 1600000, interactions: 61000, directionRequests: 9800, callsMade: 4900, storeVisits: 22000,
+    websiteVisits: 49000, onlineTransactions: 6500, offlineTransactions: 4400,
     onlineRevenue: 42000000, offlineRevenue: 37800000, onlineROAS: 84.4, offlineROAS: 76.0, aov: 9100, multiplier: 1.7
   },
   {
-    country: "Turkey", state: "Adana", spends: 150000, impressions: 1200000, interactions: 42000, directionRequests: 7200, callsMade: 3600, storeVisits: 15000, 
-    websiteVisits: 34000, onlineTransactions: 4500, offlineTransactions: 3000, 
+    country: "Turkey", state: "Adana", spends: 150000, impressions: 1200000, interactions: 42000, directionRequests: 7200, callsMade: 3600, storeVisits: 15000,
+    websiteVisits: 34000, onlineTransactions: 4500, offlineTransactions: 3000,
     onlineRevenue: 28000000, offlineRevenue: 25200000, onlineROAS: 82.5, offlineROAS: 74.2, aov: 8900, multiplier: 1.6
   },
   {
-    country: "Turkey", state: "Konya", spends: 95000, impressions: 950000, interactions: 27000, directionRequests: 5400, callsMade: 2700, storeVisits: 9800, 
-    websiteVisits: 22000, onlineTransactions: 2900, offlineTransactions: 1950, 
+    country: "Turkey", state: "Konya", spends: 95000, impressions: 950000, interactions: 27000, directionRequests: 5400, callsMade: 2700, storeVisits: 9800,
+    websiteVisits: 22000, onlineTransactions: 2900, offlineTransactions: 1950,
     onlineRevenue: 18000000, offlineRevenue: 16200000, onlineROAS: 83.8, offlineROAS: 75.4, aov: 9300, multiplier: 1.65
   },
   {
-    country: "Turkey", state: "Gaziantep", spends: 78000, impressions: 780000, interactions: 22000, directionRequests: 4400, callsMade: 2200, storeVisits: 8000, 
-    websiteVisits: 18000, onlineTransactions: 2400, offlineTransactions: 1600, 
+    country: "Turkey", state: "Gaziantep", spends: 78000, impressions: 780000, interactions: 22000, directionRequests: 4400, callsMade: 2200, storeVisits: 8000,
+    websiteVisits: 18000, onlineTransactions: 2400, offlineTransactions: 1600,
     onlineRevenue: 15000000, offlineRevenue: 13500000, onlineROAS: 85.0, offlineROAS: 76.5, aov: 9500, multiplier: 1.7
   },
   {
-    country: "Turkey", state: "Kocaeli", spends: 125000, impressions: 1100000, interactions: 35000, directionRequests: 6300, callsMade: 3150, storeVisits: 12800, 
-    websiteVisits: 28000, onlineTransactions: 3700, offlineTransactions: 2550, 
+    country: "Turkey", state: "Kocaeli", spends: 125000, impressions: 1100000, interactions: 35000, directionRequests: 6300, callsMade: 3150, storeVisits: 12800,
+    websiteVisits: 28000, onlineTransactions: 3700, offlineTransactions: 2550,
     onlineRevenue: 23000000, offlineRevenue: 20700000, onlineROAS: 81.3, offlineROAS: 73.2, aov: 8800, multiplier: 1.6
   },
   {
-    country: "Turkey", state: "Mersin", spends: 68000, impressions: 680000, interactions: 19000, directionRequests: 3800, callsMade: 1900, storeVisits: 6900, 
-    websiteVisits: 15000, onlineTransactions: 2000, offlineTransactions: 1380, 
+    country: "Turkey", state: "Mersin", spends: 68000, impressions: 680000, interactions: 19000, directionRequests: 3800, callsMade: 1900, storeVisits: 6900,
+    websiteVisits: 15000, onlineTransactions: 2000, offlineTransactions: 1380,
     onlineRevenue: 12500000, offlineRevenue: 11250000, onlineROAS: 81.2, offlineROAS: 73.2, aov: 8900, multiplier: 1.62
   }
 ];
@@ -400,20 +400,20 @@ function CampaignTable({ filters }: { filters: FilterState }) {
   // Sort campaigns
   const sortedCampaigns = [...filteredCampaigns].sort((a, b) => {
     if (!sortColumn) return 0;
-    
+
     const aVal = a[sortColumn];
     const bVal = b[sortColumn];
-    
+
     if (typeof aVal === 'number' && typeof bVal === 'number') {
       return sortDirection === 'asc' ? aVal - bVal : bVal - aVal;
     }
-    
+
     if (typeof aVal === 'string' && typeof bVal === 'string') {
-      return sortDirection === 'asc' 
+      return sortDirection === 'asc'
         ? aVal.localeCompare(bVal)
         : bVal.localeCompare(aVal);
     }
-    
+
     return 0;
   });
 
@@ -566,7 +566,7 @@ function TopPerformingCampaigns({ filters }: { filters: FilterState }) {
   // Sort campaigns
   const getSortedCampaigns = () => {
     const filtered = getFilteredCampaigns();
-    
+
     if (!sortColumn) return filtered;
 
     return [...filtered].sort((a, b) => {
@@ -627,7 +627,7 @@ function TopPerformingCampaigns({ filters }: { filters: FilterState }) {
             <thead>
               <tr className="border-b-2 border-border">
                 <th className="text-left py-3 px-4 text-xs font-medium text-muted-foreground uppercase tracking-wider border-r border-border/30">
-                  <button 
+                  <button
                     onClick={() => handleSort('name')}
                     className="flex items-center gap-1 hover:text-foreground transition-colors"
                   >
@@ -636,7 +636,7 @@ function TopPerformingCampaigns({ filters }: { filters: FilterState }) {
                   </button>
                 </th>
                 <th className="text-center py-3 px-4 text-xs font-medium text-muted-foreground uppercase tracking-wider border-r border-border/30">
-                  <button 
+                  <button
                     onClick={() => handleSort('impressions')}
                     className="flex items-center justify-center gap-1 hover:text-foreground transition-colors w-full"
                   >
@@ -645,7 +645,7 @@ function TopPerformingCampaigns({ filters }: { filters: FilterState }) {
                   </button>
                 </th>
                 <th className="text-center py-3 px-4 text-xs font-medium text-muted-foreground uppercase tracking-wider border-r border-border/30">
-                  <button 
+                  <button
                     onClick={() => handleSort('ctv')}
                     className="flex items-center justify-center gap-1 hover:text-foreground transition-colors w-full"
                   >
@@ -654,7 +654,7 @@ function TopPerformingCampaigns({ filters }: { filters: FilterState }) {
                   </button>
                 </th>
                 <th className="text-center py-3 px-4 text-xs font-medium text-muted-foreground uppercase tracking-wider border-r border-border/30">
-                  <button 
+                  <button
                     onClick={() => handleSort('spend')}
                     className="flex items-center justify-center gap-1 hover:text-foreground transition-colors w-full"
                   >
@@ -663,7 +663,7 @@ function TopPerformingCampaigns({ filters }: { filters: FilterState }) {
                   </button>
                 </th>
                 <th className="text-center py-3 px-4 text-xs font-medium text-muted-foreground uppercase tracking-wider border-r border-border/30">
-                  <button 
+                  <button
                     onClick={() => handleSort('roas')}
                     className="flex items-center justify-center gap-1 hover:text-foreground transition-colors w-full"
                   >
@@ -672,7 +672,7 @@ function TopPerformingCampaigns({ filters }: { filters: FilterState }) {
                   </button>
                 </th>
                 <th className="text-center py-3 px-4 text-xs font-medium text-muted-foreground uppercase tracking-wider border-r border-border/30">
-                  <button 
+                  <button
                     onClick={() => handleSort('visits')}
                     className="flex items-center justify-center gap-1 hover:text-foreground transition-colors w-full"
                   >
@@ -681,7 +681,7 @@ function TopPerformingCampaigns({ filters }: { filters: FilterState }) {
                   </button>
                 </th>
                 <th className="text-center py-3 px-4 text-xs font-medium text-muted-foreground uppercase tracking-wider">
-                  <button 
+                  <button
                     onClick={() => handleSort('purchases')}
                     className="flex items-center justify-center gap-1 hover:text-foreground transition-colors w-full"
                   >
@@ -780,7 +780,7 @@ export default function OfflineConversionsMVP() {
   const [platformSearch, setPlatformSearch] = useState("");
   const [campaignTypeSearch, setCampaignTypeSearch] = useState("");
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
-  
+
   // Geographic Performance Dashboard State
   const [geoCountry, setGeoCountry] = useState<string>("turkey");
   const [geoState, setGeoState] = useState<string>("all");
@@ -822,7 +822,7 @@ export default function OfflineConversionsMVP() {
       iconColor: 'text-red-600'
     }
   ];
-  
+
   const dateRangeDropdownRef = useRef<HTMLDivElement>(null);
   const platformDropdownRef = useRef<HTMLDivElement>(null);
   const campaignDropdownRef = useRef<HTMLDivElement>(null);
@@ -856,7 +856,7 @@ export default function OfflineConversionsMVP() {
     if (filters.platforms.length === 0) {
       return Object.values(campaignsByPlatform).flat();
     }
-    return filters.platforms.flatMap(platform => 
+    return filters.platforms.flatMap(platform =>
       campaignsByPlatform[platform as keyof typeof campaignsByPlatform] || []
     );
   };
@@ -865,7 +865,7 @@ export default function OfflineConversionsMVP() {
   const getFilteredCampaigns = () => {
     const availableCampaigns = getAvailableCampaigns();
     if (!campaignSearch) return availableCampaigns;
-    return availableCampaigns.filter(campaign => 
+    return availableCampaigns.filter(campaign =>
       campaign.toLowerCase().includes(campaignSearch.toLowerCase())
     );
   };
@@ -873,7 +873,7 @@ export default function OfflineConversionsMVP() {
   // Filter platforms by search term
   const getFilteredPlatforms = () => {
     if (!platformSearch) return platformOptions;
-    return platformOptions.filter(platform => 
+    return platformOptions.filter(platform =>
       platform.label.toLowerCase().includes(platformSearch.toLowerCase())
     );
   };
@@ -881,7 +881,7 @@ export default function OfflineConversionsMVP() {
   // Filter campaign types by search term
   const getFilteredCampaignTypes = () => {
     if (!campaignTypeSearch) return campaignTypeOptions;
-    return campaignTypeOptions.filter(type => 
+    return campaignTypeOptions.filter(type =>
       type.label.toLowerCase().includes(campaignTypeSearch.toLowerCase())
     );
   };
@@ -896,15 +896,15 @@ export default function OfflineConversionsMVP() {
       const newPlatforms = prev.platforms.includes(platform)
         ? prev.platforms.filter(p => p !== platform)
         : [...prev.platforms, platform];
-      
+
       // Clear campaigns if platform is deselected
-      const availableCampaigns = newPlatforms.flatMap(p => 
+      const availableCampaigns = newPlatforms.flatMap(p =>
         campaignsByPlatform[p as keyof typeof campaignsByPlatform] || []
       );
       const newCampaigns = prev.campaigns.filter(c => availableCampaigns.includes(c));
-      
-      return { 
-        ...prev, 
+
+      return {
+        ...prev,
         platforms: newPlatforms,
         campaigns: newCampaigns
       };
@@ -1098,21 +1098,11 @@ export default function OfflineConversionsMVP() {
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
-      {/* Header */}
-      <header className="bg-card border-b border-border sticky top-0 z-50 shadow-sm h-20">
-        <div className="max-w-7xl mx-auto px-6 h-full flex items-center bg-[#f9fafb]">
-          <div className="flex items-center justify-between w-full">
-            <div>
-              <h1 className="text-xl font-bold text-foreground" data-testid="text-app-title">Offline Conversions</h1>
-            </div>
-          </div>
-        </div>
-      </header>
       {/* Main Content */}
       <div className="pb-6 bg-[#ffffff]">
         {/* Data Health & Flow Banner */}
         <div className="px-6 pt-6 mb-6">
-          <div 
+          <div
             className="border border-blue-200 dark:border-blue-800 bg-blue-50 dark:bg-blue-950/20 rounded-lg shadow-none cursor-pointer hover:bg-blue-100 dark:hover:bg-blue-950/30 transition-colors"
             onClick={scrollToBottom}
           >
@@ -1127,10 +1117,10 @@ export default function OfflineConversionsMVP() {
                     <span className="text-sm text-green-600 font-medium">Everything is well</span>
                   </div>
                 </div>
-                
-                <Button 
-                  variant="outline" 
-                  size="sm" 
+
+                <Button
+                  variant="outline"
+                  size="sm"
                   className="text-xs pointer-events-none"
                   data-testid="button-scroll-to-bottom"
                 >
@@ -1161,16 +1151,15 @@ export default function OfflineConversionsMVP() {
                 </span>
                 <ChevronDown className="w-4 h-4 ml-2" />
               </Button>
-              
+
               {openDropdown === 'dateRange' && (
                 <div className="absolute top-full left-0 mt-1 w-[180px] bg-white border border-gray-200 rounded-md shadow-lg z-50 overflow-hidden">
                   <div className="max-h-[250px] overflow-y-auto">
                     {dateRangeOptions.map(option => (
                       <div
                         key={option.value}
-                        className={`flex items-center gap-2 px-3 py-2 hover:bg-gray-50 cursor-pointer text-xs ${
-                          filters.dateRange === option.value ? 'bg-gray-100' : ''
-                        }`}
+                        className={`flex items-center gap-2 px-3 py-2 hover:bg-gray-50 cursor-pointer text-xs ${filters.dateRange === option.value ? 'bg-gray-100' : ''
+                          }`}
                         onClick={() => {
                           handleDateRangeChange(option.value);
                           setOpenDropdown(null);
@@ -1199,13 +1188,13 @@ export default function OfflineConversionsMVP() {
                 data-testid="filter-platforms-dropdown"
               >
                 <span className="text-sm">
-                  {filters.platforms.length === 0 
-                    ? "Platforms" 
+                  {filters.platforms.length === 0
+                    ? "Platforms"
                     : `Platforms (${filters.platforms.length})`}
                 </span>
                 <ChevronDown className="w-4 h-4 ml-2" />
               </Button>
-              
+
               {openDropdown === 'platforms' && (
                 <div className="absolute top-full left-0 mt-1 w-[280px] bg-white border border-gray-200 rounded-md shadow-lg z-50 max-h-[300px] overflow-hidden">
                   <div className="p-2 border-b border-gray-100">
@@ -1220,7 +1209,7 @@ export default function OfflineConversionsMVP() {
                       />
                     </div>
                   </div>
-                  
+
                   <div className="p-1 border-b border-gray-100 bg-gray-50">
                     <div className="flex gap-1">
                       <Button
@@ -1241,7 +1230,7 @@ export default function OfflineConversionsMVP() {
                       </Button>
                     </div>
                   </div>
-                  
+
                   <div className="max-h-[200px] overflow-y-auto">
                     {getFilteredPlatforms().map(platform => (
                       <div
@@ -1272,13 +1261,13 @@ export default function OfflineConversionsMVP() {
                 data-testid="filter-campaign-types-dropdown"
               >
                 <span className="text-sm">
-                  {filters.campaignTypes.length === 0 
-                    ? "Campaign Type" 
+                  {filters.campaignTypes.length === 0
+                    ? "Campaign Type"
                     : `Campaign Type (${filters.campaignTypes.length})`}
                 </span>
                 <ChevronDown className="w-4 h-4 ml-2" />
               </Button>
-              
+
               {openDropdown === 'campaignTypes' && (
                 <div className="absolute top-full left-0 mt-1 w-[280px] bg-white border border-gray-200 rounded-md shadow-lg z-50 max-h-[300px] overflow-hidden">
                   <div className="p-2 border-b border-gray-100">
@@ -1293,7 +1282,7 @@ export default function OfflineConversionsMVP() {
                       />
                     </div>
                   </div>
-                  
+
                   <div className="p-1 border-b border-gray-100 bg-gray-50">
                     <div className="flex gap-1">
                       <Button
@@ -1314,7 +1303,7 @@ export default function OfflineConversionsMVP() {
                       </Button>
                     </div>
                   </div>
-                  
+
                   <div className="max-h-[200px] overflow-y-auto">
                     {getFilteredCampaignTypes().map(type => (
                       <div
@@ -1346,13 +1335,13 @@ export default function OfflineConversionsMVP() {
                 data-testid="filter-campaigns-dropdown"
               >
                 <span className="text-sm">
-                  {filters.campaigns.length === 0 
-                    ? "Campaigns" 
+                  {filters.campaigns.length === 0
+                    ? "Campaigns"
                     : `Campaigns (${filters.campaigns.length})`}
                 </span>
                 <ChevronDown className="w-4 h-4 ml-2" />
               </Button>
-              
+
               {openDropdown === 'campaigns' && (
                 <div className="absolute top-full left-0 mt-1 w-[320px] bg-white border border-gray-200 rounded-md shadow-lg z-50 max-h-[350px] overflow-hidden">
                   <div className="p-2 border-b border-gray-100">
@@ -1368,7 +1357,7 @@ export default function OfflineConversionsMVP() {
                       />
                     </div>
                   </div>
-                  
+
                   <div className="p-1 border-b border-gray-100 bg-gray-50">
                     <div className="flex gap-1">
                       <Button
@@ -1389,7 +1378,7 @@ export default function OfflineConversionsMVP() {
                       </Button>
                     </div>
                   </div>
-                  
+
                   <div className="max-h-[250px] overflow-y-auto">
                     {getFilteredCampaigns().map(campaign => (
                       <div
@@ -1427,42 +1416,42 @@ export default function OfflineConversionsMVP() {
           {getActiveFilterCount() > 0 && (
             <div className="flex items-center gap-2 flex-wrap" data-testid="active-filters">
               <span className="text-xs text-gray-600">Active filters:</span>
-              
+
               {filters.dateRange !== "30d" && (
                 <Badge variant="secondary" className="text-xs">
                   Date: {dateRangeOptions.find(d => d.value === filters.dateRange)?.label}
-                  <X 
-                    className="w-3 h-3 ml-1 cursor-pointer" 
+                  <X
+                    className="w-3 h-3 ml-1 cursor-pointer"
                     onClick={() => removeFilter('dateRange')}
                   />
                 </Badge>
               )}
-              
+
               {filters.platforms.map(platform => (
                 <Badge key={platform} variant="secondary" className="text-xs">
                   {platformOptions.find(p => p.value === platform)?.icon} {platformOptions.find(p => p.value === platform)?.label}
-                  <X 
-                    className="w-3 h-3 ml-1 cursor-pointer" 
+                  <X
+                    className="w-3 h-3 ml-1 cursor-pointer"
                     onClick={() => removeFilter('platform', platform)}
                   />
                 </Badge>
               ))}
-              
+
               {filters.campaigns.map(campaign => (
                 <Badge key={campaign} variant="secondary" className="text-xs">
                   Campaign: {campaign}
-                  <X 
-                    className="w-3 h-3 ml-1 cursor-pointer" 
+                  <X
+                    className="w-3 h-3 ml-1 cursor-pointer"
                     onClick={() => removeFilter('campaign', campaign)}
                   />
                 </Badge>
               ))}
-              
+
               {filters.campaignTypes.map(type => (
                 <Badge key={type} variant="secondary" className="text-xs">
                   {campaignTypeOptions.find(t => t.value === type)?.icon} {campaignTypeOptions.find(t => t.value === type)?.label}
-                  <X 
-                    className="w-3 h-3 ml-1 cursor-pointer" 
+                  <X
+                    className="w-3 h-3 ml-1 cursor-pointer"
                     onClick={() => removeFilter('campaignType', type)}
                   />
                 </Badge>
@@ -1523,7 +1512,7 @@ export default function OfflineConversionsMVP() {
               previousValue={kpiData[3].previousValue}
             />
           </div>
-          
+
           {/* Online-to-Offline Conversion Funnel */}
           <div className="bg-[#fcfcfc] rounded-lg border border-gray-200 overflow-hidden">
             <div className="bg-[#f9fafb] p-6 flex justify-between items-center border-b border-gray-200">
@@ -1534,9 +1523,9 @@ export default function OfflineConversionsMVP() {
             </div>
             <div className="bg-[#f9fafb] p-6">
               <div className="relative" data-testid="chart-performance">
-                <img 
-                  src={funnelImage} 
-                  alt="Customer Journey Funnel" 
+                <img
+                  src={funnelImage}
+                  alt="Customer Journey Funnel"
                   className="w-full rounded-lg shadow-sm"
                 />
               </div>
@@ -1552,7 +1541,7 @@ export default function OfflineConversionsMVP() {
           <div className="mt-6">
             <TopPerformingCampaigns filters={filters} />
           </div>
-          
+
           {/* Geographic Performance Dashboard */}
           <div className="mt-6">
             <Card className="bg-[#f9fafb]">
@@ -1605,7 +1594,7 @@ export default function OfflineConversionsMVP() {
                           const intensity = (totalRevenue / maxRevenue);
                           const isSelected = selectedMapState === item.state;
                           const fillColor = `rgba(59, 130, 246, ${0.3 + intensity * 0.7})`;
-                          
+
                           // SVG paths for Turkish provinces (simplified shapes)
                           const provincePaths: Record<string, string> = {
                             'Istanbul': 'M150,120 L180,110 L200,115 L210,130 L200,150 L170,155 L140,145 Z',
@@ -1619,12 +1608,12 @@ export default function OfflineConversionsMVP() {
                             'Adana': 'M445,355 L495,350 L520,365 L515,400 L480,415 L440,400 Z',
                             'Gaziantep': 'M600,320 L650,315 L675,330 L670,365 L635,380 L595,365 Z'
                           };
-                          
+
                           const path = provincePaths[item.state];
                           if (!path) return null;
-                          
+
                           return (
-                            <Tooltip 
+                            <Tooltip
                               key={item.state}
                               title={
                                 <div className="text-left">
@@ -1670,7 +1659,7 @@ export default function OfflineConversionsMVP() {
                       <span>₺169,173,725</span>
                     </div>
                   </div>
-                  
+
                   {/* Offline ROAS Distribution Map */}
                   <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 p-4">
                     <h3 className="text-sm font-semibold text-foreground mb-3">Offline ROAS Distribution</h3>
@@ -1682,7 +1671,7 @@ export default function OfflineConversionsMVP() {
                           const intensity = (avgROAS / maxROAS);
                           const isSelected = selectedMapState === item.state;
                           const fillColor = `rgba(34, 197, 94, ${0.3 + intensity * 0.7})`;
-                          
+
                           // SVG paths for Turkish provinces (same as revenue map)
                           const provincePaths: Record<string, string> = {
                             'Istanbul': 'M150,120 L180,110 L200,115 L210,130 L200,150 L170,155 L140,145 Z',
@@ -1696,12 +1685,12 @@ export default function OfflineConversionsMVP() {
                             'Adana': 'M445,355 L495,350 L520,365 L515,400 L480,415 L440,400 Z',
                             'Gaziantep': 'M600,320 L650,315 L675,330 L670,365 L635,380 L595,365 Z'
                           };
-                          
+
                           const path = provincePaths[item.state];
                           if (!path) return null;
-                          
+
                           return (
-                            <Tooltip 
+                            <Tooltip
                               key={item.state}
                               title={
                                 <div className="text-left">
@@ -1748,7 +1737,7 @@ export default function OfflineConversionsMVP() {
                     </div>
                   </div>
                 </div>
-                
+
                 {/* Geographic Performance Table */}
                 <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 overflow-hidden">
                   <div className="overflow-x-auto">
@@ -1774,26 +1763,26 @@ export default function OfflineConversionsMVP() {
                         {mockGeoData
                           .filter(item => selectedMapState === null || item.state === selectedMapState)
                           .map((item) => (
-                          <tr 
-                            key={item.state} 
-                            className="border-b border-gray-100 hover:bg-gray-50 dark:hover:bg-gray-700/50 cursor-pointer transition-colors"
-                            data-testid={`geo-row-${item.state.toLowerCase()}`}
-                          >
-                            <td className="py-3 px-4 text-gray-900 dark:text-gray-100">{item.country}</td>
-                            <td className="py-3 px-4 font-medium text-gray-900 dark:text-gray-100">{item.state}</td>
-                            <td className="py-3 px-4 text-right text-gray-700 dark:text-gray-300">₺{(item.spends / 1000).toFixed(0)}K</td>
-                            <td className="py-3 px-4 text-right text-gray-700 dark:text-gray-300">{(item.impressions / 1000000).toFixed(1)}M</td>
-                            <td className="py-3 px-4 text-right text-gray-700 dark:text-gray-300">{item.interactions.toLocaleString()}</td>
-                            <td className="py-3 px-4 text-right text-gray-700 dark:text-gray-300">{item.directionRequests.toLocaleString()}</td>
-                            <td className="py-3 px-4 text-right text-gray-700 dark:text-gray-300">{item.callsMade.toLocaleString()}</td>
-                            <td className="py-3 px-4 text-right text-gray-700 dark:text-gray-300">{item.storeVisits.toLocaleString()}</td>
-                            <td className="py-3 px-4 text-right text-gray-700 dark:text-gray-300">{item.websiteVisits.toLocaleString()}</td>
-                            <td className="py-3 px-4 text-right text-gray-700 dark:text-gray-300">{item.offlineTransactions.toLocaleString()}</td>
-                            <td className="py-3 px-4 text-right font-medium text-gray-900 dark:text-gray-100">₺{(item.offlineRevenue / 1000000).toFixed(1)}M</td>
-                            <td className="py-3 px-4 text-right font-semibold text-green-600">{item.offlineROAS.toFixed(1)}x</td>
-                            <td className="py-3 px-4 text-right text-gray-700 dark:text-gray-300">₺{(item.aov / 1000).toFixed(1)}K</td>
-                          </tr>
-                        ))}
+                            <tr
+                              key={item.state}
+                              className="border-b border-gray-100 hover:bg-gray-50 dark:hover:bg-gray-700/50 cursor-pointer transition-colors"
+                              data-testid={`geo-row-${item.state.toLowerCase()}`}
+                            >
+                              <td className="py-3 px-4 text-gray-900 dark:text-gray-100">{item.country}</td>
+                              <td className="py-3 px-4 font-medium text-gray-900 dark:text-gray-100">{item.state}</td>
+                              <td className="py-3 px-4 text-right text-gray-700 dark:text-gray-300">₺{(item.spends / 1000).toFixed(0)}K</td>
+                              <td className="py-3 px-4 text-right text-gray-700 dark:text-gray-300">{(item.impressions / 1000000).toFixed(1)}M</td>
+                              <td className="py-3 px-4 text-right text-gray-700 dark:text-gray-300">{item.interactions.toLocaleString()}</td>
+                              <td className="py-3 px-4 text-right text-gray-700 dark:text-gray-300">{item.directionRequests.toLocaleString()}</td>
+                              <td className="py-3 px-4 text-right text-gray-700 dark:text-gray-300">{item.callsMade.toLocaleString()}</td>
+                              <td className="py-3 px-4 text-right text-gray-700 dark:text-gray-300">{item.storeVisits.toLocaleString()}</td>
+                              <td className="py-3 px-4 text-right text-gray-700 dark:text-gray-300">{item.websiteVisits.toLocaleString()}</td>
+                              <td className="py-3 px-4 text-right text-gray-700 dark:text-gray-300">{item.offlineTransactions.toLocaleString()}</td>
+                              <td className="py-3 px-4 text-right font-medium text-gray-900 dark:text-gray-100">₺{(item.offlineRevenue / 1000000).toFixed(1)}M</td>
+                              <td className="py-3 px-4 text-right font-semibold text-green-600">{item.offlineROAS.toFixed(1)}x</td>
+                              <td className="py-3 px-4 text-right text-gray-700 dark:text-gray-300">₺{(item.aov / 1000).toFixed(1)}K</td>
+                            </tr>
+                          ))}
                       </tbody>
                     </table>
                   </div>
@@ -1814,7 +1803,7 @@ export default function OfflineConversionsMVP() {
               </CardContent>
             </Card>
           </div>
-          
+
           {/* Data Quality Assessment Card */}
           <div className="mt-6">
             <Card>
@@ -2007,7 +1996,7 @@ export default function OfflineConversionsMVP() {
                     </div>
                   </div>
                 </div>
-                
+
                 {/* Data Enrichment Suggestions */}
                 <div className="pt-8 border-t border-border">
                   <EnrichmentSuggestions context={'dashboard'} />
@@ -2030,210 +2019,210 @@ export default function OfflineConversionsMVP() {
                 </div>
               </ShadcnCardHeader>
               <ShadcnCardContent className="space-y-8">
-              <div className="relative">
-                {/* Vertical VenueX alignment guide */}
-                <div className="absolute left-1/2 top-0 bottom-0 w-px bg-primary/20 transform -translate-x-1/2 z-0"></div>
-                
-                <div className="relative bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-700 py-4 px-6">
-                  {/* Clean Data Flow Layout */}
-                  <div className="relative w-full h-[200px]">
-                    
-                    {/* Connection Lines SVG */}
-                    <svg className="absolute inset-0 w-full h-full" viewBox="0 0 1000 200" preserveAspectRatio="xMidYMid meet">
-                      <defs>
-                        {/* Clean modern arrowheads - unique IDs for offline-conversions page */}
-                        <marker id="oc-arrow-success" markerWidth="8" markerHeight="6" 
-                          refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
-                          <polygon points="0,0 0,6 8,3" fill="#10b981" />
-                        </marker>
-                        
-                        {/* Smooth animated gradients for data flow - unique IDs for offline-conversions page */}
-                        <linearGradient id="oc-flowActive" x1="0%" y1="0%" x2="100%" y2="0%">
-                          <stop offset="0%" stopColor="transparent" />
-                          <stop offset="20%" stopColor="#10b981" stopOpacity="0.3" />
-                          <stop offset="50%" stopColor="#10b981" stopOpacity="0.8" />
-                          <stop offset="80%" stopColor="#10b981" stopOpacity="0.3" />
-                          <stop offset="100%" stopColor="transparent" />
-                          <animateTransform
-                            attributeName="gradientTransform"
-                            type="translate"
-                            values="-100,0;300,0;-100,0"
-                            dur="2s"
-                            repeatCount="indefinite"
-                          />
-                        </linearGradient>
-                      </defs>
-                      
-                      {/* Base connection lines - always visible */}
-                      <g opacity="0.3">
-                        {/* Store Sales to VenueX */}
-                        <path d="M 280 100 L 460 100" stroke="#9ca3af" strokeWidth="2" fill="none" strokeDasharray="5,5" />
-                        {/* VenueX to Ad Platforms */}
-                        <path d="M 540 100 L 720 100" stroke="#9ca3af" strokeWidth="2" fill="none" strokeDasharray="5,5" />
-                      </g>
-                      
-                      {/* Status-based colored lines */}
-                      <g>
-                        {/* Store Sales to VenueX (green) */}
-                        <path d="M 280 100 L 460 100" stroke="#10b981" strokeWidth="3" fill="none" markerEnd="url(#oc-arrow-success)" opacity="0.8" />
-                        {/* VenueX to Ad Platforms (green) */}
-                        <path d="M 540 100 L 720 100" stroke="#10b981" strokeWidth="3" fill="none" markerEnd="url(#oc-arrow-success)" opacity="0.8" />
-                      </g>
-                      
-                      {/* Status-based animated flow overlays */}
-                      <g>
-                        {/* Store Sales active flow */}
-                        <path d="M 280 100 L 460 100" stroke="url(#oc-flowActive)" strokeWidth="2" fill="none" opacity="0.8">
-                          <animate attributeName="opacity" values="0.4;0.8;0.4" dur="2s" begin="0s" repeatCount="indefinite"/>
-                        </path>
-                        {/* VenueX to Ad Platforms flow */}
-                        <path d="M 540 100 L 720 100" stroke="url(#oc-flowActive)" strokeWidth="2" fill="none" opacity="0.9">
-                          <animate attributeName="opacity" values="0.5;0.9;0.5" dur="1.8s" begin="0.2s" repeatCount="indefinite"/>
-                        </path>
-                      </g>
-                      
-                      {/* Data pulse indicators */}
-                      <g>
-                        <circle cx="370" cy="100" r="3" fill="#10b981" opacity="0.8">
-                          <animate attributeName="r" values="2;5;2" dur="2s" begin="0s" repeatCount="indefinite"/>
-                          <animate attributeName="opacity" values="0.8;0.3;0.8" dur="2s" begin="0s" repeatCount="indefinite"/>
-                        </circle>
-                        <circle cx="630" cy="100" r="3" fill="#10b981" opacity="0.8">
-                          <animate attributeName="r" values="2;5;2" dur="2s" begin="1s" repeatCount="indefinite"/>
-                          <animate attributeName="opacity" values="0.8;0.3;0.8" dur="2s" begin="1s" repeatCount="indefinite"/>
-                        </circle>
-                      </g>
-                      
-                      {/* Connection nodes */}
-                      <circle cx="460" cy="100" r="4" fill="#3b82f6" opacity="0.9" stroke="#ffffff" strokeWidth="2"/>
-                      <circle cx="540" cy="100" r="4" fill="#3b82f6" opacity="0.9" stroke="#ffffff" strokeWidth="2"/>
-                    </svg>
+                <div className="relative">
+                  {/* Vertical VenueX alignment guide */}
+                  <div className="absolute left-1/2 top-0 bottom-0 w-px bg-primary/20 transform -translate-x-1/2 z-0"></div>
 
-                    {/* Data Source - Left Side */}
-                    <div className="absolute left-0 top-1/2 transform -translate-y-1/2">
-                      <div className="bg-white dark:bg-gray-800 rounded-xl p-3 shadow-sm border border-gray-100 dark:border-gray-700 w-56">
-                        <div className="flex items-center gap-3">
-                          <div className="w-8 h-8 bg-green-100 dark:bg-green-900/50 rounded-lg flex items-center justify-center">
-                            <Receipt className="w-4 h-4 text-green-600" />
-                          </div>
-                          <div className="flex-1">
-                            <div className="font-medium text-foreground">Store Sales</div>
-                            <div className="flex items-center gap-2 mt-1">
-                              <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                              <span className="text-xs text-green-600">Online - Updated 30s ago</span>
+                  <div className="relative bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-700 py-4 px-6">
+                    {/* Clean Data Flow Layout */}
+                    <div className="relative w-full h-[200px]">
+
+                      {/* Connection Lines SVG */}
+                      <svg className="absolute inset-0 w-full h-full" viewBox="0 0 1000 200" preserveAspectRatio="xMidYMid meet">
+                        <defs>
+                          {/* Clean modern arrowheads - unique IDs for offline-conversions page */}
+                          <marker id="oc-arrow-success" markerWidth="8" markerHeight="6"
+                            refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+                            <polygon points="0,0 0,6 8,3" fill="#10b981" />
+                          </marker>
+
+                          {/* Smooth animated gradients for data flow - unique IDs for offline-conversions page */}
+                          <linearGradient id="oc-flowActive" x1="0%" y1="0%" x2="100%" y2="0%">
+                            <stop offset="0%" stopColor="transparent" />
+                            <stop offset="20%" stopColor="#10b981" stopOpacity="0.3" />
+                            <stop offset="50%" stopColor="#10b981" stopOpacity="0.8" />
+                            <stop offset="80%" stopColor="#10b981" stopOpacity="0.3" />
+                            <stop offset="100%" stopColor="transparent" />
+                            <animateTransform
+                              attributeName="gradientTransform"
+                              type="translate"
+                              values="-100,0;300,0;-100,0"
+                              dur="2s"
+                              repeatCount="indefinite"
+                            />
+                          </linearGradient>
+                        </defs>
+
+                        {/* Base connection lines - always visible */}
+                        <g opacity="0.3">
+                          {/* Store Sales to VenueX */}
+                          <path d="M 280 100 L 460 100" stroke="#9ca3af" strokeWidth="2" fill="none" strokeDasharray="5,5" />
+                          {/* VenueX to Ad Platforms */}
+                          <path d="M 540 100 L 720 100" stroke="#9ca3af" strokeWidth="2" fill="none" strokeDasharray="5,5" />
+                        </g>
+
+                        {/* Status-based colored lines */}
+                        <g>
+                          {/* Store Sales to VenueX (green) */}
+                          <path d="M 280 100 L 460 100" stroke="#10b981" strokeWidth="3" fill="none" markerEnd="url(#oc-arrow-success)" opacity="0.8" />
+                          {/* VenueX to Ad Platforms (green) */}
+                          <path d="M 540 100 L 720 100" stroke="#10b981" strokeWidth="3" fill="none" markerEnd="url(#oc-arrow-success)" opacity="0.8" />
+                        </g>
+
+                        {/* Status-based animated flow overlays */}
+                        <g>
+                          {/* Store Sales active flow */}
+                          <path d="M 280 100 L 460 100" stroke="url(#oc-flowActive)" strokeWidth="2" fill="none" opacity="0.8">
+                            <animate attributeName="opacity" values="0.4;0.8;0.4" dur="2s" begin="0s" repeatCount="indefinite" />
+                          </path>
+                          {/* VenueX to Ad Platforms flow */}
+                          <path d="M 540 100 L 720 100" stroke="url(#oc-flowActive)" strokeWidth="2" fill="none" opacity="0.9">
+                            <animate attributeName="opacity" values="0.5;0.9;0.5" dur="1.8s" begin="0.2s" repeatCount="indefinite" />
+                          </path>
+                        </g>
+
+                        {/* Data pulse indicators */}
+                        <g>
+                          <circle cx="370" cy="100" r="3" fill="#10b981" opacity="0.8">
+                            <animate attributeName="r" values="2;5;2" dur="2s" begin="0s" repeatCount="indefinite" />
+                            <animate attributeName="opacity" values="0.8;0.3;0.8" dur="2s" begin="0s" repeatCount="indefinite" />
+                          </circle>
+                          <circle cx="630" cy="100" r="3" fill="#10b981" opacity="0.8">
+                            <animate attributeName="r" values="2;5;2" dur="2s" begin="1s" repeatCount="indefinite" />
+                            <animate attributeName="opacity" values="0.8;0.3;0.8" dur="2s" begin="1s" repeatCount="indefinite" />
+                          </circle>
+                        </g>
+
+                        {/* Connection nodes */}
+                        <circle cx="460" cy="100" r="4" fill="#3b82f6" opacity="0.9" stroke="#ffffff" strokeWidth="2" />
+                        <circle cx="540" cy="100" r="4" fill="#3b82f6" opacity="0.9" stroke="#ffffff" strokeWidth="2" />
+                      </svg>
+
+                      {/* Data Source - Left Side */}
+                      <div className="absolute left-0 top-1/2 transform -translate-y-1/2">
+                        <div className="bg-white dark:bg-gray-800 rounded-xl p-3 shadow-sm border border-gray-100 dark:border-gray-700 w-56">
+                          <div className="flex items-center gap-3">
+                            <div className="w-8 h-8 bg-green-100 dark:bg-green-900/50 rounded-lg flex items-center justify-center">
+                              <Receipt className="w-4 h-4 text-green-600" />
+                            </div>
+                            <div className="flex-1">
+                              <div className="font-medium text-foreground">Store Sales</div>
+                              <div className="flex items-center gap-2 mt-1">
+                                <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                                <span className="text-xs text-green-600">Online - Updated 30s ago</span>
+                              </div>
                             </div>
                           </div>
                         </div>
                       </div>
-                    </div>
 
-                    {/* Central VenueX Hub */}
-                    <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2">
-                      <div className="bg-white dark:bg-gray-800 rounded-2xl p-4 shadow-lg border-2 border-blue-200 dark:border-blue-800">
-                        <div className="flex flex-col items-center text-center">
-                          <div className="w-12 h-12 bg-white rounded-xl flex items-center justify-center shadow-sm">
-                            <img src={vxLogo} alt="VenueX" className="w-8 h-8 object-contain" />
+                      {/* Central VenueX Hub */}
+                      <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                        <div className="bg-white dark:bg-gray-800 rounded-2xl p-4 shadow-lg border-2 border-blue-200 dark:border-blue-800">
+                          <div className="flex flex-col items-center text-center">
+                            <div className="w-12 h-12 bg-white rounded-xl flex items-center justify-center shadow-sm">
+                              <img src={vxLogo} alt="VenueX" className="w-8 h-8 object-contain" />
+                            </div>
+                            <div className="mt-2 font-semibold text-foreground">VenueX</div>
+                            <div className="text-xs text-muted-foreground">Data Processing Hub</div>
                           </div>
-                          <div className="mt-2 font-semibold text-foreground">VenueX</div>
-                          <div className="text-xs text-muted-foreground">Data Processing Hub</div>
                         </div>
                       </div>
-                    </div>
 
-                    {/* Ad Platforms - Right Side */}
-                    <div className="absolute right-8 top-1/2 transform -translate-y-1/2">
-                      <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-2 shadow-sm border border-gray-200 dark:border-gray-700 w-56">
-                        <div className="text-xs font-semibold text-purple-600 mb-1.5">Ad Platforms</div>
-                        <div className="space-y-0.5">
-                          <div className="flex items-center gap-1.5 p-1 rounded hover:bg-gray-100 dark:hover:bg-gray-700">
-                            <div className="w-4 h-4 bg-[#EA4335] rounded flex items-center justify-center">
-                              <SiGoogle className="w-2.5 h-2.5 text-white" />
+                      {/* Ad Platforms - Right Side */}
+                      <div className="absolute right-8 top-1/2 transform -translate-y-1/2">
+                        <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-2 shadow-sm border border-gray-200 dark:border-gray-700 w-56">
+                          <div className="text-xs font-semibold text-purple-600 mb-1.5">Ad Platforms</div>
+                          <div className="space-y-0.5">
+                            <div className="flex items-center gap-1.5 p-1 rounded hover:bg-gray-100 dark:hover:bg-gray-700">
+                              <div className="w-4 h-4 bg-[#EA4335] rounded flex items-center justify-center">
+                                <SiGoogle className="w-2.5 h-2.5 text-white" />
+                              </div>
+                              <div className="flex-1">
+                                <div className="text-xs text-foreground">Google Ads</div>
+                                <div className="text-xs text-muted-foreground">Synced 10m ago</div>
+                              </div>
+                              <div className="w-1.5 h-1.5 bg-green-500 rounded-full flex-shrink-0"></div>
                             </div>
-                            <div className="flex-1">
-                              <div className="text-xs text-foreground">Google Ads</div>
-                              <div className="text-xs text-muted-foreground">Synced 10m ago</div>
+                            <div className="flex items-center gap-1.5 p-1 rounded hover:bg-gray-100 dark:hover:bg-gray-700">
+                              <div className="w-4 h-4 bg-blue-600 rounded flex items-center justify-center">
+                                <span className="text-xs text-white font-bold">M</span>
+                              </div>
+                              <div className="flex-1">
+                                <div className="text-xs text-foreground">Meta Ads</div>
+                                <div className="text-xs text-muted-foreground">Synced 3m ago</div>
+                              </div>
+                              <div className="w-1.5 h-1.5 bg-green-500 rounded-full flex-shrink-0"></div>
                             </div>
-                            <div className="w-1.5 h-1.5 bg-green-500 rounded-full flex-shrink-0"></div>
-                          </div>
-                          <div className="flex items-center gap-1.5 p-1 rounded hover:bg-gray-100 dark:hover:bg-gray-700">
-                            <div className="w-4 h-4 bg-blue-600 rounded flex items-center justify-center">
-                              <span className="text-xs text-white font-bold">M</span>
+                            <div className="flex items-center gap-1.5 p-1 rounded hover:bg-gray-100 dark:hover:bg-gray-700">
+                              <div className="w-4 h-4 bg-black rounded flex items-center justify-center">
+                                <SiTiktok className="w-2.5 h-2.5 text-white" />
+                              </div>
+                              <div className="flex-1">
+                                <div className="text-xs text-foreground">TikTok Ads</div>
+                                <div className="text-xs text-muted-foreground">Synced 7m ago</div>
+                              </div>
+                              <div className="w-1.5 h-1.5 bg-green-500 rounded-full flex-shrink-0"></div>
                             </div>
-                            <div className="flex-1">
-                              <div className="text-xs text-foreground">Meta Ads</div>
-                              <div className="text-xs text-muted-foreground">Synced 3m ago</div>
-                            </div>
-                            <div className="w-1.5 h-1.5 bg-green-500 rounded-full flex-shrink-0"></div>
-                          </div>
-                          <div className="flex items-center gap-1.5 p-1 rounded hover:bg-gray-100 dark:hover:bg-gray-700">
-                            <div className="w-4 h-4 bg-black rounded flex items-center justify-center">
-                              <SiTiktok className="w-2.5 h-2.5 text-white" />
-                            </div>
-                            <div className="flex-1">
-                              <div className="text-xs text-foreground">TikTok Ads</div>
-                              <div className="text-xs text-muted-foreground">Synced 7m ago</div>
-                            </div>
-                            <div className="w-1.5 h-1.5 bg-green-500 rounded-full flex-shrink-0"></div>
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
-              
-              {/* Alerts & Notifications Section */}
-              <div className="border-t border-border pt-6">
-                <div className="flex items-center justify-between mb-4">
-                  <div>
-                    <h3 className="text-lg font-semibold text-foreground">
-                      Alerts & Notifications
-                    </h3>
-                    <p className="text-sm text-muted-foreground">
-                      Recent system alerts and data notifications
-                    </p>
+
+                {/* Alerts & Notifications Section */}
+                <div className="border-t border-border pt-6">
+                  <div className="flex items-center justify-between mb-4">
+                    <div>
+                      <h3 className="text-lg font-semibold text-foreground">
+                        Alerts & Notifications
+                      </h3>
+                      <p className="text-sm text-muted-foreground">
+                        Recent system alerts and data notifications
+                      </p>
+                    </div>
+
+                    <button className="text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:hover:text-white font-medium bg-transparent border-none cursor-pointer" data-testid="button-view-all-alerts">
+                      View All →
+                    </button>
                   </div>
-                  
-                  <button className="text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:hover:text-white font-medium bg-transparent border-none cursor-pointer" data-testid="button-view-all-alerts">
-                    View All →
-                  </button>
-                </div>
-                
-                <div className="space-y-3">
-                  {systemAlerts.map((alert) => {
-                    const IconComponent = alert.icon;
-                    return (
-                      <div 
-                        key={alert.id}
-                        className={`flex items-start p-4 rounded-lg border-2 ${alert.bgColor} ${alert.borderColor} shadow-sm`}
-                        data-testid={`alert-${alert.id}`}
-                      >
-                        <div className="flex items-start space-x-3">
-                          <div className={`${alert.iconColor} mt-0.5`}>
-                            <IconComponent className="w-4 h-4" />
-                          </div>
-                          <div className="flex-1 min-w-0">
-                            <div className="font-medium text-foreground mb-1">
-                              {alert.title}
+
+                  <div className="space-y-3">
+                    {systemAlerts.map((alert) => {
+                      const IconComponent = alert.icon;
+                      return (
+                        <div
+                          key={alert.id}
+                          className={`flex items-start p-4 rounded-lg border-2 ${alert.bgColor} ${alert.borderColor} shadow-sm`}
+                          data-testid={`alert-${alert.id}`}
+                        >
+                          <div className="flex items-start space-x-3">
+                            <div className={`${alert.iconColor} mt-0.5`}>
+                              <IconComponent className="w-4 h-4" />
                             </div>
-                            <div className="text-sm text-muted-foreground mb-2">
-                              {alert.description}
-                            </div>
-                            <div className="text-xs text-muted-foreground">
-                              {alert.timestamp}
+                            <div className="flex-1 min-w-0">
+                              <div className="font-medium text-foreground mb-1">
+                                {alert.title}
+                              </div>
+                              <div className="text-sm text-muted-foreground mb-2">
+                                {alert.description}
+                              </div>
+                              <div className="text-xs text-muted-foreground">
+                                {alert.timestamp}
+                              </div>
                             </div>
                           </div>
                         </div>
-                      </div>
-                    );
-                  })}
+                      );
+                    })}
+                  </div>
                 </div>
-              </div>
-              
+
               </ShadcnCardContent>
             </ShadcnCard>
           </div>
-          
+
         </div>
       </div>
     </div>

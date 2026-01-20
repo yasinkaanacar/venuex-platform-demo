@@ -30,10 +30,10 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { 
-  Search, 
-  Star, 
-  TrendingUp, 
+import {
+  Search,
+  Star,
+  TrendingUp,
   TrendingDown,
   MessageSquare,
   MessageSquareReply,
@@ -79,7 +79,7 @@ import {
   Flag
 } from 'lucide-react';
 import { SiGoogle, SiFacebook, SiTripadvisor, SiYelp, SiApple, SiAmazon } from 'react-icons/si';
-import Header from '@/components/overview/header';
+
 
 // Platform icon mapping function
 const getPlatformIcon = (platform: string) => {
@@ -109,7 +109,7 @@ export default function ReviewsMVP() {
   const [sourceFilter, setSourceFilter] = useState("all");
   const [locationFilter, setLocationFilter] = useState("BOY007");
   const [searchQuery, setSearchQuery] = useState("");
-  
+
   // Desktop Filter Bar state
   const [reviewSource, setReviewSource] = useState("locations"); // New Review Source filter
   const [replyStatusFilter, setReplyStatusFilter] = useState("unreplied");
@@ -118,7 +118,7 @@ export default function ReviewsMVP() {
   const [commentFilter, setCommentFilter] = useState("all");
   const [themeFilter, setThemeFilter] = useState("all");
   const [productFilter, setProductFilter] = useState("all"); // New Product filter
-  
+
   // Location Filter Bar state
   const [regionFilter, setRegionFilter] = useState("all");
   const [cityFilter, setCityFilter] = useState("Istanbul");
@@ -155,11 +155,11 @@ export default function ReviewsMVP() {
   const [leaderboardDateRange, setLeaderboardDateRange] = useState("30");
   const [themeView, setThemeView] = useState<'list' | 'chart'>('list');
   const [chartType, setChartType] = useState<'scatter' | 'bubble'>('scatter');
-  
+
   // Theme sorting state
   const [themeSortBy, setThemeSortBy] = useState<'reviews' | 'venueXScore'>('reviews');
   const [themeSortOrder, setThemeSortOrder] = useState<'asc' | 'desc'>('desc');
-  
+
   // Period selector state
   const [selectedPeriod, setSelectedPeriod] = useState("30days");
 
@@ -262,10 +262,10 @@ export default function ReviewsMVP() {
   // Sort the locations data using useMemo for performance
   const sortedLocationsData = useMemo(() => {
     if (!sortField) return locationsData;
-    
+
     return [...locationsData].sort((a, b) => {
       let aValue, bValue;
-      
+
       switch (sortField) {
         case 'code':
           aValue = a.code;
@@ -298,7 +298,7 @@ export default function ReviewsMVP() {
         default:
           return 0;
       }
-      
+
       if (typeof aValue === 'string' && typeof bValue === 'string') {
         const comparison = aValue.localeCompare(bValue);
         return sortDirection === 'asc' ? comparison : -comparison;
@@ -384,7 +384,7 @@ export default function ReviewsMVP() {
       platform: "Facebook",
       rating: 4,
       reviewer: "Mehmet S.",
-      date: "5 hours ago", 
+      date: "5 hours ago",
       location: "Kanyon AVM",
       product: "Winter Coat",
       productSku: "WC-045",
@@ -899,9 +899,8 @@ export default function ReviewsMVP() {
         {[1, 2, 3, 4, 5].map((star) => (
           <Star
             key={star}
-            className={`w-4 h-4 ${
-              star <= rating ? "text-yellow-400 fill-current" : "text-gray-300"
-            }`}
+            className={`w-4 h-4 ${star <= rating ? "text-yellow-400 fill-current" : "text-gray-300"
+              }`}
           />
         ))}
       </div>
@@ -910,34 +909,34 @@ export default function ReviewsMVP() {
 
   return (
     <div className="min-h-screen bg-[#ffffff]">
-      <Header title="Reviews" />
+      {/* Header handled globally */}
       <div className="px-6 py-6 bg-[#ffffff]">
-        
+
 
         {/* Global Settings Header */}
         <div className="flex items-center justify-end mb-6">
           <div className="flex items-center gap-4">
-            <Button 
-              variant="outline" 
-              size="sm" 
+            <Button
+              variant="outline"
+              size="sm"
               className="border-2 border-gray-300 bg-[#e7e5e4] hover:bg-gray-50 hover:border-gray-400 shadow-sm"
               onClick={() => setAlertSettingsOpen(true)}
             >
               <Bell className="w-4 h-4 mr-2" />
               Alert Settings
             </Button>
-            <Button 
-              variant="outline" 
-              size="sm" 
+            <Button
+              variant="outline"
+              size="sm"
               className="border-2 border-gray-300 bg-white hover:bg-gray-50 hover:border-gray-400 shadow-sm"
               onClick={() => setTemplatesOpen(true)}
             >
               <FileText className="w-4 h-4 mr-2" />
               Review Templates
             </Button>
-            <Button 
-              variant="outline" 
-              size="sm" 
+            <Button
+              variant="outline"
+              size="sm"
               className="border-2 border-gray-300 bg-white hover:bg-gray-50 hover:border-gray-400 shadow-sm"
               onClick={() => setAiSettingsOpen(true)}
             >
@@ -950,24 +949,24 @@ export default function ReviewsMVP() {
         <Tabs value={activeTab} onValueChange={handleTabChange} className="w-full">
           {/* Tab Navigation */}
           <TabsList className="h-12 items-center justify-center rounded-none p-0 text-muted-foreground grid w-full grid-cols-3 mb-6 bg-transparent border-b border-gray-200">
-            <TabsTrigger 
-              value="ozet" 
+            <TabsTrigger
+              value="ozet"
               data-testid="tab-ozet"
               className="px-6 py-3 text-base rounded-none border-b-2 border-transparent transition-all duration-300 data-[state=active]:border-blue-500 data-[state=active]:text-blue-600 data-[state=active]:bg-transparent hover:text-gray-700 hover:border-gray-300 relative font-semibold"
             >
               <BarChart3 className="w-5 h-5 mr-3" />
               Overview
             </TabsTrigger>
-            <TabsTrigger 
-              value="inbox" 
+            <TabsTrigger
+              value="inbox"
               data-testid="tab-inbox"
               className="px-6 py-3 text-base rounded-none border-b-2 border-transparent transition-all duration-300 data-[state=active]:border-blue-500 data-[state=active]:text-blue-600 data-[state=active]:bg-transparent hover:text-gray-700 hover:border-gray-300 relative font-semibold"
             >
               <MessageSquare className="w-5 h-5 mr-3" />
               Inbox
             </TabsTrigger>
-            <TabsTrigger 
-              value="locations" 
+            <TabsTrigger
+              value="locations"
               data-testid="tab-locations"
               className="px-6 py-3 text-base rounded-none border-b-2 border-transparent transition-all duration-300 data-[state=active]:border-blue-500 data-[state=active]:text-blue-600 data-[state=active]:bg-transparent hover:text-gray-700 hover:border-gray-300 relative font-semibold"
             >
@@ -982,7 +981,7 @@ export default function ReviewsMVP() {
             <div className="flex justify-end items-center mb-4 gap-3">
               {/* Store Set Filter */}
               <Select value={storeSetFilter} onValueChange={setStoreSetFilter}>
-                <SelectTrigger 
+                <SelectTrigger
                   className="h-10 w-40 border-gray-200 rounded-md bg-[#f9fafb]"
                   data-testid="select-store-set"
                 >
@@ -999,7 +998,7 @@ export default function ReviewsMVP() {
 
               {/* City Filter */}
               <Select value={cityFilter} onValueChange={setCityFilter}>
-                <SelectTrigger 
+                <SelectTrigger
                   className="h-10 w-40 border-gray-200 rounded-md bg-[#f9fafb]"
                   data-testid="select-city"
                 >
@@ -1034,7 +1033,7 @@ export default function ReviewsMVP() {
 
               {/* Location Filter */}
               <Select value={locationFilter} onValueChange={setLocationFilter}>
-                <SelectTrigger 
+                <SelectTrigger
                   className="h-10 w-40 border-gray-200 rounded-md bg-[#f9fafb]"
                   data-testid="select-location"
                 >
@@ -1051,10 +1050,10 @@ export default function ReviewsMVP() {
               </Select>
 
               {/* Date Range Selector */}
-              <button 
+              <button
                 data-testid="button-date-picker"
                 className="h-10 w-96 border border-gray-200 focus:border-gray-300 pl-3 pr-10 rounded-md text-sm appearance-none bg-no-repeat bg-right text-left truncate"
-                style={{ 
+                style={{
                   backgroundColor: '#f9fafb',
                   backgroundImage: 'url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHZpZXdCb3g9IjAgMCAxNiAxNiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0ibTQgNiA0IDQgNC00IiBzdHJva2U9IiM2NjY2NjYiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+Cjwvc3ZnPg==")',
                   backgroundPosition: 'right 8px center',
@@ -1102,9 +1101,9 @@ export default function ReviewsMVP() {
                       </div>
                     </div>
                   </div>
-                  
+
                   <Separator />
-                  
+
                   {/* Rating Distribution */}
                   <div className="space-y-2">
                     {[
@@ -1114,20 +1113,20 @@ export default function ReviewsMVP() {
                       { stars: 2, percentage: 8, count: 100, fillColor: 'bg-orange-500' },
                       { stars: 1, percentage: 4, count: 50, fillColor: 'bg-red-500' }
                     ].map((rating) => (
-                      <div 
-                        key={rating.stars} 
+                      <div
+                        key={rating.stars}
                         className="flex items-center gap-3 relative group cursor-pointer"
                         data-testid={`rating-${rating.stars}-star`}
                       >
                         <span className="text-sm font-medium w-2">{rating.stars}</span>
                         <div className="flex-1 bg-gray-100 rounded-full h-2">
-                          <div 
+                          <div
                             className={`${rating.fillColor} h-2 rounded-full`}
                             style={{ width: `${rating.percentage}%` }}
                           />
                         </div>
                         <span className="text-sm text-gray-600 w-8 text-right">{rating.percentage}%</span>
-                        
+
                         {/* Tooltip */}
                         <div className="absolute left-0 bottom-full mb-2 w-48 bg-gray-900 text-white text-xs rounded-lg p-3 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none z-10">
                           <div className="font-semibold mb-1">{rating.stars}-Star Reviews</div>
@@ -1176,9 +1175,9 @@ export default function ReviewsMVP() {
                       </div>
                     </div>
                   </div>
-                  
+
                   <Separator />
-                  
+
                   {/* Response Rate by Star Rating */}
                   <div className="space-y-2">
                     {[
@@ -1191,7 +1190,7 @@ export default function ReviewsMVP() {
                       <div key={rating.stars} className="flex items-center gap-3">
                         <span className="text-sm font-medium w-2">{rating.stars}</span>
                         <div className="flex-1 bg-gray-100 rounded-full h-2">
-                          <div 
+                          <div
                             className={`${rating.fillColor} h-2 rounded-full`}
                             style={{ width: `${rating.percentage}%` }}
                           />
@@ -1221,7 +1220,7 @@ export default function ReviewsMVP() {
                         <span className="text-xs text-green-600 font-medium">+3.2%</span>
                       </div>
                     </div>
-                    
+
                     <div className="text-center">
                       <div className="flex items-center justify-center mb-3">
                         <Meh className="w-10 h-10 text-gray-500" />
@@ -1233,7 +1232,7 @@ export default function ReviewsMVP() {
                         <span className="text-xs text-red-600 font-medium">-1.8%</span>
                       </div>
                     </div>
-                    
+
                     <div className="text-center">
                       <div className="flex items-center justify-center mb-3">
                         <ThumbsDown className="w-10 h-10 text-red-500" />
@@ -1277,10 +1276,10 @@ export default function ReviewsMVP() {
                             </div>
                           </div>
                           <div className="w-full bg-[#f9fafb] rounded-full h-2">
-                            <div 
-                              className="bg-green-500 h-2 rounded-full transition-all duration-300" 
-                              style={{ 
-                                width: `${(item.count / themesData.positive[0].count) * 100}%` 
+                            <div
+                              className="bg-green-500 h-2 rounded-full transition-all duration-300"
+                              style={{
+                                width: `${(item.count / themesData.positive[0].count) * 100}%`
                               }}
                             />
                           </div>
@@ -1307,10 +1306,10 @@ export default function ReviewsMVP() {
                             </div>
                           </div>
                           <div className="w-full bg-[#f9fafb] rounded-full h-2">
-                            <div 
-                              className="bg-red-500 h-2 rounded-full transition-all duration-300" 
-                              style={{ 
-                                width: `${(item.count / themesData.negative[0].count) * 100}%` 
+                            <div
+                              className="bg-red-500 h-2 rounded-full transition-all duration-300"
+                              style={{
+                                width: `${(item.count / themesData.negative[0].count) * 100}%`
                               }}
                             />
                           </div>
@@ -1333,21 +1332,19 @@ export default function ReviewsMVP() {
                   </div>
                   <div className="flex rounded-lg border border-gray-300 overflow-hidden">
                     <button
-                      className={`px-4 py-2 text-sm font-medium transition-colors ${
-                        themeView === "list" 
-                          ? "bg-slate-800 text-white" 
-                          : "bg-white text-gray-700 hover:bg-gray-50"
-                      }`}
+                      className={`px-4 py-2 text-sm font-medium transition-colors ${themeView === "list"
+                        ? "bg-slate-800 text-white"
+                        : "bg-white text-gray-700 hover:bg-gray-50"
+                        }`}
                       onClick={() => setThemeView("list")}
                     >
                       Liste
                     </button>
                     <button
-                      className={`px-4 py-2 text-sm font-medium transition-colors border-l border-gray-300 ${
-                        themeView === "chart" 
-                          ? "bg-slate-800 text-white" 
-                          : "bg-white text-gray-700 hover:bg-gray-50"
-                      }`}
+                      className={`px-4 py-2 text-sm font-medium transition-colors border-l border-gray-300 ${themeView === "chart"
+                        ? "bg-slate-800 text-white"
+                        : "bg-white text-gray-700 hover:bg-gray-50"
+                        }`}
                       onClick={() => setThemeView("chart")}
                     >
                       Grafik
@@ -1415,11 +1412,10 @@ export default function ReviewsMVP() {
                         <span className="text-sm font-medium text-gray-900">{theme.name}</span>
                         <div className="flex items-center gap-12">
                           <span className="text-sm text-gray-700 w-16 text-right">{theme.reviews}</span>
-                          <span className={`text-sm font-semibold w-16 text-right ${
-                            theme.venueXScore >= 80 ? 'text-green-600' : 
-                            theme.venueXScore >= 60 ? 'text-blue-600' : 
-                            'text-red-600'
-                          }`}>
+                          <span className={`text-sm font-semibold w-16 text-right ${theme.venueXScore >= 80 ? 'text-green-600' :
+                            theme.venueXScore >= 60 ? 'text-blue-600' :
+                              'text-red-600'
+                            }`}>
                             {theme.venueXScore}
                           </span>
                         </div>
@@ -1432,22 +1428,20 @@ export default function ReviewsMVP() {
                     <div className="flex justify-center">
                       <div className="flex rounded-lg border border-gray-300 overflow-hidden">
                         <button
-                          className={`px-6 py-2 text-sm font-medium transition-colors ${
-                            chartType === "scatter" 
-                              ? "bg-slate-800 text-white" 
-                              : "bg-[#f9fafb] text-gray-700 hover:bg-white"
-                          }`}
+                          className={`px-6 py-2 text-sm font-medium transition-colors ${chartType === "scatter"
+                            ? "bg-slate-800 text-white"
+                            : "bg-[#f9fafb] text-gray-700 hover:bg-white"
+                            }`}
                           onClick={() => setChartType("scatter")}
                           data-testid="button-chart-scatter"
                         >
                           Scatter Plot
                         </button>
                         <button
-                          className={`px-6 py-2 text-sm font-medium transition-colors border-l border-gray-300 ${
-                            chartType === "bubble" 
-                              ? "bg-slate-800 text-white" 
-                              : "bg-[#f9fafb] text-gray-700 hover:bg-white"
-                          }`}
+                          className={`px-6 py-2 text-sm font-medium transition-colors border-l border-gray-300 ${chartType === "bubble"
+                            ? "bg-slate-800 text-white"
+                            : "bg-[#f9fafb] text-gray-700 hover:bg-white"
+                            }`}
                           onClick={() => setChartType("bubble")}
                           data-testid="button-chart-bubble"
                         >
@@ -1457,214 +1451,214 @@ export default function ReviewsMVP() {
                     </div>
 
                     <div className="h-[600px] relative">
-                    <ResponsiveContainer width="100%" height="100%">
-                      {chartType === 'scatter' ? (
-                      <ScatterChart margin={{ top: 20, right: 100, bottom: 60, left: 60 }}>
-                        <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
-                        <XAxis 
-                          type="number" 
-                          dataKey="venueXScore" 
-                          name="VenueX Score" 
-                          domain={[0, 100]}
-                          tick={{ fontSize: 11, fill: '#64748b' }}
-                          label={{ value: 'VenueX Score', position: 'bottom', offset: 40, style: { fontSize: '12px', fill: '#475569' } }}
-                        />
-                        <YAxis 
-                          type="number" 
-                          dataKey="reviews" 
-                          name="Review Count"
-                          domain={[0, 180]}
-                          tick={{ fontSize: 11, fill: '#64748b' }}
-                          label={{ value: 'Review Count', angle: -90, position: 'left', offset: 40, style: { fontSize: '12px', fill: '#475569' } }}
-                        />
-                        <RechartsTooltip 
-                          cursor={{ strokeDasharray: '3 3' }}
-                          content={({ active, payload }) => {
-                            if (active && payload && payload.length) {
-                              return (
-                                <div className="bg-white p-3 rounded-lg shadow-lg border border-gray-200">
-                                  <p className="font-semibold text-sm text-gray-900">{payload[0].payload.name}</p>
-                                  <p className="text-xs text-gray-600">Reviews: {payload[0].payload.reviews}</p>
-                                  <p className="text-xs text-gray-600">Avg Rating: {payload[0].payload.avgRating}★</p>
-                                  <p className="text-xs text-gray-600">VenueX Score: {payload[0].payload.venueXScore}</p>
-                                </div>
-                              );
-                            }
-                            return null;
-                          }}
-                        />
-                        <ReferenceLine x={50} stroke="#94a3b8" strokeDasharray="5 5" strokeWidth={2} />
-                        <ReferenceLine y={90} stroke="#94a3b8" strokeDasharray="5 5" strokeWidth={2} />
-                        <Scatter 
-                          data={[
-                            { name: 'Taste', reviews: 156, avgRating: 4.5, venueXScore: 92 },
-                            { name: 'Staff Service', reviews: 142, avgRating: 4.3, venueXScore: 87 },
-                            { name: 'Cleanliness', reviews: 128, avgRating: 4.4, venueXScore: 89 },
-                            { name: 'Atmosphere', reviews: 115, avgRating: 4.2, venueXScore: 84 },
-                            { name: 'Fast Service', reviews: 98, avgRating: 3.9, venueXScore: 76 },
-                            { name: 'Price', reviews: 89, avgRating: 3.2, venueXScore: 58 },
-                            { name: 'Waiting Time', reviews: 76, avgRating: 3.0, venueXScore: 52 },
-                            { name: 'Parking', reviews: 64, avgRating: 2.8, venueXScore: 45 },
-                            { name: 'Noise Level', reviews: 52, avgRating: 3.1, venueXScore: 54 },
-                            { name: 'Portion Size', reviews: 43, avgRating: 3.5, venueXScore: 62 },
-                          ]}
-                        >
-                          {[
-                            { name: 'Taste', reviews: 156, avgRating: 4.5, venueXScore: 92 },
-                            { name: 'Staff Service', reviews: 142, avgRating: 4.3, venueXScore: 87 },
-                            { name: 'Cleanliness', reviews: 128, avgRating: 4.4, venueXScore: 89 },
-                            { name: 'Atmosphere', reviews: 115, avgRating: 4.2, venueXScore: 84 },
-                            { name: 'Fast Service', reviews: 98, avgRating: 3.9, venueXScore: 76 },
-                            { name: 'Price', reviews: 89, avgRating: 3.2, venueXScore: 58 },
-                            { name: 'Waiting Time', reviews: 76, avgRating: 3.0, venueXScore: 52 },
-                            { name: 'Parking', reviews: 64, avgRating: 2.8, venueXScore: 45 },
-                            { name: 'Noise Level', reviews: 52, avgRating: 3.1, venueXScore: 54 },
-                            { name: 'Portion Size', reviews: 43, avgRating: 3.5, venueXScore: 62 },
-                          ].map((entry, index) => {
-                            let color = '#10b981';
-                            if (entry.venueXScore >= 80 && entry.reviews >= 90) color = '#10b981';
-                            else if (entry.venueXScore >= 80 && entry.reviews < 90) color = '#3b82f6';
-                            else if (entry.venueXScore < 80 && entry.reviews >= 90) color = '#f59e0b';
-                            else color = '#ef4444';
-                            return <Cell key={`cell-${index}`} fill={color} />;
-                          })}
-                          <LabelList 
-                            dataKey="name" 
-                            position="right" 
-                            style={{ fontSize: '11px', fill: '#475569', fontWeight: '500' }}
-                            offset={8}
-                          />
-                        </Scatter>
-                      </ScatterChart>
-                      ) : (
-                      <ScatterChart margin={{ top: 20, right: 100, bottom: 60, left: 60 }}>
-                        <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
-                        <XAxis 
-                          type="number" 
-                          dataKey="avgRating" 
-                          name="Average Rating" 
-                          domain={[0, 5]}
-                          tick={{ fontSize: 11, fill: '#64748b' }}
-                          label={{ value: 'Average Rating', position: 'bottom', offset: 40, style: { fontSize: '12px', fill: '#475569' } }}
-                        />
-                        <YAxis 
-                          type="number" 
-                          dataKey="reviews" 
-                          name="Review Count"
-                          domain={[0, 180]}
-                          tick={{ fontSize: 11, fill: '#64748b' }}
-                          label={{ value: 'Review Count', angle: -90, position: 'left', offset: 40, style: { fontSize: '12px', fill: '#475569' } }}
-                        />
-                        <ZAxis 
-                          type="number" 
-                          dataKey="venueXScore" 
-                          range={[100, 1000]} 
-                          name="VenueX Score"
-                        />
-                        <RechartsTooltip 
-                          cursor={{ strokeDasharray: '3 3' }}
-                          content={({ active, payload }) => {
-                            if (active && payload && payload.length) {
-                              return (
-                                <div className="bg-white p-3 rounded-lg shadow-lg border border-gray-200">
-                                  <p className="font-semibold text-sm text-gray-900">{payload[0].payload.name}</p>
-                                  <p className="text-xs text-gray-600">Reviews: {payload[0].payload.reviews}</p>
-                                  <p className="text-xs text-gray-600">Avg Rating: {payload[0].payload.avgRating}★</p>
-                                  <p className="text-xs text-gray-600">VenueX Score: {payload[0].payload.venueXScore}</p>
-                                </div>
-                              );
-                            }
-                            return null;
-                          }}
-                        />
-                        <Scatter 
-                          data={[
-                            { name: 'Taste', reviews: 156, avgRating: 4.5, venueXScore: 92 },
-                            { name: 'Staff Service', reviews: 142, avgRating: 4.3, venueXScore: 87 },
-                            { name: 'Cleanliness', reviews: 128, avgRating: 4.4, venueXScore: 89 },
-                            { name: 'Atmosphere', reviews: 115, avgRating: 4.2, venueXScore: 84 },
-                            { name: 'Fast Service', reviews: 98, avgRating: 3.9, venueXScore: 76 },
-                            { name: 'Price', reviews: 89, avgRating: 3.2, venueXScore: 58 },
-                            { name: 'Waiting Time', reviews: 76, avgRating: 3.0, venueXScore: 52 },
-                            { name: 'Parking', reviews: 64, avgRating: 2.8, venueXScore: 45 },
-                            { name: 'Noise Level', reviews: 52, avgRating: 3.1, venueXScore: 54 },
-                            { name: 'Portion Size', reviews: 43, avgRating: 3.5, venueXScore: 62 },
-                          ]}
-                        >
-                          {[
-                            { name: 'Taste', reviews: 156, avgRating: 4.5, venueXScore: 92 },
-                            { name: 'Staff Service', reviews: 142, avgRating: 4.3, venueXScore: 87 },
-                            { name: 'Cleanliness', reviews: 128, avgRating: 4.4, venueXScore: 89 },
-                            { name: 'Atmosphere', reviews: 115, avgRating: 4.2, venueXScore: 84 },
-                            { name: 'Fast Service', reviews: 98, avgRating: 3.9, venueXScore: 76 },
-                            { name: 'Price', reviews: 89, avgRating: 3.2, venueXScore: 58 },
-                            { name: 'Waiting Time', reviews: 76, avgRating: 3.0, venueXScore: 52 },
-                            { name: 'Parking', reviews: 64, avgRating: 2.8, venueXScore: 45 },
-                            { name: 'Noise Level', reviews: 52, avgRating: 3.1, venueXScore: 54 },
-                            { name: 'Portion Size', reviews: 43, avgRating: 3.5, venueXScore: 62 },
-                          ].map((entry, index) => {
-                            let color = '#10b981';
-                            if (entry.venueXScore >= 80 && entry.reviews >= 90) color = '#10b981';
-                            else if (entry.venueXScore >= 80 && entry.reviews < 90) color = '#3b82f6';
-                            else if (entry.venueXScore < 80 && entry.reviews >= 90) color = '#f59e0b';
-                            else color = '#ef4444';
-                            return <Cell key={`cell-${index}`} fill={color} fillOpacity={0.7} />;
-                          })}
-                          <LabelList 
-                            dataKey="name" 
-                            position="top" 
-                            style={{ fontSize: '10px', fill: '#1e293b', fontWeight: '600' }}
-                            offset={0}
-                          />
-                        </Scatter>
-                      </ScatterChart>
-                      )}
-                    </ResponsiveContainer>
-                    
-                    {/* Quadrant Labels with Custom Hover Tooltips */}
-                    <div className="group absolute top-0 right-0">
-                      <div className="text-xs font-semibold text-green-600 cursor-help">
-                        High Reviews / High Rating
+                      <ResponsiveContainer width="100%" height="100%">
+                        {chartType === 'scatter' ? (
+                          <ScatterChart margin={{ top: 20, right: 100, bottom: 60, left: 60 }}>
+                            <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
+                            <XAxis
+                              type="number"
+                              dataKey="venueXScore"
+                              name="VenueX Score"
+                              domain={[0, 100]}
+                              tick={{ fontSize: 11, fill: '#64748b' }}
+                              label={{ value: 'VenueX Score', position: 'bottom', offset: 40, style: { fontSize: '12px', fill: '#475569' } }}
+                            />
+                            <YAxis
+                              type="number"
+                              dataKey="reviews"
+                              name="Review Count"
+                              domain={[0, 180]}
+                              tick={{ fontSize: 11, fill: '#64748b' }}
+                              label={{ value: 'Review Count', angle: -90, position: 'left', offset: 40, style: { fontSize: '12px', fill: '#475569' } }}
+                            />
+                            <RechartsTooltip
+                              cursor={{ strokeDasharray: '3 3' }}
+                              content={({ active, payload }) => {
+                                if (active && payload && payload.length) {
+                                  return (
+                                    <div className="bg-white p-3 rounded-lg shadow-lg border border-gray-200">
+                                      <p className="font-semibold text-sm text-gray-900">{payload[0].payload.name}</p>
+                                      <p className="text-xs text-gray-600">Reviews: {payload[0].payload.reviews}</p>
+                                      <p className="text-xs text-gray-600">Avg Rating: {payload[0].payload.avgRating}★</p>
+                                      <p className="text-xs text-gray-600">VenueX Score: {payload[0].payload.venueXScore}</p>
+                                    </div>
+                                  );
+                                }
+                                return null;
+                              }}
+                            />
+                            <ReferenceLine x={50} stroke="#94a3b8" strokeDasharray="5 5" strokeWidth={2} />
+                            <ReferenceLine y={90} stroke="#94a3b8" strokeDasharray="5 5" strokeWidth={2} />
+                            <Scatter
+                              data={[
+                                { name: 'Taste', reviews: 156, avgRating: 4.5, venueXScore: 92 },
+                                { name: 'Staff Service', reviews: 142, avgRating: 4.3, venueXScore: 87 },
+                                { name: 'Cleanliness', reviews: 128, avgRating: 4.4, venueXScore: 89 },
+                                { name: 'Atmosphere', reviews: 115, avgRating: 4.2, venueXScore: 84 },
+                                { name: 'Fast Service', reviews: 98, avgRating: 3.9, venueXScore: 76 },
+                                { name: 'Price', reviews: 89, avgRating: 3.2, venueXScore: 58 },
+                                { name: 'Waiting Time', reviews: 76, avgRating: 3.0, venueXScore: 52 },
+                                { name: 'Parking', reviews: 64, avgRating: 2.8, venueXScore: 45 },
+                                { name: 'Noise Level', reviews: 52, avgRating: 3.1, venueXScore: 54 },
+                                { name: 'Portion Size', reviews: 43, avgRating: 3.5, venueXScore: 62 },
+                              ]}
+                            >
+                              {[
+                                { name: 'Taste', reviews: 156, avgRating: 4.5, venueXScore: 92 },
+                                { name: 'Staff Service', reviews: 142, avgRating: 4.3, venueXScore: 87 },
+                                { name: 'Cleanliness', reviews: 128, avgRating: 4.4, venueXScore: 89 },
+                                { name: 'Atmosphere', reviews: 115, avgRating: 4.2, venueXScore: 84 },
+                                { name: 'Fast Service', reviews: 98, avgRating: 3.9, venueXScore: 76 },
+                                { name: 'Price', reviews: 89, avgRating: 3.2, venueXScore: 58 },
+                                { name: 'Waiting Time', reviews: 76, avgRating: 3.0, venueXScore: 52 },
+                                { name: 'Parking', reviews: 64, avgRating: 2.8, venueXScore: 45 },
+                                { name: 'Noise Level', reviews: 52, avgRating: 3.1, venueXScore: 54 },
+                                { name: 'Portion Size', reviews: 43, avgRating: 3.5, venueXScore: 62 },
+                              ].map((entry, index) => {
+                                let color = '#10b981';
+                                if (entry.venueXScore >= 80 && entry.reviews >= 90) color = '#10b981';
+                                else if (entry.venueXScore >= 80 && entry.reviews < 90) color = '#3b82f6';
+                                else if (entry.venueXScore < 80 && entry.reviews >= 90) color = '#f59e0b';
+                                else color = '#ef4444';
+                                return <Cell key={`cell-${index}`} fill={color} />;
+                              })}
+                              <LabelList
+                                dataKey="name"
+                                position="right"
+                                style={{ fontSize: '11px', fill: '#475569', fontWeight: '500' }}
+                                offset={8}
+                              />
+                            </Scatter>
+                          </ScatterChart>
+                        ) : (
+                          <ScatterChart margin={{ top: 20, right: 100, bottom: 60, left: 60 }}>
+                            <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
+                            <XAxis
+                              type="number"
+                              dataKey="avgRating"
+                              name="Average Rating"
+                              domain={[0, 5]}
+                              tick={{ fontSize: 11, fill: '#64748b' }}
+                              label={{ value: 'Average Rating', position: 'bottom', offset: 40, style: { fontSize: '12px', fill: '#475569' } }}
+                            />
+                            <YAxis
+                              type="number"
+                              dataKey="reviews"
+                              name="Review Count"
+                              domain={[0, 180]}
+                              tick={{ fontSize: 11, fill: '#64748b' }}
+                              label={{ value: 'Review Count', angle: -90, position: 'left', offset: 40, style: { fontSize: '12px', fill: '#475569' } }}
+                            />
+                            <ZAxis
+                              type="number"
+                              dataKey="venueXScore"
+                              range={[100, 1000]}
+                              name="VenueX Score"
+                            />
+                            <RechartsTooltip
+                              cursor={{ strokeDasharray: '3 3' }}
+                              content={({ active, payload }) => {
+                                if (active && payload && payload.length) {
+                                  return (
+                                    <div className="bg-white p-3 rounded-lg shadow-lg border border-gray-200">
+                                      <p className="font-semibold text-sm text-gray-900">{payload[0].payload.name}</p>
+                                      <p className="text-xs text-gray-600">Reviews: {payload[0].payload.reviews}</p>
+                                      <p className="text-xs text-gray-600">Avg Rating: {payload[0].payload.avgRating}★</p>
+                                      <p className="text-xs text-gray-600">VenueX Score: {payload[0].payload.venueXScore}</p>
+                                    </div>
+                                  );
+                                }
+                                return null;
+                              }}
+                            />
+                            <Scatter
+                              data={[
+                                { name: 'Taste', reviews: 156, avgRating: 4.5, venueXScore: 92 },
+                                { name: 'Staff Service', reviews: 142, avgRating: 4.3, venueXScore: 87 },
+                                { name: 'Cleanliness', reviews: 128, avgRating: 4.4, venueXScore: 89 },
+                                { name: 'Atmosphere', reviews: 115, avgRating: 4.2, venueXScore: 84 },
+                                { name: 'Fast Service', reviews: 98, avgRating: 3.9, venueXScore: 76 },
+                                { name: 'Price', reviews: 89, avgRating: 3.2, venueXScore: 58 },
+                                { name: 'Waiting Time', reviews: 76, avgRating: 3.0, venueXScore: 52 },
+                                { name: 'Parking', reviews: 64, avgRating: 2.8, venueXScore: 45 },
+                                { name: 'Noise Level', reviews: 52, avgRating: 3.1, venueXScore: 54 },
+                                { name: 'Portion Size', reviews: 43, avgRating: 3.5, venueXScore: 62 },
+                              ]}
+                            >
+                              {[
+                                { name: 'Taste', reviews: 156, avgRating: 4.5, venueXScore: 92 },
+                                { name: 'Staff Service', reviews: 142, avgRating: 4.3, venueXScore: 87 },
+                                { name: 'Cleanliness', reviews: 128, avgRating: 4.4, venueXScore: 89 },
+                                { name: 'Atmosphere', reviews: 115, avgRating: 4.2, venueXScore: 84 },
+                                { name: 'Fast Service', reviews: 98, avgRating: 3.9, venueXScore: 76 },
+                                { name: 'Price', reviews: 89, avgRating: 3.2, venueXScore: 58 },
+                                { name: 'Waiting Time', reviews: 76, avgRating: 3.0, venueXScore: 52 },
+                                { name: 'Parking', reviews: 64, avgRating: 2.8, venueXScore: 45 },
+                                { name: 'Noise Level', reviews: 52, avgRating: 3.1, venueXScore: 54 },
+                                { name: 'Portion Size', reviews: 43, avgRating: 3.5, venueXScore: 62 },
+                              ].map((entry, index) => {
+                                let color = '#10b981';
+                                if (entry.venueXScore >= 80 && entry.reviews >= 90) color = '#10b981';
+                                else if (entry.venueXScore >= 80 && entry.reviews < 90) color = '#3b82f6';
+                                else if (entry.venueXScore < 80 && entry.reviews >= 90) color = '#f59e0b';
+                                else color = '#ef4444';
+                                return <Cell key={`cell-${index}`} fill={color} fillOpacity={0.7} />;
+                              })}
+                              <LabelList
+                                dataKey="name"
+                                position="top"
+                                style={{ fontSize: '10px', fill: '#1e293b', fontWeight: '600' }}
+                                offset={0}
+                              />
+                            </Scatter>
+                          </ScatterChart>
+                        )}
+                      </ResponsiveContainer>
+
+                      {/* Quadrant Labels with Custom Hover Tooltips */}
+                      <div className="group absolute top-0 right-0">
+                        <div className="text-xs font-semibold text-green-600 cursor-help">
+                          High Reviews / High Rating
+                        </div>
+                        <div className="hidden group-hover:block absolute top-full right-0 mt-1 bg-white border border-gray-200 rounded-lg shadow-lg p-3 max-w-xs z-10">
+                          <p className="font-semibold mb-1">Core Strengths</p>
+                          <p className="text-xs text-gray-600 mb-2">These are your Core Strengths. Many people notice them, and they love them.</p>
+                          <p className="text-xs font-medium">Action: Maintain and leverage. Feature these in your marketing.</p>
+                        </div>
                       </div>
-                      <div className="hidden group-hover:block absolute top-full right-0 mt-1 bg-white border border-gray-200 rounded-lg shadow-lg p-3 max-w-xs z-10">
-                        <p className="font-semibold mb-1">Core Strengths</p>
-                        <p className="text-xs text-gray-600 mb-2">These are your Core Strengths. Many people notice them, and they love them.</p>
-                        <p className="text-xs font-medium">Action: Maintain and leverage. Feature these in your marketing.</p>
+
+                      <div className="group absolute top-0 left-0">
+                        <div className="text-xs font-semibold text-orange-600 cursor-help">
+                          High Reviews / Low Rating
+                        </div>
+                        <div className="hidden group-hover:block absolute top-full left-0 mt-1 bg-white border border-gray-200 rounded-lg shadow-lg p-3 max-w-xs z-10">
+                          <p className="font-semibold mb-1">Urgent Issues</p>
+                          <p className="text-xs text-gray-600 mb-2">Frequently mentioned problems that negatively impact customer experience.</p>
+                          <p className="text-xs font-medium">Action: Priority attention needed. Address these issues immediately.</p>
+                        </div>
                       </div>
-                    </div>
-                    
-                    <div className="group absolute top-0 left-0">
-                      <div className="text-xs font-semibold text-orange-600 cursor-help">
-                        High Reviews / Low Rating
+
+                      <div className="group absolute bottom-0 right-0">
+                        <div className="text-xs font-semibold text-blue-600 cursor-help">
+                          Low Reviews / High Rating
+                        </div>
+                        <div className="hidden group-hover:block absolute bottom-full right-0 mb-1 bg-white border border-gray-200 rounded-lg shadow-lg p-3 max-w-xs z-10">
+                          <p className="font-semibold mb-1">Hidden Gems</p>
+                          <p className="text-xs text-gray-600 mb-2">High-quality aspects that few customers mention. These could become strengths with visibility.</p>
+                          <p className="text-xs font-medium">Action: Increase awareness. Highlight these features to customers.</p>
+                        </div>
                       </div>
-                      <div className="hidden group-hover:block absolute top-full left-0 mt-1 bg-white border border-gray-200 rounded-lg shadow-lg p-3 max-w-xs z-10">
-                        <p className="font-semibold mb-1">Urgent Issues</p>
-                        <p className="text-xs text-gray-600 mb-2">Frequently mentioned problems that negatively impact customer experience.</p>
-                        <p className="text-xs font-medium">Action: Priority attention needed. Address these issues immediately.</p>
+
+                      <div className="group absolute bottom-0 left-0">
+                        <div className="text-xs font-semibold text-red-600 cursor-help">
+                          Low Reviews / Low Rating
+                        </div>
+                        <div className="hidden group-hover:block absolute bottom-full left-0 mb-1 bg-white border border-gray-200 rounded-lg shadow-lg p-3 max-w-xs z-10">
+                          <p className="font-semibold mb-1">Minor Concerns</p>
+                          <p className="text-xs text-gray-600 mb-2">Issues that are rarely mentioned and have low satisfaction scores.</p>
+                          <p className="text-xs font-medium">Action: Monitor and improve when resources allow.</p>
+                        </div>
                       </div>
-                    </div>
-                    
-                    <div className="group absolute bottom-0 right-0">
-                      <div className="text-xs font-semibold text-blue-600 cursor-help">
-                        Low Reviews / High Rating
-                      </div>
-                      <div className="hidden group-hover:block absolute bottom-full right-0 mb-1 bg-white border border-gray-200 rounded-lg shadow-lg p-3 max-w-xs z-10">
-                        <p className="font-semibold mb-1">Hidden Gems</p>
-                        <p className="text-xs text-gray-600 mb-2">High-quality aspects that few customers mention. These could become strengths with visibility.</p>
-                        <p className="text-xs font-medium">Action: Increase awareness. Highlight these features to customers.</p>
-                      </div>
-                    </div>
-                    
-                    <div className="group absolute bottom-0 left-0">
-                      <div className="text-xs font-semibold text-red-600 cursor-help">
-                        Low Reviews / Low Rating
-                      </div>
-                      <div className="hidden group-hover:block absolute bottom-full left-0 mb-1 bg-white border border-gray-200 rounded-lg shadow-lg p-3 max-w-xs z-10">
-                        <p className="font-semibold mb-1">Minor Concerns</p>
-                        <p className="text-xs text-gray-600 mb-2">Issues that are rarely mentioned and have low satisfaction scores.</p>
-                        <p className="text-xs font-medium">Action: Monitor and improve when resources allow.</p>
-                      </div>
-                    </div>
                     </div>
                   </div>
                 )}
@@ -1783,7 +1777,7 @@ export default function ReviewsMVP() {
                       ))}
                     </div>
                   </div>
-                  
+
                   <div>
                     <h4 className="font-medium text-red-600 mb-3 flex items-center gap-2">
                       <TrendingDown className="w-4 h-4" />
@@ -1822,8 +1816,8 @@ export default function ReviewsMVP() {
                   </div>
                 </div>
                 <div className="mt-4 text-center">
-                  <Button 
-                    variant="outline" 
+                  <Button
+                    variant="outline"
                     onClick={() => handleTabChange("locations")}
                     className="text-blue-600 hover:text-blue-700"
                   >
@@ -1836,7 +1830,7 @@ export default function ReviewsMVP() {
 
           {/* Inbox Tab */}
           <TabsContent value="inbox" className="space-y-6">
-            
+
 
             {/* Desktop Filter Bar */}
             <Card className="border-gray-200 bg-[#f9fafb]" ref={filterBarRef}>
@@ -1847,21 +1841,19 @@ export default function ReviewsMVP() {
                     <label className="text-sm font-medium text-gray-700 whitespace-nowrap">Source:</label>
                     <div className="flex rounded-lg border border-gray-300 overflow-hidden">
                       <button
-                        className={`px-4 py-2 text-sm font-medium transition-colors ${
-                          reviewSource === "locations" 
-                            ? "bg-slate-800 text-white" 
-                            : "bg-[#f9fafb] text-gray-700 hover:bg-[#f9fafb]"
-                        }`}
+                        className={`px-4 py-2 text-sm font-medium transition-colors ${reviewSource === "locations"
+                          ? "bg-slate-800 text-white"
+                          : "bg-[#f9fafb] text-gray-700 hover:bg-[#f9fafb]"
+                          }`}
                         onClick={() => setReviewSource("locations")}
                       >
                         Locations
                       </button>
                       <button
-                        className={`px-4 py-2 text-sm font-medium transition-colors border-l border-gray-300 ${
-                          reviewSource === "products" 
-                            ? "bg-slate-800 text-white" 
-                            : "bg-[#f9fafb] text-gray-700 hover:bg-[#f9fafb]"
-                        }`}
+                        className={`px-4 py-2 text-sm font-medium transition-colors border-l border-gray-300 ${reviewSource === "products"
+                          ? "bg-slate-800 text-white"
+                          : "bg-[#f9fafb] text-gray-700 hover:bg-[#f9fafb]"
+                          }`}
                         onClick={() => setReviewSource("products")}
                       >
                         Products
@@ -1916,31 +1908,28 @@ export default function ReviewsMVP() {
                     <label className="text-sm font-medium text-gray-700 whitespace-nowrap">Status:</label>
                     <div className="flex rounded-lg border border-gray-300 overflow-hidden">
                       <button
-                        className={`px-4 py-2 text-sm font-medium transition-colors ${
-                          replyStatusFilter === "unreplied" 
-                            ? "bg-slate-800 text-white" 
-                            : "bg-[#f9fafb] text-gray-700 hover:bg-[#f9fafb]"
-                        }`}
+                        className={`px-4 py-2 text-sm font-medium transition-colors ${replyStatusFilter === "unreplied"
+                          ? "bg-slate-800 text-white"
+                          : "bg-[#f9fafb] text-gray-700 hover:bg-[#f9fafb]"
+                          }`}
                         onClick={() => setReplyStatusFilter("unreplied")}
                       >
                         Unreplied
                       </button>
                       <button
-                        className={`px-4 py-2 text-sm font-medium transition-colors border-l border-gray-300 ${
-                          replyStatusFilter === "replied" 
-                            ? "bg-slate-800 text-white" 
-                            : "bg-[#f9fafb] text-gray-700 hover:bg-[#f9fafb]"
-                        }`}
+                        className={`px-4 py-2 text-sm font-medium transition-colors border-l border-gray-300 ${replyStatusFilter === "replied"
+                          ? "bg-slate-800 text-white"
+                          : "bg-[#f9fafb] text-gray-700 hover:bg-[#f9fafb]"
+                          }`}
                         onClick={() => setReplyStatusFilter("replied")}
                       >
                         Replied
                       </button>
                       <button
-                        className={`px-4 py-2 text-sm font-medium transition-colors border-l border-gray-300 ${
-                          replyStatusFilter === "all" 
-                            ? "bg-slate-800 text-white" 
-                            : "bg-[#f9fafb] text-gray-700 hover:bg-[#f9fafb]"
-                        }`}
+                        className={`px-4 py-2 text-sm font-medium transition-colors border-l border-gray-300 ${replyStatusFilter === "all"
+                          ? "bg-slate-800 text-white"
+                          : "bg-[#f9fafb] text-gray-700 hover:bg-[#f9fafb]"
+                          }`}
                         onClick={() => setReplyStatusFilter("all")}
                       >
                         All
@@ -1971,21 +1960,19 @@ export default function ReviewsMVP() {
                     <label className="text-sm font-medium text-gray-700 whitespace-nowrap">Sort:</label>
                     <div className="flex rounded-lg border border-gray-300 overflow-hidden">
                       <button
-                        className={`px-4 py-2 text-sm font-medium transition-colors ${
-                          sortOrder === "latest" 
-                            ? "bg-slate-800 text-white" 
-                            : "bg-[#f9fafb] text-gray-700 hover:bg-[#f9fafb]"
-                        }`}
+                        className={`px-4 py-2 text-sm font-medium transition-colors ${sortOrder === "latest"
+                          ? "bg-slate-800 text-white"
+                          : "bg-[#f9fafb] text-gray-700 hover:bg-[#f9fafb]"
+                          }`}
                         onClick={() => setSortOrder("latest")}
                       >
                         Latest
                       </button>
                       <button
-                        className={`px-4 py-2 text-sm font-medium transition-colors border-l border-gray-300 ${
-                          sortOrder === "oldest" 
-                            ? "bg-slate-800 text-white" 
-                            : "bg-[#f9fafb] text-gray-700 hover:bg-[#f9fafb]"
-                        }`}
+                        className={`px-4 py-2 text-sm font-medium transition-colors border-l border-gray-300 ${sortOrder === "oldest"
+                          ? "bg-slate-800 text-white"
+                          : "bg-[#f9fafb] text-gray-700 hover:bg-[#f9fafb]"
+                          }`}
                         onClick={() => setSortOrder("oldest")}
                       >
                         Oldest
@@ -2048,7 +2035,7 @@ export default function ReviewsMVP() {
                 </div>
               </CardContent>
             </Card>
-            
+
             {/* Active Filters Display */}
             {(inboxFilters.source || inboxFilters.rating || inboxFilters.week || inboxFilters.status) && (
               <div className="flex items-center gap-2 p-3 bg-[#f9fafb] rounded-lg border border-blue-200">
@@ -2056,8 +2043,8 @@ export default function ReviewsMVP() {
                 {inboxFilters.source && (
                   <Badge variant="secondary" className="bg-[#f9fafb] text-blue-800">
                     Source: {inboxFilters.source}
-                    <button 
-                      onClick={() => setInboxFilters({...inboxFilters, source: null})}
+                    <button
+                      onClick={() => setInboxFilters({ ...inboxFilters, source: null })}
                       className="ml-1 hover:bg-[#f9fafb] rounded-full p-0.5"
                     >
                       ✕
@@ -2067,8 +2054,8 @@ export default function ReviewsMVP() {
                 {inboxFilters.rating && (
                   <Badge variant="secondary" className="bg-[#f9fafb] text-blue-800">
                     Rating: {inboxFilters.rating}★
-                    <button 
-                      onClick={() => setInboxFilters({...inboxFilters, rating: null})}
+                    <button
+                      onClick={() => setInboxFilters({ ...inboxFilters, rating: null })}
                       className="ml-1 hover:bg-[#f9fafb] rounded-full p-0.5"
                     >
                       ✕
@@ -2078,8 +2065,8 @@ export default function ReviewsMVP() {
                 {inboxFilters.week && (
                   <Badge variant="secondary" className="bg-[#f9fafb] text-blue-800">
                     Week: {inboxFilters.week}
-                    <button 
-                      onClick={() => setInboxFilters({...inboxFilters, week: null})}
+                    <button
+                      onClick={() => setInboxFilters({ ...inboxFilters, week: null })}
                       className="ml-1 hover:bg-[#f9fafb] rounded-full p-0.5"
                     >
                       ✕
@@ -2089,8 +2076,8 @@ export default function ReviewsMVP() {
                 {inboxFilters.status && (
                   <Badge variant="secondary" className="bg-[#f9fafb] text-blue-800">
                     Status: {inboxFilters.status}
-                    <button 
-                      onClick={() => setInboxFilters({...inboxFilters, status: null})}
+                    <button
+                      onClick={() => setInboxFilters({ ...inboxFilters, status: null })}
                       className="ml-1 hover:bg-[#f9fafb] rounded-full p-0.5"
                     >
                       ✕
@@ -2134,18 +2121,16 @@ export default function ReviewsMVP() {
                           }
                           return new Date(dateStr).getTime();
                         };
-                        
+
                         const dateA = parseDate(a.date);
                         const dateB = parseDate(b.date);
                         return sortOrder === "latest" ? dateB - dateA : dateA - dateB;
                       }).slice(0, 15).map((review) => (
-                        <div 
-                          key={review.id} 
-                          className={`p-4 border-b hover:bg-[#f9fafb] cursor-pointer transition-colors relative ${
-                            review.isNew ? 'bg-[#f9fafb] border-l-4 border-l-blue-500' : ''
-                          } ${
-                            selectedReviewId === review.id ? 'bg-[#f9fafb] border-l-4 border-l-blue-600' : ''
-                          }`}
+                        <div
+                          key={review.id}
+                          className={`p-4 border-b hover:bg-[#f9fafb] cursor-pointer transition-colors relative ${review.isNew ? 'bg-[#f9fafb] border-l-4 border-l-blue-500' : ''
+                            } ${selectedReviewId === review.id ? 'bg-[#f9fafb] border-l-4 border-l-blue-600' : ''
+                            }`}
                           onClick={() => setSelectedReviewId(review.id)}
                         >
                           {/* Platform Icon - Top Right */}
@@ -2198,10 +2183,10 @@ export default function ReviewsMVP() {
                   <CardContent className="space-y-4 flex-1 overflow-y-auto">
                     {/* Selected Review Display */}
                     {(() => {
-                      const selectedReview = selectedReviewId 
-                        ? recentReviews.find(r => r.id === selectedReviewId) 
+                      const selectedReview = selectedReviewId
+                        ? recentReviews.find(r => r.id === selectedReviewId)
                         : recentReviews[0];
-                      
+
                       if (!selectedReview) {
                         return (
                           <div className="border rounded-lg p-4 bg-[#f9fafb] text-center text-gray-500">
@@ -2247,10 +2232,10 @@ export default function ReviewsMVP() {
 
                     {/* Contextual Snippet */}
                     {(() => {
-                      const selectedReview = selectedReviewId 
-                        ? recentReviews.find(r => r.id === selectedReviewId) 
+                      const selectedReview = selectedReviewId
+                        ? recentReviews.find(r => r.id === selectedReviewId)
                         : recentReviews[0];
-                      
+
                       if (!selectedReview) return null;
 
                       return (
@@ -2330,7 +2315,7 @@ export default function ReviewsMVP() {
                       <div className="flex items-center justify-between mt-6 pt-4">
                         <h4 className="font-medium">Write Reply</h4>
                         <div className="flex gap-2">
-                          <Button 
+                          <Button
                             variant="outline"
                             size="sm"
                             className="!border-red-600 !text-red-600 hover:!bg-red-600 hover:!text-white hover:!border-red-600 [&_svg]:text-red-600 hover:[&_svg]:text-white"
@@ -2349,12 +2334,12 @@ export default function ReviewsMVP() {
                           </Button>
                         </div>
                       </div>
-                      
+
                       <Textarea
                         placeholder="Write your reply here..."
                         className="min-h-[100px]"
                       />
-                      
+
                       <div className="flex justify-end gap-2">
                         <Button variant="outline">Save Draft</Button>
                         <Button>
@@ -2374,10 +2359,10 @@ export default function ReviewsMVP() {
             {/* Date Range Selector for Locations */}
             <div className="flex justify-end mb-4">
               <div className="w-fit">
-                <button 
+                <button
                   data-testid="button-locations-date-picker"
                   className="border border-gray-200 focus:border-gray-300 w-40 pl-3 pr-10 py-2 rounded-md text-sm appearance-none bg-no-repeat bg-right text-left"
-                  style={{ 
+                  style={{
                     backgroundColor: '#f9fafb',
                     backgroundImage: 'url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHZpZXdCb3g9IjAgMCAxNiAxNiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0ibTQgNiA0IDQgNC00IiBzdHJva2U9IiM2NjY2NjYiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+Cjwvc3ZnPg==")',
                     backgroundPosition: 'right 8px center',
@@ -2565,14 +2550,14 @@ export default function ReviewsMVP() {
                 </div>
               </CardContent>
             </Card>
-            
+
             <Card className="bg-[#f9fafb]">
               <CardContent className="p-0">
                 <div className="overflow-x-auto">
                   <table className="w-full">
                     <thead className="bg-[#f9fafb] border-b">
                       <tr>
-                        <th 
+                        <th
                           className="text-left p-4 font-medium text-gray-900 cursor-pointer hover:bg-[#f9fafb] select-none"
                           onClick={() => handleSort('code')}
                         >
@@ -2583,7 +2568,7 @@ export default function ReviewsMVP() {
                             )}
                           </div>
                         </th>
-                        <th 
+                        <th
                           className="text-left p-4 font-medium text-gray-900 cursor-pointer hover:bg-[#f9fafb] select-none"
                           onClick={() => handleSort('name')}
                         >
@@ -2594,7 +2579,7 @@ export default function ReviewsMVP() {
                             )}
                           </div>
                         </th>
-                        <th 
+                        <th
                           className="text-left p-4 font-medium text-gray-900 cursor-pointer hover:bg-[#f9fafb] select-none"
                           onClick={() => handleSort('reviews')}
                         >
@@ -2605,7 +2590,7 @@ export default function ReviewsMVP() {
                             )}
                           </div>
                         </th>
-                        <th 
+                        <th
                           className="text-left p-4 font-medium text-gray-900 cursor-pointer hover:bg-[#f9fafb] select-none"
                           onClick={() => handleSort('rating')}
                         >
@@ -2616,7 +2601,7 @@ export default function ReviewsMVP() {
                             )}
                           </div>
                         </th>
-                        <th 
+                        <th
                           className="text-left p-4 font-medium text-gray-900 cursor-pointer hover:bg-[#f9fafb] select-none"
                           onClick={() => handleSort('replyRate')}
                         >
@@ -2627,7 +2612,7 @@ export default function ReviewsMVP() {
                             )}
                           </div>
                         </th>
-                        <th 
+                        <th
                           className="text-left p-4 font-medium text-gray-900 cursor-pointer hover:bg-[#f9fafb] select-none"
                           onClick={() => handleSort('sentiment')}
                         >
@@ -2643,8 +2628,8 @@ export default function ReviewsMVP() {
                     </thead>
                     <tbody>
                       {sortedLocationsData.map((location, index) => (
-                        <tr 
-                          key={location.code} 
+                        <tr
+                          key={location.code}
                           className="border-b hover:bg-[#f9fafb] cursor-pointer transition-colors"
                           onClick={() => {
                             handleTabChange("inbox");
@@ -2673,7 +2658,7 @@ export default function ReviewsMVP() {
                           <td className="p-4">
                             <Badge variant={
                               location.sentiment === "Positive" ? "default" :
-                              location.sentiment === "Negative" ? "destructive" : "secondary"
+                                location.sentiment === "Negative" ? "destructive" : "secondary"
                             } className="text-xs">
                               {location.sentiment}
                             </Badge>
@@ -2830,7 +2815,7 @@ export default function ReviewsMVP() {
             </div>
             <div className="space-y-2">
               <div className="text-sm font-medium">Brand Guidelines</div>
-              <Textarea 
+              <Textarea
                 placeholder="Enter key phrases or facts about your brand for the AI to use (e.g., 'Our return policy is 30 days', 'Always address the customer by their first name')"
                 className="min-h-[80px]"
               />

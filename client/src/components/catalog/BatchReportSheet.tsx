@@ -10,7 +10,7 @@ interface ErrorItem {
   count: number;
 }
 
-interface LogDetailDrawerProps {
+interface BatchReportSheetProps {
   isOpen: boolean;
   onClose: () => void;
   event: {
@@ -50,7 +50,7 @@ const mockErrors: ErrorItem[] = [
   }
 ];
 
-export default function LogDetailDrawer({ isOpen, onClose, event }: LogDetailDrawerProps) {
+export default function BatchReportSheet({ isOpen, onClose, event }: BatchReportSheetProps) {
   if (!isOpen || !event) return null;
 
   const totalCount = 125000;
@@ -60,14 +60,14 @@ export default function LogDetailDrawer({ isOpen, onClose, event }: LogDetailDra
   return (
     <>
       {/* Overlay */}
-      <div 
+      <div
         className="fixed inset-0 bg-black/20 backdrop-blur-sm z-50"
         onClick={onClose}
       />
-      
+
       {/* Drawer Panel */}
       <div className="fixed right-0 top-0 h-full w-[600px] max-w-[90vw] bg-white shadow-2xl z-50 flex flex-col animate-in slide-in-from-right duration-300">
-        
+
         {/* Header Section (Sticky) */}
         <div className="px-6 py-5 border-b border-gray-200">
           {/* Title Row */}
@@ -78,7 +78,7 @@ export default function LogDetailDrawer({ isOpen, onClose, event }: LogDetailDra
                 Completed with Issues
               </span>
             </div>
-            <button 
+            <button
               onClick={onClose}
               className="p-2 hover:bg-gray-100 rounded-lg transition-colors -mr-2 -mt-1"
             >
@@ -112,7 +112,7 @@ export default function LogDetailDrawer({ isOpen, onClose, event }: LogDetailDra
           {/* Error Table */}
           <div className="space-y-0">
             {mockErrors.map((error) => (
-              <div 
+              <div
                 key={error.id}
                 className="flex items-center gap-4 py-4 border-b border-gray-100 hover:bg-gray-50 -mx-2 px-2 rounded transition-colors"
               >
