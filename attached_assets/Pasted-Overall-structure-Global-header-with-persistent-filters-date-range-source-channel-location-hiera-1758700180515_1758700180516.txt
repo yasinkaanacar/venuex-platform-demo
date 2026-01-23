@@ -1,0 +1,71 @@
+Overall structure
+
+Global header with persistent filters (date range, source channel, location hierarchy, product), search, unread alerts badge, and quick actions.
+
+Primary tabs: Overview | Locations | Products | Inbox/Replies | Insights | Settings.
+
+Saved views that persist filters across tabs; responsive layouts with keyboard-first navigation and accessible labels.
+
+Cross-cutting filters
+
+Date range, source channel, brand→region→city→store, product/SKU, rating, sentiment, theme/topic, language, replied/unreplied, SLA status, country/region.
+
+Overview (brand snapshot)
+
+KPI cards: average rating, review volume change, reply rate, time-to-first-response, sentiment index, each with period-over-period deltas.
+
+Charts: time trend for volume and rating; rating distribution or source mix.
+
+Recent reviews panel with urgency flags for low ratings/keywords.
+
+Top themes: badges for leading compliments and complaints with sentiment and volume.
+
+Location leaderboard snapshot (best/worst) with link to full Locations.
+
+Locations (store comparison)
+
+Sortable, filterable table: location, region, average rating, review count, % negative, reply rate, last review date, SLA status.
+
+Toggle to a map/heatmap view; markers sized by volume and colored by sentiment; hover reveals KPIs and quick link to that location’s inbox.
+
+Location detail drawer/page with trend, comparisons to company average, recent reviews, and jump-to-reply.
+
+Products (SKU/category view)
+
+Product grid with average rating, review count, sentiment sparkline, and top pros/cons themes.
+
+Product detail with trend, theme breakdown, representative reviews, and drill-through to Inbox filtered by product.
+
+Inbox/Replies (work queue)
+
+Unified multi-source feed; list items show source icon, stars, snippet, location/product, age, status.
+
+Detail pane with full review, reply editor, template picker, AI-draft button, tone presets, translation toggle, and compliance/policy checker.
+
+Workflow controls: assign owner, internal notes, tags, approval state, SLA clock, collision warnings, mark complete; safe bulk “thank-you” where allowed.
+
+Fast-path interactions: from any list item, reach a sent reply in ≤2 clicks.
+
+Insights (analytics & discovery)
+
+Sentiment dashboard (document- and sentence-level with confidence bands).
+
+Theme analysis: auto-detected topics plus custom taxonomy; show prevalence over time and by geo/product; drill-down to underlying reviews.
+
+Trends and comparisons: region and product comparisons, response performance and SLA compliance, anomaly and spike detection.
+
+Scheduled reports and exports.
+
+Settings (governance & operations)
+
+Source connections and scopes, templates library with variables and tone guidance, alerts/notifications, automation rules, roles/permissions, SLA targets and escalation keywords, data/privacy preferences, report scheduling, and custom tags management.
+
+States & quality
+
+Loading and empty states, graceful “no data” behaviors, duplicate/spam flags, misattribution correction, rate-limit/resilience messaging, long-text overflow handling, multilingual and RTL display, WCAG-compliant focus order and contrasts, perceived <1s response for primary actions.
+
+Acceptance
+
+Every tab demonstrably usable with the same filter context; two-click path to reply from anywhere; theme chips merge/split UX; visible audit cues (who replied/approved/assigned, when); metric tooltips with clear definitions; crisp copy and micro-interactions that make the experience feel fast, clear, and valuable.
+
+Deliver a fast, clear, valuable Reviews experience aligned with VenueX’s brand.

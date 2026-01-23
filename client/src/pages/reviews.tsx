@@ -1,0 +1,1180 @@
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Badge } from "@/components/ui/badge";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Textarea } from "@/components/ui/textarea";
+import {
+  Search,
+  Star,
+  TrendingUp,
+  TrendingDown,
+  List,
+  Map,
+  ChevronLeft,
+  ChevronRight,
+  MoreHorizontal,
+  MessageSquare,
+  AlertTriangle,
+  CheckCircle,
+  Calendar,
+  Send
+} from 'lucide-react';
+import LocationSummary from "@/components/reviews/LocationSummary";
+
+
+export default function Reviews() {
+  const [selectedPlatform, setSelectedPlatform] = useState("google");
+  const [viewMode, setViewMode] = useState("list");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [selectedReviewId, setSelectedReviewId] = useState(1);
+  const [replyText, setReplyText] = useState("");
+  const [ratingDistributionTab, setRatingDistributionTab] = useState("overall");
+
+  // Star rating breakdown data
+  const ratingBreakdown = [
+    { stars: 5, percentage: 16.8, count: 618 },
+    { stars: 4, percentage: 16.8, count: 618 },
+    { stars: 3, percentage: 20.4, count: 750 },
+    { stars: 2, percentage: 22.6, count: 831 },
+    { stars: 1, percentage: 23.4, count: 859 }
+  ];
+
+  // Dashboard metrics
+  const aiAnalysisData = {
+    totalReviews: 3672,
+    unanswered: 4708,
+    answered: 2399
+  };
+
+  const issuesData = [
+    { type: "Unanswered Reviews", count: 6947, color: "bg-red-100 text-red-800" },
+    { type: "Unanswered Reviews (Rating Over)", count: 4293, color: "bg-orange-100 text-orange-800" },
+    { type: "1 Star Reviews", count: 6392, color: "bg-red-100 text-red-800" },
+    { type: "Reviews with Photos", count: 7714, color: "bg-blue-100 text-blue-800" },
+    { type: "5 Star Reviews", count: 7774, color: "bg-green-100 text-green-800" }
+  ];
+
+  const statusChangeData = [
+    { label: "Answered Count", current: 13, change: 6.2, previous: 2950 },
+    { label: "Average Rating", current: 668378, change: -2.3, previous: 668377 },
+    { label: "", current: 3.89, change: -2.5, previous: 3.87 }
+  ];
+
+
+  // Top 15 locations with star rating breakdowns for histogram
+  const topLocationsData = [
+    { name: "İstanbul", short: "İst", code: "001", total: 1243, ratings: { 5: 312, 4: 298, 3: 236, 2: 198, 1: 199 } },
+    { name: "İzmir", short: "İzm", code: "002", total: 934, ratings: { 5: 280, 4: 234, 3: 187, 2: 140, 1: 93 } },
+    { name: "Eskişehir", short: "Esk", code: "003", total: 847, ratings: { 5: 254, 4: 212, 3: 169, 2: 127, 1: 85 } },
+    { name: "Antalya", short: "Ant", code: "004", total: 756, ratings: { 5: 227, 4: 189, 3: 151, 2: 113, 1: 76 } },
+    { name: "Ankara", short: "Ank", code: "005", total: 692, ratings: { 5: 208, 4: 173, 3: 138, 2: 104, 1: 69 } },
+    { name: "Samsun", short: "Sam", code: "006", total: 623, ratings: { 5: 187, 4: 156, 3: 125, 2: 93, 1: 62 } },
+    { name: "Kayseri", short: "Kay", code: "007", total: 567, ratings: { 5: 170, 4: 142, 3: 113, 2: 85, 1: 57 } },
+    { name: "Bursa", short: "Bur", code: "008", total: 528, ratings: { 5: 106, 4: 132, 3: 158, 2: 79, 1: 53 } },
+    { name: "Mersin", short: "Mer", code: "009", total: 478, ratings: { 5: 96, 4: 120, 3: 143, 2: 72, 1: 47 } },
+    { name: "Gaziantep", short: "Gaz", code: "010", total: 445, ratings: { 5: 89, 4: 111, 3: 133, 2: 67, 1: 45 } },
+    { name: "Adana", short: "Ada", code: "011", total: 421, ratings: { 5: 84, 4: 105, 3: 126, 2: 63, 1: 43 } },
+    { name: "Konya", short: "Kon", code: "012", total: 398, ratings: { 5: 80, 4: 99, 3: 119, 2: 60, 1: 40 } },
+    { name: "Trabzon", short: "Tra", code: "013", total: 389, ratings: { 5: 78, 4: 97, 3: 117, 2: 58, 1: 39 } },
+    { name: "Denizli", short: "Den", code: "014", total: 312, ratings: { 5: 94, 4: 78, 3: 62, 2: 47, 1: 31 } },
+    { name: "Şanlıurfa", short: "Şan", code: "015", total: 298, ratings: { 5: 89, 4: 74, 3: 60, 2: 45, 1: 30 } }
+  ];
+
+
+  // Reviews data
+  const reviews = [
+    {
+      id: 1,
+      name: "Demo Eskişehir Kanatlı",
+      rating: 3,
+      date: "4 days ago",
+      comment: "İyi hizmet veriyorlar ama alan çok daraltılmış. Personel çok ilgili ancak mağaza çok küçük.",
+      location: "Tepebaşı Mh, İsmet İnönü Cd. No:15, Eskişehir",
+      status: "Answered",
+      hasPhoto: false
+    },
+    {
+      id: 2,
+      name: "Demo Eskişehir Kanatlı",
+      rating: 4,
+      date: "7 days ago",
+      comment: "3.95 ⭐⭐⭐⭐ 1017 Reviews\nTepebaşı Mh, İsmet İnönü Cd. No:15, Eskişehir",
+      location: "Tepebaşı Mh, İsmet İnönü Cd. No:15, Eskişehir",
+      status: "Answered",
+      hasPhoto: false
+    },
+    {
+      id: 3,
+      name: "gece bebeği yurdakul",
+      rating: 5,
+      date: "",
+      comment: "Çalışanlar çok değişmiş. Kaliteli bir personelsiniz artık. Bravo size...",
+      location: "",
+      status: "Answered",
+      hasPhoto: false
+    },
+    {
+      id: 4,
+      name: "Demo Espark Kanatli",
+      rating: 1,
+      date: "11 May 2023 8:07 AM",
+      comment: "Spor giyim rafik yeterli, çalışan personelin hiç başpara etiketi yoktu. Demo Eskişehir Kanatlı spor bölümünde kocası bu da rahat güzeldi aracıya iken gizli çekilmiş personel büyük ihtimalle. Ayrıca raflardaki ürünlerin hangi bed",
+      location: "",
+      status: "Delete",
+      hasPhoto: false
+    },
+    {
+      id: 5,
+      name: "Demo Ankara Karum",
+      rating: 5,
+      date: "",
+      comment: "Dur bir... İsmail Hakki Tonguç, thank you for your valuable feedback. At Demo Eskişehir Kanatli, we value our guests' feedback and you with a better shopping experience. For all your inquiries, please contact us at info@demogroup.com.tr or call center at +444 0 6 67. Thank you once again.",
+      location: "",
+      status: "Reply",
+      hasPhoto: false
+    },
+    {
+      id: 6,
+      name: "Demo Dynamic Çerkezköy",
+      rating: 3,
+      date: "",
+      comment: "Bayley personel çağırdığında çok 30-35 çalıştırıyor",
+      location: "",
+      status: "Reply",
+      hasPhoto: false
+    },
+    {
+      id: 7,
+      name: "Demo Aydin Forum",
+      rating: 5,
+      date: "",
+      comment: "Ayvalık tekstil mağazası ANTIKA!\nBir çalışanı olmasa mağazalarda satış yapması zorlaşacak.",
+      location: "",
+      status: "Reply",
+      hasPhoto: false
+    },
+    {
+      id: 8,
+      name: "Demo Antalia",
+      rating: 1,
+      date: "",
+      comment: "Demo Antalya Kapalı şu ana kadar tesadüfen.",
+      location: "",
+      status: "Reply",
+      hasPhoto: false
+    },
+    {
+      id: 9,
+      name: "Demo Ankara Migros",
+      rating: 5,
+      date: "",
+      comment: "Mağazadan mağazaya geç çok güzelmiş ve tekliflerim de sayesinde memnun kalıyor, diyor çok.",
+      location: "",
+      status: "Reply",
+      hasPhoto: false
+    },
+    {
+      id: 10,
+      name: "Demo İnan Ayvacıklık",
+      rating: 3,
+      date: "",
+      comment: "Çalışanlar mağaza açış dışında yardımcı olmuyorlar Yeterki mağazalara satin alım sayfalinde de mağazada olanrak.",
+      location: "",
+      status: "Reply",
+      hasPhoto: false
+    },
+    {
+      id: 11,
+      name: "Demo Gebze Center",
+      rating: 4,
+      date: "",
+      comment: "Beğendiğim demo çok yakala olmak...",
+      location: "",
+      status: "Reply",
+      hasPhoto: false
+    }
+  ];
+
+  const getRatingStars = (rating: number) => {
+    return Array.from({ length: 5 }, (_, i) => (
+      <Star
+        key={i}
+        className={`w-4 h-4 ${i < rating ? "fill-yellow-400 text-yellow-400" : "text-gray-300"
+          }`}
+      />
+    ));
+  };
+
+  const getStatusBadge = (status: string) => {
+    const statusConfig = {
+      "Answered": { color: "bg-green-100 text-green-800", text: "Reply" },
+      "Reply": { color: "bg-blue-100 text-blue-800", text: "Reply" },
+      "Delete": { color: "bg-red-100 text-red-800", text: "Delete" }
+    };
+
+    const config = statusConfig[status as keyof typeof statusConfig] || statusConfig["Reply"];
+
+    return (
+      <Button size="sm" className={`${config.color} hover:${config.color} text-xs px-3 py-1 rounded-md border-0`}>
+        {config.text}
+      </Button>
+    );
+  };
+
+  return (
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+      {/* Header handled globally */}
+      <div className="pb-6 bg-[#ffffff]">
+        <div className="px-6 py-4">
+          {/* Summary Section */}
+          <div className="mx-6 mb-6 bg-white rounded-lg border border-slate-200 overflow-hidden shadow-none">
+            <div className="flex items-center justify-between border-b border-slate-200 px-6 py-4 from-white to-stone-50 bg-[#f9fafb]">
+              <h3 className="text-base font-semibold text-foreground">Review Summary</h3>
+              <div className="text-sm text-gray-500">Last 30 days</div>
+            </div>
+            <div className="p-6 bg-[#f9fafb]">
+              <div className="grid grid-cols-4 gap-6">
+                {/* E-reputation */}
+                <div className="bg-white rounded-md border border-slate-200 p-6">
+                  <div>
+                    <div className="text-lg font-semibold text-gray-900 mb-1">Average Rating</div>
+                    <div className="text-sm text-gray-500 mb-6">(Last 12 months)</div>
+
+                    <div className="mb-4">
+                      <div className="text-4xl font-bold text-gray-900 mb-1">4.78</div>
+                      <div className="text-sm text-gray-500">5617 reviews</div>
+                    </div>
+
+                    <div className="space-y-2">
+                      {/* 5 Star */}
+                      <div className="flex items-center gap-3">
+                        <span className="text-sm font-medium text-gray-700 w-4">5</span>
+                        <div className="flex-1 bg-gray-200 rounded-full h-2">
+                          <div className="bg-yellow-500 h-2 rounded-full" style={{ width: '92%' }}></div>
+                        </div>
+                        <span className="text-sm text-gray-600 w-8">92%</span>
+                      </div>
+
+                      {/* 4 Star */}
+                      <div className="flex items-center gap-3">
+                        <span className="text-sm font-medium text-gray-700 w-4">4</span>
+                        <div className="flex-1 bg-gray-200 rounded-full h-2">
+                          <div className="bg-yellow-500 h-2 rounded-full" style={{ width: '5%' }}></div>
+                        </div>
+                        <span className="text-sm text-gray-600 w-8">5%</span>
+                      </div>
+
+                      {/* 3 Star */}
+                      <div className="flex items-center gap-3">
+                        <span className="text-sm font-medium text-gray-700 w-4">3</span>
+                        <div className="flex-1 bg-gray-200 rounded-full h-2">
+                          <div className="bg-yellow-500 h-2 rounded-full" style={{ width: '1%' }}></div>
+                        </div>
+                        <span className="text-sm text-gray-600 w-8">1%</span>
+                      </div>
+
+                      {/* 2 Star */}
+                      <div className="flex items-center gap-3">
+                        <span className="text-sm font-medium text-gray-700 w-4">2</span>
+                        <div className="flex-1 bg-gray-200 rounded-full h-2">
+                          <div className="bg-yellow-500 h-2 rounded-full" style={{ width: '2%' }}></div>
+                        </div>
+                        <span className="text-sm text-gray-600 w-8">2%</span>
+                      </div>
+
+                      {/* 1 Star */}
+                      <div className="flex items-center gap-3">
+                        <span className="text-sm font-medium text-gray-700 w-4">1</span>
+                        <div className="flex-1 bg-gray-200 rounded-full h-2">
+                          <div className="bg-yellow-500 h-2 rounded-full" style={{ width: '2%' }}></div>
+                        </div>
+                        <span className="text-sm text-gray-600 w-8">2%</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Total Reviews */}
+                <div className="bg-white rounded-md border border-slate-200 p-6">
+                  <div className="text-center">
+                    <div className="text-sm font-medium text-gray-600 mb-3">TOTAL REVIEWS</div>
+                    <div className="text-2xl font-bold text-gray-900 mb-2">3,672</div>
+                    <div className="flex items-center justify-center gap-1">
+                      <TrendingUp className="w-4 h-4 text-green-600" />
+                      <span className="text-sm text-green-600">+12% vs prev period</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Unanswered Reviews */}
+                <div className="bg-white rounded-md border border-slate-200 p-6">
+                  <div className="text-center">
+                    <div className="text-sm font-medium text-gray-600 mb-3">UNANSWERED</div>
+                    <div className="text-2xl font-bold text-red-600 mb-2">4,708</div>
+                    <div className="flex items-center justify-center gap-1 mb-2">
+                      <TrendingUp className="w-4 h-4 text-red-600" />
+                      <span className="text-sm text-red-600">+8.5% vs prev period</span>
+                    </div>
+                    <div className="text-sm text-gray-500 mb-3">Needs attention</div>
+                    <div className="border-t border-gray-200 pt-3">
+                      <div className="text-xs text-gray-600 mb-1">Reply Rate</div>
+                      <div className="text-lg font-semibold text-orange-600 mb-1">62.3%</div>
+                      <div className="flex items-center justify-center gap-1">
+                        <TrendingDown className="w-3 h-3 text-red-600" />
+                        <span className="text-xs text-red-600">-3.2% vs prev period</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Sentiment Analysis */}
+                <div className="bg-white rounded-md border border-slate-200 p-6">
+                  <div className="text-sm font-medium text-gray-600 mb-3">SENTIMENT</div>
+                  <div className="space-y-3">
+                    <div className="space-y-1">
+                      <div className="flex justify-between items-center">
+                        <span className="text-sm text-green-600">Positive</span>
+                        <span className="font-medium text-green-600">58.2%</span>
+                      </div>
+                      <div className="flex items-center justify-end gap-1">
+                        <TrendingUp className="w-3 h-3 text-green-600" />
+                        <span className="text-xs text-green-600">+4.1% vs prev</span>
+                      </div>
+                    </div>
+                    <div className="space-y-1">
+                      <div className="flex justify-between items-center">
+                        <span className="text-sm text-gray-600">Neutral</span>
+                        <span className="font-medium text-gray-600">23.1%</span>
+                      </div>
+                      <div className="flex items-center justify-end gap-1">
+                        <TrendingDown className="w-3 h-3 text-orange-600" />
+                        <span className="text-xs text-orange-600">-1.8% vs prev</span>
+                      </div>
+                    </div>
+                    <div className="space-y-1">
+                      <div className="flex justify-between items-center">
+                        <span className="text-sm text-red-600">Negative</span>
+                        <span className="font-medium text-red-600">18.7%</span>
+                      </div>
+                      <div className="flex items-center justify-end gap-1">
+                        <TrendingDown className="w-3 h-3 text-green-600" />
+                        <span className="text-xs text-green-600">-2.3% vs prev</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Rating Distribution */}
+          <div className="mx-6 mb-6 bg-white rounded-lg border border-slate-200 overflow-hidden shadow-none">
+            <div className="border-b border-slate-200 bg-gradient-to-b from-white to-stone-50">
+              <div className="px-6 py-4 bg-[#f9fafb]">
+                <h3 className="text-base font-semibold text-foreground">Rating Distribution</h3>
+              </div>
+              <div className="flex border-t border-slate-200 bg-[#f9fafb]">
+                <button
+                  onClick={() => setRatingDistributionTab("overall")}
+                  className={`px-6 py-3 text-sm font-medium border-b-2 ${ratingDistributionTab === "overall"
+                    ? "border-blue-600 text-blue-600 bg-blue-50"
+                    : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
+                    }`}
+                >
+                  Overall
+                </button>
+                <button
+                  onClick={() => setRatingDistributionTab("locations")}
+                  className={`px-6 py-3 text-sm font-medium border-b-2 ${ratingDistributionTab === "locations"
+                    ? "border-blue-600 text-blue-600 bg-blue-50"
+                    : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
+                    }`}
+                >Top Locations</button>
+              </div>
+            </div>
+            <div className="p-6 bg-[#f9fafb]">
+              <div className="bg-white rounded-md border border-slate-200 p-6">
+                {ratingDistributionTab === "overall" ? (
+                  /* Overall Rating Distribution */
+                  (<div className="relative flex">
+                    {(() => {
+                      // Calculate dynamic grid based on data
+                      const maxCount = Math.max(...ratingBreakdown.map(r => r.count));
+                      const roundedMax = Math.ceil(maxCount / 100) * 100; // Round up to nearest 100
+                      const interval = roundedMax / 5; // 5 intervals
+                      const gridValues = Array.from({ length: 6 }, (_, i) => roundedMax - (i * interval));
+
+                      return (
+                        <>
+                          {/* Y-Axis */}
+                          <div className="flex flex-col justify-between h-40 pr-4 mr-2">
+                            {gridValues.map((value, index) => (
+                              <div key={value} className="text-xs text-gray-500 text-right">
+                                {Math.round(value).toLocaleString()}
+                              </div>
+                            ))}
+                          </div>
+
+                          {/* Chart Area */}
+                          <div className="flex-1 relative">
+                            {/* Horizontal Grid Lines */}
+                            <div className="absolute inset-0 h-40">
+                              {gridValues.map((value, index) => (
+                                <div
+                                  key={value}
+                                  className="absolute w-full border-t border-gray-200"
+                                  style={{
+                                    top: `${(index / (gridValues.length - 1)) * 100}%`,
+                                  }}
+                                />
+                              ))}
+                            </div>
+
+                            {/* Bars */}
+                            <div className="flex items-end justify-between gap-8 h-40 mb-4 relative">
+                              {[1, 2, 3, 4, 5].map((starCount) => {
+                                const rating = ratingBreakdown.find(r => r.stars === starCount);
+                                if (!rating) return null;
+
+                                // Calculate bar height relative to the container height (160px = h-40)
+                                const containerHeight = 160;
+                                const barHeight = (rating.count / roundedMax) * containerHeight;
+
+                                return (
+                                  <div key={rating.stars} className="flex-1 flex flex-col items-center">
+                                    {/* Count above bar */}
+                                    <div className="text-sm font-medium text-gray-700 mb-2">
+                                      {rating.count.toLocaleString()}
+                                    </div>
+
+                                    {/* Bar */}
+                                    <div className="w-full flex justify-center">
+                                      <div
+                                        className={`w-16 rounded-t transition-all duration-700 ${rating.stars === 5 ? 'bg-green-600' :
+                                          rating.stars === 4 ? 'bg-green-400' :
+                                            rating.stars === 3 ? 'bg-yellow-500' :
+                                              rating.stars === 2 ? 'bg-orange-500' : 'bg-red-500'
+                                          }`}
+                                        style={{
+                                          height: `${Math.max(barHeight, 12)}px`,
+                                          minHeight: '12px'
+                                        }}
+                                        data-testid={`rating-column-${rating.stars}`}
+                                      />
+                                    </div>
+                                  </div>
+                                );
+                              })}
+                            </div>
+
+                            {/* Labels */}
+                            <div className="flex justify-between gap-8 ml-0">
+                              {[1, 2, 3, 4, 5].map((starCount) => (
+                                <div key={starCount} className="flex-1 text-center">
+                                  <div className="text-sm text-gray-600 font-medium">
+                                    {starCount} Star{starCount > 1 ? 's' : ''}
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        </>
+                      );
+                    })()}
+                  </div>)
+                ) : (
+                  /* Locations Rating Distribution */
+                  (<div className="relative">
+                    {(() => {
+                      // Calculate dynamic grid based on location data
+                      const maxTotal = Math.max(...topLocationsData.map(loc => loc.total));
+                      const roundedMax = Math.ceil(maxTotal / 100) * 100;
+                      const interval = roundedMax / 5;
+                      const gridValues = Array.from({ length: 6 }, (_, i) => roundedMax - (i * interval));
+
+                      return (
+                        <>
+                          {/* Y-Axis */}
+                          <div className="flex">
+                            <div className="flex flex-col justify-between h-48 pr-4 mr-2">
+                              {gridValues.map((value, index) => (
+                                <div key={value} className="text-xs text-gray-500 text-right">
+                                  {Math.round(value).toLocaleString()}
+                                </div>
+                              ))}
+                            </div>
+
+                            {/* Chart Area */}
+                            <div className="flex-1 relative">
+                              {/* Horizontal Grid Lines */}
+                              <div className="absolute inset-0 h-48">
+                                {gridValues.map((value, index) => (
+                                  <div
+                                    key={value}
+                                    className="absolute w-full border-t border-gray-200"
+                                    style={{
+                                      top: `${(index / (gridValues.length - 1)) * 100}%`,
+                                    }}
+                                  />
+                                ))}
+                              </div>
+
+                              {/* Stacked Bars - Locations */}
+                              <div className="flex items-end gap-1 h-48 mb-4 relative px-2">
+                                {topLocationsData.map((location, index) => {
+                                  const containerHeight = 192;
+                                  const totalHeight = (location.total / roundedMax) * containerHeight;
+
+                                  // Calculate segments proportionally
+                                  const segments = [
+                                    { rating: 5, count: location.ratings[5], color: 'bg-green-600' },
+                                    { rating: 4, count: location.ratings[4], color: 'bg-green-400' },
+                                    { rating: 3, count: location.ratings[3], color: 'bg-yellow-500' },
+                                    { rating: 2, count: location.ratings[2], color: 'bg-orange-500' },
+                                    { rating: 1, count: location.ratings[1], color: 'bg-red-500' }
+                                  ];
+
+                                  return (
+                                    <div key={location.name} className="flex flex-col items-center flex-1">
+                                      {/* Total count above bar */}
+                                      <div className="text-xs font-medium text-gray-700 mb-2 text-center">
+                                        {location.total.toLocaleString()}
+                                      </div>
+
+                                      {/* Stacked Bar */}
+                                      <div className="flex flex-col-reverse mx-auto" style={{ height: `${Math.max(totalHeight, 15)}px` }}>
+                                        {segments.map((segment, segIndex) => {
+                                          const segmentHeight = (segment.count / location.total) * totalHeight;
+                                          return segmentHeight > 0 ? (
+                                            <div
+                                              key={segment.rating}
+                                              className={`w-8 ${segment.color} transition-all duration-700 ${segIndex === 0 ? 'rounded-t' : ''}`}
+                                              style={{
+                                                height: `${Math.max(segmentHeight, 1)}px`,
+                                                minHeight: '1px'
+                                              }}
+                                              title={`${segment.rating} stars: ${segment.count} reviews`}
+                                            />
+                                          ) : null;
+                                        })}
+                                      </div>
+                                    </div>
+                                  );
+                                })}
+                              </div>
+
+                              {/* Location Labels */}
+                              <div className="flex gap-1 px-2 mt-2">
+                                {topLocationsData.map((location) => (
+                                  <div key={location.name} className="flex-1 text-center relative h-8">
+                                    <div className="text-xs text-gray-600 font-medium whitespace-nowrap transform -rotate-45 origin-center absolute left-1/2 top-0 -translate-x-1/2">
+                                      {location.short}-{location.code}
+                                    </div>
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
+                          </div>
+
+                          {/* Legend */}
+                          <div className="flex justify-center gap-4 mt-6">
+                            <div className="flex items-center gap-2">
+                              <div className="w-3 h-3 bg-red-500 rounded"></div>
+                              <span className="text-xs text-gray-600">1 Star</span>
+                            </div>
+                            <div className="flex items-center gap-2">
+                              <div className="w-3 h-3 bg-orange-500 rounded"></div>
+                              <span className="text-xs text-gray-600">2 Stars</span>
+                            </div>
+                            <div className="flex items-center gap-2">
+                              <div className="w-3 h-3 bg-yellow-500 rounded"></div>
+                              <span className="text-xs text-gray-600">3 Stars</span>
+                            </div>
+                            <div className="flex items-center gap-2">
+                              <div className="w-3 h-3 bg-green-400 rounded"></div>
+                              <span className="text-xs text-gray-600">4 Stars</span>
+                            </div>
+                            <div className="flex items-center gap-2">
+                              <div className="w-3 h-3 bg-green-600 rounded"></div>
+                              <span className="text-xs text-gray-600">5 Stars</span>
+                            </div>
+                          </div>
+                        </>
+                      );
+                    })()}
+                  </div>)
+                )}
+              </div>
+            </div>
+          </div>
+
+
+
+          {/* Reviews List */}
+          <div className="mx-6 mb-6 bg-white rounded-lg border border-slate-200 overflow-hidden shadow-none">
+            <div className="flex items-center justify-between border-b border-slate-200 px-6 py-4 from-white to-stone-50 bg-[#f9fafb]">
+              <h3 className="text-base font-semibold text-foreground">Reviews (73,880)</h3>
+              <div className="flex items-center gap-4">
+                <div className="flex items-center gap-2">
+                  <Button
+                    variant={viewMode === "list" ? "default" : "outline"}
+                    size="sm"
+                    onClick={() => setViewMode("list")}
+                    className="flex items-center gap-2"
+                  >
+                    <List className="w-4 h-4" />
+                    List View
+                  </Button>
+                  <Button
+                    variant={viewMode === "map" ? "default" : "outline"}
+                    size="sm"
+                    onClick={() => setViewMode("map")}
+                    className="flex items-center gap-2"
+                  >
+                    <Map className="w-4 h-4" />
+                    Map View
+                  </Button>
+                </div>
+              </div>
+            </div>
+
+            <div className="p-6 bg-[#f9fafb]">
+              <div className="flex items-center gap-3 mb-6">
+                {/* Search */}
+                <div className="relative flex-1 max-w-[400px]">
+                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
+                  <Input placeholder="Search reviews..." className="pl-10" />
+                </div>
+
+                {/* Filter Bar */}
+                <div className="flex items-center gap-3 text-xs">
+                  {/* Sort By Filter */}
+                  <div className="flex items-center gap-1">
+                    <span className="text-gray-600">Sort By:</span>
+                    <Select value="newest" onValueChange={() => { }}>
+                      <SelectTrigger className="w-32 h-6 text-xs">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="newest">Newest to Oldest</SelectItem>
+                        <SelectItem value="oldest">Oldest to Newest</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  {/* Store Set Filter */}
+                  <div className="flex items-center gap-1">
+                    <span className="text-gray-600">Store Set:</span>
+                    <Select value="create" onValueChange={() => { }}>
+                      <SelectTrigger className="w-28 h-6 text-xs">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="create">+Create Store Set</SelectItem>
+                        <SelectItem value="istanbul">İstanbul AVM</SelectItem>
+                        <SelectItem value="ankara">Ankara Kızılay</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  {/* Content Filter */}
+                  <div className="flex items-center gap-1">
+                    <span className="text-gray-600">Content:</span>
+                    <Select value="all" onValueChange={() => { }}>
+                      <SelectTrigger className="w-24 h-6 text-xs">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="all">All</SelectItem>
+                        <SelectItem value="rating">Rating Only</SelectItem>
+                        <SelectItem value="comment">Comment</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  {/* Rating Filter */}
+                  <div className="flex items-center gap-1">
+                    <span className="text-gray-600">Rating:</span>
+                    <Select value="all" onValueChange={() => { }}>
+                      <SelectTrigger className="w-20 h-6 text-xs">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="all">All</SelectItem>
+                        <SelectItem value="5">⭐⭐⭐⭐⭐</SelectItem>
+                        <SelectItem value="4">⭐⭐⭐⭐</SelectItem>
+                        <SelectItem value="3">⭐⭐⭐</SelectItem>
+                        <SelectItem value="2">⭐⭐</SelectItem>
+                        <SelectItem value="1">⭐</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  {/* Status Filter */}
+                  <div className="flex items-center gap-1">
+                    <span className="text-gray-600">Status:</span>
+                    <Select value="all" onValueChange={() => { }}>
+                      <SelectTrigger className="w-24 h-6 text-xs">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="all">All</SelectItem>
+                        <SelectItem value="answered">Answered</SelectItem>
+                        <SelectItem value="unanswered">Unanswered</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  {/* Sentiment Filter */}
+                  <div className="flex items-center gap-1">
+                    <span className="text-gray-600">Sentiment:</span>
+                    <Select value="all" onValueChange={() => { }}>
+                      <SelectTrigger className="w-20 h-6 text-xs">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="all">All</SelectItem>
+                        <SelectItem value="positive">Positive</SelectItem>
+                        <SelectItem value="neutral">Neutral</SelectItem>
+                        <SelectItem value="negative">Negative</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  {/* Clear Filters */}
+                  <Button variant="ghost" size="sm" className="h-6 px-2 text-xs text-gray-500 hover:text-gray-700">
+                    Clear
+                  </Button>
+                </div>
+              </div>
+
+              {/* Split View - Reviews Content */}
+              <div className="bg-white rounded-md border border-slate-200 flex" style={{ height: '600px' }}>
+                {viewMode === "list" ? (
+                  /* List View */
+                  (<>
+                    {/* Left Panel - Reviews List */}
+                    <div className="w-1/2 border-r border-slate-200 overflow-y-auto">
+                      <div className="p-4 border-b border-slate-200 bg-gray-50">
+                        <div className="flex items-center gap-2">
+                          <Checkbox />
+                          <span className="text-sm text-gray-600">Select All</span>
+                          <div className="ml-auto flex gap-2">
+                            <Button variant="outline" size="sm">Bulk Actions ↓</Button>
+                            <Button variant="outline" size="sm">Export Reviews ↓</Button>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="space-y-0">
+                        {reviews.map((review, index) => (
+                          <div
+                            key={review.id}
+                            className={`p-4 border-b border-slate-200 cursor-pointer hover:bg-gray-50 ${selectedReviewId === review.id ? 'bg-blue-50 border-l-4 border-l-blue-500' : ''
+                              } ${index === reviews.length - 1 ? 'border-b-0' : ''}`}
+                            onClick={() => setSelectedReviewId(review.id)}
+                          >
+                            <div className="flex items-start gap-3">
+                              <Checkbox checked={selectedReviewId === review.id} />
+                              <div className="flex-1 min-w-0">
+                                <div className="flex items-center gap-2 mb-1">
+                                  <h4 className="font-medium text-gray-900 text-sm">{review.name}</h4>
+                                  {review.status === "Answered" && (
+                                    <Badge className="bg-green-100 text-green-800 text-xs px-2 py-0.5">New</Badge>
+                                  )}
+                                </div>
+                                <div className="text-xs text-gray-500 mb-2">
+                                  {review.date && <span>{review.date}</span>}
+                                  {review.date && <span> · </span>}
+                                  <span>İyi</span>
+                                </div>
+                                <div className="flex items-center gap-1 mb-2">
+                                  {getRatingStars(review.rating)}
+                                </div>
+                                <p className="text-gray-700 text-sm line-clamp-2">{review.comment}</p>
+                              </div>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                    {/* Right Panel - Review Details & Reply */}
+                    <div className="w-1/2 flex flex-col">
+                      {selectedReviewId && (() => {
+                        const selectedReview = reviews.find(r => r.id === selectedReviewId);
+                        return selectedReview ? (
+                          <div className="flex flex-col h-full">
+                            {/* Selected Review Header */}
+                            <div className="p-4 border-b border-slate-200 bg-gray-50">
+                              <div className="flex items-center gap-2 mb-2">
+                                <h3 className="font-semibold text-gray-900">{selectedReview.name}</h3>
+                                <span className="text-sm text-gray-500">(Google Business Profile)</span>
+                              </div>
+                              <div className="flex items-center gap-2 text-sm text-gray-600">
+                                <span>{selectedReview.rating}.0</span>
+                                {getRatingStars(selectedReview.rating)}
+                                <span>{selectedReview.date || 'Recently'}</span>
+                              </div>
+                            </div>
+
+                            {/* Review Content */}
+                            <div className="flex-1 p-4 overflow-y-auto">
+                              <div className="mb-6">
+                                <div className="flex items-start gap-3 mb-3">
+                                  <div className={`w-8 h-8 rounded-full flex items-center justify-center text-white text-sm font-medium ${selectedReview.rating >= 4 ? 'bg-green-500' :
+                                    selectedReview.rating >= 3 ? 'bg-yellow-500' : 'bg-red-500'
+                                    }`}>
+                                    {selectedReview.name.charAt(0).toUpperCase()}
+                                  </div>
+                                  <div>
+                                    <div className="font-medium text-gray-900">{selectedReview.name}</div>
+                                    <div className="flex items-center gap-1 my-1">
+                                      {getRatingStars(selectedReview.rating)}
+                                    </div>
+                                    <div className={`text-sm mb-2 ${selectedReview.status === "Answered" ? 'text-green-600' : 'text-red-600'
+                                      }`}>
+                                      {selectedReview.status || 'Unanswered'}
+                                    </div>
+                                  </div>
+                                </div>
+
+                                <div className="bg-gray-50 rounded-lg p-4 mb-4">
+                                  <p className="text-gray-700 text-sm mb-2">{selectedReview.comment}</p>
+                                  <p className="text-xs text-gray-500">(Translated by Google)</p>
+                                </div>
+
+                                <div className="text-sm text-gray-600 mb-4">
+                                  {selectedReview.comment === "İyi" ? "Good" :
+                                    selectedReview.comment === "Güzel" ? "Nice" :
+                                      selectedReview.comment === "Kötü" ? "Bad" : "Translation available"}
+                                </div>
+                              </div>
+
+                              {/* Reply Composer */}
+                              <div className="border-t border-gray-200 pt-4">
+                                <div className="flex items-start gap-3 mb-3">
+                                  <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center text-white text-sm font-medium">
+                                    B
+                                  </div>
+                                  <div>
+                                    <div className="font-medium text-gray-900">Demo Eskişehir Kanatlı</div>
+                                    <div className="text-xs text-gray-500">Write a reply</div>
+                                  </div>
+                                </div>
+
+                                <div className="space-y-3">
+                                  <div className="flex gap-2 mb-2">
+                                    <Button variant="outline" size="sm" className="text-purple-600 border-purple-600" data-testid="button-reply-ai">
+                                      Reply with AI
+                                    </Button>
+                                    <Button variant="outline" size="sm" className="text-blue-600 border-blue-600" data-testid="button-review-templates">
+                                      Review Templates
+                                    </Button>
+                                  </div>
+                                  <Textarea
+                                    placeholder="Write your reply here..."
+                                    value={replyText}
+                                    onChange={(e) => setReplyText(e.target.value)}
+                                    className="min-h-[120px] resize-none"
+                                    data-testid="textarea-reply"
+                                  />
+                                </div>
+                              </div>
+                            </div>
+
+                            {/* Action Buttons */}
+                            <div className="p-4 border-t border-slate-200">
+                              <div className="flex justify-end items-center">
+                                <div className="flex gap-2">
+                                  <Button variant="outline" onClick={() => setReplyText("")}>
+                                    Clear
+                                  </Button>
+                                  <Button className="bg-blue-600 hover:bg-blue-700 text-white flex items-center gap-2">
+                                    <Send className="w-4 h-4" />
+                                    Send Reply
+                                  </Button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        ) : null;
+                      })()}
+                    </div>
+                  </>)
+                ) : (
+                  /* Map View */
+                  (<>
+                    {/* Map Area */}
+                    <div className="w-2/3 bg-blue-50 flex items-center justify-center relative">
+                      <div className="w-full h-full bg-gradient-to-br from-blue-100 to-green-100 flex items-center justify-center relative overflow-hidden">
+                        {/* Mock Map Background */}
+                        <div className="absolute inset-0 opacity-30">
+                          <div className="w-full h-full bg-blue-200 relative">
+                            {/* Mock Map Markers */}
+                            <div className="absolute top-16 left-20 w-4 h-4 bg-red-500 rounded-full"></div>
+                            <div className="absolute top-32 left-32 w-4 h-4 bg-blue-500 rounded-full"></div>
+                            <div className="absolute top-40 right-32 w-4 h-4 bg-green-500 rounded-full"></div>
+                            <div className="absolute bottom-32 left-24 w-4 h-4 bg-yellow-500 rounded-full"></div>
+                            <div className="absolute bottom-20 right-20 w-4 h-4 bg-purple-500 rounded-full"></div>
+                          </div>
+                        </div>
+                        <div className="text-gray-600 text-center">
+                          <Map className="w-16 h-16 mx-auto mb-4 text-gray-400" />
+                          <h3 className="text-lg font-semibold mb-2">Location Map View</h3>
+                          <p className="text-sm">Interactive map showing review locations</p>
+                        </div>
+                      </div>
+                    </div>
+                    {/* Location Reviews Sidebar */}
+                    <div className="w-1/3 border-l border-slate-200 flex flex-col">
+                      <div className="p-4 border-b border-slate-200 bg-gray-50">
+                        <div className="flex justify-between items-center mb-4">
+                          <h3 className="font-semibold text-gray-900">Location Reviews</h3>
+                          <Button variant="ghost" size="sm">✕</Button>
+                        </div>
+                        <div className="grid grid-cols-2 gap-4 mb-4">
+                          <div className="text-center">
+                            <div className="text-2xl font-bold text-gray-900">9873</div>
+                            <div className="text-sm text-gray-600">Total Reviews</div>
+                          </div>
+                          <div className="text-center">
+                            <div className="flex items-center justify-center gap-1">
+                              <Star className="w-5 h-5 fill-yellow-400 text-yellow-400" />
+                              <span className="text-2xl font-bold text-gray-900">3.59</span>
+                            </div>
+                            <div className="text-sm text-gray-600">Average Rating</div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="flex-1 overflow-y-auto">
+                        <div className="p-4">
+                          <div className="space-y-3">
+                            <div className="grid grid-cols-4 gap-2 text-xs font-medium text-gray-600 pb-2 border-b">
+                              <div>Code</div>
+                              <div>Business</div>
+                              <div>Count</div>
+                              <div>Rating</div>
+                            </div>
+
+                            <div className="grid grid-cols-4 gap-2 text-sm py-2 border-b">
+                              <div className="text-gray-600">M177</div>
+                              <div className="font-medium">İyaspark - Derimod</div>
+                              <div>1</div>
+                              <div className="flex items-center gap-1">
+                                <Star className="w-3 h-3 fill-yellow-400 text-yellow-400" />
+                                <span>5.00</span>
+                              </div>
+                            </div>
+
+                            <div className="grid grid-cols-4 gap-2 text-sm py-2 border-b">
+                              <div className="text-gray-600">M172</div>
+                              <div className="font-medium">Derimod - Bursa Downtown</div>
+                              <div>4</div>
+                              <div className="flex items-center gap-1">
+                                <Star className="w-3 h-3 fill-yellow-400 text-yellow-400" />
+                                <span>4.75</span>
+                              </div>
+                            </div>
+
+                            <div className="grid grid-cols-4 gap-2 text-sm py-2 border-b">
+                              <div className="text-gray-600">M171</div>
+                              <div className="font-medium">Derimod - Laleli</div>
+                              <div>10</div>
+                              <div className="flex items-center gap-1">
+                                <Star className="w-3 h-3 fill-yellow-400 text-yellow-400" />
+                                <span>4.30</span>
+                              </div>
+                            </div>
+
+                            <div className="grid grid-cols-4 gap-2 text-sm py-2 border-b">
+                              <div className="text-gray-600">M175</div>
+                              <div className="font-medium">Demo Eskişehir</div>
+                              <div>847</div>
+                              <div className="flex items-center gap-1">
+                                <Star className="w-3 h-3 fill-yellow-400 text-yellow-400" />
+                                <span>4.20</span>
+                              </div>
+                            </div>
+
+                            <div className="grid grid-cols-4 gap-2 text-sm py-2 border-b">
+                              <div className="text-gray-600">M180</div>
+                              <div className="font-medium">Demo İstanbul AVM</div>
+                              <div>1243</div>
+                              <div className="flex items-center gap-1">
+                                <Star className="w-3 h-3 fill-yellow-400 text-yellow-400" />
+                                <span>3.80</span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </>)
+                )}
+              </div>
+
+              {/* Pagination */}
+              <div className="flex items-center justify-between mt-6">
+                <div className="flex items-center gap-2">
+                  <span className="text-sm text-gray-600">Rows per page:</span>
+                  <Select value="10" onValueChange={() => { }}>
+                    <SelectTrigger className="w-16 h-8">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="10">10</SelectItem>
+                      <SelectItem value="25">25</SelectItem>
+                      <SelectItem value="50">50</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div className="flex items-center gap-4">
+                  <span className="text-sm text-gray-600">2 3 4 5 ... 7188</span>
+                  <div className="flex items-center gap-1">
+                    <Button variant="outline" size="sm" className="w-8 h-8 p-0">
+                      <ChevronLeft className="w-4 h-4" />
+                    </Button>
+                    <Button variant="outline" size="sm" className="w-8 h-8 p-0">
+                      <ChevronRight className="w-4 h-4" />
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          {/* Location Summary Section - Separated for clear visual distinction */}
+          <div className="mt-8 border-t-4 border-stone-200 pt-8">
+            <LocationSummary />
+          </div>
+
+          {/* Keywords Analysis Tables */}
+          <div className="mt-8 border-t-4 border-stone-200 pt-8">
+            <div className="mx-6 mb-6 bg-white rounded-lg border border-slate-200 overflow-hidden shadow-none">
+              <div className="flex items-center justify-between border-b border-slate-200 px-6 py-4 from-white to-stone-50 bg-[#f9fafb]">
+                <h3 className="text-base font-semibold text-foreground">Keyword Analysis</h3>
+              </div>
+
+              <div className="p-6 bg-[#f9fafb]">
+                <div className="grid grid-cols-2 gap-6">
+                  {/* Keywords by Mentions */}
+                  <div className="bg-white rounded-md border border-slate-200 overflow-hidden">
+                    <div className="px-4 py-3 border-b border-slate-200 bg-gradient-to-b from-white to-stone-50">
+                      <div className="flex items-center justify-between">
+                        <h4 className="text-sm font-semibold text-gray-900 flex items-center gap-2">
+                          Keywords by Mentions
+                          <div className="w-4 h-4 rounded-full bg-gray-300 flex items-center justify-center text-xs text-white">i</div>
+                        </h4>
+                        <span className="text-sm font-medium text-gray-600">299</span>
+                      </div>
+                    </div>
+                    <div className="overflow-x-auto">
+                      <table className="w-full text-sm">
+                        <thead>
+                          <tr className="border-b border-slate-200 bg-gray-50">
+                            <th className="text-left py-2 px-3 font-medium text-gray-600">Rank</th>
+                            <th className="text-left py-2 px-3 font-medium text-gray-600">Review Keywords</th>
+                            <th className="text-left py-2 px-3 font-medium text-gray-600">Keyword Mentions ↓</th>
+                            <th className="text-left py-2 px-3 font-medium text-gray-600">Keyword Sentiment</th>
+                            <th className="text-left py-2 px-3 font-medium text-gray-600">Average Rating</th>
+                            <th className="text-left py-2 px-3 font-medium text-gray-600">Reviews</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {[
+                            { rank: 1, keyword: 'mağaza', mentions: 19, sentiment: 0.62, rating: 4.43, reviews: 14 },
+                            { rank: 2, keyword: 'ürün', mentions: 14, sentiment: 0.31, rating: 4, reviews: 6 },
+                            { rank: 3, keyword: 'deneyim', mentions: 13, sentiment: 0.65, rating: 4.55, reviews: 11 },
+                            { rank: 4, keyword: 'personel', mentions: 13, sentiment: 0.64, rating: 4.5, reviews: 12 },
+                            { rank: 5, keyword: 'kalite', mentions: 11, sentiment: 0.5, rating: 4.55, reviews: 11 },
+                            { rank: 6, keyword: 'fiyat', mentions: 10, sentiment: 0.62, rating: 4.2, reviews: 10 },
+                            { rank: 7, keyword: 'hizmet', mentions: 10, sentiment: 0.51, rating: 4.13, reviews: 8 },
+                            { rank: 8, keyword: 'moda', mentions: 9, sentiment: 0.49, rating: 4.5, reviews: 8 },
+                            { rank: 9, keyword: 'koleksiyon', mentions: 8, sentiment: 0.63, rating: 4.25, reviews: 8 },
+                            { rank: 10, keyword: 'müşteri', mentions: 7, sentiment: 0.6, rating: 4, reviews: 6 },
+                            { rank: 11, keyword: 'alışveriş', mentions: 7, sentiment: 0.48, rating: 4, reviews: 6 }
+                          ].map((item) => (
+                            <tr key={item.rank} className="border-b border-slate-100 hover:bg-slate-50">
+                              <td className="py-2 px-3 text-gray-700">{item.rank}</td>
+                              <td className="py-2 px-3 text-gray-900 font-medium">{item.keyword}</td>
+                              <td className="py-2 px-3 text-gray-700">{item.mentions}</td>
+                              <td className="py-2 px-3 text-gray-700">{item.sentiment}</td>
+                              <td className="py-2 px-3 text-gray-700">{item.rating}</td>
+                              <td className="py-2 px-3 text-gray-700">{item.reviews}</td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+
+                  {/* Keywords by Sentiment */}
+                  <div className="bg-white rounded-md border border-slate-200 overflow-hidden">
+                    <div className="px-4 py-3 border-b border-slate-200 bg-gradient-to-b from-white to-stone-50">
+                      <div className="flex items-center justify-between">
+                        <h4 className="text-sm font-semibold text-gray-900 flex items-center gap-2">
+                          Keywords by Sentiment
+                          <div className="w-4 h-4 rounded-full bg-gray-300 flex items-center justify-center text-xs text-white">i</div>
+                        </h4>
+                        <span className="text-sm font-medium text-gray-600">36.1</span>
+                      </div>
+                    </div>
+                    <div className="overflow-x-auto">
+                      <table className="w-full text-sm">
+                        <thead>
+                          <tr className="border-b border-slate-200 bg-gray-50">
+                            <th className="text-left py-2 px-3 font-medium text-gray-600">Rank</th>
+                            <th className="text-left py-2 px-3 font-medium text-gray-600">Review Keywords</th>
+                            <th className="text-left py-2 px-3 font-medium text-gray-600">Keyword Sentiment ↓</th>
+                            <th className="text-left py-2 px-3 font-medium text-gray-600">Keyword Mentions</th>
+                            <th className="text-left py-2 px-3 font-medium text-gray-600">Average Rating</th>
+                            <th className="text-left py-2 px-3 font-medium text-gray-600">Reviews</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {[
+                            { rank: 1, keyword: 'kuyruk', sentiment: -0.6, mentions: 1, rating: 2, reviews: 1 },
+                            { rank: 2, keyword: 'bekleme', sentiment: -0.4, mentions: 1, rating: 2, reviews: 1 },
+                            { rank: 3, keyword: 'kalabalık', sentiment: -0.3, mentions: 1, rating: 4, reviews: 1 },
+                            { rank: 4, keyword: 'pahalı', sentiment: -0.3, mentions: 1, rating: 1, reviews: 1 },
+                            { rank: 5, keyword: 'yavaş', sentiment: -0.3, mentions: 2, rating: 4, reviews: 1 },
+                            { rank: 6, keyword: 'problemli', sentiment: -0.2, mentions: 2, rating: 4, reviews: 1 },
+                            { rank: 7, keyword: 'zor', sentiment: -0.2, mentions: 2, rating: 1, reviews: 1 },
+                            { rank: 8, keyword: 'yetersiz', sentiment: -0.1, mentions: 1, rating: 4, reviews: 1 },
+                            { rank: 9, keyword: 'eksik', sentiment: -0.1, mentions: 1, rating: 4, reviews: 1 },
+                            { rank: 10, keyword: 'hatıralar', sentiment: -0.05, mentions: 2, rating: 1, reviews: 1 },
+                            { rank: 11, keyword: 'adres', sentiment: 0, mentions: 1, rating: 5, reviews: 1 }
+                          ].map((item) => (
+                            <tr key={item.rank} className="border-b border-slate-100 hover:bg-slate-50">
+                              <td className="py-2 px-3 text-gray-700">{item.rank}</td>
+                              <td className="py-2 px-3 text-gray-900 font-medium">{item.keyword}</td>
+                              <td className="py-2 px-3 text-gray-700">{item.sentiment}</td>
+                              <td className="py-2 px-3 text-gray-700">{item.mentions}</td>
+                              <td className="py-2 px-3 text-gray-700">{item.rating}</td>
+                              <td className="py-2 px-3 text-gray-700">{item.reviews}</td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  );
+}

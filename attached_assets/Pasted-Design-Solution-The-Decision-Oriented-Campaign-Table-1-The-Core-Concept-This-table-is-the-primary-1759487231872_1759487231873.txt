@@ -1,0 +1,74 @@
+Design Solution: The Decision-Oriented Campaign Table
+1. The Core Concept
+
+This table is the primary diagnostic tool on the dashboard. While the KPI cards provide the high-level "what," this table answers the critical "why" and "where." Its purpose is to allow users to quickly compare the performance of different campaigns, identify outliers (both good and bad), and gather the necessary evidence to decide where to reallocate budget.
+
+We will achieve this by curating a set of columns that create a clear narrative for each campaign: Identification -> Investment -> Offline Return -> Overall Efficiency.
+
+2. Visual Mockup & Design Specification
+
+The component will be a single, powerful Data Table (using Shadcn's components) that is controlled by the universal filter bar. It will be designed for maximum scannability and clarity.
+
+Relevant Data Fields (The Columns):
+
+Campaign Name & Status
+
+Description: The name of the campaign as it appears on the ad platform. It will be accompanied by a small status dot (e.g., green for 'Active', grey for 'Paused', red for 'Error').
+
+Why it's relevant: This is the primary identifier. The status dot provides immediate operational context without needing a separate column.
+
+Platform
+
+Description: The ad platform where the campaign is running (Google Ads, Meta, TikTok). This will be displayed as a visual Badge component for quick recognition.
+
+Why it's relevant: Essential for comparing the effectiveness of different channels and understanding where budget is allocated.
+
+Ad Spend
+
+Description: The total amount of money spent on this campaign during the selected date range.
+
+Why it's relevant: This is the fundamental "investment" or "cost" metric. All efficiency calculations depend on it.
+
+Attributed Offline Revenue
+
+Description: The total in-store revenue that VenueX has attributed to this specific campaign.
+
+Why it's relevant: This is the primary "return" metric. It directly shows the monetary value the campaign generated in physical stores.
+
+Attributed Offline Conversions
+
+Description: The total number of in-store transactions attributed to this campaign.
+
+Why it's relevant: Provides volume context to the revenue figure. A high-revenue campaign with few conversions indicates high-value customers.
+
+Attributed Offline ROAS
+
+Description: The return on ad spend calculated purely from the offline results (Offline Revenue / Ad Spend). This column will be color-coded (e.g., green for high ROAS, red for low) to act as a visual heatmap of performance.
+
+Why it's relevant: This is the most critical efficiency metric for evaluating the campaign's offline performance. It allows for instant, apples-to-apples comparison.
+
+Blended ROAS
+
+Description: The total return on ad spend from both online and offline channels combined.
+
+Why it's relevant: This is a crucial contextual metric. A campaign might have a low Offline ROAS but a very high Online ROAS, making it a successful campaign overall. Showing only the offline metric could lead to poor decisions, so this column is essential for making smart choices.
+
+3. Interaction Design
+
+To make the table a true analysis tool, the following interactions are key:
+
+Sorting: Every column header will be clickable to allow users to sort the entire table. The most common use case will be sorting by "Attributed Offline ROAS" (descending) to instantly find the best and worst performing campaigns.
+
+Filtering: The table's content is entirely controlled by the Universal Filter Bar above it. This ensures the user is always looking at a data set relevant to their selected timeframe, platforms, etc.
+
+Drill-Down on Hover/Click: Clicking on a campaign row will trigger an action to provide more detail, such as opening a side-panel (Sheet) with a trend chart showing that specific campaign's ROAS over time. This provides deeper context without cluttering the main table view.
+
+4. Why This Solution is Ideal
+
+High Signal, Low Noise: It deliberately omits vanity metrics like clicks, impressions, and CTR, focusing only on the financial and conversion data that drives business decisions.
+
+Decision-Oriented: The structure allows a user to immediately answer questions like: "What is my best-performing campaign in terms of offline sales?" and "Is this low offline-performing campaign actually successful online?"
+
+Visually Scannable: The use of status dots, platform badges, and color-coded ROAS allows a user to assess performance across dozens of campaigns in seconds, without having to read every number.
+
+Contextually Aware: Including both Attributed Offline ROAS and Blended ROAS provides a complete and honest picture of performance, preventing users from making skewed decisions based on incomplete data.

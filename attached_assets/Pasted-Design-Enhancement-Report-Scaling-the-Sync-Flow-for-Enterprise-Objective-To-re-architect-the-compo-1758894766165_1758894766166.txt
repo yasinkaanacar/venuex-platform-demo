@@ -1,0 +1,110 @@
+Design Enhancement Report: Scaling the Sync Flow for Enterprise
+Objective: To re-architect the components and interactions within the 3-page sync flow to efficiently handle hundreds of locations, focusing on performance, bulk processing, and reducing user cognitive load.
+
+Core Principles for Scaling
+Chunking: Break down massive lists into smaller, manageable chunks (pagination).
+
+Bulk Actions: Allow users to resolve multiple items with a single click.
+
+Performant Search & Filtering: Replace "load all" dropdowns with server-side search and add powerful filtering to isolate specific subsets of data.
+
+Page 1: Automatic Matching (Scaled for Large Numbers)
+The purpose of this page remains the same, but we must de-emphasize individual results and focus on the high-level summary.
+
+The Challenge at Scale:
+Displaying lists of even 2-3 "examples" is pointless when there are 250 matches and 150 unmatched locations. It adds clutter and slows down the page.
+
+UX Enhancements:
+Focus Solely on the Summary:
+
+REMOVE: The "Examples of Automatically Matched Locations" and "Locations Requiring Manual Review" preview lists entirely.
+
+ENHANCE: The Results Bar becomes the hero of this page. It will clearly and graphically show the breakdown: 250 Matched, 150 Unmatched.
+
+ADD: Below the bar, we'll add text that sets expectations: "You will be guided through resolving the 150 unmatched locations in the next step."
+
+Introduce an "Export All" Function:
+
+ADD: For enterprise users, transparency is key. We will add Export All Matched to CSV and Export All Unmatched to CSV buttons. This allows them to perform an offline audit before proceeding, a critical trust-building feature.
+
+The page becomes faster, cleaner, and more focused on its single job: summarizing the outcome of the automated process.
+
+Page 2: Manual Resolution (Re-architected as a Workspace)
+This page sees the most significant changes, transforming from a simple split-view into a powerful data management workspace.
+
+The Challenge at Scale:
+A single list of 150+ items is unusable. The user has no starting point, scrolling is inefficient, and resolving items one by one is not feasible.
+
+UX Enhancements:
+Paginate the Unmatched List:
+
+REPLACE: The infinitely scrolling left-column list with a paginated table.
+
+Design: Show a manageable number of locations per page (e.g., 20). Add standard pagination controls at the bottom (<< First, < Prev, Page 1 of 8, Next >, Last >>).
+
+Introduce Checkboxes and Bulk Actions:
+
+ADD: A checkbox to each row in the unmatched locations table, plus a "select all on this page" checkbox in the header.
+
+ADD: A Bulk Actions Bar that appears at the top of the table whenever one or more locations are selected.
+
+Bulk Actions Offered:
+
+Accept All Smart Suggestions: For all selected rows where the system has a high-confidence suggestion, match them in one click. This is the single most important time-saver.
+
+Delete and Re-create Selected: For cases where a user knows a batch of platform pages are old and need to be replaced.
+
+Add Powerful Filtering & Search:
+
+ADD: A filter bar above the table to "chunk" the work.
+
+Filter Options:
+
+Filter by Status: "Needs Review," "Suggestion Available," "No Match Found." This allows users to tackle the easiest items (suggestions) first.
+
+Filter by Region/City: To work on one geographic area at a time.
+
+Search by Name or Store Code: A text input for direct lookups.
+
+Convert Dropdowns to Performant Search:
+
+REPLACE: The "Link to" dropdown in the right-hand panel with a server-side autocomplete search box. When the user starts typing a name or Store Code, it will query the database and show the top 5-10 results, rather than trying to load hundreds of locations into the browser. The "Smart Suggestion" will still pre-populate this box.
+
+Page 3: Review and Final Confirmation (Focused on Summary)
+The focus shifts from reviewing every single item to reviewing the summary of the bulk actions.
+
+The Challenge at Scale:
+No user will manually review 400 individual changes. Displaying them all would crash the browser and be useless.
+
+UX Enhancements:
+Lead with a High-Level Summary:
+
+REMOVE: The automatically expanded lists.
+
+ADD: A bold, clear summary at the very top of the page.
+
+You are about to confirm the following changes:
+
+✅ 250 Automatically Matched Locations
+
+🔗 110 Manually Linked Locations
+
+🗑️ 40 Platform Pages will be DELETED
+
+✨ 40 new Platform Pages will be CREATED
+
+Make Lists Searchable & Collapsed by Default:
+
+The detailed lists of changes (Auto-Matched, Manually Linked, etc.) will be collapsed by default.
+
+ADD: A search bar within this page that allows the user to spot-check the plan. For example, they can type "Ankara" to see a list of all planned changes for that city to verify their work.
+
+"Export Full Sync Plan" Button:
+
+ADD: An Export Plan to CSV button. This is non-negotiable for enterprise users. It gives them a final, auditable artifact of the pending changes that they can approve offline or share with stakeholders before clicking the final button.
+
+Dynamic Confirmation Checkbox (Unchanged but more critical):
+
+The dynamic checkbox text (I approve the deletion of 40 pages...) is now even more essential as it's the primary confirmation of the bulk actions.
+
+This scaled design respects the user's time and cognitive limits, transforming a potentially impossible task into a structured, manageable, and safe workflow.

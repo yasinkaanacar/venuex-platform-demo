@@ -1,0 +1,112 @@
+Excellent question. A filter bar is what transforms a static report into a dynamic analysis tool. For it to be "universal" and ideal, it must empower the user to segment the data across the most meaningful business dimensions: When, What, and Where.
+
+Here is the design solution for the universal filter bar.
+
+Design Solution: The Insight-Driven Filter Bar
+1. The Core Concept
+
+The filter bar is the primary control panel for the entire dashboard. Its purpose is to empower users, from the C-suite to the performance manager, to seamlessly move from a 10,000-foot strategic overview to a granular, diagnostic view. The ideal design will be a balance of power and simplicity, presenting the most critical filters upfront while keeping the interface clean and intuitive.
+
+Every filter applied will universally update all components on the page—KPI cards, charts, and tables—ensuring a consistent and contextual analysis experience.
+
+2. Visual Mockup & Design Specification
+
+The filter bar will be a single, clean horizontal component placed directly below the page title and above the KPI cards. It will be constructed using standard Shadcn components for a modern and accessible feel.
+
+Component Breakdown: The Ideal Fields
+
+Date Range Picker (The "When")
+
+Component: Date Range Picker with presets.
+
+Placement: The far-left, as it is the most frequently used filter.
+
+Functionality:
+
+Allows users to select a custom date range.
+
+Includes a list of convenient presets: Last 7 Days, Last 30 Days, This Month, Last Month, Quarter to Date.
+
+The default view will be Last 30 Days.
+
+This is the master control for the entire dashboard's timeframe.
+
+Platform Filter (The "What - Part 1")
+
+Component: A multi-select Dropdown Menu (Select component with multiple selections enabled).
+
+Label: Platforms.
+
+Functionality:
+
+Allows users to select one or more ad platforms (e.g., Google Ads, Meta, TikTok).
+
+Each option will include the platform's icon for quick recognition.
+
+Defaults to All Platforms.
+
+Use Case: A user can isolate the performance of only Google Ads, or compare the combined performance of Meta and TikTok.
+
+Campaign Filter (The "What - Part 2")
+
+Component: A searchable, multi-select Dropdown Menu (Combobox component).
+
+Label: Campaigns.
+
+Functionality:
+
+Allows users to select one or more specific campaigns.
+
+Crucially, this is a dependent filter. The list of campaigns shown will automatically update based on the selected Platform(s). If only "Meta" is selected, this dropdown will only show Meta campaigns.
+
+The search functionality is essential for clients with hundreds of campaigns.
+
+Defaults to All Campaigns.
+
+Location / Region Filter (The "Where")
+
+Component: A hierarchical, multi-select Dropdown Menu.
+
+Label: Locations.
+
+Functionality:
+
+Allows users to filter data based on the physical store location where the sale occurred.
+
+The options will be structured hierarchically (grouped by city or region) for easy navigation. For example:
+
+▼ Istanbul
+
+[ ] Kadıköy Store
+
+[ ] Beşiktaş Store
+
+▼ Ankara
+
+[ ] Kızılay Store
+
+Users can select an entire region (e.g., "Istanbul") or individual stores.
+
+Defaults to All Locations.
+
+3. Interaction Design: The Smart Filtering Experience
+
+The user experience will be designed to feel fluid and intelligent.
+
+Universality in Action: When a user changes any filter—for example, selecting only "Meta"—the KPI cards, the main chart, and the data tables will instantly and smoothly re-render to reflect only the data for Meta campaigns.
+
+Cascading Logic: The "Campaign" filter's dependency on the "Platform" filter makes the experience much more intuitive. The user is never presented with an irrelevant list of campaigns.
+
+Active Filter Indicators: To avoid confusion about what is being viewed, the selected filter options will be displayed as dismissible Tag or Badge components next to the filter bar. For example: [Platform: Meta ✕] [Region: Ankara ✕]. Clicking the "x" on a tag removes that specific filter.
+
+Clear / Reset Button: A single Reset Filters button will be present at the far right of the bar to allow the user to return to the default view with one click.
+
+4. Why This Solution is Ideal
+
+Covers All Key Analytical Dimensions: The "When, What, Where" structure provides a comprehensive framework that aligns with how marketers naturally think about and analyze performance data.
+
+Scalable and Enterprise-Ready: The use of searchable, multi-select, and hierarchical dropdowns ensures the solution works just as well for a brand with 10 stores and 5 campaigns as it does for an enterprise with 500 stores and 1,000 campaigns.
+
+Intuitive for All Personas: It provides the necessary depth for a hands-on performance manager while remaining simple enough for a CMO to use the high-level filters (like Date Range and Platform) without feeling overwhelmed.
+
+Reduces Cognitive Load: The smart, dependent logic and clear display of active filters mean the user spends less time figuring out how to filter and more time analyzing the results of their filtering.

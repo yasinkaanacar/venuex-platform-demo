@@ -1,0 +1,89 @@
+Of course. This is the correct approach—enhancing the existing, validated skeleton with richer data is key to building user confidence. A user needs to be certain they are matching "İstiklal Cd. No:112" with "İstiklal Caddesi 112," and seeing just the name isn't enough.
+
+Here is the detailed enhancement report, adding rich location information to each step of the existing 3-page flow.
+
+Enhancement Report: Detailed Location Info in Sync Flow
+Objective: To enrich the existing 3-page sync and resolution flow with detailed location information (address, phone, etc.) for both VenueX and platform locations, enabling users to make matching decisions with high confidence.
+
+Page 1: Automatic Matching (Enriched)
+What to Add: We will add two new sections below the summary counts to provide immediate context and transparency about the matching results.
+
+Detailed Component Enhancements:
+
+Location Detail Card (New Standard Component): We will use a standardized card to display location details consistently across the flow.
+
+Content: Location Name (bold), Full Address (e.g., street, city, postal code), Phone Number, and Category (if available).
+
+New Section: Examples of Automatically Matched Locations
+
+Positioning: Directly below the summary metrics (21 Matched, 7 Unmatched).
+
+Functionality: Shows the user 2-3 examples of successful matches to build trust in the automation.
+
+Design: A list where each item is a two-sided view, clearly showing the match.
+
+Left Side: A "Location Detail Card" for the VenueX Location.
+
+Icon: A large link icon (<i class="fa fa-link"></i>) in the middle.
+
+Right Side: A "Location Detail Card" for the Platform Location (e.g., Meta Page).
+
+New Section: Locations Requiring Manual Review
+
+Positioning: Below the auto-match examples.
+
+Functionality: Gives the user a preview of the work to be done in the next step.
+
+Design: A list of the unmatched platform locations, with each item displayed as a full "Location Detail Card." This primes the user for the decisions they need to make.
+
+Primary Action Button (Unchanged): The button text remains Resolve 7 Unmatched Locations.
+
+Page 2: Manual Resolution (Enriched)
+What to Add: We will enrich both sides of the split view to provide all necessary information for a confident manual match.
+
+Detailed Component Enhancements:
+
+Left Column: Unmatched Meta Pages (7)
+
+Upgrade Action Cards: The existing cards will be upgraded to be full "Location Detail Cards." This means in addition to the name, they will now clearly display the Full Address, Phone Number, and Category as fetched from the platform (e.g., Meta).
+
+Add External Link: Each card will now include a small "View on Meta" link that opens the live page in a new tab, allowing for absolute certainty if needed.
+
+Right Column: Resolution Panel
+
+This is the most critical enhancement. The dropdowns must allow for easy comparison.
+
+Choice 1: Link to an existing VenueX location
+
+Upgrade the Dropdown: The dropdown will now be a "rich search" component. When the user clicks or types, the results will not be a simple text list. Instead, each option in the dropdown will be a mini "Location Detail Card" showing the VenueX location's Name, Address, and Phone Number. This allows the user to perform a side-by-side comparison directly within the selection process.
+
+Choice 2: Re-create this location from VenueX data
+
+Upgrade the Dropdown: This dropdown (for selecting which VenueX data to use) will also be upgraded to the "rich search" component, ensuring the user is certain about which source-of-truth data they are selecting for the new creation.
+
+Page 3: Review and Final Confirmation (Enriched)
+What to Add: The summary lists will be upgraded from simple text pairings to detailed comparison cards, leaving no doubt about the final actions to be performed.
+
+Detailed Component Enhancements:
+
+Section: Automatically Matched Locations (21)
+
+Upgrade List Items: Each item in this collapsible list will be upgraded from a simple text line to a full two-sided comparison card, showing the "Location Detail Card" for the VenueX location on the left and its matched Platform location on the right, connected by a link icon.
+
+Section: Manually Resolved Locations (7)
+
+Sub-section: Manually Linked (4)
+
+Upgrade List Items: This list will also use the two-sided comparison card format, mirroring the design of the auto-matched list.
+
+Sub-section: To Be Re-created (3)
+
+Upgrade List Items: This list requires the most clarity. Each item will be a two-sided card with a strong visual indicator.
+
+Left Side (The New Page): A "Location Detail Card" showing the full data of the new page that will be created, sourced from VenueX. Labeled clearly: TO BE CREATED.
+
+Icon: A large "delete and create" icon (<i class="fa fa-trash-arrow-up"></i>) in the middle.
+
+Right Side (The Old Page): A "Location Detail Card" for the platform page that will be deleted. Labeled clearly: TO BE DELETED, and styled with a red border or background to emphasize the destructive action.
+
+Final Confirmation (Unchanged): The checkbox and the Confirm and Sync Locations button remain exactly the same, as their function is already clear.

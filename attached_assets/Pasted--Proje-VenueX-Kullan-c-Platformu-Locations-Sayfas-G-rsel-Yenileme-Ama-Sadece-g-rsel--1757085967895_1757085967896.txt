@@ -1,0 +1,105 @@
+**Proje:** VenueX Kullanıcı Platformu — “Locations” Sayfası Görsel Yenileme
+**Amaç:** Sadece görsel/UI güncellemesi; işlevsellik ve akış aynı kalacak, tüm aksiyonlar stub olacak.
+**Stack tercihi:** React + Vite + TypeScript, Tailwind CSS, shadcn/ui, lucide-react.
+**Genel ilkeler:** Responsive, light/dark tema, erişilebilirlik (ARIA, odak halkaları), net tipografi ve grid düzeni, hızlı algılanan durum rozetleri, yoğun tabloda okunabilirlik.
+
+### 1) Sayfa yerleşimi (Layout)
+
+* Üst çubuk (sticky): Sol “Locations” başlığı; sağda arama input’u, filtre düğmeleri ve aksiyon butonları.
+* İçerik: Filtre çubuğu, lokasyon tablosu, sayfalama çubuğu; satır detayları için sağdan açılan çekmece (drawer).
+* Toast/sonuç bildirimi alanı.
+
+### 2) Üst çubuk bileşenleri
+
+* Arama: Placeholder “Search locations…”, `onSearch(query)` stub.
+* Filtreler: Çoklu seçime uygun kompakt butonlar/menüler
+
+  * “City” (şehir/ilçe), “Status” (Healthy/Warning/Error), “Channels” (GBP, Apple, Meta, GMC)
+  * `onFilterChange(filterKey, values)` stub.
+* Aksiyonlar:
+
+  * “Add Location” → `onAddLocation()` stub
+  * “Bulk Import” → `onBulkImport()` stub
+  * “Export CSV” → `onExportCSV()` stub
+  * “Sync Selected” (checkbox seçimi varsa aktif) → `onSyncSelected(ids)` stub
+
+### 3) Tablonun görsel yapısı
+
+* Sütunlar:
+
+  1. Select (checkbox)
+  2. Location Name
+  3. Store Code
+  4. Address
+  5. City/District
+  6. Hours
+  7. Phone
+  8. Data Health (badge: Healthy/Warning/Error, tooltip ile kısa açıklama)
+  9. Channels (GBP, Apple, Meta, GMC rozetleri; Connected/Needs attention/Not connected renk kodu ve tooltip)
+  10. Last Sync (relative time + tooltip’ta ISO)
+  11. Actions (3-nokta menü: View, Sync now, Edit, Disable; hepsi stub)
+* Satır etkileşimi:
+
+  * Satıra tıklayınca sağ çekmece açılır → `onRowClick(id)` stub
+  * “Sync now” tekil aksiyon → `onSyncNow(id, channel?)` stub
+* Görsel kalite:
+
+  * Zebra satırlar, sticky header, geniş sütunlarda metin kısaltma ve tooltip.
+  * Data Health ve Channels hücrelerinde rozet seti, renk/ikon farkı ile hızlı taranabilirlik.
+
+### 4) Sağ çekmece (Details Drawer)
+
+* Üst bilgi: Location name, store code, küçük durum rozetleri.
+* Sekmeler:
+
+  * Overview: Harita placeholder (statik görsel), kısa adres, çalışma saatleri, telefon, yön tarifi link placeholder’ı.
+  * Data: Adres alanları, kategori, saatler; hepsi salt-okunur görünüm; disabled input stili.
+  * Channels: GBP/Apple/Meta/GMC kutucukları; durum, son senkron, “Connect” veya “Fix” stub butonu.
+  * Activity: Senkron denemeleri, hata mesajları, zaman çizelgesi (mock data).
+* Kapatma: ESC ve ikon ile kapanır; odak yönetimi düzgün.
+
+### 5) Sayfalama ve seçim çubuğu
+
+* Sayfalama: “Rows per page” seçimi, “1–10 of 120” metni, önceki/sonraki butonları; `onPageChange(page)` ve `onPageSizeChange(size)` stub.
+* Toplu seçim çubuğu (sticky, görünüm koşullu): Seçili adet sayacı, “Sync selected”, “Export selected”, “Publish/Unpublish” stub aksiyonları.
+
+### 6) Görsel durumlar ve bildirimler
+
+* Toast: Başarı/uyarı/hata mock’ları; `showToast({type, title, description})`.
+* Boş durum: Arama/filtre sonuç yoksa ilüstrasyon ve “Clear filters” butonu (stub).
+* Yükleniyor iskeletleri: Tablo satır iskeleti, çekmece içerik iskeleti.
+
+### 7) Tema ve stil
+
+* Tailwind ile sistem teması ve toggle; yüksek kontrast, belirgin focus state.
+* Tipografi: Başlıklarda semibold, tablo gövdesinde rahat satır yüksekliği; ikon + metin hizaları net.
+* Renkler: Sağlık rozetleri için yeşil/amber/kırmızı; kanal rozetleri için tutarlı ikon ve nötr arka plan.
+
+### 8) Veri modeli ve mock
+
+* Tipler (TS):
+
+  * `Channel = 'GBP' | 'APPLE' | 'META' | 'GMC'`
+  * `ChannelStatus = 'CONNECTED' | 'NEEDS_ATTENTION' | 'NOT_CONNECTED'`
+  * `DataHealth = 'HEALTHY' | 'WARNING' | 'ERROR'`
+  * `Location { id, name, code, addressLine, city, district, hoursLabel, phone, dataHealth, channels: Record<Channel, { status: ChannelStatus; lastSync?: string; errorNote?: string }>, lastSync?: string }`
+* 10–15 satırlık mock dizi; farklı şehirler ve karışık kanal durumları.
+* Tüm event handler’lar mock içinde `console.log` ve toast tetikler; gerçek API yok.
+
+### 9) Erişilebilirlik ve test kimlikleri
+
+* Her interaktif elemanda klavye erişimi, ARIA label ve görünür odak.
+* Stabil `data-testid` önekleri: `locations-search`, `filter-city`, `filter-status`, `filter-channels`, `table-row-<id>`, `drawer-<id>`, `btn-sync-now-<id>-<channel>`, `bulkbar`, `toast`.
+
+### 10) Dosya/komponent yapısı (öneri)
+
+* `src/pages/Locations.tsx` (sayfa kompozisyonu)
+* `src/components/LocationTable.tsx`, `LocationRow.tsx`, `ChannelsCell.tsx`, `HealthBadge.tsx`, `BulkBar.tsx`, `DetailsDrawer.tsx`, `FiltersBar.tsx`, `TopBar.tsx`
+* `src/lib/types.ts`, `src/lib/mock.ts`, `src/lib/toast.ts`
+* `src/styles/globals.css` (Tailwind base)
+
+### 11) Beklenen çıktı
+
+* Replit üzerinde çalıştırılabilir, sadece UI’yi gösteren, light/dark temalı, erişilebilir ve modern “Locations” ekranı; tüm akışlar görsel olarak mevcut, tüm fonksiyonlar stub, mevcut adlandırma ve akış korunmuş hissi veriyor, gerçek veri veya API çağrısı yok.
+
+İşlevsellik sabit kalmalı; tüm event handler’lar stub kalsın, UI akışı ve element adları aynı kalsın.

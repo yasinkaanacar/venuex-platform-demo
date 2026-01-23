@@ -1,0 +1,163 @@
+Güncellenmiş Mock Data (Koda Yapıştır)
+mockLocations dizini komple şununla değiştirirsen tüm renkleri ve butonları görebilirsin:
+
+TypeScript
+
+const mockLocations: LocationData[] = [
+  // 1. HAPPY PATH (Sorunsuz Mağaza)
+  {
+    id: 1,
+    storeCode: 'DY_001',
+    name: 'İstanbul - Kadıköy',
+    address: 'Caferağa Mah. Moda Cad. No:12',
+    phone: '+90 216 555 0001',
+    email: 'kadikoy@doyuyo.com',
+    imageUrl: 'https://example.com/img1.jpg',
+    website: 'https://doyuyo.com',
+    workingHours: '09:00 - 22:00',
+    description: 'Moda sahil şubesi',
+    storeSet: 'Cadde',
+    google: { status: 'verified', lastSync: '2 dk önce', warnings: [] },
+    meta: { status: 'verified', lastSync: '5 dk önce', warnings: [] },
+    apple: { status: 'verified', lastSync: '10 dk önce', warnings: [] },
+    yandex: { status: 'verified', lastSync: '15 dk önce', warnings: [] }
+  },
+
+  // 2. AUTH ERROR (Token Patlaması - Meta)
+  {
+    id: 4,
+    storeCode: 'DY_004',
+    name: 'İzmir - Alsancak',
+    address: 'Alsancak Mah. Kıbrıs Şehitleri Cad. No:22',
+    phone: '+90 232 555 0004',
+    email: 'alsancak@doyuyo.com',
+    imageUrl: 'https://example.com/img2.jpg',
+    website: 'https://doyuyo.com',
+    workingHours: '08:00 - 23:00',
+    description: 'Kordon şubesi',
+    storeSet: 'Express',
+    google: { status: 'verified', lastSync: '15 dk önce', warnings: [] },
+    meta: { 
+      status: 'action_required', // Turuncu/Kırmızı durum
+      lastSync: '1 gün önce', 
+      warnings: [
+        { 
+          type: 'sync_error', 
+          label: 'Bağlantı Kesildi', 
+          errorCode: 'auth_expired', 
+          platform: 'meta', 
+          errorLog: 'Error 190: Invalid OAuth Access Token. The user has changed the password or revoked access.' 
+        }
+      ]
+    },
+    apple: { status: 'verified', lastSync: '2 saat önce', warnings: [] },
+    yandex: { status: 'verified', lastSync: '30 dk önce', warnings: [] }
+  },
+
+  // 3. GEO ERROR (Koordinat Eksik - Google)
+  {
+    id: 3,
+    storeCode: 'DY_076',
+    name: 'Ankara - Çankaya',
+    address: 'Kızılay Mah. Atatürk Blv. No:45',
+    phone: '+90 312 555 0076',
+    email: '',
+    imageUrl: '',
+    website: '',
+    workingHours: '',
+    description: '',
+    storeSet: 'Cadde',
+    google: { 
+      status: 'action_required', 
+      lastSync: 'Failed', 
+      warnings: [
+        { 
+          type: 'sync_error', 
+          label: 'Koordinat Eksik', 
+          errorCode: 'missing_coordinates', 
+          platform: 'google', 
+          errorLog: '400 Bad Request: Missing Lat/Long. Geocoding failed for the provided address.' 
+        },
+        { type: 'email_missing', label: 'Email Eksik' },
+        { type: 'image_missing', label: 'Görsel Eksik' }
+      ]
+    },
+    meta: { status: 'fully_passive', lastSync: null, warnings: [] },
+    apple: { status: 'unverified', lastSync: '1 gün önce', warnings: [] },
+    yandex: { status: 'verified', lastSync: null, warnings: [] }
+  },
+
+  // 4. VALIDATION ERROR (Format Hatası - Meta)
+  {
+    id: 6,
+    storeCode: 'DY_006',
+    name: 'Antalya - Muratpaşa',
+    address: 'Konyaaltı Cad. No:55',
+    phone: '',
+    email: '',
+    imageUrl: '',
+    website: '',
+    workingHours: 'Sabah 9 - Akşam 10', // Hatalı format
+    description: '',
+    storeSet: 'Express',
+    google: { status: 'verified', lastSync: '30 dk önce', warnings: [] },
+    meta: { 
+      status: 'unverified', 
+      lastSync: 'Failed', 
+      warnings: [
+        { 
+          type: 'sync_error', 
+          label: 'Saat Formatı Hatalı', 
+          errorCode: 'validation_error', 
+          platform: 'meta', 
+          errorLog: 'Param validation failed: working_hours must be in HH:MM - HH:MM format.' 
+        },
+        { type: 'phone_missing', label: 'Telefon Eksik' }
+      ]
+    },
+    apple: { status: 'verified', lastSync: '1 saat önce', warnings: [] },
+    yandex: { status: 'verified', lastSync: '2 saat önce', warnings: [] }
+  },
+
+  // 5. RATE LIMIT (Trafik - Apple)
+  {
+    id: 7,
+    storeCode: 'DY_007',
+    name: 'Bodrum - Marina',
+    address: 'Neyzen Tevfik Cad.',
+    phone: '+90 252 000 0000',
+    email: 'bodrum@doyuyo.com',
+    imageUrl: 'https://example.com/img3.jpg',
+    website: '',
+    workingHours: '10:00 - 02:00',
+    description: '',
+    storeSet: 'Sezonluk',
+    google: { status: 'verified', lastSync: '1 dk önce', warnings: [] },
+    meta: { status: 'verified', lastSync: '1 dk önce', warnings: [] },
+    apple: { 
+      status: 'action_required', 
+      lastSync: 'Pending', 
+      warnings: [
+        { 
+          type: 'sync_error', 
+          label: 'Sıraya Alındı', 
+          errorCode: 'rate_limit', 
+          platform: 'apple', 
+          errorLog: '429 Too Many Requests. Retry-After: 60s' 
+        }
+      ]
+    },
+    yandex: { status: 'verified', lastSync: '1 dk önce', warnings: [] }
+  }
+];
+Bu veriyi koda yapıştırdığında:
+
+Meta sütununda Bağlantı Kesildi (Auth) göreceksin.
+
+Google sütununda Koordinat Eksik (Geo) göreceksin.
+
+Meta sütununda Saat Formatı Hatalı (Validation) göreceksin.
+
+Apple sütununda Sıraya Alındı (Rate Limit) göreceksin.
+
+Her birine tıkladığında senin yazdığın SmartFixSheet içindeki ilgili case (switch-case yapısı) tetiklenecek ve doğru çözüm ekranını getirecektir.

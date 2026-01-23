@@ -1,0 +1,49 @@
+I need to build the frontend for the '/catalog' page of a high-volume B2B SaaS (VenueX). We act as a middleware between Retailer ERPs and Ad Platforms (Google/Meta).
+
+**Context:**
+- We process 100k+ items per client.
+- We DO NOT have quantity data (only boolean: Available/Not Available).
+- We HAVE access to Ad Performance data (Clicks, Spend).
+- **Design Philosophy:** "Management by Exception". Do not show a list of 100k items. Show insights, errors, and specific search results only.
+
+**Tech Stack:** React, Tailwind CSS, Lucide React (icons), Recharts (for simple visuals). Dark Mode aesthetic.
+
+**Layout & Components Required:**
+
+1.  **Top Section: The Data Pipeline Visualizer (Slim Header)**
+    - A horizontal flow diagram showing the system heartbeat:
+    - [Client ERP (Green Dot)] ---> [VenueX Engine (Processing...)] ---> [Google Merchant (Connected)] / [Meta Commerce (Connected)]
+    - If a connection drops, the line turns Red.
+
+2.  **KPI Cards (The "Growth & Health" Row):**
+    - **Card 1 (Financial):** "Ad Budget Saved" (Mock data: $4,250). Subtext: "Saved by pausing ads for OOS items". Green text.
+    - **Card 2 (Opportunity):** "Missed Revenue Risks". Count: 142 SKUs. (Logic: High Ad Clicks + Currently Out of Stock). Red text/badge.
+    - **Card 3 (Operational):** "Sync Success Rate". 99.8%.
+    - **Card 4 (Volume):** "Total SKUs Monitored". 124,500.
+
+3.  **Middle Section: The "Intelligence Matrix" (2-Column Layout):**
+    - **Left Column (The 2x2 Matrix):** A visual quadrant chart showing Supply vs. Demand.
+        - *Top Left:* High Demand / In Stock (Star Items).
+        - *Top Right:* High Demand / Out of Stock (Critical Alerts - Clickable).
+        - *Bottom Left:* Low Demand / In Stock (Dead Stock).
+        - *Bottom Right:* Low Demand / Out of Stock (Ignore).
+    - **Right Column (The Issues Feed):**
+        - A grouped table for errors (No pagination lists!).
+        - Columns: 'Error Type' (e.g., Store Code Mismatch, Price Anomaly), 'Count', 'Platform'.
+        - Action: "Download CSV" or "View Samples".
+
+4.  **"Spot Check" Search Bar (Prominent Divider):**
+    - A large, central search input: "Search by SKU, Product Name, or Store Code".
+    - **Search Result State:** When a user searches for an SKU, hide the Matrix/Issues and show a **"Store Availability Map"**:
+        - Product Header (Image, Name).
+        - Grid of Stores: Show which stores have it (Green Check) vs don't (Red X).
+        - Show "Local Price" vs "Online Price" comparison for that item.
+
+5.  **Sidebar / Drawer: Batch Activity Log:**
+    - A collapsible right sidebar or bottom drawer.
+    - List recent API jobs: "Batch #992 - Meta Update - 5k items - Success (1.2s)".
+
+**Key constraints to remember:**
+- Never list all products.
+- Focus on "Boolean" availability (Green/Red lights).
+- Make the "Ad Budget Saved" metric pop visually—it's our key value prop.

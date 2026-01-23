@@ -1,0 +1,111 @@
+Of course. This is the perfect time to refine the user experience, moving from a functional skeleton to a polished, intuitive, and confidence-building flow. Adding the Store Code is also a critical enhancement for data accuracy.
+
+Here is the updated, comprehensive design report. It builds directly upon the existing 3-page skeleton, enriching it with detailed information and significant UX improvements.
+
+Design Enhancement Report: Location Sync Flow v1.1
+Objective: To enhance the existing 3-page sync flow by integrating the Store Code as a key identifier and implementing significant UX improvements to increase user confidence, reduce cognitive load, and streamline the resolution process.
+
+Page 1: Automatic Matching (Enhanced for Clarity & Confidence)
+The purpose of this page is to build immediate trust in the system's automation.
+
+Data Enhancement: Integrating Store Code
+Upgraded Location Detail Card: The standard component used to display location info will now be a "Rich Location Card" and will include the Store Code. The hierarchy will be:
+
+Location Name (Bold)
+
+Store Code (e.g., Code: IST-012) - Positioned directly below the name for immediate identification.
+
+Full Address
+
+Phone Number
+
+Enhanced Matching Logic: The backend logic should now use Store Code as the primary key for matching. If Store Codes match between VenueX and a platform, it's considered a 100% confident match, even if the names are slightly different (e.g., "VenueX Bebek" vs. "VenueX - Bebek Store").
+
+UX Enhancements
+Visual Progress & Results Bar:
+
+REMOVE: The simple "Matching Complete!" text.
+
+ADD: A visual, segmented Results Bar at the top of the summary. This provides an instant, graphical overview of the sync status.
+
+Design: A single bar with color-coded segments.
+
+Green segment: Represents the number of high-confidence, automatically matched locations.
+
+Amber segment: Represents the number of locations requiring manual review.
+
+Labels: Each segment is clearly labeled with its count (e.g., 21 Matched, 7 Unmatched).
+
+Clearer Section Titles:
+
+The section titles will be updated to be more descriptive and confidence-building.
+
+Examples of Automatically Matched Locations becomes High-Confidence Matches.
+
+Locations Requiring Manual Review becomes Locations Requiring Your Attention.
+
+"View All" Button:
+
+For accounts with many matches, we will only show 2-3 examples initially. A View All Matched Locations button will be added, which opens a simple modal list of all successful matches. This keeps the initial page clean.
+
+Page 2: Manual Resolution (Enhanced for Speed & Certainty)
+This page is where the most significant UX improvements will be implemented to make the manual workflow faster and less error-prone.
+
+Data Enhancement: Integrating Store Code
+All location displays—both in the left-column list and the right-column rich dropdowns—will now use the Rich Location Card format, prominently displaying the Store Code. This is critical for users to make accurate matches.
+
+UX Enhancements
+Progress Tracker:
+
+ADD: A persistent header above the split view that tracks progress.
+
+Design: Resolved: 3 of 7 Locations. This simple text provides a sense of accomplishment and clarity on the remaining workload.
+
+Smart Suggestions (Major Workflow Improvement):
+
+ENHANCE: The "Link to an existing VenueX location" dropdown.
+
+Functionality: Instead of just a searchable list, the system will now provide a smart suggestion. When the user selects an unmatched location on the left (e.g., "Meta Page: Doyuyo Istiklal"), the dropdown on the right will automatically surface the most likely match from the remaining VenueX locations at the very top, highlighted with a "Suggested Match" badge. The suggestion can be based on name similarity or geographic proximity. The rest of the list remains searchable below.
+
+Clear Visual State Management:
+
+ENHANCE: The interactivity of the left-column list.
+
+Active State: The location currently being resolved will have a bright blue border and a slightly different background color, making it clear which item is in focus.
+
+Resolved State: Once an action is taken for a location, its card in the left column will become semi-transparent (e.g., opacity-50) and its status badge will change from Pending Action to a clear, color-coded Linked (blue) or Set to Re-create (amber). This visually removes it from the "to-do" list and prevents accidental re-selection.
+
+Page 3: Review and Final Confirmation (Enhanced for Safety)
+This page is the final safeguard against user error. The design must emphasize the consequences of the actions, especially deletions.
+
+Data Enhancement: Integrating Store Code
+All location summaries in the collapsible sections will use the full Rich Location Card format, including the Store Code, for a final, detailed verification.
+
+UX Enhancements
+Color-Coded Action Summaries:
+
+ENHANCE: The visual design of the summary lists to help users parse information quickly.
+
+Design: Each item in the "Manually Resolved" list will have a color-coded left border:
+
+Blue border: for Manually Linked items.
+
+Red border: for To Be Re-created items, immediately drawing the eye to the destructive actions.
+
+Dynamic Confirmation Checkbox:
+
+REMOVE: The generic "I understand..." checkbox text.
+
+ADD: A dynamic and explicit confirmation text that summarizes the actions.
+
+Functionality: The checkbox label will be generated based on the user's choices. For example: I have reviewed all 28 changes and approve the **deletion of 3 Meta Pages** and the **creation of 3 new Pages**.
+
+The Confirm and Sync button remains disabled until this specific, dynamic checkbox is ticked. This forces the user to acknowledge the exact numbers involved.
+
+Prominent "Back to Edit" Button:
+
+ADD: A clearly visible "Back to Edit" button next to the primary "Confirm and Sync" button.
+
+Style: It will be styled as a secondary action (e.g., outline or ghost style).
+
+Functionality: This allows the user to easily and safely go back to Page 2 to make corrections if they spot a mistake during the final review, preventing them from feeling trapped or forced to restart.

@@ -1,0 +1,53 @@
+Purpose and User Value
+The primary goal of the Theme Analysis View is to provide a deep, filterable exploration of the topics (themes) that your AI has automatically detected from review text. It empowers users like Regional Managers, Product Managers, and CX Leaders to answer complex, multi-dimensional business questions with data.
+
+Instead of manually reading thousands of reviews, a user can instantly quantify and analyze recurring topics like "staff helpfulness," "product quality," or "store cleanliness."
+
+Key Components & UI Design
+The view is structured around a powerful filtering system and several interconnected data visualization modules.
+
+1. Cross-Cutting Filter Bar
+A persistent filter bar at the top of the view controls all the data displayed below. This is the most critical component for answering specific questions. Filters include:
+
+Date Range: Pre-sets like "Last 30 Days," "This Quarter," or a custom range selector.
+
+Location Hierarchy: A dropdown that allows users to select the entire brand, a specific region (e.g., "Marmara Region"), a city, or even a group of specific stores (e.g., "All Istanbul Stores").
+
+Product: A filter to narrow down by product category (e.g., "Footwear") or a specific SKU.
+
+2. Theme Volume & Sentiment Overview
+This module shows the big picture based on the current filters.
+
+Visualization: A horizontal bar chart is used for clarity and readability of theme labels. Each bar represents a theme.
+
+Data Encoding:
+
+Bar Length: Represents the total mention volume of that theme.
+
+Bar Color Segments: The bar is segmented to show the sentiment breakdown for that theme (e.g., 70% green for positive, 20% yellow for neutral, 10% red for negative).
+
+This immediately answers the question: "What are our most talked-about topics, and what is the general feeling about them?"
+
+3. Interactive Deep-Dive Module
+When a user clicks on a theme from the chart above (e.g., "staff helpfulness"), this module dynamically updates to provide a detailed analysis of that single theme.
+
+Prevalence Over Time: A simple line chart that plots the number of times the selected theme was mentioned each day or week within the filtered date range. This is perfect for spotting emerging trends or the impact of an operational change. 📈
+
+Key Drivers & Representative Reviews: A scrollable list of actual review snippets that were tagged with the selected theme. This is crucial for building trust and providing qualitative context. For each snippet, the relevant keywords are highlighted. This answers the question: "What do customers actually say when they talk about 'staff helpfulness'?"
+
+Location/Product Breakdown: A simple data table showing how the selected theme's volume and sentiment differ across the top 5 locations or products within the current filter.
+
+Example User Workflow
+Here’s how a Regional Manager would use this view to answer the question: "How does feedback on 'staff helpfulness' in our urban stores compare to our suburban stores?"
+
+Navigate to the View: The user clicks on the Insights tab and selects the Theme Analysis sub-view.
+
+Filter for Urban Stores: Using the Location Hierarchy filter, they select a pre-defined group of "Urban Stores" (e.g., all stores in Istanbul, Ankara, and Izmir).
+
+Analyze the Initial Result: The dashboard updates. The user looks at the "staff helpfulness" bar in the Theme Volume chart and sees it has an overall positive sentiment of 75%. They click on this theme.
+
+Drill Down: In the deep-dive module, they see the line chart showing when "staff helpfulness" was mentioned and can read specific negative snippets like "...the cashier seemed uninterested and didn't help."
+
+Change Filter & Compare: The user goes back to the Location filter, clears the selection, and now chooses the "Suburban Stores" group.
+
+Get the Actionable Insight: 💡 The entire dashboard updates instantly. The "staff helpfulness" bar now shows a much higher positive sentiment of 95%. The manager has a clear, data-backed insight that there is a significant staff performance gap between urban and suburban locations, allowing them to target specific training and resources effectively.

@@ -1,0 +1,100 @@
+Excellent. This is a crucial step for ensuring user confidence, especially at scale. A high-level summary is good, but providing a transparent, verifiable audit trail is non-negotiable for enterprise users.
+
+Here is the detailed design report for the final confirmation page, building upon the existing skeleton to incorporate detailed, scrollable, and collapsible lists.
+
+Design Enhancement Report: Interactive Audit on Confirmation Page
+Objective: To enhance the final confirmation page (Step 3) by replacing static summary lists with interactive, collapsible sections containing detailed, scrollable views of all pending changes. This allows users to perform a final "trust but verify" audit before committing.
+
+1. Core Design Principles
+Clarity at a Glance, Detail on Demand: The page must present the high-level summary first. The fine-grained details should be accessible but hidden by default to prevent overwhelming the user.
+
+Safety and Confidence: The design must make it easy for users to spot-check the plan and feel confident in their actions. Destructive actions must be highlighted with extreme clarity.
+
+Scalable Design: The components must be designed to handle hundreds or thousands of items without degrading performance or usability.
+
+2. Page Layout & Component Structure
+The overall page layout remains a single column. The key change is the redesign of the summary sections into interactive "accordion" components.
+
+High-Level Summary (Unchanged, Always Visible): The quantitative summary at the very top of the page remains. It's the "executive summary" of the entire operation.
+
+✅ 250 Automatically Matched Locations
+
+🔗 110 Manually Linked Locations
+
+🗑️ 40 Platform Pages will be DELETED
+
+✨ 40 new Platform Pages will be CREATED
+
+Detailed Review Sections (New Accordion Design): Below the summary, each category of change will be presented in its own collapsible section.
+
+3. Accordion Section: Design & Functionality
+Each collapsible section will share a common design pattern for consistency.
+
+A. Accordion Header:
+
+Functionality: A clickable bar that toggles the visibility of the detailed list below.
+
+Styling: A clean, full-width bar with a light gray background and a subtle border.
+
+Components:
+
+Chevron Icon: An icon (e.g., <i class="fa fa-chevron-right"></i>) on the left that rotates 90 degrees (<i class="fa fa-chevron-down"></i>) when the section is expanded.
+
+Section Title & Count: A bold title followed by the number of items in parentheses (e.g., Automatically Matched Locations (250)).
+
+Search/Filter Input (For Scale): On the far right of the header, include a small search input [Search within this list...]. This is a critical feature for large lists, allowing a user to quickly find a specific location (e.g., "Ankara") to spot-check without scrolling.
+
+B. Accordion Body (The Scrollable List):
+
+Functionality: This panel is hidden by default and appears when the header is clicked. It contains the detailed list of changes.
+
+Styling:
+
+The panel will have a fixed maximum height (e.g., max-height: 400px).
+
+If the content exceeds this height, a vertical scrollbar will appear (overflow-y: auto). This is essential for handling large lists without creating an endlessly long page.
+
+4. Specific Implementations for Each Section
+Section 1: Automatically Matched Locations (250)
+Accordion Header: Automatically Matched Locations (250)
+
+Accordion Body: A scrollable list. Each item in the list will be a two-sided comparison card, showing:
+
+Left Side: The Rich Location Card for the VenueX location (Name, Store Code, Address).
+
+Right Side: The Rich Location Card for the platform location it was matched with.
+
+A link icon (<i class="fa fa-link"></i>) sits between them.
+
+Section 2: Manually Linked Locations (110)
+Accordion Header: Manually Linked Locations (110)
+
+Accordion Body: Identical in function and design to the auto-matched section. It provides a clear, scrollable list of all the manual pairings the user made in Step 2.
+
+Section 3: Locations to be Deleted & Re-created (40)
+Accordion Header: This header will have a distinct warning style.
+
+Styling: An amber or light red background to draw immediate attention.
+
+Icon: A prominent warning icon (<i class="fa fa-triangle-exclamation"></i>) next to the chevron.
+
+Title: Locations to be Deleted & Re-created (40)
+
+Accordion Body: A scrollable list where each item is a two-sided destructive action card, designed for maximum clarity:
+
+Left Side (The New Page): A Rich Location Card for the new page TO BE CREATED, styled with a green left border.
+
+Right Side (The Old Page): A Rich Location Card for the platform page TO BE DELETED, styled with a strong red left border and a slightly red-tinted background.
+
+An explicit "delete and create" icon (<i class="fa fa-trash-arrow-up"></i>) sits between them.
+
+5. Final Confirmation Block (Unchanged but Reinforced)
+The components at the bottom of the page remain the same, as they are already optimized for this scaled, high-stakes workflow:
+
+"Export Full Sync Plan" Button: Still critical for an offline audit.
+
+Dynamic Confirmation Checkbox: The text (I approve the deletion of 40 pages...) remains the primary safeguard.
+
+"Back to Edit" & "Confirm and Sync" Buttons: Provide a safe exit and a final confirmation.
+
+This enhanced design successfully meets the need for detailed verification while managing the complexity of a large-scale operation, ensuring users feel both empowered and secure.

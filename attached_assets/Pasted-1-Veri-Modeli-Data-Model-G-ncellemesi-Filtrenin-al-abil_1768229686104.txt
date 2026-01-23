@@ -1,0 +1,54 @@
+1. Veri Modeli (Data Model) Güncellemesi
+Filtrenin çalışabilmesi için önce verinin buna uygun hale gelmesi şart.
+
+Schema Update: LocationData objesine storeSet (veya group) adında yeni bir string alan eklenmeli.
+
+Veri Kaynağı: Bu alan backend'den gelmeli. Eğer API henüz hazır değilse, mock data içinde her mağazaya "AVM", "Cadde", "Express" gibi statik değerler atanmalı.
+
+Dinamik Liste: Dropdown'ın içindeki seçenekleri elle yazmamalısın. Sistem, yüklenen tüm lokasyonları tarayıp unique (tekrarsız) storeSet değerlerini çıkarmalı ve listeyi buna göre oluşturmalı. Böylece yarın "Havalimanı" diye yeni bir set gelirse kod değiştirmeden filtreye düşer.
+
+2. Filtreleme Algoritması (Filtering Logic)
+Filtreleme mantığını "zincirleme koşul" (Chained Conditional Logic) yapısına çevirmelisin. Şu anki yapın muhtemelen ya onu ya bunu kontrol ediyor olabilir. Doğrusu şudur:
+
+Bir lokasyonun ekranda görünmesi için ŞU 4 KOŞULU AYNI ANDA sağlaması gerekir (AND Logic):
+
+Arama: Arama kutusu boş mu VEYA lokasyon ismi/adresi/ID'si aranan kelimeyi içeriyor mu?
+
+Platform: Platform seçimi "Hepsi" mi VEYA seçilen platform spesifik kriteri sağlıyor mu?
+
+Durum: Durum seçimi "Hepsi" mi VEYA lokasyonun statüsü eşleşiyor mu?
+
+Store Set (Yeni): Set seçimi "Hepsi" mi VEYA lokasyonun storeSet değeri seçilenle birebir aynı mı?
+
+Teknik Not: Bu filtreleme işlemi client-side (tarayıcıda) yapılıyorsa array.filter() fonksiyonu içinde bu 4 koşul tek bir return bloğunda birleştirilmeli.
+
+3. Layout Mimarisi (Flexbox Structure)
+Ekran görüntüsündeki "alt alta dizilme" sorunu, elemanların blok seviyesinde davranmasından kaynaklanıyor. Bunu düzeltmek için CSS/Layout tarafında şu hiyerarşi kurulmalı:
+
+Ana Konteyner (Main Toolbar Container):
+
+Display: Flex olmalı.
+
+Direction: Masaüstünde Row (yan yana), Mobilde Column (alt alta) olacak şekilde "Responsive" ayarlanmalı.
+
+Alignment: Items-Center (Dikeyde ortalı) olmalı ki butonlar ve inputlar aynı hizada dursun.
+
+Justify: Space-Between kullanılmalı. Bu sayede Arama çubuğu en sola, filtreler en sağa yapışır.
+
+Gruplama (Grouping):
+
+Sol Grup: Arama (Search) inputu buraya. Genişliği dinamik (flex-grow veya belli bir yüzde) olmalı.
+
+Sağ Grup: Tüm Dropdown'lar (Select) ve Temizle butonu burada ayrı bir div (veya fragment) içinde toplanmalı. Bu grubun kendi içinde de display: flex ve gap (boşluk) değeri olmalı. Böylece filtreler birbirine yapışmaz, aralarında eşit boşluk olur.
+
+4. State Yönetimi (State Management)
+React state yapını dağınık tutmak yerine (search için ayrı, platform için ayrı state vb.), tek bir obje (Object State) olarak yönetmelisin.
+
+Önerilen Yapı: filters adında bir obje tut. İçinde { search: '', platform: 'all', status: 'all', storeSet: 'all' } olsun.
+
+Reset Kolaylığı: "Temizle" butonuna basıldığında tek tek state sıfırlamak yerine, bu objeyi initialState değerine döndürmen yeterli olur.
+
+Koşullu Render: "Temizle" butonu (X ikonu), sadece bu filters objesi varsayılan değerlerden farklıysa DOM'a (ekrana) basılmalı. Aksi takdirde gizlenmeli.
+
+Özetle Yapılması Gereken:
+Inputları display: block olmaktan kurtarıp, bir Flex Container içine alacaksın. Arama çubuğunu sola, Dropdown'ları sağa yaslayacaksın. Store Set verisini de veri setinden dinamik olarak çekip filtre mantığına "4. koşul" olarak ekleyeceksin.

@@ -1,0 +1,564 @@
+
+import { Phone, Mail, MapPin, Image, ExternalLink, Clock, Layers } from 'lucide-react';
+
+export type WarningType = 'phone_missing' | 'email_missing' | 'address_error' | 'image_missing' | 'sync_error';
+
+export type SyncErrorCode = 'auth_expired' | 'missing_coordinates' | 'validation_error' | 'rate_limit' | 'invalid_store_code' | 'unknown';
+
+export type PlatformKey = 'google' | 'meta' | 'apple' | 'yandex';
+
+export interface LocationWarning {
+    type: WarningType;
+    label: string;
+    errorLog?: string;
+    errorCode?: SyncErrorCode;
+    platform?: PlatformKey;
+}
+
+export type PlatformStatusType =
+    | 'live'               // ✅ Yayında (was: verified)
+    | 'pending'            // 🟡 Bekliyor (was: unverified, pending_review, temporarily_passive)
+    | 'action_required'    // 🟠 Aksiyon Gerekli (was: action_required, disconnected)
+    | 'rejected'           // 🔴 Reddedildi
+    | 'suspended'          // 🔴 Askıya Alındı
+    | 'closed'             // ⚫ Kapalı (was: deleted)
+    | 'unclaimed'          // ⚪ Sahipsiz
+    | 'not_connected';     // ⚪ Bağlı Değil (was: fully_passive)
+
+export interface PlatformData {
+    status: PlatformStatusType;
+    lastSync: string | null;
+    warnings: LocationWarning[];
+}
+
+export type BusinessStatus = 'open' | 'closed' | 'temporarily_closed';
+
+export interface LocationData {
+    id: number;
+    storeCode: string;
+    brand: string;
+    city: string;
+    district: string;
+    name: string;
+    address: string;
+    phone: string;
+    email: string;
+    imageUrl: string;
+    website: string;
+    workingHours: string;
+    description: string;
+    storeSet: string;
+    businessStatus: BusinessStatus;
+    google: PlatformData;
+    meta: PlatformData;
+    apple: PlatformData;
+    yandex: PlatformData;
+}
+
+export type MissingFieldKey = 'phone' | 'email' | 'address' | 'imageUrl' | 'website' | 'workingHours' | 'description';
+
+export interface MissingFieldInfo {
+    key: MissingFieldKey;
+    label: string;
+    placeholder: string;
+    type: 'text' | 'tel' | 'email' | 'url' | 'textarea';
+    icon: JSX.Element;
+}
+
+export const allFieldsInfo: MissingFieldInfo[] = [
+    { key: 'phone', label: 'Telefon Numarası', placeholder: '+90 5XX XXX XX XX', type: 'tel', icon: <Phone className="w-4 h-4" /> },
+    { key: 'email', label: 'Email Adresi', placeholder: 'magaza@example.com', type: 'email', icon: <Mail className="w-4 h-4" /> },
+    { key: 'address', label: 'Adres', placeholder: 'Mahalle, Cadde, No', type: 'text', icon: <MapPin className="w-4 h-4" /> },
+    { key: 'imageUrl', label: 'Logo / Görsel', placeholder: 'https://example.com/logo.png', type: 'url', icon: <Image className="w-4 h-4" /> },
+    { key: 'website', label: 'Website', placeholder: 'https://example.com', type: 'url', icon: <ExternalLink className="w-4 h-4" /> },
+    { key: 'workingHours', label: 'Çalışma Saatleri', placeholder: '09:00 - 22:00', type: 'text', icon: <Clock className="w-4 h-4" /> },
+    { key: 'description', label: 'Açıklama', placeholder: 'Mağazanız hakkında kısa bir açıklama...', type: 'textarea', icon: <Layers className="w-4 h-4" /> }
+];
+
+export const mockLocations: LocationData[] = [
+    // 1. HAPPY PATH (Sorunsuz Mağaza)
+    {
+        id: 1,
+        storeCode: 'DY_001',
+        brand: 'Doyuyo',
+        city: 'İstanbul',
+        district: 'Kadıköy',
+        name: 'Doyuyo - İstanbul - Kadıköy',
+        address: 'Caferağa Mah. Moda Cad. No:12',
+        phone: '+90 216 555 0001',
+        email: 'kadikoy@doyuyo.com',
+        imageUrl: 'https://example.com/img1.jpg',
+        website: 'https://doyuyo.com',
+        workingHours: '09:00 - 22:00',
+        description: 'Moda sahil şubesi',
+        storeSet: 'Cadde',
+        businessStatus: 'open',
+        google: { status: 'live', lastSync: '2 dk önce', warnings: [] },
+        meta: { status: 'live', lastSync: '5 dk önce', warnings: [] },
+        apple: { status: 'live', lastSync: '10 dk önce', warnings: [] },
+        yandex: { status: 'live', lastSync: '15 dk önce', warnings: [] }
+    },
+
+    // 2. AUTH ERROR (Token Patlaması - Meta)
+    {
+        id: 4,
+        storeCode: 'DY_004',
+        brand: 'Doyuyo',
+        city: 'İzmir',
+        district: 'Alsancak',
+        name: 'Doyuyo - İzmir - Alsancak',
+        address: 'Alsancak Mah. Kıbrıs Şehitleri Cad. No:22',
+        phone: '+90 232 555 0004',
+        email: 'alsancak@doyuyo.com',
+        imageUrl: 'https://example.com/img2.jpg',
+        website: 'https://doyuyo.com',
+        workingHours: '08:00 - 23:00',
+        description: 'Kordon şubesi',
+        storeSet: 'Express',
+        businessStatus: 'open',
+        google: { status: 'live', lastSync: '15 dk önce', warnings: [] },
+        meta: {
+            status: 'action_required',
+            lastSync: '1 gün önce',
+            warnings: [
+                {
+                    type: 'sync_error',
+                    label: 'Bağlantı Kesildi',
+                    errorCode: 'auth_expired',
+                    platform: 'meta',
+                    errorLog: 'Error 190: Invalid OAuth Access Token. The user has changed the password or revoked access.'
+                }
+            ]
+        },
+        apple: { status: 'live', lastSync: '2 saat önce', warnings: [] },
+        yandex: {
+            status: 'action_required',
+            lastSync: '30 dk önce',
+            warnings: [
+                { type: 'sync_error', label: 'Telefon Eksik', errorCode: 'validation_error', platform: 'yandex', errorLog: 'Missing required field: phone' },
+                { type: 'sync_error', label: 'Koordinat Eksik', errorCode: 'missing_coordinates', platform: 'yandex', errorLog: 'Missing required field: coordinates' }
+            ]
+        }
+    },
+
+    // 3. GEO ERROR (Koordinat Eksik - Google)
+    {
+        id: 3,
+        storeCode: 'DY_076',
+        brand: 'Doyuyo',
+        city: 'Ankara',
+        district: 'Çankaya',
+        name: 'Doyuyo - Ankara - Çankaya',
+        address: 'Kızılay Mah. Atatürk Blv. No:45',
+        phone: '+90 312 555 0076',
+        email: '',
+        imageUrl: '',
+        website: '',
+        workingHours: '',
+        description: '',
+        storeSet: 'Cadde',
+        businessStatus: 'open',
+        google: {
+            status: 'action_required',
+            lastSync: 'Failed',
+            warnings: [
+                {
+                    type: 'sync_error',
+                    label: 'Koordinat Eksik',
+                    errorCode: 'missing_coordinates',
+                    platform: 'google',
+                    errorLog: '400 Bad Request: Missing Lat/Long. Geocoding failed for the provided address.'
+                },
+                { type: 'email_missing', label: 'Email Eksik' },
+                { type: 'image_missing', label: 'Görsel Eksik' }
+            ]
+        },
+        meta: { status: 'not_connected', lastSync: null, warnings: [] },
+        apple: { status: 'pending', lastSync: '1 gün önce', warnings: [] },
+        yandex: { status: 'live', lastSync: null, warnings: [] }
+    },
+
+    // 4. VALIDATION ERROR (Format Hatası - Meta)
+    {
+        id: 6,
+        storeCode: 'DY_006',
+        brand: 'Doyuyo',
+        city: 'Antalya',
+        district: 'Muratpaşa',
+        name: 'Doyuyo - Antalya - Muratpaşa',
+        address: 'Konyaaltı Cad. No:55',
+        phone: '',
+        email: '',
+        imageUrl: '',
+        website: '',
+        workingHours: 'Sabah 9 - Akşam 10',
+        description: '',
+        storeSet: 'Express',
+        businessStatus: 'temporarily_closed',
+        google: { status: 'live', lastSync: '30 dk önce', warnings: [] },
+        meta: {
+            status: 'pending',
+            lastSync: 'Failed',
+            warnings: [
+                {
+                    type: 'sync_error',
+                    label: 'Saat Formatı Hatalı',
+                    errorCode: 'validation_error',
+                    platform: 'meta',
+                    errorLog: 'Param validation failed: working_hours must be in HH:MM - HH:MM format.'
+                },
+                { type: 'phone_missing', label: 'Telefon Eksik' }
+            ]
+        },
+        apple: { status: 'live', lastSync: '1 saat önce', warnings: [] },
+        yandex: {
+            status: 'action_required',
+            lastSync: '2 saat önce',
+            warnings: [
+                { type: 'sync_error', label: 'Website Eksik', errorCode: 'validation_error', platform: 'yandex', errorLog: 'Missing required field: website' },
+                { type: 'sync_error', label: 'Çalışma Saatleri Eksik', errorCode: 'validation_error', platform: 'yandex', errorLog: 'Missing required field: working_hours' },
+                { type: 'sync_error', label: 'Kategori Eksik', errorCode: 'validation_error', platform: 'yandex', errorLog: 'Missing required field: category' }
+            ]
+        }
+    },
+
+    // 5. RATE LIMIT (Trafik - Apple)
+    {
+        id: 7,
+        storeCode: 'DY_007',
+        brand: 'Doyuyo',
+        city: 'Muğla',
+        district: 'Bodrum',
+        name: 'Doyuyo - Muğla - Bodrum',
+        address: 'Neyzen Tevfik Cad.',
+        phone: '+90 252 000 0000',
+        email: 'bodrum@doyuyo.com',
+        imageUrl: 'https://example.com/img3.jpg',
+        website: '',
+        workingHours: '10:00 - 02:00',
+        description: '',
+        storeSet: 'Sezonluk',
+        businessStatus: 'open',
+        google: { status: 'live', lastSync: '1 dk önce', warnings: [] },
+        meta: { status: 'live', lastSync: '1 dk önce', warnings: [] },
+        apple: {
+            status: 'action_required',
+            lastSync: 'Pending',
+            warnings: [
+                {
+                    type: 'sync_error',
+                    label: 'Sıraya Alındı',
+                    errorCode: 'rate_limit',
+                    platform: 'apple',
+                    errorLog: '429 Too Many Requests. Retry-After: 60s'
+                }
+            ]
+        },
+        yandex: { status: 'live', lastSync: '1 dk önce', warnings: [] }
+    },
+
+    // 6. GOOGLE SUSPENDED (Askıya Alındı)
+    {
+        id: 8,
+        storeCode: 'DY_008',
+        brand: 'Doyuyo',
+        city: 'Bursa',
+        district: 'Osmangazi',
+        name: 'Doyuyo - Bursa - Osmangazi',
+        address: 'Heykel Mah. Atatürk Cad. No:10',
+        phone: '+90 224 555 0008',
+        email: 'osmangazi@doyuyo.com',
+        imageUrl: 'https://example.com/img4.jpg',
+        website: 'https://doyuyo.com',
+        workingHours: '09:00 - 21:00',
+        description: 'Bursa merkez şubesi',
+        storeSet: 'Cadde',
+        businessStatus: 'closed',
+        google: {
+            status: 'suspended',
+            lastSync: 'Askıda',
+            warnings: [
+                {
+                    type: 'sync_error',
+                    label: 'Askıya Alındı',
+                    errorCode: 'unknown',
+                    platform: 'google',
+                    errorLog: 'Location suspended due to quality policy violation. Contact Google Support.'
+                }
+            ]
+        },
+        meta: { status: 'live', lastSync: '10 dk önce', warnings: [] },
+        apple: { status: 'live', lastSync: '15 dk önce', warnings: [] },
+        yandex: { status: 'live', lastSync: '20 dk önce', warnings: [] }
+    },
+
+    // 7. GOOGLE DISCONNECTED (Bağlantı Koptu)
+    {
+        id: 9,
+        storeCode: 'DY_009',
+        brand: 'Doyuyo',
+        city: 'Konya',
+        district: 'Selçuklu',
+        name: 'Doyuyo - Konya - Selçuklu',
+        address: 'Selçuklu Mah. Mevlana Cad. No:33',
+        phone: '+90 332 555 0009',
+        email: 'selcuklu@doyuyo.com',
+        imageUrl: 'https://example.com/img5.jpg',
+        website: 'https://doyuyo.com',
+        workingHours: '08:00 - 22:00',
+        description: 'Konya şubesi',
+        storeSet: 'Cadde',
+        businessStatus: 'open',
+        google: {
+            status: 'action_required',
+            lastSync: 'Bağlantı Yok',
+            warnings: [
+                {
+                    type: 'sync_error',
+                    label: 'Bağlantı Koptu',
+                    errorCode: 'auth_expired',
+                    platform: 'google',
+                    errorLog: '403 Permission Denied: Location ownership has been transferred. Please reconnect.'
+                }
+            ]
+        },
+        meta: { status: 'live', lastSync: '5 dk önce', warnings: [] },
+        apple: { status: 'live', lastSync: '8 dk önce', warnings: [] },
+        yandex: { status: 'live', lastSync: '12 dk önce', warnings: [] }
+    },
+
+    // 8. APPLE REJECTED (Reddedildi)
+    {
+        id: 10,
+        storeCode: 'DY_010',
+        brand: 'Doyuyo',
+        city: 'Eskişehir',
+        district: 'Tepebaşı',
+        name: 'Doyuyo - Eskişehir - Tepebaşı',
+        address: 'Tepebaşı Mah. İsmet İnönü Cad. No:55',
+        phone: '+90 222 555 0010',
+        email: 'tepebasi@doyuyo.com',
+        imageUrl: 'https://example.com/img6.jpg',
+        website: 'https://doyuyo.com',
+        workingHours: '09:00 - 20:00',
+        description: 'Eskişehir şubesi',
+        storeSet: 'Express',
+        businessStatus: 'open',
+        google: { status: 'live', lastSync: '3 dk önce', warnings: [] },
+        meta: { status: 'live', lastSync: '7 dk önce', warnings: [] },
+        apple: {
+            status: 'rejected',
+            lastSync: 'Reddedildi',
+            warnings: [
+                {
+                    type: 'sync_error',
+                    label: 'Adres Formatı Hatalı',
+                    errorCode: 'validation_error',
+                    platform: 'apple',
+                    errorLog: 'REJECTED: Address format does not match Apple Maps database. Please verify postal code and street name.'
+                }
+            ]
+        },
+        yandex: { status: 'live', lastSync: '15 dk önce', warnings: [] }
+    },
+
+    // 9. APPLE PENDING REVIEW (İnceleme Bekliyor)
+    {
+        id: 11,
+        storeCode: 'DY_011',
+        brand: 'Doyuyo',
+        city: 'Gaziantep',
+        district: 'Şahinbey',
+        name: 'Doyuyo - Gaziantep - Şahinbey',
+        address: 'Şahinbey Mah. Gaziler Cad. No:88',
+        phone: '+90 342 555 0011',
+        email: 'sahinbey@doyuyo.com',
+        imageUrl: 'https://example.com/img7.jpg',
+        website: 'https://doyuyo.com',
+        workingHours: '08:00 - 23:00',
+        description: 'Gaziantep şubesi',
+        storeSet: 'AVM',
+        businessStatus: 'open',
+        google: { status: 'live', lastSync: '2 dk önce', warnings: [] },
+        meta: { status: 'live', lastSync: '4 dk önce', warnings: [] },
+        apple: { status: 'pending', lastSync: 'İnceleniyor', warnings: [] },
+        yandex: { status: 'live', lastSync: '6 dk önce', warnings: [] }
+    },
+
+    // 10. META DISCONNECTED (Yetki Yok)
+    {
+        id: 12,
+        storeCode: 'DY_012',
+        brand: 'Doyuyo',
+        city: 'Trabzon',
+        district: 'Ortahisar',
+        name: 'Doyuyo - Trabzon - Ortahisar',
+        address: 'Ortahisar Mah. Maraş Cad. No:22',
+        phone: '+90 462 555 0012',
+        email: 'ortahisar@doyuyo.com',
+        imageUrl: 'https://example.com/img8.jpg',
+        website: 'https://doyuyo.com',
+        workingHours: '09:00 - 21:00',
+        description: 'Trabzon şubesi',
+        storeSet: 'Cadde',
+        businessStatus: 'temporarily_closed',
+        google: { status: 'live', lastSync: '5 dk önce', warnings: [] },
+        meta: {
+            status: 'action_required',
+            lastSync: 'Yetki Yok',
+            warnings: [
+                {
+                    type: 'sync_error',
+                    label: 'Erişim İzni Kaldırıldı',
+                    errorCode: 'auth_expired',
+                    platform: 'meta',
+                    errorLog: 'Error 10: Application does not have permission for this action. VenueX app access has been revoked.'
+                }
+            ]
+        },
+        apple: { status: 'live', lastSync: '10 dk önce', warnings: [] },
+        yandex: { status: 'live', lastSync: '15 dk önce', warnings: [] }
+    },
+
+    // 11. META SUSPENDED (Sayfa Kapalı)
+    {
+        id: 13,
+        storeCode: 'DY_013',
+        brand: 'Doyuyo',
+        city: 'Samsun',
+        district: 'Atakum',
+        name: 'Doyuyo - Samsun - Atakum',
+        address: 'Atakum Mah. Sahil Yolu No:100',
+        phone: '+90 362 555 0013',
+        email: 'atakum@doyuyo.com',
+        imageUrl: 'https://example.com/img9.jpg',
+        website: 'https://doyuyo.com',
+        workingHours: '10:00 - 22:00',
+        description: 'Samsun sahil şubesi',
+        storeSet: 'Sezonluk',
+        businessStatus: 'closed',
+        google: { status: 'live', lastSync: '3 dk önce', warnings: [] },
+        meta: {
+            status: 'suspended',
+            lastSync: 'Kapalı',
+            warnings: [
+                {
+                    type: 'sync_error',
+                    label: 'Sayfa Yayından Kaldırıldı',
+                    errorCode: 'unknown',
+                    platform: 'meta',
+                    errorLog: 'Page unpublished by administrator or disabled by Meta for policy violations.'
+                }
+            ]
+        },
+        apple: { status: 'live', lastSync: '8 dk önce', warnings: [] },
+        yandex: { status: 'not_connected', lastSync: null, warnings: [] }
+    },
+
+    // 12. APPLE DELETED (Silindi)
+    {
+        id: 14,
+        storeCode: 'DY_014',
+        brand: 'Doyuyo',
+        city: 'Mersin',
+        district: 'Mezitli',
+        name: 'Doyuyo - Mersin - Mezitli',
+        address: 'Mezitli Mah. Sahil Cad. No:45',
+        phone: '+90 324 555 0014',
+        email: 'mezitli@doyuyo.com',
+        imageUrl: '',
+        website: '',
+        workingHours: '',
+        description: '',
+        storeSet: 'Sezonluk',
+        businessStatus: 'open',
+        google: { status: 'live', lastSync: '5 dk önce', warnings: [] },
+        meta: { status: 'live', lastSync: '10 dk önce', warnings: [] },
+        apple: {
+            status: 'closed',
+            lastSync: 'Silindi',
+            warnings: [
+                {
+                    type: 'sync_error',
+                    label: 'Lokasyon Silindi',
+                    errorCode: 'unknown',
+                    platform: 'apple',
+                    errorLog: 'DELETED: Location has been permanently removed from Apple Business Connect.'
+                }
+            ]
+        },
+        yandex: { status: 'live', lastSync: '15 dk önce', warnings: [] }
+    },
+
+    // 13. KURULUM GEREKİYOR (Yeni eklenen lokasyon - platformlar henüz kurulmamış)
+    {
+        id: 15,
+        storeCode: 'DY_015',
+        brand: 'Doyuyo',
+        city: 'Kayseri',
+        district: 'Melikgazi',
+        name: 'Doyuyo - Kayseri - Melikgazi',
+        address: 'Melikgazi Mah. Cumhuriyet Cad. No:88',
+        phone: '+90 352 555 0015',
+        email: 'melikgazi@doyuyo.com',
+        imageUrl: 'https://example.com/img15.jpg',
+        website: 'https://doyuyo.com',
+        workingHours: '09:00 - 21:00',
+        description: 'Kayseri merkez şubesi - yeni açıldı',
+        storeSet: 'Cadde',
+        businessStatus: 'open',
+        google: { status: 'not_connected', lastSync: null, warnings: [] },
+        meta: { status: 'not_connected', lastSync: null, warnings: [] },
+        apple: { status: 'not_connected', lastSync: null, warnings: [] },
+        yandex: { status: 'not_connected', lastSync: null, warnings: [] }
+    },
+
+    // 14. META STORE CODE ERROR (Store Code Özel Karakter - Meta)
+    {
+        id: 16,
+        storeCode: 'DY 016-A#',
+        brand: 'Doyuyo',
+        city: 'Adana',
+        district: 'Seyhan',
+        name: 'Doyuyo - Adana - Seyhan',
+        address: 'Seyhan Mah. Özgürlük Cad. No:77',
+        phone: '+90 322 555 0016',
+        email: 'seyhan@doyuyo.com',
+        imageUrl: 'https://example.com/img16.jpg',
+        website: 'https://doyuyo.com',
+        workingHours: '09:00 - 22:00',
+        description: 'Adana merkez şubesi',
+        storeSet: 'Cadde',
+        businessStatus: 'open',
+        google: { status: 'live', lastSync: '5 dk önce', warnings: [] },
+        meta: {
+            status: 'action_required',
+            lastSync: 'Hatalı',
+            warnings: [
+                {
+                    type: 'sync_error',
+                    label: 'Store Code Hatalı',
+                    errorCode: 'invalid_store_code',
+                    platform: 'meta',
+                    errorLog: 'Invalid store_id format: Store code cannot contain spaces or special characters (# - ç ş etc.). Use only alphanumeric and underscore.'
+                }
+            ]
+        },
+        apple: { status: 'live', lastSync: '10 dk önce', warnings: [] },
+        yandex: { status: 'live', lastSync: '15 dk önce', warnings: [] }
+    }
+];
+
+export const calculateDataHealth = (location: LocationData): number => {
+    const fields = [
+        location.phone,
+        location.email,
+        location.address,
+        location.imageUrl,
+        location.website,
+        location.workingHours,
+        location.description
+    ];
+    const filledFields = fields.filter(f => f && f.trim() !== '').length;
+    return Math.round((filledFields / fields.length) * 100);
+};
