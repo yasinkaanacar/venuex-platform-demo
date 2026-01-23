@@ -19,9 +19,12 @@ export interface OverviewData {
 }
 
 export interface FilterState {
-  dateRange: string;
+  dateRange: string | { startDate: Date; endDate: Date };
   platform: string;
   compareMode: boolean;
+  campaigns?: string[];
+  campaignTypes?: string[];
+  isAllCampaignsSelected?: boolean;
 }
 
 export interface LocationsFilterState {

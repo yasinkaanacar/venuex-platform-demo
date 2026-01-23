@@ -17,6 +17,9 @@ import OfflineSummary from '../components/offline-conversions/OfflineSummary';
 import PerformanceChart from '../components/offline-conversions/performance-chart';
 import AttributionBreakdown from '../components/offline-conversions/AttributionBreakdown';
 
+import CampaignPerformanceTable from '../components/offline-conversions/CampaignPerformanceTable';
+import GeographicPerformance from '../components/offline-conversions/GeographicPerformance';
+
 // Mock sparkline data for each KPI
 const revenueSparklineData = [
   { value: 1100000 }, { value: 1050000 }, { value: 1150000 }, { value: 1200000 },
@@ -148,13 +151,15 @@ const campaignTypeOptions = [
   { value: "conversion", label: "Conversion", icon: "🎯" }
 ];
 
-interface FilterState {
+// Local filter state for this page supporting multiple platforms
+interface PageFilterState {
   dateRange: string | any;
   platforms: string[];
   platform?: string;
   campaigns: string[];
   campaignTypes: string[];
   isAllCampaignsSelected?: boolean;
+  compareMode: boolean;
 }
 
 // Campaign data interface
@@ -245,543 +250,52 @@ const mockGeoData: GeoPerformanceData[] = [
   }
 ];
 
-// Mock campaign data
-const mockCampaigns: Campaign[] = [
-  {
-    id: '1',
-    name: 'Holiday Sale Campaign',
-    status: 'active',
-    platform: 'google',
-    adSpend: 45000,
-    offlineRevenue: 234000,
-    offlineConversions: 456,
-    offlineROAS: 5.2,
-    blendedROAS: 6.8
-  },
-  {
-    id: '2',
-    name: 'Social Commerce Push',
-    status: 'active',
-    platform: 'meta',
-    adSpend: 32000,
-    offlineRevenue: 128000,
-    offlineConversions: 289,
-    offlineROAS: 4.0,
-    blendedROAS: 5.5
-  },
-  {
-    id: '3',
-    name: 'Brand Awareness Q4',
-    status: 'active',
-    platform: 'google',
-    adSpend: 28000,
-    offlineRevenue: 89600,
-    offlineConversions: 167,
-    offlineROAS: 3.2,
-    blendedROAS: 4.1
-  },
-  {
-    id: '4',
-    name: 'Gen Z Fashion Trends',
-    status: 'active',
-    platform: 'tiktok',
-    adSpend: 18000,
-    offlineRevenue: 108000,
-    offlineConversions: 201,
-    offlineROAS: 6.0,
-    blendedROAS: 7.2
-  },
-  {
-    id: '5',
-    name: 'Product Launch - Denim',
-    status: 'paused',
-    platform: 'google',
-    adSpend: 22000,
-    offlineRevenue: 44000,
-    offlineConversions: 89,
-    offlineROAS: 2.0,
-    blendedROAS: 3.5
-  },
-  {
-    id: '6',
-    name: 'Video Content Campaign',
-    status: 'active',
-    platform: 'meta',
-    adSpend: 25000,
-    offlineRevenue: 125000,
-    offlineConversions: 234,
-    offlineROAS: 5.0,
-    blendedROAS: 6.3
-  },
-  {
-    id: '7',
-    name: 'Influencer Collaborations',
-    status: 'active',
-    platform: 'tiktok',
-    adSpend: 15000,
-    offlineRevenue: 52500,
-    offlineConversions: 98,
-    offlineROAS: 3.5,
-    blendedROAS: 4.8
-  },
-  {
-    id: '8',
-    name: 'Retargeting - Website',
-    status: 'error',
-    platform: 'google',
-    adSpend: 12000,
-    offlineRevenue: 36000,
-    offlineConversions: 67,
-    offlineROAS: 3.0,
-    blendedROAS: 5.2
+
+// Helper to convert string date range to Date objects
+const getDateRangeFromValue = (value: string | any) => {
+  if (typeof value !== 'string') return value;
+
+  const endDate = new Date();
+  const startDate = new Date();
+
+  switch (value) {
+    case '7d':
+      startDate.setDate(endDate.getDate() - 7);
+      break;
+    case '30d':
+      startDate.setDate(endDate.getDate() - 30);
+      break;
+    case 'thisMonth':
+      startDate.setDate(1);
+      break;
+    case 'lastMonth':
+      startDate.setMonth(startDate.getMonth() - 1);
+      startDate.setDate(1);
+      endDate.setDate(0); // Last day of previous month
+      startDate.setHours(0, 0, 0, 0);
+      endDate.setHours(23, 59, 59, 999);
+      return { startDate, endDate };
+    case 'qtd':
+      startDate.setMonth(Math.floor(startDate.getMonth() / 3) * 3);
+      startDate.setDate(1);
+      break;
+    default:
+      startDate.setDate(endDate.getDate() - 30);
   }
-];
 
-// Campaign Table Component
-function CampaignTable({ filters }: { filters: FilterState }) {
-  const [sortColumn, setSortColumn] = useState<keyof Campaign | null>('offlineROAS');
-  const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('desc');
-
-  const handleSort = (column: keyof Campaign) => {
-    if (sortColumn === column) {
-      setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc');
-    } else {
-      setSortColumn(column);
-      setSortDirection('desc');
-    }
-  };
-
-  const getROASColor = (roas: number) => {
-    if (roas >= 5) return 'text-green-600 bg-green-50';
-    if (roas >= 3) return 'text-yellow-600 bg-yellow-50';
-    return 'text-red-600 bg-red-50';
-  };
-
-  const getStatusColor = (status: Campaign['status']) => {
-    switch (status) {
-      case 'active': return 'bg-green-500';
-      case 'paused': return 'bg-gray-400';
-      case 'error': return 'bg-red-500';
-    }
-  };
-
-  const getPlatformBadge = (platform: Campaign['platform']) => {
-    switch (platform) {
-      case 'google':
-        return (
-          <Badge className="bg-[#EA4335] text-white hover:bg-[#EA4335]">
-            <SiGoogle className="w-3 h-3 mr-1" />
-            Google
-          </Badge>
-        );
-      case 'meta':
-        return (
-          <Badge className="bg-[#1877F2] text-white hover:bg-[#1877F2]">
-            <SiMeta className="w-3 h-3 mr-1" />
-            Meta
-          </Badge>
-        );
-      case 'tiktok':
-        return (
-          <Badge className="bg-black text-white hover:bg-black">
-            <SiTiktok className="w-3 h-3 mr-1" />
-            TikTok
-          </Badge>
-        );
-    }
-  };
-
-  // Filter campaigns based on filter state
-  const filteredCampaigns = mockCampaigns.filter(campaign => {
-    if (filters.platforms.length > 0 && !filters.platforms.includes(campaign.platform)) {
-      return false;
-    }
-    if (filters.campaigns.length > 0 && !filters.campaigns.includes(campaign.name)) {
-      return false;
-    }
-    return true;
-  });
-
-  // Sort campaigns
-  const sortedCampaigns = [...filteredCampaigns].sort((a, b) => {
-    if (!sortColumn) return 0;
-
-    const aVal = a[sortColumn];
-    const bVal = b[sortColumn];
-
-    if (typeof aVal === 'number' && typeof bVal === 'number') {
-      return sortDirection === 'asc' ? aVal - bVal : bVal - aVal;
-    }
-
-    if (typeof aVal === 'string' && typeof bVal === 'string') {
-      return sortDirection === 'asc'
-        ? aVal.localeCompare(bVal)
-        : bVal.localeCompare(aVal);
-    }
-
-    return 0;
-  });
-
-  const formatCurrency = (amount: number) => {
-    return `₺${(amount / 1000).toFixed(0)}K`;
-  };
-
-  return (
-    <div className="overflow-x-auto">
-      <table className="w-full">
-        <thead>
-          <tr className="border-b border-gray-200">
-            <th className="text-left py-3 px-4 text-xs font-semibold text-gray-600 cursor-pointer hover:bg-gray-100" onClick={() => handleSort('name')}>
-              Campaign Name {sortColumn === 'name' && (sortDirection === 'asc' ? '↑' : '↓')}
-            </th>
-            <th className="text-left py-3 px-4 text-xs font-semibold text-gray-600 cursor-pointer hover:bg-gray-100" onClick={() => handleSort('platform')}>
-              Platform {sortColumn === 'platform' && (sortDirection === 'asc' ? '↑' : '↓')}
-            </th>
-            <th className="text-right py-3 px-4 text-xs font-semibold text-gray-600 cursor-pointer hover:bg-gray-100" onClick={() => handleSort('adSpend')}>
-              Ad Spend {sortColumn === 'adSpend' && (sortDirection === 'asc' ? '↑' : '↓')}
-            </th>
-            <th className="text-right py-3 px-4 text-xs font-semibold text-gray-600 cursor-pointer hover:bg-gray-100" onClick={() => handleSort('offlineRevenue')}>
-              Offline Revenue {sortColumn === 'offlineRevenue' && (sortDirection === 'asc' ? '↑' : '↓')}
-            </th>
-            <th className="text-right py-3 px-4 text-xs font-semibold text-gray-600 cursor-pointer hover:bg-gray-100" onClick={() => handleSort('offlineConversions')}>
-              Offline Conversions {sortColumn === 'offlineConversions' && (sortDirection === 'asc' ? '↑' : '↓')}
-            </th>
-            <th className="text-right py-3 px-4 text-xs font-semibold text-gray-600 cursor-pointer hover:bg-gray-100" onClick={() => handleSort('offlineROAS')}>
-              Offline ROAS {sortColumn === 'offlineROAS' && (sortDirection === 'asc' ? '↑' : '↓')}
-            </th>
-            <th className="text-right py-3 px-4 text-xs font-semibold text-gray-600 cursor-pointer hover:bg-gray-100" onClick={() => handleSort('blendedROAS')}>
-              Blended ROAS {sortColumn === 'blendedROAS' && (sortDirection === 'asc' ? '↑' : '↓')}
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          {sortedCampaigns.map((campaign) => (
-            <tr key={campaign.id} className="border-b border-gray-100 hover:bg-gray-50 cursor-pointer" data-testid={`campaign-row-${campaign.id}`}>
-              <td className="py-3 px-4">
-                <div className="flex items-center gap-2">
-                  <div className={`w-2 h-2 rounded-full ${getStatusColor(campaign.status)}`} />
-                  <span className="text-sm font-medium text-gray-900">{campaign.name}</span>
-                </div>
-              </td>
-              <td className="py-3 px-4">
-                {getPlatformBadge(campaign.platform)}
-              </td>
-              <td className="py-3 px-4 text-right text-sm text-gray-900">
-                {formatCurrency(campaign.adSpend)}
-              </td>
-              <td className="py-3 px-4 text-right text-sm font-medium text-gray-900">
-                {formatCurrency(campaign.offlineRevenue)}
-              </td>
-              <td className="py-3 px-4 text-right text-sm text-gray-900">
-                {campaign.offlineConversions.toLocaleString()}
-              </td>
-              <td className="py-3 px-4 text-right">
-                <span className={`inline-block px-2 py-1 rounded text-sm font-semibold ${getROASColor(campaign.offlineROAS)}`}>
-                  {campaign.offlineROAS.toFixed(1)}x
-                </span>
-              </td>
-              <td className="py-3 px-4 text-right text-sm font-medium text-gray-900">
-                {campaign.blendedROAS.toFixed(1)}x
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-      {sortedCampaigns.length === 0 && (
-        <div className="text-center py-8 text-gray-500">
-          No campaigns match the selected filters
-        </div>
-      )}
-    </div>
-  );
-}
-
-// Campaign data type
-interface CampaignData {
-  id: string;
-  name: string;
-  platform: string;
-  campaignType: string;
-  impressions: number;
-  ctv: number;
-  spend: number;
-  roas: number;
-  visits: number;
-  purchases: number;
-}
-
-// Complete campaign dataset
-const allCampaignsData: CampaignData[] = [
-  { id: '1', name: 'Holiday Sale Campaign', platform: 'google', campaignType: 'conversion', impressions: 245000, ctv: 3.8, spend: 18500, roas: 5.2, visits: 32400, purchases: 1650 },
-  { id: '2', name: 'Brand Awareness Q4', platform: 'google', campaignType: 'awareness', impressions: 890000, ctv: 1.2, spend: 12000, roas: 2.1, visits: 18900, purchases: 420 },
-  { id: '3', name: 'Product Launch - Denim', platform: 'google', campaignType: 'consideration', impressions: 156000, ctv: 4.2, spend: 22000, roas: 4.8, visits: 28500, purchases: 1320 },
-  { id: '4', name: 'Retargeting - Website', platform: 'google', campaignType: 'conversion', impressions: 98000, ctv: 6.5, spend: 15000, roas: 6.2, visits: 24000, purchases: 1580 },
-  { id: '5', name: 'Social Commerce Push', platform: 'meta', campaignType: 'conversion', impressions: 178000, ctv: 3.4, spend: 16800, roas: 4.5, visits: 26700, purchases: 1240 },
-  { id: '6', name: 'Video Content Campaign', platform: 'meta', campaignType: 'awareness', impressions: 720000, ctv: 1.8, spend: 9500, roas: 2.8, visits: 15200, purchases: 380 },
-  { id: '7', name: 'Lookalike Audiences', platform: 'meta', campaignType: 'consideration', impressions: 134000, ctv: 4.8, spend: 19200, roas: 5.4, visits: 30100, purchases: 1450 },
-  { id: '8', name: 'Dynamic Product Ads', platform: 'meta', campaignType: 'conversion', impressions: 112000, ctv: 5.2, spend: 21500, roas: 5.8, visits: 28900, purchases: 1620 },
-  { id: '9', name: 'Gen Z Fashion Trends', platform: 'tiktok', campaignType: 'awareness', impressions: 450000, ctv: 2.4, spend: 8200, roas: 3.2, visits: 14800, purchases: 340 },
-  { id: '10', name: 'Influencer Collaborations', platform: 'tiktok', campaignType: 'consideration', impressions: 280000, ctv: 3.6, spend: 11500, roas: 4.1, visits: 19200, purchases: 780 },
-  { id: '11', name: 'Short Video Ads', platform: 'tiktok', campaignType: 'conversion', impressions: 165000, ctv: 4.5, spend: 14800, roas: 4.9, visits: 22600, purchases: 1120 },
-  { id: '12', name: 'Summer Sale 2024', platform: 'google', campaignType: 'conversion', impressions: 142580, ctv: 3.4, spend: 16350, roas: 4.2, visits: 24387, purchases: 1247 },
-  { id: '13', name: 'Local Shopping Campaign', platform: 'google', campaignType: 'performance', impressions: 118420, ctv: 2.9, spend: 15420, roas: 3.8, visits: 18652, purchases: 923 },
-  { id: '14', name: 'Local Store Promo', platform: 'meta', campaignType: 'awareness', impressions: 89670, ctv: 4.1, spend: 12840, roas: 5.1, visits: 16234, purchases: 785 },
-  { id: '15', name: 'Store Visit Drive', platform: 'meta', campaignType: 'consideration', impressions: 135240, ctv: 3.7, spend: 18960, roas: 3.6, visits: 21089, purchases: 634 },
-  { id: '16', name: 'Gen Z Store Discovery', platform: 'tiktok', campaignType: 'awareness', impressions: 78950, ctv: 2.8, spend: 8920, roas: 2.9, visits: 12473, purchases: 298 },
-];
-
-// Top Performing Campaigns Component
-function TopPerformingCampaigns({ filters }: { filters: FilterState }) {
-  const [sortColumn, setSortColumn] = useState<string>('roas');
-  const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('desc');
-  const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 10;
-
-  const handleSort = (column: string) => {
-    if (sortColumn === column) {
-      setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc');
-    } else {
-      setSortColumn(column);
-      setSortDirection('desc');
-    }
-  };
-
-  // Apply filters to campaign data
-  const getFilteredCampaigns = () => {
-    let filtered = [...allCampaignsData];
-
-    // Filter by platform
-    if (filters.platforms.length > 0) {
-      filtered = filtered.filter(campaign => filters.platforms.includes(campaign.platform));
-    }
-
-    // Filter by campaign name
-    if (filters.campaigns.length > 0) {
-      filtered = filtered.filter(campaign => filters.campaigns.includes(campaign.name));
-    }
-
-    // Filter by campaign type
-    if (filters.campaignTypes.length > 0) {
-      filtered = filtered.filter(campaign => filters.campaignTypes.includes(campaign.campaignType));
-    }
-
-    return filtered;
-  };
-
-  // Sort campaigns
-  const getSortedCampaigns = () => {
-    const filtered = getFilteredCampaigns();
-
-    if (!sortColumn) return filtered;
-
-    return [...filtered].sort((a, b) => {
-      let aVal: any = a[sortColumn as keyof CampaignData];
-      let bVal: any = b[sortColumn as keyof CampaignData];
-
-      if (sortColumn === 'name') {
-        aVal = aVal.toLowerCase();
-        bVal = bVal.toLowerCase();
-      }
-
-      if (sortDirection === 'asc') {
-        return aVal > bVal ? 1 : -1;
-      } else {
-        return aVal < bVal ? 1 : -1;
-      }
-    });
-  };
-
-  const sortedCampaigns = getSortedCampaigns();
-  const totalPages = Math.ceil(sortedCampaigns.length / itemsPerPage);
-  const paginatedCampaigns = sortedCampaigns.slice(
-    (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage
-  );
-
-  // Reset to page 1 when filters change
-  useEffect(() => {
-    setCurrentPage(1);
-  }, [filters]);
-
-  const getPlatformIcon = (platform: string) => {
-    switch (platform) {
-      case 'google':
-        return <div className="w-6 h-6 bg-[#EA4335] rounded flex items-center justify-center flex-shrink-0"><SiGoogle className="w-3 h-3 text-white" /></div>;
-      case 'meta':
-        return <div className="w-6 h-6 bg-blue-600 rounded flex items-center justify-center flex-shrink-0"><span className="text-xs text-white font-bold">f</span></div>;
-      case 'tiktok':
-        return <div className="w-6 h-6 bg-black rounded flex items-center justify-center flex-shrink-0"><SiTiktok className="w-3.5 h-3.5 text-white" /></div>;
-      default:
-        return null;
-    }
-  };
-
-  return (
-    <div className="bg-[#fcfcfc] rounded-lg border border-gray-200 overflow-hidden">
-      <div className="bg-[#f9fafb] p-6 flex justify-between items-center border-b border-gray-200">
-        <div>
-          <h3 className="text-lg font-semibold text-foreground">Campaign Performance</h3>
-          <p className="text-sm text-muted-foreground">
-            Showing {paginatedCampaigns.length} of {sortedCampaigns.length} campaigns
-          </p>
-        </div>
-      </div>
-      <div className="bg-[#f9fafb] p-6">
-        <div className="overflow-x-auto">
-          <table className="w-full">
-            <thead>
-              <tr className="border-b-2 border-border">
-                <th className="text-left py-3 px-4 text-xs font-medium text-muted-foreground uppercase tracking-wider border-r border-border/30">
-                  <button
-                    onClick={() => handleSort('name')}
-                    className="flex items-center gap-1 hover:text-foreground transition-colors"
-                  >
-                    Campaign
-                    <ArrowUpDown className="w-3 h-3" />
-                  </button>
-                </th>
-                <th className="text-center py-3 px-4 text-xs font-medium text-muted-foreground uppercase tracking-wider border-r border-border/30">
-                  <button
-                    onClick={() => handleSort('impressions')}
-                    className="flex items-center justify-center gap-1 hover:text-foreground transition-colors w-full"
-                  >
-                    Impressions
-                    <ArrowUpDown className="w-3 h-3" />
-                  </button>
-                </th>
-                <th className="text-center py-3 px-4 text-xs font-medium text-muted-foreground uppercase tracking-wider border-r border-border/30">
-                  <button
-                    onClick={() => handleSort('ctv')}
-                    className="flex items-center justify-center gap-1 hover:text-foreground transition-colors w-full"
-                  >
-                    CTV
-                    <ArrowUpDown className="w-3 h-3" />
-                  </button>
-                </th>
-                <th className="text-center py-3 px-4 text-xs font-medium text-muted-foreground uppercase tracking-wider border-r border-border/30">
-                  <button
-                    onClick={() => handleSort('spend')}
-                    className="flex items-center justify-center gap-1 hover:text-foreground transition-colors w-full"
-                  >
-                    Spend
-                    <ArrowUpDown className="w-3 h-3" />
-                  </button>
-                </th>
-                <th className="text-center py-3 px-4 text-xs font-medium text-muted-foreground uppercase tracking-wider border-r border-border/30">
-                  <button
-                    onClick={() => handleSort('roas')}
-                    className="flex items-center justify-center gap-1 hover:text-foreground transition-colors w-full"
-                  >
-                    ROAS
-                    <ArrowUpDown className="w-3 h-3" />
-                  </button>
-                </th>
-                <th className="text-center py-3 px-4 text-xs font-medium text-muted-foreground uppercase tracking-wider border-r border-border/30">
-                  <button
-                    onClick={() => handleSort('visits')}
-                    className="flex items-center justify-center gap-1 hover:text-foreground transition-colors w-full"
-                  >
-                    Visits
-                    <ArrowUpDown className="w-3 h-3" />
-                  </button>
-                </th>
-                <th className="text-center py-3 px-4 text-xs font-medium text-muted-foreground uppercase tracking-wider">
-                  <button
-                    onClick={() => handleSort('purchases')}
-                    className="flex items-center justify-center gap-1 hover:text-foreground transition-colors w-full"
-                  >
-                    Purchases
-                    <ArrowUpDown className="w-3 h-3" />
-                  </button>
-                </th>
-              </tr>
-            </thead>
-            <tbody className="divide-y-2 divide-border">
-              {paginatedCampaigns.map((campaign) => (
-                <tr key={campaign.id} className="hover:bg-muted/50" data-testid={`row-campaign-${campaign.id}`}>
-                  <td className="py-4 px-4 border-r border-border/30">
-                    <div className="flex items-center gap-3">
-                      {getPlatformIcon(campaign.platform)}
-                      <div>
-                        <div className="font-medium text-foreground">{campaign.name}</div>
-                        <div className="text-sm text-muted-foreground">{campaign.platform}-ads</div>
-                      </div>
-                    </div>
-                  </td>
-                  <td className="text-center py-4 px-4 text-foreground font-medium border-r border-border/30">
-                    {campaign.impressions.toLocaleString()}
-                  </td>
-                  <td className="text-center py-4 px-4 text-muted-foreground border-r border-border/30">
-                    {campaign.ctv}%
-                  </td>
-                  <td className="text-center py-4 px-4 text-foreground font-medium border-r border-border/30">
-                    ${campaign.spend.toLocaleString()}
-                  </td>
-                  <td className="text-center py-4 px-4 text-foreground font-medium border-r border-border/30">
-                    {campaign.roas}x
-                  </td>
-                  <td className="text-center py-4 px-4 text-foreground font-medium border-r border-border/30">
-                    {campaign.visits.toLocaleString()}
-                  </td>
-                  <td className="text-center py-4 px-4 text-foreground font-medium">
-                    {campaign.purchases.toLocaleString()}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-
-          {paginatedCampaigns.length === 0 && (
-            <div className="text-center py-8 text-muted-foreground">
-              No campaigns match the selected filters
-            </div>
-          )}
-        </div>
-
-        {/* Pagination Controls */}
-        {totalPages > 1 && (
-          <div className="mt-4 flex items-center justify-between border-t border-gray-200 pt-4">
-            <div className="text-sm text-gray-600">
-              Page {currentPage} of {totalPages} ({sortedCampaigns.length} total campaigns)
-            </div>
-            <div className="flex gap-2">
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
-                disabled={currentPage === 1}
-                className="h-8"
-                data-testid="button-prev-page"
-              >
-                &lt; Previous
-              </Button>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}
-                disabled={currentPage === totalPages}
-                className="h-8"
-                data-testid="button-next-page"
-              >
-                Next &gt;
-              </Button>
-            </div>
-          </div>
-        )}
-      </div>
-    </div>
-  );
-}
+  return { startDate, endDate };
+};
 
 export default function OfflineConversionsMVP() {
-  const [filters, setFilters] = useState<FilterState>({
+  const [filters, setFilters] = useState<PageFilterState>({
     dateRange: "30d",
     platforms: [],
     campaigns: [],
-    campaignTypes: []
+    campaignTypes: [],
+    compareMode: false
   });
 
-  const [mainTab, setMainTab] = useState<'ozet' | 'performans' | 'kampanyalar' | 'cografi'>('ozet');
+  const [mainTab, setMainTab] = useState<'ozet' | 'performans' | 'kampanyalar' | 'cografi' | 'veri_baglantisi'>('ozet');
 
   const [campaignSearch, setCampaignSearch] = useState("");
   const [platformSearch, setPlatformSearch] = useState("");
@@ -999,7 +513,8 @@ export default function OfflineConversionsMVP() {
       dateRange: "30d",
       platforms: [],
       campaigns: [],
-      campaignTypes: []
+      campaignTypes: [],
+      compareMode: false
     });
     setCampaignSearch("");
     setPlatformSearch("");
@@ -1179,7 +694,7 @@ export default function OfflineConversionsMVP() {
 
             {/* Online-to-Offline Conversion Funnel */}
             <div className="mx-6 mt-6">
-              <PerformanceChart filters={filters} onFiltersChange={setFilters} showProviderFilter={true} />
+              <PerformanceChart filters={filters as any} onFiltersChange={setFilters as any} showProviderFilter={true} />
             </div>
 
 
@@ -1187,14 +702,27 @@ export default function OfflineConversionsMVP() {
         )}
 
         {/* Performans Tab */}
-        {/* Performans Tab */}
         {mainTab === 'performans' && (
           <>
+            {/* Conversion Funnel - No Platform Selector */}
             <div className="mx-6 mt-6">
-              <AttributionBreakdown />
+              <PerformanceChart filters={filters as any} onFiltersChange={setFilters as any} showProviderFilter={false} />
             </div>
+
+            {/* Geographic Map and Performance */}
             <div className="mx-6 mt-6">
-              <TopPerformingCampaigns filters={filters} />
+              <GeographicPerformance
+                filters={{
+                  ...filters,
+                  platform: filters.platform || 'google'
+                }}
+                dateRange={getDateRangeFromValue(filters.dateRange)}
+              />
+            </div>
+
+            {/* Campaign List */}
+            <div className="mx-6 mt-6">
+              <CampaignPerformanceTable />
             </div>
           </>
         )}
@@ -1214,7 +742,7 @@ export default function OfflineConversionsMVP() {
         {mainTab === 'kampanyalar' && (
           <>
             <div className="mx-6 mt-6">
-              <TopPerformingCampaigns filters={filters} />
+              <CampaignPerformanceTable />
             </div>
           </>
         )}

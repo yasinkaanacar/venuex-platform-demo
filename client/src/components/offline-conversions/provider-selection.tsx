@@ -1,5 +1,5 @@
 import { SiGoogle, SiMeta, SiTiktok, SiApple } from "react-icons/si";
-import { Provider } from "./mock-setup";
+import { Provider } from "@/lib/constants";
 
 interface ProviderConfig {
     label: string;
