@@ -58,7 +58,7 @@ const data = [
     get offlineROAS() { return parseFloat(((this.offlineSales / this.offlineAdSpend) * 100).toFixed(1)); }
   },
   {
-    week: "Week 33", 
+    week: "Week 33",
     period: "Aug 11, 2025 to Aug 17, 2025",
     onlineSales: 5000,
     offlineSales: 17000,
@@ -72,7 +72,7 @@ const data = [
   },
   {
     week: "Week 34",
-    period: "Aug 18, 2025 to Aug 24, 2025", 
+    period: "Aug 18, 2025 to Aug 24, 2025",
     onlineSales: 4500,
     offlineSales: 11000,
     onlineAdSpend: 1125,
@@ -117,14 +117,14 @@ const CustomTooltip = ({ active, payload, label }: any) => {
     const totalSales = data.onlineSales + data.offlineSales;
     const roas = ((totalSales / data.cost) * 100).toFixed(1);
     const onlineShare = ((data.onlineSales / totalSales) * 100).toFixed(1);
-    
+
     return (
       <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl shadow-2xl p-4 min-w-[280px]">
         <div className="border-b border-gray-200 dark:border-gray-600 pb-2 mb-3">
           <p className="font-semibold text-gray-900 dark:text-gray-100 text-sm">{data.period}</p>
           <p className="text-xs text-gray-500 dark:text-gray-400">{data.week}</p>
         </div>
-        
+
         <div className="grid grid-cols-2 gap-3 mb-3">
           <div className="space-y-2">
             <div className="flex items-center gap-2">
@@ -132,21 +132,21 @@ const CustomTooltip = ({ active, payload, label }: any) => {
               <span className="text-xs font-medium text-gray-700 dark:text-gray-300">Online Sales</span>
             </div>
             <p className="text-sm font-bold text-blue-600">${data.onlineSales.toLocaleString()}</p>
-            
+
             <div className="flex items-center gap-2">
               <div className="w-3 h-3 bg-gradient-to-r from-red-400 to-red-600 rounded-full shadow-sm"></div>
               <span className="text-xs font-medium text-gray-700 dark:text-gray-300">Offline Sales</span>
             </div>
             <p className="text-sm font-bold text-red-600">${data.offlineSales.toLocaleString()}</p>
           </div>
-          
+
           <div className="space-y-2">
             <div className="flex items-center gap-2">
               <div className="w-3 h-3 bg-gradient-to-r from-amber-400 to-yellow-500 rounded-full shadow-sm"></div>
               <span className="text-xs font-medium text-gray-700 dark:text-gray-300">Ad Spend</span>
             </div>
             <p className="text-sm font-bold text-amber-600">${data.cost.toLocaleString()}</p>
-            
+
             <div className="flex items-center gap-2">
               <div className="w-3 h-3 bg-gradient-to-r from-purple-400 to-purple-600 rounded-full shadow-sm"></div>
               <span className="text-xs font-medium text-gray-700 dark:text-gray-300">Visitors</span>
@@ -154,7 +154,7 @@ const CustomTooltip = ({ active, payload, label }: any) => {
             <p className="text-sm font-bold text-purple-600">{data.visitors.toLocaleString()}</p>
           </div>
         </div>
-        
+
         <div className="border-t border-gray-200 dark:border-gray-600 pt-2 space-y-1">
           <div className="flex justify-between items-center">
             <span className="text-xs text-gray-600 dark:text-gray-400">Total Revenue:</span>
@@ -221,6 +221,9 @@ const getAverageOfflineROAS = () => {
 };
 
 const getWeekOverWeekGrowth = () => {
+  // If we have at least 2 weeks of data
+  if (data.length < 2) return { change: "0", isPositive: true };
+
   const lastWeek = data[data.length - 1];
   const previousWeek = data[data.length - 2];
   const lastWeekTotal = lastWeek.onlineSales + lastWeek.offlineSales;
@@ -234,6 +237,116 @@ export default function WeeklySalesChart() {
   const averageOnlineROAS = getAverageOnlineROAS();
   const averageOfflineROAS = getAverageOfflineROAS();
   const weekGrowth = getWeekOverWeekGrowth();
-  
-  return null;
+
+  return (
+    <div className="bg-white rounded-lg border border-gray-200 overflow-hidden h-full">
+      {/* Header */}
+      <div className="px-5 py-4 border-b border-gray-100 bg-[#f9fafb]">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <div className="p-1.5 bg-blue-100 rounded-md">
+              <TrendingUp className="w-4 h-4 text-blue-600" />
+            </div>
+            <h3 className="text-base font-semibold text-gray-900">Weekly Sales Performance</h3>
+          </div>
+          <div className="flex items-center gap-2">
+            <span className={`flex items-center px-2 py-0.5 rounded text-xs font-medium ${weekGrowth.isPositive ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
+              {weekGrowth.isPositive ? <TrendingUp className="w-3 h-3 mr-1" /> : <TrendingDown className="w-3 h-3 mr-1" />}
+              {weekGrowth.change}%
+            </span>
+            <span className="text-xs text-gray-500">vs last week</span>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-4 gap-4 mt-4">
+          <div>
+            <p className="text-xs text-gray-500 mb-0.5">Total Revenue</p>
+            <p className="text-lg font-bold text-gray-900">${totalSales.toLocaleString()}</p>
+          </div>
+          <div>
+            <p className="text-xs text-gray-500 mb-0.5">Avg ROAS</p>
+            <p className="text-lg font-bold text-indigo-600">{averageROAS}%</p>
+          </div>
+          <div>
+            <p className="text-xs text-gray-500 mb-0.5">Online ROAS</p>
+            <p className="text-lg font-bold text-cyan-600">{averageOnlineROAS}%</p>
+          </div>
+          <div>
+            <p className="text-xs text-gray-500 mb-0.5">Offline ROAS</p>
+            <p className="text-lg font-bold text-teal-600">{averageOfflineROAS}%</p>
+          </div>
+        </div>
+      </div>
+
+      {/* Chart */}
+      <div className="h-[300px] w-full mt-4 px-2">
+        <ResponsiveContainer width="100%" height="100%">
+          <ComposedChart
+            data={data}
+            margin={{ top: 20, right: 20, bottom: 20, left: 20 }}
+          >
+            <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f0f0f0" />
+            <XAxis
+              dataKey="week"
+              axisLine={false}
+              tickLine={false}
+              tick={{ fontSize: 12, fill: '#6b7280' }}
+              dy={10}
+            />
+            <YAxis
+              yAxisId="left"
+              orientation="left"
+              axisLine={false}
+              tickLine={false}
+              tick={{ fontSize: 12, fill: '#6b7280' }}
+              tickFormatter={(value) => `$${value / 1000}k`}
+            />
+            <YAxis
+              yAxisId="right"
+              orientation="right"
+              axisLine={false}
+              tickLine={false}
+              tick={{ fontSize: 12, fill: '#6b7280' }}
+              tickFormatter={(value) => `${value}`}
+            />
+            <Tooltip content={<CustomTooltip />} cursor={{ fill: '#f9fafb' }} />
+            <Legend
+              verticalAlign="top"
+              height={36}
+              iconType="circle"
+              wrapperStyle={{ fontSize: '12px', color: '#374151' }}
+            />
+            <Bar
+              yAxisId="left"
+              dataKey="onlineSales"
+              name="Online Sales"
+              stackId="a"
+              fill="#3b82f6"
+              radius={[0, 0, 0, 0]}
+              barSize={32}
+            />
+            <Bar
+              yAxisId="left"
+              dataKey="offlineSales"
+              name="Offline Sales"
+              stackId="a"
+              fill="#ef4444"
+              radius={[4, 4, 0, 0]}
+              barSize={32}
+            />
+            <Line
+              yAxisId="right"
+              type="monotone"
+              dataKey="visitors"
+              name="Visitors"
+              stroke="#8b5cf6"
+              strokeWidth={3}
+              dot={{ r: 4, fill: '#8b5cf6', strokeWidth: 2, stroke: '#fff' }}
+              activeDot={{ r: 6, strokeWidth: 0 }}
+            />
+          </ComposedChart>
+        </ResponsiveContainer>
+      </div>
+    </div>
+  );
 }

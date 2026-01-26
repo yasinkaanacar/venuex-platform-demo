@@ -19,6 +19,8 @@ import AttributionBreakdown from '../components/offline-conversions/AttributionB
 
 import CampaignPerformanceTable from '../components/offline-conversions/CampaignPerformanceTable';
 import GeographicPerformance from '../components/offline-conversions/GeographicPerformance';
+import OfflineActivityLog from '../components/offline-conversions/OfflineActivityLog';
+import DataPipelineStatus from '../components/offline-conversions/DataPipelineStatus';
 
 // Mock sparkline data for each KPI
 const revenueSparklineData = [
@@ -687,10 +689,7 @@ export default function OfflineConversionsMVP() {
 
 
 
-            {/* Weekly Sales Chart */}
-            <div className="mx-6 mt-6">
-              <WeeklySalesChart />
-            </div>
+
 
             {/* Online-to-Offline Conversion Funnel */}
             <div className="mx-6 mt-6">
@@ -704,20 +703,15 @@ export default function OfflineConversionsMVP() {
         {/* Performans Tab */}
         {mainTab === 'performans' && (
           <>
+            {/* Weekly Sales & Attribution Row */}
+            <div className="mx-6 mt-6 grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <WeeklySalesChart />
+              <AttributionBreakdown />
+            </div>
+
             {/* Conversion Funnel - No Platform Selector */}
             <div className="mx-6 mt-6">
               <PerformanceChart filters={filters as any} onFiltersChange={setFilters as any} showProviderFilter={false} />
-            </div>
-
-            {/* Geographic Map and Performance */}
-            <div className="mx-6 mt-6">
-              <GeographicPerformance
-                filters={{
-                  ...filters,
-                  platform: filters.platform || 'google'
-                }}
-                dateRange={getDateRangeFromValue(filters.dateRange)}
-              />
             </div>
 
             {/* Campaign List */}
@@ -729,12 +723,9 @@ export default function OfflineConversionsMVP() {
 
         {/* Veri Bağlantısı Tab */}
         {mainTab === 'veri_baglantisi' && (
-          <div className="flex flex-col items-center justify-center h-64 text-center text-gray-500">
-            <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mb-4">
-              <Package className="w-8 h-8 text-gray-400" />
-            </div>
-            <p className="text-lg font-medium">Veri Bağlantısı Yönetimi</p>
-            <p className="text-sm">Bu alan yapım aşamasındadır.</p>
+          <div className="mx-6 mt-6 space-y-6">
+            <DataPipelineStatus />
+            <OfflineActivityLog />
           </div>
         )}
 
@@ -751,10 +742,13 @@ export default function OfflineConversionsMVP() {
         {mainTab === 'cografi' && (
           <>
             <div className="mx-6 mt-6">
-              <div className="bg-white rounded-lg border border-gray-200 p-6">
-                <h3 className="text-lg font-semibold text-gray-900 mb-4">Coğrafi Performans</h3>
-                <p className="text-gray-500">Coğrafi performans verileri burada gösterilecek.</p>
-              </div>
+              <GeographicPerformance
+                filters={{
+                  ...filters,
+                  platform: filters.platform || 'google'
+                }}
+                dateRange={getDateRangeFromValue(filters.dateRange)}
+              />
             </div>
           </>
         )}
