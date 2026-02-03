@@ -3,11 +3,11 @@ import { Button } from "@/components/ui/button";
 import { ChevronRight, Info, Phone, Navigation, Eye, MousePointer, Plus, Upload, Settings, Edit } from "lucide-react";
 import { SiGoogle, SiMeta, SiApple } from 'react-icons/si';
 import { Tooltip } from "@/components/ui/tooltip";
-import { BusinessMetricsSection } from "@/components/locations/BusinessMetricsSection";
+import { BusinessMetricsSection } from "@/components/locations2/BusinessMetricsSection";
 
 const platforms = [
   "VenueX",
-  "Google Business Profile", 
+  "Google Business Profile",
   "Meta Business",
   "Apple Business Connect",
   "Yandex Maps"
@@ -62,14 +62,14 @@ const getTooltipContent = (label: string) => {
 
 const StatusItem = ({ count, label, icon }: { count: number; label: string; icon?: boolean }) => {
   const tooltipContent = getTooltipContent(label);
-  
+
   return (
     <div className="flex items-center justify-between">
       <div className="flex items-center space-x-2">
         <span className="text-2xl font-bold text-gray-900">{count}</span>
         <span className="text-sm text-gray-600">{label}</span>
         {icon && (
-          <Tooltip 
+          <Tooltip
             title={
               <div>
                 <div className="font-medium mb-2">{tooltipContent.title}</div>
@@ -95,9 +95,9 @@ const EngagementMetric = ({ value, label, icon }: { value: number; label: string
   </div>
 );
 
-interface PlatformSummarySectionProps {}
+interface PlatformSummarySectionProps { }
 
-export function PlatformSummarySection({}: PlatformSummarySectionProps) {
+export function PlatformSummarySection({ }: PlatformSummarySectionProps) {
   const [activePlatform, setActivePlatform] = useState(0);
 
   // Get current date and time
@@ -135,26 +135,26 @@ export function PlatformSummarySection({}: PlatformSummarySectionProps) {
               <h4 className="text-sm text-gray-500 mb-1">Listings Engagement</h4>
               <div className="text-xs text-gray-400">Son 30 Gün</div>
             </div>
-            
+
             <div className="grid grid-cols-4 gap-6">
-              <EngagementMetric 
-                value={423} 
-                label="Profile Views" 
+              <EngagementMetric
+                value={423}
+                label="Profile Views"
                 icon={<Eye className="w-5 h-5 text-blue-500" />}
               />
-              <EngagementMetric 
-                value={105} 
-                label="Phone Calls" 
+              <EngagementMetric
+                value={105}
+                label="Phone Calls"
                 icon={<Phone className="w-5 h-5 text-green-500" />}
               />
-              <EngagementMetric 
-                value={50} 
-                label="Driving Directions" 
+              <EngagementMetric
+                value={50}
+                label="Driving Directions"
                 icon={<Navigation className="w-5 h-5 text-purple-500" />}
               />
-              <EngagementMetric 
-                value={45} 
-                label="Clicks to Website" 
+              <EngagementMetric
+                value={45}
+                label="Clicks to Website"
                 icon={<MousePointer className="w-5 h-5 text-orange-500" />}
               />
             </div>
@@ -190,26 +190,26 @@ export function PlatformSummarySection({}: PlatformSummarySectionProps) {
               <h4 className="text-sm text-gray-500 mb-1">Page Engagement</h4>
               <div className="text-xs text-gray-400">Son 30 Gün</div>
             </div>
-            
+
             <div className="grid grid-cols-4 gap-6">
-              <EngagementMetric 
-                value={312} 
-                label="Page Views" 
+              <EngagementMetric
+                value={312}
+                label="Page Views"
                 icon={<Eye className="w-5 h-5 text-blue-500" />}
               />
-              <EngagementMetric 
-                value={87} 
-                label="Phone Calls" 
+              <EngagementMetric
+                value={87}
+                label="Phone Calls"
                 icon={<Phone className="w-5 h-5 text-green-500" />}
               />
-              <EngagementMetric 
-                value={34} 
-                label="Get Directions" 
+              <EngagementMetric
+                value={34}
+                label="Get Directions"
                 icon={<Navigation className="w-5 h-5 text-purple-500" />}
               />
-              <EngagementMetric 
-                value={29} 
-                label="Website Clicks" 
+              <EngagementMetric
+                value={29}
+                label="Website Clicks"
                 icon={<MousePointer className="w-5 h-5 text-orange-500" />}
               />
             </div>
@@ -245,26 +245,26 @@ export function PlatformSummarySection({}: PlatformSummarySectionProps) {
               <h4 className="text-sm text-gray-500 mb-1">Maps Engagement</h4>
               <div className="text-xs text-gray-400">Son 30 Gün</div>
             </div>
-            
+
             <div className="grid grid-cols-4 gap-6">
-              <EngagementMetric 
-                value={256} 
-                label="Maps Views" 
+              <EngagementMetric
+                value={256}
+                label="Maps Views"
                 icon={<Eye className="w-5 h-5 text-blue-500" />}
               />
-              <EngagementMetric 
-                value={72} 
-                label="Phone Calls" 
+              <EngagementMetric
+                value={72}
+                label="Phone Calls"
                 icon={<Phone className="w-5 h-5 text-green-500" />}
               />
-              <EngagementMetric 
-                value={45} 
-                label="Directions Requests" 
+              <EngagementMetric
+                value={45}
+                label="Directions Requests"
                 icon={<Navigation className="w-5 h-5 text-purple-500" />}
               />
-              <EngagementMetric 
-                value={18} 
-                label="Website Visits" 
+              <EngagementMetric
+                value={18}
+                label="Website Visits"
                 icon={<MousePointer className="w-5 h-5 text-orange-500" />}
               />
             </div>
@@ -300,26 +300,26 @@ export function PlatformSummarySection({}: PlatformSummarySectionProps) {
               <h4 className="text-sm text-gray-500 mb-1">Yandex Maps Engagement</h4>
               <div className="text-xs text-gray-400">Son 30 Gün</div>
             </div>
-            
+
             <div className="grid grid-cols-4 gap-6">
-              <EngagementMetric 
-                value={189} 
-                label="Profile Views" 
+              <EngagementMetric
+                value={189}
+                label="Profile Views"
                 icon={<Eye className="w-5 h-5 text-blue-500" />}
               />
-              <EngagementMetric 
-                value={62} 
-                label="Phone Calls" 
+              <EngagementMetric
+                value={62}
+                label="Phone Calls"
                 icon={<Phone className="w-5 h-5 text-green-500" />}
               />
-              <EngagementMetric 
-                value={38} 
-                label="Route Requests" 
+              <EngagementMetric
+                value={38}
+                label="Route Requests"
                 icon={<Navigation className="w-5 h-5 text-purple-500" />}
               />
-              <EngagementMetric 
-                value={21} 
-                label="Website Clicks" 
+              <EngagementMetric
+                value={21}
+                label="Website Clicks"
                 icon={<MousePointer className="w-5 h-5 text-orange-500" />}
               />
             </div>
@@ -349,11 +349,10 @@ export function PlatformSummarySection({}: PlatformSummarySectionProps) {
               role="tab"
               aria-selected={activePlatform === index}
               onClick={() => setActivePlatform(index)}
-              className={`relative -mb-px inline-flex items-center gap-2 border-b-2 px-1 py-3 text-sm font-medium transition-all duration-200 focus:outline-none ${
-                activePlatform === index 
-                  ? 'text-emerald-600 border-emerald-500' 
+              className={`relative -mb-px inline-flex items-center gap-2 border-b-2 px-1 py-3 text-sm font-medium transition-all duration-200 focus:outline-none ${activePlatform === index
+                  ? 'text-emerald-600 border-emerald-500'
                   : 'text-slate-600 border-transparent hover:text-slate-900'
-              }`}
+                }`}
               data-testid={`link-platform-${platform.toLowerCase().replace(/\s+/g, '-')}`}
             >
               {getPlatformIcon(platform)}

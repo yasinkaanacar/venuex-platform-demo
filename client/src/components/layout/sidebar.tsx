@@ -31,56 +31,61 @@ const recentChats = [
   { id: '3', title: 'Staff service sentiment' }
 ];
 
-const navigationGroups = [
-  {
-    title: "LOCATION",
-    items: [
-      { name: 'Locations', href: '/locations', icon: MapPin },
-      { name: 'Reviews', href: '/reviews', icon: MessageSquare }
-    ]
-  },
-  {
-    title: "SALES",
-    items: [
-      { name: 'Local Inventory', href: '/catalog', icon: Package },
-      { name: 'Offline Conversions', href: '/offline-conversions', icon: TrendingUp }
-    ]
-  },
-  {
-    title: "AI",
-    items: [
-      { name: 'VenueX AI', href: '/venuex-ai', icon: Brain }
-    ]
-  },
-  {
-    title: "MANAGEMENT",
-    items: [
-      { name: 'Setup 3B', href: '/setup3B', icon: Settings }
-    ]
-  },
-  {
-    title: "DEV",
-    items: [
-      { name: 'Onboarding', href: '/onboarding', icon: Rocket },
-      { name: 'Signup', href: '/signup', icon: UserPlus },
-      { name: 'Components', href: '/components', icon: Code }
-    ]
-  }
-];
-
-const ungroupedItems = [
-  { name: 'Dashboard', href: '/', icon: BarChart3 },
-  { name: 'Enhance', href: '/ai-recommendations', icon: Brain }
-];
 
 interface SidebarProps {
   collapsed: boolean;
   onToggle: () => void;
 }
 
+import { useLocales } from "@/lib/formatters";
+import { useMemo } from 'react';
+
 export default function Sidebar({ collapsed, onToggle }: SidebarProps) {
   const [location] = useLocation();
   const [aiChatsExpanded, setAiChatsExpanded] = useState(true);
+  const { t } = useLocales();
+
+  const ungroupedItems = useMemo(() => [
+    { name: t('sidebar.menu.dashboard') || 'Dashboard', href: '/', icon: BarChart3 },
+    { name: t('sidebar.menu.enhance') || 'Enhance', href: '/ai-recommendations', icon: Brain }
+  ], [t]);
+
+  const navigationGroups = useMemo(() => [
+    {
+      title: t('sidebar.categories.location') || "LOCATION",
+      items: [
+        { name: t('sidebar.menu.locations') || 'Locations', href: '/locations', icon: MapPin },
+        { name: t('sidebar.menu.reviews') || 'Reviews', href: '/reviews', icon: MessageSquare }
+      ]
+    },
+    {
+      title: t('sidebar.categories.sales') || "SALES",
+      items: [
+        { name: t('sidebar.menu.localInventory') || 'Local Inventory', href: '/catalog', icon: Package },
+        { name: t('sidebar.menu.offlineConversions') || 'Offline Conversions', href: '/offline-conversions', icon: TrendingUp }
+      ]
+    },
+    {
+      title: t('sidebar.categories.ai') || "AI",
+      items: [
+        { name: t('sidebar.menu.venuexAI') || 'VenueX AI', href: '/venuex-ai', icon: Brain }
+      ]
+    },
+    {
+      title: t('sidebar.categories.management') || "MANAGEMENT",
+      items: [
+        { name: t('sidebar.menu.setup3B') || 'Setup 3B', href: '/setup3B', icon: Settings }
+      ]
+    },
+    {
+      title: t('sidebar.categories.dev') || "DEV",
+      items: [
+        { name: t('sidebar.menu.onboarding') || 'Onboarding', href: '/onboarding', icon: Rocket },
+        { name: t('sidebar.menu.signup') || 'Signup', href: '/signup', icon: UserPlus },
+        { name: t('sidebar.menu.components') || 'Components', href: '/components', icon: Code }
+      ]
+    }
+  ], [t]);
 
   return (
     <div className={cn(
@@ -178,7 +183,7 @@ export default function Sidebar({ collapsed, onToggle }: SidebarProps) {
               <ul className="space-y-1">
                 {group.items.map((item) => {
                   const isActive = location === item.href;
-                  const isVenueXAI = item.name === 'VenueX AI';
+                  const isVenueXAI = item.href === '/venuex-ai'; // Check by href instead of name since name is now translated
 
                   return (
                     <li key={item.name}>

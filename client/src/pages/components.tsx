@@ -1,5 +1,5 @@
-import LocationStatusTable from '@/components/locations/LocationStatusTable';
-import PlatformSummaryNew from '@/components/locations/PlatformSummaryNew';
+import LocationStatusTable from '@/components/locations2/LocationStatusTable';
+import PlatformSummaryNew from '@/components/locations2/PlatformSummaryNew';
 
 
 interface ComponentSectionProps {

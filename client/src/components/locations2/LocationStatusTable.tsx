@@ -1438,7 +1438,7 @@ export default function LocationStatusTable({ onAddNewLocation, onUploadLocation
             variant="outline"
             size="sm"
             onClick={onAddNewLocation}
-            className="h-9 bg-white hover:bg-gray-50 text-gray-700 border-gray-300 shadow-sm"
+            className="h-9 bg-white hover:bg-gray-50 text-gray-700 border-gray-300 shadow-sm whitespace-nowrap"
             data-testid="btn-add-new-location"
           >
             <Plus className="w-3.5 h-3.5 mr-1.5" />
@@ -1449,7 +1449,7 @@ export default function LocationStatusTable({ onAddNewLocation, onUploadLocation
             variant="outline"
             size="sm"
             onClick={onUploadLocations}
-            className="h-9 bg-white hover:bg-gray-50 text-gray-700 border-gray-300 shadow-sm"
+            className="h-9 bg-white hover:bg-gray-50 text-gray-700 border-gray-300 shadow-sm whitespace-nowrap"
             data-testid="btn-bulk-updates"
           >
             <Edit className="w-3.5 h-3.5 mr-1.5" />

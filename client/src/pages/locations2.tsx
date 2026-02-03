@@ -384,12 +384,12 @@ export default function Locations2Page() {
 
 
       {/* Tab Navigation - Sticky */}
-      < div className="sticky top-20 z-40 bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/60 border-b border-gray-200 shadow-sm transition-all duration-200" >
-        <div className="max-w-7xl mx-auto px-6 py-3">
-          <div className="inline-flex items-center gap-1 p-1 bg-gray-100/80 rounded-xl">
+      <div className="sticky top-16 z-40 bg-white border-b border-gray-200">
+        <div className="px-6 py-3">
+          <div className="inline-flex items-center gap-1 p-1 bg-gray-100 rounded-lg">
             <button
               onClick={() => setMainTab('locations')}
-              className={`px-5 py-2 text-sm font-medium rounded-lg transition-all duration-200 ${mainTab === 'locations'
+              className={`px-4 py-2 text-sm font-medium rounded-md transition-all duration-200 ${mainTab === 'locations'
                 ? 'bg-white text-gray-900 shadow-sm'
                 : 'text-gray-500 hover:text-gray-700 hover:bg-white/50'
                 }`}
@@ -399,7 +399,7 @@ export default function Locations2Page() {
             </button>
             <button
               onClick={() => setMainTab('performance')}
-              className={`px-5 py-2 text-sm font-medium rounded-lg transition-all duration-200 ${mainTab === 'performance'
+              className={`px-4 py-2 text-sm font-medium rounded-md transition-all duration-200 ${mainTab === 'performance'
                 ? 'bg-white text-gray-900 shadow-sm'
                 : 'text-gray-500 hover:text-gray-700 hover:bg-white/50'
                 }`}
@@ -409,7 +409,7 @@ export default function Locations2Page() {
             </button>
             <button
               onClick={() => setMainTab('posts')}
-              className={`px-5 py-2 text-sm font-medium rounded-lg transition-all duration-200 ${mainTab === 'posts'
+              className={`px-4 py-2 text-sm font-medium rounded-md transition-all duration-200 ${mainTab === 'posts'
                 ? 'bg-white text-gray-900 shadow-sm'
                 : 'text-gray-500 hover:text-gray-700 hover:bg-white/50'
                 }`}
@@ -419,17 +419,19 @@ export default function Locations2Page() {
             </button>
           </div>
         </div>
-      </div >
+      </div>
 
       {/* Main Content */}
-      < div className="pb-6 bg-[#ffffff]" >
+      <div className="pb-6 bg-white min-h-[calc(100vh-8rem)]">
 
         {/* Locations Tab */}
         {
           mainTab === 'locations' && (
             <>
               {/* Platform Summary Section */}
-              <PlatformSummaryNew />
+              <div className="mx-6 mt-6">
+                <PlatformSummaryNew />
+              </div>
               {/* Location Actions + Location Status Table */}
               <div className="mx-6 mt-6">
                 <div className="mt-4">

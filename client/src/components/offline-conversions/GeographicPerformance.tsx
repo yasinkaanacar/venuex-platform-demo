@@ -4,7 +4,7 @@ import GeographicMap from "./GeographicMap";
 import GeographicDataTable from "./GeographicDataTable";
 import { FilterState } from "@/lib/types";
 import { useApiInsightsByGeographySummary } from "@/hooks/useDashboard";
-import { useBrandContext } from "@/lib/formatters";
+import { useBrandContext, useLocales } from "@/lib/formatters";
 import { formatDate } from "@/lib/formatDate";
 import { Provider } from "@/lib/constants";
 import { Globe, Map } from "lucide-react";
@@ -17,6 +17,7 @@ interface GeographicPerformanceProps {
 type MapType = "turkey" | "world";
 
 export default function GeographicPerformance({ filters, dateRange }: GeographicPerformanceProps) {
+    const { t } = useLocales();
     const { brandId } = useBrandContext();
     const [mapType, setMapType] = useState<MapType>("turkey");
     const [activeTab, setActiveTab] = useState<"map" | "table">("map");
@@ -87,7 +88,7 @@ export default function GeographicPerformance({ filters, dateRange }: Geographic
             <div className="flex items-center justify-between bg-white p-4 rounded-lg border border-gray-200">
                 <div className="flex items-center gap-2">
                     <Globe className="w-5 h-5 text-gray-700" />
-                    <h3 className="text-lg font-semibold text-gray-900">Coğrafi Performans</h3>
+                    <h3 className="text-lg font-semibold text-gray-900">{t("geographic_insights.title")}</h3>
                 </div>
 
                 {/* Map Type Toggle */}
@@ -99,7 +100,7 @@ export default function GeographicPerformance({ filters, dateRange }: Geographic
                             : "text-gray-500 hover:text-gray-700"
                             }`}
                     >
-                        Türkiye
+                        {t("offlineConversions.turkey") || "Türkiye"}
                     </button>
                     <button
                         onClick={() => setMapType("world")}
@@ -108,7 +109,7 @@ export default function GeographicPerformance({ filters, dateRange }: Geographic
                             : "text-gray-500 hover:text-gray-700"
                             }`}
                     >
-                        Dünya
+                        {t("offlineConversions.world") || "Dünya"}
                     </button>
                 </div>
             </div>
@@ -116,9 +117,9 @@ export default function GeographicPerformance({ filters, dateRange }: Geographic
             {/* Map Visualization */}
             <GeographicMap
                 filters={filters}
-                showProviderFilter={false} // Controlled by global filter for consistency
-                showDataTable={false} // We render table separately
-                showMapTypeSelector={false} // Controlled by parent
+                showProviderFilter={false}
+                showDataTable={false}
+                showMapTypeSelector={false}
                 mapType={mapType}
                 onMapTypeChange={setMapType}
             />
@@ -129,7 +130,9 @@ export default function GeographicPerformance({ filters, dateRange }: Geographic
                     <div className="flex items-center gap-2">
                         <Map className="w-5 h-5 text-gray-700" />
                         <h3 className="text-lg font-semibold text-gray-900">
-                            {mapType === "turkey" ? "İl Bazlı Performans" : "Ülke Bazlı Performans"}
+                            {mapType === "turkey"
+                                ? (t("offlineConversions.provinceBasedPerformance") || "İl Bazlı Performans")
+                                : (t("offlineConversions.countryBasedPerformance") || "Ülke Bazlı Performans")}
                         </h3>
                     </div>
                 </div>
@@ -145,4 +148,3 @@ export default function GeographicPerformance({ filters, dateRange }: Geographic
         </div>
     );
 }
-

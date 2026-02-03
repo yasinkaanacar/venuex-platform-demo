@@ -24,11 +24,29 @@ export const fPercent = (value: number): string => {
     return `${value.toFixed(1)}%`;
 };
 
-// Mock hooks to replace atomic library hooks
-export const useLocales = () => ({
-    t: (key: string) => key.split('.').pop() || key,
-    translate: (key: string, _params?: any) => key.split('.').pop() || key
-});
+
+// Real translation hook integration
+import { useTranslation } from '@/contexts/LanguageContext';
+
+function getNestedValue(obj: any, path: string): string {
+    return path.split('.').reduce((acc, part) => acc && acc[part], obj) || path;
+}
+
+export const useLocales = () => {
+    const { t: translations } = useTranslation();
+    return {
+        t: (key: string) => getNestedValue(translations, key),
+        translate: (key: string, options?: any) => {
+            let text = getNestedValue(translations, key);
+            if (options && typeof text === 'string') {
+                Object.keys(options).forEach(k => {
+                    text = text.replace(new RegExp(`{{${k}}}|{${k}}`, 'g'), options[k]);
+                });
+            }
+            return text;
+        }
+    };
+};
 
 export const useSetup = () => ({
     isLoading: false,
