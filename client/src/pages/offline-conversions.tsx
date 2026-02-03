@@ -9,7 +9,6 @@ import WeeklySalesChart from '../components/overview/weekly-sales-chart';
 import PerformanceChart from '../components/overview/performance-chart';
 
 // New modular components
-import OfflineKPICards from '@/components/offline-conversions/OfflineKPICards';
 import AttributionBreakdown from '@/components/offline-conversions/AttributionBreakdown';
 import StoreConversionsTable from '@/components/offline-conversions/StoreConversionsTable';
 import CampaignPerformanceTable from '@/components/offline-conversions/CampaignPerformanceTable';

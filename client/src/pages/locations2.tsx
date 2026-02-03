@@ -35,6 +35,7 @@ import {
 } from "recharts";
 import { Store, User, Check, Search, GitCompare, X, TrendingUp, ChevronLeft, ChevronRight, ChevronDown, Clock, Globe, Smartphone, ThumbsUp, Plus, Sparkles, MapPin, Map, Info } from 'lucide-react';
 import { Tooltip } from '@mui/material';
+import { useTranslation } from '@/contexts/LanguageContext';
 
 // Chart data for Business Profile Interaction
 const chartData = [
@@ -215,6 +216,7 @@ const mockCalendarPosts = [
 ];
 
 export default function Locations2Page() {
+  const { t, language } = useTranslation();
   // State management
   const [selectedLocationId, setSelectedLocationId] = useState<string | null>(null);
   const [fieldManagementOpen, setFieldManagementOpen] = useState(false);
@@ -393,7 +395,7 @@ export default function Locations2Page() {
                 }`}
               data-testid="tab-locations"
             >
-              Lokasyonlar
+              {t.dashboard.locations}
             </button>
             <button
               onClick={() => setMainTab('performance')}
@@ -403,7 +405,7 @@ export default function Locations2Page() {
                 }`}
               data-testid="tab-performance"
             >
-              Performans
+              {t.common.performance}
             </button>
             <button
               onClick={() => setMainTab('posts')}
@@ -413,7 +415,7 @@ export default function Locations2Page() {
                 }`}
               data-testid="tab-posts"
             >
-              Gönderiler
+              {language === 'en' ? 'Posts' : 'Gönderiler'}
             </button>
           </div>
         </div>

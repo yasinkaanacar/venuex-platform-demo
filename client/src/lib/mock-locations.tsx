@@ -66,13 +66,13 @@ export interface MissingFieldInfo {
 }
 
 export const allFieldsInfo: MissingFieldInfo[] = [
-    { key: 'phone', label: 'Telefon Numarası', placeholder: '+90 5XX XXX XX XX', type: 'tel', icon: <Phone className="w-4 h-4" /> },
-    { key: 'email', label: 'Email Adresi', placeholder: 'magaza@example.com', type: 'email', icon: <Mail className="w-4 h-4" /> },
-    { key: 'address', label: 'Adres', placeholder: 'Mahalle, Cadde, No', type: 'text', icon: <MapPin className="w-4 h-4" /> },
-    { key: 'imageUrl', label: 'Logo / Görsel', placeholder: 'https://example.com/logo.png', type: 'url', icon: <Image className="w-4 h-4" /> },
+    { key: 'phone', label: 'Phone Number', placeholder: '+90 5XX XXX XX XX', type: 'tel', icon: <Phone className="w-4 h-4" /> },
+    { key: 'email', label: 'Email Address', placeholder: 'store@example.com', type: 'email', icon: <Mail className="w-4 h-4" /> },
+    { key: 'address', label: 'Address', placeholder: 'District, Street, No', type: 'text', icon: <MapPin className="w-4 h-4" /> },
+    { key: 'imageUrl', label: 'Logo / Image', placeholder: 'https://example.com/logo.png', type: 'url', icon: <Image className="w-4 h-4" /> },
     { key: 'website', label: 'Website', placeholder: 'https://example.com', type: 'url', icon: <ExternalLink className="w-4 h-4" /> },
-    { key: 'workingHours', label: 'Çalışma Saatleri', placeholder: '09:00 - 22:00', type: 'text', icon: <Clock className="w-4 h-4" /> },
-    { key: 'description', label: 'Açıklama', placeholder: 'Mağazanız hakkında kısa bir açıklama...', type: 'textarea', icon: <Layers className="w-4 h-4" /> }
+    { key: 'workingHours', label: 'Working Hours', placeholder: '09:00 - 22:00', type: 'text', icon: <Clock className="w-4 h-4" /> },
+    { key: 'description', label: 'Description', placeholder: 'Short description about your store...', type: 'textarea', icon: <Layers className="w-4 h-4" /> }
 ];
 
 export const mockLocations: LocationData[] = [
@@ -90,13 +90,13 @@ export const mockLocations: LocationData[] = [
         imageUrl: 'https://example.com/img1.jpg',
         website: 'https://doyuyo.com',
         workingHours: '09:00 - 22:00',
-        description: 'Moda sahil şubesi',
-        storeSet: 'Cadde',
+        description: 'Moda coast branch',
+        storeSet: 'Street',
         businessStatus: 'open',
-        google: { status: 'live', lastSync: '2 dk önce', warnings: [] },
-        meta: { status: 'live', lastSync: '5 dk önce', warnings: [] },
-        apple: { status: 'live', lastSync: '10 dk önce', warnings: [] },
-        yandex: { status: 'live', lastSync: '15 dk önce', warnings: [] }
+        google: { status: 'live', lastSync: '2 min ago', warnings: [] },
+        meta: { status: 'live', lastSync: '5 min ago', warnings: [] },
+        apple: { status: 'live', lastSync: '10 min ago', warnings: [] },
+        yandex: { status: 'live', lastSync: '15 min ago', warnings: [] }
     },
 
     // 2. AUTH ERROR (Token Patlaması - Meta)
@@ -113,30 +113,30 @@ export const mockLocations: LocationData[] = [
         imageUrl: 'https://example.com/img2.jpg',
         website: 'https://doyuyo.com',
         workingHours: '08:00 - 23:00',
-        description: 'Kordon şubesi',
+        description: 'Kordon branch',
         storeSet: 'Express',
         businessStatus: 'open',
-        google: { status: 'live', lastSync: '15 dk önce', warnings: [] },
+        google: { status: 'live', lastSync: '15 min ago', warnings: [] },
         meta: {
             status: 'action_required',
-            lastSync: '1 gün önce',
+            lastSync: '1 day ago',
             warnings: [
                 {
                     type: 'sync_error',
-                    label: 'Bağlantı Kesildi',
+                    label: 'Connection Lost',
                     errorCode: 'auth_expired',
                     platform: 'meta',
                     errorLog: 'Error 190: Invalid OAuth Access Token. The user has changed the password or revoked access.'
                 }
             ]
         },
-        apple: { status: 'live', lastSync: '2 saat önce', warnings: [] },
+        apple: { status: 'live', lastSync: '2 hours ago', warnings: [] },
         yandex: {
             status: 'action_required',
-            lastSync: '30 dk önce',
+            lastSync: '30 min ago',
             warnings: [
-                { type: 'sync_error', label: 'Telefon Eksik', errorCode: 'validation_error', platform: 'yandex', errorLog: 'Missing required field: phone' },
-                { type: 'sync_error', label: 'Koordinat Eksik', errorCode: 'missing_coordinates', platform: 'yandex', errorLog: 'Missing required field: coordinates' }
+                { type: 'sync_error', label: 'Phone Missing', errorCode: 'validation_error', platform: 'yandex', errorLog: 'Missing required field: phone' },
+                { type: 'sync_error', label: 'Coordinates Missing', errorCode: 'missing_coordinates', platform: 'yandex', errorLog: 'Missing required field: coordinates' }
             ]
         }
     },
@@ -156,7 +156,7 @@ export const mockLocations: LocationData[] = [
         website: '',
         workingHours: '',
         description: '',
-        storeSet: 'Cadde',
+        storeSet: 'Street',
         businessStatus: 'open',
         google: {
             status: 'action_required',
@@ -164,17 +164,17 @@ export const mockLocations: LocationData[] = [
             warnings: [
                 {
                     type: 'sync_error',
-                    label: 'Koordinat Eksik',
+                    label: 'Coordinates Missing',
                     errorCode: 'missing_coordinates',
                     platform: 'google',
                     errorLog: '400 Bad Request: Missing Lat/Long. Geocoding failed for the provided address.'
                 },
-                { type: 'email_missing', label: 'Email Eksik' },
-                { type: 'image_missing', label: 'Görsel Eksik' }
+                { type: 'email_missing', label: 'Email Missing' },
+                { type: 'image_missing', label: 'Image Missing' }
             ]
         },
         meta: { status: 'not_connected', lastSync: null, warnings: [] },
-        apple: { status: 'pending', lastSync: '1 gün önce', warnings: [] },
+        apple: { status: 'pending', lastSync: '1 day ago', warnings: [] },
         yandex: { status: 'live', lastSync: null, warnings: [] }
     },
 
@@ -191,33 +191,33 @@ export const mockLocations: LocationData[] = [
         email: '',
         imageUrl: '',
         website: '',
-        workingHours: 'Sabah 9 - Akşam 10',
+        workingHours: '9 AM - 10 PM',
         description: '',
         storeSet: 'Express',
         businessStatus: 'temporarily_closed',
-        google: { status: 'live', lastSync: '30 dk önce', warnings: [] },
+        google: { status: 'live', lastSync: '30 min ago', warnings: [] },
         meta: {
             status: 'pending',
             lastSync: 'Failed',
             warnings: [
                 {
                     type: 'sync_error',
-                    label: 'Saat Formatı Hatalı',
+                    label: 'Time Format Error',
                     errorCode: 'validation_error',
                     platform: 'meta',
                     errorLog: 'Param validation failed: working_hours must be in HH:MM - HH:MM format.'
                 },
-                { type: 'phone_missing', label: 'Telefon Eksik' }
+                { type: 'phone_missing', label: 'Phone Missing' }
             ]
         },
-        apple: { status: 'live', lastSync: '1 saat önce', warnings: [] },
+        apple: { status: 'live', lastSync: '1 hour ago', warnings: [] },
         yandex: {
             status: 'action_required',
-            lastSync: '2 saat önce',
+            lastSync: '2 hours ago',
             warnings: [
-                { type: 'sync_error', label: 'Website Eksik', errorCode: 'validation_error', platform: 'yandex', errorLog: 'Missing required field: website' },
-                { type: 'sync_error', label: 'Çalışma Saatleri Eksik', errorCode: 'validation_error', platform: 'yandex', errorLog: 'Missing required field: working_hours' },
-                { type: 'sync_error', label: 'Kategori Eksik', errorCode: 'validation_error', platform: 'yandex', errorLog: 'Missing required field: category' }
+                { type: 'sync_error', label: 'Website Missing', errorCode: 'validation_error', platform: 'yandex', errorLog: 'Missing required field: website' },
+                { type: 'sync_error', label: 'Working Hours Missing', errorCode: 'validation_error', platform: 'yandex', errorLog: 'Missing required field: working_hours' },
+                { type: 'sync_error', label: 'Category Missing', errorCode: 'validation_error', platform: 'yandex', errorLog: 'Missing required field: category' }
             ]
         }
     },
@@ -237,24 +237,24 @@ export const mockLocations: LocationData[] = [
         website: '',
         workingHours: '10:00 - 02:00',
         description: '',
-        storeSet: 'Sezonluk',
+        storeSet: 'Seasonal',
         businessStatus: 'open',
-        google: { status: 'live', lastSync: '1 dk önce', warnings: [] },
-        meta: { status: 'live', lastSync: '1 dk önce', warnings: [] },
+        google: { status: 'live', lastSync: '1 min ago', warnings: [] },
+        meta: { status: 'live', lastSync: '1 min ago', warnings: [] },
         apple: {
             status: 'action_required',
             lastSync: 'Pending',
             warnings: [
                 {
                     type: 'sync_error',
-                    label: 'Sıraya Alındı',
+                    label: 'Queued',
                     errorCode: 'rate_limit',
                     platform: 'apple',
                     errorLog: '429 Too Many Requests. Retry-After: 60s'
                 }
             ]
         },
-        yandex: { status: 'live', lastSync: '1 dk önce', warnings: [] }
+        yandex: { status: 'live', lastSync: '1 min ago', warnings: [] }
     },
 
     // 6. GOOGLE SUSPENDED (Askıya Alındı)
@@ -271,25 +271,25 @@ export const mockLocations: LocationData[] = [
         imageUrl: 'https://example.com/img4.jpg',
         website: 'https://doyuyo.com',
         workingHours: '09:00 - 21:00',
-        description: 'Bursa merkez şubesi',
-        storeSet: 'Cadde',
+        description: 'Bursa main branch',
+        storeSet: 'Street',
         businessStatus: 'closed',
         google: {
             status: 'suspended',
-            lastSync: 'Askıda',
+            lastSync: 'Suspended',
             warnings: [
                 {
                     type: 'sync_error',
-                    label: 'Askıya Alındı',
+                    label: 'Suspended',
                     errorCode: 'unknown',
                     platform: 'google',
                     errorLog: 'Location suspended due to quality policy violation. Contact Google Support.'
                 }
             ]
         },
-        meta: { status: 'live', lastSync: '10 dk önce', warnings: [] },
-        apple: { status: 'live', lastSync: '15 dk önce', warnings: [] },
-        yandex: { status: 'live', lastSync: '20 dk önce', warnings: [] }
+        meta: { status: 'live', lastSync: '10 min ago', warnings: [] },
+        apple: { status: 'live', lastSync: '15 min ago', warnings: [] },
+        yandex: { status: 'live', lastSync: '20 min ago', warnings: [] }
     },
 
     // 7. GOOGLE DISCONNECTED (Bağlantı Koptu)
@@ -306,25 +306,25 @@ export const mockLocations: LocationData[] = [
         imageUrl: 'https://example.com/img5.jpg',
         website: 'https://doyuyo.com',
         workingHours: '08:00 - 22:00',
-        description: 'Konya şubesi',
-        storeSet: 'Cadde',
+        description: 'Konya branch',
+        storeSet: 'Street',
         businessStatus: 'open',
         google: {
             status: 'action_required',
-            lastSync: 'Bağlantı Yok',
+            lastSync: 'No Connection',
             warnings: [
                 {
                     type: 'sync_error',
-                    label: 'Bağlantı Koptu',
+                    label: 'Connection Lost',
                     errorCode: 'auth_expired',
                     platform: 'google',
                     errorLog: '403 Permission Denied: Location ownership has been transferred. Please reconnect.'
                 }
             ]
         },
-        meta: { status: 'live', lastSync: '5 dk önce', warnings: [] },
-        apple: { status: 'live', lastSync: '8 dk önce', warnings: [] },
-        yandex: { status: 'live', lastSync: '12 dk önce', warnings: [] }
+        meta: { status: 'live', lastSync: '5 min ago', warnings: [] },
+        apple: { status: 'live', lastSync: '8 min ago', warnings: [] },
+        yandex: { status: 'live', lastSync: '12 min ago', warnings: [] }
     },
 
     // 8. APPLE REJECTED (Reddedildi)
@@ -341,25 +341,25 @@ export const mockLocations: LocationData[] = [
         imageUrl: 'https://example.com/img6.jpg',
         website: 'https://doyuyo.com',
         workingHours: '09:00 - 20:00',
-        description: 'Eskişehir şubesi',
+        description: 'Eskisehir branch',
         storeSet: 'Express',
         businessStatus: 'open',
-        google: { status: 'live', lastSync: '3 dk önce', warnings: [] },
-        meta: { status: 'live', lastSync: '7 dk önce', warnings: [] },
+        google: { status: 'live', lastSync: '3 min ago', warnings: [] },
+        meta: { status: 'live', lastSync: '7 min ago', warnings: [] },
         apple: {
             status: 'rejected',
-            lastSync: 'Reddedildi',
+            lastSync: 'Rejected',
             warnings: [
                 {
                     type: 'sync_error',
-                    label: 'Adres Formatı Hatalı',
+                    label: 'Invalid Address Format',
                     errorCode: 'validation_error',
                     platform: 'apple',
                     errorLog: 'REJECTED: Address format does not match Apple Maps database. Please verify postal code and street name.'
                 }
             ]
         },
-        yandex: { status: 'live', lastSync: '15 dk önce', warnings: [] }
+        yandex: { status: 'live', lastSync: '15 min ago', warnings: [] }
     },
 
     // 9. APPLE PENDING REVIEW (İnceleme Bekliyor)
@@ -376,13 +376,13 @@ export const mockLocations: LocationData[] = [
         imageUrl: 'https://example.com/img7.jpg',
         website: 'https://doyuyo.com',
         workingHours: '08:00 - 23:00',
-        description: 'Gaziantep şubesi',
+        description: 'Gaziantep branch',
         storeSet: 'AVM',
         businessStatus: 'open',
-        google: { status: 'live', lastSync: '2 dk önce', warnings: [] },
-        meta: { status: 'live', lastSync: '4 dk önce', warnings: [] },
-        apple: { status: 'pending', lastSync: 'İnceleniyor', warnings: [] },
-        yandex: { status: 'live', lastSync: '6 dk önce', warnings: [] }
+        google: { status: 'live', lastSync: '2 min ago', warnings: [] },
+        meta: { status: 'live', lastSync: '4 min ago', warnings: [] },
+        apple: { status: 'pending', lastSync: 'Under Review', warnings: [] },
+        yandex: { status: 'live', lastSync: '6 min ago', warnings: [] }
     },
 
     // 10. META DISCONNECTED (Yetki Yok)
@@ -399,25 +399,25 @@ export const mockLocations: LocationData[] = [
         imageUrl: 'https://example.com/img8.jpg',
         website: 'https://doyuyo.com',
         workingHours: '09:00 - 21:00',
-        description: 'Trabzon şubesi',
-        storeSet: 'Cadde',
+        description: 'Trabzon branch',
+        storeSet: 'Street',
         businessStatus: 'temporarily_closed',
-        google: { status: 'live', lastSync: '5 dk önce', warnings: [] },
+        google: { status: 'live', lastSync: '5 min ago', warnings: [] },
         meta: {
             status: 'action_required',
-            lastSync: 'Yetki Yok',
+            lastSync: 'No Permission',
             warnings: [
                 {
                     type: 'sync_error',
-                    label: 'Erişim İzni Kaldırıldı',
+                    label: 'Access Permission Revoked',
                     errorCode: 'auth_expired',
                     platform: 'meta',
                     errorLog: 'Error 10: Application does not have permission for this action. VenueX app access has been revoked.'
                 }
             ]
         },
-        apple: { status: 'live', lastSync: '10 dk önce', warnings: [] },
-        yandex: { status: 'live', lastSync: '15 dk önce', warnings: [] }
+        apple: { status: 'live', lastSync: '10 min ago', warnings: [] },
+        yandex: { status: 'live', lastSync: '15 min ago', warnings: [] }
     },
 
     // 11. META SUSPENDED (Sayfa Kapalı)
@@ -434,24 +434,24 @@ export const mockLocations: LocationData[] = [
         imageUrl: 'https://example.com/img9.jpg',
         website: 'https://doyuyo.com',
         workingHours: '10:00 - 22:00',
-        description: 'Samsun sahil şubesi',
-        storeSet: 'Sezonluk',
+        description: 'Samsun coastal branch',
+        storeSet: 'Seasonal',
         businessStatus: 'closed',
-        google: { status: 'live', lastSync: '3 dk önce', warnings: [] },
+        google: { status: 'live', lastSync: '3 min ago', warnings: [] },
         meta: {
             status: 'suspended',
-            lastSync: 'Kapalı',
+            lastSync: 'Closed',
             warnings: [
                 {
                     type: 'sync_error',
-                    label: 'Sayfa Yayından Kaldırıldı',
+                    label: 'Page Unpublished',
                     errorCode: 'unknown',
                     platform: 'meta',
                     errorLog: 'Page unpublished by administrator or disabled by Meta for policy violations.'
                 }
             ]
         },
-        apple: { status: 'live', lastSync: '8 dk önce', warnings: [] },
+        apple: { status: 'live', lastSync: '8 min ago', warnings: [] },
         yandex: { status: 'not_connected', lastSync: null, warnings: [] }
     },
 
@@ -470,24 +470,24 @@ export const mockLocations: LocationData[] = [
         website: '',
         workingHours: '',
         description: '',
-        storeSet: 'Sezonluk',
+        storeSet: 'Seasonal',
         businessStatus: 'open',
-        google: { status: 'live', lastSync: '5 dk önce', warnings: [] },
-        meta: { status: 'live', lastSync: '10 dk önce', warnings: [] },
+        google: { status: 'live', lastSync: '5 min ago', warnings: [] },
+        meta: { status: 'live', lastSync: '10 min ago', warnings: [] },
         apple: {
             status: 'closed',
-            lastSync: 'Silindi',
+            lastSync: 'Deleted',
             warnings: [
                 {
                     type: 'sync_error',
-                    label: 'Lokasyon Silindi',
+                    label: 'Location Deleted',
                     errorCode: 'unknown',
                     platform: 'apple',
                     errorLog: 'DELETED: Location has been permanently removed from Apple Business Connect.'
                 }
             ]
         },
-        yandex: { status: 'live', lastSync: '15 dk önce', warnings: [] }
+        yandex: { status: 'live', lastSync: '15 min ago', warnings: [] }
     },
 
     // 13. KURULUM GEREKİYOR (Yeni eklenen lokasyon - platformlar henüz kurulmamış)
@@ -504,8 +504,8 @@ export const mockLocations: LocationData[] = [
         imageUrl: 'https://example.com/img15.jpg',
         website: 'https://doyuyo.com',
         workingHours: '09:00 - 21:00',
-        description: 'Kayseri merkez şubesi - yeni açıldı',
-        storeSet: 'Cadde',
+        description: 'Kayseri main branch - newly opened',
+        storeSet: 'Street',
         businessStatus: 'open',
         google: { status: 'not_connected', lastSync: null, warnings: [] },
         meta: { status: 'not_connected', lastSync: null, warnings: [] },
@@ -527,25 +527,25 @@ export const mockLocations: LocationData[] = [
         imageUrl: 'https://example.com/img16.jpg',
         website: 'https://doyuyo.com',
         workingHours: '09:00 - 22:00',
-        description: 'Adana merkez şubesi',
-        storeSet: 'Cadde',
+        description: 'Adana main branch',
+        storeSet: 'Street',
         businessStatus: 'open',
-        google: { status: 'live', lastSync: '5 dk önce', warnings: [] },
+        google: { status: 'live', lastSync: '5 min ago', warnings: [] },
         meta: {
             status: 'action_required',
-            lastSync: 'Hatalı',
+            lastSync: 'Error',
             warnings: [
                 {
                     type: 'sync_error',
-                    label: 'Store Code Hatalı',
+                    label: 'Invalid Store Code',
                     errorCode: 'invalid_store_code',
                     platform: 'meta',
                     errorLog: 'Invalid store_id format: Store code cannot contain spaces or special characters (# - ç ş etc.). Use only alphanumeric and underscore.'
                 }
             ]
         },
-        apple: { status: 'live', lastSync: '10 dk önce', warnings: [] },
-        yandex: { status: 'live', lastSync: '15 dk önce', warnings: [] }
+        apple: { status: 'live', lastSync: '10 min ago', warnings: [] },
+        yandex: { status: 'live', lastSync: '15 min ago', warnings: [] }
     }
 ];
 

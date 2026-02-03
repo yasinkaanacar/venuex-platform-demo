@@ -2,9 +2,11 @@ import { useState } from 'react';
 
 import SummaryTab from '@/components/catalog/SummaryTab';
 import ActivityLog from '@/components/catalog/ActivityLog';
+import { useTranslation } from '@/contexts/LanguageContext';
 
 export default function Catalog() {
   const [mainTab, setMainTab] = useState<'ozet' | 'aktivite'>('ozet');
+  const { t } = useTranslation();
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -19,7 +21,7 @@ export default function Catalog() {
                 : 'text-gray-500 hover:text-gray-700 hover:bg-white/50'
                 }`}
             >
-              Özet
+              {t.common.summary}
             </button>
             <button
               onClick={() => setMainTab('aktivite')}
@@ -28,7 +30,7 @@ export default function Catalog() {
                 : 'text-gray-500 hover:text-gray-700 hover:bg-white/50'
                 }`}
             >
-              Aktivite
+              {t.common.activity}
             </button>
           </div>
         </div>
@@ -36,12 +38,12 @@ export default function Catalog() {
 
       {/* Main Content - Responsive padding */}
       <div className="p-4 sm:p-6 bg-white min-h-[calc(100vh-8rem)]">
-        {/* Özet Tab */}
+        {/* Summary Tab */}
         {mainTab === 'ozet' && (
           <SummaryTab />
         )}
 
-        {/* Aktivite Tab */}
+        {/* Activity Tab */}
         {mainTab === 'aktivite' && (
           <ActivityLog />
         )}
@@ -49,3 +51,4 @@ export default function Catalog() {
     </div>
   );
 }
+

@@ -103,7 +103,10 @@ const getPlatformIcon = (platform: string) => {
   }
 };
 
+import { useTranslation } from "@/contexts/LanguageContext";
+
 export default function ReviewsMVP() {
+  const { t } = useTranslation();
   const [activeTab, setActiveTab] = useState("ozet");
   const [dateRange, setDateRange] = useState("30");
   const [sourceFilter, setSourceFilter] = useState("all");
@@ -908,18 +911,49 @@ export default function ReviewsMVP() {
   };
 
   return (
-    <div className="min-h-screen bg-[#ffffff]">
-      {/* Header handled globally */}
-      <div className="px-6 py-6 bg-[#ffffff]">
+    <div className="min-h-screen bg-gray-50">
+      {/* Tab Navigation - Sticky */}
+      <div className="sticky top-16 z-40 bg-white border-b border-gray-200">
+        <div className="px-6 py-3 flex items-center justify-between">
+          <div className="inline-flex items-center gap-1 p-1 bg-gray-100 rounded-lg">
+            <button
+              onClick={() => handleTabChange('ozet')}
+              className={`px-4 py-2 text-sm font-medium rounded-md transition-all duration-200 ${activeTab === 'ozet'
+                ? 'bg-white text-gray-900 shadow-sm'
+                : 'text-gray-500 hover:text-gray-700 hover:bg-white/50'
+                }`}
+              data-testid="tab-ozet"
+            >
+              Overview
+            </button>
+            <button
+              onClick={() => handleTabChange('inbox')}
+              className={`px-4 py-2 text-sm font-medium rounded-md transition-all duration-200 ${activeTab === 'inbox'
+                ? 'bg-white text-gray-900 shadow-sm'
+                : 'text-gray-500 hover:text-gray-700 hover:bg-white/50'
+                }`}
+              data-testid="tab-inbox"
+            >
+              Inbox
+            </button>
+            <button
+              onClick={() => handleTabChange('locations')}
+              className={`px-4 py-2 text-sm font-medium rounded-md transition-all duration-200 ${activeTab === 'locations'
+                ? 'bg-white text-gray-900 shadow-sm'
+                : 'text-gray-500 hover:text-gray-700 hover:bg-white/50'
+                }`}
+              data-testid="tab-locations"
+            >
+              Locations
+            </button>
+          </div>
 
-
-        {/* Global Settings Header */}
-        <div className="flex items-center justify-end mb-6">
-          <div className="flex items-center gap-4">
+          {/* Global Settings Buttons */}
+          <div className="flex items-center gap-3">
             <Button
               variant="outline"
               size="sm"
-              className="border-2 border-gray-300 bg-[#e7e5e4] hover:bg-gray-50 hover:border-gray-400 shadow-sm"
+              className="border border-gray-200 bg-white hover:bg-gray-50 shadow-sm"
               onClick={() => setAlertSettingsOpen(true)}
             >
               <Bell className="w-4 h-4 mr-2" />
@@ -928,16 +962,16 @@ export default function ReviewsMVP() {
             <Button
               variant="outline"
               size="sm"
-              className="border-2 border-gray-300 bg-white hover:bg-gray-50 hover:border-gray-400 shadow-sm"
+              className="border border-gray-200 bg-white hover:bg-gray-50 shadow-sm"
               onClick={() => setTemplatesOpen(true)}
             >
               <FileText className="w-4 h-4 mr-2" />
-              Review Templates
+              Templates
             </Button>
             <Button
               variant="outline"
               size="sm"
-              className="border-2 border-gray-300 bg-white hover:bg-gray-50 hover:border-gray-400 shadow-sm"
+              className="border border-gray-200 bg-white hover:bg-gray-50 shadow-sm"
               onClick={() => setAiSettingsOpen(true)}
             >
               <Settings className="w-4 h-4 mr-2" />
@@ -945,40 +979,23 @@ export default function ReviewsMVP() {
             </Button>
           </div>
         </div>
+      </div>
 
+
+      {/* Main Content */}
+      <div className="pb-6 bg-white min-h-[calc(100vh-8rem)]">
         <Tabs value={activeTab} onValueChange={handleTabChange} className="w-full">
-          {/* Tab Navigation */}
-          <TabsList className="h-12 items-center justify-center rounded-none p-0 text-muted-foreground grid w-full grid-cols-3 mb-6 bg-transparent border-b border-gray-200">
-            <TabsTrigger
-              value="ozet"
-              data-testid="tab-ozet"
-              className="px-6 py-3 text-base rounded-none border-b-2 border-transparent transition-all duration-300 data-[state=active]:border-blue-500 data-[state=active]:text-blue-600 data-[state=active]:bg-transparent hover:text-gray-700 hover:border-gray-300 relative font-semibold"
-            >
-              <BarChart3 className="w-5 h-5 mr-3" />
-              Overview
-            </TabsTrigger>
-            <TabsTrigger
-              value="inbox"
-              data-testid="tab-inbox"
-              className="px-6 py-3 text-base rounded-none border-b-2 border-transparent transition-all duration-300 data-[state=active]:border-blue-500 data-[state=active]:text-blue-600 data-[state=active]:bg-transparent hover:text-gray-700 hover:border-gray-300 relative font-semibold"
-            >
-              <MessageSquare className="w-5 h-5 mr-3" />
-              Inbox
-            </TabsTrigger>
-            <TabsTrigger
-              value="locations"
-              data-testid="tab-locations"
-              className="px-6 py-3 text-base rounded-none border-b-2 border-transparent transition-all duration-300 data-[state=active]:border-blue-500 data-[state=active]:text-blue-600 data-[state=active]:bg-transparent hover:text-gray-700 hover:border-gray-300 relative font-semibold"
-            >
-              <MapPin className="w-5 h-5 mr-3" />
-              Locations
-            </TabsTrigger>
+          {/* Hidden TabsList for accessibility - actual tabs are above */}
+          <TabsList className="hidden">
+            <TabsTrigger value="ozet">Overview</TabsTrigger>
+            <TabsTrigger value="inbox">Inbox</TabsTrigger>
+            <TabsTrigger value="locations">Locations</TabsTrigger>
           </TabsList>
 
           {/* Overview Tab */}
-          <TabsContent value="ozet" className="space-y-6">
+          <TabsContent value="ozet" className="mx-6 mt-6 space-y-6">
             {/* Date Range and Filters */}
-            <div className="flex justify-end items-center mb-4 gap-3">
+            <div className="flex items-center gap-3">
               {/* Store Set Filter */}
               <Select value={storeSetFilter} onValueChange={setStoreSetFilter}>
                 <SelectTrigger
@@ -1060,9 +1077,12 @@ export default function ReviewsMVP() {
                   backgroundSize: '16px 16px'
                 }}
               >
-                Last 30 Days
+                Son 30 Gün
               </button>
             </div>
+
+            {/* Spacer for layout */}
+            <div className="mb-6"></div>
 
             {/* KPI Summary Cards */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -1327,7 +1347,7 @@ export default function ReviewsMVP() {
                 <Sparkles className="absolute top-4 right-4 w-5 h-5 text-blue-500" />
                 <div className="flex items-center justify-between">
                   <div>
-                    <CardTitle className="text-2xl font-semibold">Temalar</CardTitle>
+                    <CardTitle className="text-2xl font-semibold">{t.reviews.tabs.themes}</CardTitle>
                     <p className="text-sm text-muted-foreground">Theme analysis with VenueX scoring</p>
                   </div>
                   <div className="flex rounded-lg border border-gray-300 overflow-hidden">
@@ -1338,7 +1358,7 @@ export default function ReviewsMVP() {
                         }`}
                       onClick={() => setThemeView("list")}
                     >
-                      Liste
+                      {t.common.list}
                     </button>
                     <button
                       className={`px-4 py-2 text-sm font-medium transition-colors border-l border-gray-300 ${themeView === "chart"
@@ -1347,7 +1367,7 @@ export default function ReviewsMVP() {
                         }`}
                       onClick={() => setThemeView("chart")}
                     >
-                      Grafik
+                      {t.common.chart}
                     </button>
                   </div>
                 </div>
@@ -1829,7 +1849,7 @@ export default function ReviewsMVP() {
           </TabsContent>
 
           {/* Inbox Tab */}
-          <TabsContent value="inbox" className="space-y-6">
+          <TabsContent value="inbox" className="mx-6 mt-6 space-y-6">
 
 
             {/* Desktop Filter Bar */}
@@ -2355,9 +2375,9 @@ export default function ReviewsMVP() {
           </TabsContent>
 
           {/* Locations Tab */}
-          <TabsContent value="locations" className="space-y-6">
+          <TabsContent value="locations" className="mx-6 mt-6 space-y-6">
             {/* Date Range Selector for Locations */}
-            <div className="flex justify-end mb-4">
+            <div className="flex gap-3">
               <div className="w-fit">
                 <button
                   data-testid="button-locations-date-picker"
@@ -2369,7 +2389,7 @@ export default function ReviewsMVP() {
                     backgroundSize: '16px 16px'
                   }}
                 >
-                  Last 30 Days
+                  Son 30 Gün
                 </button>
               </div>
             </div>

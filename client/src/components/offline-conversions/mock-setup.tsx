@@ -43,44 +43,27 @@ export interface NormalizedAdMetricsResponse {
     offlineAOV: Metric;
 }
 
-// Mock Hooks
+// Real translation hook integration
+import { useTranslation } from '@/contexts/LanguageContext';
+
+function getNestedValue(obj: any, path: string): string {
+    return path.split('.').reduce((acc, part) => acc && acc[part], obj) || path;
+}
+
 export function useLocales() {
+    const { t: translations } = useTranslation();
     return {
-        t: (key: string) => {
-            const map: Record<string, string> = {
-                'common.integration_needed': 'Integration Needed',
-                'reports.performance_chart.integration_needed_description': 'Please complete setup for {selectedProvider}.',
-                'onboarding.complete_setup': 'Complete Setup',
-                'common.cost': 'Cost',
-                'common.impressions': 'Impressions',
-                'common.clicks': 'Clicks',
-                'common.online': 'ONLINE',
-                'common.online_sales': 'Online Sales',
-                'common.online_revenue': 'Online Revenue',
-                'common.online_ROAS': 'Online ROAS',
-                'common.online_AOV': 'Online AOV',
-                'common.store_visits': 'Store Visits',
-                'common.offline': 'OFFLINE',
-                'common.offline_sales': 'Offline Sales',
-                'common.offline_revenue': 'Offline Revenue',
-                'common.offline_ROAS': 'Offline ROAS',
-                'common.offline_AOV': 'Offline AOV',
-                'common.omni_AOV': 'Omni AOV',
-                'common.omni_ROAS': 'Omni ROAS',
-                'common.omni_revenue': 'Omni Revenue',
-                'reports.performance_chart.title': 'Performans Özeti',
-                'reports.performance_chart.description': 'Tüm kanallardaki pazarlama performansınızı takip edin. (Son 30 Gün)',
-                'dashboard.view_all': 'View All',
-                'common.growth': 'Growth',
-            };
-            return map[key] || key;
-        },
+        t: (key: string) => getNestedValue(translations, key),
         translate: (key: string, options?: any) => {
-            if (key === 'reports.performance_chart.integration_needed_description' && options?.selectedProvider) {
-                return `Please complete setup for ${options.selectedProvider}.`;
+            let text = getNestedValue(translations, key);
+            if (options && typeof text === 'string') {
+                Object.keys(options).forEach(k => {
+                    text = text.replace(new RegExp(`{{${k}}}|{${k}}`, 'g'), options[k]);
+                });
             }
-            return key;
-        }
+            return text;
+        },
+        currentLang: { value: 'en' }
     };
 }
 

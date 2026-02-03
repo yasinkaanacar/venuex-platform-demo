@@ -18,7 +18,7 @@ export default function OfflineDataFlowStatus() {
 
     return (
         <div className="bg-white rounded-lg border border-gray-100 shadow-sm p-5">
-            <h3 className="text-sm font-semibold text-gray-700 mb-4">Veri Bağlantı Durumu</h3>
+            <h3 className="text-sm font-semibold text-gray-700 mb-4">Data Connection Status</h3>
 
             <div className="flex items-center justify-between bg-gray-50 rounded-lg p-4 overflow-hidden">
                 {/* POS / Store Data Node */}
@@ -30,8 +30,8 @@ export default function OfflineDataFlowStatus() {
                         )}
                     </div>
                     <div>
-                        <p className="text-sm font-medium text-gray-900">POS / Mağaza Verisi</p>
-                        <p className="text-xs text-gray-500">5 dk önce senkronize oldu</p>
+                        <p className="text-sm font-medium text-gray-900">POS / Store Data</p>
+                        <p className="text-xs text-gray-500">Synced 5 min ago</p>
                     </div>
                 </div>
 
@@ -83,9 +83,9 @@ export default function OfflineDataFlowStatus() {
             {/* Last Upload Details */}
             <div className="mt-5 pt-4 border-t border-gray-100">
                 <div className="flex items-center gap-2 mb-3">
-                    <h4 className="text-xs font-semibold text-gray-500 uppercase tracking-wide">Son Yükleme</h4>
+                    <h4 className="text-xs font-semibold text-gray-500 uppercase tracking-wide">Last Upload</h4>
                     <span className="px-2 py-0.5 bg-green-50 text-green-700 text-[10px] font-medium rounded-full border border-green-100">
-                        Başarılı
+                        Success
                     </span>
                     <span className="text-xs text-gray-400 font-mono">
                         store-sales-2026-01-21-09-00-51.csv
@@ -94,26 +94,26 @@ export default function OfflineDataFlowStatus() {
 
                 <div className="grid grid-cols-5 gap-4">
                     <div>
-                        <p className="text-xs text-gray-500 mb-1">Yükleme Tarihi</p>
+                        <p className="text-xs text-gray-500 mb-1">Upload Date</p>
                         <p className="text-sm font-medium text-gray-900">21.01.2024 - 14:30</p>
                     </div>
                     <div>
-                        <p className="text-xs text-gray-500 mb-1">Dönüşüm Sayısı</p>
-                        <p className="text-sm font-medium text-gray-900">154 Adet</p>
+                        <p className="text-xs text-gray-500 mb-1">Conversions</p>
+                        <p className="text-sm font-medium text-gray-900">154 Units</p>
                     </div>
                     <div>
-                        <p className="text-xs text-gray-500 mb-1">Ortalama Sepet</p>
+                        <p className="text-xs text-gray-500 mb-1">Avg. Basket</p>
                         <p className="text-sm font-medium text-gray-900">1.250,00 ₺</p>
                     </div>
                     <div>
-                        <p className="text-xs text-gray-500 mb-1">Toplam Satış</p>
+                        <p className="text-xs text-gray-500 mb-1">Total Sales</p>
                         <p className="text-sm font-medium text-gray-900">192.500,00 ₺</p>
                     </div>
                     <div>
-                        <p className="text-xs text-gray-500 mb-1">İşlem Durumu</p>
+                        <p className="text-xs text-gray-500 mb-1">Status</p>
                         <div className="flex items-center gap-1.5 text-green-600">
                             <div className="w-1.5 h-1.5 bg-green-600 rounded-full animate-pulse"></div>
-                            <span className="text-sm font-medium">Tamamlandı</span>
+                            <span className="text-sm font-medium">Completed</span>
                         </div>
                     </div>
                 </div>

@@ -1,30 +1,12 @@
-import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 
-import FilterBar from '@/components/overview/filter-bar';
-import KpiCards from '@/components/overview/kpi-cards';
-import PerformanceChart from '@/components/overview/performance-chart';
-import TopPerformingLocations from '@/components/overview/top-performing-locations';
-import TopPerformingCampaigns from '@/components/overview/top-performing-campaigns';
-import DataQualityEnrichment from '@/components/overview/data-quality-enrichment';
-import DataHealthAlerts from '@/components/overview/data-health-alerts';
-import { FilterState, OverviewData } from '@/lib/types';
+import PerformanceChart from '@/components/offline-conversions/performance-chart';
+import TopPerformingOverview from '@/components/overview/TopPerformingOverview';
+import DataPipelineStatus from '@/components/overview/DataPipelineStatus';
+import { OverviewData } from '@/lib/types';
 import { Skeleton } from '@mui/material';
 
 export default function Overview() {
-  const [filters, setFilters] = useState<FilterState>({
-    dateRange: 'Last 7 days',
-    platform: 'Google',
-    compareMode: false
-  });
-
-  const scrollToBottom = () => {
-    const element = document.getElementById('data-health-details');
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
-
   const { data: overviewData, isLoading, error } = useQuery<OverviewData>({
     queryKey: ['/api/overview'],
     refetchInterval: 60000, // Refetch every minute for real-time updates
@@ -42,25 +24,11 @@ export default function Overview() {
   }
 
   return (
-    <div className="min-h-full bg-white dark:bg-gray-900">
-      {/* Header handled globally */}
-
-      <div className="max-w-7xl mx-auto px-6 py-6">
-        <div className="mb-6">
-          <DataHealthAlerts
-            platforms={overviewData?.platforms}
-            alerts={overviewData?.alerts}
-            locations={overviewData?.locations}
-            bannerMode={true}
-            onScrollToBottom={scrollToBottom}
-          />
-        </div>
-
-
-        <FilterBar filters={filters} onFiltersChange={setFilters} />
-
+    <div className="min-h-screen bg-gray-50">
+      {/* Main Content */}
+      <div className="pb-6 bg-white min-h-[calc(100vh-4rem)]">
         {isLoading ? (
-          <div className="space-y-6">
+          <div className="mx-6 mt-6 space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               {Array.from({ length: 4 }).map((_, i) => (
                 <Skeleton key={i} variant="rectangular" height={128} sx={{ borderRadius: 2 }} data-testid={`skeleton-kpi-${i}`} />
@@ -73,23 +41,22 @@ export default function Overview() {
             </div>
           </div>
         ) : (
-          <div className="space-y-8">
-            <KpiCards kpis={overviewData?.kpis} filters={filters} onFiltersChange={setFilters} />
-            <PerformanceChart filters={filters} onFiltersChange={setFilters} />
-            <TopPerformingLocations filters={filters} onFiltersChange={setFilters} />
-            <TopPerformingCampaigns filters={filters} onFiltersChange={setFilters} />
-            <DataQualityEnrichment context="dashboard" />
-
-            <div id="data-health-details">
-              <DataHealthAlerts
-                platforms={overviewData?.platforms}
-                alerts={overviewData?.alerts}
-                locations={overviewData?.locations}
-                bannerMode={false}
-                alwaysExpanded={true}
-              />
+          <>
+            {/* Data Pipeline Status with KPIs */}
+            <div className="mx-6 mt-6">
+              <DataPipelineStatus />
             </div>
-          </div>
+
+            {/* Online-to-Offline Conversion Funnel */}
+            <div className="mx-6 mt-6">
+              <PerformanceChart filters={{ dateRange: 'Last 30 days', platform: 'Google', compareMode: false }} onFiltersChange={() => { }} showProviderFilter={true} />
+            </div>
+
+            {/* Top Performing Locations & Campaigns Side by Side */}
+            <div className="mx-6 mt-6">
+              <TopPerformingOverview />
+            </div>
+          </>
         )}
       </div>
     </div>

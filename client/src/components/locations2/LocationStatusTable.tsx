@@ -1,4 +1,5 @@
 import { useState, useMemo, useEffect } from 'react';
+import { useTranslation } from '@/contexts/LanguageContext';
 import { Link } from 'wouter';
 import { SiGoogle, SiMeta, SiApple } from 'react-icons/si';
 import { Clock, AlertTriangle, AlertCircle, CheckCircle2, Phone, Mail, MapPin, Image, ShieldCheck, ShieldAlert, XCircle, PauseCircle, ChevronRight, MoreHorizontal, RefreshCw, Link2, Unlink, ExternalLink, Download, X, Save, Upload, Layers, Search, Filter, Building2, Ban, Unplug, Clock3, Trash2, XOctagon, Plus, Pencil, Info, Edit } from 'lucide-react';
@@ -153,91 +154,98 @@ const getWarningColor = (type: WarningType) => {
   return 'bg-yellow-100 text-yellow-700 border-yellow-200';
 };
 
-const getStatusConfig = (status: PlatformStatusType) => {
-  switch (status) {
-    case 'live':
-      return {
-        icon: <ShieldCheck className="w-3.5 h-3.5" />,
-        label: 'Yayında',
-        color: 'text-emerald-600',
-        dotColor: 'bg-emerald-500'
-      };
-    case 'pending':
-      return {
-        icon: <Clock3 className="w-3.5 h-3.5" />,
-        label: 'Bekliyor',
-        color: 'text-sky-600',
-        dotColor: 'bg-sky-500'
-      };
-    case 'action_required':
-      return {
-        icon: <AlertTriangle className="w-3.5 h-3.5" />,
-        label: 'Aksiyon Gerekli',
-        color: 'text-amber-600',
-        dotColor: 'bg-amber-500'
-      };
-    case 'rejected':
-      return {
-        icon: <XOctagon className="w-3.5 h-3.5" />,
-        label: 'Reddedildi',
-        color: 'text-rose-600',
-        dotColor: 'bg-rose-500'
-      };
-    case 'suspended':
-      return {
-        icon: <Ban className="w-3.5 h-3.5" />,
-        label: 'Askıda',
-        color: 'text-red-600',
-        dotColor: 'bg-red-500'
-      };
-    case 'closed':
-      return {
-        icon: <Trash2 className="w-3.5 h-3.5" />,
-        label: 'Kapalı',
-        color: 'text-slate-500',
-        dotColor: 'bg-slate-400'
-      };
-    case 'unclaimed':
-      return {
-        icon: <ShieldAlert className="w-3.5 h-3.5" />,
-        label: 'Sahipsiz',
-        color: 'text-slate-400',
-        dotColor: 'bg-slate-300'
-      };
-    case 'not_connected':
-      return {
-        icon: <Unplug className="w-3.5 h-3.5" />,
-        label: 'Bağlı Değil',
-        color: 'text-slate-400',
-        dotColor: 'bg-slate-300'
-      };
-  }
-};
+// Status config now gets labels from translation context
+const useStatusConfig = () => {
+  const { t } = useTranslation();
 
-const getBusinessStatusConfig = (status: BusinessStatus) => {
-  switch (status) {
-    case 'open':
-      return {
-        label: 'Açık',
-        color: 'text-emerald-600',
-        bgColor: 'bg-emerald-50',
-        dotColor: 'bg-emerald-500'
-      };
-    case 'closed':
-      return {
-        label: 'Kapalı',
-        color: 'text-slate-500',
-        bgColor: 'bg-slate-100',
-        dotColor: 'bg-slate-400'
-      };
-    case 'temporarily_closed':
-      return {
-        label: 'Geçici Kapalı',
-        color: 'text-amber-600',
-        bgColor: 'bg-amber-50',
-        dotColor: 'bg-amber-500'
-      };
-  }
+  const getStatusConfig = (status: PlatformStatusType) => {
+    switch (status) {
+      case 'live':
+        return {
+          icon: <ShieldCheck className="w-3.5 h-3.5" />,
+          label: t.platformStatus.live,
+          color: 'text-emerald-600',
+          dotColor: 'bg-emerald-500'
+        };
+      case 'pending':
+        return {
+          icon: <Clock3 className="w-3.5 h-3.5" />,
+          label: t.platformStatus.pending,
+          color: 'text-sky-600',
+          dotColor: 'bg-sky-500'
+        };
+      case 'action_required':
+        return {
+          icon: <AlertTriangle className="w-3.5 h-3.5" />,
+          label: t.platformStatus.actionRequired,
+          color: 'text-amber-600',
+          dotColor: 'bg-amber-500'
+        };
+      case 'rejected':
+        return {
+          icon: <XOctagon className="w-3.5 h-3.5" />,
+          label: t.platformStatus.rejected,
+          color: 'text-rose-600',
+          dotColor: 'bg-rose-500'
+        };
+      case 'suspended':
+        return {
+          icon: <Ban className="w-3.5 h-3.5" />,
+          label: t.platformStatus.suspended,
+          color: 'text-red-600',
+          dotColor: 'bg-red-500'
+        };
+      case 'closed':
+        return {
+          icon: <Trash2 className="w-3.5 h-3.5" />,
+          label: t.platformStatus.closed,
+          color: 'text-slate-500',
+          dotColor: 'bg-slate-400'
+        };
+      case 'unclaimed':
+        return {
+          icon: <ShieldAlert className="w-3.5 h-3.5" />,
+          label: t.platformStatus.unclaimed,
+          color: 'text-slate-400',
+          dotColor: 'bg-slate-300'
+        };
+      case 'not_connected':
+        return {
+          icon: <Unplug className="w-3.5 h-3.5" />,
+          label: t.platformStatus.notConnected,
+          color: 'text-slate-400',
+          dotColor: 'bg-slate-300'
+        };
+    }
+  };
+
+  const getBusinessStatusConfig = (status: BusinessStatus) => {
+    switch (status) {
+      case 'open':
+        return {
+          label: t.businessStatus.open,
+          color: 'text-emerald-600',
+          bgColor: 'bg-emerald-50',
+          dotColor: 'bg-emerald-500'
+        };
+      case 'closed':
+        return {
+          label: t.businessStatus.closed,
+          color: 'text-slate-500',
+          bgColor: 'bg-slate-100',
+          dotColor: 'bg-slate-400'
+        };
+      case 'temporarily_closed':
+        return {
+          label: t.businessStatus.temporarilyClosed,
+          color: 'text-amber-600',
+          bgColor: 'bg-amber-50',
+          dotColor: 'bg-amber-500'
+        };
+    }
+  };
+
+  return { getStatusConfig, getBusinessStatusConfig };
 };
 
 const getFieldConfig = (warningType: WarningType) => {
@@ -282,6 +290,7 @@ function DataHealthBar({
   missingCount: number;
   onClick?: () => void;
 }) {
+  const { t } = useTranslation();
   const getGradient = () => {
     if (percentage >= 80) return 'from-green-400 to-green-500';
     if (percentage >= 50) return 'from-yellow-400 to-orange-400';
@@ -324,7 +333,7 @@ function DataHealthBar({
       </span>
       {missingCount > 0 && (
         <span className="text-xs font-semibold text-rose-500">
-          ({missingCount} eksik)
+          ({missingCount} {t.common.missing})
         </span>
       )}
       {isClickable && <ChevronRight className="w-3.5 h-3.5 text-blue-400 group-hover:translate-x-0.5 transition-transform" />}
@@ -347,6 +356,7 @@ function FilterToolbar({
   totalCount: number;
   problemCount: number;
 }) {
+  const { t } = useTranslation();
   const hasActiveFilters = filters.search !== '' || filters.platform !== 'all' || filters.storeSet !== 'all' || filters.showProblemsOnly;
 
   const updateFilter = <K extends keyof FilterState>(key: K, value: FilterState[K]) => {
@@ -354,20 +364,24 @@ function FilterToolbar({
   };
 
   const getStoreSetLabel = () => {
-    if (filters.storeSet === 'all') return 'Grup';
+    if (filters.storeSet === 'all') return t.common.group;
     return filters.storeSet;
   };
 
   const getPlatformLabel = () => {
-    if (filters.platform === 'all') return 'Platform';
+    if (filters.platform === 'all') return t.common.platform;
     const labels: Record<string, string> = { google: 'Google', meta: 'Meta', apple: 'Apple', yandex: 'Yandex' };
-    return labels[filters.platform] || 'Platform';
+    return labels[filters.platform] || t.common.platform;
   };
 
   const getBusinessStatusLabel = () => {
-    if (filters.businessStatus === 'all') return 'Durum';
-    const labels: Record<string, string> = { open: 'Açık', closed: 'Kapalı', temporarily_closed: 'Geçici Kapalı' };
-    return labels[filters.businessStatus] || 'Durum';
+    if (filters.businessStatus === 'all') return t.common.status;
+    const labels: Record<string, string> = {
+      open: t.businessStatus.open,
+      closed: t.businessStatus.closed,
+      temporarily_closed: t.businessStatus.temporarilyClosed
+    };
+    return labels[filters.businessStatus] || t.common.status;
   };
 
 
@@ -378,7 +392,7 @@ function FilterToolbar({
         <div className="relative flex-1 min-w-[200px] max-w-[320px]">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
           <Input
-            placeholder="Adres, Ad veya Kod ile ara..."
+            placeholder={t.common.searchPlaceholder}
             value={filters.search}
             onChange={(e) => updateFilter('search', e.target.value)}
             className="pl-9 h-10 bg-white border-gray-200 focus:border-blue-400 focus:ring-2 focus:ring-blue-100 transition-all"
@@ -388,7 +402,7 @@ function FilterToolbar({
         <div className="flex items-center gap-3">
           <Select value={filters.storeSet} onValueChange={(v) => updateFilter('storeSet', v)} displayLabel={getStoreSetLabel()} width={150}>
             <SelectContent>
-              <SelectItem value="all">Tüm Gruplar</SelectItem>
+              <SelectItem value="all">{t.common.allGroups}</SelectItem>
               {storeSets.map((set) => (
                 <SelectItem key={set} value={set}>{set}</SelectItem>
               ))}
@@ -397,7 +411,7 @@ function FilterToolbar({
 
           <Select value={filters.platform} onValueChange={(v) => updateFilter('platform', v as PlatformKey | 'all')} displayLabel={getPlatformLabel()} width={150}>
             <SelectContent>
-              <SelectItem value="all">Tüm Platformlar</SelectItem>
+              <SelectItem value="all">{t.common.allPlatforms}</SelectItem>
               <SelectItem value="google">Google</SelectItem>
               <SelectItem value="meta">Meta</SelectItem>
               <SelectItem value="apple">Apple</SelectItem>
@@ -407,10 +421,10 @@ function FilterToolbar({
 
           <Select value={filters.businessStatus} onValueChange={(v) => updateFilter('businessStatus', v as BusinessStatus | 'all')} displayLabel={getBusinessStatusLabel()} width={130}>
             <SelectContent>
-              <SelectItem value="all">Tüm Durumlar</SelectItem>
-              <SelectItem value="open">Açık</SelectItem>
-              <SelectItem value="closed">Kapalı</SelectItem>
-              <SelectItem value="temporarily_closed">Geçici Kapalı</SelectItem>
+              <SelectItem value="all">{t.common.allStatuses}</SelectItem>
+              <SelectItem value="open">{t.businessStatus.open}</SelectItem>
+              <SelectItem value="closed">{t.businessStatus.closed}</SelectItem>
+              <SelectItem value="temporarily_closed">{t.businessStatus.temporarilyClosed}</SelectItem>
             </SelectContent>
           </Select>
 
@@ -422,7 +436,7 @@ function FilterToolbar({
               onClick={() => setFilters(initialFilters)}
             >
               <X className="w-3.5 h-3.5 mr-1" />
-              Temizle
+              {t.common.clear}
             </Button>
           )}
 
@@ -430,7 +444,7 @@ function FilterToolbar({
             <span className="text-blue-600 font-bold">{resultCount}</span>
             <span className="text-gray-400">/</span>
             <span>{totalCount}</span>
-            <span className="text-gray-400 ml-0.5">lokasyon</span>
+            <span className="text-gray-400 ml-0.5">{t.common.location}</span>
           </div>
 
           <button
@@ -441,7 +455,7 @@ function FilterToolbar({
               }`}
           >
             <AlertTriangle className="w-3 h-3" />
-            Aksiyon Gerekenler
+            {t.common.actionRequired}
             <span className={`ml-1 px-1.5 py-0.5 text-[10px] font-bold rounded-full ${filters.showProblemsOnly
               ? 'bg-white/20 text-white'
               : 'bg-rose-200 text-rose-700'
@@ -455,6 +469,7 @@ function FilterToolbar({
     </div>
   );
 }
+
 
 function LocationEditSheet({
   open,
@@ -475,6 +490,8 @@ function LocationEditSheet({
     description: '',
     imageUrl: ''
   });
+
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (location) {
@@ -519,31 +536,31 @@ function LocationEditSheet({
         <SheetHeader>
           <SheetTitle className="flex items-center gap-2">
             <Building2 className="w-5 h-5 text-blue-600" />
-            POI Veri Yönetimi
+            {t.locations.poiDataManagement}
           </SheetTitle>
           <SheetDescription className="flex items-center justify-between">
             <span>{location.name} <span className="text-gray-400">#{location.storeCode}</span></span>
             <span className={`text-xs font-medium ${dataHealth >= 80 ? 'text-green-600' : dataHealth >= 50 ? 'text-yellow-600' : 'text-red-600'}`}>
-              Veri Doluluk: {dataHealth}%
+              {t.locations.dataCompleteness}: {dataHealth}%
             </span>
           </SheetDescription>
         </SheetHeader>
 
         <div className="mt-6 space-y-5">
           <div className="space-y-2">
-            <Label htmlFor="name" className="text-sm font-medium">Lokasyon Adı</Label>
+            <Label htmlFor="name" className="text-sm font-medium">{t.locations.locationName}</Label>
             <Input
               id="name"
               value={formData.name}
               onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-              placeholder="Şube adı"
+              placeholder={t.locations.branchName}
             />
           </div>
 
           <div className="space-y-2">
             <Label htmlFor="address" className="flex items-center gap-2 text-sm font-medium">
               <MapPin className="w-4 h-4 text-gray-500" />
-              Adres
+              {t.locations.address}
             </Label>
             <Textarea
               id="address"
@@ -558,7 +575,7 @@ function LocationEditSheet({
             <div className="space-y-2">
               <Label htmlFor="phone" className="flex items-center gap-2 text-sm font-medium">
                 <Phone className="w-4 h-4 text-gray-500" />
-                Telefon
+                {t.locations.phone}
               </Label>
               <Input
                 id="phone"
@@ -571,7 +588,7 @@ function LocationEditSheet({
             <div className="space-y-2">
               <Label htmlFor="email" className="flex items-center gap-2 text-sm font-medium">
                 <Mail className="w-4 h-4 text-gray-500" />
-                Email
+                {t.locations.email}
               </Label>
               <Input
                 id="email"
@@ -586,7 +603,7 @@ function LocationEditSheet({
           <div className="space-y-2">
             <Label htmlFor="website" className="flex items-center gap-2 text-sm font-medium">
               <ExternalLink className="w-4 h-4 text-gray-500" />
-              Website
+              {t.locations.website}
             </Label>
             <Input
               id="website"
@@ -599,7 +616,7 @@ function LocationEditSheet({
           <div className="space-y-2">
             <Label htmlFor="workingHours" className="flex items-center gap-2 text-sm font-medium">
               <Clock className="w-4 h-4 text-gray-500" />
-              Çalışma Saatleri
+              {t.locations.workingHours}
             </Label>
             <Input
               id="workingHours"
@@ -610,7 +627,7 @@ function LocationEditSheet({
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="description" className="text-sm font-medium">Açıklama</Label>
+            <Label htmlFor="description" className="text-sm font-medium">{t.locations.description}</Label>
             <Textarea
               id="description"
               value={formData.description}
@@ -623,7 +640,7 @@ function LocationEditSheet({
           <div className="space-y-2">
             <Label htmlFor="imageUrl" className="flex items-center gap-2 text-sm font-medium">
               <Image className="w-4 h-4 text-gray-500" />
-              Görsel
+              {t.locations.image}
             </Label>
             <div className="flex gap-2">
               <Input
@@ -641,11 +658,11 @@ function LocationEditSheet({
 
           <div className="pt-4 border-t flex gap-2 justify-end">
             <Button variant="outline" onClick={onClose}>
-              İptal
+              {t.common.cancel}
             </Button>
             <Button className="gap-1.5" onClick={onClose}>
               <Save className="w-4 h-4" />
-              Kaydet ve Sync
+              {t.common.saveAndSync}
             </Button>
           </div>
         </div>
@@ -665,6 +682,7 @@ function InlineFieldEditorPopover({
   cellKey: string;
   idx: number;
 }) {
+  const { t } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
   const [value, setValue] = useState('');
 
@@ -731,7 +749,7 @@ function InlineFieldEditorPopover({
           <div className="flex gap-2 pt-2">
             <Button size="sm" className="flex-1 h-8 gap-1.5 text-xs" onClick={() => setIsOpen(false)}>
               <Save className="w-3 h-3" />
-              Kaydet
+              {t.common.save}
             </Button>
           </div>
 
@@ -739,7 +757,7 @@ function InlineFieldEditorPopover({
             <Link href="/locations">
               <Button variant="ghost" size="sm" className="w-full h-8 gap-1.5 text-xs text-gray-600">
                 <Layers className="w-3.5 h-3.5" />
-                Toplu İşlemler
+                {t.common.bulkOperations}
               </Button>
             </Link>
           </div>
@@ -749,14 +767,14 @@ function InlineFieldEditorPopover({
   );
 }
 
-const getActionLabel = (errorCode?: SyncErrorCode): string => {
+const getActionLabel = (errorCode: SyncErrorCode | undefined, t: any): string => {
   switch (errorCode) {
-    case 'auth_expired': return 'Tekrar Bağla';
-    case 'missing_coordinates': return 'Koordinat Ekle';
-    case 'validation_error': return 'Düzelt';
-    case 'rate_limit': return 'Bekliyor...';
-    case 'invalid_store_code': return 'Kod Düzelt';
-    default: return 'Onar';
+    case 'auth_expired': return t.common.reconnect;
+    case 'missing_coordinates': return t.common.addCoordinates;
+    case 'validation_error': return t.common.fix;
+    case 'rate_limit': return t.common.waiting;
+    case 'invalid_store_code': return t.common.fixCode;
+    default: return t.common.repair;
   }
 };
 
@@ -767,7 +785,8 @@ function SyncErrorBubble({
   warning: LocationWarning;
   onErrorClick: () => void;
 }) {
-  const actionLabel = getActionLabel(warning.errorCode);
+  const { t } = useTranslation();
+  const actionLabel = getActionLabel(warning.errorCode, t);
   const isWaiting = warning.errorCode === 'rate_limit';
 
   return (
@@ -793,6 +812,7 @@ function SmartFixSheet({
   warning: LocationWarning | null;
   location: LocationData | null;
 }) {
+  const { t } = useTranslation();
   const [coordinates, setCoordinates] = useState({ lat: '', lng: '' });
   const [workingHours, setWorkingHours] = useState('');
 
@@ -1309,6 +1329,10 @@ export default function LocationStatusTable({ onAddNewLocation, onUploadLocation
     location: null
   });
 
+  // Get translated status config functions
+  const { getStatusConfig, getBusinessStatusConfig } = useStatusConfig();
+  const { t } = useTranslation();
+
   const uniqueStoreSets = useMemo(() => {
     const sets = new Set(mockLocations.map(l => l.storeSet));
     return Array.from(sets).sort();
@@ -1397,16 +1421,16 @@ export default function LocationStatusTable({ onAddNewLocation, onUploadLocation
       <div className="px-4 py-4 border-b border-gray-100 bg-gradient-to-b from-white to-gray-50/50 flex items-center justify-between gap-4">
         <div>
           <div className="flex items-center gap-1.5">
-            <h3 className="text-base font-semibold text-gray-900">Lokasyonlar</h3>
+            <h3 className="text-base font-semibold text-gray-900">{t.locations.title}</h3>
             <div className="relative group">
               <Info className="w-3.5 h-3.5 text-gray-400 cursor-help" />
               <div className="absolute left-full top-1/2 -translate-y-1/2 ml-2 px-3 py-2 bg-gray-900 text-white text-xs rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 whitespace-nowrap z-[9999]">
-                Her lokasyonun platform bazında canlı durumunu ve senkronizasyon hatalarını gösterir.
+                {t.locations.generalStatus}
                 <div className="absolute right-full top-1/2 -translate-y-1/2 w-0 h-0 border-t-4 border-b-4 border-r-4 border-transparent border-r-gray-900"></div>
               </div>
             </div>
           </div>
-          <p className="text-xs text-gray-500 mt-1">Tüm lokasyonların platform durumları ve senkronizasyon bilgileri</p>
+          <p className="text-xs text-gray-500 mt-1">{t.locations.platformStatuses}</p>
         </div>
 
         <div className="flex items-center gap-3">
@@ -1418,7 +1442,7 @@ export default function LocationStatusTable({ onAddNewLocation, onUploadLocation
             data-testid="btn-add-new-location"
           >
             <Plus className="w-3.5 h-3.5 mr-1.5" />
-            Yeni Lokasyon Ekle
+            {t.locations.addNewLocation}
           </Button>
 
           <Button
@@ -1429,7 +1453,7 @@ export default function LocationStatusTable({ onAddNewLocation, onUploadLocation
             data-testid="btn-bulk-updates"
           >
             <Edit className="w-3.5 h-3.5 mr-1.5" />
-            Toplu Güncelleme
+            {t.common.bulkOperations}
           </Button>
         </div>
       </div>
@@ -1452,8 +1476,8 @@ export default function LocationStatusTable({ onAddNewLocation, onUploadLocation
                 onChange={toggleSelectAll}
               />
             </th>
-            <th className="text-left text-[11px] font-semibold text-gray-600 uppercase tracking-wider px-4 py-4">Lokasyon</th>
-            <th className="text-center text-[11px] font-semibold text-gray-600 uppercase tracking-wider px-4 py-4">Durum</th>
+            <th className="text-left text-[11px] font-semibold text-gray-600 uppercase tracking-wider px-4 py-4">{t.common.location}</th>
+            <th className="text-center text-[11px] font-semibold text-gray-600 uppercase tracking-wider px-4 py-4">{t.common.status}</th>
             <th className="text-center text-[11px] font-semibold text-gray-600 uppercase tracking-wider px-4 py-4">
               <div className="flex items-center justify-center gap-1.5">
                 <SiGoogle className="w-3.5 h-3.5" />
@@ -1588,13 +1612,13 @@ export default function LocationStatusTable({ onAddNewLocation, onUploadLocation
                   {filters.showProblemsOnly && filters.search === '' && filters.platform === 'all' && filters.storeSet === 'all' ? (
                     <>
                       <CheckCircle2 className="w-10 h-10 mx-auto mb-3 text-emerald-500" />
-                      <p className="text-base font-medium text-emerald-600 mb-1">Tüm lokasyonlar sorunsuz ✓</p>
-                      <p className="text-sm text-gray-400">Hiçbir lokasyonda aksiyon gerektiren durum yok</p>
+                      <p className="text-base font-medium text-emerald-600 mb-1">{t.locations.allLocationsOk}</p>
+                      <p className="text-sm text-gray-400">{t.locations.noActionsRequired}</p>
                     </>
                   ) : (
                     <>
                       <Search className="w-8 h-8 mx-auto mb-2 opacity-50" />
-                      <p className="text-sm mb-3">Filtrelerle eşleşen lokasyon bulunamadı</p>
+                      <p className="text-sm mb-3">{t.locations.noLocationsFound}</p>
                       <Button
                         variant="outline"
                         size="sm"
@@ -1602,7 +1626,7 @@ export default function LocationStatusTable({ onAddNewLocation, onUploadLocation
                         className="gap-1.5"
                       >
                         <X className="w-3.5 h-3.5" />
-                        Filtreleri Temizle
+                        {t.locations.clearFilters}
                       </Button>
                     </>
                   )}
@@ -1654,6 +1678,8 @@ function PlatformCell({
   onSyncErrorClick?: (warning: LocationWarning) => void;
 }) {
   const [isOpen, setIsOpen] = useState(false);
+  const { t } = useTranslation();
+  const { getStatusConfig } = useStatusConfig();
 
   // If business is closed, show passive status for all platforms
   const isBusinessClosed = location.businessStatus === 'closed' || location.businessStatus === 'temporarily_closed';
@@ -1668,7 +1694,7 @@ function PlatformCell({
         <Link href="/setup3B#locations">
           <span className="inline-flex items-center gap-1.5 px-3 py-1.5 text-[11px] font-medium rounded-md bg-blue-50 text-blue-600 hover:bg-blue-100 transition-colors border border-blue-200 cursor-pointer">
             <Plus className="w-3.5 h-3.5" />
-            Kurulum Gerekli
+            {t.common.setupRequired}
           </span>
         </Link>
       </div>
@@ -1720,7 +1746,7 @@ function PlatformCell({
               </PopoverTrigger>
               <PopoverContent className="w-auto p-3 shadow-lg" align="center" side="bottom" sideOffset={4}>
                 <div className="flex flex-col gap-2">
-                  <span className="text-[10px] text-slate-500 font-medium">Diğer Hatalar</span>
+                  <span className="text-[10px] text-slate-500 font-medium">{t.locations.otherErrors}</span>
                   {syncErrors.slice(1).map((warning, idx) => (
                     <SyncErrorBubble
                       key={`${cellKey}-more-${idx}`}

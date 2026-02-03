@@ -36,15 +36,14 @@ const navigationGroups = [
     title: "LOCATION",
     items: [
       { name: 'Locations', href: '/locations', icon: MapPin },
-      { name: 'Locations2', href: '/locations2', icon: MapPin },
-      { name: 'Reviews', href: '/reviewsMVP', icon: MessageSquare }
+      { name: 'Reviews', href: '/reviews', icon: MessageSquare }
     ]
   },
   {
     title: "SALES",
     items: [
       { name: 'Local Inventory', href: '/catalog', icon: Package },
-      { name: 'Offline Conversions', href: '/offline-conversionsMVP', icon: TrendingUp }
+      { name: 'Offline Conversions', href: '/offline-conversions', icon: TrendingUp }
     ]
   },
   {
@@ -56,9 +55,6 @@ const navigationGroups = [
   {
     title: "MANAGEMENT",
     items: [
-      { name: 'Setup', href: '/setup', icon: Settings },
-      { name: 'Setup 2', href: '/setup2', icon: Settings },
-      { name: 'Setup 3', href: '/setup3', icon: Settings },
       { name: 'Setup 3B', href: '/setup3B', icon: Settings }
     ]
   },

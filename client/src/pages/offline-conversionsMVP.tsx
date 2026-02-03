@@ -21,6 +21,7 @@ import CampaignPerformanceTable from '../components/offline-conversions/Campaign
 import GeographicPerformance from '../components/offline-conversions/GeographicPerformance';
 import OfflineActivityLog from '../components/offline-conversions/OfflineActivityLog';
 import DataPipelineStatus from '../components/offline-conversions/DataPipelineStatus';
+import { useTranslation } from '@/contexts/LanguageContext';
 
 // Mock sparkline data for each KPI
 const revenueSparklineData = [
@@ -298,6 +299,7 @@ export default function OfflineConversionsMVP() {
   });
 
   const [mainTab, setMainTab] = useState<'ozet' | 'performans' | 'kampanyalar' | 'cografi' | 'veri_baglantisi'>('ozet');
+  const { t, language } = useTranslation();
 
   const [campaignSearch, setCampaignSearch] = useState("");
   const [platformSearch, setPlatformSearch] = useState("");
@@ -634,7 +636,7 @@ export default function OfflineConversionsMVP() {
                 }`}
               data-testid="tab-ozet"
             >
-              Özet
+              {t.common.summary}
             </button>
             <button
               onClick={() => setMainTab('performans')}
@@ -644,7 +646,7 @@ export default function OfflineConversionsMVP() {
                 }`}
               data-testid="tab-performans"
             >
-              Performans
+              {t.common.performance}
             </button>
             <button
               onClick={() => setMainTab('veri_baglantisi')}
@@ -654,7 +656,7 @@ export default function OfflineConversionsMVP() {
                 }`}
               data-testid="tab-veri-baglantisi"
             >
-              Veri Bağlantısı
+              {language === 'en' ? 'Data Connection' : 'Veri Bağlantısı'}
             </button>
             <button
               onClick={() => setMainTab('kampanyalar')}
@@ -664,7 +666,7 @@ export default function OfflineConversionsMVP() {
                 }`}
               data-testid="tab-kampanyalar"
             >
-              Kampanyalar
+              {language === 'en' ? 'Campaigns' : 'Kampanyalar'}
             </button>
             <button
               onClick={() => setMainTab('cografi')}
@@ -674,7 +676,7 @@ export default function OfflineConversionsMVP() {
                 }`}
               data-testid="tab-cografi"
             >
-              Coğrafi
+              {language === 'en' ? 'Geographic' : 'Coğrafi'}
             </button>
           </div>
         </div>

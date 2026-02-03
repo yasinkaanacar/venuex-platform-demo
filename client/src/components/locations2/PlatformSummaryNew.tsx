@@ -11,6 +11,7 @@ import {
   Info
 } from "lucide-react";
 import { SiGoogle, SiMeta, SiApple } from 'react-icons/si';
+import { useTranslation } from "@/contexts/LanguageContext";
 import { mockLocations, calculateDataHealth } from "@/lib/mock-locations";
 
 // --- Types ---
@@ -37,12 +38,7 @@ interface PlatformStats {
 
 // --- Mock Data ---
 
-const MOCK_ENGAGEMENT: EngagementMetric[] = [
-  { label: 'Görüntülenme', value: 12450, previousValue: 11200, icon: <Eye className="w-4 h-4" />, color: 'blue' },
-  { label: 'Arama Gösterimi', value: 8320, previousValue: 7890, icon: <Search className="w-4 h-4" />, color: 'purple' },
-  { label: 'Yol Tarifi', value: 1260, previousValue: 1180, icon: <Navigation className="w-4 h-4" />, color: 'emerald' },
-  { label: 'Telefon', value: 840, previousValue: 920, icon: <Phone className="w-4 h-4" />, color: 'amber' }
-];
+// Moved MOCK_ENGAGEMENT inside component to use translations
 
 const PLATFORM_CONFIG: { key: PlatformKey; name: string; icon: React.ReactNode }[] = [
   { key: 'google', name: 'Google', icon: <SiGoogle className="w-3.5 h-3.5" /> },
@@ -68,31 +64,32 @@ const HealthCard = ({ platforms, totalLocations, businessStatus }: {
   totalLocations: number;
   businessStatus: { open: number; temporarilyClosed: number; closed: number };
 }) => {
+  const { t } = useTranslation();
   return (
     <div className="p-5 bg-white rounded-lg border border-gray-100 shadow-sm">
       {/* Business Status - Top Half */}
-      <h4 className="text-sm font-semibold text-gray-700 mb-3">İşletme Durumu</h4>
+      <h4 className="text-sm font-semibold text-gray-700 mb-3">{t.platformSummary.businessStatus}</h4>
       <div className="grid grid-cols-4 gap-2 mb-5">
         <div className="p-2 bg-gray-50 rounded-lg text-center">
           <div className="text-xl font-bold text-gray-900">{totalLocations}</div>
-          <div className="text-[10px] text-gray-500">Toplam</div>
+          <div className="text-[10px] text-gray-500">{t.platformSummary.total}</div>
         </div>
         <div className="p-2 bg-emerald-50 rounded-lg text-center">
           <div className="text-xl font-bold text-emerald-600">{businessStatus.open}</div>
-          <div className="text-[10px] text-gray-500">Açık</div>
+          <div className="text-[10px] text-gray-500">{t.platformSummary.open}</div>
         </div>
         <div className="p-2 bg-amber-50 rounded-lg text-center">
           <div className="text-xl font-bold text-amber-600">{businessStatus.temporarilyClosed}</div>
-          <div className="text-[10px] text-gray-500">Geçici Kapalı</div>
+          <div className="text-[10px] text-gray-500">{t.platformSummary.tempClosed}</div>
         </div>
         <div className="p-2 bg-rose-50 rounded-lg text-center">
           <div className="text-xl font-bold text-rose-600">{businessStatus.closed}</div>
-          <div className="text-[10px] text-gray-500">Kalıcı Kapalı</div>
+          <div className="text-[10px] text-gray-500">{t.platformSummary.closed}</div>
         </div>
       </div>
 
       {/* Platform Sync - Bottom Half */}
-      <h4 className="text-sm font-semibold text-gray-700 mb-3">Platform Senkronizasyonu</h4>
+      <h4 className="text-sm font-semibold text-gray-700 mb-3">{t.platformSummary.platformSync}</h4>
       <div className="space-y-2">
         {PLATFORM_CONFIG.map(({ key, name, icon }) => {
           const p = platforms[key];
@@ -108,10 +105,10 @@ const HealthCard = ({ platforms, totalLocations, businessStatus }: {
                   <span>{name}</span>
                 </div>
                 <div className="flex-1">
-                  <span className="text-xs text-gray-400 italic">Kurulum Gerekli</span>
+                  <span className="text-xs text-gray-400 italic">{t.platformSummary.setupRequired}</span>
                 </div>
                 <button className="text-xs font-medium text-blue-600 hover:text-blue-700">
-                  Kur
+                  {t.platformSummary.setup}
                 </button>
               </div>
             );
@@ -137,84 +134,91 @@ const HealthCard = ({ platforms, totalLocations, businessStatus }: {
   );
 };
 
-const EngagementCard = ({ metrics }: { metrics: EngagementMetric[] }) => (
-  <div className="p-5 bg-white rounded-lg border border-gray-100 shadow-sm">
-    <div className="flex items-center justify-between mb-4">
-      <div className="flex items-center gap-1.5">
-        <h4 className="text-sm font-semibold text-gray-700">Listing Performansı</h4>
-        <div className="relative group">
-          <Info className="w-3.5 h-3.5 text-gray-400 cursor-help" />
-          <div className="absolute left-full top-1/2 -translate-y-1/2 ml-2 px-3 py-2 bg-gray-900 text-white text-xs rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 whitespace-nowrap z-[9999]">
-            Performans verileri sadece Google Business Profile ve Apple Business Connect için geçerlidir.
-            <div className="absolute right-full top-1/2 -translate-y-1/2 w-0 h-0 border-t-4 border-b-4 border-r-4 border-transparent border-r-gray-900"></div>
+const EngagementCard = ({ metrics }: { metrics: EngagementMetric[] }) => {
+  const { t } = useTranslation();
+  return (
+    <div className="p-5 bg-white rounded-lg border border-gray-100 shadow-sm">
+      <div className="flex items-center justify-between mb-4">
+        <div className="flex items-center gap-1.5">
+          <h4 className="text-sm font-semibold text-gray-700">{t.platformSummary.listingPerformance}</h4>
+          <div className="relative group">
+            <Info className="w-3.5 h-3.5 text-gray-400 cursor-help" />
+            <div className="absolute left-full top-1/2 -translate-y-1/2 ml-2 px-3 py-2 bg-gray-900 text-white text-xs rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 whitespace-nowrap z-[9999]">
+              Performans verileri sadece Google Business Profile ve Apple Business Connect için geçerlidir.
+              <div className="absolute right-full top-1/2 -translate-y-1/2 w-0 h-0 border-t-4 border-b-4 border-r-4 border-transparent border-r-gray-900"></div>
+            </div>
           </div>
         </div>
+        <span className="text-xs text-gray-400">{t.platformSummary.last30Days}</span>
       </div>
-      <span className="text-xs text-gray-400">Son 30 gün</span>
-    </div>
 
-    <div className="grid grid-cols-2 gap-3">
-      {metrics.map((metric) => {
-        const change = calculateChange(metric.value, metric.previousValue);
-        return (
-          <div key={metric.label} className="p-3 bg-gray-50 rounded-lg">
-            <div className="flex items-center gap-2 mb-2">
-              <div className={`text-${metric.color}-500`}>{metric.icon}</div>
-              <span className="text-xs text-gray-500">{metric.label}</span>
-            </div>
-            <div className="flex items-end justify-between">
-              <span className="text-xl font-bold text-gray-900">{formatNumber(metric.value)}</span>
-              <div className={`flex items-center gap-0.5 text-xs font-medium ${change.isPositive ? 'text-emerald-600' : 'text-rose-600'}`}>
-                {change.isPositive ? <TrendingUp className="w-3 h-3" /> : <TrendingDown className="w-3 h-3" />}
-                {change.percent}%
+      <div className="grid grid-cols-2 gap-3">
+        {metrics.map((metric) => {
+          const change = calculateChange(metric.value, metric.previousValue);
+          return (
+            <div key={metric.label} className="p-3 bg-gray-50 rounded-lg">
+              <div className="flex items-center gap-2 mb-2">
+                <div className={`text-${metric.color}-500`}>{metric.icon}</div>
+                <span className="text-xs text-gray-500">{metric.label}</span>
+              </div>
+              <div className="flex items-end justify-between">
+                <span className="text-xl font-bold text-gray-900">{formatNumber(metric.value)}</span>
+                <div className={`flex items-center gap-0.5 text-xs font-medium ${change.isPositive ? 'text-emerald-600' : 'text-rose-600'}`}>
+                  {change.isPositive ? <TrendingUp className="w-3 h-3" /> : <TrendingDown className="w-3 h-3" />}
+                  {change.percent}%
+                </div>
               </div>
             </div>
-          </div>
-        );
-      })}
-    </div>
+          );
+        })}
+      </div>
 
-    <button className="w-full mt-4 py-2 text-xs font-medium text-blue-600 hover:text-blue-700 flex items-center justify-center gap-1">
-      Detaylı rapor <ChevronRight className="w-3 h-3" />
-    </button>
-  </div>
-);
+      <button className="w-full mt-4 py-2 text-xs font-medium text-blue-600 hover:text-blue-700 flex items-center justify-center gap-1">
+        {t.platformSummary.viewReport} <ChevronRight className="w-3 h-3" />
+      </button>
+    </div>
+  );
+};
 
 // Compact Data Quality Card matching existing card styles
-const DATA_QUALITY_CATEGORIES = [
-  {
-    category: 'Lokasyon Verisi',
-    items: [
-      { label: 'Adres', value: 95, count: '12/13' },
-      { label: 'Koordinatlar', value: 92, count: '12/13' },
-      { label: 'Posta Kodu', value: 84, count: '11/13' },
-    ]
-  },
-  {
-    category: 'İşletme Verisi',
-    items: [
-      { label: 'Çalışma Saatleri', value: 78, count: '10/13' },
-      { label: 'Kategori', value: 94, count: '12/13' },
-      { label: 'Fotoğraflar', value: 45, count: '6/13' },
-    ]
-  },
-  {
-    category: 'İletişim Verisi',
-    items: [
-      { label: 'Telefon', value: 82, count: '11/13' },
-      { label: 'Website', value: 89, count: '12/13' },
-      { label: 'E-posta', value: 63, count: '8/13' },
-    ]
-  }
-];
-
-const ENRICHMENT_SUGGESTIONS = [
-  { label: '3 lokasyonda fotoğraf eksik', priority: 'high', action: 'Ekle' },
-  { label: '2 lokasyonda çalışma saati güncellenmeli', priority: 'medium', action: 'Güncelle' },
-  { label: '5 lokasyonda e-posta eksik', priority: 'low', action: 'Ekle' },
-];
+// Moved static data inside DataQualityCard to use translation hooks
 
 const DataQualityCard = () => {
+  const { t } = useTranslation();
+
+  const DATA_QUALITY_CATEGORIES = [
+    {
+      category: t.platformSummary.locationData,
+      items: [
+        { label: t.platformSummary.address, value: 95, count: '12/13' },
+        { label: t.platformSummary.coordinates, value: 92, count: '12/13' },
+        { label: t.platformSummary.postalCode, value: 84, count: '11/13' },
+      ]
+    },
+    {
+      category: t.platformSummary.businessData,
+      items: [
+        { label: t.platformSummary.hours, value: 78, count: '10/13' },
+        { label: t.platformSummary.category, value: 94, count: '12/13' },
+        { label: t.platformSummary.photos, value: 45, count: '6/13' },
+      ]
+    },
+    {
+      category: t.platformSummary.contactData,
+      items: [
+        { label: t.platformSummary.phone, value: 82, count: '11/13' },
+        { label: t.platformSummary.website, value: 89, count: '12/13' },
+        { label: t.platformSummary.email, value: 63, count: '8/13' },
+      ]
+    }
+  ];
+
+  const ENRICHMENT_SUGGESTIONS = [
+    { label: `3 ${t.platformSummary.photoMissing}`, priority: 'high', action: t.common.add },
+    { label: `2 ${t.platformSummary.hoursUpdate}`, priority: 'medium', action: t.common.edit },
+    { label: `5 ${t.platformSummary.emailMissing}`, priority: 'low', action: t.common.add },
+  ];
+
   const allItems = DATA_QUALITY_CATEGORIES.flatMap(c => c.items);
   const overallScore = Math.round(allItems.reduce((sum, item) => sum + item.value, 0) / allItems.length);
   const scoreColor = overallScore >= 80 ? 'emerald' : overallScore >= 60 ? 'amber' : 'rose';
@@ -224,13 +228,13 @@ const DataQualityCard = () => {
       {/* Header */}
       <div className="flex items-center justify-between mb-5">
         <div className="flex items-center gap-3">
-          <h4 className="text-sm font-semibold text-gray-700">Veri Kalitesi</h4>
+          <h4 className="text-sm font-semibold text-gray-700">{t.platformSummary.dataQuality}</h4>
           <div className={`px-2 py-0.5 rounded-full text-xs font-bold bg-${scoreColor}-100 text-${scoreColor}-700`}>
             {overallScore}%
           </div>
         </div>
         <button className="text-xs font-medium text-blue-600 hover:text-blue-700 flex items-center gap-1">
-          Tümünü gör <ChevronRight className="w-3 h-3" />
+          {t.common.viewAll} <ChevronRight className="w-3 h-3" />
         </button>
       </div>
 
@@ -265,7 +269,7 @@ const DataQualityCard = () => {
 
       {/* Enrichment Suggestions */}
       <div className="pt-4 border-t border-gray-100">
-        <h5 className="text-xs font-medium text-gray-500 mb-3">Zenginleştirme Önerileri</h5>
+        <h5 className="text-xs font-medium text-gray-500 mb-3">{t.platformSummary.enrichmentSuggestions}</h5>
         <div className="flex flex-wrap gap-2">
           {ENRICHMENT_SUGGESTIONS.map(({ label, priority, action }) => (
             <div
@@ -321,6 +325,14 @@ const StoreStatusRow = ({ businessStatus, totalLocations }: {
 // --- Main Component ---
 
 export function PlatformSummaryNew() {
+  const { t } = useTranslation();
+
+  const MOCK_ENGAGEMENT: EngagementMetric[] = [
+    { label: t.platformSummary.views, value: 12450, previousValue: 11200, icon: <Eye className="w-4 h-4" />, color: 'blue' },
+    { label: t.platformSummary.searchImpressions, value: 8320, previousValue: 7890, icon: <Search className="w-4 h-4" />, color: 'purple' },
+    { label: t.platformSummary.directions, value: 1260, previousValue: 1180, icon: <Navigation className="w-4 h-4" />, color: 'emerald' },
+    { label: t.platformSummary.phone, value: 840, previousValue: 920, icon: <Phone className="w-4 h-4" />, color: 'amber' }
+  ];
 
   const stats = useMemo(() => {
     const businessStatus = {
@@ -365,16 +377,16 @@ export function PlatformSummaryNew() {
       <div className="bg-white rounded-md border border-slate-200 overflow-hidden">
         <div className="px-6 py-4 border-b border-slate-200 bg-gradient-to-b from-white to-stone-50">
           <div className="flex items-center gap-1.5">
-            <h3 className="text-base font-semibold text-foreground">Özet</h3>
+            <h3 className="text-base font-semibold text-foreground">{t.common.summary}</h3>
             <div className="relative group">
               <Info className="w-3.5 h-3.5 text-gray-400 cursor-help" />
               <div className="absolute left-full top-1/2 -translate-y-1/2 ml-2 px-3 py-2 bg-gray-900 text-white text-xs rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 whitespace-nowrap z-[9999]">
-                Tüm lokasyonların genel durumunu ve platform senkronizasyonunu gösterir.
+                {t.locations.generalStatus}
                 <div className="absolute right-full top-1/2 -translate-y-1/2 w-0 h-0 border-t-4 border-b-4 border-r-4 border-transparent border-r-gray-900"></div>
               </div>
             </div>
           </div>
-          <p className="text-xs text-gray-500 mt-1">İşletme durumu, platform senkronizasyonu ve veri kalitesine genel bakış</p>
+          <p className="text-xs text-gray-500 mt-1">{t.locations.platformStatuses}</p>
         </div>
 
         <div className="p-6 bg-stone-50 space-y-4">

@@ -182,12 +182,12 @@ export default function ActivityLog() {
                         <div className="relative group">
                             <Info className="w-3.5 h-3.5 text-gray-400 cursor-help" />
                             <div className="absolute left-full top-1/2 -translate-y-1/2 ml-2 px-3 py-2 bg-gray-900 text-white text-xs rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 whitespace-nowrap z-[9999]">
-                                Gerçek zamanlı ERP, Google ve Meta sync aktiviteleri.
+                                Real-time ERP, Google, and Meta sync activities.
                                 <div className="absolute right-full top-1/2 -translate-y-1/2 w-0 h-0 border-t-4 border-b-4 border-r-4 border-transparent border-r-gray-900"></div>
                             </div>
                         </div>
                     </div>
-                    <p className="text-xs text-gray-500 mt-1">ERP, Google Merchant ve Meta Commerce sync işlemleri</p>
+                    <p className="text-xs text-gray-500 mt-1">ERP, Google Merchant, and Meta Commerce sync operations</p>
                 </div>
 
                 {/* Timeline Events */}

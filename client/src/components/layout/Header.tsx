@@ -1,6 +1,6 @@
 import { useLocation } from "wouter";
 import { getRouteConfig } from "@/lib/route-config";
-import { Bell, Search, User } from "lucide-react";
+import { Bell, Globe, Search, User } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import {
     DropdownMenu,
@@ -11,10 +11,12 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 export default function Header() {
     const [location] = useLocation();
     const config = getRouteConfig(location);
+    const { language, setLanguage } = useLanguage();
 
     return (
         <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -44,6 +46,32 @@ export default function Header() {
                         <Bell className="h-5 w-5" />
                         <span className="absolute top-1.5 right-1.5 h-2 w-2 rounded-full bg-red-500 ring-2 ring-background" />
                     </button>
+
+                    {/* Language Selector */}
+                    <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                            <button className="flex items-center gap-1 px-2 py-1.5 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors rounded-md hover:bg-muted/50">
+                                <Globe className="h-4 w-4" />
+                                <span>{language.toUpperCase()}</span>
+                            </button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end" className="w-32">
+                            <DropdownMenuItem
+                                className={`flex items-center gap-2 ${language === 'en' ? 'bg-muted' : ''}`}
+                                onClick={() => setLanguage('en')}
+                            >
+                                <span className="text-xs font-medium">🇬🇧</span>
+                                <span>English</span>
+                            </DropdownMenuItem>
+                            <DropdownMenuItem
+                                className={`flex items-center gap-2 ${language === 'tr' ? 'bg-muted' : ''}`}
+                                onClick={() => setLanguage('tr')}
+                            >
+                                <span className="text-xs font-medium">🇹🇷</span>
+                                <span>Türkçe</span>
+                            </DropdownMenuItem>
+                        </DropdownMenuContent>
+                    </DropdownMenu>
 
                     <div className="h-6 w-px bg-border/50" />
 
@@ -76,3 +104,4 @@ export default function Header() {
         </header>
     );
 }
+

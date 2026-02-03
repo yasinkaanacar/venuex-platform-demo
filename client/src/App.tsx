@@ -31,6 +31,7 @@ import { useLocation } from "wouter";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { CssBaseline } from "@mui/material";
 import { SnackbarProvider } from 'notistack';
+import { LanguageProvider } from "@/contexts/LanguageContext";
 
 function Router() {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
@@ -63,14 +64,10 @@ function Router() {
             <Header />
             <Switch>
               <Route path="/" component={Overview} />
-              <Route path="/offline-conversions" component={OfflineConversions} />
-              <Route path="/offline-conversionsMVP" component={OfflineConversionsMVP} />
-              <Route path="/locations" component={Locations} />
-              <Route path="/locations/posts" component={Locations} />
-              <Route path="/locations2" component={Locations2} />
-              <Route path="/reviews" component={Reviews} />
-              <Route path="/reviewsX" component={ReviewsX} />
-              <Route path="/reviewsMVP" component={ReviewsMVP} />
+              <Route path="/offline-conversions" component={OfflineConversionsMVP} />
+              <Route path="/locations" component={Locations2} />
+              <Route path="/locations/posts" component={Locations2} />
+              <Route path="/reviews" component={ReviewsMVP} />
               <Route path="/location-match" component={LocationMatch} />
               <Route path="/ai-recommendations" component={AIRecommendations} />
               <Route path="/create-post" component={CreatePost} />
@@ -131,7 +128,9 @@ function App() {
       <CssBaseline />
       <QueryClientProvider client={queryClient}>
         <SnackbarProvider maxSnack={3}>
-          <Router />
+          <LanguageProvider>
+            <Router />
+          </LanguageProvider>
         </SnackbarProvider>
       </QueryClientProvider>
     </ThemeProvider>

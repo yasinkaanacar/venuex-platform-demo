@@ -86,28 +86,28 @@ const HealthCard = ({ platforms, totalLocations, businessStatus }: {
   return (
     <div className="p-5 bg-white rounded-lg border border-gray-100 shadow-sm">
       {/* Business Status - Top Half */}
-      <h4 className="text-sm font-semibold text-gray-700 mb-3">İşletme Durumu</h4>
+      <h4 className="text-sm font-semibold text-gray-700 mb-3">Business Status</h4>
       <div className="grid grid-cols-4 gap-2 mb-5">
         <div className="p-2 bg-gray-50 rounded-lg text-center">
           <div className="text-xl font-bold text-gray-900">{totalLocations}</div>
-          <div className="text-[10px] text-gray-500">Toplam</div>
+          <div className="text-[10px] text-gray-500">Total</div>
         </div>
         <div className="p-2 bg-emerald-50 rounded-lg text-center">
           <div className="text-xl font-bold text-emerald-600">{businessStatus.open}</div>
-          <div className="text-[10px] text-gray-500">Açık</div>
+          <div className="text-[10px] text-gray-500">Open</div>
         </div>
         <div className="p-2 bg-amber-50 rounded-lg text-center">
           <div className="text-xl font-bold text-amber-600">{businessStatus.temporarilyClosed}</div>
-          <div className="text-[10px] text-gray-500">Geçici Kapalı</div>
+          <div className="text-[10px] text-gray-500">Temporarily Closed</div>
         </div>
         <div className="p-2 bg-rose-50 rounded-lg text-center">
           <div className="text-xl font-bold text-rose-600">{businessStatus.closed}</div>
-          <div className="text-[10px] text-gray-500">Kalıcı Kapalı</div>
+          <div className="text-[10px] text-gray-500">Permanently Closed</div>
         </div>
       </div>
 
       {/* Platform Sync - Bottom Half */}
-      <h4 className="text-sm font-semibold text-gray-700 mb-3">Platform Senkronizasyonu</h4>
+      <h4 className="text-sm font-semibold text-gray-700 mb-3">Platform Synchronization</h4>
       <div className="space-y-2">
         {PLATFORM_CONFIG.map(({ key, name, icon }) => {
           const p = platforms[key];
@@ -123,10 +123,10 @@ const HealthCard = ({ platforms, totalLocations, businessStatus }: {
                   <span>{name}</span>
                 </div>
                 <div className="flex-1">
-                  <span className="text-xs text-gray-400 italic">Kurulum Gerekli</span>
+                  <span className="text-xs text-gray-400 italic">Setup Required</span>
                 </div>
                 <button className="text-xs font-medium text-blue-600 hover:text-blue-700">
-                  Kur
+                  Setup
                 </button>
               </div>
             );
@@ -166,11 +166,11 @@ const EngagementCard = ({
   <div className="p-5 bg-white rounded-lg border border-gray-100 shadow-sm">
     <div className="flex items-center justify-between mb-4">
       <div className="flex items-center gap-1.5">
-        <h4 className="text-sm font-semibold text-gray-700">Offline Dönüşüm Performansı</h4>
+        <h4 className="text-sm font-semibold text-gray-700">Offline Conversion Performance</h4>
         <div className="relative group">
           <Info className="w-3.5 h-3.5 text-gray-400 cursor-help" />
           <div className="absolute left-full top-1/2 -translate-y-1/2 ml-2 px-3 py-2 bg-gray-900 text-white text-xs rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 whitespace-nowrap z-[9999]">
-            Performans verileri sadece Google Business Profile ve Apple Business Connect için geçerlidir.
+            Performance data is only valid for Google Business Profile and Apple Business Connect.
             <div className="absolute right-full top-1/2 -translate-y-1/2 w-0 h-0 border-t-4 border-b-4 border-r-4 border-transparent border-r-gray-900"></div>
           </div>
         </div>
@@ -186,7 +186,7 @@ const EngagementCard = ({
             attrIdPrefix="summary-card"
           />
         </div>
-        <span className="text-xs text-gray-400">Son 30 gün</span>
+        <span className="text-xs text-gray-400">Last 30 days</span>
       </div>
     </div>
 
@@ -214,7 +214,7 @@ const EngagementCard = ({
     </div>
 
     <button className="w-full mt-4 py-2 text-xs font-medium text-blue-600 hover:text-blue-700 flex items-center justify-center gap-1">
-      Detaylı Performans Raporu <ChevronRight className="w-3 h-3" />
+      Detailed Performance Report <ChevronRight className="w-3 h-3" />
     </button>
   </div>
 );
@@ -225,13 +225,13 @@ const DataQualityCard = () => {
       {/* Header */}
       <div className="flex items-center justify-between mb-5">
         <div className="flex items-center gap-3">
-          <h4 className="text-sm font-semibold text-gray-700">Veri Kalitesi ve Uyumluluk</h4>
+          <h4 className="text-sm font-semibold text-gray-700">Data Quality and Compliance</h4>
           <div className="px-2 py-0.5 rounded-full text-xs font-bold bg-emerald-100 text-emerald-700">
             92%
           </div>
         </div>
         <button className="text-xs font-medium text-blue-600 hover:text-blue-700 flex items-center gap-1">
-          Detaylı Rapor <ChevronRight className="w-3 h-3" />
+          Detailed Report <ChevronRight className="w-3 h-3" />
         </button>
       </div>
 
@@ -239,7 +239,7 @@ const DataQualityCard = () => {
         {/* Zorunlu Alanlar */}
         <div>
           <h5 className="text-xs font-medium text-gray-500 uppercase mb-3 flex items-center gap-2">
-            Zorunlu Alanlar
+            Required Fields
             <span className="w-2 h-2 rounded-full bg-emerald-500"></span>
           </h5>
           <div className="space-y-2">
@@ -298,7 +298,7 @@ const DataQualityCard = () => {
         {/* Opsiyonel Alanlar */}
         <div>
           <h5 className="text-xs font-medium text-gray-500 uppercase mb-3 flex items-center gap-2">
-            Opsiyonel Veriler
+            Optional Data
             <span className="w-2 h-2 rounded-full bg-amber-500"></span>
           </h5>
           <div className="space-y-2">
@@ -327,7 +327,7 @@ const DataQualityCard = () => {
         {/* Ürün Bazlı Attribution */}
         <div>
           <h5 className="text-xs font-medium text-gray-500 uppercase mb-3 flex items-center gap-2">
-            Ürün Detayları
+            Product Details
             <span className="w-2 h-2 rounded-full bg-purple-500"></span>
           </h5>
           <div className="space-y-2">
@@ -358,13 +358,13 @@ const DataQualityCard = () => {
       <div className="pt-4 border-t border-gray-100 flex flex-wrap gap-2">
         <div className="flex items-center gap-2 px-3 py-1.5 bg-rose-50 border border-rose-100 rounded-lg text-xs">
           <span className="w-1.5 h-1.5 rounded-full bg-rose-500"></span>
-          <span className="text-gray-700">Ürün kategori bilgisi eksik (ROAS etkiler)</span>
-          <button className="text-blue-600 hover:underline font-medium ml-1">Düzenle</button>
+          <span className="text-gray-700">Product category info missing (affects ROAS)</span>
+          <button className="text-blue-600 hover:underline font-medium ml-1">Edit</button>
         </div>
         <div className="flex items-center gap-2 px-3 py-1.5 bg-blue-50 border border-blue-100 rounded-lg text-xs">
           <span className="w-1.5 h-1.5 rounded-full bg-blue-500"></span>
-          <span className="text-gray-700">Email hash formatı kontrol edilmeli</span>
-          <button className="text-blue-600 hover:underline font-medium ml-1">Kontrol Et</button>
+          <span className="text-gray-700">Email hash format should be verified</span>
+          <button className="text-blue-600 hover:underline font-medium ml-1">Verify</button>
         </div>
       </div>
     </div>
@@ -437,16 +437,16 @@ export function OfflineSummary() {
       <div className="bg-white rounded-md border border-slate-200 overflow-hidden">
         <div className="px-6 py-4 border-b border-slate-200 bg-gradient-to-b from-white to-stone-50">
           <div className="flex items-center gap-1.5">
-            <h3 className="text-base font-semibold text-foreground">Özet</h3>
+            <h3 className="text-base font-semibold text-foreground">Summary</h3>
             <div className="relative group">
               <Info className="w-3.5 h-3.5 text-gray-400 cursor-help" />
               <div className="absolute left-full top-1/2 -translate-y-1/2 ml-2 px-3 py-2 bg-gray-900 text-white text-xs rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 whitespace-nowrap z-[9999]">
-                Tüm lokasyonların genel durumunu ve platform senkronizasyonunu gösterir.
+                Shows the general status of all locations and platform synchronization.
                 <div className="absolute right-full top-1/2 -translate-y-1/2 w-0 h-0 border-t-4 border-b-4 border-r-4 border-transparent border-r-gray-900"></div>
               </div>
             </div>
           </div>
-          <p className="text-xs text-gray-500 mt-1">Veri bağlantıları, dönüşüm eşleştirme ve platform durumuna genel bakış</p>
+          <p className="text-xs text-gray-500 mt-1">Data connections, conversion matching, and platform status overview</p>
         </div>
 
         <div className="p-6 bg-stone-50 space-y-4">

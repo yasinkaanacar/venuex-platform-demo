@@ -52,9 +52,9 @@ interface CampaignDetailDrawerProps {
 
 // Mock geographic data for campaigns
 const mockGeoData: GeoData[] = [
-    { city: 'İstanbul', offlineConversions: 12450, offlineRevenue: 45200000, offlineROAS: 38.2 },
+    { city: 'Istanbul', offlineConversions: 12450, offlineRevenue: 45200000, offlineROAS: 38.2 },
     { city: 'Ankara', offlineConversions: 3280, offlineRevenue: 12100000, offlineROAS: 29.4 },
-    { city: 'İzmir', offlineConversions: 2910, offlineRevenue: 9800000, offlineROAS: 31.1 },
+    { city: 'Izmir', offlineConversions: 2910, offlineRevenue: 9800000, offlineROAS: 31.1 },
     { city: 'Antalya', offlineConversions: 1850, offlineRevenue: 6200000, offlineROAS: 33.5 },
     { city: 'Bursa', offlineConversions: 1420, offlineRevenue: 4800000, offlineROAS: 28.7 },
     { city: 'Adana', offlineConversions: 980, offlineRevenue: 3100000, offlineROAS: 25.2 },
@@ -194,7 +194,7 @@ export default function CampaignDetailDrawer({ campaign, isOpen, onClose }: Camp
                     <div className="grid grid-cols-4 gap-4">
                         <div className="bg-gray-50 rounded-lg p-4 text-center">
                             <div className="text-lg font-bold text-gray-900">{formatCurrency(campaign.spend)}</div>
-                            <div className="text-xs text-gray-500 mt-1">Harcama</div>
+                            <div className="text-xs text-gray-500 mt-1">Spend</div>
                         </div>
                         <div className="bg-blue-50 rounded-lg p-4 text-center">
                             <div className="text-lg font-bold text-blue-600">{campaign.onlineROAS.toFixed(1)}x</div>
@@ -217,22 +217,22 @@ export default function CampaignDetailDrawer({ campaign, isOpen, onClose }: Camp
                         <button
                             onClick={() => setActiveTab('geo')}
                             className={`flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-lg transition-colors ${activeTab === 'geo'
-                                    ? 'bg-gray-900 text-white'
-                                    : 'text-gray-600 hover:bg-gray-100'
+                                ? 'bg-gray-900 text-white'
+                                : 'text-gray-600 hover:bg-gray-100'
                                 }`}
                         >
                             <MapPin className="w-4 h-4" />
-                            Coğrafi Dağılım
+                            Geographic Distribution
                         </button>
                         <button
                             onClick={() => setActiveTab('adsets')}
                             className={`flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-lg transition-colors ${activeTab === 'adsets'
-                                    ? 'bg-gray-900 text-white'
-                                    : 'text-gray-600 hover:bg-gray-100'
+                                ? 'bg-gray-900 text-white'
+                                : 'text-gray-600 hover:bg-gray-100'
                                 }`}
                         >
                             <Layers className="w-4 h-4" />
-                            Reklam Setleri
+                            Ad Sets
                         </button>
                     </div>
                 </div>
@@ -249,19 +249,19 @@ export default function CampaignDetailDrawer({ campaign, isOpen, onClose }: Camp
                                             className="text-left px-4 py-3 text-xs font-semibold text-gray-600 uppercase cursor-pointer hover:bg-gray-100"
                                             onClick={() => handleGeoSort('city')}
                                         >
-                                            Şehir {geoSortColumn === 'city' && (geoSortDirection === 'asc' ? '↑' : '↓')}
+                                            City {geoSortColumn === 'city' && (geoSortDirection === 'asc' ? '↑' : '↓')}
                                         </th>
                                         <th
                                             className="text-right px-4 py-3 text-xs font-semibold text-gray-600 uppercase cursor-pointer hover:bg-gray-100"
                                             onClick={() => handleGeoSort('offlineConversions')}
                                         >
-                                            Offline Dönüşüm {geoSortColumn === 'offlineConversions' && (geoSortDirection === 'asc' ? '↑' : '↓')}
+                                            OfflineConversions {geoSortColumn === 'offlineConversions' && (geoSortDirection === 'asc' ? '↑' : '↓')}
                                         </th>
                                         <th
                                             className="text-right px-4 py-3 text-xs font-semibold text-gray-600 uppercase cursor-pointer hover:bg-gray-100"
                                             onClick={() => handleGeoSort('offlineRevenue')}
                                         >
-                                            Offline Gelir {geoSortColumn === 'offlineRevenue' && (geoSortDirection === 'asc' ? '↑' : '↓')}
+                                            Offline Revenue {geoSortColumn === 'offlineRevenue' && (geoSortDirection === 'asc' ? '↑' : '↓')}
                                         </th>
                                         <th
                                             className="text-right px-4 py-3 text-xs font-semibold text-gray-600 uppercase cursor-pointer hover:bg-gray-100"
@@ -311,11 +311,11 @@ export default function CampaignDetailDrawer({ campaign, isOpen, onClose }: Camp
                                         </div>
                                         <div className="flex items-center gap-6 text-sm">
                                             <div className="text-right">
-                                                <div className="text-gray-500 text-xs">Dönüşüm</div>
+                                                <div className="text-gray-500 text-xs">Conversions</div>
                                                 <div className="font-medium">{adSet.offlineConversions.toLocaleString('tr-TR')}</div>
                                             </div>
                                             <div className="text-right">
-                                                <div className="text-gray-500 text-xs">Gelir</div>
+                                                <div className="text-gray-500 text-xs">Revenue</div>
                                                 <div className="font-medium text-blue-600">{formatCurrency(adSet.offlineRevenue)}</div>
                                             </div>
                                             <div className="text-right">
