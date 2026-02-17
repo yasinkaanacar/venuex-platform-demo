@@ -98,39 +98,39 @@ export function LocationDataTable({ data, onRowClick, onEdit }: LocationDataTabl
       <div className="overflow-hidden">
         <Table>
           <TableHeader>
-            <TableRow className="bg-slate-700 hover:bg-slate-700">
-              <TableHead className="w-12 text-[#1a1a1a]">
+            <TableRow className="bg-gray-50 hover:bg-gray-50">
+              <TableHead className="w-12 vx-th text-gray-700">
                 <Checkbox
                   checked={isAllSelected}
                   onChange={handleSelectAll}
                   data-testid="select-all-locations"
                 />
               </TableHead>
-              <TableHead className="text-[#1a1a1a] font-medium">
+              <TableHead className="vx-th text-gray-700 font-medium">
                 <div className="flex items-center space-x-1">
                   <span>Store Code</span>
                   <ChevronDown className="w-3 h-3" />
                 </div>
               </TableHead>
-              <TableHead className="text-[#1a1a1a] font-medium">Location Name</TableHead>
-              <TableHead className="text-[#1a1a1a] font-medium">Business Status</TableHead>
-              <TableHead className="text-[#1a1a1a] font-medium">
+              <TableHead className="vx-th text-gray-700 font-medium">Location Name</TableHead>
+              <TableHead className="vx-th text-gray-700 font-medium">Business Status</TableHead>
+              <TableHead className="vx-th text-gray-700 font-medium">
                 <div className="flex items-center space-x-1">
                   <span>Data Quality Index</span>
                   <Info className="w-3 h-3" />
                 </div>
               </TableHead>
-              <TableHead className="text-[#1a1a1a] font-medium">Platform Status</TableHead>
-              <TableHead className="w-20"></TableHead>
+              <TableHead className="vx-th text-gray-700 font-medium">Platform Status</TableHead>
+              <TableHead className="w-20 vx-th text-gray-700"></TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {paginatedData.map((location) => (
-              <TableRow
-                key={location.id}
-                className="hover:bg-gray-50 dark:hover:bg-gray-800 border-b"
-                data-testid={`location-row-${location.id}`}
-              >
+                <TableRow
+                  key={location.id}
+                  className="hover:bg-gray-50 border-b"
+                  data-testid={`location-row-${location.id}`}
+                >
                 <TableCell onClick={(e) => e.stopPropagation()}>
                   <Checkbox
                     checked={selectedIds.has(location.id)}
@@ -187,7 +187,7 @@ export function LocationDataTable({ data, onRowClick, onEdit }: LocationDataTabl
                       variant="ghost"
                       size="sm"
                       onClick={() => onEdit(location.id)}
-                      className="h-8 w-8 p-0"
+                      className="vx-icon-button"
                     >
                       <Edit className="h-4 w-4" />
                     </Button>
@@ -196,7 +196,7 @@ export function LocationDataTable({ data, onRowClick, onEdit }: LocationDataTabl
                         <Button
                           variant="ghost"
                           size="sm"
-                          className="h-8 w-8 p-0"
+                          className="vx-icon-button"
                           data-testid={`actions-menu-${location.id}`}
                         >
                           <MoreHorizontal className="h-4 w-4" />
@@ -225,7 +225,7 @@ export function LocationDataTable({ data, onRowClick, onEdit }: LocationDataTabl
         <div className="flex items-center space-x-4">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="outline" size="sm" className="flex items-center space-x-2">
+              <Button variant="outline" className="vx-button flex items-center space-x-2">
                 <span>Bulk Actions</span>
                 <ChevronDown className="w-4 h-4" />
               </Button>
@@ -237,7 +237,7 @@ export function LocationDataTable({ data, onRowClick, onEdit }: LocationDataTabl
             </DropdownMenuContent>
           </DropdownMenu>
           
-          <Button variant="outline" size="sm" className="flex items-center space-x-2">
+          <Button variant="outline" className="vx-button flex items-center space-x-2">
             <Download className="w-4 h-4" />
             <span>Export</span>
           </Button>
@@ -247,9 +247,9 @@ export function LocationDataTable({ data, onRowClick, onEdit }: LocationDataTabl
           <div className="flex items-center space-x-2">
             <span className="text-sm text-gray-600 whitespace-nowrap">Rows per page:</span>
             <Select value={rowsPerPage.toString()} onValueChange={(value) => setRowsPerPage(Number(value))}>
-              <SelectTrigger className="w-16 h-8">
-                <SelectValue />
-              </SelectTrigger>
+            <SelectTrigger className="vx-select w-16">
+              <SelectValue />
+            </SelectTrigger>
               <SelectContent>
                 <SelectItem value="5">5</SelectItem>
                 <SelectItem value="10">10</SelectItem>
@@ -266,6 +266,7 @@ export function LocationDataTable({ data, onRowClick, onEdit }: LocationDataTabl
               size="sm" 
               onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
               disabled={currentPage === 1}
+              className="vx-icon-button"
             >
               ‹
             </Button>
@@ -278,7 +279,7 @@ export function LocationDataTable({ data, onRowClick, onEdit }: LocationDataTabl
                   variant={currentPage === page ? "default" : "ghost"}
                   size="sm"
                   onClick={() => setCurrentPage(page)}
-                  className="w-8 h-8 p-0"
+                  className="vx-icon-button"
                 >
                   {page}
                 </Button>
@@ -292,7 +293,7 @@ export function LocationDataTable({ data, onRowClick, onEdit }: LocationDataTabl
                   variant="ghost"
                   size="sm"
                   onClick={() => setCurrentPage(14)}
-                  className="w-8 h-8 p-0"
+                  className="vx-icon-button"
                 >
                   14
                 </Button>
@@ -304,6 +305,7 @@ export function LocationDataTable({ data, onRowClick, onEdit }: LocationDataTabl
               size="sm" 
               onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}
               disabled={currentPage === totalPages}
+              className="vx-icon-button"
             >
               ›
             </Button>

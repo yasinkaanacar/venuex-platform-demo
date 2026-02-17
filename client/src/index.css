@@ -137,6 +137,96 @@
   }
 }
 
+@layer components {
+  .vx-page {
+    @apply min-h-screen bg-gray-50;
+  }
+
+  .vx-page-body {
+    @apply bg-white pb-6;
+  }
+
+  .vx-section {
+    @apply px-6;
+  }
+
+  .vx-section-stack {
+    @apply px-6 mt-6;
+  }
+
+  .vx-section-stack-tight {
+    @apply px-6 mt-4;
+  }
+
+  .vx-card {
+    @apply bg-white rounded-lg border border-gray-200 overflow-hidden;
+  }
+
+  .vx-card-header {
+    @apply px-6 py-4 border-b border-gray-100 bg-gray-50;
+  }
+
+  .vx-card-body {
+    @apply p-6;
+  }
+
+  .vx-surface {
+    @apply bg-white;
+  }
+
+  .vx-surface-muted {
+    @apply bg-gray-50;
+  }
+
+  .vx-border {
+    @apply border border-gray-200;
+  }
+
+  .vx-divider {
+    @apply border-b border-gray-200;
+  }
+
+  .vx-th {
+    @apply px-4 py-3 text-xs font-medium text-gray-500 uppercase;
+  }
+
+  .vx-td {
+    @apply px-4 py-3;
+  }
+
+  .vx-input {
+    @apply h-9 px-3 text-sm;
+  }
+
+  .vx-select {
+    @apply h-9;
+  }
+
+  .vx-button {
+    @apply h-9 px-4 text-sm font-medium;
+  }
+
+  .vx-icon-button {
+    @apply h-9 w-9 p-0;
+  }
+
+  .vx-filter-row {
+    @apply flex items-center gap-3 flex-wrap;
+  }
+
+  .vx-tabs {
+    @apply inline-flex items-center gap-1 p-1 bg-gray-100 rounded-lg;
+  }
+
+  .vx-tab {
+    @apply px-4 py-2 text-sm font-medium rounded-md transition-all duration-200 text-gray-500 hover:text-gray-700 hover:bg-white/50;
+  }
+
+  .vx-tab-active {
+    @apply bg-white text-gray-900 shadow-sm;
+  }
+}
+
 /* Custom styling for date range select to match KPI cards */
 [data-testid="select-date-range"] {
   background-color: #f9fafb !important;
@@ -171,14 +261,9 @@ button[data-testid="select-date-range"] {
   background: #f0f1f2 !important;
 }
 
+
 /* Universal override for any select related elements */
 *[data-testid="select-date-range"] * {
   background-color: #f9fafb !important;
 }
 
-/* Target by class names that might be generated */
-.select-trigger,
-.select-content,
-[class*="select"] {
-  background-color: #f9fafb !important;
-}

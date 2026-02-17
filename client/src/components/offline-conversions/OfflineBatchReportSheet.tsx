@@ -69,7 +69,7 @@ export default function OfflineBatchReportSheet({ isOpen, onClose, event }: Batc
             <div className="fixed right-0 top-0 h-full w-[600px] max-w-[90vw] bg-white shadow-2xl z-50 flex flex-col animate-in slide-in-from-right duration-300">
 
                 {/* Header Section (Sticky) */}
-                <div className="px-6 py-5 border-b border-gray-200">
+                <div className="vx-card-header py-5">
                     {/* Title Row */}
                     <div className="flex items-start justify-between mb-4">
                         <div>
@@ -150,7 +150,7 @@ export default function OfflineBatchReportSheet({ isOpen, onClose, event }: Batc
                 </div>
 
                 {/* Footer Section (Sticky) */}
-                <div className="px-6 py-4 border-t border-gray-200 bg-white">
+                <div className="vx-card-header">
                     <button className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-white border border-gray-300 text-slate-700 font-medium rounded-lg hover:bg-gray-50 shadow-sm transition-colors">
                         <Download className="w-4 h-4" />
                         Download Error Report (.CSV)

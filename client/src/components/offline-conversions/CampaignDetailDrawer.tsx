@@ -169,7 +169,7 @@ export default function CampaignDetailDrawer({ campaign, isOpen, onClose }: Camp
             {/* Drawer */}
             <div className="fixed right-0 top-0 h-full w-[45%] min-w-[500px] bg-white shadow-xl z-50 flex flex-col animate-in slide-in-from-right duration-300">
                 {/* Header */}
-                <div className="px-6 py-4 border-b border-gray-200 bg-[#f9fafb]">
+                <div className="vx-card-header">
                     <div className="flex items-center justify-between">
                         <div className="flex items-center gap-3">
                             {getPlatformIcon(campaign.platform)}
@@ -190,7 +190,7 @@ export default function CampaignDetailDrawer({ campaign, isOpen, onClose }: Camp
                 </div>
 
                 {/* Summary Cards */}
-                <div className="px-6 py-4 border-b border-gray-100">
+                <div className="vx-card-header">
                     <div className="grid grid-cols-4 gap-4">
                         <div className="bg-gray-50 rounded-lg p-4 text-center">
                             <div className="text-lg font-bold text-gray-900">{formatCurrency(campaign.spend)}</div>
@@ -212,7 +212,7 @@ export default function CampaignDetailDrawer({ campaign, isOpen, onClose }: Camp
                 </div>
 
                 {/* Tabs */}
-                <div className="px-6 py-2 border-b border-gray-100">
+                <div className="vx-card-header py-2">
                     <div className="flex gap-4">
                         <button
                             onClick={() => setActiveTab('geo')}
@@ -238,7 +238,7 @@ export default function CampaignDetailDrawer({ campaign, isOpen, onClose }: Camp
                 </div>
 
                 {/* Tab Content */}
-                <div className="flex-1 overflow-y-auto p-6">
+                <div className="flex-1 overflow-y-auto vx-card-body">
                     {/* Geographic Tab */}
                     {activeTab === 'geo' && (
                         <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">

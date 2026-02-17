@@ -227,15 +227,15 @@ export function LocationsTable({
     <>
       {/* Locations Data Table Section - Standalone Card */}
       <div className="mx-6 mb-6">
-        <Card className="bg-white rounded-lg border border-slate-200 overflow-hidden shadow-none">
+        <Card className="bg-white rounded-lg border border-gray-200 overflow-hidden shadow-none">
           {/* Title Header */}
-          <div className="bg-gradient-to-b from-white to-stone-50 px-6 py-4 flex justify-between items-center border-b border-slate-200">
+          <div className="vx-surface-muted px-6 py-4 flex justify-between items-center border-b border-gray-200">
             <h3 className="text-base font-semibold text-foreground">Locations</h3>
             <Button
               variant="ghost"
               size="sm"
               onClick={() => setIsLocationsExpanded(!isLocationsExpanded)}
-              className="h-8 w-8 p-0"
+              className="vx-icon-button"
             >
               {isLocationsExpanded ? (
                 <ChevronUp className="h-4 w-4" />

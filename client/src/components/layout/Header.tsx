@@ -38,7 +38,7 @@ export default function Header() {
                     {/* Action: Search (Optional placeholder) */}
                     <div className="relative w-64 hidden md:block">
                         <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
-                        <Input placeholder="Search..." className="pl-8 h-9" />
+                        <Input placeholder="Search..." className="vx-input pl-8" />
                     </div>
 
                     {/* Action: Notifications */}
@@ -104,4 +104,3 @@ export default function Header() {
         </header>
     );
 }
-

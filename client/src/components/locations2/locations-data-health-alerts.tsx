@@ -54,8 +54,8 @@ export default function LocationsDataHealthAlerts({
       title: "Data sync delay detected",
       description: "Meta Ads data is 15 minutes behind schedule",
       timestamp: "11 minutes ago",
-      bgColor: "bg-yellow-50 dark:bg-yellow-950/20",
-      borderColor: "border-yellow-200 dark:border-yellow-800",
+      bgColor: "bg-yellow-50 ",
+      borderColor: "border-yellow-200 ",
       iconColor: "text-yellow-600",
     },
     {
@@ -65,8 +65,8 @@ export default function LocationsDataHealthAlerts({
       title: "Data enrichment completed",
       description: "47 location profiles updated with new attributes",
       timestamp: "11 minutes ago",
-      bgColor: "bg-green-50 dark:bg-green-950/20",
-      borderColor: "border-green-200 dark:border-green-800",
+      bgColor: "bg-green-50 ",
+      borderColor: "border-green-200 ",
       iconColor: "text-green-600",
     },
     {
@@ -76,8 +76,8 @@ export default function LocationsDataHealthAlerts({
       title: "API rate limit warning",
       description: "Google Ads API approaching rate limit (85% used)",
       timestamp: "11 minutes ago",
-      bgColor: "bg-red-50 dark:bg-red-950/20",
-      borderColor: "border-red-200 dark:border-red-800",
+      bgColor: "bg-red-50 ",
+      borderColor: "border-red-200 ",
       iconColor: "text-red-600",
     },
   ];
@@ -110,7 +110,7 @@ export default function LocationsDataHealthAlerts({
   if (bannerMode) {
     return (
       <div
-        className="border border-blue-200 dark:border-blue-800 bg-blue-50 dark:bg-blue-950/20 rounded-lg cursor-pointer hover:bg-blue-100 dark:hover:bg-blue-950/30 transition-colors"
+        className="border border-blue-200  bg-blue-50  rounded-lg cursor-pointer hover:bg-blue-100  transition-colors"
         onClick={onScrollToBottom}
       >
         <div className="py-3 px-4">
@@ -164,8 +164,8 @@ export default function LocationsDataHealthAlerts({
   // Always expanded mode - no collapsible functionality
   if (alwaysExpanded) {
     return (
-      <div className="bg-[#fcfcfc] rounded-lg border border-gray-200 overflow-hidden">
-        <div className="bg-[#f9fafb] py-1 px-6 flex justify-between items-center border-b border-gray-200">
+      <div className="vx-card">
+        <div className="vx-card-header py-1 flex justify-between items-center">
           <div>
             <h3 className="text-lg font-semibold text-foreground">
               Data Health & Flow
@@ -176,12 +176,12 @@ export default function LocationsDataHealthAlerts({
           </div>
         </div>
 
-        <div className="bg-[#f9fafb] p-6 space-y-8">
+        <div className="vx-card-body vx-surface-muted space-y-8">
           <div className="relative">
             {/* Vertical VenueX alignment guide */}
             <div className="absolute left-1/2 top-0 bottom-0 w-px bg-primary/20 transform -translate-x-1/2 z-0"></div>
 
-            <div className="relative bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-700 py-8 px-6">
+            <div className="relative bg-white rounded-xl border border-gray-200 py-8 px-6">
               {/* Clean Data Flow Layout */}
               <div className="relative w-full h-[200px]">
                 {/* Connection Lines SVG */}
@@ -569,9 +569,9 @@ export default function LocationsDataHealthAlerts({
                 {/* Data Sources - Left Side */}
                 <div className="absolute left-0 top-1/2 transform -translate-y-1/2 space-y-6">
                   {locationsPageMode ? (
-                    <div className="bg-white dark:bg-gray-800 rounded-xl p-4  border border-gray-100 dark:border-gray-700 w-64">
+                    <div className="bg-white  rounded-xl p-4  border border-gray-100  w-64">
                       <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 bg-blue-100 dark:bg-blue-900/50 rounded-lg flex items-center justify-center">
+                        <div className="w-10 h-10 bg-blue-100  rounded-lg flex items-center justify-center">
                           <MapPin className="w-5 h-5 text-blue-600" />
                         </div>
                         <div className="flex-1">
@@ -589,9 +589,9 @@ export default function LocationsDataHealthAlerts({
                     </div>
                   ) : (
                     <>
-                      <div className="bg-white dark:bg-gray-800 rounded-xl p-4  border border-gray-100 dark:border-gray-700 w-64">
+                      <div className="bg-white  rounded-xl p-4  border border-gray-100  w-64">
                         <div className="flex items-center gap-3">
-                          <div className="w-10 h-10 bg-purple-100 dark:bg-purple-900/50 rounded-lg flex items-center justify-center">
+                          <div className="w-10 h-10 bg-purple-100  rounded-lg flex items-center justify-center">
                             <Package className="w-5 h-5 text-purple-600" />
                           </div>
                           <div className="flex-1">
@@ -608,9 +608,9 @@ export default function LocationsDataHealthAlerts({
                         </div>
                       </div>
 
-                      <div className="bg-white dark:bg-gray-800 rounded-xl p-4  border border-gray-100 dark:border-gray-700 w-64">
+                      <div className="bg-white  rounded-xl p-4  border border-gray-100  w-64">
                         <div className="flex items-center gap-3">
-                          <div className="w-10 h-10 bg-green-100 dark:bg-green-900/50 rounded-lg flex items-center justify-center">
+                          <div className="w-10 h-10 bg-green-100  rounded-lg flex items-center justify-center">
                             <Receipt className="w-5 h-5 text-green-600" />
                           </div>
                           <div className="flex-1">
@@ -627,9 +627,9 @@ export default function LocationsDataHealthAlerts({
                         </div>
                       </div>
 
-                      <div className="bg-white dark:bg-gray-800 rounded-xl p-4  border border-gray-100 dark:border-gray-700 w-64">
+                      <div className="bg-white  rounded-xl p-4  border border-gray-100  w-64">
                         <div className="flex items-center gap-3">
-                          <div className="w-10 h-10 bg-blue-100 dark:bg-blue-900/50 rounded-lg flex items-center justify-center">
+                          <div className="w-10 h-10 bg-blue-100  rounded-lg flex items-center justify-center">
                             <MapPin className="w-5 h-5 text-blue-600" />
                           </div>
                           <div className="flex-1">
@@ -651,7 +651,7 @@ export default function LocationsDataHealthAlerts({
 
                 {/* Central VenueX Hub */}
                 <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2">
-                  <div className="bg-white dark:bg-gray-800 rounded-2xl p-6  border-2 border-blue-200 dark:border-blue-800">
+                  <div className="bg-white  rounded-2xl p-6  border-2 border-blue-200 ">
                     <div className="flex flex-col items-center text-center">
                       <div className="w-16 h-16 bg-white rounded-xl flex items-center justify-center ">
                         <img
@@ -674,12 +674,12 @@ export default function LocationsDataHealthAlerts({
                 <div className="absolute right-8 top-1/2 transform -translate-y-1/2 space-y-2">
                   {locationsPageMode ? (
                     /* Location Platforms Only */
-                    <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-2.5  border border-gray-200 dark:border-gray-700 w-56">
+                    <div className="bg-gray-50  rounded-lg p-2.5  border border-gray-200  w-56">
                       <div className="text-xs font-semibold text-blue-600 mb-1.5">
                         Location Platforms
                       </div>
                       <div className="space-y-0.5">
-                        <div className="flex items-center gap-1.5 p-1 rounded hover:bg-gray-100 dark:hover:bg-gray-700">
+                        <div className="flex items-center gap-1.5 p-1 rounded hover:bg-gray-100 ">
                           <div className="w-4 h-4 bg-[#EA4335] rounded flex items-center justify-center">
                             <SiGoogle className="w-2.5 h-2.5 text-white" />
                           </div>
@@ -693,7 +693,7 @@ export default function LocationsDataHealthAlerts({
                           </div>
                           <div className="w-1.5 h-1.5 bg-green-500 rounded-full flex-shrink-0"></div>
                         </div>
-                        <div className="flex items-center gap-1.5 p-1 rounded hover:bg-gray-100 dark:hover:bg-gray-700">
+                        <div className="flex items-center gap-1.5 p-1 rounded hover:bg-gray-100 ">
                           <div className="w-4 h-4 bg-blue-600 rounded flex items-center justify-center">
                             <span className="text-xs text-white font-bold">
                               M
@@ -709,7 +709,7 @@ export default function LocationsDataHealthAlerts({
                           </div>
                           <div className="w-1.5 h-1.5 bg-green-500 rounded-full flex-shrink-0"></div>
                         </div>
-                        <div className="flex items-center gap-1.5 p-1 rounded hover:bg-gray-100 dark:hover:bg-gray-700">
+                        <div className="flex items-center gap-1.5 p-1 rounded hover:bg-gray-100 ">
                           <div className="w-4 h-4 bg-black rounded flex items-center justify-center">
                             <SiApple className="w-2.5 h-2.5 text-white" />
                           </div>
@@ -723,7 +723,7 @@ export default function LocationsDataHealthAlerts({
                           </div>
                           <div className="w-1.5 h-1.5 bg-green-500 rounded-full flex-shrink-0"></div>
                         </div>
-                        <div className="flex items-center gap-1.5 p-1 rounded hover:bg-gray-100 dark:hover:bg-gray-700">
+                        <div className="flex items-center gap-1.5 p-1 rounded hover:bg-gray-100 ">
                           <div className="w-4 h-4 bg-red-500 rounded flex items-center justify-center">
                             <span className="text-xs text-white font-bold">
                               Y
@@ -744,12 +744,12 @@ export default function LocationsDataHealthAlerts({
                   ) : (
                     <>
                       {/* Location Platforms */}
-                      <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-2.5  border border-gray-200 dark:border-gray-700 w-56">
+                      <div className="bg-gray-50  rounded-lg p-2.5  border border-gray-200  w-56">
                         <div className="text-xs font-semibold text-blue-600 mb-1.5">
                           Location Platforms
                         </div>
                         <div className="space-y-0.5">
-                          <div className="flex items-center gap-1.5 p-1 rounded hover:bg-gray-100 dark:hover:bg-gray-700">
+                          <div className="flex items-center gap-1.5 p-1 rounded hover:bg-gray-100 ">
                             <div className="w-4 h-4 bg-[#EA4335] rounded flex items-center justify-center">
                               <SiGoogle className="w-2.5 h-2.5 text-white" />
                             </div>
@@ -763,7 +763,7 @@ export default function LocationsDataHealthAlerts({
                             </div>
                             <div className="w-1.5 h-1.5 bg-green-500 rounded-full flex-shrink-0"></div>
                           </div>
-                          <div className="flex items-center gap-1.5 p-1 rounded hover:bg-gray-100 dark:hover:bg-gray-700">
+                          <div className="flex items-center gap-1.5 p-1 rounded hover:bg-gray-100 ">
                             <div className="w-4 h-4 bg-blue-600 rounded flex items-center justify-center">
                               <span className="text-xs text-white font-bold">
                                 M
@@ -779,7 +779,7 @@ export default function LocationsDataHealthAlerts({
                             </div>
                             <div className="w-1.5 h-1.5 bg-green-500 rounded-full flex-shrink-0"></div>
                           </div>
-                          <div className="flex items-center gap-1.5 p-1 rounded hover:bg-gray-100 dark:hover:bg-gray-700">
+                          <div className="flex items-center gap-1.5 p-1 rounded hover:bg-gray-100 ">
                             <div className="w-4 h-4 bg-black rounded flex items-center justify-center">
                               <SiApple className="w-2.5 h-2.5 text-white" />
                             </div>
@@ -793,7 +793,7 @@ export default function LocationsDataHealthAlerts({
                             </div>
                             <div className="w-1.5 h-1.5 bg-green-500 rounded-full flex-shrink-0"></div>
                           </div>
-                          <div className="flex items-center gap-1.5 p-1 rounded hover:bg-gray-100 dark:hover:bg-gray-700">
+                          <div className="flex items-center gap-1.5 p-1 rounded hover:bg-gray-100 ">
                             <div className="w-4 h-4 bg-red-500 rounded flex items-center justify-center">
                               <span className="text-xs text-white font-bold">
                                 Y
@@ -813,12 +813,12 @@ export default function LocationsDataHealthAlerts({
                       </div>
 
                       {/* Merchant Platforms */}
-                      <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-2.5  border border-gray-200 dark:border-gray-700 w-56">
+                      <div className="bg-gray-50  rounded-lg p-2.5  border border-gray-200  w-56">
                         <div className="text-xs font-semibold text-green-600 mb-1.5">
                           Merchant Platforms
                         </div>
                         <div className="space-y-0.5">
-                          <div className="flex items-center gap-1.5 p-1 rounded hover:bg-gray-100 dark:hover:bg-gray-700">
+                          <div className="flex items-center gap-1.5 p-1 rounded hover:bg-gray-100 ">
                             <div className="w-4 h-4 bg-[#34A853] rounded flex items-center justify-center">
                               <SiGoogle className="w-2.5 h-2.5 text-white" />
                             </div>
@@ -832,7 +832,7 @@ export default function LocationsDataHealthAlerts({
                             </div>
                             <div className="w-1.5 h-1.5 bg-yellow-500 rounded-full flex-shrink-0"></div>
                           </div>
-                          <div className="flex items-center gap-1.5 p-1 rounded hover:bg-gray-100 dark:hover:bg-gray-700">
+                          <div className="flex items-center gap-1.5 p-1 rounded hover:bg-gray-100 ">
                             <div className="w-4 h-4 bg-[#1877F2] rounded flex items-center justify-center">
                               <SiMeta className="w-2.5 h-2.5 text-white" />
                             </div>
@@ -846,7 +846,7 @@ export default function LocationsDataHealthAlerts({
                             </div>
                             <div className="w-1.5 h-1.5 bg-red-500 rounded-full flex-shrink-0"></div>
                           </div>
-                          <div className="flex items-center gap-1.5 p-1 rounded hover:bg-gray-100 dark:hover:bg-gray-700">
+                          <div className="flex items-center gap-1.5 p-1 rounded hover:bg-gray-100 ">
                             <div className="w-4 h-4 bg-black rounded flex items-center justify-center">
                               <SiTiktok className="w-2.5 h-2.5 text-white" />
                             </div>
@@ -864,12 +864,12 @@ export default function LocationsDataHealthAlerts({
                       </div>
 
                       {/* Ad Platforms */}
-                      <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-2.5  border border-gray-200 dark:border-gray-700 w-56">
+                      <div className="bg-gray-50  rounded-lg p-2.5  border border-gray-200  w-56">
                         <div className="text-xs font-semibold text-purple-600 mb-1.5">
                           Ad Platforms
                         </div>
                         <div className="space-y-0.5">
-                          <div className="flex items-center gap-1.5 p-1 rounded hover:bg-gray-100 dark:hover:bg-gray-700">
+                          <div className="flex items-center gap-1.5 p-1 rounded hover:bg-gray-100 ">
                             <div className="w-4 h-4 bg-[#4285F4] rounded flex items-center justify-center">
                               <SiGoogle className="w-2.5 h-2.5 text-white" />
                             </div>
@@ -883,7 +883,7 @@ export default function LocationsDataHealthAlerts({
                             </div>
                             <div className="w-1.5 h-1.5 bg-green-500 rounded-full flex-shrink-0"></div>
                           </div>
-                          <div className="flex items-center gap-1.5 p-1 rounded hover:bg-gray-100 dark:hover:bg-gray-700">
+                          <div className="flex items-center gap-1.5 p-1 rounded hover:bg-gray-100 ">
                             <div className="w-4 h-4 bg-[#1877F2] rounded flex items-center justify-center">
                               <SiMeta className="w-2.5 h-2.5 text-white" />
                             </div>
@@ -897,7 +897,7 @@ export default function LocationsDataHealthAlerts({
                             </div>
                             <div className="w-1.5 h-1.5 bg-green-500 rounded-full flex-shrink-0"></div>
                           </div>
-                          <div className="flex items-center gap-1.5 p-1 rounded hover:bg-gray-100 dark:hover:bg-gray-700">
+                          <div className="flex items-center gap-1.5 p-1 rounded hover:bg-gray-100 ">
                             <div className="w-4 h-4 bg-black rounded flex items-center justify-center">
                               <SiTiktok className="w-2.5 h-2.5 text-white" />
                             </div>
@@ -921,7 +921,7 @@ export default function LocationsDataHealthAlerts({
           </div>
 
           {/* Recent Alerts Section */}
-          <div className="bg-gray-50 dark:bg-gray-800 rounded-xl p-6">
+          <div className="bg-gray-50  rounded-xl p-6">
             <div className="flex items-center justify-between mb-4">
               <div>
                 <h4 className="text-sm font-semibold text-foreground">
@@ -979,9 +979,9 @@ export default function LocationsDataHealthAlerts({
 
   // Default collapsible mode
   return (
-    <div className="bg-[#fcfcfc] rounded-lg border border-gray-200 overflow-hidden">
+    <div className="vx-card">
       <div
-        className="bg-[#f9fafb] p-6 flex justify-between items-center border-b border-gray-200 cursor-pointer"
+        className="vx-card-header flex justify-between items-center cursor-pointer"
         onClick={() => setIsOpen(!isOpen)}
       >
         <div>
@@ -1023,12 +1023,12 @@ export default function LocationsDataHealthAlerts({
       </div>
 
       {isOpen && (
-        <div className="bg-[#f9fafb] p-6 space-y-8">
+        <div className="vx-card-body vx-surface-muted space-y-8">
           <div className="relative">
             {/* Vertical VenueX alignment guide */}
             <div className="absolute left-1/2 top-0 bottom-0 w-px bg-primary/20 transform -translate-x-1/2 z-0"></div>
 
-            <div className="relative bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-700 py-8 px-6">
+            <div className="relative bg-white  rounded-xl border border-gray-200  py-8 px-6">
               {/* Clean Data Flow Layout */}
               <div className="relative w-full h-[200px]">
                 {/* Connection Lines SVG */}
@@ -1416,9 +1416,9 @@ export default function LocationsDataHealthAlerts({
                 {/* Data Sources - Left Side */}
                 <div className="absolute left-0 top-1/2 transform -translate-y-1/2 space-y-6">
                   {locationsPageMode ? (
-                    <div className="bg-white dark:bg-gray-800 rounded-xl p-4  border border-gray-100 dark:border-gray-700 w-64">
+                    <div className="bg-white  rounded-xl p-4  border border-gray-100  w-64">
                       <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 bg-blue-100 dark:bg-blue-900/50 rounded-lg flex items-center justify-center">
+                        <div className="w-10 h-10 bg-blue-100  rounded-lg flex items-center justify-center">
                           <MapPin className="w-5 h-5 text-blue-600" />
                         </div>
                         <div className="flex-1">
@@ -1436,9 +1436,9 @@ export default function LocationsDataHealthAlerts({
                     </div>
                   ) : (
                     <>
-                      <div className="bg-white dark:bg-gray-800 rounded-xl p-4  border border-gray-100 dark:border-gray-700 w-64">
+                      <div className="bg-white  rounded-xl p-4  border border-gray-100  w-64">
                         <div className="flex items-center gap-3">
-                          <div className="w-10 h-10 bg-purple-100 dark:bg-purple-900/50 rounded-lg flex items-center justify-center">
+                          <div className="w-10 h-10 bg-purple-100  rounded-lg flex items-center justify-center">
                             <Package className="w-5 h-5 text-purple-600" />
                           </div>
                           <div className="flex-1">
@@ -1455,9 +1455,9 @@ export default function LocationsDataHealthAlerts({
                         </div>
                       </div>
 
-                      <div className="bg-white dark:bg-gray-800 rounded-xl p-4  border border-gray-100 dark:border-gray-700 w-64">
+                      <div className="bg-white  rounded-xl p-4  border border-gray-100  w-64">
                         <div className="flex items-center gap-3">
-                          <div className="w-10 h-10 bg-green-100 dark:bg-green-900/50 rounded-lg flex items-center justify-center">
+                          <div className="w-10 h-10 bg-green-100  rounded-lg flex items-center justify-center">
                             <Receipt className="w-5 h-5 text-green-600" />
                           </div>
                           <div className="flex-1">
@@ -1474,9 +1474,9 @@ export default function LocationsDataHealthAlerts({
                         </div>
                       </div>
 
-                      <div className="bg-white dark:bg-gray-800 rounded-xl p-4  border border-gray-100 dark:border-gray-700 w-64">
+                      <div className="bg-white  rounded-xl p-4  border border-gray-100  w-64">
                         <div className="flex items-center gap-3">
-                          <div className="w-10 h-10 bg-blue-100 dark:bg-blue-900/50 rounded-lg flex items-center justify-center">
+                          <div className="w-10 h-10 bg-blue-100  rounded-lg flex items-center justify-center">
                             <MapPin className="w-5 h-5 text-blue-600" />
                           </div>
                           <div className="flex-1">
@@ -1498,7 +1498,7 @@ export default function LocationsDataHealthAlerts({
 
                 {/* Central VenueX Hub */}
                 <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2">
-                  <div className="bg-white dark:bg-gray-800 rounded-2xl p-6  border-2 border-blue-200 dark:border-blue-800">
+                  <div className="bg-white  rounded-2xl p-6  border-2 border-blue-200 ">
                     <div className="flex flex-col items-center text-center">
                       <div className="w-16 h-16 bg-white rounded-xl flex items-center justify-center ">
                         <img
@@ -1521,12 +1521,12 @@ export default function LocationsDataHealthAlerts({
                 <div className="absolute right-8 top-1/2 transform -translate-y-1/2 space-y-2">
                   {locationsPageMode ? (
                     /* Location Platforms Only */
-                    <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-2.5  border border-gray-200 dark:border-gray-700 w-56">
+                    <div className="bg-gray-50  rounded-lg p-2.5  border border-gray-200  w-56">
                       <div className="text-xs font-semibold text-blue-600 mb-1.5">
                         Location Platforms
                       </div>
                       <div className="space-y-0.5">
-                        <div className="flex items-center gap-1.5 p-1 rounded hover:bg-gray-100 dark:hover:bg-gray-700">
+                        <div className="flex items-center gap-1.5 p-1 rounded hover:bg-gray-100 ">
                           <div className="w-4 h-4 bg-[#EA4335] rounded flex items-center justify-center">
                             <SiGoogle className="w-2.5 h-2.5 text-white" />
                           </div>
@@ -1540,7 +1540,7 @@ export default function LocationsDataHealthAlerts({
                           </div>
                           <div className="w-1.5 h-1.5 bg-green-500 rounded-full flex-shrink-0"></div>
                         </div>
-                        <div className="flex items-center gap-1.5 p-1 rounded hover:bg-gray-100 dark:hover:bg-gray-700">
+                        <div className="flex items-center gap-1.5 p-1 rounded hover:bg-gray-100 ">
                           <div className="w-4 h-4 bg-blue-600 rounded flex items-center justify-center">
                             <span className="text-xs text-white font-bold">
                               M
@@ -1556,7 +1556,7 @@ export default function LocationsDataHealthAlerts({
                           </div>
                           <div className="w-1.5 h-1.5 bg-green-500 rounded-full flex-shrink-0"></div>
                         </div>
-                        <div className="flex items-center gap-1.5 p-1 rounded hover:bg-gray-100 dark:hover:bg-gray-700">
+                        <div className="flex items-center gap-1.5 p-1 rounded hover:bg-gray-100 ">
                           <div className="w-4 h-4 bg-black rounded flex items-center justify-center">
                             <SiApple className="w-2.5 h-2.5 text-white" />
                           </div>
@@ -1570,7 +1570,7 @@ export default function LocationsDataHealthAlerts({
                           </div>
                           <div className="w-1.5 h-1.5 bg-green-500 rounded-full flex-shrink-0"></div>
                         </div>
-                        <div className="flex items-center gap-1.5 p-1 rounded hover:bg-gray-100 dark:hover:bg-gray-700">
+                        <div className="flex items-center gap-1.5 p-1 rounded hover:bg-gray-100 ">
                           <div className="w-4 h-4 bg-red-500 rounded flex items-center justify-center">
                             <span className="text-xs text-white font-bold">
                               Y
@@ -1591,12 +1591,12 @@ export default function LocationsDataHealthAlerts({
                   ) : (
                     <>
                       {/* Location Platforms */}
-                      <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-2.5  border border-gray-200 dark:border-gray-700 w-56">
+                      <div className="bg-gray-50  rounded-lg p-2.5  border border-gray-200  w-56">
                         <div className="text-xs font-semibold text-blue-600 mb-1.5">
                           Location Platforms
                         </div>
                         <div className="space-y-0.5">
-                          <div className="flex items-center gap-1.5 p-1 rounded hover:bg-gray-100 dark:hover:bg-gray-700">
+                          <div className="flex items-center gap-1.5 p-1 rounded hover:bg-gray-100 ">
                             <div className="w-4 h-4 bg-[#EA4335] rounded flex items-center justify-center">
                               <SiGoogle className="w-2.5 h-2.5 text-white" />
                             </div>
@@ -1610,7 +1610,7 @@ export default function LocationsDataHealthAlerts({
                             </div>
                             <div className="w-1.5 h-1.5 bg-green-500 rounded-full flex-shrink-0"></div>
                           </div>
-                          <div className="flex items-center gap-1.5 p-1 rounded hover:bg-gray-100 dark:hover:bg-gray-700">
+                          <div className="flex items-center gap-1.5 p-1 rounded hover:bg-gray-100 ">
                             <div className="w-4 h-4 bg-blue-600 rounded flex items-center justify-center">
                               <span className="text-xs text-white font-bold">
                                 M
@@ -1626,7 +1626,7 @@ export default function LocationsDataHealthAlerts({
                             </div>
                             <div className="w-1.5 h-1.5 bg-green-500 rounded-full flex-shrink-0"></div>
                           </div>
-                          <div className="flex items-center gap-1.5 p-1 rounded hover:bg-gray-100 dark:hover:bg-gray-700">
+                          <div className="flex items-center gap-1.5 p-1 rounded hover:bg-gray-100 ">
                             <div className="w-4 h-4 bg-black rounded flex items-center justify-center">
                               <SiApple className="w-2.5 h-2.5 text-white" />
                             </div>
@@ -1640,7 +1640,7 @@ export default function LocationsDataHealthAlerts({
                             </div>
                             <div className="w-1.5 h-1.5 bg-green-500 rounded-full flex-shrink-0"></div>
                           </div>
-                          <div className="flex items-center gap-1.5 p-1 rounded hover:bg-gray-100 dark:hover:bg-gray-700">
+                          <div className="flex items-center gap-1.5 p-1 rounded hover:bg-gray-100 ">
                             <div className="w-4 h-4 bg-red-500 rounded flex items-center justify-center">
                               <span className="text-xs text-white font-bold">
                                 Y
@@ -1660,12 +1660,12 @@ export default function LocationsDataHealthAlerts({
                       </div>
 
                       {/* Merchant Platforms */}
-                      <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-2.5  border border-gray-200 dark:border-gray-700 w-56">
+                      <div className="bg-gray-50  rounded-lg p-2.5  border border-gray-200  w-56">
                         <div className="text-xs font-semibold text-green-600 mb-1.5">
                           Merchant Platforms
                         </div>
                         <div className="space-y-0.5">
-                          <div className="flex items-center gap-1.5 p-1 rounded hover:bg-gray-100 dark:hover:bg-gray-700">
+                          <div className="flex items-center gap-1.5 p-1 rounded hover:bg-gray-100 ">
                             <div className="w-4 h-4 bg-[#34A853] rounded flex items-center justify-center">
                               <SiGoogle className="w-2.5 h-2.5 text-white" />
                             </div>
@@ -1679,7 +1679,7 @@ export default function LocationsDataHealthAlerts({
                             </div>
                             <div className="w-1.5 h-1.5 bg-yellow-500 rounded-full flex-shrink-0"></div>
                           </div>
-                          <div className="flex items-center gap-1.5 p-1 rounded hover:bg-gray-100 dark:hover:bg-gray-700">
+                          <div className="flex items-center gap-1.5 p-1 rounded hover:bg-gray-100 ">
                             <div className="w-4 h-4 bg-[#1877F2] rounded flex items-center justify-center">
                               <SiMeta className="w-2.5 h-2.5 text-white" />
                             </div>
@@ -1693,7 +1693,7 @@ export default function LocationsDataHealthAlerts({
                             </div>
                             <div className="w-1.5 h-1.5 bg-red-500 rounded-full flex-shrink-0"></div>
                           </div>
-                          <div className="flex items-center gap-1.5 p-1 rounded hover:bg-gray-100 dark:hover:bg-gray-700">
+                          <div className="flex items-center gap-1.5 p-1 rounded hover:bg-gray-100 ">
                             <div className="w-4 h-4 bg-black rounded flex items-center justify-center">
                               <SiTiktok className="w-2.5 h-2.5 text-white" />
                             </div>
@@ -1711,12 +1711,12 @@ export default function LocationsDataHealthAlerts({
                       </div>
 
                       {/* Ad Platforms */}
-                      <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-2.5  border border-gray-200 dark:border-gray-700 w-56">
+                      <div className="bg-gray-50  rounded-lg p-2.5  border border-gray-200  w-56">
                         <div className="text-xs font-semibold text-purple-600 mb-1.5">
                           Ad Platforms
                         </div>
                         <div className="space-y-0.5">
-                          <div className="flex items-center gap-1.5 p-1 rounded hover:bg-gray-100 dark:hover:bg-gray-700">
+                          <div className="flex items-center gap-1.5 p-1 rounded hover:bg-gray-100 ">
                             <div className="w-4 h-4 bg-[#4285F4] rounded flex items-center justify-center">
                               <SiGoogle className="w-2.5 h-2.5 text-white" />
                             </div>
@@ -1730,7 +1730,7 @@ export default function LocationsDataHealthAlerts({
                             </div>
                             <div className="w-1.5 h-1.5 bg-green-500 rounded-full flex-shrink-0"></div>
                           </div>
-                          <div className="flex items-center gap-1.5 p-1 rounded hover:bg-gray-100 dark:hover:bg-gray-700">
+                          <div className="flex items-center gap-1.5 p-1 rounded hover:bg-gray-100 ">
                             <div className="w-4 h-4 bg-[#1877F2] rounded flex items-center justify-center">
                               <SiMeta className="w-2.5 h-2.5 text-white" />
                             </div>
@@ -1744,7 +1744,7 @@ export default function LocationsDataHealthAlerts({
                             </div>
                             <div className="w-1.5 h-1.5 bg-green-500 rounded-full flex-shrink-0"></div>
                           </div>
-                          <div className="flex items-center gap-1.5 p-1 rounded hover:bg-gray-100 dark:hover:bg-gray-700">
+                          <div className="flex items-center gap-1.5 p-1 rounded hover:bg-gray-100 ">
                             <div className="w-4 h-4 bg-black rounded flex items-center justify-center">
                               <SiTiktok className="w-2.5 h-2.5 text-white" />
                             </div>
@@ -1768,7 +1768,7 @@ export default function LocationsDataHealthAlerts({
           </div>
 
           {/* Recent Alerts Section */}
-          <div className="bg-gray-50 dark:bg-gray-800 rounded-xl p-6">
+          <div className="bg-gray-50  rounded-xl p-6">
             <div className="flex items-center justify-between mb-4">
               <div>
                 <h4 className="text-sm font-semibold text-foreground">

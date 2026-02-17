@@ -432,10 +432,10 @@ export function OfflineSummary() {
   }, []);
 
   return (
-    <div className="mx-6 mb-6">
+    <div className="mb-6">
       {/* Main Card */}
-      <div className="bg-white rounded-md border border-slate-200 overflow-hidden">
-        <div className="px-6 py-4 border-b border-slate-200 bg-gradient-to-b from-white to-stone-50">
+      <div className="vx-card">
+        <div className="vx-card-header">
           <div className="flex items-center gap-1.5">
             <h3 className="text-base font-semibold text-foreground">Summary</h3>
             <div className="relative group">
@@ -449,7 +449,7 @@ export function OfflineSummary() {
           <p className="text-xs text-gray-500 mt-1">Data connections, conversion matching, and platform status overview</p>
         </div>
 
-        <div className="p-6 bg-stone-50 space-y-4">
+        <div className="vx-card-body vx-surface-muted space-y-4">
           {/* Top Row: Data Flow + Engagement (2 columns 1/2 - 1/2) */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             <OfflineDataFlowStatus />

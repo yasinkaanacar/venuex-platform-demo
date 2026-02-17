@@ -38,7 +38,7 @@ interface DetailsDrawerProps {
 // Mock map placeholder component
 function MapPlaceholder({ address }: { address: string }) {
   return (
-    <div className="w-full h-48 bg-gray-100 dark:bg-gray-800 rounded-lg flex items-center justify-center border">
+    <div className="w-full h-48 bg-gray-100  rounded-lg flex items-center justify-center border">
       <div className="text-center">
         <MapPin className="w-8 h-8 text-gray-400 mx-auto mb-2" />
         <p className="text-sm text-gray-500">Map placeholder</p>
@@ -124,7 +124,7 @@ export function DetailsDrawer({
                 {location.name}
               </SheetTitle>
               <SheetDescription className="flex items-center gap-2 mt-2">
-                <code className="text-sm bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded">
+                <code className="text-sm bg-gray-100  px-2 py-1 rounded">
                   {location.code}
                 </code>
                 <HealthBadge health={location.dataHealth} />
@@ -134,7 +134,7 @@ export function DetailsDrawer({
               variant="ghost"
               size="sm"
               onClick={onClose}
-              className="h-8 w-8 p-0"
+              className="vx-icon-button"
             >
               <X className="h-4 w-4" />
             </Button>
@@ -181,7 +181,7 @@ export function DetailsDrawer({
                 </Card>
 
                 <div className="flex justify-center">
-                  <Button variant="outline" className="w-full">
+                  <Button variant="outline" className="vx-button w-full">
                     <ExternalLink className="w-4 h-4 mr-2" />
                     Get Directions
                   </Button>
@@ -197,65 +197,65 @@ export function DetailsDrawer({
                 <CardContent className="space-y-4">
                   <div className="grid grid-cols-1 gap-4">
                     <div>
-                      <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                      <label className="text-sm font-medium text-gray-700 ">
                         Location Name
                       </label>
-                      <div className="mt-1 p-2 bg-gray-50 dark:bg-gray-800 rounded border text-sm">
+                      <div className="mt-1 p-2 bg-gray-50  rounded border text-sm">
                         {location.name}
                       </div>
                     </div>
 
                     <div>
-                      <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                      <label className="text-sm font-medium text-gray-700 ">
                         Store Code
                       </label>
-                      <div className="mt-1 p-2 bg-gray-50 dark:bg-gray-800 rounded border text-sm">
+                      <div className="mt-1 p-2 bg-gray-50  rounded border text-sm">
                         {location.code}
                       </div>
                     </div>
 
                     <div>
-                      <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                      <label className="text-sm font-medium text-gray-700 ">
                         Address
                       </label>
-                      <div className="mt-1 p-2 bg-gray-50 dark:bg-gray-800 rounded border text-sm">
+                      <div className="mt-1 p-2 bg-gray-50  rounded border text-sm">
                         {location.addressLine}
                       </div>
                     </div>
 
                     <div className="grid grid-cols-2 gap-4">
                       <div>
-                        <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                        <label className="text-sm font-medium text-gray-700 ">
                           City
                         </label>
-                        <div className="mt-1 p-2 bg-gray-50 dark:bg-gray-800 rounded border text-sm">
+                        <div className="mt-1 p-2 bg-gray-50  rounded border text-sm">
                           {location.city}
                         </div>
                       </div>
                       <div>
-                        <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                        <label className="text-sm font-medium text-gray-700 ">
                           District
                         </label>
-                        <div className="mt-1 p-2 bg-gray-50 dark:bg-gray-800 rounded border text-sm">
+                        <div className="mt-1 p-2 bg-gray-50  rounded border text-sm">
                           {location.district}
                         </div>
                       </div>
                     </div>
 
                     <div>
-                      <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                      <label className="text-sm font-medium text-gray-700 ">
                         Hours
                       </label>
-                      <div className="mt-1 p-2 bg-gray-50 dark:bg-gray-800 rounded border text-sm">
+                      <div className="mt-1 p-2 bg-gray-50  rounded border text-sm">
                         {location.hoursLabel}
                       </div>
                     </div>
 
                     <div>
-                      <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                      <label className="text-sm font-medium text-gray-700 ">
                         Phone
                       </label>
-                      <div className="mt-1 p-2 bg-gray-50 dark:bg-gray-800 rounded border text-sm">
+                      <div className="mt-1 p-2 bg-gray-50  rounded border text-sm">
                         {location.phone}
                       </div>
                     </div>
@@ -280,7 +280,7 @@ export function DetailsDrawer({
                     <CardContent>
                       <div className="space-y-3">
                         <div className="flex items-center justify-between text-sm">
-                          <span className="text-gray-600 dark:text-gray-400">Status:</span>
+                          <span className="text-gray-600 ">Status:</span>
                           <span className="font-medium">
                             {info.status.replace('_', ' ')}
                           </span>
@@ -288,16 +288,16 @@ export function DetailsDrawer({
                         
                         {info.lastSync && (
                           <div className="flex items-center justify-between text-sm">
-                            <span className="text-gray-600 dark:text-gray-400">Last Sync:</span>
+                            <span className="text-gray-600 ">Last Sync:</span>
                             <span>{formatDistanceToNow(new Date(info.lastSync))} ago</span>
                           </div>
                         )}
 
                         {info.errorNote && (
-                          <div className="p-2 bg-red-50 dark:bg-red-900/20 rounded border border-red-200 dark:border-red-800">
+                          <div className="p-2 bg-red-50  rounded border border-red-200 ">
                             <div className="flex items-start gap-2">
                               <AlertCircle className="w-4 h-4 text-red-500 mt-0.5 flex-shrink-0" />
-                              <span className="text-sm text-red-700 dark:text-red-400">
+                              <span className="text-sm text-red-700 ">
                                 {info.errorNote}
                               </span>
                             </div>
@@ -307,29 +307,26 @@ export function DetailsDrawer({
                         <div className="pt-2">
                           {info.status === 'NOT_CONNECTED' ? (
                             <Button
-                              size="sm"
                               onClick={() => onConnect(location.id, channel as Channel)}
-                              className="w-full"
+                              className="vx-button w-full"
                               data-testid={`btn-connect-${location.id}-${channel.toLowerCase()}`}
                             >
                               Connect {channel}
                             </Button>
                           ) : info.status === 'NEEDS_ATTENTION' ? (
                             <Button
-                              size="sm"
                               variant="outline"
                               onClick={() => onFix(location.id, channel as Channel)}
-                              className="w-full"
+                              className="vx-button w-full"
                               data-testid={`btn-sync-now-${location.id}-${channel.toLowerCase()}`}
                             >
                               Fix Issues
                             </Button>
                           ) : (
                             <Button
-                              size="sm"
                               variant="outline"
                               onClick={() => onFix(location.id, channel as Channel)}
-                              className="w-full"
+                              className="vx-button w-full"
                               data-testid={`btn-sync-now-${location.id}-${channel.toLowerCase()}`}
                             >
                               Sync Now

@@ -125,8 +125,8 @@ export default function GeographicPerformance({ filters, dateRange }: Geographic
             />
 
             {/* Detailed Data Table */}
-            <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
-                <div className="px-6 py-4 border-b border-gray-100 bg-[#f9fafb]">
+            <div className="vx-card">
+                <div className="vx-card-header">
                     <div className="flex items-center gap-2">
                         <Map className="w-5 h-5 text-gray-700" />
                         <h3 className="text-lg font-semibold text-gray-900">

@@ -65,7 +65,7 @@ export default function ProviderSelection({
 }: ProviderSelectionProps) {
     return (
         <div
-            className={`flex items-center dark:bg-gray-800 p-1 rounded-lg border shadow-inner w-${containerFit} bg-[#ffffff]`}
+            className={`flex items-center  p-1 rounded-lg border shadow-inner w-${containerFit} bg-[#ffffff]`}
         >
             {providers.map(({ key: provider, enabled = false }) => {
                 const config = providerConfigs[provider];
@@ -75,11 +75,11 @@ export default function ProviderSelection({
                 // const isDisabled = false;
 
                 const disabledClass = isDisabled
-                    ? "opacity-90 bg-gray-10 dark:bg-gray-800 text-gray-400 dark:text-gray-500"
+                    ? "opacity-90 bg-gray-10  text-gray-400 "
                     : "";
                 const selectedClass = isSelected
-                    ? "bg-white dark:bg-gray-700 text-foreground shadow-md border border-gray-200 dark:border-gray-600"
-                    : "text-gray-500 dark:text-gray-400 hover:text-foreground hover:bg-white/50 dark:hover:bg-gray-700/50";
+                    ? "bg-white  text-foreground shadow-md border border-gray-200 "
+                    : "text-gray-500  hover:text-foreground hover:bg-white/50 ";
 
                 return (
                     <button
@@ -91,17 +91,17 @@ export default function ProviderSelection({
                         data-testid={`${attrIdPrefix}-${provider.toLowerCase()}`}
                     >
                         <div
-                            className={`w-3.5 h-3.5 ${isDisabled ? "bg-gray-300 dark:bg-gray-600" : config.bgColor} rounded flex items-center justify-center`}
+                            className={`w-3.5 h-3.5 ${isDisabled ? "bg-gray-300 " : config.bgColor} rounded flex items-center justify-center`}
                         >
                             {config.customIcon ? (
                                 <span
-                                    className={`text-[10px] font-bold ${isDisabled ? "text-gray-500 dark:text-gray-400" : config.textColor}`}
+                                    className={`text-[10px] font-bold ${isDisabled ? "text-gray-500 " : config.textColor}`}
                                 >
                                     Y
                                 </span>
                             ) : (
                                 <Icon
-                                    className={`w-2.5 h-2.5 ${isDisabled ? "text-gray-500 dark:text-gray-400" : config.textColor}`}
+                                    className={`w-2.5 h-2.5 ${isDisabled ? "text-gray-500 " : config.textColor}`}
                                 />
                             )}
                         </div>

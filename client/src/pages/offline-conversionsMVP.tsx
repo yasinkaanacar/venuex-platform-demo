@@ -6,7 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { Tooltip } from '@mui/material';
-import { TrendingUp, TrendingDown, Calendar, Filter, X, Search, ChevronDown, Check, CheckCircle, Receipt, AlertTriangle, AlertCircle, ArrowUpDown, Package, MapPin, DollarSign, ShoppingCart } from 'lucide-react';
+import { TrendingUp, TrendingDown, Calendar, Filter, X, Search, ChevronDown, Check, CheckCircle, Receipt, AlertTriangle, AlertCircle, ArrowUpDown, Package, MapPin, DollarSign, ShoppingCart, Info } from 'lucide-react';
 import { LineChart, Line, ResponsiveContainer } from "recharts";
 import { SiGoogle, SiMeta, SiTiktok, SiApple } from 'react-icons/si';
 import funnelImage from '@assets/Screenshot 2025-08-29 at 18.31.46_1756481891401.png';
@@ -18,9 +18,11 @@ import PerformanceChart from '../components/offline-conversions/performance-char
 import AttributionBreakdown from '../components/offline-conversions/AttributionBreakdown';
 
 import CampaignPerformanceTable from '../components/offline-conversions/CampaignPerformanceTable';
+import CampaignTable from '../components/offline-conversions/CampaignTable';
 import GeographicPerformance from '../components/offline-conversions/GeographicPerformance';
 import OfflineActivityLog from '../components/offline-conversions/OfflineActivityLog';
 import DataPipelineStatus from '../components/offline-conversions/DataPipelineStatus';
+import ExecutiveMetrics from '../components/offline-conversions/ExecutiveMetrics';
 import { useTranslation } from '@/contexts/LanguageContext';
 
 // Mock sparkline data for each KPI
@@ -66,10 +68,10 @@ function KPICard({ title, primaryMetric, changePercent, isPositiveChange, icon: 
 
   return (
     <div
-      className="bg-[#f9fafb] shadow-none hover:shadow-sm transition-all duration-200 cursor-pointer hover:scale-105 rounded-lg border border-gray-200 overflow-hidden"
+      className="vx-card shadow-none hover:shadow-sm transition-all duration-200 cursor-pointer hover:scale-105"
       data-testid={`kpi-card-${title.toLowerCase().replace(/\s+/g, '-')}`}
     >
-      <div className="p-6 pt-3 bg-[#f9fafb]">
+      <div className="vx-card-body pt-3 vx-surface-muted">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center space-x-2">
             <div className={`w-10 h-10 ${iconBg} rounded-lg flex items-center justify-center`}>
@@ -298,13 +300,14 @@ export default function OfflineConversionsMVP() {
     compareMode: false
   });
 
-  const [mainTab, setMainTab] = useState<'ozet' | 'performans' | 'kampanyalar' | 'cografi' | 'veri_baglantisi'>('ozet');
+  const [mainTab, setMainTab] = useState<'ozet' | 'performans' | 'kampanyalar' | 'veri_baglantisi'>('ozet');
   const { t, language } = useTranslation();
 
   const [campaignSearch, setCampaignSearch] = useState("");
   const [platformSearch, setPlatformSearch] = useState("");
   const [campaignTypeSearch, setCampaignTypeSearch] = useState("");
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
+  const [showDeduplicationTooltip, setShowDeduplicationTooltip] = useState(false);
 
   // Geographic Performance Dashboard State
   const [geoCountry, setGeoCountry] = useState<string>("turkey");
@@ -320,8 +323,8 @@ export default function OfflineConversionsMVP() {
       title: 'Data sync delay detected',
       description: 'Meta Ads data is 15 minutes behind schedule',
       timestamp: '11 minutes ago',
-      bgColor: 'bg-yellow-50 dark:bg-yellow-950/20',
-      borderColor: 'border-yellow-200 dark:border-yellow-800',
+      bgColor: 'bg-yellow-50',
+      borderColor: 'border-yellow-200',
       iconColor: 'text-yellow-600'
     },
     {
@@ -331,8 +334,8 @@ export default function OfflineConversionsMVP() {
       title: 'Data enrichment completed',
       description: '47 location profiles updated with new attributes',
       timestamp: '11 minutes ago',
-      bgColor: 'bg-green-50 dark:bg-green-950/20',
-      borderColor: 'border-green-200 dark:border-green-800',
+      bgColor: 'bg-green-50',
+      borderColor: 'border-green-200',
       iconColor: 'text-green-600'
     },
     {
@@ -342,8 +345,8 @@ export default function OfflineConversionsMVP() {
       title: 'API rate limit warning',
       description: 'Google Ads API approaching rate limit (85% used)',
       timestamp: '11 minutes ago',
-      bgColor: 'bg-red-50 dark:bg-red-950/20',
-      borderColor: 'border-red-200 dark:border-red-800',
+      bgColor: 'bg-red-50',
+      borderColor: 'border-red-200',
       iconColor: 'text-red-600'
     }
   ];
@@ -623,78 +626,58 @@ export default function OfflineConversionsMVP() {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="vx-page">
       {/* Tab Navigation - Sticky */}
       <div className="sticky top-16 z-40 bg-white border-b border-gray-200">
         <div className="px-6 py-3">
-          <div className="inline-flex items-center gap-1 p-1 bg-gray-100 rounded-lg">
+          <div className="vx-tabs">
             <button
               onClick={() => setMainTab('ozet')}
-              className={`px-4 py-2 text-sm font-medium rounded-md transition-all duration-200 ${mainTab === 'ozet'
-                ? 'bg-white text-gray-900 shadow-sm'
-                : 'text-gray-500 hover:text-gray-700 hover:bg-white/50'
-                }`}
+              className={`vx-tab ${mainTab === 'ozet' ? 'vx-tab-active' : ''}`}
               data-testid="tab-ozet"
             >
               {t.common.summary}
             </button>
             <button
               onClick={() => setMainTab('performans')}
-              className={`px-4 py-2 text-sm font-medium rounded-md transition-all duration-200 ${mainTab === 'performans'
-                ? 'bg-white text-gray-900 shadow-sm'
-                : 'text-gray-500 hover:text-gray-700 hover:bg-white/50'
-                }`}
+              className={`vx-tab ${mainTab === 'performans' ? 'vx-tab-active' : ''}`}
               data-testid="tab-performans"
             >
               {t.common.performance}
             </button>
             <button
-              onClick={() => setMainTab('veri_baglantisi')}
-              className={`px-4 py-2 text-sm font-medium rounded-md transition-all duration-200 ${mainTab === 'veri_baglantisi'
-                ? 'bg-white text-gray-900 shadow-sm'
-                : 'text-gray-500 hover:text-gray-700 hover:bg-white/50'
-                }`}
-              data-testid="tab-veri-baglantisi"
-            >
-              {language === 'en' ? 'Data Connection' : 'Veri Bağlantısı'}
-            </button>
-            <button
               onClick={() => setMainTab('kampanyalar')}
-              className={`px-4 py-2 text-sm font-medium rounded-md transition-all duration-200 ${mainTab === 'kampanyalar'
-                ? 'bg-white text-gray-900 shadow-sm'
-                : 'text-gray-500 hover:text-gray-700 hover:bg-white/50'
-                }`}
+              className={`vx-tab ${mainTab === 'kampanyalar' ? 'vx-tab-active' : ''}`}
               data-testid="tab-kampanyalar"
             >
               {language === 'en' ? 'Campaigns' : 'Kampanyalar'}
             </button>
             <button
-              onClick={() => setMainTab('cografi')}
-              className={`px-4 py-2 text-sm font-medium rounded-md transition-all duration-200 ${mainTab === 'cografi'
-                ? 'bg-white text-gray-900 shadow-sm'
-                : 'text-gray-500 hover:text-gray-700 hover:bg-white/50'
-                }`}
-              data-testid="tab-cografi"
+              onClick={() => setMainTab('veri_baglantisi')}
+              className={`vx-tab ${mainTab === 'veri_baglantisi' ? 'vx-tab-active' : ''}`}
+              data-testid="tab-veri-baglantisi"
             >
-              {language === 'en' ? 'Geographic' : 'Coğrafi'}
+              {language === 'en' ? 'Data Connection' : 'Veri Bağlantısı'}
             </button>
+
           </div>
         </div>
       </div>
 
       {/* Main Content */}
-      <div className="pb-6 bg-white min-h-[calc(100vh-8rem)]">
+      <div className="vx-page-body min-h-[calc(100vh-8rem)]">
         {/* Özet Tab */}
         {mainTab === 'ozet' && (
           <>
             <OfflineSummary />
 
-
-
-
+            {/* Weekly Sales Performance - Full Width */}
+            <div className="vx-section-stack">
+              <WeeklySalesChart />
+            </div>
 
             {/* Online-to-Offline Conversion Funnel */}
-            <div className="mx-6 mt-6">
+            <div className="vx-section-stack">
               <PerformanceChart filters={filters as any} onFiltersChange={setFilters as any} showProviderFilter={true} />
             </div>
 
@@ -705,19 +688,212 @@ export default function OfflineConversionsMVP() {
         {/* Performans Tab */}
         {mainTab === 'performans' && (
           <>
-            {/* Weekly Sales & Attribution Row */}
-            <div className="mx-6 mt-6 grid grid-cols-1 lg:grid-cols-2 gap-6">
-              <WeeklySalesChart />
+            {/* Sticky Filter Bar */}
+            <div className="sticky top-[104px] z-30 bg-gray-50 border-b border-gray-200 px-6 py-4">
+              <div className="vx-filter-row">
+                {/* Platform Filter */}
+                <div className="relative" ref={platformDropdownRef}>
+                  <button
+                    onClick={() => setOpenDropdown(openDropdown === 'platform' ? null : 'platform')}
+                    className={`flex items-center gap-2 h-9 px-3 text-sm font-medium bg-white border rounded-md hover:border-gray-400 transition-colors ${filters.platforms.length > 0 ? 'border-gray-400 text-gray-900' : 'border-gray-200 text-gray-600'}`}
+                  >
+                    <Filter className="w-4 h-4 text-gray-400" />
+                    <span>{filters.platforms.length > 0 ? `Platform (${filters.platforms.length})` : 'Platform'}</span>
+                    <ChevronDown className="w-4 h-4 text-gray-400" />
+                  </button>
+                  {openDropdown === 'platform' && (
+                    <div className="absolute top-full left-0 mt-2 w-56 bg-white border border-gray-200 rounded-lg shadow-lg z-50">
+                      <div className="py-1">
+                        {/* All Platforms */}
+                        <button
+                          onClick={() => {
+                            setFilters(prev => ({ ...prev, platforms: [] }));
+                            setOpenDropdown(null);
+                          }}
+                          className={`w-full flex items-center gap-3 px-3 py-2.5 text-sm hover:bg-gray-50 ${filters.platforms.length === 0 ? 'bg-gray-50' : ''}`}
+                        >
+                          <div className={`w-4 h-4 border rounded-full flex items-center justify-center ${filters.platforms.length === 0 ? 'bg-gray-900 border-gray-900' : 'border-gray-300'}`}>
+                            {filters.platforms.length === 0 && <div className="w-2 h-2 bg-white rounded-full" />}
+                          </div>
+                          <div className="w-6 h-6 bg-gray-200 rounded flex items-center justify-center">
+                            <span className="text-[10px] font-bold text-gray-600">All</span>
+                          </div>
+                          <span className="text-gray-700">Tüm Platformlar</span>
+                          <div className="relative group ml-auto">
+                            <button
+                              type="button"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                setShowDeduplicationTooltip(!showDeduplicationTooltip);
+                              }}
+                              className="p-0.5 rounded hover:bg-gray-100"
+                            >
+                              <Info className="w-3.5 h-3.5 text-amber-500 cursor-help" />
+                            </button>
+                            <div className={`absolute right-0 top-full mt-1 px-3 py-2.5 bg-gray-900 text-white text-xs rounded-lg transition-all duration-200 w-64 z-[9999] ${showDeduplicationTooltip ? 'opacity-100 visible' : 'opacity-0 invisible group-hover:opacity-100 group-hover:visible'}`}>
+                              <div className="font-semibold text-amber-400 mb-1">Deduplication Notice</div>
+                              <div className="leading-relaxed">When viewing all platforms, there may be duplications as platforms sometimes attribute the same sales at the same time. For accurate attribution, view individual platform data.</div>
+                            </div>
+                          </div>
+                        </button>
+
+                        <div className="border-t border-gray-100 my-1" />
+
+                        {/* Google */}
+                        <button
+                          onClick={() => handlePlatformToggle('google')}
+                          className="w-full flex items-center gap-3 px-3 py-2.5 text-sm hover:bg-gray-50"
+                        >
+                          <div className={`w-4 h-4 border rounded flex items-center justify-center ${filters.platforms.includes('google') ? 'bg-gray-900 border-gray-900' : 'border-gray-300'}`}>
+                            {filters.platforms.includes('google') && <Check className="w-3 h-3 text-white" />}
+                          </div>
+                          <div className="w-6 h-6 bg-[#EA4335] rounded flex items-center justify-center">
+                            <SiGoogle className="w-3 h-3 text-white" />
+                          </div>
+                          <span className="text-gray-700">Google Ads</span>
+                        </button>
+                        {/* Meta */}
+                        <button
+                          onClick={() => handlePlatformToggle('meta')}
+                          className="w-full flex items-center gap-3 px-3 py-2.5 text-sm hover:bg-gray-50"
+                        >
+                          <div className={`w-4 h-4 border rounded flex items-center justify-center ${filters.platforms.includes('meta') ? 'bg-gray-900 border-gray-900' : 'border-gray-300'}`}>
+                            {filters.platforms.includes('meta') && <Check className="w-3 h-3 text-white" />}
+                          </div>
+                          <div className="w-6 h-6 bg-[#1877F2] rounded flex items-center justify-center">
+                            <SiMeta className="w-3 h-3 text-white" />
+                          </div>
+                          <span className="text-gray-700">Meta Ads</span>
+                        </button>
+                        {/* TikTok */}
+                        <button
+                          onClick={() => handlePlatformToggle('tiktok')}
+                          className="w-full flex items-center gap-3 px-3 py-2.5 text-sm hover:bg-gray-50"
+                        >
+                          <div className={`w-4 h-4 border rounded flex items-center justify-center ${filters.platforms.includes('tiktok') ? 'bg-gray-900 border-gray-900' : 'border-gray-300'}`}>
+                            {filters.platforms.includes('tiktok') && <Check className="w-3 h-3 text-white" />}
+                          </div>
+                          <div className="w-6 h-6 bg-black rounded flex items-center justify-center">
+                            <SiTiktok className="w-3 h-3 text-white" />
+                          </div>
+                          <span className="text-gray-700">TikTok Ads</span>
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+                {/* Campaign Type Filter */}
+                <div className="relative" ref={campaignTypeDropdownRef}>
+                  <button
+                    onClick={() => setOpenDropdown(openDropdown === 'campaignType' ? null : 'campaignType')}
+                    className={`flex items-center gap-2 h-9 px-3 text-sm font-medium bg-white border rounded-md hover:border-gray-400 transition-colors ${filters.campaignTypes.length > 0 ? 'border-gray-400 text-gray-900' : 'border-gray-200 text-gray-600'}`}
+                  >
+                    <span>{filters.campaignTypes.length > 0 ? `Kampanya Tipi (${filters.campaignTypes.length})` : 'Kampanya Tipi'}</span>
+                    <ChevronDown className="w-4 h-4 text-gray-400" />
+                  </button>
+                  {openDropdown === 'campaignType' && (
+                    <div className="absolute top-full left-0 mt-2 w-56 bg-white border border-gray-200 rounded-lg shadow-lg z-50">
+                      <div className="p-2 border-b border-gray-100">
+                        <div className="flex gap-2">
+                          <button onClick={handleSelectAllCampaignTypes} className="flex-1 text-xs font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-50 px-2 py-1.5 rounded">Tümünü Seç</button>
+                          <button onClick={handleDeselectAllCampaignTypes} className="flex-1 text-xs font-medium text-gray-400 hover:text-gray-600 hover:bg-gray-50 px-2 py-1.5 rounded">Temizle</button>
+                        </div>
+                      </div>
+                      <div className="py-1">
+                        {campaignTypeOptions.map((type) => (
+                          <button
+                            key={type.value}
+                            onClick={() => handleCampaignTypeToggle(type.value)}
+                            className="w-full flex items-center gap-3 px-3 py-2.5 text-sm hover:bg-gray-50"
+                          >
+                            <div className={`w-4 h-4 border rounded flex items-center justify-center ${filters.campaignTypes.includes(type.value) ? 'bg-gray-900 border-gray-900' : 'border-gray-300'}`}>
+                              {filters.campaignTypes.includes(type.value) && <Check className="w-3 h-3 text-white" />}
+                            </div>
+                            <span className="text-gray-700">{type.label}</span>
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+                {/* Campaign Filter */}
+                <div className="relative" ref={campaignDropdownRef}>
+                  <button
+                    onClick={() => setOpenDropdown(openDropdown === 'campaign' ? null : 'campaign')}
+                    className={`flex items-center gap-2 h-9 px-3 text-sm font-medium bg-white border rounded-md hover:border-gray-400 transition-colors ${filters.campaigns.length > 0 ? 'border-gray-400 text-gray-900' : 'border-gray-200 text-gray-600'}`}
+                  >
+                    <span>{filters.campaigns.length > 0 ? `Kampanya (${filters.campaigns.length})` : 'Kampanya'}</span>
+                    <ChevronDown className="w-4 h-4 text-gray-400" />
+                  </button>
+                  {openDropdown === 'campaign' && (
+                    <div className="absolute top-full left-0 mt-2 w-72 bg-white border border-gray-200 rounded-lg shadow-lg z-50">
+                      <div className="p-2 border-b border-gray-100">
+                        <div className="relative">
+                          <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                          <Input
+                            placeholder="Kampanya ara..."
+                            value={campaignSearch}
+                            onChange={(e) => setCampaignSearch(e.target.value)}
+                            className="pl-8 h-8 text-sm border-gray-200"
+                          />
+                        </div>
+                      </div>
+                      <div className="p-2 border-b border-gray-100">
+                        <div className="flex gap-2">
+                          <button onClick={handleSelectAllCampaigns} className="flex-1 text-xs font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-50 px-2 py-1.5 rounded">Tümünü Seç</button>
+                          <button onClick={handleDeselectAllCampaigns} className="flex-1 text-xs font-medium text-gray-400 hover:text-gray-600 hover:bg-gray-50 px-2 py-1.5 rounded">Temizle</button>
+                        </div>
+                      </div>
+                      <div className="max-h-56 overflow-y-auto py-1">
+                        {getFilteredCampaigns().map((campaign) => (
+                          <button
+                            key={campaign}
+                            onClick={() => handleCampaignToggle(campaign)}
+                            className="w-full flex items-center gap-3 px-3 py-2 text-sm hover:bg-gray-50 text-left"
+                          >
+                            <div className={`w-4 h-4 border rounded flex items-center justify-center flex-shrink-0 ${filters.campaigns.includes(campaign) ? 'bg-gray-900 border-gray-900' : 'border-gray-300'}`}>
+                              {filters.campaigns.includes(campaign) && <Check className="w-3 h-3 text-white" />}
+                            </div>
+                            <span className="text-gray-700 truncate">{campaign}</span>
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+                {/* Reset Filters Button */}
+                {(filters.platforms.length > 0 || filters.campaignTypes.length > 0 || filters.campaigns.length > 0) && (
+                  <button
+                    onClick={resetFilters}
+                    className="flex items-center gap-1.5 h-9 px-3 text-sm font-medium text-gray-500 hover:text-gray-700 hover:bg-white rounded-md transition-colors"
+                  >
+                    <X className="w-4 h-4" />
+                    <span>Temizle</span>
+                  </button>
+                )}
+              </div>
+            </div>
+
+            {/* Executive Metrics Summary */}
+            <div className="vx-section-stack">
+              <ExecutiveMetrics />
+            </div>
+
+            {/* Attribution Breakdown */}
+            <div className="vx-section-stack">
               <AttributionBreakdown />
             </div>
 
             {/* Conversion Funnel - No Platform Selector */}
-            <div className="mx-6 mt-6">
+            <div className="vx-section-stack">
               <PerformanceChart filters={filters as any} onFiltersChange={setFilters as any} showProviderFilter={false} />
             </div>
 
             {/* Campaign List */}
-            <div className="mx-6 mt-6">
+            <div className="vx-section-stack">
               <CampaignPerformanceTable />
             </div>
           </>
@@ -725,7 +901,7 @@ export default function OfflineConversionsMVP() {
 
         {/* Veri Bağlantısı Tab */}
         {mainTab === 'veri_baglantisi' && (
-          <div className="mx-6 mt-6 space-y-6">
+          <div className="vx-section-stack space-y-6">
             <DataPipelineStatus />
             <OfflineActivityLog />
           </div>
@@ -733,27 +909,12 @@ export default function OfflineConversionsMVP() {
 
         {/* Kampanyalar Tab */}
         {mainTab === 'kampanyalar' && (
-          <>
-            <div className="mx-6 mt-6">
-              <CampaignPerformanceTable />
-            </div>
-          </>
+          <div className="vx-section-stack">
+            <CampaignTable />
+          </div>
         )}
 
-        {/* Coğrafi Tab */}
-        {mainTab === 'cografi' && (
-          <>
-            <div className="mx-6 mt-6">
-              <GeographicPerformance
-                filters={{
-                  ...filters,
-                  platform: filters.platform || 'google'
-                }}
-                dateRange={getDateRangeFromValue(filters.dateRange)}
-              />
-            </div>
-          </>
-        )}
+
       </div>
     </div >
   );

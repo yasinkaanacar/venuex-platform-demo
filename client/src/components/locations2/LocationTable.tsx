@@ -123,10 +123,10 @@ export function LocationTable({
 
   return (
     <TooltipProvider>
-      <div className="rounded-md border border-gray-200 dark:border-gray-700 overflow-hidden">
+      <div className="rounded-md border border-gray-200  overflow-hidden">
         <Table>
           <TableHeader>
-            <TableRow className="bg-gray-50 dark:bg-gray-800">
+            <TableRow className="bg-gray-50 ">
               <TableHead className="w-12">
                 <Checkbox
                   checked={isAllSelected}
@@ -161,8 +161,8 @@ export function LocationTable({
             {sortedLocations.map((location, index) => (
               <TableRow 
                 key={location.id}
-                className={`cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 ${
-                  index % 2 === 0 ? 'bg-white dark:bg-gray-900' : 'bg-gray-50/50 dark:bg-gray-800/50'
+                className={`cursor-pointer hover:bg-gray-50  ${
+                  index % 2 === 0 ? 'bg-white ' : 'bg-gray-50/50 '
                 }`}
                 onClick={() => onRowClick(location.id)}
                 data-testid={`table-row-${location.id}`}
@@ -180,7 +180,7 @@ export function LocationTable({
                   </div>
                 </TableCell>
                 <TableCell>
-                  <code className="text-sm bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded">
+                  <code className="text-sm bg-gray-100  px-2 py-1 rounded">
                     {location.code}
                   </code>
                 </TableCell>
@@ -262,7 +262,7 @@ export function LocationTable({
                     <DropdownMenuTrigger asChild>
                       <Button
                         variant="ghost"
-                        className="h-8 w-8 p-0"
+                        className="vx-icon-button"
                         data-testid={`actions-menu-${location.id}`}
                       >
                         <MoreHorizontal className="h-4 w-4" />

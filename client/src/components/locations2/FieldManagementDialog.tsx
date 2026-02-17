@@ -99,7 +99,7 @@ export function FieldManagementDialog({ isOpen, onClose }: FieldManagementDialog
 
         <div className="space-y-4">
           {/* Stats */}
-          <div className="flex items-center gap-4 p-3 bg-gray-50 dark:bg-gray-800 rounded-lg">
+          <div className="flex items-center gap-4 p-3 bg-gray-50 rounded-lg">
             <Badge variant="outline" className="flex items-center gap-1">
               <Eye className="w-3 h-3" />
               {visibleFieldsCount} Visible
@@ -117,7 +117,7 @@ export function FieldManagementDialog({ isOpen, onClose }: FieldManagementDialog
               placeholder="Search fields..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-10"
+              className="vx-input pl-10"
             />
           </div>
 
@@ -127,7 +127,7 @@ export function FieldManagementDialog({ isOpen, onClose }: FieldManagementDialog
               <Button
                 variant="outline"
                 onClick={() => setShowAddField(true)}
-                className="w-full"
+                className="vx-button w-full"
               >
                 <Plus className="w-4 h-4 mr-2" />
                 Add Custom Field
@@ -139,8 +139,9 @@ export function FieldManagementDialog({ isOpen, onClose }: FieldManagementDialog
                   value={newFieldName}
                   onChange={(e) => setNewFieldName(e.target.value)}
                   onKeyPress={(e) => e.key === 'Enter' && handleAddField()}
+                  className="vx-input"
                 />
-                <Button onClick={handleAddField} disabled={!newFieldName.trim()}>
+                <Button onClick={handleAddField} disabled={!newFieldName.trim()} className="vx-button">
                   Add
                 </Button>
                 <Button
@@ -149,6 +150,7 @@ export function FieldManagementDialog({ isOpen, onClose }: FieldManagementDialog
                     setShowAddField(false);
                     setNewFieldName("");
                   }}
+                  className="vx-button"
                 >
                   Cancel
                 </Button>
@@ -161,7 +163,7 @@ export function FieldManagementDialog({ isOpen, onClose }: FieldManagementDialog
             {filteredFields.map((field) => (
               <div
                 key={field.id}
-                className="flex items-center justify-between p-3 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800"
+                className="flex items-center justify-between p-3 border border-gray-200 rounded-lg hover:bg-gray-50"
               >
                 <div className="flex items-center space-x-3">
                   <Checkbox
@@ -202,10 +204,10 @@ export function FieldManagementDialog({ isOpen, onClose }: FieldManagementDialog
         </div>
 
         <div className="flex justify-end space-x-2 pt-4 border-t">
-          <Button variant="outline" onClick={onClose}>
+          <Button variant="outline" onClick={onClose} className="vx-button">
             Cancel
           </Button>
-          <Button onClick={handleSave}>
+          <Button onClick={handleSave} className="vx-button">
             Save Changes
           </Button>
         </div>

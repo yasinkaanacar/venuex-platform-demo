@@ -247,9 +247,9 @@ export default function DataPipelineStatus() {
     };
 
     return (
-        <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
+        <div className="vx-card">
             {/* Header */}
-            <div className="px-5 py-4 border-b border-gray-100 bg-gradient-to-r from-white to-gray-50">
+            <div className="vx-card-header">
                 <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
                         <Database className="w-5 h-5 text-gray-500" />
@@ -264,8 +264,8 @@ export default function DataPipelineStatus() {
             </div>
 
             {/* Pipeline Cards Grid */}
-            <div className="p-4">
-                <div className="grid grid-cols-3 gap-4 mb-4">
+            <div className="vx-card-body">
+                <div className="grid grid-cols-3 gap-6 mb-6">
                     {pipelines.map((pipeline) => (
                         <div key={pipeline.id} className="bg-gray-50 rounded-lg border border-gray-100 p-4">
                             {/* Pipeline Header */}
@@ -328,7 +328,7 @@ export default function DataPipelineStatus() {
                 </div>
 
                 {/* KPI Metrics Row */}
-                <div className="grid grid-cols-4 gap-4">
+                <div className="grid grid-cols-4 gap-6">
                     {kpiMetrics.map((kpi) => (
                         <div key={kpi.id} className="bg-gray-50 rounded-lg border border-gray-100 p-3">
                             {/* Header with Platform Selector */}

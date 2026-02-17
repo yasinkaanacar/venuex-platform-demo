@@ -202,9 +202,9 @@ export default function DataPipelineStatus() {
     };
 
     return (
-        <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+        <div className="vx-card shadow-sm">
             {/* Header */}
-            <div className="px-6 py-4 border-b border-gray-100 bg-gray-50">
+            <div className="vx-card-header">
                 <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
                         <div className="p-2 bg-gray-200 rounded-lg">
@@ -227,7 +227,7 @@ export default function DataPipelineStatus() {
             </div>
 
             {/* Pipeline Visualization */}
-            <div className="p-6">
+            <div className="vx-card-body">
                 <div className="flex items-stretch gap-4">
                     {/* Sources Column */}
                     <div className="flex-1">

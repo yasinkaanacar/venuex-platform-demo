@@ -24,11 +24,11 @@ export default function Overview() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="vx-page">
       {/* Main Content */}
-      <div className="pb-6 bg-white min-h-[calc(100vh-4rem)]">
+      <div className="vx-page-body min-h-[calc(100vh-4rem)]">
         {isLoading ? (
-          <div className="mx-6 mt-6 space-y-6">
+          <div className="vx-section-stack space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               {Array.from({ length: 4 }).map((_, i) => (
                 <Skeleton key={i} variant="rectangular" height={128} sx={{ borderRadius: 2 }} data-testid={`skeleton-kpi-${i}`} />
@@ -43,17 +43,17 @@ export default function Overview() {
         ) : (
           <>
             {/* Data Pipeline Status with KPIs */}
-            <div className="mx-6 mt-6">
+            <div className="vx-section-stack">
               <DataPipelineStatus />
             </div>
 
             {/* Online-to-Offline Conversion Funnel */}
-            <div className="mx-6 mt-6">
+            <div className="vx-section-stack">
               <PerformanceChart filters={{ dateRange: 'Last 30 days', platform: 'Google', compareMode: false }} onFiltersChange={() => { }} showProviderFilter={true} />
             </div>
 
             {/* Top Performing Locations & Campaigns Side by Side */}
-            <div className="mx-6 mt-6">
+            <div className="vx-section-stack">
               <TopPerformingOverview />
             </div>
           </>

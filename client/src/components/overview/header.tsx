@@ -23,7 +23,7 @@ export default function Header({ lastSync, title = "Dashboard" }: HeaderProps) {
 
   return (
     <header className="bg-card border-b border-border sticky top-0 z-50 shadow-sm h-20">
-      <div className="max-w-7xl mx-auto px-6 h-full flex items-center bg-[#f9fafb]">
+      <div className="max-w-7xl mx-auto px-6 h-full flex items-center vx-surface-muted">
         <div className="flex items-center justify-between w-full">
           <div className="flex items-center space-x-2">
             <div className="p-2">

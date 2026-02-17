@@ -6,8 +6,7 @@ import {
   Select,
   SelectContent,
   SelectItem,
-  SelectTrigger,
-  SelectValue,
+  // SelectTrigger and SelectValue removed as they are not used by the custom Select wrapper
 } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -165,6 +164,7 @@ export default function ReviewsMVP() {
 
   // Period selector state
   const [selectedPeriod, setSelectedPeriod] = useState("30days");
+  const [aiTone, setAiTone] = useState("empathetic"); // Added AI Tone state
 
   // Effect to sync Reviews card height with Review Details card
   useEffect(() => {
@@ -997,13 +997,12 @@ export default function ReviewsMVP() {
             {/* Date Range and Filters */}
             <div className="flex items-center gap-3">
               {/* Store Set Filter */}
-              <Select value={storeSetFilter} onValueChange={setStoreSetFilter}>
-                <SelectTrigger
-                  className="h-10 w-40 border-gray-200 rounded-md bg-[#f9fafb]"
-                  data-testid="select-store-set"
-                >
-                  <SelectValue placeholder="Store Set" />
-                </SelectTrigger>
+              <Select
+                value={storeSetFilter}
+                onValueChange={setStoreSetFilter}
+                displayLabel={storeSetFilter === "all" ? "Store Set" : storeSetFilter}
+                width={160}
+              >
                 <SelectContent>
                   <SelectItem value="all">All Store Sets</SelectItem>
                   <SelectItem value="marmara">Marmara Region</SelectItem>
@@ -1014,13 +1013,12 @@ export default function ReviewsMVP() {
               </Select>
 
               {/* City Filter */}
-              <Select value={cityFilter} onValueChange={setCityFilter}>
-                <SelectTrigger
-                  className="h-10 w-40 border-gray-200 rounded-md bg-[#f9fafb]"
-                  data-testid="select-city"
-                >
-                  <SelectValue placeholder="City" />
-                </SelectTrigger>
+              <Select
+                value={cityFilter}
+                onValueChange={setCityFilter}
+                displayLabel={cityFilter === "all" ? "City" : cityFilter}
+                width={160}
+              >
                 <SelectContent>
                   <SelectItem value="all">All Cities</SelectItem>
                   <SelectItem value="Istanbul">İstanbul</SelectItem>
@@ -1049,13 +1047,12 @@ export default function ReviewsMVP() {
               </Select>
 
               {/* Location Filter */}
-              <Select value={locationFilter} onValueChange={setLocationFilter}>
-                <SelectTrigger
-                  className="h-10 w-40 border-gray-200 rounded-md bg-[#f9fafb]"
-                  data-testid="select-location"
-                >
-                  <SelectValue placeholder="Location" />
-                </SelectTrigger>
+              <Select
+                value={locationFilter}
+                onValueChange={setLocationFilter}
+                displayLabel={locationFilter === "all" ? "Location" : locationsData.find(l => l.code === locationFilter)?.name || locationFilter}
+                width={160}
+              >
                 <SelectContent>
                   <SelectItem value="all">All Locations</SelectItem>
                   {locationsData.map((location) => (
@@ -1693,10 +1690,15 @@ export default function ReviewsMVP() {
                   <div className="flex items-center gap-4">
                     <div className="flex items-center gap-2">
                       <span className="text-sm font-medium text-gray-700 whitespace-nowrap">Sort by:</span>
-                      <Select value={leaderboardSortBy} onValueChange={(value) => setLeaderboardSortBy(value as 'rating' | 'volume' | 'replyRate')}>
-                        <SelectTrigger className="w-40 border-gray-300 rounded-md">
-                          <SelectValue />
-                        </SelectTrigger>
+                      <Select
+                        value={leaderboardSortBy}
+                        onValueChange={(value) => setLeaderboardSortBy(value as 'rating' | 'volume' | 'replyRate')}
+                        displayLabel={
+                          leaderboardSortBy === 'rating' ? 'Rating' :
+                            leaderboardSortBy === 'volume' ? 'Volume' : 'Reply Rate'
+                        }
+                        width={160}
+                      >
                         <SelectContent>
                           <SelectItem value="rating">Rating</SelectItem>
                           <SelectItem value="volume">Volume</SelectItem>
@@ -1885,10 +1887,12 @@ export default function ReviewsMVP() {
                   {reviewSource === "locations" ? (
                     <div className="flex items-center gap-2">
                       <label className="text-sm font-medium text-gray-700 whitespace-nowrap">Location:</label>
-                      <Select value={locationFilter} onValueChange={setLocationFilter}>
-                        <SelectTrigger className="w-48 border-gray-300 rounded-md">
-                          <SelectValue placeholder="All Locations" />
-                        </SelectTrigger>
+                      <Select
+                        value={locationFilter}
+                        onValueChange={setLocationFilter}
+                        displayLabel={locationFilter === "all" ? "All Locations" : locationsData.find(l => l.code === locationFilter)?.name || locationFilter}
+                        width={200}
+                      >
                         <SelectContent>
                           <SelectItem value="all">All Locations</SelectItem>
                           {locationsData.slice(0, 10).map((location) => (
@@ -1902,10 +1906,17 @@ export default function ReviewsMVP() {
                   ) : (
                     <div className="flex items-center gap-2">
                       <label className="text-sm font-medium text-gray-700 whitespace-nowrap">Product:</label>
-                      <Select value={productFilter} onValueChange={setProductFilter}>
-                        <SelectTrigger className="w-48 border-gray-300 rounded-md">
-                          <SelectValue placeholder="All Products" />
-                        </SelectTrigger>
+                      <Select
+                        value={productFilter}
+                        onValueChange={setProductFilter}
+                        displayLabel={
+                          productFilter === "all" ? "All Products" :
+                            productFilter === "running-shoes" ? "Running Shoes" :
+                              // Simple fallback for display
+                              productFilter
+                        }
+                        width={200}
+                      >
                         <SelectContent>
                           <SelectItem value="all">All Products</SelectItem>
                           <SelectItem value="running-shoes">Running Shoes</SelectItem>
@@ -1960,10 +1971,12 @@ export default function ReviewsMVP() {
                   {/* Rating Filter */}
                   <div className="flex items-center gap-2">
                     <label className="text-sm font-medium text-gray-700 whitespace-nowrap">Rating:</label>
-                    <Select value={ratingFilter} onValueChange={setRatingFilter}>
-                      <SelectTrigger className="w-36 border-gray-300 rounded-md">
-                        <SelectValue placeholder="All Ratings" />
-                      </SelectTrigger>
+                    <Select
+                      value={ratingFilter}
+                      onValueChange={setRatingFilter}
+                      displayLabel={ratingFilter === "all" ? "All Ratings" : `${ratingFilter} Stars`}
+                      width={140}
+                    >
                       <SelectContent>
                         <SelectItem value="all">All Ratings</SelectItem>
                         <SelectItem value="1">1 Star ★</SelectItem>
@@ -2003,10 +2016,15 @@ export default function ReviewsMVP() {
                   {/* Select By Comment Filter */}
                   <div className="flex items-center gap-2">
                     <label className="text-sm font-medium text-gray-700 whitespace-nowrap">Select By Comment:</label>
-                    <Select value={commentFilter} onValueChange={setCommentFilter}>
-                      <SelectTrigger className="w-40 border-gray-300 rounded-md">
-                        <SelectValue placeholder="All" />
-                      </SelectTrigger>
+                    <Select
+                      value={commentFilter}
+                      onValueChange={setCommentFilter}
+                      displayLabel={
+                        commentFilter === "all" ? "All" :
+                          commentFilter === "rating-only" ? "Rating Only" : "With Comment"
+                      }
+                      width={160}
+                    >
                       <SelectContent>
                         <SelectItem value="all">All</SelectItem>
                         <SelectItem value="rating-only">Rating Only</SelectItem>
@@ -2018,10 +2036,12 @@ export default function ReviewsMVP() {
                   {/* Theme Filter */}
                   <div className="flex items-center gap-2">
                     <label className="text-sm font-medium text-gray-700 whitespace-nowrap">Theme:</label>
-                    <Select value={themeFilter} onValueChange={setThemeFilter}>
-                      <SelectTrigger className="w-40 border-gray-300 rounded-md">
-                        <SelectValue placeholder="All Themes" />
-                      </SelectTrigger>
+                    <Select
+                      value={themeFilter}
+                      onValueChange={setThemeFilter}
+                      displayLabel={themeFilter === "all" ? "All Themes" : themeFilter}
+                      width={160}
+                    >
                       <SelectContent>
                         <SelectItem value="all">All Themes</SelectItem>
                         <SelectItem value="staff-service">Staff Service</SelectItem>
@@ -2038,10 +2058,12 @@ export default function ReviewsMVP() {
                   {/* Store Set Filter */}
                   <div className="flex items-center gap-2">
                     <label className="text-sm font-medium text-gray-700 whitespace-nowrap">Store Set:</label>
-                    <Select value={storeSetFilter} onValueChange={setStoreSetFilter}>
-                      <SelectTrigger className="w-40 border-gray-300 rounded-md">
-                        <SelectValue placeholder="All Store Sets" />
-                      </SelectTrigger>
+                    <Select
+                      value={storeSetFilter}
+                      onValueChange={setStoreSetFilter}
+                      displayLabel={storeSetFilter === "all" ? "All Store Sets" : storeSetFilter}
+                      width={160}
+                    >
                       <SelectContent>
                         <SelectItem value="all">All Store Sets</SelectItem>
                         <SelectItem value="smr">SMR</SelectItem>
@@ -2403,13 +2425,15 @@ export default function ReviewsMVP() {
                     {/* Region Filter */}
                     <div className="flex items-center gap-2">
                       <label className="text-sm font-medium text-gray-700 whitespace-nowrap">Region:</label>
-                      <Select value={regionFilter} onValueChange={(value) => {
-                        setRegionFilter(value);
-                        setCityFilter("all"); // Reset city when region changes
-                      }}>
-                        <SelectTrigger className="w-40 border-gray-300 rounded-md">
-                          <SelectValue placeholder="All Regions" />
-                        </SelectTrigger>
+                      <Select
+                        value={regionFilter}
+                        onValueChange={(value) => {
+                          setRegionFilter(value);
+                          setCityFilter("all"); // Reset city when region changes
+                        }}
+                        displayLabel={regionFilter === "all" ? "Region" : regionFilter}
+                        width={160}
+                      >
                         <SelectContent>
                           <SelectItem value="all">All Regions</SelectItem>
                           <SelectItem value="marmara">Marmara Region</SelectItem>
@@ -2426,10 +2450,12 @@ export default function ReviewsMVP() {
                     {/* City Filter */}
                     <div className="flex items-center gap-2">
                       <label className="text-sm font-medium text-gray-700 whitespace-nowrap">City:</label>
-                      <Select value={cityFilter} onValueChange={setCityFilter}>
-                        <SelectTrigger className="w-36 border-gray-300 rounded-md">
-                          <SelectValue placeholder="All Cities" />
-                        </SelectTrigger>
+                      <Select
+                        value={cityFilter}
+                        onValueChange={setCityFilter}
+                        displayLabel={cityFilter === "all" ? "City" : cityFilter}
+                        width={144}
+                      >
                         <SelectContent>
                           <SelectItem value="all">All Cities</SelectItem>
                           {regionFilter === "all" || regionFilter === "marmara" ? (
@@ -2487,10 +2513,12 @@ export default function ReviewsMVP() {
                     {/* Store Set Filter */}
                     <div className="flex items-center gap-2">
                       <label className="text-sm font-medium text-gray-700 whitespace-nowrap">Store Set:</label>
-                      <Select value={storeSetFilter} onValueChange={setStoreSetFilter}>
-                        <SelectTrigger className="w-40 border-gray-300 rounded-md">
-                          <SelectValue placeholder="All Store Sets" />
-                        </SelectTrigger>
+                      <Select
+                        value={storeSetFilter}
+                        onValueChange={setStoreSetFilter}
+                        displayLabel={storeSetFilter === "all" ? "Store Set" : storeSetFilter}
+                        width={160}
+                      >
                         <SelectContent>
                           <SelectItem value="all">All Store Sets</SelectItem>
                           <SelectItem value="smr">SMR</SelectItem>
@@ -2505,10 +2533,12 @@ export default function ReviewsMVP() {
                     {/* Sentiment Filter */}
                     <div className="flex items-center gap-2">
                       <label className="text-sm font-medium text-gray-700 whitespace-nowrap">Sentiment:</label>
-                      <Select value={sentimentFilter} onValueChange={setSentimentFilter}>
-                        <SelectTrigger className="w-40 border-gray-300 rounded-md">
-                          <SelectValue placeholder="All Sentiments" />
-                        </SelectTrigger>
+                      <Select
+                        value={sentimentFilter}
+                        onValueChange={setSentimentFilter}
+                        displayLabel={sentimentFilter === "all" ? "Sentiment" : sentimentFilter}
+                        width={160}
+                      >
                         <SelectContent>
                           <SelectItem value="all">All Sentiments</SelectItem>
                           <SelectItem value="positive">Positive</SelectItem>
@@ -2524,10 +2554,12 @@ export default function ReviewsMVP() {
                     {/* Average Rating Filter */}
                     <div className="flex items-center gap-2">
                       <label className="text-sm font-medium text-gray-700 whitespace-nowrap">Avg. Rating:</label>
-                      <Select value={avgRatingFilter} onValueChange={setAvgRatingFilter}>
-                        <SelectTrigger className="w-44 border-gray-300 rounded-md">
-                          <SelectValue placeholder="All Ratings" />
-                        </SelectTrigger>
+                      <Select
+                        value={avgRatingFilter}
+                        onValueChange={setAvgRatingFilter}
+                        displayLabel={avgRatingFilter === "all" ? "Avg. Rating" : avgRatingFilter}
+                        width={176}
+                      >
                         <SelectContent>
                           <SelectItem value="all">All Ratings</SelectItem>
                           <SelectItem value="excellent">Excellent (4.5+ ★)</SelectItem>
@@ -2541,10 +2573,12 @@ export default function ReviewsMVP() {
                     {/* Reply Rate Filter */}
                     <div className="flex items-center gap-2">
                       <label className="text-sm font-medium text-gray-700 whitespace-nowrap">Reply Rate:</label>
-                      <Select value={replyRateFilter} onValueChange={setReplyRateFilter}>
-                        <SelectTrigger className="w-48 border-gray-300 rounded-md">
-                          <SelectValue placeholder="All Reply Rates" />
-                        </SelectTrigger>
+                      <Select
+                        value={replyRateFilter}
+                        onValueChange={setReplyRateFilter}
+                        displayLabel={replyRateFilter === "all" ? "Reply Rate" : replyRateFilter}
+                        width={192}
+                      >
                         <SelectContent>
                           <SelectItem value="all">All Reply Rates</SelectItem>
                           <SelectItem value="excellent">Excellent (&gt; 95%)</SelectItem>
@@ -2822,10 +2856,11 @@ export default function ReviewsMVP() {
             </div>
             <div className="space-y-2">
               <div className="text-sm font-medium">Default AI Tone</div>
-              <Select defaultValue="empathetic">
-                <SelectTrigger>
-                  <SelectValue placeholder="Select tone" />
-                </SelectTrigger>
+              <Select
+                value={aiTone}
+                onValueChange={setAiTone}
+                displayLabel={aiTone.charAt(0).toUpperCase() + aiTone.slice(1)}
+              >
                 <SelectContent>
                   <SelectItem value="empathetic">Empathetic</SelectItem>
                   <SelectItem value="professional">Professional</SelectItem>
@@ -2851,6 +2886,6 @@ export default function ReviewsMVP() {
           </DialogFooter>
         </DialogContent>
       </Dialog>
-    </div>
+    </div >
   );
 }

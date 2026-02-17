@@ -184,14 +184,14 @@ export default function PerformanceChart({ filters, onFiltersChange, showProvide
     });
 
     return (
-        <div className="bg-[#fcfcfc] rounded-lg border border-gray-200 overflow-hidden">
-            <div className="bg-[#f9fafb] p-6 flex justify-between items-center border-b border-gray-200">
+        <div className="vx-card">
+            <div className="vx-card-header flex justify-between items-center">
                 <div>
                     <h3 className="text-lg font-semibold text-foreground">{t("reports.performance_chart.title")}</h3>
-                    <p className="text-sm text-muted-foreground">{t("reports.performance_chart.description")}</p>
+
                 </div>
             </div>
-            <div className="bg-[#f9fafb] p-6">
+            <div className="vx-card-body vx-surface-muted">
                 {showProviderFilter && (
                     <div className="mb-4 flex justify-center">
                         <ProviderSelection

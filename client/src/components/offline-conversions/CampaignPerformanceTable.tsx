@@ -199,7 +199,10 @@ const formatCurrency = (amount: number) => {
     if (amount >= 1000000) {
         return `₺${(amount / 1000000).toFixed(1)}M`;
     }
-    return `₺${(amount / 1000).toFixed(0)}K`;
+    if (amount >= 1000) {
+        return `₺${(amount / 1000).toFixed(0)}K`;
+    }
+    return `₺${Math.round(amount)}`;
 };
 
 const formatNumber = (num: number) => {
@@ -300,7 +303,7 @@ export default function CampaignPerformanceTable({ onCampaignClick }: CampaignPe
         <>
             <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
                 {/* Header */}
-                <div className="px-6 py-4 border-b border-gray-100 bg-[#f9fafb]">
+                <div className="vx-card-header">
                     <div className="flex items-center justify-between">
                         <div className="flex items-center gap-2">
                             <BarChart3 className="w-5 h-5 text-gray-700" />
@@ -318,79 +321,92 @@ export default function CampaignPerformanceTable({ onCampaignClick }: CampaignPe
                         <thead>
                             <tr className="bg-gray-50 border-b border-gray-200">
                                 <SortableHeader column="name" align="left">Kampanya</SortableHeader>
-                                <SortableHeader column="impressions">Gösterimler</SortableHeader>
-                                <SortableHeader column="spend">Harcamalar</SortableHeader>
-                                <SortableHeader column="storeVisits">Mağaza Ziyaretleri</SortableHeader>
-                                <SortableHeader column="ctv">CTV</SortableHeader>
-                                <SortableHeader column="onlineROAS">Online ROAS</SortableHeader>
-                                <SortableHeader column="offlineROAS">Offline ROAS</SortableHeader>
-                                <th className="px-4 py-3 text-xs font-semibold text-gray-600 uppercase tracking-wider text-right cursor-pointer hover:bg-gray-100 transition-colors bg-amber-50/50" onClick={() => handleSort('omniROAS')}>
+                                <th className="px-4 py-3 text-xs font-semibold text-gray-600 uppercase tracking-wider text-left">Platform</th>
+                                <SortableHeader column="spend">Harcama</SortableHeader>
+                                <SortableHeader column="offlinePurchases">Offline Dönüşümler</SortableHeader>
+                                <SortableHeader column="offlineRevenue">Offline Gelir</SortableHeader>
+                                {/* Hero Column - Offline ROAS */}
+                                <th
+                                    className="px-4 py-3 text-xs font-bold text-emerald-700 uppercase tracking-wider text-right cursor-pointer hover:bg-emerald-50 transition-colors bg-emerald-50/50"
+                                    onClick={() => handleSort('offlineROAS')}
+                                >
                                     <div className="flex items-center gap-1 justify-end">
-                                        <span className="text-amber-700">Omni ROAS</span>
-                                        <ArrowUpDown className={`w-3 h-3 ${sortColumn === 'omniROAS' ? 'text-amber-600' : 'text-amber-400'}`} />
+                                        <span>Offline ROAS</span>
+                                        <ArrowUpDown className={`w-3 h-3 ${sortColumn === 'offlineROAS' ? 'text-emerald-600' : 'text-emerald-400'}`} />
                                     </div>
                                 </th>
-                                <SortableHeader column="offlinePurchases">Offline Satın Almalar</SortableHeader>
-                                <SortableHeader column="offlineRevenue">Offline Gelir</SortableHeader>
+                                <th
+                                    className="px-4 py-3 text-xs font-semibold text-gray-600 uppercase tracking-wider text-right cursor-pointer hover:bg-gray-100 transition-colors whitespace-nowrap"
+                                    onClick={() => handleSort('offlinePurchases')}
+                                >
+                                    <div className="flex items-center gap-1 justify-end">
+                                        <span>Cost per Conv.</span>
+                                        <ArrowUpDown className={`w-3 h-3 text-gray-400`} />
+                                    </div>
+                                </th>
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-gray-100">
-                            {paginatedCampaigns.map((campaign) => (
-                                <tr
-                                    key={campaign.id}
-                                    className="hover:bg-gray-50 cursor-pointer transition-colors"
-                                    onClick={() => handleCampaignClick(campaign)}
-                                >
-                                    <td className="px-4 py-4">
-                                        <div className="flex items-center gap-3">
-                                            {getPlatformIcon(campaign.platform)}
-                                            <div>
-                                                <div className="font-medium text-gray-900 text-sm">{campaign.name}</div>
-                                                <div className="text-xs text-gray-500 capitalize">{campaign.platform}-ads</div>
+                            {paginatedCampaigns.map((campaign) => {
+                                const costPerConversion = campaign.offlinePurchases > 0
+                                    ? campaign.spend / campaign.offlinePurchases
+                                    : 0;
+                                const roasColor = campaign.offlineROAS >= 30
+                                    ? 'text-emerald-700 bg-emerald-100'
+                                    : campaign.offlineROAS >= 20
+                                        ? 'text-emerald-600 bg-emerald-50'
+                                        : campaign.offlineROAS >= 10
+                                            ? 'text-amber-600 bg-amber-50'
+                                            : 'text-rose-600 bg-rose-50';
+
+                                return (
+                                    <tr
+                                        key={campaign.id}
+                                        className="hover:bg-gray-50 cursor-pointer transition-colors"
+                                        onClick={() => handleCampaignClick(campaign)}
+                                    >
+                                        {/* Campaign Name */}
+                                        <td className="px-4 py-4">
+                                            <div className="font-medium text-gray-900 text-sm">{campaign.name}</div>
+                                        </td>
+                                        {/* Platform */}
+                                        <td className="px-4 py-4">
+                                            <div className="flex items-center gap-2">
+                                                {getPlatformIcon(campaign.platform)}
+                                                <span className="text-sm text-gray-600 capitalize">{campaign.platform}</span>
                                             </div>
-                                        </div>
-                                    </td>
-                                    <td className="px-4 py-4 text-right text-sm text-gray-600">
-                                        {formatNumber(campaign.impressions)}
-                                    </td>
-                                    <td className="px-4 py-4 text-right text-sm font-medium text-gray-900">
-                                        {formatCurrency(campaign.spend)}
-                                    </td>
-                                    <td className="px-4 py-4 text-right text-sm text-gray-600">
-                                        {formatNumber(campaign.storeVisits)}
-                                    </td>
-                                    <td className="px-4 py-4 text-right text-sm text-gray-600">
-                                        {campaign.ctv}%
-                                    </td>
-                                    <td className="px-4 py-4 text-right">
-                                        <span className={`inline-block px-2 py-1 rounded text-xs font-semibold ${getROASColor(campaign.onlineROAS)}`}>
-                                            {campaign.onlineROAS.toFixed(1)}x
-                                        </span>
-                                    </td>
-                                    <td className="px-4 py-4 text-right">
-                                        <span className={`inline-block px-2 py-1 rounded text-xs font-semibold ${getROASColor(campaign.offlineROAS)}`}>
-                                            {campaign.offlineROAS.toFixed(1)}x
-                                        </span>
-                                    </td>
-                                    <td className="px-4 py-4 text-right bg-amber-50/30">
-                                        <span className="inline-block px-2 py-1 rounded text-sm font-bold text-amber-700 bg-amber-100">
-                                            {campaign.omniROAS.toFixed(1)}x
-                                        </span>
-                                    </td>
-                                    <td className="px-4 py-4 text-right text-sm font-medium text-gray-900">
-                                        {campaign.offlinePurchases.toLocaleString('tr-TR')}
-                                    </td>
-                                    <td className="px-4 py-4 text-right text-sm font-medium text-blue-600">
-                                        {formatCurrency(campaign.offlineRevenue)}
-                                    </td>
-                                </tr>
-                            ))}
+                                        </td>
+                                        {/* Spend */}
+                                        <td className="px-4 py-4 text-right text-sm font-medium text-gray-900">
+                                            {formatCurrency(campaign.spend)}
+                                        </td>
+                                        {/* Offline Conversions */}
+                                        <td className="px-4 py-4 text-right text-sm font-medium text-gray-900">
+                                            {campaign.offlinePurchases.toLocaleString('tr-TR')}
+                                        </td>
+                                        {/* Offline Revenue */}
+                                        <td className="px-4 py-4 text-right text-sm font-medium text-blue-600">
+                                            {formatCurrency(campaign.offlineRevenue)}
+                                        </td>
+                                        {/* Offline ROAS - Hero Column */}
+                                        <td className="px-4 py-4 text-right bg-emerald-50/30">
+                                            <span className={`inline-block px-3 py-1.5 rounded-md text-base font-bold ${roasColor}`}>
+                                                {campaign.offlineROAS.toFixed(1)}x
+                                            </span>
+                                        </td>
+                                        {/* Cost per Conversion */}
+                                        <td className="px-4 py-4 text-right text-sm text-gray-600">
+                                            {formatCurrency(costPerConversion)}
+                                        </td>
+                                    </tr>
+                                );
+                            })}
                         </tbody>
                     </table>
                 </div>
 
                 {/* Pagination */}
-                <div className="px-6 py-4 bg-gray-50 border-t border-gray-200 flex items-center justify-between">
+                <div className="vx-card-header flex items-center justify-between">
                     <div className="flex items-center gap-4">
                         <span className="text-sm text-gray-600">Sayfa başına:</span>
                         <select

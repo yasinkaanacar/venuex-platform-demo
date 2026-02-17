@@ -246,7 +246,7 @@ export default function EnrichmentSuggestions({ context = 'dashboard' }: Enrichm
               <>3 suggestions shown • Potential impact: <span className="font-medium">+52.0% overall performance</span></>
             )}
           </div>
-          <Button variant="outlined" size="small" className="text-gray-700 dark:text-gray-200 border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-800 font-medium">
+          <Button variant="outlined" size="small" className="text-gray-700 border-gray-300 hover:bg-gray-100 font-medium">
             View all suggestions
           </Button>
         </div>

@@ -178,7 +178,7 @@ export default function OfflineActivityLog() {
             <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
                 {/* Header - Clickable */}
                 <div
-                    className="px-6 py-4 border-b border-gray-100 bg-gradient-to-b from-white to-gray-50/50 cursor-pointer hover:bg-gray-50 transition-colors"
+                    className="vx-card-header cursor-pointer hover:bg-gray-50 transition-colors"
                     onClick={() => setIsExpanded(!isExpanded)}
                 >
                     <div className="flex items-center justify-between">
@@ -212,7 +212,7 @@ export default function OfflineActivityLog() {
 
                 {/* Timeline Events - Collapsible */}
                 {isExpanded && (
-                    <div className="p-6">
+                    <div className="vx-card-body">
                         <div className="relative">
                             {/* Vertical Timeline Line */}
                             <div className="absolute left-4 top-0 bottom-0 w-0.5 bg-gray-200"></div>

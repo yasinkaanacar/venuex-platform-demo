@@ -51,7 +51,7 @@ export function BusinessProfileSection() {
 
   return (
     <Card className="mx-6 mb-6">
-      <div className="bg-gradient-to-b from-white to-stone-50 p-6 flex items-center justify-between border-b border-slate-200">
+      <div className="vx-card-header flex items-center justify-between">
         <div className="flex items-center space-x-2">
           <h3 className="text-base font-semibold text-foreground">Business Profile Interactions</h3>
           <Info className="w-4 h-4 text-gray-400" />
@@ -78,26 +78,26 @@ export function BusinessProfileSection() {
               </button>
             ))}
           </nav>
-          <button className="text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:hover:text-white font-medium bg-transparent border-none cursor-pointer flex items-center space-x-2">
+          <button className="text-gray-700  hover:text-gray-900  font-medium bg-transparent border-none cursor-pointer flex items-center space-x-2">
             <Calendar className="w-4 h-4" />
             <span>August 2025</span>
           </button>
         </div>
       </div>
-      <CardContent className="bg-stone-50">
+      <CardContent className="vx-surface-muted">
 
         {/* Main Metrics */}
         <div className="mb-6">
           <div className="flex items-baseline space-x-4 mb-2">
             <div className="flex items-center space-x-2">
               <div className="w-3 h-3 bg-blue-500 rounded-full"></div>
-              <span className="text-2xl font-bold text-gray-900 dark:text-white">62,006</span>
-              <span className="text-sm text-gray-600 dark:text-gray-400">Current</span>
+              <span className="text-2xl font-bold text-gray-900 ">62,006</span>
+              <span className="text-sm text-gray-600 ">Current</span>
             </div>
             <div className="flex items-center space-x-2">
               <div className="w-3 h-3 bg-gray-400 rounded-full"></div>
-              <span className="text-lg text-gray-600 dark:text-gray-400">63,615</span>
-              <span className="text-sm text-gray-600 dark:text-gray-400">Previous</span>
+              <span className="text-lg text-gray-600 ">63,615</span>
+              <span className="text-sm text-gray-600 ">Previous</span>
             </div>
             <Badge variant="destructive" className="bg-red-100 text-red-800 hover:bg-red-100">
               -2.5%
@@ -146,7 +146,7 @@ export function BusinessProfileSection() {
           {/* Profile Views */}
           <div className="space-y-4">
             <div className="flex items-center justify-between">
-              <h4 className="font-medium text-gray-900 dark:text-white">Profile views</h4>
+              <h4 className="font-medium text-gray-900 ">Profile views</h4>
               <div className="flex items-center space-x-2">
                 <span className="text-lg font-semibold">1,716,216</span>
                 <Badge className="bg-green-100 text-green-800 hover:bg-green-100">
@@ -155,7 +155,7 @@ export function BusinessProfileSection() {
                 </Badge>
               </div>
             </div>
-            <div className="text-sm text-gray-600 dark:text-gray-400 mb-4">
+            <div className="text-sm text-gray-600  mb-4">
               July 2025 vs August 2025
             </div>
             
@@ -184,17 +184,17 @@ export function BusinessProfileSection() {
 
               {/* Platform Breakdown */}
               <div className="space-y-2">
-                <h5 className="text-sm font-medium text-gray-900 dark:text-white mb-3">
+                <h5 className="text-sm font-medium text-gray-900  mb-3">
                   Platform and device breakdown that people used to find your profile
                 </h5>
                 {platformData.map((item, index) => (
                   <div key={index} className="flex items-center justify-between text-sm">
                     <div className="flex items-center space-x-2">
                       <div className="w-3 h-3 rounded-full" style={{ backgroundColor: item.color }}></div>
-                      <span className="text-gray-600 dark:text-gray-400">{item.name}</span>
+                      <span className="text-gray-600 ">{item.name}</span>
                     </div>
                     <div className="flex items-center space-x-2">
-                      <span className="font-medium text-gray-900 dark:text-white">{item.count}</span>
+                      <span className="font-medium text-gray-900 ">{item.count}</span>
                       <span className="text-gray-500">{item.value}%</span>
                     </div>
                   </div>
@@ -206,7 +206,7 @@ export function BusinessProfileSection() {
           {/* Total Searches */}
           <div className="space-y-4">
             <div className="flex items-center justify-between">
-              <h4 className="font-medium text-gray-900 dark:text-white">Total searches</h4>
+              <h4 className="font-medium text-gray-900 ">Total searches</h4>
               <div className="flex items-center space-x-2">
                 <span className="text-lg font-semibold">1,230,916</span>
                 <Badge className="bg-green-100 text-green-800 hover:bg-green-100">
@@ -215,12 +215,12 @@ export function BusinessProfileSection() {
                 </Badge>
               </div>
             </div>
-            <div className="text-sm text-gray-600 dark:text-gray-400 mb-4">
+            <div className="text-sm text-gray-600  mb-4">
               July 2025 vs August 2025
             </div>
             
             <div className="space-y-4">
-              <h5 className="text-sm font-medium text-gray-900 dark:text-white">
+              <h5 className="text-sm font-medium text-gray-900 ">
                 Search terms breakdown that showed your Business Profile in the search results
               </h5>
               
@@ -228,12 +228,12 @@ export function BusinessProfileSection() {
                 {searchTerms.map((item, index) => (
                   <div key={index} className="flex items-center justify-between py-2">
                     <div className="flex items-center space-x-3">
-                      <span className="w-6 h-6 bg-gray-100 dark:bg-gray-700 rounded-full flex items-center justify-center text-xs font-medium">
+                      <span className="w-6 h-6 bg-gray-100  rounded-full flex items-center justify-center text-xs font-medium">
                         {index + 1}
                       </span>
-                      <span className="text-sm text-gray-900 dark:text-white">{item.term}</span>
+                      <span className="text-sm text-gray-900 ">{item.term}</span>
                     </div>
-                    <span className="text-sm font-medium text-gray-900 dark:text-white">
+                    <span className="text-sm font-medium text-gray-900 ">
                       {item.count}
                     </span>
                   </div>

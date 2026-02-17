@@ -386,7 +386,7 @@ function FilterToolbar({
 
 
   return (
-    <div className="flex flex-col gap-3 px-4 py-4 bg-gradient-to-r from-gray-50/50 to-white border-b border-gray-200">
+    <div className="vx-card-header flex flex-col gap-3 px-4">
       {/* Main Filter Row */}
       <div className="flex flex-row items-center justify-between gap-4">
         <div className="relative flex-1 min-w-[200px] max-w-[320px]">
@@ -395,7 +395,7 @@ function FilterToolbar({
             placeholder={t.common.searchPlaceholder}
             value={filters.search}
             onChange={(e) => updateFilter('search', e.target.value)}
-            className="pl-9 h-10 bg-white border-gray-200 focus:border-blue-400 focus:ring-2 focus:ring-blue-100 transition-all"
+            className="vx-input pl-9 bg-white border-gray-200 focus:border-blue-400 focus:ring-2 focus:ring-blue-100 transition-all"
           />
         </div>
 
@@ -431,8 +431,7 @@ function FilterToolbar({
           {hasActiveFilters && (
             <Button
               variant="ghost"
-              size="sm"
-              className="h-9 px-3 text-gray-500 hover:text-red-500 hover:bg-red-50 transition-all"
+              className="vx-button text-gray-500 hover:text-red-500 hover:bg-red-50 transition-all"
               onClick={() => setFilters(initialFilters)}
             >
               <X className="w-3.5 h-3.5 mr-1" />
@@ -736,10 +735,10 @@ function InlineFieldEditorPopover({
                 value={value}
                 onChange={(e) => setValue(e.target.value)}
                 placeholder={fieldConfig.placeholder}
-                className="h-8 text-sm"
+                className="vx-input text-sm"
               />
               {warning.type === 'image_missing' && (
-                <Button variant="outline" size="sm" className="h-8 px-2">
+                <Button variant="outline" size="sm" className="vx-icon-button">
                   <Upload className="w-3.5 h-3.5" />
                 </Button>
               )}
@@ -747,7 +746,7 @@ function InlineFieldEditorPopover({
           </div>
 
           <div className="flex gap-2 pt-2">
-            <Button size="sm" className="flex-1 h-8 gap-1.5 text-xs" onClick={() => setIsOpen(false)}>
+            <Button size="sm" className="vx-button flex-1 gap-1.5 text-xs" onClick={() => setIsOpen(false)}>
               <Save className="w-3 h-3" />
               {t.common.save}
             </Button>
@@ -755,7 +754,7 @@ function InlineFieldEditorPopover({
 
           <div className="pt-2 border-t border-gray-100">
             <Link href="/locations">
-              <Button variant="ghost" size="sm" className="w-full h-8 gap-1.5 text-xs text-gray-600">
+              <Button variant="ghost" size="sm" className="vx-button w-full gap-1.5 text-xs text-gray-600">
                 <Layers className="w-3.5 h-3.5" />
                 {t.common.bulkOperations}
               </Button>
@@ -1243,15 +1242,15 @@ function BulkActionBar({ selectedCount, onClear }: { selectedCount: number; onCl
     <div className="fixed bottom-6 left-1/2 -translate-x-1/2 bg-gray-900 text-white px-6 py-3 rounded-lg shadow-xl flex items-center gap-4 z-50 animate-in slide-in-from-bottom-4">
       <span className="text-sm font-medium">{selectedCount} lokasyon seçildi</span>
       <div className="h-4 w-px bg-gray-600" />
-      <Button size="sm" variant="secondary" className="gap-1.5 h-8">
+      <Button size="sm" variant="secondary" className="vx-button gap-1.5">
         <RefreshCw className="w-3.5 h-3.5" />
         Retry Sync
       </Button>
-      <Button size="sm" variant="secondary" className="gap-1.5 h-8">
+      <Button size="sm" variant="secondary" className="vx-button gap-1.5">
         <Download className="w-3.5 h-3.5" />
         Export
       </Button>
-      <Button size="sm" variant="ghost" className="h-8 text-gray-400 hover:text-white" onClick={onClear}>
+      <Button size="sm" variant="ghost" className="vx-icon-button text-gray-400 hover:text-white" onClick={onClear}>
         <X className="w-4 h-4" />
       </Button>
     </div>
@@ -1418,7 +1417,7 @@ export default function LocationStatusTable({ onAddNewLocation, onUploadLocation
   return (
     <div className="bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden">
       {/* Header */}
-      <div className="px-4 py-4 border-b border-gray-100 bg-gradient-to-b from-white to-gray-50/50 flex items-center justify-between gap-4">
+      <div className="vx-card-header flex items-center justify-between gap-4 px-4">
         <div>
           <div className="flex items-center gap-1.5">
             <h3 className="text-base font-semibold text-gray-900">{t.locations.title}</h3>
@@ -1438,7 +1437,7 @@ export default function LocationStatusTable({ onAddNewLocation, onUploadLocation
             variant="outline"
             size="sm"
             onClick={onAddNewLocation}
-            className="h-9 bg-white hover:bg-gray-50 text-gray-700 border-gray-300 shadow-sm whitespace-nowrap"
+            className="vx-button bg-white hover:bg-gray-50 text-gray-700 border-gray-300 shadow-sm whitespace-nowrap"
             data-testid="btn-add-new-location"
           >
             <Plus className="w-3.5 h-3.5 mr-1.5" />
@@ -1449,7 +1448,7 @@ export default function LocationStatusTable({ onAddNewLocation, onUploadLocation
             variant="outline"
             size="sm"
             onClick={onUploadLocations}
-            className="h-9 bg-white hover:bg-gray-50 text-gray-700 border-gray-300 shadow-sm whitespace-nowrap"
+            className="vx-button bg-white hover:bg-gray-50 text-gray-700 border-gray-300 shadow-sm whitespace-nowrap"
             data-testid="btn-bulk-updates"
           >
             <Edit className="w-3.5 h-3.5 mr-1.5" />

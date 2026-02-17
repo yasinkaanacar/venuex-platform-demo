@@ -74,37 +74,37 @@ export default function GeographicDataTable({
                 <table className="w-full text-sm text-left">
                     <thead className="bg-gray-50 text-gray-700 uppercase">
                         <tr>
-                            <th className="px-6 py-3">{mapType === "turkey" ? t("common.province") : t("common.country")}</th>
-                            <th className="px-6 py-3 text-right">{t("campaigns.top_performing_campaigns.impressions")}</th>
-                            <th className="px-6 py-3 text-right">{t("campaigns.top_performing_campaigns.clicks")}</th>
-                            <th className="px-6 py-3 text-right">{t("campaigns.top_performing_campaigns.spend")}</th>
+                            <th className="vx-th">{mapType === "turkey" ? t("common.province") : t("common.country")}</th>
+                            <th className="vx-th text-right">{t("campaigns.top_performing_campaigns.impressions")}</th>
+                            <th className="vx-th text-right">{t("campaigns.top_performing_campaigns.clicks")}</th>
+                            <th className="vx-th text-right">{t("campaigns.top_performing_campaigns.spend")}</th>
                             {provider !== Provider.Meta && provider !== Provider.TikTok && (
                                 <>
-                                    <th className="px-6 py-3 text-right">{t("campaigns.top_performing_campaigns.visits")}</th>
-                                    <th className="px-6 py-3 text-right">{t("campaigns.top_performing_campaigns.click_to_visit")}</th>
+                                    <th className="vx-th text-right">{t("campaigns.top_performing_campaigns.visits")}</th>
+                                    <th className="vx-th text-right">{t("campaigns.top_performing_campaigns.click_to_visit")}</th>
                                 </>
                             )}
-                            <th className="px-6 py-3 text-right">{t("campaigns.top_performing_campaigns.offline_purchases")}</th>
-                            <th className="px-6 py-3 text-right">{t("campaigns.top_performing_campaigns.offline_revenue")}</th>
-                            <th className="px-6 py-3 text-right">{t("campaigns.top_performing_campaigns.offline_roas")}</th>
+                            <th className="vx-th text-right">{t("campaigns.top_performing_campaigns.offline_purchases")}</th>
+                            <th className="vx-th text-right">{t("campaigns.top_performing_campaigns.offline_revenue")}</th>
+                            <th className="vx-th text-right">{t("campaigns.top_performing_campaigns.offline_roas")}</th>
                         </tr>
                     </thead>
                     <tbody className="divide-y divide-gray-200">
                         {paginatedData.map((row) => (
                             <tr key={row.iso} className="bg-white hover:bg-gray-50">
-                                <td className="px-6 py-4 font-medium text-gray-900">{row.regionName}</td>
-                                <td className="px-6 py-4 text-right">{fNumber(row.impressions)}</td>
-                                <td className="px-6 py-4 text-right">{fNumber(row.clicks)}</td>
-                                <td className="px-6 py-4 text-right">{fCurrency(row.spend)}</td>
+                                <td className="vx-td font-medium text-gray-900">{row.regionName}</td>
+                                <td className="vx-td text-right">{fNumber(row.impressions)}</td>
+                                <td className="vx-td text-right">{fNumber(row.clicks)}</td>
+                                <td className="vx-td text-right">{fCurrency(row.spend)}</td>
                                 {provider !== Provider.Meta && provider !== Provider.TikTok && (
                                     <>
-                                        <td className="px-6 py-4 text-right">{fNumber(row.visits || 0)}</td>
-                                        <td className="px-6 py-4 text-right">{fPercent(row.clickToVisitRate || 0)}</td>
+                                        <td className="vx-td text-right">{fNumber(row.visits || 0)}</td>
+                                        <td className="vx-td text-right">{fPercent(row.clickToVisitRate || 0)}</td>
                                     </>
                                 )}
-                                <td className="px-6 py-4 text-right">{fNumber(row.offlinePurchases || 0)}</td>
-                                <td className="px-6 py-4 text-right">{fCurrency(row.offlineRevenue)}</td>
-                                <td className="px-6 py-4 text-right text-green-600 font-medium">{row.offlineRoas.toFixed(1)}x</td>
+                                <td className="vx-td text-right">{fNumber(row.offlinePurchases || 0)}</td>
+                                <td className="vx-td text-right">{fCurrency(row.offlineRevenue)}</td>
+                                <td className="vx-td text-right text-green-600 font-medium">{row.offlineRoas.toFixed(1)}x</td>
                             </tr>
                         ))}
                     </tbody>

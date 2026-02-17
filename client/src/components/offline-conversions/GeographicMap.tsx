@@ -260,9 +260,9 @@ export default function GeographicMap({
     // TikTok only supports world level, not Turkey (city/province) level
     if (provider === Provider.TikTok && mapType === "turkey") {
         return (
-            <div id="geographic-map" className="bg-[#fcfcfc] mt-6 rounded-lg border border-gray-200 overflow-hidden">
+            <div id="geographic-map" className="vx-card mt-6">
                 {/* Header with Title and View All Button */}
-                <div className="bg-[#f9fafb] p-6 flex justify-between items-center border-b border-gray-200">
+                <div className="vx-card-header flex justify-between items-center">
                     <div>
                         <h3 className="text-lg font-semibold text-foreground">{t("geographic_insights.title")}</h3>
                     </div>
@@ -271,7 +271,7 @@ export default function GeographicMap({
                     {viewAllPath && (
                         <a
                             href={viewAllPath}
-                            className="text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:hover:text-white font-medium bg-transparent border-none cursor-pointer"
+                            className="text-gray-700 hover:text-gray-900 font-medium bg-transparent border-none cursor-pointer"
                             data-testid="button-view-all-locations"
                         >
                             {`${t("dashboard.view_all")} →`}
@@ -279,7 +279,7 @@ export default function GeographicMap({
                     )}
                 </div>
 
-                <div className="bg-[#f9fafb] p-6 border-b border-gray-200">
+                <div className="vx-card-body vx-surface-muted border-b border-gray-200">
                     {/* Controls Row */}
                     <div className="flex items-center justify-between mb-6">
                         {/* Spacer for alignment */}
@@ -349,9 +349,9 @@ export default function GeographicMap({
     // Loading state
     if (isLoading) {
         return (
-            <div id="geographic-map" className="bg-[#fcfcfc] mt-6 rounded-lg border border-gray-200 overflow-hidden">
+            <div id="geographic-map" className="vx-card mt-6">
                 {/* Header with Title and View All Button */}
-                <div className="bg-[#f9fafb] p-6 flex justify-between items-center border-b border-gray-200">
+                <div className="vx-card-header flex justify-between items-center">
                     <div>
                         <h3 className="text-lg font-semibold text-foreground">{t("geographic_insights.title")}</h3>
                         <p className="text-sm text-muted-foreground">{defaultDescription}</p>
@@ -361,7 +361,7 @@ export default function GeographicMap({
                     {viewAllPath && (
                         <a
                             href={viewAllPath}
-                            className="text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:hover:text-white font-medium bg-transparent border-none cursor-pointer"
+                            className="text-gray-700 hover:text-gray-900 font-medium bg-transparent border-none cursor-pointer"
                             data-testid="button-view-all-locations"
                         >
                             {`${t("dashboard.view_all")} →`}
@@ -369,7 +369,7 @@ export default function GeographicMap({
                     )}
                 </div>
 
-                <div className="bg-[#f9fafb] p-6 border-b border-gray-200">
+                <div className="vx-card-body vx-surface-muted border-b border-gray-200">
                     {/* Controls Row */}
                     {(showProviderFilter || showMapTypeSelector) && (
                         <div className="flex items-center justify-between mb-6">
@@ -416,9 +416,9 @@ export default function GeographicMap({
     // Error state
     if (error) {
         return (
-            <div id="geographic-map" className="bg-[#fcfcfc] mt-6 rounded-lg border border-gray-200 overflow-hidden">
+            <div id="geographic-map" className="vx-card mt-6">
                 {/* Header with Title and View All Button */}
-                <div className="bg-[#f9fafb] p-6 flex justify-between items-center border-b border-gray-200">
+                <div className="vx-card-header flex justify-between items-center">
                     <div>
                         <h3 className="text-lg font-semibold text-foreground">{t("geographic_insights.title")}</h3>
                         <p className="text-sm text-muted-foreground">{defaultDescription}</p>
@@ -428,7 +428,7 @@ export default function GeographicMap({
                     {viewAllPath && (
                         <a
                             href={viewAllPath}
-                            className="text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:hover:text-white font-medium bg-transparent border-none cursor-pointer"
+                            className="text-gray-700 hover:text-gray-900 font-medium bg-transparent border-none cursor-pointer"
                             data-testid="button-view-all-locations"
                         >
                             {`${t("dashboard.view_all")} →`}
@@ -436,7 +436,7 @@ export default function GeographicMap({
                     )}
                 </div>
 
-                <div className="bg-[#f9fafb] p-6 border-b border-gray-200">
+                <div className="vx-card-body vx-surface-muted border-b border-gray-200">
                     {/* Controls Row */}
                     {(showProviderFilter || showMapTypeSelector) && (
                         <div className="flex items-center justify-between mb-6">
@@ -482,9 +482,9 @@ export default function GeographicMap({
     // No data
     if (!geoData) {
         return (
-            <div id="geographic-map" className="bg-[#fcfcfc] mt-6 rounded-lg border border-gray-200 overflow-hidden">
+            <div id="geographic-map" className="vx-card mt-6">
                 {/* Header with Title and View All Button */}
-                <div className="bg-[#f9fafb] p-6 flex justify-between items-center border-b border-gray-200">
+                <div className="vx-card-header flex justify-between items-center">
                     <div>
                         <h3 className="text-lg font-semibold text-foreground">{t("geographic_insights.title")}</h3>
                         <p className="text-sm text-muted-foreground">{defaultDescription}</p>
@@ -494,7 +494,7 @@ export default function GeographicMap({
                     {viewAllPath && (
                         <a
                             href={viewAllPath}
-                            className="text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:hover:text-white font-medium bg-transparent border-none cursor-pointer"
+                            className="text-gray-700  hover:text-gray-900  font-medium bg-transparent border-none cursor-pointer"
                             data-testid="button-view-all-locations"
                         >
                             {`${t("dashboard.view_all")} →`}
@@ -502,7 +502,7 @@ export default function GeographicMap({
                     )}
                 </div>
 
-                <div className="bg-[#f9fafb] p-6 border-b border-gray-200">
+                <div className="vx-card-body vx-surface-muted border-b border-gray-200">
                     {/* Controls Row */}
                     {(showProviderFilter || showMapTypeSelector) && (
                         <div className="flex items-center justify-between mb-6">
@@ -549,9 +549,9 @@ export default function GeographicMap({
     const description = translate("geographic_insights.top_performing_regions", { regionType });
 
     return (
-        <div id="geographic-map" className="bg-[#fcfcfc] mt-6 rounded-lg border border-gray-200 overflow-hidden">
+        <div id="geographic-map" className="vx-card mt-6">
             {/* Header with Title and View All Button */}
-            <div className="bg-[#f9fafb] p-6 flex justify-between items-center border-b border-gray-200">
+            <div className="vx-card-header flex justify-between items-center">
                 <div>
                     <h3 className="text-lg font-semibold text-foreground">{t("geographic_insights.title")}</h3>
                     <p className="text-sm text-muted-foreground">{description}</p>
@@ -561,7 +561,7 @@ export default function GeographicMap({
                 {viewAllPath && (
                     <a
                         href={viewAllPath}
-                        className="text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:hover:text-white font-medium bg-transparent border-none cursor-pointer"
+                        className="text-gray-700  hover:text-gray-900  font-medium bg-transparent border-none cursor-pointer"
                         data-testid="button-view-all-locations"
                     >
                         {`${t("dashboard.view_all")} →`}
@@ -569,7 +569,7 @@ export default function GeographicMap({
                 )}
             </div>
 
-            <div className="bg-[#f9fafb] p-6 border-b border-gray-200">
+            <div className="vx-card-body vx-surface-muted border-b border-gray-200">
                 {/* Controls Row */}
                 {(showProviderFilter || showMapTypeSelector) && (
                     <div className="flex items-center justify-between mb-6">
@@ -966,7 +966,7 @@ function MapTypeDropdown({ mapType, isDropdownOpen, onToggleDropdown, onSelectMa
             <Button
                 variant="outline"
                 onClick={onToggleDropdown}
-                className="h-9 px-4 justify-between !border-gray-300 !bg-gray-100 hover:!bg-gray-200 !text-black"
+                className="vx-button justify-between !border-gray-300 !bg-gray-100 hover:!bg-gray-200 !text-black"
             >
                 <span className="flex items-center gap-2">
                     {mapType === "turkey" ? t("countries.tr") : t("countries.world")}

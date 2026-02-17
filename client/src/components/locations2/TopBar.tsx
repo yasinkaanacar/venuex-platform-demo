@@ -45,11 +45,11 @@ export function TopBar({
   const activeFiltersCount = filters.cities.length + filters.statuses.length + filters.channels.length;
 
   return (
-    <div className="sticky top-0 z-10 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 p-4">
+    <div className="sticky top-0 z-10 bg-white border-b border-gray-200 p-4">
       <div className="flex items-center justify-between gap-4">
         {/* Left side - Title */}
         <div className="flex items-center">
-          <h1 className="text-2xl font-semibold text-gray-900 dark:text-white">Locations</h1>
+          <h1 className="text-2xl font-semibold text-gray-900 ">Locations</h1>
         </div>
 
         {/* Right side - Search and Actions */}
@@ -61,7 +61,7 @@ export function TopBar({
               placeholder="Search locations..."
               value={searchQuery}
               onChange={(e) => onSearchChange(e.target.value)}
-              className="pl-10 w-64"
+              className="vx-input pl-10 w-64"
               data-testid="locations-search"
             />
           </div>
@@ -71,7 +71,7 @@ export function TopBar({
             {/* City Filter */}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="outline" size="sm" data-testid="filter-city">
+                <Button variant="outline" className="vx-button" data-testid="filter-city">
                   <Filter className="w-4 h-4 mr-2" />
                   City
                   {filters.cities.length > 0 && (
@@ -104,7 +104,7 @@ export function TopBar({
             {/* Status Filter */}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="outline" size="sm" data-testid="filter-status">
+                <Button variant="outline" className="vx-button" data-testid="filter-status">
                   <Filter className="w-4 h-4 mr-2" />
                   Status
                   {filters.statuses.length > 0 && (
@@ -137,7 +137,7 @@ export function TopBar({
             {/* Channels Filter */}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="outline" size="sm" data-testid="filter-channels">
+                <Button variant="outline" className="vx-button" data-testid="filter-channels">
                   <Filter className="w-4 h-4 mr-2" />
                   Channels
                   {filters.channels.length > 0 && (
@@ -172,7 +172,7 @@ export function TopBar({
           <div className="flex items-center gap-2">
             <Button
               variant="outline"
-              size="sm"
+              className="vx-button"
               onClick={onBulkImport}
               data-testid="btn-bulk-import"
             >
@@ -182,7 +182,7 @@ export function TopBar({
 
             <Button
               variant="outline"
-              size="sm"
+              className="vx-button"
               onClick={onExportCSV}
               data-testid="btn-export-csv"
             >
@@ -193,7 +193,7 @@ export function TopBar({
             {selectedCount > 0 && (
               <Button
                 variant="outline"
-                size="sm"
+                className="vx-button"
                 onClick={onSyncSelected}
                 data-testid="btn-sync-selected"
               >
@@ -202,7 +202,7 @@ export function TopBar({
               </Button>
             )}
 
-            <Button onClick={onAddLocation} data-testid="btn-add-location">
+            <Button onClick={onAddLocation} data-testid="btn-add-location" className="vx-button">
               <Plus className="w-4 h-4 mr-2" />
               Add Location
             </Button>
@@ -212,8 +212,8 @@ export function TopBar({
 
       {/* Active Filters Display */}
       {activeFiltersCount > 0 && (
-        <div className="flex items-center gap-2 mt-3 pt-3 border-t border-gray-100 dark:border-gray-800">
-          <span className="text-sm text-gray-600 dark:text-gray-400">Active filters:</span>
+        <div className="flex items-center gap-2 mt-3 pt-3 border-t border-gray-100">
+          <span className="text-sm text-gray-600">Active filters:</span>
           {filters.cities.map((city) => (
             <Badge
               key={`city-${city}`}

@@ -108,7 +108,7 @@ export function PlatformSummarySection({ }: PlatformSummarySectionProps) {
   const renderContent = () => {
     if (activePlatform === 1) { // Google Business Profile
       return (
-        <div className="p-6 bg-stone-50">
+        <div className="p-6 vx-surface-muted">
           <div className="grid grid-cols-3 gap-6 items-center mb-6">
             {/* 1/3 - Location count */}
             <div className="text-center">
@@ -165,7 +165,7 @@ export function PlatformSummarySection({ }: PlatformSummarySectionProps) {
 
     if (activePlatform === 2) { // Meta Business
       return (
-        <div className="p-6 bg-stone-50">
+        <div className="p-6 vx-surface-muted">
           <div className="grid grid-cols-3 gap-6 items-center mb-6">
             {/* 1/3 - Location count */}
             <div className="text-center">
@@ -220,7 +220,7 @@ export function PlatformSummarySection({ }: PlatformSummarySectionProps) {
 
     if (activePlatform === 3) { // Apple Business Connect
       return (
-        <div className="p-6 bg-stone-50">
+        <div className="p-6 vx-surface-muted">
           <div className="grid grid-cols-3 gap-6 items-center mb-6">
             {/* 1/3 - Location count */}
             <div className="text-center">
@@ -275,7 +275,7 @@ export function PlatformSummarySection({ }: PlatformSummarySectionProps) {
 
     if (activePlatform === 4) { // Yandex Maps
       return (
-        <div className="p-6 bg-stone-50">
+        <div className="p-6 vx-surface-muted">
           <div className="grid grid-cols-3 gap-6 items-center mb-6">
             {/* 1/3 - Location count */}
             <div className="text-center">
@@ -330,7 +330,7 @@ export function PlatformSummarySection({ }: PlatformSummarySectionProps) {
 
     // Default layout for VenueX (index 0)
     return (
-      <div className="p-6 bg-stone-50">
+      <div className="p-6 vx-surface-muted">
         {/* Business Metrics Section */}
         <BusinessMetricsSection />
       </div>
@@ -338,9 +338,9 @@ export function PlatformSummarySection({ }: PlatformSummarySectionProps) {
   };
 
   return (
-    <div className="mx-6 mb-6 bg-white rounded-md border border-slate-200 overflow-hidden shadow-none">
+    <div className="mx-6 mb-6 bg-white rounded-md border border-gray-200 overflow-hidden shadow-none">
       {/* Header with Title and Links */}
-      <div className="flex items-center justify-between border-b border-slate-200 px-6 py-4 bg-gradient-to-b from-white to-stone-50">
+      <div className="vx-card-header flex items-center justify-between">
         <h3 className="text-base font-semibold text-foreground">Platform Summary</h3>
         <nav className="inline-flex items-center gap-6" role="tablist">
           {platforms.map((platform, index) => (
