@@ -1,6 +1,7 @@
 import * as React from "react"
 import { X, ChevronsUpDown, Check } from "lucide-react"
 import { cn } from "@/lib/utils"
+import { useTranslation } from "@/contexts/LanguageContext"
 import { Popover, PopoverTrigger, PopoverContent } from "@/components/ui/popover"
 import {
   Command,
@@ -21,9 +22,9 @@ export interface MultiSelectComboboxProps {
   options: MultiSelectOption[]
   selected: string[]
   onSelectionChange: (values: string[]) => void
-  placeholder: string
-  searchPlaceholder: string
-  emptyMessage: string
+  placeholder?: string
+  searchPlaceholder?: string
+  emptyMessage?: string
   triggerLabel?: string
   triggerIcon?: React.ReactNode
   maxDisplayBadges?: number
@@ -46,7 +47,12 @@ export function MultiSelectCombobox({
   popoverWidth = "w-[340px]",
   "data-testid": testId,
 }: MultiSelectComboboxProps) {
+  const { t } = useTranslation()
   const [open, setOpen] = React.useState(false)
+
+  const resolvedPlaceholder = placeholder ?? t.filters.allLocations
+  const resolvedSearchPlaceholder = searchPlaceholder ?? t.filters.searchLocations
+  const resolvedEmptyMessage = emptyMessage ?? t.filters.noLocationsFound
 
   const toggleItem = (value: string) => {
     if (selected.includes(value)) {
@@ -95,7 +101,7 @@ export function MultiSelectCombobox({
                 </span>
               )}
               <span className="text-sm text-gray-500 leading-tight">
-                {placeholder}
+                {resolvedPlaceholder}
               </span>
             </div>
           ) : (
@@ -130,10 +136,10 @@ export function MultiSelectCombobox({
         sideOffset={6}
       >
         <Command shouldFilter={true}>
-          <CommandInput placeholder={searchPlaceholder} className="h-9" />
+          <CommandInput placeholder={resolvedSearchPlaceholder} className="h-9" />
           <CommandList className="max-h-[240px]">
             <CommandEmpty className="py-4 text-center text-sm text-gray-500">
-              {emptyMessage}
+              {resolvedEmptyMessage}
             </CommandEmpty>
             <CommandGroup>
               {options.map((option) => {
@@ -181,13 +187,13 @@ export function MultiSelectCombobox({
         {selected.length > 0 && (
           <div className="flex items-center justify-between px-3 py-2 border-t border-gray-100">
             <span className="text-xs text-gray-500">
-              {selected.length} selected
+              {selected.length} {t.filters.selected}
             </span>
             <button
               onClick={clearAll}
               className="text-xs text-gray-500 hover:text-gray-700 font-medium transition-colors"
             >
-              Clear all
+              {t.filters.clearAll}
             </button>
           </div>
         )}
