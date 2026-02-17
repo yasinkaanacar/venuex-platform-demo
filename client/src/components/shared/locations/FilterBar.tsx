@@ -128,6 +128,8 @@ export function FilterBar({
   const clearAllFilters = () => {
     onFiltersChange({
       search: "",
+      selectedLocationIds: [],
+      selectedStoreGroups: [],
       city: "",
       businessStatus: "",
       platformStatus: "",

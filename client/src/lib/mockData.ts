@@ -1,5 +1,6 @@
 import { OverviewData } from '@/lib/types';
 import { EnrichmentSuggestion } from '@/../../shared/schema';
+import { segmentDataService } from './mock-segments-data';
 
 // Mock overview data
 export const mockOverviewData: OverviewData = {
@@ -227,5 +228,14 @@ export const mockDataService = {
       alert.isRead = true;
     }
     return { success: true };
-  }
+  },
+
+  // Segment service methods
+  getSegments: segmentDataService.getSegments.bind(segmentDataService),
+  getSegmentById: segmentDataService.getSegmentById.bind(segmentDataService),
+  getSegmentSummary: segmentDataService.getSegmentSummary.bind(segmentDataService),
+  getPushLog: segmentDataService.getPushLog.bind(segmentDataService),
+  getFeedLabels: segmentDataService.getFeedLabels.bind(segmentDataService),
+  getExports: segmentDataService.getExports.bind(segmentDataService),
+  getScheduledExports: segmentDataService.getScheduledExports.bind(segmentDataService),
 };

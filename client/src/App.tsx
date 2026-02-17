@@ -12,6 +12,7 @@ import AIRecommendations from "@/pages/ai-recommendations";
 import CreatePost from "@/pages/create-post";
 import ManagePosts from "@/pages/manage-posts";
 import Catalog from "@/pages/catalog";
+import Segments from "@/pages/segments";
 import VenueXAI from "@/pages/venuex-ai";
 import Setup from "@/pages/setup";
 import Setup2 from "@/pages/setup2";
@@ -69,6 +70,7 @@ function Router() {
               <Route path="/create-post" component={CreatePost} />
               <Route path="/manage-posts" component={ManagePosts} />
               <Route path="/catalog" component={Catalog} />
+              <Route path="/segments" component={Segments} />
               <Route path="/venuex-ai" component={VenueXAI} />
               <Route path="/setup" component={Setup} />
               <Route path="/setup2" component={Setup2} />

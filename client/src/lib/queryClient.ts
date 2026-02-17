@@ -41,6 +41,26 @@ async function handleMockRequest(method: string, url: string, data?: unknown) {
     }
   }
   
+  // Segment endpoints (order matters — more specific first)
+  if (url.includes('/api/segments/summary')) {
+    return await mockDataService.getSegmentSummary();
+  }
+  if (url.includes('/api/segments/feed-labels')) {
+    return await mockDataService.getFeedLabels();
+  }
+  if (url.includes('/api/segments/exports/scheduled')) {
+    return await mockDataService.getScheduledExports();
+  }
+  if (url.includes('/api/segments/exports')) {
+    return await mockDataService.getExports();
+  }
+  if (url.includes('/api/segments/push-log')) {
+    return await mockDataService.getPushLog();
+  }
+  if (url.includes('/api/segments')) {
+    return await mockDataService.getSegments();
+  }
+
   // Default response for unhandled endpoints
   return { success: true };
 }

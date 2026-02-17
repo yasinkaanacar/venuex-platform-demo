@@ -56,6 +56,13 @@ export const routes: Record<string, RouteConfig> = {
             { label: 'Local Inventory', href: '/catalog' }
         ]
     },
+    '/segments': {
+        title: 'Segments',
+        breadcrumbs: [
+            { label: 'VenueX', href: '/' },
+            { label: 'Segments', href: '/segments' }
+        ]
+    },
 
     // Reviews & Reputation
     '/reviews': {
