@@ -1,6 +1,38 @@
+# Dependencies
 node_modules
+
+# Build output
 dist
-.DS_Store
 server/public
+
+# Environment variables
+.env
+.env.*
+!.env.example
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor / IDE
+.vscode/settings.json
+.idea
+
+# AI agent local config
+.claude/
+.codex/
+.agent/
+plans/
+
+# Attached assets (presentations, PDFs, screenshots)
+attached_assets/
+
+# Vite temp files
 vite.config.ts.*
+
+# Logs
+*.log
+npm-debug.log*
+
+# Archives
 *.tar.gz
