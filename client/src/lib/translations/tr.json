@@ -9,6 +9,8 @@
         "searchPlaceholder": "Adres, isim veya kod ile ara...",
         "filter": "Filtre",
         "export": "Dışa Aktar",
+        "list": "Liste",
+        "chart": "Grafik",
         "refresh": "Yenile",
         "save": "Kaydet",
         "saveAndSync": "Kaydet ve Senkronize Et",
@@ -413,6 +415,26 @@
         "no_data": "Veri yok",
         "feature_not_supported": "Özellik Desteklenmiyor",
         "platform_not_supported_description": "{{platform}} şehir düzeyinde coğrafi veriyi desteklemiyor. Lütfen Dünya görünümünü seçin."
+    },
+    "filters": {
+        "locations": "Lokasyonlar",
+        "allLocations": "Tüm Lokasyonlar",
+        "searchLocations": "Lokasyon ara...",
+        "noLocationsFound": "Lokasyon bulunamadı",
+        "storeGroup": "Mağaza Grubu",
+        "allGroups": "Tüm Gruplar",
+        "searchGroups": "Grup ara...",
+        "noGroupsFound": "Grup bulunamadı",
+        "dateRange": "Tarih Aralığı",
+        "platform": "Platform",
+        "allPlatforms": "Tüm Platformlar",
+        "last7days": "Son 7 gün",
+        "last30days": "Son 30 gün",
+        "last90days": "Son 90 gün",
+        "compare": "Karşılaştır",
+        "selected": "seçili",
+        "clearAll": "Tümünü temizle",
+        "locationsSelected": "lokasyon seçili"
     },
     "sidebar": {
         "categories": {

@@ -9,6 +9,8 @@
         "searchPlaceholder": "Search by address, name or code...",
         "filter": "Filter",
         "export": "Export",
+        "list": "List",
+        "chart": "Chart",
         "refresh": "Refresh",
         "save": "Save",
         "saveAndSync": "Save & Sync",
@@ -405,6 +407,26 @@
         "no_data": "No data",
         "feature_not_supported": "Feature Not Supported",
         "platform_not_supported_description": "{{platform}} does not support city-level geographic data. Please select World view."
+    },
+    "filters": {
+        "locations": "Locations",
+        "allLocations": "All Locations",
+        "searchLocations": "Search locations...",
+        "noLocationsFound": "No locations found",
+        "storeGroup": "Store Group",
+        "allGroups": "All Groups",
+        "searchGroups": "Search groups...",
+        "noGroupsFound": "No groups found",
+        "dateRange": "Date Range",
+        "platform": "Platform",
+        "allPlatforms": "All Platforms",
+        "last7days": "Last 7 days",
+        "last30days": "Last 30 days",
+        "last90days": "Last 90 days",
+        "compare": "Compare",
+        "selected": "selected",
+        "clearAll": "Clear all",
+        "locationsSelected": "locations selected"
     },
     "sidebar": {
         "categories": {

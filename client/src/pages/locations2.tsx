@@ -1,8 +1,11 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useMemo } from "react";
 import { useLocation } from 'wouter';
 import { showToast } from "@/lib/toast";
 import { LocationsFilterState } from "@/lib/types";
 import { format, addDays, startOfWeek, isSameDay, addWeeks, subWeeks } from 'date-fns';
+import { mockLocations } from "@/lib/mock-locations";
+import { MultiSelectCombobox } from "@/components/ui/multi-select-combobox";
+import { PopoverSelect } from "@/components/ui/popover-select";
 
 import { LocationsTable } from "@/components/locations2/LocationsTable";
 import { LocationDataTable } from "@/components/locations2/LocationDataTable";
@@ -231,6 +234,8 @@ export default function Locations2Page() {
   const dayMenuRef = useRef<HTMLDivElement>(null);
   const [filters, setFilters] = useState<LocationsFilterState>({
     search: "",
+    selectedLocationIds: [],
+    selectedStoreGroups: [],
     city: "",
     businessStatus: "",
     platformStatus: "",
@@ -244,6 +249,35 @@ export default function Locations2Page() {
     compareStartDate: undefined,
     compareEndDate: undefined
   });
+
+  // Derived options for performance tab filters
+  const locationOptions = useMemo(() =>
+    mockLocations.map(loc => ({
+      value: loc.storeCode,
+      label: `${loc.storeCode} · ${loc.name}`,
+      description: `${loc.district}, ${loc.city}`,
+    })),
+  []);
+
+  const storeGroupOptions = useMemo(() => {
+    const uniqueGroups = Array.from(new Set(mockLocations.map(loc => loc.storeSet)));
+    return uniqueGroups.map(group => ({
+      value: group,
+      label: group,
+    }));
+  }, []);
+
+  const dateRangeOptions = useMemo(() => [
+    { value: "7d", label: t.filters.last7days },
+    { value: "30d", label: t.filters.last30days },
+    { value: "90d", label: t.filters.last90days },
+  ], [t]);
+
+  const platformOptions = useMemo(() => [
+    { value: "All", label: t.filters.allPlatforms },
+    { value: "Google Business Profile", label: "Google Business Profile" },
+    { value: "Apple Business Connect", label: "Apple Business Connect" },
+  ], [t]);
 
   // Filter the location data based on filters
   const filteredData = mockLocationData.filter((location) => {
@@ -378,7 +412,7 @@ export default function Locations2Page() {
   const getDayNumber = (date: Date) => format(date, 'd');
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+    <div className="vx-page">
       {/* Header */}
       {/* Header handled globally */}
 
@@ -386,33 +420,24 @@ export default function Locations2Page() {
       {/* Tab Navigation - Sticky */}
       <div className="sticky top-16 z-40 bg-white border-b border-gray-200">
         <div className="px-6 py-3">
-          <div className="inline-flex items-center gap-1 p-1 bg-gray-100 rounded-lg">
+          <div className="vx-tabs">
             <button
               onClick={() => setMainTab('locations')}
-              className={`px-4 py-2 text-sm font-medium rounded-md transition-all duration-200 ${mainTab === 'locations'
-                ? 'bg-white text-gray-900 shadow-sm'
-                : 'text-gray-500 hover:text-gray-700 hover:bg-white/50'
-                }`}
+              className={`vx-tab ${mainTab === 'locations' ? 'vx-tab-active' : ''}`}
               data-testid="tab-locations"
             >
               {t.dashboard.locations}
             </button>
             <button
               onClick={() => setMainTab('performance')}
-              className={`px-4 py-2 text-sm font-medium rounded-md transition-all duration-200 ${mainTab === 'performance'
-                ? 'bg-white text-gray-900 shadow-sm'
-                : 'text-gray-500 hover:text-gray-700 hover:bg-white/50'
-                }`}
+              className={`vx-tab ${mainTab === 'performance' ? 'vx-tab-active' : ''}`}
               data-testid="tab-performance"
             >
               {t.common.performance}
             </button>
             <button
               onClick={() => setMainTab('posts')}
-              className={`px-4 py-2 text-sm font-medium rounded-md transition-all duration-200 ${mainTab === 'posts'
-                ? 'bg-white text-gray-900 shadow-sm'
-                : 'text-gray-500 hover:text-gray-700 hover:bg-white/50'
-                }`}
+              className={`vx-tab ${mainTab === 'posts' ? 'vx-tab-active' : ''}`}
               data-testid="tab-posts"
             >
               {language === 'en' ? 'Posts' : 'Gönderiler'}
@@ -422,18 +447,18 @@ export default function Locations2Page() {
       </div>
 
       {/* Main Content */}
-      <div className="pb-6 bg-white min-h-[calc(100vh-8rem)]">
+      <div className="vx-page-body min-h-[calc(100vh-8rem)]">
 
         {/* Locations Tab */}
         {
           mainTab === 'locations' && (
             <>
               {/* Platform Summary Section */}
-              <div className="mx-6 mt-6">
+              <div className="vx-section-stack">
                 <PlatformSummaryNew />
               </div>
               {/* Location Actions + Location Status Table */}
-              <div className="mx-6 mt-6">
+              <div className="vx-section-stack">
                 <div className="mt-4">
                   <LocationStatusTable
                     onAddNewLocation={handleAddNewLocation}
@@ -450,10 +475,10 @@ export default function Locations2Page() {
           mainTab === 'posts' && (
             <>
               {/* Content Calendar Section */}
-              <div className="px-6 py-4">
-                <div className="rounded-xl shadow-sm border border-gray-200 overflow-hidden bg-[#fafaf9]">
+              <div className="vx-section py-4">
+                <div className="vx-card shadow-sm">
                   {/* Header */}
-                  <div className="px-4 py-4 border-b border-gray-100 bg-gradient-to-b from-white to-gray-50/50">
+                  <div className="vx-card-header px-4">
                     <div className="flex items-center gap-1.5">
                       <h3 className="text-base font-semibold text-gray-900">Gönderiler</h3>
                       <div className="relative group">
@@ -466,7 +491,7 @@ export default function Locations2Page() {
                     </div>
                     <p className="text-xs text-gray-500 mt-1">Zamanlanmış ve yayınlanmış içeriklerinizin takvim görünümü</p>
                   </div>
-                  <div className="border-b border-gray-100 p-4">
+                  <div className="vx-divider p-4">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-3">
                         <button
@@ -523,13 +548,13 @@ export default function Locations2Page() {
                     </div>
                   </div>
 
-                  <div className="grid grid-cols-7 border-b border-gray-100">
+                  <div className="grid grid-cols-7 vx-divider">
                     {weekDays.map((day, index) => {
                       const isToday = isSameDay(day, today);
                       return (
                         <div
                           key={index}
-                          className={`p-3 text-center border-r border-gray-100 last:border-r-0 ${isToday ? 'bg-blue-50' : ''
+                          className={`p-3 text-center border-r border-gray-200 last:border-r-0 ${isToday ? 'bg-blue-50' : ''
                             }`}
                         >
                           <div className="text-xs text-gray-500 uppercase tracking-wide mb-1">
@@ -553,7 +578,7 @@ export default function Locations2Page() {
                       return (
                         <div
                           key={index}
-                          className={`border-r border-gray-100 last:border-r-0 p-2 relative cursor-pointer hover:bg-gray-50 transition-colors ${isToday ? 'bg-blue-50/50 hover:bg-blue-100/50' : ''
+                          className={`border-r border-gray-200 last:border-r-0 p-2 relative cursor-pointer hover:bg-gray-50 transition-colors ${isToday ? 'bg-blue-50/50 hover:bg-blue-100/50' : ''
                             } ${isSelected ? 'ring-2 ring-blue-500 ring-inset' : ''}`}
                           onClick={() => handleDayClick(day)}
                           data-testid={`calendar-day-${format(day, 'yyyy-MM-dd')}`}
@@ -564,7 +589,7 @@ export default function Locations2Page() {
                               className="absolute top-2 left-2 right-2 bg-white rounded-lg shadow-lg border border-gray-200 z-50 overflow-hidden"
                               onClick={(e) => e.stopPropagation()}
                             >
-                              <div className="p-2 border-b border-gray-100 bg-gray-50">
+                              <div className="p-2 border-b border-gray-200 bg-gray-50">
                                 <div className="text-xs font-medium text-gray-600">
                                   Create post for {format(day, 'MMM d')}
                                 </div>
@@ -674,419 +699,324 @@ export default function Locations2Page() {
           mainTab === 'performance' && (
             <>
               {/* Performance Section */}
-              <div className="mx-6 my-6 bg-white rounded-lg border border-slate-200 overflow-hidden shadow-none">
-                {/* Header */}
-                <div className="flex flex-col border-b border-slate-200 px-6 py-4 bg-gradient-to-b from-white to-stone-50">
-                  <div className="flex items-center gap-1.5">
-                    <h3 className="text-base font-semibold text-foreground">Performans</h3>
-                    <div className="relative group">
-                      <Info className="w-3.5 h-3.5 text-gray-400 cursor-help" />
-                      <div className="absolute left-full top-1/2 -translate-y-1/2 ml-2 px-3 py-2 bg-gray-900 text-white text-xs rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 whitespace-nowrap z-[9999]">
-                        Sadece Google Business Profile ve Apple Business Connect verileri dahildir.
-                        <div className="absolute right-full top-1/2 -translate-y-1/2 w-0 h-0 border-t-4 border-b-4 border-r-4 border-transparent border-r-gray-900"></div>
+              <div className="vx-section my-6">
+                <div className="vx-card shadow-none">
+                  {/* Header */}
+                  <div className="vx-card-header flex flex-col">
+                    <div className="flex items-center gap-1.5">
+                      <h3 className="text-base font-semibold text-foreground">Performans</h3>
+                      <div className="relative group">
+                        <Info className="w-3.5 h-3.5 text-gray-400 cursor-help" />
+                        <div className="absolute left-full top-1/2 -translate-y-1/2 ml-2 px-3 py-2 bg-gray-900 text-white text-xs rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 whitespace-nowrap z-[9999]">
+                          Sadece Google Business Profile ve Apple Business Connect verileri dahildir.
+                          <div className="absolute right-full top-1/2 -translate-y-1/2 w-0 h-0 border-t-4 border-b-4 border-r-4 border-transparent border-r-gray-900"></div>
+                        </div>
+                      </div>
+                    </div>
+                    <p className="text-xs text-gray-500 mt-1">İş profili etkileşimleri, görüntülenme ve arama metrikleri</p>
+                  </div>
+                  {/* Content */}
+                  <div className="vx-surface-muted">
+                    <div className="px-6 py-3">
+                      <div className="vx-filter-row">
+                        {/* Location Multi-Select */}
+                        <MultiSelectCombobox
+                          options={locationOptions}
+                          selected={filters.selectedLocationIds}
+                          onSelectionChange={(ids) => setFilters(prev => ({ ...prev, selectedLocationIds: ids }))}
+                          placeholder={t.filters.allLocations}
+                          searchPlaceholder={t.filters.searchLocations}
+                          emptyMessage={t.filters.noLocationsFound}
+                          triggerLabel={t.filters.locations}
+                          triggerIcon={<MapPin className="w-3.5 h-3.5" />}
+                          maxDisplayBadges={2}
+                          popoverWidth="w-[380px]"
+                          data-testid="filter-locations"
+                        />
+
+                        {/* Store Groups Multi-Select */}
+                        <MultiSelectCombobox
+                          options={storeGroupOptions}
+                          selected={filters.selectedStoreGroups}
+                          onSelectionChange={(groups) => setFilters(prev => ({ ...prev, selectedStoreGroups: groups }))}
+                          placeholder={t.filters.allGroups}
+                          searchPlaceholder={t.filters.searchGroups}
+                          emptyMessage={t.filters.noGroupsFound}
+                          triggerLabel={t.filters.storeGroup}
+                          triggerIcon={<Store className="w-3.5 h-3.5" />}
+                          maxDisplayBadges={2}
+                          popoverWidth="w-[260px]"
+                          data-testid="filter-store-groups"
+                        />
+
+                        {/* Date Range */}
+                        <PopoverSelect
+                          options={dateRangeOptions}
+                          value={filters.dateRange || "30d"}
+                          onValueChange={(value) => setFilters(prev => ({ ...prev, dateRange: value }))}
+                          triggerLabel={t.filters.dateRange}
+                          data-testid="filter-date-range"
+                        />
+
+                        {/* Platform */}
+                        <PopoverSelect
+                          options={platformOptions}
+                          value={filters.platform || "All"}
+                          onValueChange={(value) => setFilters(prev => ({ ...prev, platform: value === "All" ? "" : value }))}
+                          triggerLabel={t.filters.platform}
+                          popoverWidth="w-[240px]"
+                          data-testid="filter-platform"
+                        />
+
+                        {/* Spacer to push compare to the right */}
+                        <div className="flex-1" />
+
+                        {/* Compare Mode Toggle */}
+                        <div className="flex items-center gap-2 px-3 py-2 border border-gray-200 rounded-md bg-white" data-testid="compare-mode-toggle">
+                          <GitCompare className="w-4 h-4 text-gray-500" />
+                          <Label htmlFor="compare-mode" className="text-sm text-gray-600 cursor-pointer">{t.filters.compare}</Label>
+                          <Switch
+                            id="compare-mode"
+                            checked={filters.compareMode || false}
+                            onChange={(event) => setFilters(prev => ({ ...prev, compareMode: event.target.checked }))}
+                            className="data-[state=checked]:bg-blue-600"
+                          />
+                        </div>
                       </div>
                     </div>
                   </div>
-                  <p className="text-xs text-gray-500 mt-1">İş profili etkileşimleri, görüntülenme ve arama metrikleri</p>
-                </div>
-                {/* Content */}
-                <div className="bg-stone-50">
-                  <div className="px-6 py-3">
-                    <div className="flex items-center gap-3">
-                      {/* Search */}
-                      <div className="relative flex-1 max-w-[400px]">
-                        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
-                        <Input
-                          placeholder="Search by store code, store name or address"
-                          value={filters.search}
-                          onChange={(e) => setFilters(prev => ({ ...prev, search: e.target.value }))}
-                          className="pl-10"
-                          data-testid="filter-search"
-                        />
-                      </div>
 
-                      {/* Business Status Filter */}
-                      <Select value={filters.businessStatus || "All"} onValueChange={(value) => setFilters(prev => ({ ...prev, businessStatus: value === "All" ? "" : value }))}>
-                        <SelectTrigger className="w-[150px]" data-testid="filter-business-status">
-                          <div className="flex flex-col items-start w-full">
-                            <div className="text-xs text-gray-500">Business Status</div>
-                            <div className="text-sm">{filters.businessStatus || "All"}</div>
-                          </div>
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="All">All</SelectItem>
-                          <SelectItem value="Open">Open</SelectItem>
-                          <SelectItem value="Closed">Closed</SelectItem>
-                          <SelectItem value="Temporarily Closed">Temporarily Closed</SelectItem>
-                        </SelectContent>
-                      </Select>
+                  {/* Separator */}
+                  <div className="vx-divider"></div>
 
-                      {/* Platform Status Filter */}
-                      <Select value={filters.platformStatus || "All"} onValueChange={(value) => setFilters(prev => ({ ...prev, platformStatus: value === "All" ? "" : value }))}>
-                        <SelectTrigger className="w-[150px]" data-testid="filter-platform-status">
-                          <div className="flex flex-col items-start w-full">
-                            <div className="text-xs text-gray-500">Platform Status</div>
-                            <div className="text-sm">{filters.platformStatus || "All"}</div>
-                          </div>
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="All">All</SelectItem>
-                          <SelectItem value="Optimal Waiting">Optimal Waiting</SelectItem>
-                          <SelectItem value="Needs Attention">Needs Attention</SelectItem>
-                          <SelectItem value="Connected">Connected</SelectItem>
-                        </SelectContent>
-                      </Select>
+                  {/* Business Profile Interaction Content */}
+                  <div className="vx-card-body vx-surface-muted">
+                    <h4 className="text-gray-900  mb-4 font-medium text-[16px]">
+                      Business Profile Interaction
+                    </h4>
 
-                      {/* Store Set Filter */}
-                      <Select value={filters.storeSet || "All"} onValueChange={(value) => setFilters(prev => ({ ...prev, storeSet: value === "All" ? "" : value }))}>
-                        <SelectTrigger className="w-[150px]" data-testid="filter-store-set">
-                          <div className="flex flex-col items-start w-full">
-                            <div className="text-xs text-gray-500">Store Set</div>
-                            <div className="text-sm">{filters.storeSet || "All"}</div>
-                          </div>
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="All">All</SelectItem>
-                          <SelectItem value="SMR">SMR</SelectItem>
-                          <SelectItem value="Premium">Premium</SelectItem>
-                          <SelectItem value="Express">Express</SelectItem>
-                          <SelectItem value="Standard">Standard</SelectItem>
-                          <SelectItem value="Regional">Regional</SelectItem>
-                        </SelectContent>
-                      </Select>
-
-                      {/* Missing POI Filter */}
-                      <Select value={filters.missingPOI || "All"} onValueChange={(value) => setFilters(prev => ({ ...prev, missingPOI: value === "All" ? "" : value }))}>
-                        <SelectTrigger className="w-[120px]" data-testid="filter-missing-poi">
-                          <div className="flex flex-col items-start w-full">
-                            <div className="text-xs text-gray-500">Missing POI</div>
-                            <div className="text-sm">{filters.missingPOI || "All"}</div>
-                          </div>
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="All">All</SelectItem>
-                          <SelectItem value="Yes">Yes</SelectItem>
-                          <SelectItem value="No">No</SelectItem>
-                        </SelectContent>
-                      </Select>
-
-                      {/* Date Range Selector */}
-                      <Select value={filters.dateRange || "30d"} onValueChange={(value) => setFilters(prev => ({ ...prev, dateRange: value }))}>
-                        <SelectTrigger className="w-[150px]" data-testid="filter-date-range">
-                          <div className="flex flex-col items-start w-full">
-                            <div className="text-xs text-gray-500">Date Range</div>
-                            <div className="text-sm">
-                              {filters.dateRange === "7d" ? "Last 7 days" : filters.dateRange === "30d" ? "Last 30 days" : "Last 90 days"}
+                    {/* Tabs */}
+                    <div className="vx-tabs mb-6">
+                      {tabs.map((tab, index) => (
+                        <button
+                          key={index}
+                          onClick={() => setActiveTab(index)}
+                          className={`vx-tab flex-1 ${activeTab === index ? 'vx-tab-active text-blue-600' : 'text-gray-600 hover:text-gray-900'}`}
+                        >
+                          <div className="text-center">
+                            <div className="font-medium">{tab.label}</div>
+                            <div className="text-xs text-gray-500">
+                              ({tab.value})
                             </div>
                           </div>
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="7d">Last 7 days</SelectItem>
-                          <SelectItem value="30d">Last 30 days</SelectItem>
-                          <SelectItem value="90d">Last 90 days</SelectItem>
-                        </SelectContent>
-                      </Select>
-
-                      {/* Platform Filter */}
-                      <Select value={filters.platform || "All"} onValueChange={(value) => setFilters(prev => ({ ...prev, platform: value === "All" ? "" : value }))}>
-                        <SelectTrigger className="w-[150px]" data-testid="filter-platform">
-                          <div className="flex flex-col items-start w-full">
-                            <div className="text-xs text-gray-500">Platform</div>
-                            <div className="text-sm">{filters.platform || "All"}</div>
-                          </div>
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="All">All</SelectItem>
-                          <SelectItem value="Google">Google</SelectItem>
-                          <SelectItem value="Facebook">Facebook</SelectItem>
-                          <SelectItem value="Instagram">Instagram</SelectItem>
-                          <SelectItem value="TikTok">TikTok</SelectItem>
-                          <SelectItem value="Apple Maps">Apple Maps</SelectItem>
-                        </SelectContent>
-                      </Select>
-
-                      {/* Compare Mode Toggle */}
-                      <div className="flex items-center space-x-2 px-3 py-2 border border-gray-200 rounded-md" data-testid="compare-mode-toggle">
-                        <GitCompare className="w-4 h-4 text-gray-500" />
-                        <Label htmlFor="compare-mode" className="text-sm text-gray-600">Compare</Label>
-                        <Switch
-                          id="compare-mode"
-                          checked={filters.compareMode || false}
-                          onChange={(event) => setFilters(prev => ({ ...prev, compareMode: event.target.checked }))}
-                          className="data-[state=checked]:bg-blue-600"
-                        />
-                      </div>
+                        </button>
+                      ))}
                     </div>
 
-                    {/* Active Filters Display */}
-                    {Object.values(filters).filter(value => value !== "").length > 0 && (
-                      <div className="mt-3 flex items-center gap-2">
-                        <span className="text-sm text-gray-500">Active filters:</span>
-                        <Badge variant="secondary" className="text-xs">
-                          {Object.values(filters).filter(value => value !== "").length} active
-                        </Badge>
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          onClick={() => setFilters({
-                            search: "",
-                            city: "",
-                            businessStatus: "",
-                            platformStatus: "",
-                            storeSet: "",
-                            missingPOI: "",
-                            dateRange: "30d",
-                            platform: "",
-                            compareMode: false,
-                            startDate: undefined,
-                            endDate: undefined,
-                            compareStartDate: undefined,
-                            compareEndDate: undefined
-                          })}
-                          className="text-xs h-6 px-2"
-                          data-testid="button-clear-filters"
-                        >
-                          <X className="w-3 h-3 mr-1" />
-                          Clear all
-                        </Button>
-                      </div>
-                    )}
-                  </div>
-                </div>
-
-                {/* Separator */}
-                <div className="border-b border-slate-200"></div>
-
-                {/* Business Profile Interaction Content */}
-                <div className="p-6 bg-stone-50">
-                  <h4 className="text-gray-900 dark:text-white mb-4 font-medium text-[16px]">
-                    Business Profile Interaction
-                  </h4>
-
-                  {/* Tabs */}
-                  <div className="flex space-x-1 mb-6 bg-gray-100 dark:bg-gray-800 rounded-lg p-1">
-                    {tabs.map((tab, index) => (
-                      <button
-                        key={index}
-                        onClick={() => setActiveTab(index)}
-                        className={`flex-1 px-4 py-2 rounded-md text-sm font-medium transition-colors ${activeTab === index
-                          ? "bg-white dark:bg-gray-700 text-blue-600 dark:text-blue-400"
-                          : "text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
-                          }`}
-                      >
-                        <div className="text-center">
-                          <div className="font-medium">{tab.label}</div>
-                          <div className="text-xs text-gray-500">
-                            ({tab.value})
-                          </div>
-                        </div>
-                      </button>
-                    ))}
-                  </div>
-
-                  {/* Main Metrics */}
-                  <div className="mb-6">
-                    <div className="flex items-baseline space-x-4 mb-2">
-                      <div className="flex items-center space-x-2">
-                        <div className="w-3 h-3 bg-blue-500 rounded-full"></div>
-                        <span className="text-2xl font-bold text-gray-900 dark:text-white">
-                          62,006
-                        </span>
-                        <span className="text-sm text-gray-600 dark:text-gray-400">
-                          Current
-                        </span>
-                      </div>
-                      <div className="flex items-center space-x-2">
-                        <div className="w-3 h-3 bg-gray-400 rounded-full"></div>
-                        <span className="text-lg text-gray-600 dark:text-gray-400">
-                          63,615
-                        </span>
-                        <span className="text-sm text-gray-600 dark:text-gray-400">
-                          Previous
-                        </span>
-                      </div>
-                      <Badge
-                        variant="destructive"
-                        className="bg-red-100 text-red-800 hover:bg-red-100"
-                      >
-                        -2.5%
-                      </Badge>
-                    </div>
-                    <div className="text-sm text-gray-500 mb-4">
-                      July 2025 vs August 2025
-                    </div>
-                  </div>
-
-                  {/* Chart */}
-                  <div className="h-64">
-                    <ResponsiveContainer width="100%" height="100%">
-                      <LineChart data={chartData}>
-                        <XAxis
-                          dataKey="name"
-                          axisLine={false}
-                          tickLine={false}
-                          className="text-xs text-gray-500"
-                        />
-                        <YAxis
-                          axisLine={false}
-                          tickLine={false}
-                          className="text-xs text-gray-500"
-                        />
-                        <Line
-                          type="monotone"
-                          dataKey="current"
-                          stroke="#3b82f6"
-                          strokeWidth={2}
-                          dot={false}
-                        />
-                        <Line
-                          type="monotone"
-                          dataKey="previous"
-                          stroke="#9ca3af"
-                          strokeWidth={2}
-                          dot={false}
-                        />
-                      </LineChart>
-                    </ResponsiveContainer>
-                  </div>
-                </div>
-
-                {/* Second Separator */}
-                <div className="border-b border-slate-200"></div>
-
-                {/* Profile Views and Total Searches Content */}
-                <div className="p-6 bg-stone-50">
-                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:divide-x lg:divide-slate-200">
-                    {/* Profile Views */}
-                    <div className="space-y-4 lg:pr-8">
-                      <div className="flex items-center justify-between">
-                        <h4 className="font-medium text-gray-900 dark:text-white">
-                          Profile views
-                        </h4>
+                    {/* Main Metrics */}
+                    <div className="mb-6">
+                      <div className="flex items-baseline space-x-4 mb-2">
                         <div className="flex items-center space-x-2">
-                          <span className="text-lg font-semibold">
-                            1,716,216
+                          <div className="w-3 h-3 bg-blue-500 rounded-full"></div>
+                          <span className="text-2xl font-bold text-gray-900 ">
+                            62,006
                           </span>
-                          <Badge className="bg-green-100 text-green-800 hover:bg-green-100">
-                            <TrendingUp className="w-3 h-3 mr-1" />
-                            +82.4%
-                          </Badge>
+                          <span className="text-sm text-gray-600 ">
+                            Current
+                          </span>
                         </div>
+                        <div className="flex items-center space-x-2">
+                          <div className="w-3 h-3 bg-gray-400 rounded-full"></div>
+                          <span className="text-lg text-gray-600 ">
+                            63,615
+                          </span>
+                          <span className="text-sm text-gray-600 ">
+                            Previous
+                          </span>
+                        </div>
+                        <Badge
+                          variant="destructive"
+                          className="bg-red-100 text-red-800 hover:bg-red-100"
+                        >
+                          -2.5%
+                        </Badge>
                       </div>
-                      <div className="text-sm text-gray-600 dark:text-gray-400 mb-4">
+                      <div className="text-sm text-gray-500 mb-4">
                         July 2025 vs August 2025
                       </div>
+                    </div>
 
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        {/* Pie Chart */}
-                        <div className="flex items-center justify-center">
-                          <div className="w-32 h-32">
-                            <ResponsiveContainer width="100%" height="100%">
-                              <PieChart>
-                                <Pie
-                                  data={platformData}
-                                  cx="50%"
-                                  cy="50%"
-                                  innerRadius={25}
-                                  outerRadius={60}
-                                  dataKey="value"
-                                >
-                                  {platformData.map((entry, index) => (
-                                    <Cell
-                                      key={`cell-${index}`}
-                                      fill={entry.color}
-                                    />
-                                  ))}
-                                </Pie>
-                              </PieChart>
-                            </ResponsiveContainer>
+                    {/* Chart */}
+                    <div className="h-64">
+                      <ResponsiveContainer width="100%" height="100%">
+                        <LineChart data={chartData}>
+                          <XAxis
+                            dataKey="name"
+                            axisLine={false}
+                            tickLine={false}
+                            className="text-xs text-gray-500"
+                          />
+                          <YAxis
+                            axisLine={false}
+                            tickLine={false}
+                            className="text-xs text-gray-500"
+                          />
+                          <Line
+                            type="monotone"
+                            dataKey="current"
+                            stroke="#3b82f6"
+                            strokeWidth={2}
+                            dot={false}
+                          />
+                          <Line
+                            type="monotone"
+                            dataKey="previous"
+                            stroke="#9ca3af"
+                            strokeWidth={2}
+                            dot={false}
+                          />
+                        </LineChart>
+                      </ResponsiveContainer>
+                    </div>
+                  </div>
+
+                  {/* Second Separator */}
+                  <div className="vx-divider"></div>
+
+                  {/* Profile Views and Total Searches Content */}
+                  <div className="vx-card-body vx-surface-muted">
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:divide-x lg:divide-slate-200">
+                      {/* Profile Views */}
+                      <div className="space-y-4 lg:pr-8">
+                        <div className="flex items-center justify-between">
+                          <h4 className="font-medium text-gray-900 ">
+                            Profile views
+                          </h4>
+                          <div className="flex items-center space-x-2">
+                            <span className="text-lg font-semibold">
+                              1,716,216
+                            </span>
+                            <Badge className="bg-green-100 text-green-800 hover:bg-green-100">
+                              <TrendingUp className="w-3 h-3 mr-1" />
+                              +82.4%
+                            </Badge>
                           </div>
                         </div>
+                        <div className="text-sm text-gray-600  mb-4">
+                          July 2025 vs August 2025
+                        </div>
 
-                        {/* Platform Breakdown */}
-                        <div className="space-y-2">
-                          <h5 className="text-sm font-medium text-gray-900 dark:text-white mb-3">
-                            Platform and device breakdown that people used
-                            to find your profile
-                          </h5>
-                          {platformData.map((item, index) => (
-                            <div
-                              key={index}
-                              className="flex items-center justify-between text-sm"
-                            >
-                              <div className="flex items-center space-x-2">
-                                <div
-                                  className="w-3 h-3 rounded-full"
-                                  style={{ backgroundColor: item.color }}
-                                ></div>
-                                <span className="text-gray-600 dark:text-gray-400">
-                                  {item.name}
-                                </span>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                          {/* Pie Chart */}
+                          <div className="flex items-center justify-center">
+                            <div className="w-32 h-32">
+                              <ResponsiveContainer width="100%" height="100%">
+                                <PieChart>
+                                  <Pie
+                                    data={platformData}
+                                    cx="50%"
+                                    cy="50%"
+                                    innerRadius={25}
+                                    outerRadius={60}
+                                    dataKey="value"
+                                  >
+                                    {platformData.map((entry, index) => (
+                                      <Cell
+                                        key={`cell-${index}`}
+                                        fill={entry.color}
+                                      />
+                                    ))}
+                                  </Pie>
+                                </PieChart>
+                              </ResponsiveContainer>
+                            </div>
+                          </div>
+
+                          {/* Platform Breakdown */}
+                          <div className="space-y-2">
+                            <h5 className="text-sm font-medium text-gray-900  mb-3">
+                              Platform and device breakdown that people used
+                              to find your profile
+                            </h5>
+                            {platformData.map((item, index) => (
+                              <div
+                                key={index}
+                                className="flex items-center justify-between text-sm"
+                              >
+                                <div className="flex items-center space-x-2">
+                                  <div
+                                    className="w-3 h-3 rounded-full"
+                                    style={{ backgroundColor: item.color }}
+                                  ></div>
+                                  <span className="text-gray-600 ">
+                                    {item.name}
+                                  </span>
+                                </div>
+                                <div className="flex items-center space-x-2">
+                                  <span className="font-medium text-gray-900 ">
+                                    {item.count}
+                                  </span>
+                                  <span className="text-gray-500">
+                                    {item.value}%
+                                  </span>
+                                </div>
                               </div>
-                              <div className="flex items-center space-x-2">
-                                <span className="font-medium text-gray-900 dark:text-white">
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Total Searches */}
+                      <div className="space-y-4 lg:pl-8">
+                        <div className="flex items-center justify-between">
+                          <h4 className="font-medium text-gray-900 ">
+                            Total searches
+                          </h4>
+                          <div className="flex items-center space-x-2">
+                            <span className="text-lg font-semibold">
+                              1,230,916
+                            </span>
+                            <Badge className="bg-green-100 text-green-800 hover:bg-green-100">
+                              <TrendingUp className="w-3 h-3 mr-1" />
+                              +88.4%
+                            </Badge>
+                          </div>
+                        </div>
+                        <div className="text-sm text-gray-600  mb-4">
+                          July 2025 vs August 2025
+                        </div>
+
+                        <div className="space-y-4">
+                          <h5 className="text-sm font-medium text-gray-900 ">
+                            Search terms breakdown that showed your Business
+                            Profile in the search results
+                          </h5>
+
+                          <div className="space-y-3">
+                            {searchTerms.map((item, index) => (
+                              <div
+                                key={index}
+                                className="flex items-center justify-between py-2"
+                              >
+                                <div className="flex items-center space-x-3">
+                                  <span className="w-6 h-6 bg-gray-100  rounded-full flex items-center justify-center text-xs font-medium">
+                                    {index + 1}
+                                  </span>
+                                  <span className="text-sm text-gray-900 ">
+                                    {item.term}
+                                  </span>
+                                </div>
+                                <span className="text-sm font-medium text-gray-900 ">
                                   {item.count}
                                 </span>
-                                <span className="text-gray-500">
-                                  {item.value}%
-                                </span>
                               </div>
-                            </div>
-                          ))}
+                            ))}
+                          </div>
+
+                          <Button variant="outline" className="w-full mt-4">
+                            See More
+                          </Button>
                         </div>
-                      </div>
-                    </div>
-
-                    {/* Total Searches */}
-                    <div className="space-y-4 lg:pl-8">
-                      <div className="flex items-center justify-between">
-                        <h4 className="font-medium text-gray-900 dark:text-white">
-                          Total searches
-                        </h4>
-                        <div className="flex items-center space-x-2">
-                          <span className="text-lg font-semibold">
-                            1,230,916
-                          </span>
-                          <Badge className="bg-green-100 text-green-800 hover:bg-green-100">
-                            <TrendingUp className="w-3 h-3 mr-1" />
-                            +88.4%
-                          </Badge>
-                        </div>
-                      </div>
-                      <div className="text-sm text-gray-600 dark:text-gray-400 mb-4">
-                        July 2025 vs August 2025
-                      </div>
-
-                      <div className="space-y-4">
-                        <h5 className="text-sm font-medium text-gray-900 dark:text-white">
-                          Search terms breakdown that showed your Business
-                          Profile in the search results
-                        </h5>
-
-                        <div className="space-y-3">
-                          {searchTerms.map((item, index) => (
-                            <div
-                              key={index}
-                              className="flex items-center justify-between py-2"
-                            >
-                              <div className="flex items-center space-x-3">
-                                <span className="w-6 h-6 bg-gray-100 dark:bg-gray-700 rounded-full flex items-center justify-center text-xs font-medium">
-                                  {index + 1}
-                                </span>
-                                <span className="text-sm text-gray-900 dark:text-white">
-                                  {item.term}
-                                </span>
-                              </div>
-                              <span className="text-sm font-medium text-gray-900 dark:text-white">
-                                {item.count}
-                              </span>
-                            </div>
-                          ))}
-                        </div>
-
-                        <Button variant="outline" className="w-full mt-4">
-                          See More
-                        </Button>
                       </div>
                     </div>
                   </div>

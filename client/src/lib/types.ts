@@ -29,6 +29,8 @@ export interface FilterState {
 
 export interface LocationsFilterState {
   search: string;
+  selectedLocationIds: string[];
+  selectedStoreGroups: string[];
   city: string;
   businessStatus: string;
   platformStatus: string;
