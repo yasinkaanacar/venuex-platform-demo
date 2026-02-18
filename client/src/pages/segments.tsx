@@ -1,12 +1,17 @@
-import { useState } from "react";
+import { useState, lazy, Suspense } from "react";
 import { useLocales } from "@/lib/formatters";
 import SegmentSummaryCards from "@/components/segments/SegmentSummaryCards";
 import SegmentListTable from "@/components/segments/SegmentListTable";
 import PlatformPushDashboard from "@/components/segments/PlatformPushDashboard";
 import FeedLabelDashboard from "@/components/segments/FeedLabelDashboard";
 import ExportDashboard from "@/components/segments/ExportDashboard";
+import SegmentInsightsDashboard from "@/components/segments/SegmentInsightsDashboard";
 
-type Tab = "audiences" | "platform_push" | "feed_labels" | "exports";
+const SegmentAttributionDashboard = lazy(
+  () => import("@/components/segments/SegmentAttributionDashboard"),
+);
+
+type Tab = "audiences" | "insights" | "platform_push" | "feed_labels" | "exports" | "attribution";
 
 export default function Segments() {
   const [mainTab, setMainTab] = useState<Tab>("audiences");
@@ -24,6 +29,13 @@ export default function Segments() {
               data-testid="tab-audiences"
             >
               {t("segments.tabs.audiences") || "Audiences"}
+            </button>
+            <button
+              onClick={() => setMainTab("insights")}
+              className={`vx-tab ${mainTab === "insights" ? "vx-tab-active" : ""}`}
+              data-testid="tab-insights"
+            >
+              {t("segments.tabs.insights") || "Insights"}
             </button>
             <button
               onClick={() => setMainTab("platform_push")}
@@ -46,6 +58,13 @@ export default function Segments() {
             >
               {t("segments.tabs.exports") || "Exports"}
             </button>
+            <button
+              onClick={() => setMainTab("attribution")}
+              className={`vx-tab ${mainTab === "attribution" ? "vx-tab-active" : ""}`}
+              data-testid="tab-attribution"
+            >
+              {t("segments.tabs.attribution") || "Attribution"}
+            </button>
           </div>
         </div>
       </div>
@@ -61,9 +80,21 @@ export default function Segments() {
           </>
         )}
 
+        {mainTab === "insights" && <SegmentInsightsDashboard />}
         {mainTab === "platform_push" && <PlatformPushDashboard />}
         {mainTab === "feed_labels" && <FeedLabelDashboard />}
         {mainTab === "exports" && <ExportDashboard />}
+        {mainTab === "attribution" && (
+          <Suspense
+            fallback={
+              <div className="flex items-center justify-center py-20">
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500" />
+              </div>
+            }
+          >
+            <SegmentAttributionDashboard />
+          </Suspense>
+        )}
       </div>
     </div>
   );

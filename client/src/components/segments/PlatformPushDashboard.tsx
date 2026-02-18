@@ -2,11 +2,13 @@ import { useState, useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { SiGoogle, SiMeta, SiTiktok } from "react-icons/si";
 import { RefreshCw, Send } from "lucide-react";
-import { useLocales, fPercent } from "@/lib/formatters";
+import { useLocales, fPercent, fNumber } from "@/lib/formatters";
 import { cn } from "@/lib/utils";
 import PlatformPushCard from "./PlatformPushCard";
 import PlatformSyncLog from "./PlatformSyncLog";
 import PushToPlatformDialog from "./PushToPlatformDialog";
+import LookalikeAudienceSection from "./LookalikeAudienceSection";
+import ABTestSection from "./ABTestSection";
 import type {
   Segment,
   PushLogEntry,
@@ -35,6 +37,7 @@ const pushStatusBadge: Record<
 interface PlatformStats {
   audienceCount: number;
   avgMatchRate: number;
+  activeCampaigns: number;
   isConnected: boolean;
 }
 
@@ -43,9 +46,9 @@ function computePlatformStats(
 ): Record<AdPlatform, PlatformStats> {
   const platforms: AdPlatform[] = ["google", "meta", "tiktok"];
   const result: Record<AdPlatform, PlatformStats> = {
-    google: { audienceCount: 0, avgMatchRate: 0, isConnected: true },
-    meta: { audienceCount: 0, avgMatchRate: 0, isConnected: true },
-    tiktok: { audienceCount: 0, avgMatchRate: 0, isConnected: true },
+    google: { audienceCount: 0, avgMatchRate: 0, activeCampaigns: 0, isConnected: true },
+    meta: { audienceCount: 0, avgMatchRate: 0, activeCampaigns: 0, isConnected: true },
+    tiktok: { audienceCount: 0, avgMatchRate: 0, activeCampaigns: 0, isConnected: true },
   };
 
   for (const platform of platforms) {
@@ -55,6 +58,9 @@ function computePlatformStats(
       )
     );
     result[platform].audienceCount = pushes.length;
+    result[platform].activeCampaigns = pushes.reduce(
+      (acc, p) => acc + p.activeCampaigns, 0
+    );
     result[platform].avgMatchRate =
       pushes.length > 0
         ? Math.round(
@@ -124,6 +130,7 @@ export default function PlatformPushDashboard() {
             platform={platform}
             audienceCount={platformStats[platform].audienceCount}
             avgMatchRate={platformStats[platform].avgMatchRate}
+            activeCampaigns={platformStats[platform].activeCampaigns}
             isConnected={platformStats[platform].isConnected}
           />
         ))}
@@ -160,6 +167,9 @@ export default function PlatformPushDashboard() {
                     </div>
                   </th>
                 ))}
+                <th className="text-center text-xs font-medium text-gray-500 uppercase tracking-wider px-4 py-3">
+                  {t("segments.push.campaignsColumn") || "Campaigns"}
+                </th>
                 <th className="text-center text-xs font-medium text-gray-500 uppercase tracking-wider px-4 py-3">
                   {t("segments.push.autoSync") || "Auto-Sync"}
                 </th>
@@ -241,6 +251,20 @@ export default function PlatformPushDashboard() {
                       );
                     })}
                     <td className="px-4 py-3 text-center">
+                      {(() => {
+                        const total = segment.platformPushes.reduce(
+                          (acc, p) => acc + p.activeCampaigns, 0
+                        );
+                        return total > 0 ? (
+                          <span className="text-sm font-medium text-gray-900">
+                            {total}
+                          </span>
+                        ) : (
+                          <span className="text-xs text-gray-400">—</span>
+                        );
+                      })()}
+                    </td>
+                    <td className="px-4 py-3 text-center">
                       {hasAutoSync ? (
                         <span className="inline-flex items-center gap-1 text-xs font-medium text-green-700">
                           <RefreshCw className="w-3 h-3" />
@@ -256,7 +280,7 @@ export default function PlatformPushDashboard() {
               {activeSegments.length === 0 && (
                 <tr>
                   <td
-                    colSpan={5}
+                    colSpan={6}
                     className="px-4 py-8 text-center text-sm text-muted-foreground"
                   >
                     {t("segments.push.noActiveSegments") || "No active segments to display."}
@@ -270,6 +294,12 @@ export default function PlatformPushDashboard() {
 
       {/* Sync Activity Log */}
       <PlatformSyncLog entries={pushLog} />
+
+      {/* Lookalike Audiences */}
+      <LookalikeAudienceSection />
+
+      {/* A/B Test Audiences */}
+      <ABTestSection />
 
       {/* Push to Platform dialog */}
       {pushTargetSegment && (

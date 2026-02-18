@@ -27,6 +27,7 @@ import { cn } from "@/lib/utils";
 import { mockSegments, segmentDataService } from "@/lib/mock-segments-data";
 import { showToast } from "@/lib/toast";
 import PushToPlatformDialog from "./PushToPlatformDialog";
+import SegmentAutomationSection from "./SegmentAutomationSection";
 import type {
   Segment,
   SegmentStatus,
@@ -410,6 +411,9 @@ export default function SegmentDetailDrawer({
               </div>
             )}
           </div>
+
+          {/* Lifecycle Automation */}
+          <SegmentAutomationSection segmentId={segment.id} />
 
           {/* Tags */}
           {segment.tags.length > 0 && (

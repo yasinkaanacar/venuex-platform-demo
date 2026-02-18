@@ -12,6 +12,8 @@ import { LocationDataTable } from "@/components/locations2/LocationDataTable";
 import { FieldManagementDialog } from "@/components/locations2/FieldManagementDialog";
 import PlatformSummaryNew from "@/components/locations2/PlatformSummaryNew";
 import LocationStatusTable from "@/components/locations2/LocationStatusTable";
+import LocationConflictResolutionDialog from "@/components/locations2/LocationConflictResolutionDialog";
+import { mockLocationConflicts } from "@/lib/mock-locations";
 import DataQualityEnrichment from "@/components/overview/data-quality-enrichment";
 import LocationsDataHealthAlerts from "@/components/locations2/locations-data-health-alerts";
 import { Button } from "@/components/ui/button";
@@ -36,7 +38,7 @@ import {
   Pie,
   Cell,
 } from "recharts";
-import { Store, User, Check, Search, GitCompare, X, TrendingUp, ChevronLeft, ChevronRight, ChevronDown, Clock, Globe, Smartphone, ThumbsUp, Plus, Sparkles, MapPin, Map, Info } from 'lucide-react';
+import { Store, User, Check, Search, GitCompare, X, TrendingUp, ChevronLeft, ChevronRight, ChevronDown, Clock, Globe, Smartphone, ThumbsUp, Plus, Sparkles, MapPin, Map, Info, AlertTriangle } from 'lucide-react';
 import { Tooltip } from '@mui/material';
 import { useTranslation } from '@/contexts/LanguageContext';
 
@@ -223,6 +225,7 @@ export default function Locations2Page() {
   // State management
   const [selectedLocationId, setSelectedLocationId] = useState<string | null>(null);
   const [fieldManagementOpen, setFieldManagementOpen] = useState(false);
+  const [conflictDialogOpen, setConflictDialogOpen] = useState(false);
   const [activeTab, setActiveTab] = useState(0);
   const [mainTab, setMainTab] = useState<'locations' | 'performance' | 'posts' | 'insights'>('locations');
   const [currentWeekStart, setCurrentWeekStart] = useState(() => startOfWeek(new Date(), { weekStartsOn: 1 }));
@@ -457,6 +460,31 @@ export default function Locations2Page() {
               <div className="vx-section-stack">
                 <PlatformSummaryNew />
               </div>
+              {/* Conflict Callout */}
+              {mockLocationConflicts.length > 0 && (
+                <div className="vx-section-stack">
+                  <div className="flex items-center gap-3 rounded-lg border border-red-200 bg-red-50 px-4 py-3">
+                    <AlertTriangle className="h-4 w-4 text-red-600 shrink-0" />
+                    <div className="flex-1 min-w-0">
+                      <span className="text-sm font-medium text-red-900">
+                        {t.locations.conflicts.calloutTitle}
+                      </span>
+                      <span className="ml-2 text-sm text-red-700">
+                        {(t.locations.conflicts.calloutDescription as string).replace('{{count}}', String(mockLocationConflicts.length))}
+                      </span>
+                    </div>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="border-red-300 text-red-800 hover:bg-red-100 shrink-0"
+                      onClick={() => setConflictDialogOpen(true)}
+                    >
+                      {t.locations.conflicts.reviewButton}
+                    </Button>
+                  </div>
+                </div>
+              )}
+
               {/* Location Actions + Location Status Table */}
               <div className="vx-section-stack">
                 <div className="mt-4">
@@ -466,6 +494,13 @@ export default function Locations2Page() {
                   />
                 </div>
               </div>
+
+              {/* Conflict Resolution Dialog */}
+              <LocationConflictResolutionDialog
+                open={conflictDialogOpen}
+                onOpenChange={setConflictDialogOpen}
+                conflicts={mockLocationConflicts}
+              />
             </>
           )
         }

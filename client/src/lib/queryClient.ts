@@ -1,5 +1,6 @@
 import { QueryClient, QueryFunction } from "@tanstack/react-query";
 import { mockDataService } from './mockData';
+import { segmentDataService } from './mock-segments-data';
 
 // Mock API request function that simulates backend responses  
 export async function apiRequest(
@@ -56,6 +57,32 @@ async function handleMockRequest(method: string, url: string, data?: unknown) {
   }
   if (url.includes('/api/segments/push-log')) {
     return await mockDataService.getPushLog();
+  }
+  if (url.includes('/api/segments/automation/')) {
+    const segId = url.split('/').pop()!;
+    return await segmentDataService.getAutomationRules(segId);
+  }
+  if (url.includes('/api/segments/reach-projection/')) {
+    const parts = url.split('/');
+    const platform = parts.pop()!;
+    const segId = parts.pop()!;
+    return await segmentDataService.getReachProjection(segId, platform as any);
+  }
+  if (url.includes('/api/segments/overlap')) {
+    return await mockDataService.getTopOverlaps();
+  }
+  if (url.includes('/api/segments/lookalikes')) {
+    return await mockDataService.getLookalikeAudiences();
+  }
+  if (url.includes('/api/segments/ab-tests')) {
+    return await mockDataService.getABTests();
+  }
+  if (url.includes('/api/segments/attribution/timeseries')) {
+    const segId = url.split('/').pop();
+    return await mockDataService.getAttributionTimeseries(segId ?? '');
+  }
+  if (url.includes('/api/segments/attribution')) {
+    return await mockDataService.getSegmentAttributions();
   }
   if (url.includes('/api/segments')) {
     return await mockDataService.getSegments();

@@ -1,5 +1,5 @@
 import { SiGoogle, SiMeta, SiTiktok } from "react-icons/si";
-import { CheckCircle } from "lucide-react";
+import { CheckCircle, Megaphone } from "lucide-react";
 import { useLocales, fNumber, fPercent } from "@/lib/formatters";
 import { cn } from "@/lib/utils";
 import type { AdPlatform } from "@/lib/types/segments";
@@ -8,6 +8,7 @@ interface PlatformPushCardProps {
   platform: "google" | "meta" | "tiktok";
   audienceCount: number;
   avgMatchRate: number;
+  activeCampaigns: number;
   isConnected: boolean;
 }
 
@@ -40,6 +41,7 @@ export default function PlatformPushCard({
   platform,
   audienceCount,
   avgMatchRate,
+  activeCampaigns,
   isConnected,
 }: PlatformPushCardProps) {
   const { t } = useLocales();
@@ -72,11 +74,19 @@ export default function PlatformPushCard({
           </div>
         </div>
 
-        <div className="grid grid-cols-2 gap-4 pt-3 border-t border-gray-100">
+        <div className="grid grid-cols-3 gap-4 pt-3 border-t border-gray-100">
           <div>
             <p className="text-xs text-muted-foreground mb-0.5">{t("segments.push.audiencesLabel") || "Audiences"}</p>
             <p className="text-lg font-bold text-foreground">
               {audienceCount}
+            </p>
+          </div>
+          <div>
+            <p className="text-xs text-muted-foreground mb-0.5">
+              {t("segments.push.campaignsLabel") || "Campaigns"}
+            </p>
+            <p className="text-lg font-bold text-foreground">
+              {activeCampaigns > 0 ? activeCampaigns : "--"}
             </p>
           </div>
           <div>

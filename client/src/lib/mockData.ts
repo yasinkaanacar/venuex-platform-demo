@@ -238,4 +238,9 @@ export const mockDataService = {
   getFeedLabels: segmentDataService.getFeedLabels.bind(segmentDataService),
   getExports: segmentDataService.getExports.bind(segmentDataService),
   getScheduledExports: segmentDataService.getScheduledExports.bind(segmentDataService),
+  getTopOverlaps: segmentDataService.getTopOverlaps.bind(segmentDataService),
+  getLookalikeAudiences: segmentDataService.getLookalikeAudiences.bind(segmentDataService),
+  getABTests: segmentDataService.getABTests.bind(segmentDataService),
+  getSegmentAttributions: segmentDataService.getSegmentAttributions.bind(segmentDataService),
+  getAttributionTimeseries: segmentDataService.getAttributionTimeseries.bind(segmentDataService),
 };

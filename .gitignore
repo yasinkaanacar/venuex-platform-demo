@@ -27,6 +27,9 @@ plans/
 # Attached assets (presentations, PDFs, screenshots)
 attached_assets/
 
+# Docs / PRDs (internal reference docs, not for version control)
+docs/
+
 # Vite temp files
 vite.config.ts.*
 

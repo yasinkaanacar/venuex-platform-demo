@@ -75,6 +75,7 @@ export interface Segment {
   lastBuiltAt?: string;
   createdBy: string;
   tags: string[];
+  automationRules?: SegmentAutomationRule[];
 }
 
 // ------------------------------------------------------------------
@@ -91,6 +92,7 @@ export interface SegmentPlatformPush {
   totalIdentifiers: number;
   audienceId?: string;
   audienceName?: string;
+  activeCampaigns: number;
   autoSync: boolean;
   lastPushedAt?: string;
   nextSyncAt?: string;
@@ -185,4 +187,170 @@ export interface SegmentSummaryKPIs {
   activePlatformPushes: number;
   activeLabels: number;
   avgMatchRate: number;
+}
+
+// ------------------------------------------------------------------
+// Audience Overlap (Feature 1)
+// ------------------------------------------------------------------
+
+export interface SegmentOverlapResult {
+  segmentA: { id: string; name: string; size: number };
+  segmentB: { id: string; name: string; size: number };
+  overlapCount: number;
+  overlapPercent: number;
+  onlyA: number;
+  onlyB: number;
+  unionSize: number;
+  jaccardIndex: number;
+  recommendation: 'exclude' | 'merge' | 'ok';
+  wastedSpendEstimate: number;
+}
+
+// ------------------------------------------------------------------
+// Segment Exclusion Rule (Insights - Exclude Flow)
+// ------------------------------------------------------------------
+
+export interface SegmentExclusionRule {
+  id: string;
+  sourceSegmentId: string;
+  sourceSegmentName: string;
+  excludedSegmentId: string;
+  excludedSegmentName: string;
+  platforms: AdPlatform[];
+  overlapCount: number;
+  estimatedSavings: number;
+  createdAt: string;
+}
+
+// ------------------------------------------------------------------
+// Segment Merge Record (Insights - Merge Flow)
+// ------------------------------------------------------------------
+
+export type MergeStrategy = 'union' | 'intersection';
+
+export interface SegmentMergeRecord {
+  id: string;
+  sourceSegmentAId: string;
+  sourceSegmentAName: string;
+  sourceSegmentBId: string;
+  sourceSegmentBName: string;
+  strategy: MergeStrategy;
+  newSegmentId: string;
+  newSegmentName: string;
+  resultingSize: number;
+  pausedOriginals: boolean;
+  createdAt: string;
+}
+
+// ------------------------------------------------------------------
+// Reach / Cost Projection (Feature 2)
+// ------------------------------------------------------------------
+
+export interface ReachProjection {
+  platform: AdPlatform;
+  segmentSize: number;
+  estimatedMatchRate: number;
+  estimatedReach: number;
+  estimatedCPM: number;
+  estimatedMonthlySpend: number;
+  confidenceLevel: 'high' | 'medium' | 'low';
+}
+
+// ------------------------------------------------------------------
+// Lifecycle Automation (Feature 3)
+// ------------------------------------------------------------------
+
+export type AutomationTrigger = 'schedule' | 'size_threshold' | 'match_rate_drop';
+export type AutomationAction = 'rebuild' | 'pause' | 'notify' | 'push_refresh';
+
+export interface SegmentAutomationRule {
+  id: string;
+  segmentId: string;
+  trigger: AutomationTrigger;
+  frequency?: ExportFrequency;
+  sizeOperator?: 'below' | 'above';
+  sizeValue?: number;
+  matchRateThreshold?: number;
+  action: AutomationAction;
+  isActive: boolean;
+  lastTriggeredAt?: string;
+  nextScheduledAt?: string;
+  createdAt: string;
+}
+
+// ------------------------------------------------------------------
+// Lookalike & A/B Test (Feature 4)
+// ------------------------------------------------------------------
+
+export type LookalikeStatus = 'active' | 'building' | 'expired' | 'failed';
+
+export interface LookalikeAudience {
+  id: string;
+  sourceSegmentId: string;
+  sourceSegmentName: string;
+  platform: AdPlatform;
+  name: string;
+  expansionPercent: number;
+  estimatedSize: number;
+  status: LookalikeStatus;
+  createdAt: string;
+}
+
+export interface ABTestConfig {
+  id: string;
+  name: string;
+  sourceSegmentId: string;
+  sourceSegmentName: string;
+  platform: AdPlatform;
+  splitPercentage: number;
+  groupA: { name: string; size: number };
+  groupB: { name: string; size: number };
+  status: 'active' | 'draft' | 'completed';
+  createdAt: string;
+}
+
+// ------------------------------------------------------------------
+// ROI Attribution (Feature 5)
+// ------------------------------------------------------------------
+
+export interface SegmentPlatformAttribution {
+  platform: AdPlatform;
+  adSpend: number;
+  offlineRevenue: number;
+  onlineRevenue: number;
+  offlineConversions: number;
+  matchRate: number;
+  offlineROAS: number;
+  campaigns: number;
+}
+
+export interface SegmentAttribution {
+  segmentId: string;
+  segmentName: string;
+  segmentSize: number;
+  platforms: SegmentPlatformAttribution[];
+  totals: {
+    adSpend: number;
+    offlineRevenue: number;
+    onlineRevenue: number;
+    totalRevenue: number;
+    offlineConversions: number;
+    totalConversions: number;
+    offlineROAS: number;
+    omniROAS: number;
+    costPerConversion: number;
+  };
+  trend: {
+    revenueChange: number;
+    roasChange: number;
+    conversionsChange: number;
+  };
+}
+
+export interface AttributionTimeseriesPoint {
+  date: string;
+  adSpend: number;
+  offlineRevenue: number;
+  onlineRevenue: number;
+  conversions: number;
 }

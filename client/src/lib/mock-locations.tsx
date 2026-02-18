@@ -562,3 +562,134 @@ export const calculateDataHealth = (location: LocationData): number => {
     const filledFields = fields.filter(f => f && f.trim() !== '').length;
     return Math.round((filledFields / fields.length) * 100);
 };
+
+// ------------------------------------------------------------------
+// Location Conflict Types
+// ------------------------------------------------------------------
+
+export type ConflictType = 'only_in_vx' | 'only_in_google' | 'data_mismatch';
+export type ConflictAction = 'delete_vx' | 'add_to_google' | 'delete_google' | 'add_to_vx' | 'use_vx' | 'use_google' | 'skip';
+
+export interface GoogleLocationSnapshot {
+    placeId: string;
+    name: string;
+    address: string;
+    phone?: string;
+    website?: string;
+}
+
+export interface ConflictMismatchField {
+    field: string;
+    vxValue: string;
+    googleValue: string;
+}
+
+export interface LocationConflict {
+    id: string;
+    conflictType: ConflictType;
+    vxLocation?: Pick<LocationData, 'id' | 'storeCode' | 'name' | 'address' | 'phone' | 'website'>;
+    googleLocation?: GoogleLocationSnapshot;
+    mismatchFields?: ConflictMismatchField[];
+}
+
+// ------------------------------------------------------------------
+// Mock Conflicts (6 items — 2 per type)
+// ------------------------------------------------------------------
+
+export const mockLocationConflicts: LocationConflict[] = [
+    // 1. Only in VenueX — no matching Google listing
+    {
+        id: 'lc-001',
+        conflictType: 'only_in_vx',
+        vxLocation: {
+            id: 7,
+            storeCode: 'DY_007',
+            name: 'Doyuyo - Bursa - Nilüfer',
+            address: 'Nilüfer Mah. Atatürk Cad. No:8, Nilüfer / Bursa',
+            phone: '+90 224 555 0007',
+            website: 'https://doyuyo.com',
+        },
+    },
+    {
+        id: 'lc-002',
+        conflictType: 'only_in_vx',
+        vxLocation: {
+            id: 8,
+            storeCode: 'DY_008',
+            name: 'Doyuyo - Antalya - Kepez',
+            address: 'Kepez Mah. Dumlupınar Blv. No:54, Kepez / Antalya',
+            phone: '+90 242 555 0008',
+            website: 'https://doyuyo.com',
+        },
+    },
+
+    // 2. Only in Google — unmatched listing not in VenueX
+    {
+        id: 'lc-003',
+        conflictType: 'only_in_google',
+        googleLocation: {
+            placeId: 'ChIJN1t_tDeuEmsRUsoyG83frY4',
+            name: 'Doyuyo - İstanbul - Bağcılar',
+            address: 'Kirazlı Mah. Abdi İpekçi Cad. No:4, Bağcılar / İstanbul',
+            phone: '+90 212 555 0091',
+            website: 'https://doyuyo.com',
+        },
+    },
+    {
+        id: 'lc-004',
+        conflictType: 'only_in_google',
+        googleLocation: {
+            placeId: 'ChIJabc123xyz456defGHIJKLMNOP',
+            name: 'Doyuyo - Konya - Selçuklu',
+            address: 'Selçuklu Mah. Ankara Cad. No:17, Selçuklu / Konya',
+            phone: '+90 332 555 0042',
+        },
+    },
+
+    // 3. Data mismatch — both exist but data differs
+    {
+        id: 'lc-005',
+        conflictType: 'data_mismatch',
+        vxLocation: {
+            id: 1,
+            storeCode: 'DY_001',
+            name: 'Doyuyo - İstanbul - Kadıköy',
+            address: 'Caferağa Mah. Moda Cad. No:12, Kadıköy / İstanbul',
+            phone: '+90 216 555 0001',
+            website: 'https://doyuyo.com',
+        },
+        googleLocation: {
+            placeId: 'ChIJKadikoy_DY001',
+            name: 'Doyuyo - İstanbul - Kadıköy',
+            address: 'Caferağa Mah. Moda Cad. No:12, Kadıköy / İstanbul',
+            phone: '+90 216 555 9999',
+            website: 'https://doyuyo.com.tr',
+        },
+        mismatchFields: [
+            { field: 'phone', vxValue: '+90 216 555 0001', googleValue: '+90 216 555 9999' },
+            { field: 'website', vxValue: 'https://doyuyo.com', googleValue: 'https://doyuyo.com.tr' },
+        ],
+    },
+    {
+        id: 'lc-006',
+        conflictType: 'data_mismatch',
+        vxLocation: {
+            id: 3,
+            storeCode: 'DY_076',
+            name: 'Doyuyo - Ankara - Çankaya',
+            address: 'Kızılay Mah. Atatürk Blv. No:45, Çankaya / Ankara',
+            phone: '+90 312 555 0076',
+            website: 'https://doyuyo.com',
+        },
+        googleLocation: {
+            placeId: 'ChIJCankaya_DY076',
+            name: 'Doyuyo - Ankara - Kızılay',
+            address: 'Kızılay Mah. Atatürk Blv. No:45/B, Çankaya / Ankara',
+            phone: '+90 312 555 0076',
+        },
+        mismatchFields: [
+            { field: 'name', vxValue: 'Doyuyo - Ankara - Çankaya', googleValue: 'Doyuyo - Ankara - Kızılay' },
+            { field: 'address', vxValue: 'Kızılay Mah. Atatürk Blv. No:45', googleValue: 'Kızılay Mah. Atatürk Blv. No:45/B' },
+        ],
+    },
+];

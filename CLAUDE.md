@@ -188,3 +188,70 @@ Frontend fetches are intercepted by the mock data service in `queryClient.ts`.
 - **Icons:** Lucide React as primary icon library
 - **Notifications:** notistack snackbars via `toast` utility
 - **Forms:** React Hook Form + Zod validation
+
+## Production API Contract Patterns
+
+These patterns are derived from production code. When building any new feature in this prototype, follow them exactly so engineering can plug in real backends with minimal changes.
+
+### Metric Shape — Every numeric KPI must use this type
+
+```typescript
+interface Metric {
+  value: number;       // current period value
+  change: number;      // % change vs comparison period (pre-computed server-side)
+  past_value?: number; // comparison period value (for tooltip/reference)
+}
+```
+
+Never use a plain `number` for a KPI that will have period-over-period comparison. Always use `Metric`. Example:
+
+```typescript
+// Wrong
+interface SummaryData { revenue: number; }
+
+// Correct
+interface SummaryData { revenue: Metric; clicks: Metric; roas: Metric; }
+```
+
+### API Hook Pattern
+
+Data-fetching hooks follow this shape in production:
+
+```typescript
+useApi{Resource}({
+  brandId: string;      // always scoped to a brand
+  provider: Provider;   // "google" | "meta" | "tiktok"
+  payload: {
+    startDate: string;
+    endDate: string;
+    campaign?: string;   // ALL_CAMPAIGNS_ID for aggregate
+    campaigns?: string[];
+    campaignTypes?: string[];
+  };
+  enabled: boolean;     // gates the fetch — false when platform not connected or filters incomplete
+})
+```
+
+Mock hooks in the prototype should accept the same signature and respect `enabled`.
+
+### Provider Enum
+
+Platforms are always typed as `"google" | "meta" | "tiktok"` (lowercase). Do not use display strings like `"Google"` as values — use them only for labels. The production `Provider` enum also includes `"apple"` and `"yandex"` for future expansion.
+
+### Normalized Responses
+
+When a single endpoint aggregates data from multiple ad platforms into one consistent shape, prefix the type with `Normalized`:
+
+```typescript
+// Example: NormalizedAdMetricsResponse — same shape regardless of Google/Meta/TikTok
+interface NormalizedAdMetricsResponse {
+  cost: Metric;
+  clicks: Metric;
+  onlineRevenue: Metric;
+  offlineRevenue: Metric;
+  omniROAS: Metric;
+  // ...
+}
+```
+
+This signals to engineering that the backend must unify platform-specific response formats before returning.

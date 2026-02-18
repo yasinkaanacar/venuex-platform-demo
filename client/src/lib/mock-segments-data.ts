@@ -8,6 +8,16 @@ import type {
   SegmentSummaryKPIs,
   SegmentFilters,
   AdPlatform,
+  SegmentOverlapResult,
+  SegmentExclusionRule,
+  MergeStrategy,
+  SegmentMergeRecord,
+  ReachProjection,
+  SegmentAutomationRule,
+  LookalikeAudience,
+  ABTestConfig,
+  SegmentAttribution,
+  AttributionTimeseriesPoint,
 } from './types/segments';
 
 // ------------------------------------------------------------------
@@ -50,6 +60,7 @@ export const mockSegments: Segment[] = [
         totalIdentifiers: 43800,
         audienceId: 'google-aud-001',
         audienceName: 'VenueX - High Value Customers',
+        activeCampaigns: 4,
         autoSync: true,
         lastPushedAt: '2026-02-14T09:30:00Z',
         nextSyncAt: '2026-02-15T09:30:00Z',
@@ -64,6 +75,7 @@ export const mockSegments: Segment[] = [
         totalIdentifiers: 43800,
         audienceId: 'meta-aud-001',
         audienceName: 'VenueX - High Value Customers',
+        activeCampaigns: 3,
         autoSync: true,
         lastPushedAt: '2026-02-14T09:35:00Z',
         nextSyncAt: '2026-02-15T09:35:00Z',
@@ -74,6 +86,10 @@ export const mockSegments: Segment[] = [
     lastBuiltAt: '2026-02-14T09:30:00Z',
     createdBy: 'Kaan Acar',
     tags: ['high-value', 'core'],
+    automationRules: [
+      { id: 'ar-001', segmentId: 'seg-001', trigger: 'schedule', frequency: 'weekly', action: 'rebuild', isActive: true, lastTriggeredAt: '2026-02-14T02:00:00Z', nextScheduledAt: '2026-02-21T02:00:00Z', createdAt: '2025-12-01T10:00:00Z' },
+      { id: 'ar-002', segmentId: 'seg-001', trigger: 'size_threshold', sizeOperator: 'below', sizeValue: 30000, action: 'notify', isActive: true, createdAt: '2025-12-10T10:00:00Z' },
+    ],
   },
   {
     id: 'seg-002',
@@ -104,6 +120,7 @@ export const mockSegments: Segment[] = [
         totalIdentifiers: 28400,
         audienceId: 'google-aud-002',
         audienceName: 'VenueX - Denim Buyers',
+        activeCampaigns: 2,
         autoSync: true,
         lastPushedAt: '2026-02-13T14:00:00Z',
         nextSyncAt: '2026-02-14T14:00:00Z',
@@ -118,6 +135,7 @@ export const mockSegments: Segment[] = [
         totalIdentifiers: 28400,
         audienceId: 'tt-aud-001',
         audienceName: 'VenueX - Denim Buyers',
+        activeCampaigns: 1,
         autoSync: false,
         lastPushedAt: '2026-02-12T10:00:00Z',
       },
@@ -157,6 +175,7 @@ export const mockSegments: Segment[] = [
         totalIdentifiers: 12600,
         audienceId: 'google-aud-003',
         audienceName: 'VenueX - VIP Champions',
+        activeCampaigns: 5,
         autoSync: true,
         lastPushedAt: '2026-02-14T08:00:00Z',
         nextSyncAt: '2026-02-15T08:00:00Z',
@@ -171,6 +190,7 @@ export const mockSegments: Segment[] = [
         totalIdentifiers: 12600,
         audienceId: 'meta-aud-002',
         audienceName: 'VenueX - VIP Champions',
+        activeCampaigns: 3,
         autoSync: true,
         lastPushedAt: '2026-02-14T08:05:00Z',
         nextSyncAt: '2026-02-15T08:05:00Z',
@@ -185,6 +205,7 @@ export const mockSegments: Segment[] = [
         totalIdentifiers: 12600,
         audienceId: 'tt-aud-002',
         audienceName: 'VenueX - VIP Champions',
+        activeCampaigns: 1,
         autoSync: false,
         lastPushedAt: '2026-02-10T12:00:00Z',
       },
@@ -194,6 +215,10 @@ export const mockSegments: Segment[] = [
     lastBuiltAt: '2026-02-14T08:00:00Z',
     createdBy: 'Kaan Acar',
     tags: ['rfm', 'vip'],
+    automationRules: [
+      { id: 'ar-003', segmentId: 'seg-003', trigger: 'schedule', frequency: 'daily', action: 'push_refresh', isActive: true, lastTriggeredAt: '2026-02-17T02:00:00Z', nextScheduledAt: '2026-02-18T02:00:00Z', createdAt: '2026-01-05T10:00:00Z' },
+      { id: 'ar-004', segmentId: 'seg-003', trigger: 'match_rate_drop', matchRateThreshold: 70, action: 'pause', isActive: true, createdAt: '2026-01-10T10:00:00Z' },
+    ],
   },
   {
     id: 'seg-004',
@@ -224,6 +249,7 @@ export const mockSegments: Segment[] = [
         totalIdentifiers: 67800,
         audienceId: 'google-aud-004',
         audienceName: 'VenueX - Istanbul Customers',
+        activeCampaigns: 6,
         autoSync: true,
         lastPushedAt: '2026-02-14T07:00:00Z',
         nextSyncAt: '2026-02-15T07:00:00Z',
@@ -238,6 +264,7 @@ export const mockSegments: Segment[] = [
         totalIdentifiers: 67800,
         audienceId: 'meta-aud-003',
         audienceName: 'VenueX - Istanbul Customers',
+        activeCampaigns: 4,
         autoSync: true,
         lastPushedAt: '2026-02-14T07:05:00Z',
         nextSyncAt: '2026-02-15T07:05:00Z',
@@ -248,6 +275,9 @@ export const mockSegments: Segment[] = [
     lastBuiltAt: '2026-02-14T07:00:00Z',
     createdBy: 'Kaan Acar',
     tags: ['store', 'istanbul'],
+    automationRules: [
+      { id: 'ar-005', segmentId: 'seg-004', trigger: 'schedule', frequency: 'weekly', action: 'rebuild', isActive: true, lastTriggeredAt: '2026-02-14T03:00:00Z', nextScheduledAt: '2026-02-21T03:00:00Z', createdAt: '2026-01-15T10:00:00Z' },
+    ],
   },
   {
     id: 'seg-005',
@@ -285,6 +315,7 @@ export const mockSegments: Segment[] = [
         totalIdentifiers: 8900,
         audienceId: 'meta-aud-004',
         audienceName: 'VenueX - High Value Denim',
+        activeCampaigns: 2,
         autoSync: true,
         lastPushedAt: '2026-02-13T16:00:00Z',
         nextSyncAt: '2026-02-14T16:00:00Z',
@@ -377,6 +408,7 @@ export const mockSegments: Segment[] = [
         matchRate: 0,
         matchedIdentifiers: 0,
         totalIdentifiers: 14800,
+        activeCampaigns: 0,
         autoSync: false,
       },
     ],
@@ -788,6 +820,7 @@ export const segmentDataService = {
       totalIdentifiers: size,
       audienceId: `${platform}-aud-${Date.now()}`,
       audienceName: `VenueX - ${segment.name}`,
+      activeCampaigns: 0,
       autoSync: false,
       lastPushedAt: new Date().toISOString(),
     };
@@ -926,4 +959,446 @@ export const segmentDataService = {
       mockScheduledExports.splice(index, 1);
     }
   },
+
+  // ----------------------------------------------------------------
+  // Feature 1: Overlap Analysis
+  // ----------------------------------------------------------------
+
+  async getTopOverlaps(): Promise<SegmentOverlapResult[]> {
+    await delay(200);
+    return mockOverlaps;
+  },
+
+  // ----------------------------------------------------------------
+  // Feature 2: Reach / Cost Projection
+  // ----------------------------------------------------------------
+
+  async getReachProjection(
+    segmentId: string,
+    platform: AdPlatform,
+  ): Promise<ReachProjection> {
+    await delay(100);
+    const segment = mockSegments.find((s) => s.id === segmentId);
+    if (!segment) throw new Error('Segment not found');
+
+    const size = segment.actualSize ?? segment.estimatedSize;
+    const matchRates: Record<AdPlatform, number> = { google: 76, meta: 81, tiktok: 61 };
+    const cpms: Record<AdPlatform, number> = { google: 52, meta: 42, tiktok: 31 };
+
+    const existingPush = segment.platformPushes.find((p) => p.platform === platform);
+    const matchRate = existingPush?.matchRate ?? matchRates[platform];
+    const reach = Math.round(size * (matchRate / 100));
+    const impressions = reach * 3.5;
+    const monthlySpend = Math.round((impressions / 1000) * cpms[platform]);
+
+    return {
+      platform,
+      segmentSize: size,
+      estimatedMatchRate: matchRate,
+      estimatedReach: reach,
+      estimatedCPM: cpms[platform],
+      estimatedMonthlySpend: monthlySpend,
+      confidenceLevel: existingPush ? 'high' : 'medium',
+    };
+  },
+
+  // ----------------------------------------------------------------
+  // Feature 3: Lifecycle Automation
+  // ----------------------------------------------------------------
+
+  async getAutomationRules(segmentId: string): Promise<SegmentAutomationRule[]> {
+    await delay(100);
+    const segment = mockSegments.find((s) => s.id === segmentId);
+    return segment?.automationRules ?? [];
+  },
+
+  async createAutomationRule(
+    segmentId: string,
+    data: Partial<SegmentAutomationRule>,
+  ): Promise<SegmentAutomationRule> {
+    await delay(150);
+    const segment = mockSegments.find((s) => s.id === segmentId);
+    if (!segment) throw new Error('Segment not found');
+
+    const rule: SegmentAutomationRule = {
+      id: `ar-${Date.now()}`,
+      segmentId,
+      trigger: data.trigger ?? 'schedule',
+      frequency: data.frequency,
+      sizeOperator: data.sizeOperator,
+      sizeValue: data.sizeValue,
+      matchRateThreshold: data.matchRateThreshold,
+      action: data.action ?? 'rebuild',
+      isActive: true,
+      nextScheduledAt: data.trigger === 'schedule'
+        ? new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString()
+        : undefined,
+      createdAt: new Date().toISOString(),
+    };
+
+    if (!segment.automationRules) segment.automationRules = [];
+    segment.automationRules.push(rule);
+    return rule;
+  },
+
+  async toggleAutomationRule(
+    segmentId: string,
+    ruleId: string,
+    isActive: boolean,
+  ): Promise<SegmentAutomationRule> {
+    await delay(100);
+    const segment = mockSegments.find((s) => s.id === segmentId);
+    const rule = segment?.automationRules?.find((r) => r.id === ruleId);
+    if (!rule) throw new Error('Rule not found');
+    rule.isActive = isActive;
+    return rule;
+  },
+
+  // ----------------------------------------------------------------
+  // Feature 4: Lookalike & A/B
+  // ----------------------------------------------------------------
+
+  async getLookalikeAudiences(): Promise<LookalikeAudience[]> {
+    await delay(100);
+    return mockLookalikes;
+  },
+
+  async createLookalikeAudience(data: Partial<LookalikeAudience>): Promise<LookalikeAudience> {
+    await delay(250);
+    const la: LookalikeAudience = {
+      id: `la-${Date.now()}`,
+      sourceSegmentId: data.sourceSegmentId ?? '',
+      sourceSegmentName: data.sourceSegmentName ?? '',
+      platform: data.platform ?? 'google',
+      name: data.name ?? `Lookalike - ${data.sourceSegmentName}`,
+      expansionPercent: data.expansionPercent ?? 3,
+      estimatedSize: data.estimatedSize ?? 1000000,
+      status: 'building',
+      createdAt: new Date().toISOString(),
+    };
+    mockLookalikes.push(la);
+    return la;
+  },
+
+  async getABTests(): Promise<ABTestConfig[]> {
+    await delay(100);
+    return mockABTests;
+  },
+
+  async createABTest(data: Partial<ABTestConfig>): Promise<ABTestConfig> {
+    await delay(200);
+    const test: ABTestConfig = {
+      id: `ab-${Date.now()}`,
+      name: data.name ?? 'New A/B Test',
+      sourceSegmentId: data.sourceSegmentId ?? '',
+      sourceSegmentName: data.sourceSegmentName ?? '',
+      platform: data.platform ?? 'google',
+      splitPercentage: data.splitPercentage ?? 50,
+      groupA: data.groupA ?? { name: 'Control', size: 0 },
+      groupB: data.groupB ?? { name: 'Test', size: 0 },
+      status: 'active',
+      createdAt: new Date().toISOString(),
+    };
+    mockABTests.push(test);
+    return test;
+  },
+
+  // ----------------------------------------------------------------
+  // Feature 5: ROI Attribution
+  // ----------------------------------------------------------------
+
+  async getSegmentAttributions(): Promise<SegmentAttribution[]> {
+    await delay(200);
+    return mockAttributions;
+  },
+
+  async getAttributionTimeseries(segmentId: string): Promise<AttributionTimeseriesPoint[]> {
+    await delay(150);
+    return mockAttributionTimeseries[segmentId] ?? [];
+  },
+
+  // ----------------------------------------------------------------
+  // Insights Actions: Exclude & Merge
+  // ----------------------------------------------------------------
+
+  async createExclusionRule(data: {
+    sourceSegmentId: string;
+    sourceSegmentName: string;
+    excludedSegmentId: string;
+    excludedSegmentName: string;
+    platforms: AdPlatform[];
+    overlapCount: number;
+    estimatedSavings: number;
+  }): Promise<SegmentExclusionRule> {
+    await delay(300);
+    const rule: SegmentExclusionRule = {
+      id: `excl-${Date.now()}`,
+      ...data,
+      createdAt: new Date().toISOString(),
+    };
+    mockExclusionRules.push(rule);
+    return rule;
+  },
+
+  async mergeSegments(data: {
+    segmentAId: string;
+    segmentAName: string;
+    segmentBId: string;
+    segmentBName: string;
+    strategy: MergeStrategy;
+    newSegmentName: string;
+    pauseOriginals: boolean;
+    overlapCount: number;
+    sizeA: number;
+    sizeB: number;
+  }): Promise<{ mergeRecord: SegmentMergeRecord; newSegment: Segment }> {
+    await delay(400);
+
+    const resultingSize =
+      data.strategy === 'union'
+        ? data.sizeA + data.sizeB - data.overlapCount
+        : data.overlapCount;
+
+    const newSegment = await this.createSegment({
+      name: data.newSegmentName,
+      description: `Merged from ${data.segmentAName} & ${data.segmentBName} (${data.strategy})`,
+      type: 'value',
+      estimatedSize: resultingSize,
+      tags: ['merged'],
+    });
+
+    if (data.pauseOriginals) {
+      await this.updateSegment(data.segmentAId, { status: 'paused' });
+      await this.updateSegment(data.segmentBId, { status: 'paused' });
+    }
+
+    const record: SegmentMergeRecord = {
+      id: `merge-${Date.now()}`,
+      sourceSegmentAId: data.segmentAId,
+      sourceSegmentAName: data.segmentAName,
+      sourceSegmentBId: data.segmentBId,
+      sourceSegmentBName: data.segmentBName,
+      strategy: data.strategy,
+      newSegmentId: newSegment.id,
+      newSegmentName: newSegment.name,
+      resultingSize,
+      pausedOriginals: data.pauseOriginals,
+      createdAt: new Date().toISOString(),
+    };
+    mockMergeRecords.push(record);
+
+    return { mergeRecord: record, newSegment };
+  },
+};
+
+// ------------------------------------------------------------------
+// Mock Overlap Data (Feature 1)
+// ------------------------------------------------------------------
+
+export const mockOverlaps: SegmentOverlapResult[] = [
+  {
+    segmentA: { id: 'seg-001', name: 'Yüksek Harcamalı Müşteriler', size: 43800 },
+    segmentB: { id: 'seg-003', name: 'VIP RFM Segmenti', size: 12600 },
+    overlapCount: 9800,
+    overlapPercent: 21,
+    onlyA: 34000,
+    onlyB: 2800,
+    unionSize: 46600,
+    jaccardIndex: 0.21,
+    recommendation: 'exclude',
+    wastedSpendEstimate: 28400,
+  },
+  {
+    segmentA: { id: 'seg-001', name: 'Yüksek Harcamalı Müşteriler', size: 43800 },
+    segmentB: { id: 'seg-005', name: 'Yüksek Değerli Denim Alıcıları', size: 8900 },
+    overlapCount: 7200,
+    overlapPercent: 16,
+    onlyA: 36600,
+    onlyB: 1700,
+    unionSize: 45500,
+    jaccardIndex: 0.16,
+    recommendation: 'merge',
+    wastedSpendEstimate: 21100,
+  },
+  {
+    segmentA: { id: 'seg-002', name: 'Denim Kategorisi Alıcıları', size: 28400 },
+    segmentB: { id: 'seg-005', name: 'Yüksek Değerli Denim Alıcıları', size: 8900 },
+    overlapCount: 6100,
+    overlapPercent: 20,
+    onlyA: 22300,
+    onlyB: 2800,
+    unionSize: 31200,
+    jaccardIndex: 0.20,
+    recommendation: 'exclude',
+    wastedSpendEstimate: 18200,
+  },
+  {
+    segmentA: { id: 'seg-001', name: 'Yüksek Harcamalı Müşteriler', size: 43800 },
+    segmentB: { id: 'seg-004', name: 'İstanbul Mağazaları Müşterileri', size: 67800 },
+    overlapCount: 18400,
+    overlapPercent: 20,
+    onlyA: 25400,
+    onlyB: 49400,
+    unionSize: 93200,
+    jaccardIndex: 0.20,
+    recommendation: 'ok',
+    wastedSpendEstimate: 12800,
+  },
+  {
+    segmentA: { id: 'seg-003', name: 'VIP RFM Segmenti', size: 12600 },
+    segmentB: { id: 'seg-004', name: 'İstanbul Mağazaları Müşterileri', size: 67800 },
+    overlapCount: 8900,
+    overlapPercent: 12,
+    onlyA: 3700,
+    onlyB: 58900,
+    unionSize: 71500,
+    jaccardIndex: 0.12,
+    recommendation: 'ok',
+    wastedSpendEstimate: 8100,
+  },
+];
+
+// ------------------------------------------------------------------
+// In-memory stores for Exclude & Merge actions
+// ------------------------------------------------------------------
+
+const mockExclusionRules: SegmentExclusionRule[] = [];
+const mockMergeRecords: SegmentMergeRecord[] = [];
+
+// ------------------------------------------------------------------
+// Mock Lookalike Audiences (Feature 4)
+// ------------------------------------------------------------------
+
+export const mockLookalikes: LookalikeAudience[] = [
+  { id: 'la-001', sourceSegmentId: 'seg-001', sourceSegmentName: 'Yüksek Harcamalı Müşteriler', platform: 'google', name: 'Lookalike - Yüksek Harcamalı - Google 3%', expansionPercent: 3, estimatedSize: 1200000, status: 'active', createdAt: '2026-01-20T10:00:00Z' },
+  { id: 'la-002', sourceSegmentId: 'seg-001', sourceSegmentName: 'Yüksek Harcamalı Müşteriler', platform: 'meta', name: 'Lookalike - Yüksek Harcamalı - Meta 5%', expansionPercent: 5, estimatedSize: 2100000, status: 'active', createdAt: '2026-01-22T10:00:00Z' },
+  { id: 'la-003', sourceSegmentId: 'seg-003', sourceSegmentName: 'VIP RFM Segmenti', platform: 'google', name: 'Lookalike - VIP RFM - Google 2%', expansionPercent: 2, estimatedSize: 850000, status: 'building', createdAt: '2026-02-15T10:00:00Z' },
+  { id: 'la-004', sourceSegmentId: 'seg-003', sourceSegmentName: 'VIP RFM Segmenti', platform: 'meta', name: 'Lookalike - VIP RFM - Meta 3%', expansionPercent: 3, estimatedSize: 1400000, status: 'active', createdAt: '2026-02-01T10:00:00Z' },
+  { id: 'la-005', sourceSegmentId: 'seg-002', sourceSegmentName: 'Denim Kategorisi Alıcıları', platform: 'tiktok', name: 'Lookalike - Denim Alıcıları - TikTok 5%', expansionPercent: 5, estimatedSize: 1800000, status: 'active', createdAt: '2026-02-05T10:00:00Z' },
+];
+
+// ------------------------------------------------------------------
+// Mock A/B Tests (Feature 4)
+// ------------------------------------------------------------------
+
+export const mockABTests: ABTestConfig[] = [
+  {
+    id: 'ab-001',
+    name: 'Yüksek Harcamalı - Reklam Testi',
+    sourceSegmentId: 'seg-001',
+    sourceSegmentName: 'Yüksek Harcamalı Müşteriler',
+    platform: 'google',
+    splitPercentage: 50,
+    groupA: { name: 'Kontrol', size: 21900 },
+    groupB: { name: 'Test Varyantı', size: 21900 },
+    status: 'active',
+    createdAt: '2026-02-10T10:00:00Z',
+  },
+];
+
+// ------------------------------------------------------------------
+// Mock Attribution Data (Feature 5)
+// ------------------------------------------------------------------
+
+export const mockAttributions: SegmentAttribution[] = [
+  {
+    segmentId: 'seg-001',
+    segmentName: 'Yüksek Harcamalı Müşteriler',
+    segmentSize: 43800,
+    platforms: [
+      { platform: 'google', adSpend: 98000, offlineRevenue: 485000, onlineRevenue: 168000, offlineConversions: 1120, matchRate: 78, offlineROAS: 4.95, campaigns: 4 },
+      { platform: 'meta', adSpend: 87000, offlineRevenue: 407000, onlineRevenue: 144000, offlineConversions: 940, matchRate: 82, offlineROAS: 4.68, campaigns: 3 },
+    ],
+    totals: { adSpend: 185000, offlineRevenue: 892000, onlineRevenue: 312000, totalRevenue: 1204000, offlineConversions: 2060, totalConversions: 2840, offlineROAS: 4.82, omniROAS: 6.51, costPerConversion: 65 },
+    trend: { revenueChange: 12.4, roasChange: 5.2, conversionsChange: 8.7 },
+  },
+  {
+    segmentId: 'seg-002',
+    segmentName: 'Denim Kategorisi Alıcıları',
+    segmentSize: 28400,
+    platforms: [
+      { platform: 'google', adSpend: 62000, offlineRevenue: 268000, onlineRevenue: 118000, offlineConversions: 720, matchRate: 75, offlineROAS: 4.32, campaigns: 2 },
+      { platform: 'tiktok', adSpend: 36000, offlineRevenue: 157000, onlineRevenue: 68000, offlineConversions: 380, matchRate: 62, offlineROAS: 4.36, campaigns: 1 },
+    ],
+    totals: { adSpend: 98000, offlineRevenue: 425000, onlineRevenue: 186000, totalRevenue: 611000, offlineConversions: 1100, totalConversions: 1520, offlineROAS: 4.34, omniROAS: 6.23, costPerConversion: 64 },
+    trend: { revenueChange: 8.1, roasChange: 3.4, conversionsChange: 6.2 },
+  },
+  {
+    segmentId: 'seg-003',
+    segmentName: 'VIP RFM Segmenti',
+    segmentSize: 12600,
+    platforms: [
+      { platform: 'google', adSpend: 78000, offlineRevenue: 680000, onlineRevenue: 228000, offlineConversions: 890, matchRate: 81, offlineROAS: 8.72, campaigns: 5 },
+      { platform: 'meta', adSpend: 52000, offlineRevenue: 420000, onlineRevenue: 148000, offlineConversions: 560, matchRate: 84, offlineROAS: 8.08, campaigns: 3 },
+      { platform: 'tiktok', adSpend: 15000, offlineRevenue: 140000, onlineRevenue: 42000, offlineConversions: 180, matchRate: 58, offlineROAS: 9.33, campaigns: 1 },
+    ],
+    totals: { adSpend: 145000, offlineRevenue: 1240000, onlineRevenue: 418000, totalRevenue: 1658000, offlineConversions: 1630, totalConversions: 2180, offlineROAS: 8.55, omniROAS: 11.43, costPerConversion: 67 },
+    trend: { revenueChange: 18.6, roasChange: 9.1, conversionsChange: 14.3 },
+  },
+  {
+    segmentId: 'seg-004',
+    segmentName: 'İstanbul Mağazaları Müşterileri',
+    segmentSize: 67800,
+    platforms: [
+      { platform: 'google', adSpend: 125000, offlineRevenue: 448000, onlineRevenue: 172000, offlineConversions: 1380, matchRate: 76, offlineROAS: 3.58, campaigns: 6 },
+      { platform: 'meta', adSpend: 85000, offlineRevenue: 300000, onlineRevenue: 112000, offlineConversions: 920, matchRate: 80, offlineROAS: 3.53, campaigns: 4 },
+    ],
+    totals: { adSpend: 210000, offlineRevenue: 748000, onlineRevenue: 284000, totalRevenue: 1032000, offlineConversions: 2300, totalConversions: 3100, offlineROAS: 3.56, omniROAS: 4.91, costPerConversion: 68 },
+    trend: { revenueChange: 6.3, roasChange: -1.2, conversionsChange: 4.8 },
+  },
+  {
+    segmentId: 'seg-005',
+    segmentName: 'Yüksek Değerli Denim Alıcıları',
+    segmentSize: 8900,
+    platforms: [
+      { platform: 'meta', adSpend: 62000, offlineRevenue: 345000, onlineRevenue: 128000, offlineConversions: 780, matchRate: 79, offlineROAS: 5.56, campaigns: 2 },
+    ],
+    totals: { adSpend: 62000, offlineRevenue: 345000, onlineRevenue: 128000, totalRevenue: 473000, offlineConversions: 780, totalConversions: 1060, offlineROAS: 5.56, omniROAS: 7.63, costPerConversion: 58 },
+    trend: { revenueChange: 15.2, roasChange: 7.8, conversionsChange: 11.4 },
+  },
+];
+
+// ------------------------------------------------------------------
+// Mock Attribution Timeseries (Feature 5) — 30 days per segment
+// ------------------------------------------------------------------
+
+function generateTimeseries(
+  baseSpend: number,
+  baseOfflineRev: number,
+  baseOnlineRev: number,
+  baseConv: number,
+): AttributionTimeseriesPoint[] {
+  const points: AttributionTimeseriesPoint[] = [];
+  for (let i = 0; i < 30; i++) {
+    const date = new Date(2026, 1, i + 1);
+    const dayOfWeek = date.getDay();
+    // Weekdays are higher, weekends lower
+    const weekdayMultiplier = dayOfWeek === 0 || dayOfWeek === 6 ? 0.7 : 1.1;
+    // Slight upward trend
+    const trendMultiplier = 1 + (i * 0.005);
+    // Random jitter ±15%
+    const jitter = () => 0.85 + Math.random() * 0.3;
+
+    const dailySpend = Math.round((baseSpend / 30) * weekdayMultiplier * trendMultiplier * jitter());
+    const dailyOffRev = Math.round((baseOfflineRev / 30) * weekdayMultiplier * trendMultiplier * jitter());
+    const dailyOnRev = Math.round((baseOnlineRev / 30) * weekdayMultiplier * trendMultiplier * jitter());
+    const dailyConv = Math.round((baseConv / 30) * weekdayMultiplier * trendMultiplier * jitter());
+
+    points.push({
+      date: `2026-02-${String(i + 1).padStart(2, '0')}`,
+      adSpend: dailySpend,
+      offlineRevenue: dailyOffRev,
+      onlineRevenue: dailyOnRev,
+      conversions: dailyConv,
+    });
+  }
+  return points;
+}
+
+export const mockAttributionTimeseries: Record<string, AttributionTimeseriesPoint[]> = {
+  'seg-001': generateTimeseries(185000, 892000, 312000, 2840),
+  'seg-002': generateTimeseries(98000, 425000, 186000, 1520),
+  'seg-003': generateTimeseries(145000, 1240000, 418000, 2180),
+  'seg-004': generateTimeseries(210000, 748000, 284000, 3100),
+  'seg-005': generateTimeseries(62000, 345000, 128000, 1060),
 };
