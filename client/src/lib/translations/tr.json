@@ -181,7 +181,14 @@
             "backButton": "Geri",
             "fieldLabel": "Alan",
             "summaryTitle": "Değişiklik Özeti",
-            "summaryDescription": "Aşağıdaki değişiklikler konum verilerinize uygulanacak."
+            "summaryDescription": "Aşağıdaki değişiklikler konum verilerinize uygulanacak.",
+            "searchPlaceholder": "Ad veya mağaza kodu ara…",
+            "filterAll": "Tümü",
+            "progressLabel": "{{resolved}} / {{total}} çözüldü",
+            "bulkApplyLabel": "{{count}} tanesine uygula:",
+            "applyingProgress": "{{current}} / {{total}} uygulanıyor…",
+            "noResults": "Aramanızla eşleşen uyumsuzluk bulunamadı.",
+            "locationsCount": "{{count}} konum"
         }
     },
     "reviews": {

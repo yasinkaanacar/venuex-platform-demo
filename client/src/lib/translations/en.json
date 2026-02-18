@@ -178,7 +178,14 @@
             "backButton": "Back",
             "fieldLabel": "Field",
             "summaryTitle": "Summary of Changes",
-            "summaryDescription": "The following changes will be applied to your location data."
+            "summaryDescription": "The following changes will be applied to your location data.",
+            "searchPlaceholder": "Search by name or store code…",
+            "filterAll": "All",
+            "progressLabel": "{{resolved}} / {{total}} resolved",
+            "bulkApplyLabel": "Apply to all {{count}}:",
+            "applyingProgress": "Applying {{current}} of {{total}}…",
+            "noResults": "No conflicts match your search.",
+            "locationsCount": "{{count}} locations"
         }
     },
     "platformStatus": {
