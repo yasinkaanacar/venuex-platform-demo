@@ -185,7 +185,8 @@
             "bulkApplyLabel": "Apply to all {{count}}:",
             "applyingProgress": "Applying {{current}} of {{total}}…",
             "noResults": "No conflicts match your search.",
-            "locationsCount": "{{count}} locations"
+            "locationsCount": "{{count}} locations",
+            "perLocationTitle": "Per-location breakdown"
         }
     },
     "platformStatus": {
@@ -256,7 +257,57 @@
         "turkey": "Turkey",
         "world": "World",
         "provinceBasedPerformance": "Province-Based Performance",
-        "countryBasedPerformance": "Country-Based Performance"
+        "countryBasedPerformance": "Country-Based Performance",
+        "executiveSummary": "Executive Summary",
+        "adSpend": "Ad Spend",
+        "revenue": "Revenue",
+        "roas": "ROAS",
+        "orders": "Orders",
+        "aovOffline": "AOV (Offline)",
+        "revenueShare": "Revenue Share",
+        "online": "Online",
+        "offline": "Offline",
+        "dataPipelineStatus": "Data Pipeline Status",
+        "dataSources": "Data Sources",
+        "processingHub": "Processing Hub",
+        "destinations": "Destinations",
+        "refresh": "Refresh",
+        "active": "Active",
+        "syncing": "Syncing",
+        "warning": "Warning",
+        "error": "Error",
+        "conversionUploadActivity": "Conversion Upload Activity",
+        "retry": "Retry",
+        "events": "events",
+        "weeklySalesPerformance": "Weekly Sales Performance",
+        "totalRevenue": "Total Revenue",
+        "onlineSales": "Online Sales",
+        "offlineSales": "Offline Sales",
+        "avgRoas": "Avg ROAS",
+        "onlineRoas": "Online ROAS",
+        "offlineRoas": "Offline ROAS",
+        "uploadHealth": "Upload Health",
+        "eventsToday": "Events Today",
+        "totalProcessed": "Total Processed",
+        "avgLatency": "Avg Latency",
+        "uptime": "Uptime",
+        "platformMatchRates": "Platform Match Rates",
+        "offlineConversionPerformance": "Offline Conversion Performance",
+        "dataQualityCompliance": "Data Quality and Compliance",
+        "requiredFields": "Required Fields",
+        "matchRateCritical": "Match Rate (Critical)",
+        "optionalData": "Optional Data",
+        "productDetails": "Product Details",
+        "detailedReport": "Detailed Report",
+        "detailedPerformanceReport": "Detailed Performance Report",
+        "dataConnectionStatus": "Data Connection Status",
+        "lastUpload": "Last Upload",
+        "batchReport": "Batch Report",
+        "downloadErrorReport": "Download Error Report (.CSV)",
+        "completedWithIssues": "Completed with Issues",
+        "attributionBreakdown": "Attribution Breakdown",
+        "costDistribution": "Cost Distribution",
+        "revenueDistribution": "Revenue Distribution"
     },
     "catalog": {
         "title": "Local Inventory",
@@ -311,9 +362,14 @@
         "emailMissing": "email missing at locations"
     },
     "reviews": {
+        "positive": "Positive",
+        "negative": "Negative",
+        "neutral": "Neutral",
         "tabs": {
+            "overview": "Overview",
             "summary": "Summary",
             "inbox": "Inbox",
+            "locations": "Locations",
             "themes": "Themes",
             "trends": "Trends",
             "reports": "Reports",
@@ -334,18 +390,74 @@
             "responseRate": "Response Rate",
             "dateRange": "Date Range",
             "search": "Search...",
-            "locationSearch": "Search location..."
+            "locationSearch": "Search location...",
+            "source": "Source",
+            "location": "Location",
+            "status": "Status",
+            "sort": "Sort",
+            "comment": "Comment",
+            "storeSet": "Store Set",
+            "locations": "Locations",
+            "products": "Products",
+            "unreplied": "Unreplied",
+            "replied": "Replied",
+            "all": "All",
+            "latest": "Latest",
+            "oldest": "Oldest",
+            "ratingOnly": "Rating Only",
+            "withComment": "With Comment",
+            "allLocations": "All Locations",
+            "allProducts": "All Products",
+            "allThemes": "All Themes",
+            "allStoreSets": "All Store Sets",
+            "allRatings": "All Ratings",
+            "allSentiments": "All Sentiments",
+            "allRegions": "All Regions",
+            "allCities": "All Cities",
+            "allReplyRates": "All Reply Rates",
+            "searchLocation": "Search by location name...",
+            "stars": "Stars",
+            "star": "Star"
         },
         "kpi": {
             "totalReviews": "Total Reviews",
             "averageRating": "Average Rating",
             "responseRate": "Response Rate",
-            "avgResponseTime": "Avg. Response Time",
             "newReviews": "New Reviews",
             "pendingResponses": "Pending Responses",
-            "sentimentIndex": "Sentiment Index",
             "slaBreach": "SLA Breach",
             "escalated": "Escalated"
+        },
+        "detail": {
+            "title": "Review Details",
+            "selectReview": "Select a review from the list to view details",
+            "writeReply": "Write Reply",
+            "report": "Report",
+            "selectTemplate": "Select Template",
+            "aiSuggestion": "AI Suggestion",
+            "saveDraft": "Save Draft",
+            "send": "Send",
+            "replyPlaceholder": "Write your reply here...",
+            "overallRating": "Overall Rating",
+            "totalReviews": "Total Reviews",
+            "topIssue": "Top Issue",
+            "skuId": "SKU / ID"
+        },
+        "inbox": {
+            "title": "Reviews",
+            "noReviews": "No reviews match the current filters",
+            "of": "of"
+        },
+        "trend": {
+            "title": "Review Volume & Sentiment Trend",
+            "subtitle": "Weekly review breakdown by sentiment with rating overlay",
+            "totalReviews": "Total Reviews",
+            "avgRating": "Avg Rating",
+            "positivePercent": "Positive %",
+            "responseRate": "Response Rate",
+            "sentimentScore": "Sentiment Score",
+            "reviews": "Reviews",
+            "avgRatingAxis": "Avg Rating"
         },
         "actions": {
             "alertSettings": "Alert Settings",
@@ -380,9 +492,20 @@
             "source": "Source",
             "date": "Date",
             "status": "Status",
-            "product": "Product"
+            "product": "Product",
+            "storeCode": "Store Code",
+            "storeName": "Store Name",
+            "avgRating": "Avg. Rating",
+            "topThemes": "Top Themes"
         },
         "themes": {
+            "title": "Themes",
+            "subtitle": "Theme analysis with VenueX scoring",
+            "scatterPlot": "Scatter Plot",
+            "bubbleChart": "Bubble Chart",
+            "venueXScore": "VenueX Score",
+            "reviewCount": "Review Count",
+            "avgRating": "Average Rating",
             "taste": "Taste",
             "staff": "Staff",
             "cleanliness": "Cleanliness",
@@ -395,19 +518,41 @@
             "portion": "Portion"
         },
         "alerts": {
-            "title": "Alert Settings",
-            "description": "Configure notifications for new reviews",
+            "title": "Manage Notifications",
+            "description": "Configure your notification preferences for reviews and alerts.",
             "emailNotifications": "Email Notifications",
             "pushNotifications": "Push Notifications",
             "minRating": "Minimum Rating",
-            "keywords": "Keywords"
+            "keywords": "Keywords",
+            "lowStarAlerts": "1-2 Star Review Alerts",
+            "lowStarDescription": "Email me for every new 1-2 star review",
+            "priceMentions": "Price Mentions",
+            "priceDescription": "Email me for every review mentioning price",
+            "dailySummary": "Daily Summary",
+            "dailyDescription": "Send me a daily summary email at 8:00 AM",
+            "saveSettings": "Save Settings"
         },
         "ai": {
-            "title": "AI Settings",
-            "description": "Configure auto-response and sentiment analysis",
+            "title": "Configure AI Assistant",
+            "description": "Customize the AI assistant behavior and brand guidelines for automated replies.",
             "autoReply": "Auto Reply",
             "sentimentAnalysis": "Sentiment Analysis",
-            "tone": "Response Tone"
+            "tone": "Response Tone",
+            "aiDrafts": "AI-Assisted Reply Drafts",
+            "aiDraftsDescription": "Enable AI-assisted reply drafts in the Inbox",
+            "defaultTone": "Default AI Tone",
+            "brandGuidelines": "Brand Guidelines",
+            "brandPlaceholder": "Enter key phrases or facts about your brand for the AI to use...",
+            "savePreferences": "Save AI Preferences",
+            "empathetic": "Empathetic",
+            "professional": "Professional",
+            "concise": "Concise"
+        },
+        "templates": {
+            "title": "Manage Reply Templates",
+            "description": "Create and manage standardized reply templates for common review scenarios.",
+            "createNew": "Create New Template",
+            "saveTemplates": "Save Templates"
         }
     },
     "platforms": {
@@ -459,6 +604,7 @@
         "platform": "Platform",
         "allPlatforms": "All Platforms",
         "last7days": "Last 7 days",
+        "last14days": "Last 14 days",
         "last30days": "Last 30 days",
         "last90days": "Last 90 days",
         "compare": "Compare",
@@ -489,6 +635,7 @@
             "managePosts": "Manage Posts",
             "components": "Components",
             "setup3B": "Setup 3B",
+            "settings": "Settings",
             "onboarding": "Onboarding",
             "signup": "Sign Up",
             "segments": "Segments"
@@ -718,15 +865,27 @@
         "dimensions": {
             "basket_amount": "Basket Amount",
             "total_spend": "Total Spend",
+            "average_order_value": "Average Order Value",
+            "total_orders": "Total Orders",
+            "customer_lifetime_value": "Customer Lifetime Value",
+            "last_order_amount": "Last Order Amount",
             "product_category": "Product Category",
             "product_brand": "Product Brand",
+            "product_subcategory": "Product Subcategory",
+            "purchase_channel": "Purchase Channel",
             "purchase_recency_days": "Purchase Recency (Days)",
             "purchase_frequency": "Purchase Frequency",
             "monetary_score": "Monetary Score",
             "rfm_segment": "RFM Segment",
+            "days_since_first_purchase": "Days Since First Purchase",
+            "avg_days_between_purchases": "Avg. Days Between Purchases",
             "store_id": "Store ID",
             "store_region": "Store Region",
-            "store_city": "Store City"
+            "store_city": "Store City",
+            "store_format": "Store Format",
+            "loyalty_tier": "Loyalty Tier",
+            "gender": "Gender",
+            "age_range": "Age Range"
         },
         "operators": {
             "gt": "greater than",
@@ -949,6 +1108,135 @@
             "timeseriesOffline": "Offline Revenue",
             "timeseriesOnline": "Online Revenue",
             "noData": "No attribution data available"
+        },
+        "performance": {
+            "tabOverview": "Overview",
+            "tabPerformance": "Performance",
+            "totalSpend": "Total Spend",
+            "conversions": "Conversions",
+            "roas": "ROAS",
+            "confidence": "Confidence",
+            "confidenceDirect": "Direct",
+            "confidenceEstimated": "Estimated",
+            "confidenceDirectTooltip": "Attribution based solely on this audience segment",
+            "confidenceEstimatedTooltip": "Attribution estimated from multiple targeting inputs",
+            "period7d": "7D",
+            "period30d": "30D",
+            "period90d": "90D",
+            "platformPerformance": "Platform Performance",
+            "spend": "Spend",
+            "revenue": "Revenue",
+            "matchRate": "Match Rate",
+            "trend": "Trend",
+            "chartTitle": "ROAS Over Time",
+            "combined": "Combined",
+            "campaignBreakdown": "Campaign Breakdown",
+            "campaignName": "Campaign Name",
+            "platform": "Platform",
+            "entityType": "Type",
+            "noActiveCampaigns": "No active campaigns",
+            "noActiveCampaignsDesc": "This segment has been pushed but is not yet used in any campaigns.",
+            "last30d": "Last 30 days"
+        }
+    },
+    "notifications": {
+        "title": "Notifications",
+        "markAllRead": "Mark all as read",
+        "noNotifications": "You're all caught up",
+        "noNotificationsDesc": "No new notifications",
+        "settings": "Notification Settings",
+        "tabs": {
+            "all": "All",
+            "unread": "Unread"
+        },
+        "categories": {
+            "platform": "Platform",
+            "reviews": "Reviews",
+            "locations": "Locations",
+            "catalog": "Catalog",
+            "offline_conversions": "Offline Conv."
+        },
+        "timeGroups": {
+            "today": "Today",
+            "yesterday": "Yesterday",
+            "thisWeek": "This Week",
+            "earlier": "Earlier"
+        }
+    },
+    "settings": {
+        "title": "Settings",
+        "description": "Manage your account and notification preferences.",
+        "notifications": {
+            "title": "Notification Preferences",
+            "description": "Choose which categories you want to receive notifications for.",
+            "platformUpdates": "Platform & Integrations",
+            "platformUpdatesDesc": "Connection failures, sync errors, and expiring API tokens.",
+            "reviewAlerts": "Review Alerts",
+            "reviewAlertsDesc": "Negative reviews, SLA breaches, rating drops, and daily digests.",
+            "locationAlerts": "Location Alerts",
+            "locationAlertsDesc": "Suspensions, duplicates, verification issues, and data mismatches.",
+            "catalogAlerts": "Catalog Alerts",
+            "catalogAlertsDesc": "Product disapprovals, feed errors, and low approval rates.",
+            "offlineConversionAlerts": "Offline Conversion Alerts",
+            "offlineConversionAlertsDesc": "Upload failures, data gaps, low match rates, and anomalies.",
+            "toastTitle": "Setting updated",
+            "toastOn": "enabled",
+            "toastOff": "disabled",
+            "frequency": {
+                "instant": "Instant",
+                "daily": "Daily",
+                "weekly": "Weekly",
+                "off": "Off"
+            },
+            "severity": {
+                "label": "Severity",
+                "all": "All",
+                "warnings_errors": "Warnings & Errors",
+                "errors_only": "Errors Only"
+            },
+            "events": {
+                "platform": {
+                    "connectionLost": "Platform connection lost",
+                    "syncFailed": "Data sync failed",
+                    "tokenExpiring": "API token expiring"
+                },
+                "reviews": {
+                    "negativeReview": "Negative review received",
+                    "slaBreached": "Response SLA breached",
+                    "ratingDrop": "Location rating dropped",
+                    "dailySummary": "Daily review summary",
+                    "policyViolation": "Google policy violation"
+                },
+                "locations": {
+                    "suspended": "Location suspended",
+                    "duplicate": "Duplicate location detected",
+                    "verificationNeeded": "Verification required",
+                    "dataMismatch": "Cross-platform data mismatch"
+                },
+                "catalog": {
+                    "disapproval": "Products disapproved",
+                    "feedError": "Feed upload error",
+                    "lowApprovalRate": "Approval rate below threshold"
+                },
+                "offline_conversions": {
+                    "uploadFailed": "Upload failed",
+                    "dataGap": "Data gap detected",
+                    "lowMatchRate": "Match rate below threshold",
+                    "anomaly": "Anomaly detected"
+                }
+            }
+        },
+        "account": {
+            "title": "Account Information",
+            "description": "Basic information about your account.",
+            "name": "Full Name",
+            "role": "Role",
+            "email": "Email"
+        },
+        "emailNotifications": {
+            "title": "Email Notifications",
+            "comingSoon": "Coming Soon",
+            "description": "Email notification preferences will be available soon."
         }
     }
 }

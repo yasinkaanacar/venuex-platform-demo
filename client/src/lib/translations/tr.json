@@ -188,21 +188,19 @@
             "bulkApplyLabel": "{{count}} tanesine uygula:",
             "applyingProgress": "{{current}} / {{total}} uygulanıyor…",
             "noResults": "Aramanızla eşleşen uyumsuzluk bulunamadı.",
-            "locationsCount": "{{count}} konum"
+            "locationsCount": "{{count}} konum",
+            "perLocationTitle": "Konum bazlı detay"
         }
     },
     "reviews": {
-        "title": "Yorumlar",
-        "overview": "Genel Bakış",
-        "allReviews": "Tüm Yorumlar",
-        "respond": "Yanıtla",
-        "sentiment": "Duygu Analizi",
         "positive": "Olumlu",
         "negative": "Olumsuz",
         "neutral": "Nötr",
         "tabs": {
+            "overview": "Genel Bakış",
             "summary": "Özet",
             "inbox": "Gelen Kutusu",
+            "locations": "Lokasyonlar",
             "themes": "Temalar",
             "trends": "Trendler",
             "reports": "Raporlar",
@@ -223,18 +221,74 @@
             "responseRate": "Yanıt Oranı",
             "dateRange": "Tarih Aralığı",
             "search": "Ara...",
-            "locationSearch": "Lokasyon ara..."
+            "locationSearch": "Lokasyon ara...",
+            "source": "Kaynak",
+            "location": "Lokasyon",
+            "status": "Durum",
+            "sort": "Sırala",
+            "comment": "Yorum",
+            "storeSet": "Mağaza Seti",
+            "locations": "Lokasyonlar",
+            "products": "Ürünler",
+            "unreplied": "Yanıtsız",
+            "replied": "Yanıtlı",
+            "all": "Tümü",
+            "latest": "En Yeni",
+            "oldest": "En Eski",
+            "ratingOnly": "Sadece Puan",
+            "withComment": "Yorumlu",
+            "allLocations": "Tüm Lokasyonlar",
+            "allProducts": "Tüm Ürünler",
+            "allThemes": "Tüm Temalar",
+            "allStoreSets": "Tüm Mağaza Setleri",
+            "allRatings": "Tüm Puanlar",
+            "allSentiments": "Tüm Duygular",
+            "allRegions": "Tüm Bölgeler",
+            "allCities": "Tüm Şehirler",
+            "allReplyRates": "Tüm Yanıt Oranları",
+            "searchLocation": "Lokasyon adına göre ara...",
+            "stars": "Yıldız",
+            "star": "Yıldız"
         },
         "kpi": {
             "totalReviews": "Toplam Yorum",
             "averageRating": "Ortalama Puan",
             "responseRate": "Yanıt Oranı",
-            "avgResponseTime": "Ort. Yanıt Süresi",
             "newReviews": "Yeni Yorumlar",
             "pendingResponses": "Bekleyen Yanıtlar",
-            "sentimentIndex": "Duygu Endeksi",
             "slaBreach": "SLA İhlali",
             "escalated": "Eskalasyon"
+        },
+        "detail": {
+            "title": "Yorum Detayları",
+            "selectReview": "Detayları görüntülemek için listeden bir yorum seçin",
+            "writeReply": "Yanıt Yaz",
+            "report": "Raporla",
+            "selectTemplate": "Şablon Seç",
+            "aiSuggestion": "AI Önerisi",
+            "saveDraft": "Taslak Kaydet",
+            "send": "Gönder",
+            "replyPlaceholder": "Yanıtınızı buraya yazın...",
+            "overallRating": "Genel Puan",
+            "totalReviews": "Toplam Yorum",
+            "topIssue": "En Önemli Sorun",
+            "skuId": "SKU / ID"
+        },
+        "inbox": {
+            "title": "Yorumlar",
+            "noReviews": "Mevcut filtrelerle eşleşen yorum bulunamadı",
+            "of": "/"
+        },
+        "trend": {
+            "title": "Yorum Hacmi & Duygu Trendi",
+            "subtitle": "Duygu bazlı haftalık yorum dağılımı ve puan trendi",
+            "totalReviews": "Toplam Yorum",
+            "avgRating": "Ort. Puan",
+            "positivePercent": "Olumlu %",
+            "responseRate": "Yanıt Oranı",
+            "sentimentScore": "Duygu Skoru",
+            "reviews": "Yorumlar",
+            "avgRatingAxis": "Ort. Puan"
         },
         "actions": {
             "alertSettings": "Uyarı Ayarları",
@@ -269,9 +323,20 @@
             "source": "Kaynak",
             "date": "Tarih",
             "status": "Durum",
-            "product": "Ürün"
+            "product": "Ürün",
+            "storeCode": "Mağaza Kodu",
+            "storeName": "Mağaza Adı",
+            "avgRating": "Ort. Puan",
+            "topThemes": "En Önemli Temalar"
         },
         "themes": {
+            "title": "Temalar",
+            "subtitle": "VenueX puanlama ile tema analizi",
+            "scatterPlot": "Dağılım Grafiği",
+            "bubbleChart": "Balon Grafiği",
+            "venueXScore": "VenueX Skoru",
+            "reviewCount": "Yorum Sayısı",
+            "avgRating": "Ortalama Puan",
             "taste": "Lezzet",
             "staff": "Personel",
             "cleanliness": "Temizlik",
@@ -284,19 +349,41 @@
             "portion": "Porsiyon"
         },
         "alerts": {
-            "title": "Uyarı Ayarları",
-            "description": "Yeni yorumlar için bildirim ayarları",
+            "title": "Bildirimleri Yönet",
+            "description": "Yorumlar ve uyarılar için bildirim tercihlerinizi yapılandırın.",
             "emailNotifications": "E-posta Bildirimleri",
             "pushNotifications": "Push Bildirimleri",
             "minRating": "Minimum Puan",
-            "keywords": "Anahtar Kelimeler"
+            "keywords": "Anahtar Kelimeler",
+            "lowStarAlerts": "1-2 Yıldız Yorum Uyarıları",
+            "lowStarDescription": "Her yeni 1-2 yıldız yorum için e-posta gönder",
+            "priceMentions": "Fiyat Bahisleri",
+            "priceDescription": "Fiyattan bahseden her yorum için e-posta gönder",
+            "dailySummary": "Günlük Özet",
+            "dailyDescription": "Her gün saat 08:00'de günlük özet e-postası gönder",
+            "saveSettings": "Ayarları Kaydet"
         },
         "ai": {
-            "title": "AI Ayarları",
-            "description": "Otomatik yanıt ve duygu analizi ayarları",
+            "title": "AI Asistanı Yapılandır",
+            "description": "Otomatik yanıtlar için AI asistan davranışını ve marka kurallarını özelleştirin.",
             "autoReply": "Otomatik Yanıt",
             "sentimentAnalysis": "Duygu Analizi",
-            "tone": "Yanıt Tonu"
+            "tone": "Yanıt Tonu",
+            "aiDrafts": "AI Destekli Yanıt Taslakları",
+            "aiDraftsDescription": "Gelen kutusunda AI destekli yanıt taslaklarını etkinleştir",
+            "defaultTone": "Varsayılan AI Tonu",
+            "brandGuidelines": "Marka Kuralları",
+            "brandPlaceholder": "AI'nin kullanması için markanız hakkında önemli bilgileri girin...",
+            "savePreferences": "AI Tercihlerini Kaydet",
+            "empathetic": "Empatik",
+            "professional": "Profesyonel",
+            "concise": "Özlü"
+        },
+        "templates": {
+            "title": "Yanıt Şablonlarını Yönet",
+            "description": "Yaygın yorum senaryoları için standart yanıt şablonları oluşturun ve yönetin.",
+            "createNew": "Yeni Şablon Oluştur",
+            "saveTemplates": "Şablonları Kaydet"
         }
     },
     "offlineConversions": {
@@ -314,7 +401,57 @@
         "turkey": "Türkiye",
         "world": "Dünya",
         "provinceBasedPerformance": "İl Bazlı Performans",
-        "countryBasedPerformance": "Ülke Bazlı Performans"
+        "countryBasedPerformance": "Ülke Bazlı Performans",
+        "executiveSummary": "Yönetici Özeti",
+        "adSpend": "Reklam Harcaması",
+        "revenue": "Gelir",
+        "roas": "ROAS",
+        "orders": "Siparişler",
+        "aovOffline": "SOS (Mağaza)",
+        "revenueShare": "Gelir Payı",
+        "online": "Online",
+        "offline": "Mağaza",
+        "dataPipelineStatus": "Veri Hattı Durumu",
+        "dataSources": "Veri Kaynakları",
+        "processingHub": "İşleme Merkezi",
+        "destinations": "Hedefler",
+        "refresh": "Yenile",
+        "active": "Aktif",
+        "syncing": "Senkronize Ediliyor",
+        "warning": "Uyarı",
+        "error": "Hata",
+        "conversionUploadActivity": "Dönüşüm Yükleme Aktivitesi",
+        "retry": "Tekrar Dene",
+        "events": "etkinlik",
+        "weeklySalesPerformance": "Haftalık Satış Performansı",
+        "totalRevenue": "Toplam Gelir",
+        "onlineSales": "Online Satış",
+        "offlineSales": "Mağaza Satış",
+        "avgRoas": "Ort. ROAS",
+        "onlineRoas": "Online ROAS",
+        "offlineRoas": "Mağaza ROAS",
+        "uploadHealth": "Yükleme Sağlığı",
+        "eventsToday": "Bugünkü Etkinlikler",
+        "totalProcessed": "Toplam İşlenen",
+        "avgLatency": "Ort. Gecikme",
+        "uptime": "Çalışma Süresi",
+        "platformMatchRates": "Platform Eşleşme Oranları",
+        "offlineConversionPerformance": "Offline Dönüşüm Performansı",
+        "dataQualityCompliance": "Veri Kalitesi ve Uyumluluk",
+        "requiredFields": "Zorunlu Alanlar",
+        "matchRateCritical": "Eşleşme Oranı (Kritik)",
+        "optionalData": "Opsiyonel Veri",
+        "productDetails": "Ürün Detayları",
+        "detailedReport": "Detaylı Rapor",
+        "detailedPerformanceReport": "Detaylı Performans Raporu",
+        "dataConnectionStatus": "Veri Bağlantı Durumu",
+        "lastUpload": "Son Yükleme",
+        "batchReport": "Yükleme Raporu",
+        "downloadErrorReport": "Hata Raporunu İndir (.CSV)",
+        "completedWithIssues": "Sorunlarla Tamamlandı",
+        "attributionBreakdown": "Atıf Dağılımı",
+        "costDistribution": "Maliyet Dağılımı",
+        "revenueDistribution": "Gelir Dağılımı"
     },
     "catalog": {
         "title": "Yerel Envanter",
@@ -467,6 +604,7 @@
         "platform": "Platform",
         "allPlatforms": "Tüm Platformlar",
         "last7days": "Son 7 gün",
+        "last14days": "Son 14 gün",
         "last30days": "Son 30 gün",
         "last90days": "Son 90 gün",
         "compare": "Karşılaştır",
@@ -497,6 +635,7 @@
             "managePosts": "Gönderileri Yönet",
             "components": "Bileşenler",
             "setup3B": "Kurulum 3B",
+            "settings": "Ayarlar",
             "onboarding": "Karşılama",
             "signup": "Kayıt Ol",
             "segments": "Segmentler"
@@ -726,15 +865,27 @@
         "dimensions": {
             "basket_amount": "Sepet Tutarı",
             "total_spend": "Toplam Harcama",
+            "average_order_value": "Ortalama Sipariş Değeri",
+            "total_orders": "Toplam Sipariş Sayısı",
+            "customer_lifetime_value": "Müşteri Yaşam Boyu Değeri",
+            "last_order_amount": "Son Sipariş Tutarı",
             "product_category": "Ürün Kategorisi",
             "product_brand": "Ürün Markası",
+            "product_subcategory": "Ürün Alt Kategorisi",
+            "purchase_channel": "Satın Alma Kanalı",
             "purchase_recency_days": "Alışveriş Yeniliği (Gün)",
             "purchase_frequency": "Alışveriş Sıklığı",
             "monetary_score": "Parasal Skor",
             "rfm_segment": "RFM Segmenti",
+            "days_since_first_purchase": "İlk Alışverişten Bu Yana (Gün)",
+            "avg_days_between_purchases": "Ort. Alışveriş Arası Gün",
             "store_id": "Mağaza ID",
             "store_region": "Mağaza Bölgesi",
-            "store_city": "Mağaza Şehri"
+            "store_city": "Mağaza Şehri",
+            "store_format": "Mağaza Formatı",
+            "loyalty_tier": "Sadakat Seviyesi",
+            "gender": "Cinsiyet",
+            "age_range": "Yaş Aralığı"
         },
         "operators": {
             "gt": "büyüktür",
@@ -957,6 +1108,135 @@
             "timeseriesOffline": "Çevrimdışı Gelir",
             "timeseriesOnline": "Çevrimiçi Gelir",
             "noData": "Atıf verisi mevcut değil"
+        },
+        "performance": {
+            "tabOverview": "Genel Bakış",
+            "tabPerformance": "Performans",
+            "totalSpend": "Toplam Harcama",
+            "conversions": "Dönüşümler",
+            "roas": "ROAS",
+            "confidence": "Güvenilirlik",
+            "confidenceDirect": "Doğrudan",
+            "confidenceEstimated": "Tahmini",
+            "confidenceDirectTooltip": "Yalnızca bu kitle segmentine dayalı atıf",
+            "confidenceEstimatedTooltip": "Birden fazla hedefleme girdisinden tahmin edilen atıf",
+            "period7d": "7G",
+            "period30d": "30G",
+            "period90d": "90G",
+            "platformPerformance": "Platform Performansı",
+            "spend": "Harcama",
+            "revenue": "Gelir",
+            "matchRate": "Eşleşme Oranı",
+            "trend": "Trend",
+            "chartTitle": "Zaman İçinde ROAS",
+            "combined": "Birleşik",
+            "campaignBreakdown": "Kampanya Detayı",
+            "campaignName": "Kampanya Adı",
+            "platform": "Platform",
+            "entityType": "Tür",
+            "noActiveCampaigns": "Aktif kampanya yok",
+            "noActiveCampaignsDesc": "Bu segment gönderildi ancak henüz herhangi bir kampanyada kullanılmıyor.",
+            "last30d": "Son 30 gün"
+        }
+    },
+    "notifications": {
+        "title": "Bildirimler",
+        "markAllRead": "Tümünü okundu işaretle",
+        "noNotifications": "Tüm bildirimler okundu",
+        "noNotificationsDesc": "Yeni bildirim bulunmuyor",
+        "settings": "Bildirim Ayarları",
+        "tabs": {
+            "all": "Tümü",
+            "unread": "Okunmamış"
+        },
+        "categories": {
+            "platform": "Platform",
+            "reviews": "Yorumlar",
+            "locations": "Lokasyonlar",
+            "catalog": "Catalog",
+            "offline_conversions": "Offline Conv."
+        },
+        "timeGroups": {
+            "today": "Bugün",
+            "yesterday": "Dün",
+            "thisWeek": "Bu Hafta",
+            "earlier": "Daha Önce"
+        }
+    },
+    "settings": {
+        "title": "Ayarlar",
+        "description": "Hesap ve bildirim tercihlerinizi yönetin.",
+        "notifications": {
+            "title": "Bildirim Tercihleri",
+            "description": "Hangi kategorilerde bildirim almak istediğinizi seçin.",
+            "platformUpdates": "Platform & Entegrasyonlar",
+            "platformUpdatesDesc": "Bağlantı kopmaları, senkronizasyon hataları ve süresi dolan API token'ları.",
+            "reviewAlerts": "Yorum Uyarıları",
+            "reviewAlertsDesc": "Olumsuz yorumlar, SLA aşımları, puan düşüşleri ve günlük özetler.",
+            "locationAlerts": "Lokasyon Uyarıları",
+            "locationAlertsDesc": "Askıya almalar, duplicate tespitleri, doğrulama gereksinimleri ve veri uyuşmazlıkları.",
+            "catalogAlerts": "Catalog Uyarıları",
+            "catalogAlertsDesc": "Ürün redleri, feed hataları ve düşük onay oranları.",
+            "offlineConversionAlerts": "Offline Conversion Uyarıları",
+            "offlineConversionAlertsDesc": "Yükleme hataları, veri boşlukları, düşük match rate ve anomaliler.",
+            "toastTitle": "Ayar güncellendi",
+            "toastOn": "açıldı",
+            "toastOff": "kapatıldı",
+            "frequency": {
+                "instant": "Anlık",
+                "daily": "Günlük",
+                "weekly": "Haftalık",
+                "off": "Kapalı"
+            },
+            "severity": {
+                "label": "Önem Seviyesi",
+                "all": "Tümü",
+                "warnings_errors": "Uyarı & Hatalar",
+                "errors_only": "Sadece Hatalar"
+            },
+            "events": {
+                "platform": {
+                    "connectionLost": "Platform bağlantısı kesildi",
+                    "syncFailed": "Veri senkronizasyonu başarısız",
+                    "tokenExpiring": "API token süresi doluyor"
+                },
+                "reviews": {
+                    "negativeReview": "Olumsuz yorum alındı",
+                    "slaBreached": "Yanıt SLA'sı aşıldı",
+                    "ratingDrop": "Lokasyon puanı düştü",
+                    "dailySummary": "Günlük yorum özeti",
+                    "policyViolation": "Google politika ihlali"
+                },
+                "locations": {
+                    "suspended": "Lokasyon askıya alındı",
+                    "duplicate": "Duplicate lokasyon tespit edildi",
+                    "verificationNeeded": "Doğrulama gerekiyor",
+                    "dataMismatch": "Platformlar arası veri uyuşmazlığı"
+                },
+                "catalog": {
+                    "disapproval": "Ürünler reddedildi",
+                    "feedError": "Feed yükleme hatası",
+                    "lowApprovalRate": "Onay oranı eşik altında"
+                },
+                "offline_conversions": {
+                    "uploadFailed": "Yükleme başarısız",
+                    "dataGap": "Veri boşluğu tespit edildi",
+                    "lowMatchRate": "Match rate eşik altında",
+                    "anomaly": "Anomali tespit edildi"
+                }
+            }
+        },
+        "account": {
+            "title": "Hesap Bilgileri",
+            "description": "Hesabınızla ilgili temel bilgiler.",
+            "name": "Ad Soyad",
+            "role": "Rol",
+            "email": "E-posta"
+        },
+        "emailNotifications": {
+            "title": "E-posta Bildirimleri",
+            "comingSoon": "Yakında",
+            "description": "E-posta bildirimi tercihleri yakında kullanıma açılacak."
         }
     }
 }

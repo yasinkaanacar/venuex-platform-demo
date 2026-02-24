@@ -522,7 +522,7 @@ export default function LocationConflictResolutionDialog({ open, onOpenChange, c
                             <p className="text-xs text-gray-500">{t.locations.conflicts.summaryDescription}</p>
                         </div>
 
-                        {/* Action groups */}
+                        {/* Action groups summary */}
                         {Object.keys(actionGroups).length === 0 ? (
                             <p className="text-sm text-gray-400 py-4 text-center">
                                 {(t.locations.conflicts.unresolvedWarning as string).replace(
@@ -547,6 +547,44 @@ export default function LocationConflictResolutionDialog({ open, onOpenChange, c
                                         </span>
                                     </div>
                                 ))}
+                            </div>
+                        )}
+
+                        {/* Per-location action list */}
+                        {conflictsWithActions.length > 0 && (
+                            <div className="mb-4">
+                                <h4 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">
+                                    {t.locations.conflicts.perLocationTitle}
+                                </h4>
+                                <div className="space-y-1.5">
+                                    {conflictsWithActions.map((conflict) => {
+                                        const action = resolutions[conflict.id];
+                                        const locationName = conflict.vxLocation?.name ?? conflict.googleLocation?.name ?? "—";
+                                        const storeCode = conflict.vxLocation?.storeCode;
+                                        const badge = conflictTypeBadge[conflict.conflictType];
+
+                                        return (
+                                            <div
+                                                key={conflict.id}
+                                                className="flex items-center gap-3 rounded-md border border-gray-100 bg-white px-3 py-2"
+                                            >
+                                                <MapPin className="h-3.5 w-3.5 text-gray-400 shrink-0" />
+                                                <div className="flex-1 min-w-0 flex items-center gap-2">
+                                                    <span className="text-xs font-medium text-gray-900 truncate">{locationName}</span>
+                                                    {storeCode && (
+                                                        <span className="text-[10px] text-gray-400 font-mono shrink-0">{storeCode}</span>
+                                                    )}
+                                                </div>
+                                                <span className={`inline-flex items-center px-1.5 py-0.5 rounded-full text-[10px] font-medium shrink-0 ${badge.className}`}>
+                                                    {badge.label(t)}
+                                                </span>
+                                                <span className="text-[11px] font-medium text-blue-700 bg-blue-50 border border-blue-200 px-2 py-0.5 rounded-md shrink-0">
+                                                    {actionLabel(action, t)}
+                                                </span>
+                                            </div>
+                                        );
+                                    })}
+                                </div>
                             </div>
                         )}
 
