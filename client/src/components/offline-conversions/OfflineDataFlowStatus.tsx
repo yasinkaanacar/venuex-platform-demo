@@ -97,7 +97,7 @@ export default function OfflineDataFlowStatus() {
                     <div className="grid grid-cols-5 gap-4">
                         <div>
                             <p className="text-xs text-gray-500 mb-1">Upload Date</p>
-                            <p className="text-sm font-medium text-gray-900">21.01.2024 - 14:30</p>
+                            <p className="text-sm font-medium text-gray-900">21.02.2026 - 14:30</p>
                         </div>
                         <div>
                             <p className="text-xs text-gray-500 mb-1">Conversions</p>

@@ -18,6 +18,13 @@ import type {
   ABTestConfig,
   SegmentAttribution,
   AttributionTimeseriesPoint,
+  SegmentPerformanceSummary,
+  SegmentPerformanceDetail,
+  PlatformPerformance,
+  CampaignPerformance,
+  PerformanceTimeseriesPoint,
+  PerformancePeriod,
+  AttributionConfidence,
 } from './types/segments';
 
 // ------------------------------------------------------------------
@@ -1118,6 +1125,20 @@ export const segmentDataService = {
   },
 
   // ----------------------------------------------------------------
+  // Feature 6: Performance Tracking
+  // ----------------------------------------------------------------
+
+  async getPerformanceSummaries(): Promise<SegmentPerformanceSummary[]> {
+    await delay(100);
+    return mockPerformanceSummaries;
+  },
+
+  async getPerformanceDetail(segmentId: string, period: PerformancePeriod): Promise<SegmentPerformanceDetail | null> {
+    await delay(200);
+    return buildPerformanceDetail(segmentId, period);
+  },
+
+  // ----------------------------------------------------------------
   // Insights Actions: Exclude & Merge
   // ----------------------------------------------------------------
 
@@ -1402,3 +1423,149 @@ export const mockAttributionTimeseries: Record<string, AttributionTimeseriesPoin
   'seg-004': generateTimeseries(210000, 748000, 284000, 3100),
   'seg-005': generateTimeseries(62000, 345000, 128000, 1060),
 };
+
+// ------------------------------------------------------------------
+// Mock Performance Summaries (Feature 6)
+// ------------------------------------------------------------------
+
+export const mockPerformanceSummaries: SegmentPerformanceSummary[] = [
+  { segmentId: 'seg-001', totalSpend: 185000, conversions: 2840, roas: 6.51, confidence: 'direct' },
+  { segmentId: 'seg-002', totalSpend: 98000, conversions: 1520, roas: 6.23, confidence: 'estimated' },
+  { segmentId: 'seg-003', totalSpend: 145000, conversions: 2180, roas: 11.43, confidence: 'direct' },
+  { segmentId: 'seg-004', totalSpend: 210000, conversions: 3100, roas: 4.91, confidence: 'estimated' },
+  { segmentId: 'seg-005', totalSpend: 62000, conversions: 1060, roas: 7.63, confidence: 'direct' },
+];
+
+// ------------------------------------------------------------------
+// Mock Campaigns by Segment (Feature 6)
+// ------------------------------------------------------------------
+
+const mockCampaignsBySegment: Record<string, CampaignPerformance[]> = {
+  'seg-001': [
+    { id: 'cp-001', platform: 'google', campaignName: 'Yüksek Değer - Arama', entityType: 'campaign', spend: 42000, conversions: 680, roas: 7.2, confidence: 'direct' },
+    { id: 'cp-002', platform: 'google', campaignName: 'Yüksek Değer - PMax', entityType: 'campaign', spend: 56000, conversions: 840, roas: 6.1, confidence: 'direct' },
+    { id: 'cp-003', platform: 'meta', campaignName: 'Retargeting - Yüksek Sepet', entityType: 'ad_set', spend: 38000, conversions: 520, roas: 5.8, confidence: 'estimated' },
+    { id: 'cp-004', platform: 'meta', campaignName: 'Lookalike - VIP Müşteriler', entityType: 'ad_set', spend: 49000, conversions: 800, roas: 6.9, confidence: 'estimated' },
+  ],
+  'seg-002': [
+    { id: 'cp-005', platform: 'google', campaignName: 'Denim Koleksiyon - Arama', entityType: 'campaign', spend: 62000, conversions: 720, roas: 6.2, confidence: 'direct' },
+    { id: 'cp-006', platform: 'tiktok', campaignName: 'Retargeting - Denim', entityType: 'ad_group', spend: 36000, conversions: 380, roas: 6.3, confidence: 'estimated' },
+  ],
+  'seg-003': [
+    { id: 'cp-007', platform: 'google', campaignName: 'VIP Champions - Arama', entityType: 'campaign', spend: 32000, conversions: 380, roas: 10.2, confidence: 'direct' },
+    { id: 'cp-008', platform: 'google', campaignName: 'VIP Champions - Alışveriş', entityType: 'campaign', spend: 28000, conversions: 310, roas: 9.8, confidence: 'direct' },
+    { id: 'cp-009', platform: 'google', campaignName: 'VIP Champions - PMax', entityType: 'campaign', spend: 18000, conversions: 200, roas: 8.4, confidence: 'direct' },
+    { id: 'cp-010', platform: 'meta', campaignName: 'VIP Retargeting - DPA', entityType: 'ad_set', spend: 28000, conversions: 320, roas: 9.1, confidence: 'estimated' },
+    { id: 'cp-011', platform: 'meta', campaignName: 'VIP Lookalike - Geniş', entityType: 'ad_set', spend: 24000, conversions: 240, roas: 7.2, confidence: 'estimated' },
+    { id: 'cp-012', platform: 'tiktok', campaignName: 'VIP Tanıtım - TikTok', entityType: 'ad_group', spend: 15000, conversions: 180, roas: 12.1, confidence: 'estimated' },
+  ],
+  'seg-004': [
+    { id: 'cp-013', platform: 'google', campaignName: 'İstanbul - Yerel Arama', entityType: 'campaign', spend: 65000, conversions: 780, roas: 3.8, confidence: 'direct' },
+    { id: 'cp-014', platform: 'google', campaignName: 'İstanbul - Yerel PMax', entityType: 'campaign', spend: 60000, conversions: 600, roas: 3.3, confidence: 'estimated' },
+    { id: 'cp-015', platform: 'meta', campaignName: 'İstanbul - Mağaza Trafiği', entityType: 'ad_set', spend: 50000, conversions: 540, roas: 3.6, confidence: 'estimated' },
+    { id: 'cp-016', platform: 'meta', campaignName: 'İstanbul - Retargeting', entityType: 'ad_set', spend: 35000, conversions: 380, roas: 3.5, confidence: 'estimated' },
+  ],
+  'seg-005': [
+    { id: 'cp-017', platform: 'meta', campaignName: 'Denim Premium - DPA', entityType: 'ad_set', spend: 34000, conversions: 440, roas: 8.1, confidence: 'direct' },
+    { id: 'cp-018', platform: 'meta', campaignName: 'Denim Premium - Retargeting', entityType: 'ad_set', spend: 28000, conversions: 340, roas: 7.0, confidence: 'estimated' },
+  ],
+};
+
+// ------------------------------------------------------------------
+// Performance Timeseries Generator (Feature 6)
+// ------------------------------------------------------------------
+
+function generatePerformanceTimeseries(
+  platforms: AdPlatform[],
+  baseSpends: Record<string, number>,
+  baseConversions: Record<string, number>,
+  days: number,
+): PerformanceTimeseriesPoint[] {
+  const points: PerformanceTimeseriesPoint[] = [];
+  const today = new Date(2026, 1, 23);
+
+  for (let i = days - 1; i >= 0; i--) {
+    const date = new Date(today);
+    date.setDate(date.getDate() - i);
+    const dayOfWeek = date.getDay();
+    const weekdayMult = dayOfWeek === 0 || dayOfWeek === 6 ? 0.7 : 1.1;
+    const trendMult = 1 + ((days - i) * 0.003);
+    const jitter = () => 0.85 + Math.random() * 0.3;
+
+    let totalSpend = 0;
+    let totalConv = 0;
+    let totalRevenue = 0;
+    const platformData: Record<string, { spend: number; conversions: number; roas: number }> = {};
+
+    for (const p of platforms) {
+      const dailySpend = Math.round((baseSpends[p] / days) * weekdayMult * trendMult * jitter());
+      const dailyConv = Math.round((baseConversions[p] / days) * weekdayMult * trendMult * jitter());
+      const dailyRev = Math.round(dailySpend * (3.5 + Math.random() * 2));
+      totalSpend += dailySpend;
+      totalConv += dailyConv;
+      totalRevenue += dailyRev;
+      platformData[p] = {
+        spend: dailySpend,
+        conversions: dailyConv,
+        roas: dailySpend > 0 ? +(dailyRev / dailySpend).toFixed(2) : 0,
+      };
+    }
+
+    points.push({
+      date: `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`,
+      spend: totalSpend,
+      conversions: totalConv,
+      roas: totalSpend > 0 ? +(totalRevenue / totalSpend).toFixed(2) : 0,
+      ...(platformData.google ? { google: platformData.google } : {}),
+      ...(platformData.meta ? { meta: platformData.meta } : {}),
+      ...(platformData.tiktok ? { tiktok: platformData.tiktok } : {}),
+    });
+  }
+  return points;
+}
+
+function buildPerformanceDetail(segmentId: string, period: PerformancePeriod): SegmentPerformanceDetail | null {
+  const attribution = mockAttributions.find(a => a.segmentId === segmentId);
+  if (!attribution) return null;
+
+  const days = period === '7d' ? 7 : period === '30d' ? 30 : 90;
+  const periodMultiplier = days / 30;
+
+  const platforms: PlatformPerformance[] = attribution.platforms.map(p => ({
+    platform: p.platform,
+    spend: Math.round(p.adSpend * periodMultiplier),
+    conversions: Math.round(p.offlineConversions * periodMultiplier),
+    revenue: Math.round((p.offlineRevenue + p.onlineRevenue) * periodMultiplier),
+    roas: p.offlineROAS,
+    matchRate: p.matchRate,
+    confidence: (p.platform === 'google' ? 'direct' : 'estimated') as AttributionConfidence,
+    trend: {
+      spendChange: +(Math.random() * 10 - 2).toFixed(1),
+      conversionsChange: +(Math.random() * 12 - 1).toFixed(1),
+      roasChange: +(Math.random() * 8 - 2).toFixed(1),
+    },
+  }));
+
+  const campaignsRaw = mockCampaignsBySegment[segmentId] ?? [];
+  const campaigns: CampaignPerformance[] = campaignsRaw.map(c => ({
+    ...c,
+    spend: Math.round(c.spend * periodMultiplier),
+    conversions: Math.round(c.conversions * periodMultiplier),
+  }));
+
+  const baseSpends: Record<string, number> = {};
+  const baseConversions: Record<string, number> = {};
+  for (const p of attribution.platforms) {
+    baseSpends[p.platform] = Math.round(p.adSpend * periodMultiplier);
+    baseConversions[p.platform] = Math.round(p.offlineConversions * periodMultiplier);
+  }
+
+  const timeseries = generatePerformanceTimeseries(
+    attribution.platforms.map(p => p.platform),
+    baseSpends,
+    baseConversions,
+    days,
+  );
+
+  return { segmentId, period, platforms, campaigns, timeseries };
+}

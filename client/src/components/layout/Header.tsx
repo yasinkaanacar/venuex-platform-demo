@@ -1,6 +1,6 @@
 import { useLocation } from "wouter";
 import { getRouteConfig } from "@/lib/route-config";
-import { Bell, Globe, Search, User } from "lucide-react";
+import { Globe, Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import {
     DropdownMenu,
@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { NotificationCenter } from "@/components/shared/NotificationCenter";
 
 export default function Header() {
     const [location] = useLocation();
@@ -42,10 +43,7 @@ export default function Header() {
                     </div>
 
                     {/* Action: Notifications */}
-                    <button className="relative p-2 text-muted-foreground hover:text-foreground transition-colors">
-                        <Bell className="h-5 w-5" />
-                        <span className="absolute top-1.5 right-1.5 h-2 w-2 rounded-full bg-red-500 ring-2 ring-background" />
-                    </button>
+                    <NotificationCenter />
 
                     {/* Language Selector */}
                     <DropdownMenu>

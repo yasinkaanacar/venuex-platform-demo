@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { SiGoogle, SiMeta, SiTiktok } from 'react-icons/si';
 import { CheckCircle, AlertTriangle, XCircle, Loader2, RefreshCw, Info, ChevronRight, ChevronDown, ChevronUp, Store, Database } from 'lucide-react';
 import OfflineBatchReportSheet from './OfflineBatchReportSheet';
+import { useLocales } from '@/lib/formatters';
 
 type EventStatus = 'processing' | 'success' | 'warning' | 'error';
 type Platform = 'google' | 'meta' | 'tiktok' | 'crm' | 'pos';
@@ -85,6 +86,8 @@ const initialEvents: TimelineEvent[] = [
 ];
 
 export default function OfflineActivityLog() {
+    const { t } = useLocales();
+    const oc = (key: string) => t(`offlineConversions.${key}`);
     const [events, setEvents] = useState<TimelineEvent[]>(initialEvents);
     const [drawerOpen, setDrawerOpen] = useState(false);
     const [selectedEvent, setSelectedEvent] = useState<TimelineEvent | null>(null);
@@ -187,7 +190,7 @@ export default function OfflineActivityLog() {
                                 <div className="w-2 h-2 bg-green-500 rounded-full"></div>
                                 <div className="absolute inset-0 w-2 h-2 bg-green-500 rounded-full animate-ping opacity-50"></div>
                             </div>
-                            <h3 className="text-base font-semibold text-gray-900">Conversion Upload Activity</h3>
+                            <h3 className="text-base font-semibold text-gray-900">{oc('conversionUploadActivity')}</h3>
                             <div className="relative group" onClick={(e) => e.stopPropagation()}>
                                 <Info className="w-3.5 h-3.5 text-gray-400 cursor-help" />
                                 <div className="absolute left-full top-1/2 -translate-y-1/2 ml-2 px-3 py-2 bg-gray-900 text-white text-xs rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 whitespace-nowrap z-[9999]">
@@ -196,7 +199,7 @@ export default function OfflineActivityLog() {
                                 </div>
                             </div>
                             <span className="ml-2 px-2 py-0.5 bg-gray-100 text-gray-600 text-xs font-medium rounded-full">
-                                {events.length} events
+                                {events.length} {oc('events')}
                             </span>
                         </div>
                         <div className="flex items-center gap-2">
@@ -274,7 +277,7 @@ export default function OfflineActivityLog() {
                                                     className="mt-3 w-full flex items-center justify-center gap-1.5 text-xs font-medium text-red-700 bg-red-100 hover:bg-red-200 border border-red-300 py-2 rounded-lg transition-colors z-10 relative"
                                                 >
                                                     <RefreshCw className="w-3.5 h-3.5" />
-                                                    Retry
+                                                    {oc('retry')}
                                                 </button>
                                             )}
                                         </div>

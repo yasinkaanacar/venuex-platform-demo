@@ -29,27 +29,53 @@ interface SegmentRuleEditorProps {
 // ------------------------------------------------------------------
 
 const DIMENSION_MAP: Record<SegmentType, RuleDimension[]> = {
-  value: ["basket_amount", "total_spend"],
-  category: ["product_category", "product_brand"],
+  value: [
+    "basket_amount",
+    "total_spend",
+    "average_order_value",
+    "total_orders",
+    "customer_lifetime_value",
+    "last_order_amount",
+  ],
+  category: [
+    "product_category",
+    "product_brand",
+    "product_subcategory",
+    "purchase_channel",
+  ],
   rfm: [
     "purchase_recency_days",
     "purchase_frequency",
     "monetary_score",
     "rfm_segment",
+    "days_since_first_purchase",
+    "avg_days_between_purchases",
   ],
-  store: ["store_id", "store_region", "store_city"],
+  store: ["store_id", "store_region", "store_city", "store_format"],
   combination: [
     "basket_amount",
     "total_spend",
+    "average_order_value",
+    "total_orders",
+    "customer_lifetime_value",
+    "last_order_amount",
     "product_category",
     "product_brand",
+    "product_subcategory",
+    "purchase_channel",
     "purchase_recency_days",
     "purchase_frequency",
     "monetary_score",
     "rfm_segment",
+    "days_since_first_purchase",
+    "avg_days_between_purchases",
     "store_id",
     "store_region",
     "store_city",
+    "store_format",
+    "loyalty_tier",
+    "gender",
+    "age_range",
   ],
 };
 
@@ -69,9 +95,15 @@ const ALL_OPERATORS: RuleOperator[] = [
 const NUMERIC_DIMENSIONS: RuleDimension[] = [
   "basket_amount",
   "total_spend",
+  "average_order_value",
+  "total_orders",
+  "customer_lifetime_value",
+  "last_order_amount",
   "purchase_recency_days",
   "purchase_frequency",
   "monetary_score",
+  "days_since_first_purchase",
+  "avg_days_between_purchases",
 ];
 
 function getOperatorsForDimension(dim: RuleDimension): RuleOperator[] {

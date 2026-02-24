@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useMemo } from "react";
 import {
   ChevronRight,
   Info,
@@ -9,15 +9,10 @@ import {
   ArrowDownRight,
   TrendingUp,
 } from "lucide-react";
-import { SiGoogle, SiMeta, SiApple, SiTiktok } from 'react-icons/si';
-import { mockLocations, calculateDataHealth } from "@/lib/mock-locations";
 import OfflineDataFlowStatus from './OfflineDataFlowStatus';
-import ProviderSelection, { ProviderOptions } from "./provider-selection";
-import { Provider, useSetup } from "./mock-setup";
+import { useLocales } from '@/lib/formatters';
 
 // --- Types ---
-
-type PlatformKey = 'google' | 'meta' | 'apple' | 'yandex';
 
 interface EngagementMetric {
   label: string;
@@ -25,17 +20,10 @@ interface EngagementMetric {
   change: number;
   icon: React.ReactNode;
   color: string;
-  isCurrency?: boolean;
 }
 
-interface PlatformStats {
-  live: number;
-  pending: number;
-  suspended: number;
-  action_required: number;
-  rejected: number;
-  not_connected: number;
-  total_problems: number;
+interface OfflineSummaryProps {
+  filters: { platforms: string[] };
 }
 
 // --- Mock Data ---
@@ -61,12 +49,24 @@ const TIKTOK_METRICS: EngagementMetric[] = [
   { label: 'Avg Order Value', value: '890 ₺', change: 8.5, icon: <TrendingUp className="w-4 h-4" />, color: 'orange' }
 ];
 
-const PLATFORM_CONFIG: { key: PlatformKey; name: string; icon: React.ReactNode }[] = [
-  { key: 'google', name: 'Google', icon: <SiGoogle className="w-3.5 h-3.5" /> },
-  { key: 'meta', name: 'Meta', icon: <SiMeta className="w-3.5 h-3.5" /> },
-  { key: 'apple', name: 'Apple', icon: <SiApple className="w-3.5 h-3.5" /> },
-  { key: 'yandex', name: 'Yandex', icon: <img src="https://yastatic.net/s3/home-static/_/nova/JSRBlH1m.png" alt="Yandex" className="w-3.5 h-3.5 object-contain" /> }
+const ALL_METRICS: EngagementMetric[] = [
+  { label: 'Attributed Revenue', value: '5.277.700 ₺', change: 18.4, icon: <DollarSign className="w-4 h-4" />, color: 'blue' },
+  { label: 'Offline ROAS', value: '3.62:1', change: 7.8, icon: <Target className="w-4 h-4" />, color: 'green' },
+  { label: 'Store Conversions', value: '3.837', change: 15.2, icon: <Store className="w-4 h-4" />, color: 'purple' },
+  { label: 'Avg Order Value', value: '1.375 ₺', change: 6.5, icon: <TrendingUp className="w-4 h-4" />, color: 'orange' }
 ];
+
+const METRICS_BY_PLATFORM: Record<string, EngagementMetric[]> = {
+  google: GOOGLE_METRICS,
+  meta: META_METRICS,
+  tiktok: TIKTOK_METRICS,
+};
+
+const PLATFORM_LABELS: Record<string, string> = {
+  google: 'Google Ads',
+  meta: 'Meta Ads',
+  tiktok: 'TikTok Ads',
+};
 
 // --- Utils ---
 
@@ -78,114 +78,30 @@ const getSeverityColor = (score: number) => {
 
 // --- Sub-Components ---
 
-const HealthCard = ({ platforms, totalLocations, businessStatus }: {
-  platforms: Record<PlatformKey, PlatformStats>;
-  totalLocations: number;
-  businessStatus: { open: number; temporarilyClosed: number; closed: number };
-}) => {
-  return (
-    <div className="p-5 bg-white rounded-lg border border-gray-100 shadow-sm">
-      {/* Business Status - Top Half */}
-      <h4 className="text-sm font-semibold text-gray-700 mb-3">Business Status</h4>
-      <div className="grid grid-cols-4 gap-2 mb-5">
-        <div className="p-2 bg-gray-50 rounded-lg text-center">
-          <div className="text-xl font-bold text-gray-900">{totalLocations}</div>
-          <div className="text-[10px] text-gray-500">Total</div>
-        </div>
-        <div className="p-2 bg-emerald-50 rounded-lg text-center">
-          <div className="text-xl font-bold text-emerald-600">{businessStatus.open}</div>
-          <div className="text-[10px] text-gray-500">Open</div>
-        </div>
-        <div className="p-2 bg-amber-50 rounded-lg text-center">
-          <div className="text-xl font-bold text-amber-600">{businessStatus.temporarilyClosed}</div>
-          <div className="text-[10px] text-gray-500">Temporarily Closed</div>
-        </div>
-        <div className="p-2 bg-rose-50 rounded-lg text-center">
-          <div className="text-xl font-bold text-rose-600">{businessStatus.closed}</div>
-          <div className="text-[10px] text-gray-500">Permanently Closed</div>
-        </div>
-      </div>
-
-      {/* Platform Sync - Bottom Half */}
-      <h4 className="text-sm font-semibold text-gray-700 mb-3">Platform Synchronization</h4>
-      <div className="space-y-2">
-        {PLATFORM_CONFIG.map(({ key, name, icon }) => {
-          const p = platforms[key];
-          const percentage = totalLocations > 0 ? Math.round((p.live / totalLocations) * 100) : 0;
-          const barColor = percentage >= 80 ? 'bg-emerald-500' : percentage >= 60 ? 'bg-amber-500' : 'bg-rose-500';
-
-          // Show setup required for Yandex
-          if (key === 'yandex') {
-            return (
-              <div key={key} className="flex items-center gap-3 text-xs">
-                <div className="flex items-center gap-2 text-gray-400 w-20">
-                  {icon}
-                  <span>{name}</span>
-                </div>
-                <div className="flex-1">
-                  <span className="text-xs text-gray-400 italic">Setup Required</span>
-                </div>
-                <button className="text-xs font-medium text-blue-600 hover:text-blue-700">
-                  Setup
-                </button>
-              </div>
-            );
-          }
-
-          return (
-            <div key={key} className="flex items-center gap-3 text-xs">
-              <div className="flex items-center gap-2 text-gray-600 w-20">
-                {icon}
-                <span>{name}</span>
-              </div>
-              <div className="flex-1 h-1.5 bg-gray-100 rounded-full overflow-hidden">
-                <div className={`h-full rounded-full ${barColor}`} style={{ width: `${percentage}%` }} />
-              </div>
-              <span className={`font-medium w-10 text-right ${percentage >= 80 ? 'text-emerald-600' : percentage >= 60 ? 'text-amber-600' : 'text-rose-600'}`}>
-                {percentage}%
-              </span>
-            </div>
-          );
-        })}
-      </div>
-    </div>
-  );
-};
-
 const EngagementCard = ({
   metrics,
-  selectedProvider,
-  onProviderChange,
-  providerOptions
+  platformLabel,
+  oc
 }: {
   metrics: EngagementMetric[],
-  selectedProvider: Provider,
-  onProviderChange: (p: Provider) => void,
-  providerOptions: ProviderOptions[]
+  platformLabel: string,
+  oc: (key: string) => string
 }) => (
   <div className="p-5 bg-white rounded-lg border border-gray-100 shadow-sm">
     <div className="flex items-center justify-between mb-4">
       <div className="flex items-center gap-1.5">
-        <h4 className="text-sm font-semibold text-gray-700">Offline Conversion Performance</h4>
+        <h4 className="text-sm font-semibold text-gray-700">{oc('offlineConversionPerformance')}</h4>
         <div className="relative group">
           <Info className="w-3.5 h-3.5 text-gray-400 cursor-help" />
           <div className="absolute left-full top-1/2 -translate-y-1/2 ml-2 px-3 py-2 bg-gray-900 text-white text-xs rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 whitespace-nowrap z-[9999]">
-            Performance data is only valid for Google Business Profile and Apple Business Connect.
+            Offline conversion metrics attributed by each ad platform (Google Ads, Meta CAPI, TikTok CAPI).
             <div className="absolute right-full top-1/2 -translate-y-1/2 w-0 h-0 border-t-4 border-b-4 border-r-4 border-transparent border-r-gray-900"></div>
           </div>
         </div>
       </div>
 
       <div className="flex items-center gap-2">
-        {/* Scaled down provider selector */}
-        <div className="scale-90 origin-right">
-          <ProviderSelection
-            providers={providerOptions}
-            selectedProvider={selectedProvider}
-            onProviderChange={onProviderChange}
-            attrIdPrefix="summary-card"
-          />
-        </div>
+        <span className="text-xs font-medium text-gray-500 bg-gray-100 px-2 py-1 rounded">{platformLabel}</span>
         <span className="text-xs text-gray-400">Last 30 days</span>
       </div>
     </div>
@@ -214,24 +130,24 @@ const EngagementCard = ({
     </div>
 
     <button className="w-full mt-4 py-2 text-xs font-medium text-blue-600 hover:text-blue-700 flex items-center justify-center gap-1">
-      Detailed Performance Report <ChevronRight className="w-3 h-3" />
+      {oc('detailedPerformanceReport')} <ChevronRight className="w-3 h-3" />
     </button>
   </div>
 );
 
-const DataQualityCard = () => {
+const DataQualityCard = ({ oc }: { oc: (key: string) => string }) => {
   return (
     <div className="p-5 bg-white rounded-lg border border-gray-100 shadow-sm">
       {/* Header */}
       <div className="flex items-center justify-between mb-5">
         <div className="flex items-center gap-3">
-          <h4 className="text-sm font-semibold text-gray-700">Data Quality and Compliance</h4>
+          <h4 className="text-sm font-semibold text-gray-700">{oc('dataQualityCompliance')}</h4>
           <div className="px-2 py-0.5 rounded-full text-xs font-bold bg-emerald-100 text-emerald-700">
             92%
           </div>
         </div>
         <button className="text-xs font-medium text-blue-600 hover:text-blue-700 flex items-center gap-1">
-          Detailed Report <ChevronRight className="w-3 h-3" />
+          {oc('detailedReport')} <ChevronRight className="w-3 h-3" />
         </button>
       </div>
 
@@ -239,7 +155,7 @@ const DataQualityCard = () => {
         {/* Zorunlu Alanlar */}
         <div>
           <h5 className="text-xs font-medium text-gray-500 uppercase mb-3 flex items-center gap-2">
-            Required Fields
+            {oc('requiredFields')}
             <span className="w-2 h-2 rounded-full bg-emerald-500"></span>
           </h5>
           <div className="space-y-2">
@@ -269,7 +185,7 @@ const DataQualityCard = () => {
         {/* Match Rate Kritik */}
         <div>
           <h5 className="text-xs font-medium text-gray-500 uppercase mb-3 flex items-center gap-2">
-            Match Rate (Kritik)
+            {oc('matchRateCritical')}
             <span className="w-2 h-2 rounded-full bg-blue-500"></span>
           </h5>
           <div className="space-y-2">
@@ -298,7 +214,7 @@ const DataQualityCard = () => {
         {/* Opsiyonel Alanlar */}
         <div>
           <h5 className="text-xs font-medium text-gray-500 uppercase mb-3 flex items-center gap-2">
-            Optional Data
+            {oc('optionalData')}
             <span className="w-2 h-2 rounded-full bg-amber-500"></span>
           </h5>
           <div className="space-y-2">
@@ -327,7 +243,7 @@ const DataQualityCard = () => {
         {/* Ürün Bazlı Attribution */}
         <div>
           <h5 className="text-xs font-medium text-gray-500 uppercase mb-3 flex items-center gap-2">
-            Product Details
+            {oc('productDetails')}
             <span className="w-2 h-2 rounded-full bg-purple-500"></span>
           </h5>
           <div className="space-y-2">
@@ -373,63 +289,27 @@ const DataQualityCard = () => {
 
 // --- Main Component ---
 
-export function OfflineSummary() {
-  const { isGoogleAdsEnabled, isMetaConversionsConnected, isMetaAdAccountEnabled, isTiktokEventsConnected } = useSetup();
+export function OfflineSummary({ filters }: OfflineSummaryProps) {
+  const { t } = useLocales();
+  const oc = (key: string) => t(`offlineConversions.${key}`);
 
-  const providerOptions: ProviderOptions[] = useMemo(() => [
-    { key: Provider.Google, enabled: isGoogleAdsEnabled },
-    { key: Provider.Meta, enabled: isMetaConversionsConnected && isMetaAdAccountEnabled },
-    { key: Provider.TikTok, enabled: isTiktokEventsConnected },
-  ], [isGoogleAdsEnabled, isMetaConversionsConnected, isMetaAdAccountEnabled, isTiktokEventsConnected]);
-
-  const [selectedProvider, setSelectedProvider] = useState<Provider>(Provider.Google);
-
-  const currentMetrics = useMemo(() => {
-    switch (selectedProvider) {
-      case Provider.Meta: return META_METRICS;
-      case Provider.TikTok: return TIKTOK_METRICS;
-      case Provider.Google: return GOOGLE_METRICS;
-      case Provider.Apple: return GOOGLE_METRICS; // Reuse Google for Apple as fallback/simplified
-      default: return GOOGLE_METRICS;
+  const { currentMetrics, platformLabel } = useMemo(() => {
+    const selected = filters.platforms;
+    if (selected.length === 0) {
+      return { currentMetrics: ALL_METRICS, platformLabel: 'All Platforms' };
     }
-  }, [selectedProvider]);
-
-  const stats = useMemo(() => {
-    const businessStatus = {
-      open: mockLocations.filter(l => l.businessStatus === 'open').length,
-      temporarilyClosed: mockLocations.filter(l => l.businessStatus === 'temporarily_closed').length,
-      closed: mockLocations.filter(l => l.businessStatus === 'closed').length
+    if (selected.length === 1) {
+      return {
+        currentMetrics: METRICS_BY_PLATFORM[selected[0]] || ALL_METRICS,
+        platformLabel: PLATFORM_LABELS[selected[0]] || selected[0],
+      };
+    }
+    // Multiple platforms selected — show combined
+    return {
+      currentMetrics: ALL_METRICS,
+      platformLabel: selected.map(p => PLATFORM_LABELS[p] || p).join(', '),
     };
-
-    const totalHealth = mockLocations.reduce((sum, loc) => sum + calculateDataHealth(loc), 0);
-    const dataQuality = mockLocations.length > 0 ? Math.round(totalHealth / mockLocations.length) : 0;
-
-    const platforms: Record<PlatformKey, PlatformStats> = {
-      google: { live: 0, pending: 0, suspended: 0, action_required: 0, rejected: 0, not_connected: 0, total_problems: 0 },
-      meta: { live: 0, pending: 0, suspended: 0, action_required: 0, rejected: 0, not_connected: 0, total_problems: 0 },
-      apple: { live: 0, pending: 0, suspended: 0, action_required: 0, rejected: 0, not_connected: 0, total_problems: 0 },
-      yandex: { live: 0, pending: 0, suspended: 0, action_required: 0, rejected: 0, not_connected: 0, total_problems: 0 }
-    };
-
-    mockLocations.forEach(loc => {
-      (Object.keys(platforms) as PlatformKey[]).forEach(key => {
-        const status = loc[key].status;
-        const p = platforms[key];
-        if (status === 'live') p.live++;
-        else if (status === 'pending') p.pending++;
-        else if (status === 'action_required') p.action_required++;
-        else if (status === 'suspended') { p.suspended++; p.total_problems++; }
-        else if (status === 'rejected') { p.rejected++; p.total_problems++; }
-        else if (status === 'not_connected' || status === 'closed') p.not_connected++;
-      });
-    });
-
-    (Object.keys(platforms) as PlatformKey[]).forEach(key => {
-      platforms[key].total_problems += platforms[key].action_required;
-    });
-
-    return { dataQuality, totalLocations: mockLocations.length, businessStatus, platforms };
-  }, []);
+  }, [filters.platforms]);
 
   return (
     <div className="mb-6">
@@ -441,7 +321,7 @@ export function OfflineSummary() {
             <div className="relative group">
               <Info className="w-3.5 h-3.5 text-gray-400 cursor-help" />
               <div className="absolute left-full top-1/2 -translate-y-1/2 ml-2 px-3 py-2 bg-gray-900 text-white text-xs rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 whitespace-nowrap z-[9999]">
-                Shows the general status of all locations and platform synchronization.
+                Data connections, match rates, and offline conversion performance overview.
                 <div className="absolute right-full top-1/2 -translate-y-1/2 w-0 h-0 border-t-4 border-b-4 border-r-4 border-transparent border-r-gray-900"></div>
               </div>
             </div>
@@ -450,19 +330,22 @@ export function OfflineSummary() {
         </div>
 
         <div className="vx-card-body vx-surface-muted space-y-4">
-          {/* Top Row: Data Flow + Engagement (2 columns 1/2 - 1/2) */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <OfflineDataFlowStatus />
-            <EngagementCard
-              metrics={currentMetrics}
-              selectedProvider={selectedProvider}
-              onProviderChange={setSelectedProvider}
-              providerOptions={providerOptions}
-            />
+          {/* Row 1: Data Flow (40%) + Conversion Performance (60%) */}
+          <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
+            <div className="lg:col-span-2">
+              <OfflineDataFlowStatus />
+            </div>
+            <div className="lg:col-span-3">
+              <EngagementCard
+                metrics={currentMetrics}
+                platformLabel={platformLabel}
+                oc={oc}
+              />
+            </div>
           </div>
 
-          {/* Bottom Row: Data Quality (full width) */}
-          <DataQualityCard />
+          {/* Row 2: Data Quality (full width) */}
+          <DataQualityCard oc={oc} />
         </div>
       </div>
     </div>

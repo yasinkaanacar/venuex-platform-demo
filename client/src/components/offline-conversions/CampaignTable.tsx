@@ -105,7 +105,11 @@ const getROASStyle = (roas: number) => {
     return 'text-rose-700 bg-rose-100 border-rose-200';
 };
 
-export default function CampaignTable() {
+interface CampaignTableProps {
+    filters: { platforms: string[] };
+}
+
+export default function CampaignTable({ filters }: CampaignTableProps) {
     // Navigation state
     const [viewLevel, setViewLevel] = useState<ViewLevel>('campaigns');
     const [selectedCampaign, setSelectedCampaign] = useState<Campaign | null>(null);
@@ -116,7 +120,6 @@ export default function CampaignTable() {
     const [sortColumn, setSortColumn] = useState<SortColumn>('offlineROAS');
     const [sortDirection, setSortDirection] = useState<SortDirection>('desc');
     const [searchQuery, setSearchQuery] = useState('');
-    const [platformFilter, setPlatformFilter] = useState<Platform | 'all'>('all');
 
     // Navigation handlers
     const navigateToCampaigns = () => {
@@ -167,8 +170,8 @@ export default function CampaignTable() {
     // Filter and sort campaigns
     const filteredCampaigns = useMemo(() => {
         let result = [...mockCampaigns];
-        if (platformFilter !== 'all') {
-            result = result.filter(c => c.platform === platformFilter);
+        if (filters.platforms.length > 0) {
+            result = result.filter(c => filters.platforms.includes(c.platform));
         }
         if (searchQuery) {
             const query = searchQuery.toLowerCase();
@@ -190,7 +193,7 @@ export default function CampaignTable() {
             return sortDirection === 'asc' ? aVal - (bVal as number) : (bVal as number) - aVal;
         });
         return result;
-    }, [platformFilter, searchQuery, sortColumn, sortDirection]);
+    }, [filters.platforms, searchQuery, sortColumn, sortDirection]);
 
     // Sortable header component
     const SortableHeader = ({ column, children, align = 'right', isHero = false }: { column: SortColumn; children: React.ReactNode; align?: 'left' | 'right'; isHero?: boolean }) => (
@@ -267,22 +270,8 @@ export default function CampaignTable() {
     // Campaign Table View
     const CampaignTableView = () => (
         <>
-            {/* Filters */}
+            {/* Search */}
             <div className="px-4 py-3 border-b border-gray-200 bg-gray-50 flex items-center gap-4">
-                <div className="flex items-center gap-2">
-                    <span className="text-sm text-gray-600">Platform:</span>
-                    <div className="flex gap-1">
-                        {(['all', 'google', 'meta', 'tiktok'] as const).map(platform => (
-                            <button
-                                key={platform}
-                                onClick={() => setPlatformFilter(platform)}
-                                className={`px-3 py-1.5 text-xs font-medium rounded-md transition-colors ${platformFilter === platform ? 'bg-gray-900 text-white' : 'bg-white text-gray-600 border border-gray-300 hover:bg-gray-100'}`}
-                            >
-                                {platform === 'all' ? 'Tümü' : platform.charAt(0).toUpperCase() + platform.slice(1)}
-                            </button>
-                        ))}
-                    </div>
-                </div>
                 <div className="flex-1 max-w-xs">
                     <div className="relative">
                         <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />

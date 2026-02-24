@@ -1,5 +1,5 @@
 // UI components removed - using plain HTML elements
-import { Dispatch, SetStateAction, useState, useEffect, useMemo } from "react";
+import { Dispatch, SetStateAction, useEffect, useMemo, useState } from "react";
 import { Box, Stack, useMediaQuery, useTheme } from "@mui/material";
 import {
     ALL_CAMPAIGNS_ID,
@@ -12,7 +12,7 @@ import {
     useApiProviderMetrics,
     formatDate
 } from "./mock-setup";
-import ProviderSelection, { ProviderOptions } from "./provider-selection";
+import { ProviderOptions } from "./provider-selection";
 import OfflineConversionFlowChart from "./OfflineConversionFlowChart";
 
 // Custom hook to calculate zoom factor based on screen size
@@ -58,14 +58,9 @@ const useResponsiveZoom = () => {
 interface PerformanceChartProps {
     filters: FilterState;
     onFiltersChange: Dispatch<SetStateAction<FilterState>>;
-    /**
-     * When true, shows an internal provider filter and manages its own provider state.
-     * When false, uses filters.platform and updates via onFiltersChange.
-     */
-    showProviderFilter?: boolean;
 }
 
-export default function PerformanceChart({ filters, onFiltersChange, showProviderFilter = true }: PerformanceChartProps) {
+export default function PerformanceChart({ filters, onFiltersChange }: PerformanceChartProps) {
     const { t } = useLocales();
     const theme = useTheme();
     const { brandId: selectedBrandId } = useBrandContext();
@@ -84,30 +79,15 @@ export default function PerformanceChart({ filters, onFiltersChange, showProvide
         [isGoogleAdsEnabled, isMetaConversionsConnected, isMetaAdAccountEnabled, isTiktokEventsConnected],
     );
 
-    // When showProviderFilter=true, use internal state. Otherwise, use filters.platform
-    const [internalProvider, setInternalProvider] = useState<Provider>(() => {
-        return offlineRoasProviderOptions.find((p) => p.enabled)?.key || Provider.Google;
-    });
-
-    // Determine which provider to use
-    // Safe check: filters.platform might be undefined or string. Cast to Provider or fallback.
-    const performanceChartProvider = showProviderFilter
-        ? internalProvider
-        : (filters.platform as Provider) || Provider.Google;
-
-    // Handle provider changes
-    const handleProviderChange = (newProvider: Provider) => {
-        if (showProviderFilter) {
-            // Internal state mode: just update local state
-            setInternalProvider(newProvider);
-        } else {
-            // External state mode: update filters.platform
-            onFiltersChange((prev) => ({
-                ...prev,
-                platform: newProvider,
-            }));
+    // Derive provider from page-level filters.platforms
+    const performanceChartProvider = useMemo(() => {
+        const platforms = (filters as any).platforms as string[] | undefined;
+        if (platforms && platforms.length === 1) {
+            return platforms[0] as Provider;
         }
-    };
+        // Default to Google when none or multiple selected
+        return (filters.platform as Provider) || Provider.Google;
+    }, [(filters as any).platforms, filters.platform]);
 
     const currentOfflineProviderNeedsSetup = useMemo(() => {
         const providerOption = offlineRoasProviderOptions.find((p) => p.key === performanceChartProvider);
@@ -116,7 +96,7 @@ export default function PerformanceChart({ filters, onFiltersChange, showProvide
 
     // get metrics api
     const hookPayload = useMemo(() => {
-        const hasSelectedCampaigns = !showProviderFilter && filters.campaigns && filters.campaigns.length > 0;
+        const hasSelectedCampaigns = filters.campaigns && filters.campaigns.length > 0;
 
         // Handle dateRange safely (could be string or object)
         const startDate = typeof filters.dateRange === 'string' ? new Date().toISOString() : formatDate(filters.dateRange.startDate);
@@ -125,60 +105,32 @@ export default function PerformanceChart({ filters, onFiltersChange, showProvide
         return {
             startDate,
             endDate,
-            ...(showProviderFilter || !hasSelectedCampaigns
+            ...(!hasSelectedCampaigns
                 ? { campaign: ALL_CAMPAIGNS_ID }
                 : { campaigns: filters.campaigns }),
-            campaignTypes:
-                performanceChartProvider === Provider.Google && showProviderFilter
-                    ? [
-                        "SEARCH",
-                        "DISPLAY",
-                        "SHOPPING",
-                        "VIDEO",
-                        "SMART",
-                        "DEMAND_GEN",
-                        "LOCAL",
-                        "PERFORMANCE_MAX",
-                        "MULTI_CHANNEL",
-                    ]
-                    : filters.campaignTypes || [],
+            campaignTypes: filters.campaignTypes || [],
         };
     }, [
-        showProviderFilter,
         filters.campaigns,
         filters.dateRange,
         filters.campaignTypes,
-        performanceChartProvider,
     ]);
 
-    // Determine if we should fetch data based on filter state (only when NOT using internal provider filter)
+    // Determine if we should fetch data
     const shouldFetchData = useMemo(() => {
-        // When showing internal provider filter, always fetch
-        if (showProviderFilter) {
-            return true;
-        }
-
         // If campaigns is explicitly empty (Deselect All state), don't fetch
         if (filters.isAllCampaignsSelected === false && (filters.campaigns?.length || 0) === 0) {
             return false;
         }
-
-        // If no campaign types selected and NOT Meta platform, don't fetch
-        if ((filters.campaignTypes?.length || 0) === 0 && filters.platform !== Provider.Meta) {
-            return false;
-        }
         return true;
     }, [
-        showProviderFilter,
         filters.isAllCampaignsSelected,
         filters.campaigns,
-        filters.campaignTypes,
-        filters.platform,
     ]);
 
     const { data: providerMetrics, isLoading: isLoadingProviderMetrics } = useApiProviderMetrics({
         brandId: selectedBrandId!,
-        provider: showProviderFilter ? performanceChartProvider : filters.platform,
+        provider: performanceChartProvider,
         payload: hookPayload,
         enabled: !!selectedBrandId && !currentOfflineProviderNeedsSetup && shouldFetchData,
     });
@@ -192,16 +144,6 @@ export default function PerformanceChart({ filters, onFiltersChange, showProvide
                 </div>
             </div>
             <div className="vx-card-body vx-surface-muted">
-                {showProviderFilter && (
-                    <div className="mb-4 flex justify-center">
-                        <ProviderSelection
-                            providers={offlineRoasProviderOptions}
-                            selectedProvider={performanceChartProvider}
-                            onProviderChange={handleProviderChange}
-                            attrIdPrefix="tab-performance-chart"
-                        />
-                    </div>
-                )}
                 <div className="relative" data-testid="chart-performance">
                     <Box
                         sx={{

@@ -14,6 +14,7 @@ import {
 } from 'lucide-react';
 import { SiGoogle, SiMeta, SiTiktok } from 'react-icons/si';
 import vxLogo from '@assets/vx-logo-1000x1000_1756824361260.png';
+import { useLocales } from '@/lib/formatters';
 
 interface DataSource {
     id: string;
@@ -120,11 +121,25 @@ const venuexStats = {
 };
 
 export default function DataPipelineStatus() {
+    const { t } = useLocales();
+    const oc = (key: string) => t(`offlineConversions.${key}`);
     const [isRefreshing, setIsRefreshing] = useState(false);
+    const [sources, setSources] = useState(dataSources);
+    const [dests, setDests] = useState(destinations);
 
     const handleRefresh = () => {
         setIsRefreshing(true);
-        setTimeout(() => setIsRefreshing(false), 2000);
+        setTimeout(() => {
+            setSources(prev => prev.map(s => ({
+                ...s,
+                lastSync: s.status === 'syncing' ? 'Syncing...' : `${Math.floor(Math.random() * 5) + 1} min ago`
+            })));
+            setDests(prev => prev.map(d => ({
+                ...d,
+                lastUpload: d.status === 'warning' ? `${Math.floor(Math.random() * 30) + 30} min ago` : `${Math.floor(Math.random() * 10) + 1} min ago`
+            })));
+            setIsRefreshing(false);
+        }, 1500);
     };
 
     const getStatusColor = (status: string) => {
@@ -149,25 +164,25 @@ export default function DataPipelineStatus() {
             case 'active':
                 return (
                     <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-700">
-                        <CheckCircle className="w-3 h-3" /> Active
+                        <CheckCircle className="w-3 h-3" /> {oc('active')}
                     </span>
                 );
             case 'syncing':
                 return (
                     <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-700">
-                        <RefreshCw className="w-3 h-3 animate-spin" /> Syncing
+                        <RefreshCw className="w-3 h-3 animate-spin" /> {oc('syncing')}
                     </span>
                 );
             case 'warning':
                 return (
                     <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-700">
-                        <AlertTriangle className="w-3 h-3" /> Warning
+                        <AlertTriangle className="w-3 h-3" /> {oc('warning')}
                     </span>
                 );
             case 'error':
                 return (
                     <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-700">
-                        <AlertTriangle className="w-3 h-3" /> Error
+                        <AlertTriangle className="w-3 h-3" /> {oc('error')}
                     </span>
                 );
             default:
@@ -211,8 +226,8 @@ export default function DataPipelineStatus() {
                             <Server className="w-5 h-5 text-gray-700" />
                         </div>
                         <div>
-                            <h3 className="text-lg font-semibold text-gray-900">Data Pipeline Status</h3>
-                            <p className="text-xs text-gray-500">Real-time conversion data flow</p>
+                            <h3 className="text-lg font-semibold text-gray-900">{oc('dataPipelineStatus')}</h3>
+                            <p className="text-xs text-gray-500">{oc('dataConnectionStatus')}</p>
                         </div>
                     </div>
                     <button
@@ -221,7 +236,7 @@ export default function DataPipelineStatus() {
                         className="flex items-center gap-2 px-3 py-1.5 text-sm font-medium text-gray-600 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors disabled:opacity-50"
                     >
                         <RefreshCw className={`w-4 h-4 ${isRefreshing ? 'animate-spin' : ''}`} />
-                        Refresh
+                        {oc('refresh')}
                     </button>
                 </div>
             </div>
@@ -233,10 +248,10 @@ export default function DataPipelineStatus() {
                     <div className="flex-1">
                         <div className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3 flex items-center gap-2">
                             <Database className="w-3.5 h-3.5" />
-                            Data Sources
+                            {oc('dataSources')}
                         </div>
                         <div className="space-y-3">
-                            {dataSources.map((source) => (
+                            {sources.map((source) => (
                                 <div
                                     key={source.id}
                                     className="relative p-4 bg-white rounded-xl border border-gray-200 hover:border-gray-300 hover:shadow-sm transition-all"
@@ -312,7 +327,7 @@ export default function DataPipelineStatus() {
                     <div className="flex-1">
                         <div className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3 flex items-center gap-2">
                             <Server className="w-3.5 h-3.5" />
-                            Processing Hub
+                            {oc('processingHub')}
                         </div>
                         <div className="relative p-5 bg-white rounded-xl border-2 border-gray-300">
                             <div className="flex flex-col items-center text-center">
@@ -325,19 +340,19 @@ export default function DataPipelineStatus() {
                                 <div className="grid grid-cols-2 gap-3 w-full">
                                     <div className="p-2 bg-gray-50 rounded-lg border border-gray-100">
                                         <div className="text-lg font-bold text-gray-900">{venuexStats.todayEventsProcessed}</div>
-                                        <div className="text-[10px] text-gray-500">Events Today</div>
+                                        <div className="text-[10px] text-gray-500">{oc('eventsToday')}</div>
                                     </div>
                                     <div className="p-2 bg-gray-50 rounded-lg border border-gray-100">
                                         <div className="text-lg font-bold text-green-600">{venuexStats.avgProcessingTime}</div>
-                                        <div className="text-[10px] text-gray-500">Avg. Latency</div>
+                                        <div className="text-[10px] text-gray-500">{oc('avgLatency')}</div>
                                     </div>
                                     <div className="p-2 bg-gray-50 rounded-lg border border-gray-100">
                                         <div className="text-lg font-bold text-gray-900">{venuexStats.totalEventsProcessed}</div>
-                                        <div className="text-[10px] text-gray-500">Total Processed</div>
+                                        <div className="text-[10px] text-gray-500">{oc('totalProcessed')}</div>
                                     </div>
                                     <div className="p-2 bg-gray-50 rounded-lg border border-gray-100">
                                         <div className="text-lg font-bold text-green-600">{venuexStats.uptime}</div>
-                                        <div className="text-[10px] text-gray-500">Uptime</div>
+                                        <div className="text-[10px] text-gray-500">{oc('uptime')}</div>
                                     </div>
                                 </div>
                             </div>
@@ -355,10 +370,10 @@ export default function DataPipelineStatus() {
                     <div className="flex-1">
                         <div className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3 flex items-center gap-2">
                             <Globe className="w-3.5 h-3.5" />
-                            Destinations
+                            {oc('destinations')}
                         </div>
                         <div className="space-y-3">
-                            {destinations.map((dest) => {
+                            {dests.map((dest) => {
                                 const Icon = dest.icon;
                                 return (
                                     <div

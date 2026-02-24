@@ -1,4 +1,5 @@
 import { TrendingUp, TrendingDown, DollarSign, ShoppingCart, Target, PieChart, Receipt, Store } from 'lucide-react';
+import { useLocales } from '@/lib/formatters';
 
 // --- Types ---
 
@@ -8,41 +9,6 @@ interface MetricItemProps {
     change?: number;
     subValues?: { label: string; value: string }[];
 }
-
-// --- Mock Data ---
-
-const metrics = {
-    cost: { label: 'Ad Spend', value: '₺485K', change: 12.5 },
-    revenue: {
-        label: 'Revenue',
-        value: '₺3.42M',
-        change: 18.2,
-        subValues: [
-            { label: 'Online', value: '₺2.22M' },
-            { label: 'Offline', value: '₺1.20M' },
-        ],
-    },
-    roas: {
-        label: 'ROAS',
-        value: '7.05x',
-        change: 5.1,
-        subValues: [
-            { label: 'Online', value: '4.58x' },
-            { label: 'Offline', value: '2.47x' },
-        ],
-    },
-    aov: { label: 'AOV (Offline)', value: '₺558', change: 8.3 },
-    orders: {
-        label: 'Orders',
-        value: '4,298',
-        change: 15.7,
-        subValues: [
-            { label: 'Online', value: '2,148' },
-            { label: 'Offline', value: '2,150' },
-        ],
-    },
-    revenueShare: { label: 'Revenue Share', value: '68%', change: 4.2 },
-};
 
 // --- Sub-Components ---
 
@@ -83,11 +49,47 @@ function MetricBlock({ label, value, change, subValues }: MetricItemProps) {
 // --- Main Component ---
 
 export default function ExecutiveMetrics() {
+    const { t } = useLocales();
+    const oc = (key: string) => t(`offlineConversions.${key}`);
+
+    const metrics = {
+        cost: { label: oc('adSpend'), value: '₺485K', change: 12.5 },
+        revenue: {
+            label: oc('revenue'),
+            value: '₺3.42M',
+            change: 18.2,
+            subValues: [
+                { label: oc('online'), value: '₺2.22M' },
+                { label: oc('offline'), value: '₺1.20M' },
+            ],
+        },
+        roas: {
+            label: oc('roas'),
+            value: '7.05x',
+            change: 5.1,
+            subValues: [
+                { label: oc('onlineRoas'), value: '4.58x' },
+                { label: oc('offlineRoas'), value: '2.47x' },
+            ],
+        },
+        aov: { label: oc('aovOffline'), value: '₺558', change: 8.3 },
+        orders: {
+            label: oc('orders'),
+            value: '4,298',
+            change: 15.7,
+            subValues: [
+                { label: oc('online'), value: '2,148' },
+                { label: oc('offline'), value: '2,150' },
+            ],
+        },
+        revenueShare: { label: oc('revenueShare'), value: '68%', change: 4.2 },
+    };
+
     return (
         <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
             {/* Header */}
             <div className="px-5 py-3 border-b border-gray-100">
-                <h3 className="text-sm font-semibold text-gray-900">Executive Summary</h3>
+                <h3 className="text-sm font-semibold text-gray-900">{oc('executiveSummary')}</h3>
 
             </div>
 

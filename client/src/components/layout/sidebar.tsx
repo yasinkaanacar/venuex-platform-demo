@@ -75,7 +75,8 @@ export default function Sidebar({ collapsed, onToggle }: SidebarProps) {
     {
       title: t('sidebar.categories.management') || "MANAGEMENT",
       items: [
-        { name: t('sidebar.menu.setup3B') || 'Setup 3B', href: '/setup3B', icon: Settings }
+        { name: t('sidebar.menu.setup3B') || 'Setup 3B', href: '/setup3B', icon: Settings },
+        { name: t('sidebar.menu.settings') || 'Ayarlar', href: '/settings', icon: Settings }
       ]
     },
     {

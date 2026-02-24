@@ -21,7 +21,7 @@ import {
   SelectContent,
   SelectItem,
 } from "@/components/ui/select";
-import { useLocales, fNumber } from "@/lib/formatters";
+import { useLocales, fNumber, fCurrency } from "@/lib/formatters";
 import { cn } from "@/lib/utils";
 import { segmentDataService } from "@/lib/mock-segments-data";
 import { showToast } from "@/lib/toast";
@@ -33,6 +33,8 @@ import type {
   SegmentType,
   SegmentStatus,
   AdPlatform,
+  SegmentPerformanceSummary,
+  AttributionConfidence,
 } from "@/lib/types/segments";
 
 // ------------------------------------------------------------------
@@ -70,6 +72,11 @@ const PLATFORM_COLOR: Record<AdPlatform, string> = {
   tiktok: "text-[#000000]",
 };
 
+const CONFIDENCE_STYLES: Record<AttributionConfidence, { bg: string; text: string }> = {
+  direct: { bg: "bg-green-100", text: "text-green-700" },
+  estimated: { bg: "bg-yellow-100", text: "text-yellow-700" },
+};
+
 // ------------------------------------------------------------------
 // Relative time helper
 // ------------------------------------------------------------------
@@ -101,6 +108,16 @@ export default function SegmentListTable() {
   const { data: segments = [], isLoading } = useQuery<Segment[]>({
     queryKey: ["/api/segments"],
   });
+
+  const { data: perfSummaries = [] } = useQuery<SegmentPerformanceSummary[]>({
+    queryKey: ["/api/segments/performance/summaries"],
+  });
+
+  const perfMap = useMemo(() => {
+    const map = new Map<string, SegmentPerformanceSummary>();
+    perfSummaries.forEach((s) => map.set(s.segmentId, s));
+    return map;
+  }, [perfSummaries]);
 
   // Filters
   const [search, setSearch] = useState("");
@@ -528,6 +545,18 @@ export default function SegmentListTable() {
                 <th className="text-center px-4 py-3 font-medium text-muted-foreground">
                   {t("segments.list.platforms") || "Platforms"}
                 </th>
+                <th className="text-right px-4 py-3 font-medium text-muted-foreground">
+                  {t("segments.performance.totalSpend") || "Total Spend"}
+                </th>
+                <th className="text-right px-4 py-3 font-medium text-muted-foreground">
+                  {t("segments.performance.conversions") || "Conversions"}
+                </th>
+                <th className="text-right px-4 py-3 font-medium text-muted-foreground">
+                  {t("segments.performance.roas") || "ROAS"}
+                </th>
+                <th className="text-center px-4 py-3 font-medium text-muted-foreground">
+                  {t("segments.performance.confidence") || "Confidence"}
+                </th>
                 <th className="text-left px-4 py-3 font-medium text-muted-foreground">
                   {t("segments.list.status") || "Status"}
                 </th>
@@ -542,7 +571,7 @@ export default function SegmentListTable() {
             <tbody>
               {isLoading ? (
                 <tr>
-                  <td colSpan={7} className="px-4 py-12 text-center">
+                  <td colSpan={11} className="px-4 py-12 text-center">
                     <div className="flex items-center justify-center gap-2 text-muted-foreground">
                       <div className="w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin" />
                       {t("common.loading") || "Loading..."}
@@ -551,7 +580,7 @@ export default function SegmentListTable() {
                 </tr>
               ) : filtered.length === 0 ? (
                 <tr>
-                  <td colSpan={7} className="px-4 py-12 text-center">
+                  <td colSpan={11} className="px-4 py-12 text-center">
                     <p className="text-sm text-muted-foreground">
                       {search || typeFilter !== "all" || statusFilter !== "all"
                         ? (t("segments.list.noSegmentsFiltered") || "No segments match your filters.")
@@ -594,6 +623,44 @@ export default function SegmentListTable() {
                       <div className="flex justify-center">
                         {renderPlatformIcons(segment)}
                       </div>
+                    </td>
+
+                    {/* Total Spend (30d) */}
+                    <td className="px-4 py-3 text-right font-medium tabular-nums">
+                      {perfMap.get(segment.id)?.totalSpend
+                        ? fCurrency(perfMap.get(segment.id)!.totalSpend)
+                        : <span className="text-muted-foreground">--</span>}
+                    </td>
+
+                    {/* Conversions (30d) */}
+                    <td className="px-4 py-3 text-right font-medium tabular-nums">
+                      {perfMap.get(segment.id)?.conversions
+                        ? fNumber(perfMap.get(segment.id)!.conversions)
+                        : <span className="text-muted-foreground">--</span>}
+                    </td>
+
+                    {/* ROAS */}
+                    <td className="px-4 py-3 text-right font-medium tabular-nums">
+                      {perfMap.get(segment.id)?.roas
+                        ? <span className="text-foreground">{perfMap.get(segment.id)!.roas.toFixed(1)}x</span>
+                        : <span className="text-muted-foreground">--</span>}
+                    </td>
+
+                    {/* Confidence */}
+                    <td className="px-4 py-3 text-center">
+                      {perfMap.get(segment.id)?.confidence ? (
+                        <span
+                          className={cn(
+                            "inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium",
+                            CONFIDENCE_STYLES[perfMap.get(segment.id)!.confidence].bg,
+                            CONFIDENCE_STYLES[perfMap.get(segment.id)!.confidence].text,
+                          )}
+                        >
+                          {t(`segments.performance.confidence${perfMap.get(segment.id)!.confidence.charAt(0).toUpperCase()}${perfMap.get(segment.id)!.confidence.slice(1)}`) || perfMap.get(segment.id)!.confidence}
+                        </span>
+                      ) : (
+                        <span className="text-xs text-muted-foreground">--</span>
+                      )}
                     </td>
 
                     {/* Status */}

@@ -1,6 +1,7 @@
 import { QueryClient, QueryFunction } from "@tanstack/react-query";
 import { mockDataService } from './mockData';
 import { segmentDataService } from './mock-segments-data';
+import { notificationDataService } from './mock-notifications-data';
 
 // Mock API request function that simulates backend responses  
 export async function apiRequest(
@@ -18,6 +19,22 @@ export async function apiRequest(
 
 // Handle mock requests based on URL patterns
 async function handleMockRequest(method: string, url: string, data?: unknown) {
+  // Notification endpoints (order: most specific first)
+  if (url.includes('/api/notifications/read-all') && method.toUpperCase() === 'POST') {
+    return await notificationDataService.markAllAsRead();
+  }
+  if (url.includes('/api/notifications/') && url.includes('/read') && method.toUpperCase() === 'PATCH') {
+    const parts = url.split('/');
+    const id = parts[parts.indexOf('notifications') + 1];
+    return await notificationDataService.markAsRead(id);
+  }
+  if (url.includes('/api/notifications/unread-count')) {
+    return await notificationDataService.getUnreadCount();
+  }
+  if (url.includes('/api/notifications')) {
+    return await notificationDataService.getNotifications();
+  }
+
   if (url.includes('/api/overview')) {
     return await mockDataService.getOverviewData();
   }
@@ -83,6 +100,15 @@ async function handleMockRequest(method: string, url: string, data?: unknown) {
   }
   if (url.includes('/api/segments/attribution')) {
     return await mockDataService.getSegmentAttributions();
+  }
+  if (url.includes('/api/segments/performance/detail/')) {
+    const parts = url.split('/');
+    const period = parts.pop()!;
+    const segId = parts.pop()!;
+    return await segmentDataService.getPerformanceDetail(segId, period as any);
+  }
+  if (url.includes('/api/segments/performance/summaries')) {
+    return await segmentDataService.getPerformanceSummaries();
   }
   if (url.includes('/api/segments')) {
     return await mockDataService.getSegments();

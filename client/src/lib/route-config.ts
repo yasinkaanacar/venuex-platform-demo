@@ -63,6 +63,13 @@ export const routes: Record<string, RouteConfig> = {
             { label: 'Segments', href: '/segments' }
         ]
     },
+    '/segmentsMVP': {
+        title: 'Segments MVP',
+        breadcrumbs: [
+            { label: 'VenueX', href: '/' },
+            { label: 'Segments', href: '/segmentsMVP' }
+        ]
+    },
 
     // Reviews & Reputation
     '/reviews': {
@@ -140,6 +147,13 @@ export const routes: Record<string, RouteConfig> = {
         breadcrumbs: [
             { label: 'VenueX', href: '/' },
             { label: 'Dev', href: '/components' }
+        ]
+    },
+    '/settings': {
+        title: 'Settings',
+        breadcrumbs: [
+            { label: 'VenueX', href: '/' },
+            { label: 'Ayarlar', href: '/settings' }
         ]
     }
 };

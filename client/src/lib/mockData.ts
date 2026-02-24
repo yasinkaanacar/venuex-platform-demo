@@ -243,4 +243,6 @@ export const mockDataService = {
   getABTests: segmentDataService.getABTests.bind(segmentDataService),
   getSegmentAttributions: segmentDataService.getSegmentAttributions.bind(segmentDataService),
   getAttributionTimeseries: segmentDataService.getAttributionTimeseries.bind(segmentDataService),
+  getPerformanceSummaries: segmentDataService.getPerformanceSummaries.bind(segmentDataService),
+  getPerformanceDetail: segmentDataService.getPerformanceDetail.bind(segmentDataService),
 };

@@ -225,8 +225,8 @@ export default function GeographicMap({
         provider: provider as unknown as string,
         payload: {
             provider: provider as unknown as string,
-            startDate: formatDate(filters.dateRange.startDate),
-            endDate: formatDate(filters.dateRange.endDate),
+            startDate: formatDate((filters.dateRange as any)?.startDate),
+            endDate: formatDate((filters.dateRange as any)?.endDate),
             level: "WORLD",
             // 3-State Logic:
             //    undefined = implicit all

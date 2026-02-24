@@ -9,15 +9,27 @@ export type RuleOperator = 'gt' | 'gte' | 'lt' | 'lte' | 'eq' | 'neq' | 'in' | '
 export type RuleDimension =
   | 'basket_amount'
   | 'total_spend'
+  | 'average_order_value'
+  | 'total_orders'
+  | 'customer_lifetime_value'
+  | 'last_order_amount'
   | 'product_category'
   | 'product_brand'
+  | 'product_subcategory'
+  | 'purchase_channel'
   | 'purchase_recency_days'
   | 'purchase_frequency'
   | 'monetary_score'
   | 'rfm_segment'
+  | 'days_since_first_purchase'
+  | 'avg_days_between_purchases'
   | 'store_id'
   | 'store_region'
-  | 'store_city';
+  | 'store_city'
+  | 'store_format'
+  | 'loyalty_tier'
+  | 'gender'
+  | 'age_range';
 
 export type LogicOperator = 'AND' | 'OR';
 
@@ -353,4 +365,61 @@ export interface AttributionTimeseriesPoint {
   offlineRevenue: number;
   onlineRevenue: number;
   conversions: number;
+}
+
+// ------------------------------------------------------------------
+// Segment Performance Tracking
+// ------------------------------------------------------------------
+
+export type PerformancePeriod = '7d' | '30d' | '90d';
+export type AttributionConfidence = 'direct' | 'estimated';
+
+/** Lightweight summary for SegmentListTable columns */
+export interface SegmentPerformanceSummary {
+  segmentId: string;
+  totalSpend: number;
+  conversions: number;
+  roas: number;
+  confidence: AttributionConfidence;
+}
+
+/** Full detail for SegmentDetailDrawer Performance tab */
+export interface SegmentPerformanceDetail {
+  segmentId: string;
+  period: PerformancePeriod;
+  platforms: PlatformPerformance[];
+  campaigns: CampaignPerformance[];
+  timeseries: PerformanceTimeseriesPoint[];
+}
+
+export interface PlatformPerformance {
+  platform: AdPlatform;
+  spend: number;
+  conversions: number;
+  revenue: number;
+  roas: number;
+  matchRate: number;
+  confidence: AttributionConfidence;
+  trend: { spendChange: number; conversionsChange: number; roasChange: number };
+}
+
+export interface CampaignPerformance {
+  id: string;
+  platform: AdPlatform;
+  campaignName: string;
+  entityType: 'campaign' | 'ad_group' | 'ad_set';
+  spend: number;
+  conversions: number;
+  roas: number;
+  confidence: AttributionConfidence;
+}
+
+export interface PerformanceTimeseriesPoint {
+  date: string;
+  spend: number;
+  conversions: number;
+  roas: number;
+  google?: { spend: number; conversions: number; roas: number };
+  meta?: { spend: number; conversions: number; roas: number };
+  tiktok?: { spend: number; conversions: number; roas: number };
 }

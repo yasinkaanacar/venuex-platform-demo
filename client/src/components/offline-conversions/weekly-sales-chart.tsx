@@ -1,185 +1,144 @@
 import { useState } from 'react';
-import { Card, CardContent, CardHeader, Typography } from '@mui/material';
-import { Chip } from '@mui/material';
-import { ComposedChart, Bar, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, Area, AreaChart } from 'recharts';
-import { TrendingUp, TrendingDown, DollarSign, ShoppingCart, Store, AlertTriangle, X } from 'lucide-react';
+import { ComposedChart, Bar, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { TrendingUp, TrendingDown, AlertTriangle, X } from 'lucide-react';
 import { SiGoogle, SiMeta, SiTiktok } from 'react-icons/si';
+import { useLocales } from '@/lib/formatters';
+
+const fTRY = (v: number) => `₺${v.toLocaleString('tr-TR')}`;
 
 const data = [
   {
-    week: "Week 29",
-    period: "Jul 14, 2025 to Jul 20, 2025",
-    onlineSales: 6200,
-    offlineSales: 22000,
-    onlineSalesCount: 124,
-    offlineSalesCount: 286,
-    onlineAdSpend: 1850,
-    offlineAdSpend: 4200,
-    conversion: 4.2,
-
-    get cost() { return this.onlineAdSpend + this.offlineAdSpend; },
-    get onlineROAS() { return parseFloat(((this.onlineSales / this.onlineAdSpend) * 100).toFixed(1)); },
-    get offlineROAS() { return parseFloat(((this.offlineSales / this.offlineAdSpend) * 100).toFixed(1)); }
+    week: "W1",
+    period: "29 Dec 2025 – 4 Jan 2026",
+    onlineSales: 285000,
+    offlineSales: 158000,
+    onlineSalesCount: 278,
+    offlineSalesCount: 275,
+    adSpend: 62000,
+    conversion: 4.1,
   },
   {
-    week: "Week 30",
-    period: "Jul 21, 2025 to Jul 27, 2025",
-    onlineSales: 5800,
-    offlineSales: 20500,
-    onlineSalesCount: 115,
-    offlineSalesCount: 268,
-    onlineAdSpend: 1950,
-    offlineAdSpend: 3850,
+    week: "W2",
+    period: "5 Jan – 11 Jan 2026",
+    onlineSales: 268000,
+    offlineSales: 145000,
+    onlineSalesCount: 262,
+    offlineSalesCount: 260,
+    adSpend: 59000,
+    conversion: 3.9,
+  },
+  {
+    week: "W3",
+    period: "12 Jan – 18 Jan 2026",
+    onlineSales: 292000,
+    offlineSales: 162000,
+    onlineSalesCount: 285,
+    offlineSalesCount: 282,
+    adSpend: 63000,
+    conversion: 4.3,
+  },
+  {
+    week: "W4",
+    period: "19 Jan – 25 Jan 2026",
+    onlineSales: 275000,
+    offlineSales: 148000,
+    onlineSalesCount: 268,
+    offlineSalesCount: 265,
+    adSpend: 60000,
+    conversion: 4.0,
+  },
+  {
+    week: "W5",
+    period: "26 Jan – 1 Feb 2026",
+    onlineSales: 310000,
+    offlineSales: 170000,
+    onlineSalesCount: 302,
+    offlineSalesCount: 296,
+    adSpend: 65000,
+    conversion: 4.5,
+  },
+  {
+    week: "W6",
+    period: "2 Feb – 8 Feb 2026",
+    onlineSales: 262000,
+    offlineSales: 140000,
+    onlineSalesCount: 256,
+    offlineSalesCount: 252,
+    adSpend: 58000,
     conversion: 3.8,
-
-    get cost() { return this.onlineAdSpend + this.offlineAdSpend; },
-    get onlineROAS() { return parseFloat(((this.onlineSales / this.onlineAdSpend) * 100).toFixed(1)); },
-    get offlineROAS() { return parseFloat(((this.offlineSales / this.offlineAdSpend) * 100).toFixed(1)); }
   },
   {
-    week: "Week 31",
-    period: "Jul 28, 2025 to Aug 3, 2025",
-    onlineSales: 5400,
-    offlineSales: 19000,
-    onlineSalesCount: 108,
-    offlineSalesCount: 247,
-    onlineAdSpend: 1680,
-    offlineAdSpend: 4750,
-    conversion: 3.5,
-
-    get cost() { return this.onlineAdSpend + this.offlineAdSpend; },
-    get onlineROAS() { return parseFloat(((this.onlineSales / this.onlineAdSpend) * 100).toFixed(1)); },
-    get offlineROAS() { return parseFloat(((this.offlineSales / this.offlineAdSpend) * 100).toFixed(1)); }
+    week: "W7",
+    period: "9 Feb – 15 Feb 2026",
+    onlineSales: 278000,
+    offlineSales: 152000,
+    onlineSalesCount: 272,
+    offlineSalesCount: 268,
+    adSpend: 61000,
+    conversion: 4.1,
   },
   {
-    week: "Week 32",
-    period: "Aug 4, 2025 to Aug 10, 2025",
-    onlineSales: 5000,
-    offlineSales: 18000,
-    onlineSalesCount: 100,
-    offlineSalesCount: 234,
-    onlineAdSpend: 1250,
-    offlineAdSpend: 3600,
-    conversion: 3.2,
-
-    get cost() { return this.onlineAdSpend + this.offlineAdSpend; },
-    get onlineROAS() { return parseFloat(((this.onlineSales / this.onlineAdSpend) * 100).toFixed(1)); },
-    get offlineROAS() { return parseFloat(((this.offlineSales / this.offlineAdSpend) * 100).toFixed(1)); }
-  },
-  {
-    week: "Week 33",
-    period: "Aug 11, 2025 to Aug 17, 2025",
-    onlineSales: 5000,
-    offlineSales: 17000,
-    onlineSalesCount: 100,
-    offlineSalesCount: 221,
-    onlineAdSpend: 1670,
-    offlineAdSpend: 2550,
-    conversion: 3.0,
-
-    get cost() { return this.onlineAdSpend + this.offlineAdSpend; },
-    get onlineROAS() { return parseFloat(((this.onlineSales / this.onlineAdSpend) * 100).toFixed(1)); },
-    get offlineROAS() { return parseFloat(((this.offlineSales / this.offlineAdSpend) * 100).toFixed(1)); }
-  },
-  {
-    week: "Week 34",
-    period: "Aug 18, 2025 to Aug 24, 2025",
-    onlineSales: 4500,
-    offlineSales: 11000,
-    onlineSalesCount: 90,
-    offlineSalesCount: 143,
-    onlineAdSpend: 1125,
-    offlineAdSpend: 3300,
-    conversion: 2.1,
-
-    get cost() { return this.onlineAdSpend + this.offlineAdSpend; },
-    get onlineROAS() { return parseFloat(((this.onlineSales / this.onlineAdSpend) * 100).toFixed(1)); },
-    get offlineROAS() { return parseFloat(((this.offlineSales / this.offlineAdSpend) * 100).toFixed(1)); }
-  },
-  {
-    week: "Week 35",
-    period: "Aug 25, 2025 to Aug 31, 2025",
-    onlineSales: 3000,
-    offlineSales: 1000,
-    onlineSalesCount: 60,
-    offlineSalesCount: 13,
-    onlineAdSpend: 900,
-    offlineAdSpend: 2100,
-    conversion: 0.8,
-
-    get cost() { return this.onlineAdSpend + this.offlineAdSpend; },
-    get onlineROAS() { return parseFloat(((this.onlineSales / this.onlineAdSpend) * 100).toFixed(1)); },
-    get offlineROAS() { return parseFloat(((this.offlineSales / this.offlineAdSpend) * 100).toFixed(1)); }
-  },
-  {
-    week: "Week 36",
-    period: "Sep 1, 2025 to Sep 7, 2025",
-    onlineSales: 4200,
-    offlineSales: 8500,
-    onlineSalesCount: 84,
-    offlineSalesCount: 110,
-    onlineAdSpend: 1400,
-    offlineAdSpend: 2550,
-    conversion: 2.4,
-
-    get cost() { return this.onlineAdSpend + this.offlineAdSpend; },
-    get onlineROAS() { return parseFloat(((this.onlineSales / this.onlineAdSpend) * 100).toFixed(1)); },
-    get offlineROAS() { return parseFloat(((this.offlineSales / this.offlineAdSpend) * 100).toFixed(1)); }
+    week: "W8",
+    period: "16 Feb – 22 Feb 2026",
+    onlineSales: 255000,
+    offlineSales: 138000,
+    onlineSalesCount: 250,
+    offlineSalesCount: 248,
+    adSpend: 57000,
+    conversion: 3.7,
   }
 ];
 
-const CustomTooltip = ({ active, payload, label }: any) => {
+const CustomTooltip = ({ active, payload }: any) => {
   if (active && payload && payload.length) {
-    const data = payload[0].payload;
-    const totalSales = data.onlineSales + data.offlineSales;
-    const roas = ((totalSales / data.cost) * 100).toFixed(1);
+    const d = payload[0].payload;
+    const totalSales = d.onlineSales + d.offlineSales;
+    const roas = (totalSales / d.adSpend).toFixed(2);
+    const onlineROAS = (d.onlineSales / d.adSpend).toFixed(2);
+    const offlineROAS = (d.offlineSales / d.adSpend).toFixed(2);
 
     return (
       <div className="bg-white border border-gray-200 rounded-xl shadow-2xl p-4 min-w-[280px] z-[9999]" style={{ pointerEvents: 'none' }}>
         <div className="border-b border-gray-200 pb-2 mb-3">
-          <p className="font-semibold text-gray-900 text-sm">{data.period}</p>
-          <p className="text-xs text-gray-500">{data.week}</p>
+          <p className="font-semibold text-gray-900 text-sm">{d.period}</p>
+          <p className="text-xs text-gray-500">{d.week}</p>
         </div>
         <div className="pt-2 space-y-1">
           <div className="flex justify-between items-center">
             <span className="text-xs text-gray-600">Total Revenue:</span>
-            <span className="text-sm font-bold text-green-600">${totalSales.toLocaleString()}</span>
+            <span className="text-sm font-bold text-green-600">{fTRY(totalSales)}</span>
           </div>
           <div className="flex justify-between items-center">
             <span className="text-xs text-gray-600">Total Transactions:</span>
-            <span className="text-sm font-bold text-gray-900">{(data.onlineSalesCount + data.offlineSalesCount).toLocaleString()}</span>
+            <span className="text-sm font-bold text-gray-900">{(d.onlineSalesCount + d.offlineSalesCount).toLocaleString('tr-TR')}</span>
           </div>
           <div className="flex justify-between items-center">
             <span className="text-xs text-gray-600">Online Transactions:</span>
-            <span className="text-sm font-bold text-blue-600">{data.onlineSalesCount.toLocaleString()}</span>
+            <span className="text-sm font-bold text-blue-600">{d.onlineSalesCount.toLocaleString('tr-TR')}</span>
           </div>
           <div className="flex justify-between items-center">
             <span className="text-xs text-gray-600">Offline Transactions:</span>
-            <span className="text-sm font-bold text-red-600">{data.offlineSalesCount.toLocaleString()}</span>
+            <span className="text-sm font-bold text-orange-600">{d.offlineSalesCount.toLocaleString('tr-TR')}</span>
           </div>
           <div className="flex justify-between items-center">
             <span className="text-xs text-gray-600">Overall ROAS:</span>
-            <span className="text-sm font-bold text-indigo-600">{roas}%</span>
+            <span className="text-sm font-bold text-indigo-600">{roas}x</span>
           </div>
           <div className="flex justify-between items-center">
             <span className="text-xs text-gray-600">Online ROAS:</span>
-            <span className="text-sm font-bold text-cyan-600">{data.onlineROAS}%</span>
+            <span className="text-sm font-bold text-cyan-600">{onlineROAS}x</span>
           </div>
           <div className="flex justify-between items-center">
             <span className="text-xs text-gray-600">Offline ROAS:</span>
-            <span className="text-sm font-bold text-teal-600">{data.offlineROAS}%</span>
+            <span className="text-sm font-bold text-teal-600">{offlineROAS}x</span>
           </div>
           <div className="flex justify-between items-center">
-            <span className="text-xs text-gray-600">Online Ad Spend:</span>
-            <span className="text-sm font-bold text-blue-600">${data.onlineAdSpend.toLocaleString()}</span>
-          </div>
-          <div className="flex justify-between items-center">
-            <span className="text-xs text-gray-600">Offline Ad Spend:</span>
-            <span className="text-sm font-bold text-red-600">${data.offlineAdSpend.toLocaleString()}</span>
+            <span className="text-xs text-gray-600">Ad Spend:</span>
+            <span className="text-sm font-bold text-rose-600">{fTRY(d.adSpend)}</span>
           </div>
           <div className="flex justify-between items-center">
             <span className="text-xs text-gray-600">Conversion Rate:</span>
-            <span className="text-sm font-bold text-emerald-600">{data.conversion}%</span>
+            <span className="text-sm font-bold text-emerald-600">{d.conversion}%</span>
           </div>
         </div>
       </div>
@@ -193,54 +152,30 @@ const calculateTrend = (currentValue: number, previousValue: number) => {
   return { change: change.toFixed(1), isPositive: change >= 0 };
 };
 
-const getTotalSales = () => {
-  return data.reduce((acc, curr) => acc + curr.onlineSales + curr.offlineSales, 0);
-};
+const getTotalSales = () => data.reduce((acc, curr) => acc + curr.onlineSales + curr.offlineSales, 0);
+const getTotalOnlineSales = () => data.reduce((acc, curr) => acc + curr.onlineSales, 0);
+const getTotalOfflineSales = () => data.reduce((acc, curr) => acc + curr.offlineSales, 0);
+const getTotalOnlineSalesCount = () => data.reduce((acc, curr) => acc + curr.onlineSalesCount, 0);
+const getTotalOfflineSalesCount = () => data.reduce((acc, curr) => acc + curr.offlineSalesCount, 0);
+const getTotalAdSpend = () => data.reduce((acc, curr) => acc + curr.adSpend, 0);
 
-const getAverageROAS = () => {
-  const totalRevenue = getTotalSales();
-  const totalCost = data.reduce((acc, curr) => acc + curr.cost, 0);
-  return ((totalRevenue / totalCost) * 100).toFixed(1);
-};
-
-const getAverageOnlineROAS = () => {
-  const avgOnlineROAS = data.reduce((acc, curr) => acc + curr.onlineROAS, 0) / data.length;
-  return avgOnlineROAS.toFixed(1);
-};
-
-const getAverageOfflineROAS = () => {
-  const avgOfflineROAS = data.reduce((acc, curr) => acc + curr.offlineROAS, 0) / data.length;
-  return avgOfflineROAS.toFixed(1);
-};
+const getAverageROAS = () => (getTotalSales() / getTotalAdSpend()).toFixed(2);
+const getAverageOnlineROAS = () => (getTotalOnlineSales() / getTotalAdSpend()).toFixed(2);
+const getAverageOfflineROAS = () => (getTotalOfflineSales() / getTotalAdSpend()).toFixed(2);
 
 const getWeekOverWeekGrowth = () => {
-  // If we have at least 2 weeks of data
   if (data.length < 2) return { change: "0", isPositive: true };
-
   const lastWeek = data[data.length - 1];
   const previousWeek = data[data.length - 2];
-  const lastWeekTotal = lastWeek.onlineSales + lastWeek.offlineSales;
-  const previousWeekTotal = previousWeek.onlineSales + previousWeek.offlineSales;
-  return calculateTrend(lastWeekTotal, previousWeekTotal);
-};
-
-const getTotalOnlineSales = () => {
-  return data.reduce((acc, curr) => acc + curr.onlineSales, 0);
-};
-
-const getTotalOfflineSales = () => {
-  return data.reduce((acc, curr) => acc + curr.offlineSales, 0);
-};
-
-const getTotalOnlineSalesCount = () => {
-  return data.reduce((acc, curr) => acc + curr.onlineSalesCount, 0);
-};
-
-const getTotalOfflineSalesCount = () => {
-  return data.reduce((acc, curr) => acc + curr.offlineSalesCount, 0);
+  return calculateTrend(
+    lastWeek.onlineSales + lastWeek.offlineSales,
+    previousWeek.onlineSales + previousWeek.offlineSales
+  );
 };
 
 export default function WeeklySalesChart() {
+  const { t } = useLocales();
+  const oc = (key: string) => t(`offlineConversions.${key}`);
   const [selectedPlatform, setSelectedPlatform] = useState<'all' | 'google' | 'meta' | 'tiktok'>('all');
   const [showDisclaimer, setShowDisclaimer] = useState(false);
 
@@ -291,7 +226,7 @@ export default function WeeklySalesChart() {
             <div className="p-1.5 bg-blue-100 rounded-md">
               <TrendingUp className="w-4 h-4 text-blue-600" />
             </div>
-            <h3 className="text-base font-semibold text-gray-900">Weekly Sales Performance</h3>
+            <h3 className="text-base font-semibold text-gray-900">{oc('weeklySalesPerformance')}</h3>
           </div>
           <div className="flex items-center gap-3">
             {/* Platform Selector */}
@@ -348,30 +283,30 @@ export default function WeeklySalesChart() {
 
         <div className="grid grid-cols-6 gap-4 mt-4">
           <div>
-            <p className="text-xs text-gray-500 mb-0.5">Total Revenue</p>
-            <p className="text-lg font-bold text-gray-900">${totalSales.toLocaleString()}</p>
+            <p className="text-xs text-gray-500 mb-0.5">{oc('totalRevenue')}</p>
+            <p className="text-lg font-bold text-gray-900">{fTRY(totalSales)}</p>
           </div>
           <div>
-            <p className="text-xs text-gray-500 mb-0.5">Online Sales</p>
-            <p className="text-lg font-bold text-blue-600">${totalOnlineSales.toLocaleString()}</p>
-            <p className="text-xs text-gray-400">{totalOnlineSalesCount.toLocaleString()} transactions</p>
+            <p className="text-xs text-gray-500 mb-0.5">{oc('onlineSales')}</p>
+            <p className="text-lg font-bold text-blue-600">{fTRY(totalOnlineSales)}</p>
+            <p className="text-xs text-gray-400">{totalOnlineSalesCount.toLocaleString('tr-TR')} transactions</p>
           </div>
           <div>
-            <p className="text-xs text-gray-500 mb-0.5">Offline Sales</p>
-            <p className="text-lg font-bold text-red-600">${totalOfflineSales.toLocaleString()}</p>
-            <p className="text-xs text-gray-400">{totalOfflineSalesCount.toLocaleString()} transactions</p>
+            <p className="text-xs text-gray-500 mb-0.5">{oc('offlineSales')}</p>
+            <p className="text-lg font-bold text-orange-600">{fTRY(totalOfflineSales)}</p>
+            <p className="text-xs text-gray-400">{totalOfflineSalesCount.toLocaleString('tr-TR')} transactions</p>
           </div>
           <div>
-            <p className="text-xs text-gray-500 mb-0.5">Avg ROAS</p>
-            <p className="text-lg font-bold text-indigo-600">{averageROAS}%</p>
+            <p className="text-xs text-gray-500 mb-0.5">{oc('avgRoas')}</p>
+            <p className="text-lg font-bold text-indigo-600">{averageROAS}x</p>
           </div>
           <div>
-            <p className="text-xs text-gray-500 mb-0.5">Online ROAS</p>
-            <p className="text-lg font-bold text-cyan-600">{averageOnlineROAS}%</p>
+            <p className="text-xs text-gray-500 mb-0.5">{oc('onlineRoas')}</p>
+            <p className="text-lg font-bold text-cyan-600">{averageOnlineROAS}x</p>
           </div>
           <div>
-            <p className="text-xs text-gray-500 mb-0.5">Offline ROAS</p>
-            <p className="text-lg font-bold text-teal-600">{averageOfflineROAS}%</p>
+            <p className="text-xs text-gray-500 mb-0.5">{oc('offlineRoas')}</p>
+            <p className="text-lg font-bold text-teal-600">{averageOfflineROAS}x</p>
           </div>
         </div>
       </div>
@@ -397,7 +332,7 @@ export default function WeeklySalesChart() {
               axisLine={false}
               tickLine={false}
               tick={{ fontSize: 12, fill: '#6b7280' }}
-              tickFormatter={(value) => `$${value / 1000}k`}
+              tickFormatter={(value) => `₺${value / 1000}K`}
             />
             <YAxis
               yAxisId="right"
@@ -418,7 +353,7 @@ export default function WeeklySalesChart() {
             <Bar
               yAxisId="left"
               dataKey="onlineSales"
-              name="Online Sales ($)"
+              name="Online Sales (₺)"
               stackId="a"
               fill="#3b82f6"
               radius={[0, 0, 0, 0]}
@@ -427,9 +362,9 @@ export default function WeeklySalesChart() {
             <Bar
               yAxisId="left"
               dataKey="offlineSales"
-              name="Offline Sales ($)"
+              name="Offline Sales (₺)"
               stackId="a"
-              fill="#ef4444"
+              fill="#f97316"
               radius={[4, 4, 0, 0]}
               barSize={32}
             />
@@ -447,9 +382,9 @@ export default function WeeklySalesChart() {
               type="monotone"
               dataKey="offlineSalesCount"
               name="Offline Count"
-              stroke="#f87171"
+              stroke="#fb923c"
               strokeWidth={2}
-              dot={{ fill: '#f87171', strokeWidth: 2, r: 4 }}
+              dot={{ fill: '#fb923c', strokeWidth: 2, r: 4 }}
             />
 
           </ComposedChart>

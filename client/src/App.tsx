@@ -13,6 +13,7 @@ import CreatePost from "@/pages/create-post";
 import ManagePosts from "@/pages/manage-posts";
 import Catalog from "@/pages/catalog";
 import Segments from "@/pages/segments";
+import SegmentsMVP from "@/pages/segmentsMVP";
 import VenueXAI from "@/pages/venuex-ai";
 import Setup from "@/pages/setup";
 import Setup2 from "@/pages/setup2";
@@ -23,6 +24,7 @@ import Signup from "@/pages/signup";
 import Welcome from "@/pages/welcome";
 import NotFound from "@/pages/not-found";
 import Components from "@/pages/components";
+import Settings from "@/pages/settings";
 import { useState, useEffect } from "react";
 import { useLocation } from "wouter";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
@@ -71,10 +73,12 @@ function Router() {
               <Route path="/manage-posts" component={ManagePosts} />
               <Route path="/catalog" component={Catalog} />
               <Route path="/segments" component={Segments} />
+              <Route path="/segmentsMVP" component={SegmentsMVP} />
               <Route path="/venuex-ai" component={VenueXAI} />
               <Route path="/setup" component={Setup} />
               <Route path="/setup2" component={Setup2} />
               <Route path="/components" component={Components} />
+              <Route path="/settings" component={Settings} />
               <Route component={NotFound} />
             </Switch>
           </main>

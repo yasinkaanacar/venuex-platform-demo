@@ -26,8 +26,10 @@ import { useLocales, fNumber, fPercent } from "@/lib/formatters";
 import { cn } from "@/lib/utils";
 import { mockSegments, segmentDataService } from "@/lib/mock-segments-data";
 import { showToast } from "@/lib/toast";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import PushToPlatformDialog from "./PushToPlatformDialog";
 import SegmentAutomationSection from "./SegmentAutomationSection";
+import SegmentPerformanceTab from "./SegmentPerformanceTab";
 import type {
   Segment,
   SegmentStatus,
@@ -90,15 +92,27 @@ const platformNames: Record<AdPlatform, string> = {
 const dimensionLabels: Record<RuleDimension, string> = {
   basket_amount: "Basket Amount",
   total_spend: "Total Spend",
+  average_order_value: "Average Order Value",
+  total_orders: "Total Orders",
+  customer_lifetime_value: "Customer Lifetime Value",
+  last_order_amount: "Last Order Amount",
   product_category: "Product Category",
   product_brand: "Product Brand",
+  product_subcategory: "Product Subcategory",
+  purchase_channel: "Purchase Channel",
   purchase_recency_days: "Purchase Recency (Days)",
   purchase_frequency: "Purchase Frequency",
   monetary_score: "Monetary Score",
   rfm_segment: "RFM Segment",
+  days_since_first_purchase: "Days Since First Purchase",
+  avg_days_between_purchases: "Avg. Days Between Purchases",
   store_id: "Store ID",
   store_region: "Store Region",
   store_city: "Store City",
+  store_format: "Store Format",
+  loyalty_tier: "Loyalty Tier",
+  gender: "Gender",
+  age_range: "Age Range",
 };
 
 const operatorLabels: Record<RuleOperator, string> = {
@@ -266,7 +280,17 @@ export default function SegmentDetailDrawer({
           </div>
         </SheetHeader>
 
-        <div className="space-y-6 mt-6">
+        <Tabs defaultValue="overview" className="mt-4">
+          <TabsList className="grid w-full grid-cols-2">
+            <TabsTrigger value="overview">
+              {t("segments.performance.tabOverview") || "Overview"}
+            </TabsTrigger>
+            <TabsTrigger value="performance">
+              {t("segments.performance.tabPerformance") || "Performance"}
+            </TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="overview" className="mt-4 space-y-6">
           {/* Description */}
           <div>
             <p className="text-sm text-muted-foreground">
@@ -473,7 +497,12 @@ export default function SegmentDetailDrawer({
               </Button>
             </div>
           </div>
-        </div>
+          </TabsContent>
+
+          <TabsContent value="performance" className="mt-2">
+            <SegmentPerformanceTab segmentId={segment.id} />
+          </TabsContent>
+        </Tabs>
 
         {/* Push to Platform Dialog */}
         {segment && (

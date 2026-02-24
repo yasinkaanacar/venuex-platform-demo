@@ -1,5 +1,5 @@
 import { sql } from "drizzle-orm";
-import { pgTable, text, varchar, integer, real, timestamp, boolean } from "drizzle-orm/pg-core";
+import { pgTable, text, varchar, integer, real, timestamp, boolean, jsonb } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
@@ -74,6 +74,19 @@ export const alerts = pgTable("alerts", {
   description: text("description").notNull(),
   platformId: varchar("platform_id").references(() => platforms.id),
   isActive: boolean("is_active").notNull().default(true),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
+export const notifications = pgTable("notifications", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").references(() => users.id).notNull(),
+  category: text("category").notNull(), // 'platform' | 'user' | 'import' | 'export' | 'reviews' | 'locations' | 'catalog' | 'offline_conversions'
+  severity: text("severity").notNull(), // 'info' | 'success' | 'warning' | 'error'
+  title: text("title").notNull(),
+  message: text("message").notNull(),
+  isRead: boolean("is_read").notNull().default(false),
+  actionUrl: text("action_url"),
+  metadata: jsonb("metadata"),
   createdAt: timestamp("created_at").defaultNow(),
 });
 
@@ -161,3 +174,16 @@ export type EnrichmentSuggestion = typeof enrichmentSuggestions.$inferSelect;
 
 export type InsertAlert = z.infer<typeof insertAlertSchema>;
 export type Alert = typeof alerts.$inferSelect;
+
+export const insertNotificationSchema = createInsertSchema(notifications).pick({
+  userId: true,
+  category: true,
+  severity: true,
+  title: true,
+  message: true,
+  actionUrl: true,
+  metadata: true,
+});
+
+export type InsertNotification = z.infer<typeof insertNotificationSchema>;
+export type NotificationRecord = typeof notifications.$inferSelect;
