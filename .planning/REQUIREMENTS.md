@@ -17,11 +17,11 @@
 
 ### Location Pages
 
-- [ ] **LOC-01**: Edit Location opens as Sheet overlay from locations list with pre-populated form
-- [ ] **LOC-02**: Add Location opens as Sheet overlay from locations list with empty form
-- [ ] **LOC-03**: Location form includes sections: core info, address, hours, contact, platform links
-- [ ] **LOC-04**: Import Locations wizard with drag-drop upload, column mapping, validation preview, and conflict resolution
-- [ ] **LOC-05**: Import wizard uses useReducer state machine with explicit step transitions
+- [x] **LOC-01**: Edit Location page at `/locations/:id/edit` with pre-populated form, progress sidebar, and photos sections
+- [x] **LOC-02**: Add Location page at `/locations/add` with empty form and progress sidebar
+- [x] **LOC-03**: Location form includes sections: basic info, social media, address+map, working hours (day pills), amenities (chip toggles)
+- [ ] **LOC-04**: Import Locations page at `/locations/import` with template download, export, drag-drop upload, and file history table
+- [ ] **LOC-05**: Import file history shows upload results (new/updated counts) with download capability
 
 ### Profile
 
@@ -91,9 +91,9 @@
 | PRF-01 | Phase 2 | Complete |
 | PRF-02 | Phase 2 | Complete |
 | PRF-03 | Phase 2 | Complete |
-| LOC-01 | Phase 3 | Pending |
-| LOC-02 | Phase 3 | Pending |
-| LOC-03 | Phase 3 | Pending |
+| LOC-01 | Phase 3 | Complete |
+| LOC-02 | Phase 3 | Complete |
+| LOC-03 | Phase 3 | Complete |
 | LOC-04 | Phase 4 | Pending |
 | LOC-05 | Phase 4 | Pending |
 | ONB-01 | Phase 5 | Pending |
