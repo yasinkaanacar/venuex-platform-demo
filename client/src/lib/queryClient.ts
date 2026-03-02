@@ -2,6 +2,7 @@ import { QueryClient, QueryFunction } from "@tanstack/react-query";
 import { mockDataService } from './mockData';
 import { segmentDataService } from './mock-segments-data';
 import { notificationDataService } from './mock-notifications-data';
+import { settingsDataService } from './mock-settings-data';
 
 // Mock API request function that simulates backend responses  
 export async function apiRequest(
@@ -112,6 +113,37 @@ async function handleMockRequest(method: string, url: string, data?: unknown) {
   }
   if (url.includes('/api/segments')) {
     return await mockDataService.getSegments();
+  }
+
+  // Settings endpoints (order: most specific first)
+  if (url.includes('/api/settings/profile') && method.toUpperCase() === 'GET') {
+    return await settingsDataService.getBusinessProfile();
+  }
+  if (url.includes('/api/settings/profile') && method.toUpperCase() === 'PATCH') {
+    return await settingsDataService.updateBusinessProfile(data as any);
+  }
+  if (url.includes('/api/settings/activity-feed')) {
+    return await settingsDataService.getActivityFeed();
+  }
+  if (url.includes('/api/settings/store-sets/') && method.toUpperCase() === 'PATCH') {
+    const id = url.split('/').pop();
+    if (id) return await settingsDataService.updateStoreSet(id, data as any);
+  }
+  if (url.includes('/api/settings/store-sets/') && method.toUpperCase() === 'DELETE') {
+    const id = url.split('/').pop();
+    if (id) return await settingsDataService.deleteStoreSet(id);
+  }
+  if (url.includes('/api/settings/store-sets') && method.toUpperCase() === 'POST') {
+    return await settingsDataService.createStoreSet(data as any);
+  }
+  if (url.includes('/api/settings/store-sets')) {
+    return await settingsDataService.getStoreSets();
+  }
+  if (url.includes('/api/settings/data-sources')) {
+    return await settingsDataService.getDataSources();
+  }
+  if (url.includes('/api/settings/completion')) {
+    return await settingsDataService.getCompletionChecklist();
   }
 
   // Default response for unhandled endpoints

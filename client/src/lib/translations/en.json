@@ -1435,6 +1435,160 @@
             "title": "Email Notifications",
             "comingSoon": "Coming Soon",
             "description": "Email notification preferences will be available soon."
+        },
+        "pageTitle": "Settings",
+        "tabs": {
+            "editBusiness": "Edit Business",
+            "activityFeed": "Activity Feed",
+            "storeSets": "Store Sets",
+            "dataSource": "Data Source & Mapping"
+        },
+        "completionSidebar": {
+            "title": "Profile Completion",
+            "checklist": "Setup Checklist"
+        },
+        "editBusiness": {
+            "title": "Edit Business Information",
+            "desc": "Manage your brand profile, categories, and contact details",
+            "tooltip": "Changes here apply across all connected platforms and locations",
+            "businessIdentity": {
+                "title": "Business Identity",
+                "desc": "Your brand name, type, and description",
+                "brandName": "Brand Name",
+                "businessType": "Business Type",
+                "description": "Description",
+                "logo": "Brand Logo",
+                "logoUpload": "Drag & drop or click to upload",
+                "logoHint": "PNG or JPG, max 2MB"
+            },
+            "categories": {
+                "title": "Platform Categories",
+                "desc": "Category selections per advertising platform",
+                "google": "Google",
+                "meta": "Meta",
+                "apple": "Apple",
+                "yandex": "Yandex",
+                "addCategory": "Add Category",
+                "noCategories": "No categories selected"
+            },
+            "contactInfo": {
+                "title": "Contact Information",
+                "desc": "Primary contact details for your business",
+                "email": "Email",
+                "phone": "Phone",
+                "website": "Website"
+            },
+            "socialMedia": {
+                "title": "Social Media Links",
+                "desc": "Connect your social media profiles",
+                "facebook": "Facebook",
+                "instagram": "Instagram",
+                "x": "X (Twitter)",
+                "tiktok": "TikTok",
+                "youtube": "YouTube",
+                "pinterest": "Pinterest",
+                "linkedin": "LinkedIn"
+            },
+            "save": "Save Changes",
+            "saving": "Saving...",
+            "confirmCheckbox": "I confirm these changes will update {{count}} locations",
+            "saveSuccess": "Business profile updated successfully",
+            "saveError": "Failed to update business profile"
+        },
+        "activityFeed": {
+            "title": "Activity Feed",
+            "desc": "Track all changes and actions across your account",
+            "tooltip": "Shows a chronological log of all modifications made to your settings, locations, and data sources",
+            "filterByType": "Filter by type",
+            "allTypes": "All Types",
+            "dateRange": "Date range",
+            "allDates": "All Dates",
+            "last7Days": "Last 7 Days",
+            "last30Days": "Last 30 Days",
+            "last90Days": "Last 90 Days",
+            "loadMore": "Load More",
+            "noEvents": "No activity to show",
+            "eventTypes": {
+                "location_update": "Location Update",
+                "review_response": "Review Response",
+                "settings_change": "Settings Change",
+                "user_action": "User Action",
+                "data_sync": "Data Sync",
+                "store_set_change": "Store Set Change"
+            },
+            "details": "Details",
+            "changedField": "Changed field",
+            "oldValue": "Old value",
+            "newValue": "New value"
+        },
+        "storeSets": {
+            "title": "Store Sets",
+            "desc": "Group your locations into sets for bulk operations and targeted campaigns",
+            "tooltip": "Store sets let you organize locations by region, type, or any custom grouping for easier management",
+            "createNew": "+ Create Store Set",
+            "name": "Set Name",
+            "description": "Description",
+            "locationCount": "{{count}} locations",
+            "editAction": "Edit",
+            "deleteAction": "Delete",
+            "noSets": "No store sets created yet",
+            "dialog": {
+                "createTitle": "Create Store Set",
+                "editTitle": "Edit Store Set",
+                "nameLabel": "Name",
+                "namePlaceholder": "e.g., Istanbul European Side",
+                "descriptionLabel": "Description",
+                "descriptionPlaceholder": "Optional description for this store set",
+                "locationsLabel": "Select Locations",
+                "locationsPlaceholder": "Search locations...",
+                "selectedCount": "{{count}} locations selected",
+                "save": "Save",
+                "cancel": "Cancel"
+            },
+            "deleteConfirm": {
+                "title": "Delete Store Set",
+                "message": "Are you sure you want to delete \"{{name}}\"? This action cannot be undone.",
+                "confirm": "Delete",
+                "cancel": "Cancel"
+            },
+            "createSuccess": "Store set created successfully",
+            "updateSuccess": "Store set updated successfully",
+            "deleteSuccess": "Store set deleted successfully"
+        },
+        "dataSource": {
+            "title": "Data Source & Mapping",
+            "desc": "Configure your data ingestion pipelines and field mappings",
+            "tooltip": "Connect your sales and inventory data sources to enable offline conversion tracking and attribution",
+            "salesSection": "Sales Data Settings",
+            "salesDesc": "Configure how sales data flows into VenueX",
+            "inventorySection": "Inventory Data Settings",
+            "inventoryDesc": "Configure how inventory data flows into VenueX",
+            "storeDataSection": "Store Data Settings",
+            "storeDataDesc": "Import and manage store-level data",
+            "importButton": "Import Store Data",
+            "connectionStatus": {
+                "connected": "Connected",
+                "error": "Error",
+                "pending": "Pending",
+                "inactive": "Inactive"
+            },
+            "lastSync": "Last sync: {{date}}",
+            "records": "{{count}} records",
+            "noSync": "Never synced",
+            "enterDataSource": "Enter Data Source",
+            "mapData": "Map Data",
+            "fieldMapping": {
+                "title": "Field Mapping",
+                "sourceColumn": "Source Column",
+                "venueXField": "VenueX Field",
+                "sampleValue": "Sample Value",
+                "status": "Status",
+                "mapped": "Mapped",
+                "unmapped": "Unmapped",
+                "save": "Save Mapping",
+                "saveSuccess": "Field mapping saved successfully"
+            },
+            "errorDetails": "Error: {{message}}"
         }
     }
 }

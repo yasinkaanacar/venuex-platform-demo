@@ -1435,6 +1435,160 @@
             "title": "E-posta Bildirimleri",
             "comingSoon": "Yakında",
             "description": "E-posta bildirimi tercihleri yakında kullanıma açılacak."
+        },
+        "pageTitle": "Ayarlar",
+        "tabs": {
+            "editBusiness": "İşletme Düzenle",
+            "activityFeed": "Aktivite Akışı",
+            "storeSets": "Mağaza Setleri",
+            "dataSource": "Veri Kaynağı ve Eşleme"
+        },
+        "completionSidebar": {
+            "title": "Profil Tamamlama",
+            "checklist": "Kurulum Kontrol Listesi"
+        },
+        "editBusiness": {
+            "title": "İşletme Bilgilerini Düzenle",
+            "desc": "Marka profilinizi, kategorilerinizi ve iletişim bilgilerinizi yönetin",
+            "tooltip": "Buradaki değişiklikler bağlı tüm platformlara ve mağazalara uygulanır",
+            "businessIdentity": {
+                "title": "İşletme Kimliği",
+                "desc": "Marka adınız, türünüz ve açıklamanız",
+                "brandName": "Marka Adı",
+                "businessType": "İşletme Türü",
+                "description": "Açıklama",
+                "logo": "Marka Logosu",
+                "logoUpload": "Sürükle & bırak veya yüklemek için tıkla",
+                "logoHint": "PNG veya JPG, maksimum 2MB"
+            },
+            "categories": {
+                "title": "Platform Kategorileri",
+                "desc": "Reklam platformu başına kategori seçimleri",
+                "google": "Google",
+                "meta": "Meta",
+                "apple": "Apple",
+                "yandex": "Yandex",
+                "addCategory": "Kategori Ekle",
+                "noCategories": "Kategori seçilmedi"
+            },
+            "contactInfo": {
+                "title": "İletişim Bilgileri",
+                "desc": "İşletmeniz için birincil iletişim bilgileri",
+                "email": "E-posta",
+                "phone": "Telefon",
+                "website": "Web Sitesi"
+            },
+            "socialMedia": {
+                "title": "Sosyal Medya Bağlantıları",
+                "desc": "Sosyal medya profillerinizi bağlayın",
+                "facebook": "Facebook",
+                "instagram": "Instagram",
+                "x": "X (Twitter)",
+                "tiktok": "TikTok",
+                "youtube": "YouTube",
+                "pinterest": "Pinterest",
+                "linkedin": "LinkedIn"
+            },
+            "save": "Değişiklikleri Kaydet",
+            "saving": "Kaydediliyor...",
+            "confirmCheckbox": "Bu değişikliklerin {{count}} mağazayı güncelleyeceğini onaylıyorum",
+            "saveSuccess": "İşletme profili başarıyla güncellendi",
+            "saveError": "İşletme profili güncellenemedi"
+        },
+        "activityFeed": {
+            "title": "Aktivite Akışı",
+            "desc": "Hesabınızdaki tüm değişiklikleri ve işlemleri takip edin",
+            "tooltip": "Ayarlarınızda, lokasyonlarınızda ve veri kaynaklarınızda yapılan tüm değişikliklerin kronolojik kaydını gösterir",
+            "filterByType": "Türe göre filtrele",
+            "allTypes": "Tüm Türler",
+            "dateRange": "Tarih aralığı",
+            "allDates": "Tüm Tarihler",
+            "last7Days": "Son 7 Gün",
+            "last30Days": "Son 30 Gün",
+            "last90Days": "Son 90 Gün",
+            "loadMore": "Daha Fazla Yükle",
+            "noEvents": "Gösterilecek aktivite yok",
+            "eventTypes": {
+                "location_update": "Lokasyon Güncellemesi",
+                "review_response": "Yorum Yanıtı",
+                "settings_change": "Ayar Değişikliği",
+                "user_action": "Kullanıcı İşlemi",
+                "data_sync": "Veri Senkronizasyonu",
+                "store_set_change": "Mağaza Seti Değişikliği"
+            },
+            "details": "Detaylar",
+            "changedField": "Değiştirilen alan",
+            "oldValue": "Eski değer",
+            "newValue": "Yeni değer"
+        },
+        "storeSets": {
+            "title": "Mağaza Setleri",
+            "desc": "Lokasyonlarınızı toplu işlemler ve hedefli kampanyalar için setlere gruplayın",
+            "tooltip": "Mağaza setleri, lokasyonlarınızı bölge, tür veya özel gruplamalarla düzenlemenizi kolaylaştırır",
+            "createNew": "+ Mağaza Seti Oluştur",
+            "name": "Set Adı",
+            "description": "Açıklama",
+            "locationCount": "{{count}} mağaza",
+            "editAction": "Düzenle",
+            "deleteAction": "Sil",
+            "noSets": "Henüz mağaza seti oluşturulmadı",
+            "dialog": {
+                "createTitle": "Mağaza Seti Oluştur",
+                "editTitle": "Mağaza Setini Düzenle",
+                "nameLabel": "Ad",
+                "namePlaceholder": "örn. İstanbul Avrupa Yakası",
+                "descriptionLabel": "Açıklama",
+                "descriptionPlaceholder": "Bu mağaza seti için isteğe bağlı açıklama",
+                "locationsLabel": "Mağaza Seç",
+                "locationsPlaceholder": "Mağaza ara...",
+                "selectedCount": "{{count}} mağaza seçildi",
+                "save": "Kaydet",
+                "cancel": "İptal"
+            },
+            "deleteConfirm": {
+                "title": "Mağaza Setini Sil",
+                "message": "\"{{name}}\" mağaza setini silmek istediğinize emin misiniz? Bu işlem geri alınamaz.",
+                "confirm": "Sil",
+                "cancel": "İptal"
+            },
+            "createSuccess": "Mağaza seti başarıyla oluşturuldu",
+            "updateSuccess": "Mağaza seti başarıyla güncellendi",
+            "deleteSuccess": "Mağaza seti başarıyla silindi"
+        },
+        "dataSource": {
+            "title": "Veri Kaynağı ve Eşleme",
+            "desc": "Veri alım hatlarınızı ve alan eşlemelerinizi yapılandırın",
+            "tooltip": "Çevrimdışı dönüşüm takibi ve atıfı etkinleştirmek için satış ve envanter veri kaynaklarınızı bağlayın",
+            "salesSection": "Satış Veri Ayarları",
+            "salesDesc": "Satış verilerinin VenueX'e nasıl aktığını yapılandırın",
+            "inventorySection": "Envanter Veri Ayarları",
+            "inventoryDesc": "Envanter verilerinin VenueX'e nasıl aktığını yapılandırın",
+            "storeDataSection": "Mağaza Veri Ayarları",
+            "storeDataDesc": "Mağaza düzeyindeki verileri içe aktarın ve yönetin",
+            "importButton": "Mağaza Verisi İçe Aktar",
+            "connectionStatus": {
+                "connected": "Bağlı",
+                "error": "Hata",
+                "pending": "Bekliyor",
+                "inactive": "Pasif"
+            },
+            "lastSync": "Son senkronizasyon: {{date}}",
+            "records": "{{count}} kayıt",
+            "noSync": "Hiç senkronize edilmedi",
+            "enterDataSource": "Veri Kaynağını Gir",
+            "mapData": "Veriyi Eşle",
+            "fieldMapping": {
+                "title": "Alan Eşleme",
+                "sourceColumn": "Kaynak Sütun",
+                "venueXField": "VenueX Alanı",
+                "sampleValue": "Örnek Değer",
+                "status": "Durum",
+                "mapped": "Eşlendi",
+                "unmapped": "Eşlenmedi",
+                "save": "Eşlemeyi Kaydet",
+                "saveSuccess": "Alan eşlemesi başarıyla kaydedildi"
+            },
+            "errorDetails": "Hata: {{message}}"
         }
     }
 }
