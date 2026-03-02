@@ -1,6 +1,8 @@
 import { useSearchParams } from 'wouter';
 import { useTranslation } from '@/contexts/LanguageContext';
 import CompletionSidebar from '@/components/settings/CompletionSidebar';
+import ActivityFeedTab from '@/components/settings/ActivityFeedTab';
+import DataSourceTab from '@/components/settings/DataSourceTab';
 import { cn } from '@/lib/utils';
 
 const TAB_VALUES = ['editBusiness', 'activityFeed', 'storeSets', 'dataSource'] as const;
@@ -63,15 +65,11 @@ export default function Settings() {
           {activeTab === 'editBusiness' && (
             <PlaceholderTab name={oc?.tabs?.editBusiness || 'Edit Business'} />
           )}
-          {activeTab === 'activityFeed' && (
-            <PlaceholderTab name={oc?.tabs?.activityFeed || 'Activity Feed'} />
-          )}
+          {activeTab === 'activityFeed' && <ActivityFeedTab />}
           {activeTab === 'storeSets' && (
             <PlaceholderTab name={oc?.tabs?.storeSets || 'Store Sets'} />
           )}
-          {activeTab === 'dataSource' && (
-            <PlaceholderTab name={oc?.tabs?.dataSource || 'Data Source & Mapping'} />
-          )}
+          {activeTab === 'dataSource' && <DataSourceTab />}
         </div>
       </div>
     </div>
