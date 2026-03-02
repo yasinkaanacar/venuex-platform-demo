@@ -107,7 +107,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Settings | 7/7 | Complete   | 2026-03-02 |
-| 2. Profile | 1/3 | In Progress | - |
+| 2. Profile | 1/3 | In Progress|  |
 | 3. Location Forms | 0/1 | Not started | - |
 | 4. Import Locations | 0/1 | Not started | - |
 | 5. Onboarding | 0/2 | Not started | - |
