@@ -3,6 +3,7 @@ import { mockDataService } from './mockData';
 import { segmentDataService } from './mock-segments-data';
 import { notificationDataService } from './mock-notifications-data';
 import { settingsDataService } from './mock-settings-data';
+import { profileDataService } from './mock-profile-data';
 
 // Mock API request function that simulates backend responses  
 export async function apiRequest(
@@ -144,6 +145,20 @@ async function handleMockRequest(method: string, url: string, data?: unknown) {
   }
   if (url.includes('/api/settings/completion')) {
     return await settingsDataService.getCompletionChecklist();
+  }
+
+  // Profile endpoints (order: most specific first)
+  if (url.includes('/api/profile/team') && method.toUpperCase() === 'GET') {
+    return await profileDataService.getTeamMembers();
+  }
+  if (url.includes('/api/profile/invites') && method.toUpperCase() === 'GET') {
+    return await profileDataService.getPendingInvites();
+  }
+  if (url.includes('/api/profile') && method.toUpperCase() === 'GET') {
+    return await profileDataService.getCurrentUser();
+  }
+  if (url.includes('/api/profile') && method.toUpperCase() === 'PATCH') {
+    return await profileDataService.updateProfile(data as any);
   }
 
   // Default response for unhandled endpoints
