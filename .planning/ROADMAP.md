@@ -44,15 +44,17 @@ Plans:
 ### Phase 2: Profile
 **Goal**: Users can view and edit their profile information on a page that is visually indistinguishable in style from the redesigned Settings page
 **Depends on**: Phase 1
-**Requirements**: PRF-01, PRF-02, PRF-03
+**Requirements**: PRF-01, PRF-02, PRF-03, PRF-04, PRF-05
 **Success Criteria** (what must be TRUE):
   1. Profile page renders avatar section with both an image state and an initials-fallback state visible
   2. Personal info fields (display name, email read-only, role badge) and language preference toggle all appear in vx-card sections using SettingsSectionCard and SettingsFormRow components from Phase 1
   3. Password change section is present but visibly stubbed (no active form fields, placeholder text only)
-**Plans**: TBD
+**Plans**: 3 plans in 3 waves
 
 Plans:
-- [ ] 02-01: Profile page — ProfileAvatarSection component, personal info section, language toggle, password stub; all using Phase 1 shared primitives
+- [x] 02-01-PLAN.md — Infrastructure: TypeScript types, mock data service, queryClient registration, translation keys, route registration, placeholder page (Wave 1)
+- [ ] 02-02-PLAN.md — ProfileInfoSection (avatar + inline-edit form) and PasswordStubSection (placeholder stub) (Wave 2)
+- [ ] 02-03-PLAN.md — TeamInviteSection (multi-row invite form) and TeamTableSection (tabbed roster with actions) (Wave 3)
 
 ### Phase 3: Location Forms
 **Goal**: Users can open Edit Location and Add Location as Sheet overlays from the locations list, with all form sections populated and functional
@@ -105,7 +107,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Settings | 7/7 | Complete   | 2026-03-02 |
-| 2. Profile | 0/1 | Not started | - |
+| 2. Profile | 1/3 | In Progress | - |
 | 3. Location Forms | 0/1 | Not started | - |
 | 4. Import Locations | 0/1 | Not started | - |
 | 5. Onboarding | 0/2 | Not started | - |

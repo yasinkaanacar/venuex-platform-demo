@@ -3,12 +3,12 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: unknown
-last_updated: "2026-03-02T11:17:11.232Z"
+last_updated: "2026-03-02T13:30:00Z"
 progress:
-  total_phases: 1
+  total_phases: 5
   completed_phases: 1
-  total_plans: 7
-  completed_plans: 7
+  total_plans: 8
+  completed_plans: 8
 ---
 
 # Project State
@@ -18,16 +18,16 @@ progress:
 See: .planning/PROJECT.md (updated 2026-03-02)
 
 **Core value:** Every page in the prototype must look and feel like a finished product — consistent design language across all screens so engineering has a single, unambiguous reference to build from.
-**Current focus:** Phase 1 — Settings
+**Current focus:** Phase 2 — Profile
 
 ## Current Position
 
-Phase: 1 of 5 (Settings)
-Plan: 7 of 7 in current phase
-Status: Complete
-Last activity: 2026-03-02 — Completed 01-07 (Data Source & Mapping tab: SFTP/API connection cards, field mapping tables, Store Data import placeholder)
+Phase: 2 of 5 (Profile)
+Plan: 1 of 3 in current phase
+Status: In Progress
+Last activity: 2026-03-02 — Completed 02-01 (Profile infrastructure: types, mock data, translations, route, placeholder page)
 
-Progress: [██████████] 14%
+Progress: [███████████] 16%
 
 ## Performance Metrics
 
@@ -51,6 +51,7 @@ Progress: [██████████] 14%
 | Phase 01-settings P06 | 2 | 2 tasks | 3 files |
 | Phase 01-settings P04 | 4 | 2 tasks | 1 files |
 | Phase 01-settings P07 | 4 | 2 tasks | 2 files |
+| Phase 02-profile P01 | 5 | 2 tasks | 8 files |
 
 ## Accumulated Context
 
@@ -76,6 +77,9 @@ Recent decisions affecting current work:
 - [Phase 01-settings]: Delete confirmation is inline MUI Dialog in StoreSetsTab (not separate component) per plan spec
 - [Phase 01-settings]: Categories section is read-only badge display in prototype (no click-to-edit needed for spec reference)
 - [Phase 01-settings]: DataSourceCard defined as inline helper inside DataSourceTab.tsx — not extracted to separate file
+- [Phase 02-profile]: profileDataService uses internal mutable state (let arrays) — simulates server-side state so mutations persist within the session (02-01)
+- [Phase 02-profile]: mockCurrentUser (user-001) also appears in mockTeamMembers — current user is shown as a team member in the table (02-01)
+- [Phase 02-profile]: PATCH /api/profile registered alongside GETs so Plans 02/03 can call updateProfile via apiRequest without additional queryClient changes (02-01)
 
 ### Open Questions (Pre-Phase 1)
 
@@ -93,5 +97,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-03-02
-Stopped at: Completed 01-07-PLAN.md — Data Source & Mapping tab with connection cards and field mapping tables. Phase 1 (Settings) complete — all 7 plans done.
+Stopped at: Completed 02-01-PLAN.md — Profile infrastructure: types (ProfileUser, TeamMember, TeamInvite, InviteRow), mock data service, queryClient endpoints, translations (30 keys EN+TR), route /profile, placeholder page.
 Resume file: None

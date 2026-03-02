@@ -25,9 +25,11 @@
 
 ### Profile
 
-- [ ] **PRF-01**: Profile page with avatar section (image + initials fallback), personal info, language preference toggle
+- [x] **PRF-01**: Profile page with initials avatar, inline-editable personal info (name, email read-only, role badge)
 - [ ] **PRF-02**: Password change section as placeholder stub
-- [ ] **PRF-03**: Reuses SettingsSectionCard and SettingsFormRow shared components from Settings
+- [x] **PRF-03**: Reuses SettingsSectionCard and SettingsFormRow shared components from Settings
+- [ ] **PRF-04**: Team invite section with multi-row invite form (name, email, role) in vx-card hierarchy
+- [ ] **PRF-05**: Team table with tabs (Team/Pending Invites), toggle switches, role badges, delete/edit actions
 
 ### Onboarding
 
@@ -86,9 +88,9 @@
 | XCT-01 | Phase 1 | Complete |
 | XCT-02 | Phase 1 | Complete |
 | XCT-03 | Phase 1 | Complete |
-| PRF-01 | Phase 2 | Pending |
+| PRF-01 | Phase 2 | Complete |
 | PRF-02 | Phase 2 | Pending |
-| PRF-03 | Phase 2 | Pending |
+| PRF-03 | Phase 2 | Complete |
 | LOC-01 | Phase 3 | Pending |
 | LOC-02 | Phase 3 | Pending |
 | LOC-03 | Phase 3 | Pending |
