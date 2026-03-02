@@ -10,27 +10,27 @@ See: .planning/PROJECT.md (updated 2026-03-02)
 ## Current Position
 
 Phase: 1 of 5 (Settings)
-Plan: 1 of 7 in current phase
+Plan: 2 of 7 in current phase
 Status: In progress
-Last activity: 2026-03-02 — Completed 01-01 (Settings infrastructure: types, mock data, endpoints, translations)
+Last activity: 2026-03-02 — Completed 01-02 (Settings primitive components: SettingsSectionCard, SettingsFormRow, SettingsFieldGroup)
 
-Progress: [█░░░░░░░░░] 3%
+Progress: [██░░░░░░░░] 6%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 1
-- Average duration: 4 min
-- Total execution time: 0.07 hours
+- Total plans completed: 2
+- Average duration: 3 min
+- Total execution time: 0.08 hours
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
-| 01-settings | 1 | 4 min | 4 min |
+| 01-settings | 2 | 5 min | 3 min |
 
 **Recent Trend:**
-- Last 5 plans: 01-01 (4 min)
+- Last 5 plans: 01-01 (4 min), 01-02 (1 min)
 - Trend: -
 
 *Updated after each plan completion*
@@ -47,6 +47,9 @@ Recent decisions affecting current work:
 - Sheet overlay (not new routes): Edit/Add Location open as Sheet overlays from locations list — no new routes created
 - Generic SFTP/API labels for data sources — no branded names per CLAUDE.md mock data standards (01-01)
 - Inventory SFTP source set to error status to cover error state UI edge case (01-01)
+- SettingsSectionCard uses raw divs with vx-* classes (no shadcn Card) — enforces consistent visual hierarchy (01-02)
+- SettingsFormRow uses w-1/3 fixed label width with flex-1 input side for horizontal form layout (01-02)
+- SettingsFieldGroup uses divide-y for FormRow separators inside inner white section (01-02)
 
 ### Open Questions (Pre-Phase 1)
 
@@ -64,5 +67,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-03-02
-Stopped at: Completed 01-01-PLAN.md — Settings infrastructure (types, mock data, queryClient, translations)
+Stopped at: Completed 01-02-PLAN.md — Settings primitive components (SettingsSectionCard, SettingsFormRow, SettingsFieldGroup)
 Resume file: None

@@ -34,7 +34,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 
 Plans:
 - [x] 01-01-PLAN.md — Infrastructure: TypeScript types, mock data service, queryClient registration, translation keys (Wave 1)
-- [ ] 01-02-PLAN.md — Shared primitives: SettingsSectionCard, SettingsFormRow, SettingsFieldGroup (Wave 2)
+- [x] 01-02-PLAN.md — Shared primitives: SettingsSectionCard, SettingsFormRow, SettingsFieldGroup (Wave 2)
 - [ ] 01-03-PLAN.md — Settings page shell: two-panel layout, CompletionSidebar, tab navigation with URL sync (Wave 3)
 - [ ] 01-04-PLAN.md — Edit Business tab: brand info form with four vx-card sections (Wave 4)
 - [ ] 01-05-PLAN.md — Activity Feed tab: event log with date grouping, filters, expandable details (Wave 4)
@@ -104,7 +104,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Settings | 1/7 | In progress | - |
+| 1. Settings | 2/7 | In progress | - |
 | 2. Profile | 0/1 | Not started | - |
 | 3. Location Forms | 0/1 | Not started | - |
 | 4. Import Locations | 0/1 | Not started | - |

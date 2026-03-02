@@ -12,7 +12,7 @@
 - [ ] **SET-03**: Activity Feed tab shows reverse-chronological event log with date grouping, type filters, and date range filter
 - [ ] **SET-04**: Store Sets tab provides CRUD list for store groups with name, location count, and inline edit/delete actions
 - [ ] **SET-05**: Data Source & Mapping tab displays connection cards (SFTP/API) with status indicators and field mapping configuration
-- [ ] **SET-06**: All Settings tabs use vx-card hierarchy and useTranslation() pattern
+- [x] **SET-06**: All Settings tabs use vx-card hierarchy and useTranslation() pattern
 - [ ] **SET-07**: Active tab synced to URL query string to prevent state loss on navigation
 
 ### Location Pages
