@@ -1,19 +1,7 @@
 import { useParams } from 'wouter';
-import { useTranslation } from '@/contexts/LanguageContext';
+import LocationEditForm from '@/components/locations2/LocationEditForm';
 
 export default function LocationEdit() {
   const { id } = useParams<{ id: string }>();
-  const { t } = useTranslation();
-  const oc = t.locationForms as any;
-
-  return (
-    <div className="vx-section-stack">
-      <h1 className="text-2xl font-semibold text-foreground">
-        {oc?.editTitle || 'Edit Location'} — ID: {id}
-      </h1>
-      <p className="text-sm text-gray-500 mt-2">
-        Location form will be built in Plan 03-02.
-      </p>
-    </div>
-  );
+  return <LocationEditForm mode="edit" locationId={id} />;
 }
