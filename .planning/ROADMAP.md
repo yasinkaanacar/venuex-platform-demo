@@ -12,7 +12,7 @@ This milestone brings six sub-pages into alignment with the design system alread
 
 Decimal phases appear between their surrounding integers in numeric order.
 
-- [ ] **Phase 1: Settings** - Redesign Settings with two-panel layout, 4 tabs, shared primitives, and mock data infrastructure
+- [x] **Phase 1: Settings** - Redesign Settings with two-panel layout, 4 tabs, shared primitives, and mock data infrastructure (completed 2026-03-02)
 - [ ] **Phase 2: Profile** - Redesign Profile page reusing Settings primitives
 - [ ] **Phase 3: Location Forms** - Edit Location and Add Location as shared Sheet-overlay form component
 - [ ] **Phase 4: Import Locations** - Import wizard with useReducer state machine and drag-drop upload
@@ -104,7 +104,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Settings | 6/7 | In Progress|  |
+| 1. Settings | 7/7 | Complete   | 2026-03-02 |
 | 2. Profile | 0/1 | Not started | - |
 | 3. Location Forms | 0/1 | Not started | - |
 | 4. Import Locations | 0/1 | Not started | - |

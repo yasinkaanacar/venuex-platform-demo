@@ -11,7 +11,7 @@
 - [x] **SET-02**: Edit Business tab displays brand info form (name, categories, description, contact, social links) in vx-card sections
 - [x] **SET-03**: Activity Feed tab shows reverse-chronological event log with date grouping, type filters, and date range filter
 - [x] **SET-04**: Store Sets tab provides CRUD list for store groups with name, location count, and inline edit/delete actions
-- [ ] **SET-05**: Data Source & Mapping tab displays connection cards (SFTP/API) with status indicators and field mapping configuration
+- [x] **SET-05**: Data Source & Mapping tab displays connection cards (SFTP/API) with status indicators and field mapping configuration
 - [x] **SET-06**: All Settings tabs use vx-card hierarchy and useTranslation() pattern
 - [x] **SET-07**: Active tab synced to URL query string to prevent state loss on navigation
 
@@ -80,7 +80,7 @@
 | SET-02 | Phase 1 | Complete |
 | SET-03 | Phase 1 | Complete |
 | SET-04 | Phase 1 | Complete |
-| SET-05 | Phase 1 | Pending |
+| SET-05 | Phase 1 | Complete |
 | SET-06 | Phase 1 | Complete |
 | SET-07 | Phase 1 | Pending |
 | XCT-01 | Phase 1 | Complete |
