@@ -25,6 +25,7 @@ import Welcome from "@/pages/welcome";
 import NotFound from "@/pages/not-found";
 import Components from "@/pages/components";
 import Settings from "@/pages/settings";
+import Profile from "@/pages/profile";
 import { useState, useEffect } from "react";
 import { useLocation } from "wouter";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
@@ -79,6 +80,7 @@ function Router() {
               <Route path="/setup2" component={Setup2} />
               <Route path="/components" component={Components} />
               <Route path="/settings" component={Settings} />
+              <Route path="/profile" component={Profile} />
               <Route component={NotFound} />
             </Switch>
           </main>

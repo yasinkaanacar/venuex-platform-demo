@@ -694,6 +694,9 @@
             "avgRating": "Avg. Rating",
             "topThemes": "Top Themes"
         },
+        "locations": {
+            "searchPlaceholder": "Search locations..."
+        },
         "themes": {
             "title": "Themes",
             "subtitle": "Theme analysis with VenueX scoring",
@@ -1590,5 +1593,49 @@
             },
             "errorDetails": "Error: {{message}}"
         }
+    },
+    "profile": {
+        "pageTitle": "Profile & Team",
+        "infoTitle": "Personal Information",
+        "infoDesc": "Manage your personal details and account settings",
+        "infoTooltip": "Your profile information is visible to team members",
+        "firstName": "First Name",
+        "lastName": "Last Name",
+        "email": "Email",
+        "emailHint": "Email cannot be changed",
+        "role": "Role",
+        "status": "Status",
+        "editProfile": "Edit",
+        "saveProfile": "Save",
+        "cancelEdit": "Cancel",
+        "passwordTitle": "Password",
+        "passwordDesc": "Manage your account password",
+        "passwordTooltip": "Password management will be available in a future update",
+        "passwordPlaceholder": "Password change functionality is not yet available. This feature will be enabled in a future update.",
+        "teamInviteTitle": "Invite Team Members",
+        "teamInviteDesc": "Send invitations to add new members to your team",
+        "teamInviteTooltip": "Invited members will receive an email with setup instructions",
+        "addRow": "Add User",
+        "sendInvite": "Send Invite",
+        "rolePlaceholder": "Select role",
+        "teamTableTitle": "Team Management",
+        "teamTableDesc": "View and manage your team members",
+        "teamTableTooltip": "Toggle member status or remove members from your team",
+        "teamTab": "Team",
+        "pendingTab": "Pending Invites",
+        "name": "Name",
+        "actions": "Actions",
+        "active": "Active",
+        "inactive": "Inactive",
+        "emptyPending": "No pending invitations",
+        "emptyPendingDesc": "Invite new team members using the form above",
+        "deleteConfirmTitle": "Remove Team Member",
+        "deleteConfirmDesc": "Are you sure you want to remove {{name}} from the team? This action cannot be undone.",
+        "deleteConfirm": "Remove",
+        "deleteCancel": "Cancel",
+        "profileUpdated": "Profile updated successfully",
+        "invitesSent": "Invitations sent successfully",
+        "memberRemoved": "Team member removed",
+        "memberStatusChanged": "Member status updated"
     }
 }

@@ -155,6 +155,13 @@ export const routes: Record<string, RouteConfig> = {
             { label: 'VenueX', href: '/' },
             { label: 'Ayarlar', href: '/settings' }
         ]
+    },
+    '/profile': {
+        title: 'Profile',
+        breadcrumbs: [
+            { label: 'VenueX', href: '/' },
+            { label: 'Profile', href: '/profile' }
+        ]
     }
 };
 

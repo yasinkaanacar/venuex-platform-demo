@@ -333,6 +333,9 @@
             "avgRating": "Ort. Puan",
             "topThemes": "En Önemli Temalar"
         },
+        "locations": {
+            "searchPlaceholder": "Lokasyon ara..."
+        },
         "themes": {
             "title": "Temalar",
             "subtitle": "VenueX puanlama ile tema analizi",
@@ -1590,5 +1593,49 @@
             },
             "errorDetails": "Hata: {{message}}"
         }
+    },
+    "profile": {
+        "pageTitle": "Profil ve Ekip",
+        "infoTitle": "Kişisel Bilgiler",
+        "infoDesc": "Kişisel bilgilerinizi ve hesap ayarlarınızı yönetin",
+        "infoTooltip": "Profil bilgileriniz ekip üyelerine görünür",
+        "firstName": "Ad",
+        "lastName": "Soyad",
+        "email": "E-posta",
+        "emailHint": "E-posta değiştirilemez",
+        "role": "Rol",
+        "status": "Durum",
+        "editProfile": "Düzenle",
+        "saveProfile": "Kaydet",
+        "cancelEdit": "İptal",
+        "passwordTitle": "Şifre",
+        "passwordDesc": "Hesap şifrenizi yönetin",
+        "passwordTooltip": "Şifre yönetimi gelecek bir güncellemede kullanılabilir olacaktır",
+        "passwordPlaceholder": "Şifre değiştirme işlevi henüz mevcut değil. Bu özellik gelecek bir güncellemede etkinleştirilecektir.",
+        "teamInviteTitle": "Ekip Üyelerini Davet Et",
+        "teamInviteDesc": "Ekibinize yeni üyeler eklemek için davetiye gönderin",
+        "teamInviteTooltip": "Davet edilen üyeler kurulum talimatları içeren bir e-posta alacaktır",
+        "addRow": "Kullanıcı Ekle",
+        "sendInvite": "Davet Gönder",
+        "rolePlaceholder": "Rol seçin",
+        "teamTableTitle": "Ekip Yönetimi",
+        "teamTableDesc": "Ekip üyelerinizi görüntüleyip yönetin",
+        "teamTableTooltip": "Üye durumunu değiştirin veya ekipten üyeleri kaldırın",
+        "teamTab": "Ekip",
+        "pendingTab": "Bekleyen Davetler",
+        "name": "Ad Soyad",
+        "actions": "İşlemler",
+        "active": "Aktif",
+        "inactive": "Pasif",
+        "emptyPending": "Bekleyen davetiye yok",
+        "emptyPendingDesc": "Yukarıdaki formu kullanarak yeni ekip üyeleri davet edin",
+        "deleteConfirmTitle": "Ekip Üyesini Kaldır",
+        "deleteConfirmDesc": "{{name}} adlı üyeyi ekipten kaldırmak istediğinizden emin misiniz? Bu işlem geri alınamaz.",
+        "deleteConfirm": "Kaldır",
+        "deleteCancel": "İptal",
+        "profileUpdated": "Profil başarıyla güncellendi",
+        "invitesSent": "Davetiyeler başarıyla gönderildi",
+        "memberRemoved": "Ekip üyesi kaldırıldı",
+        "memberStatusChanged": "Üye durumu güncellendi"
     }
 }
