@@ -11,6 +11,9 @@ export default {
         sm: "calc(var(--radius) - 4px)",
       },
       colors: {
+        gray: {
+          400: "#7a8494",   // default #9ca3af — bumped for subtext readability
+        },
         background: "var(--background)",
         foreground: "var(--foreground)",
         card: {

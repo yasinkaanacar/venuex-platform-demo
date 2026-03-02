@@ -1,4 +1,3 @@
-// UI components removed - using plain HTML elements
 import { Dispatch, SetStateAction, useEffect, useMemo, useState } from "react";
 import { Box, Stack, useMediaQuery, useTheme } from "@mui/material";
 import {
@@ -12,6 +11,7 @@ import {
     useApiProviderMetrics,
     formatDate
 } from "./mock-setup";
+import { Info } from 'lucide-react';
 import { ProviderOptions } from "./provider-selection";
 import OfflineConversionFlowChart from "./OfflineConversionFlowChart";
 
@@ -24,16 +24,12 @@ const useResponsiveZoom = () => {
             const width = window.innerWidth;
 
             if (width >= 1400) {
-                // xxl breakpoint (1400px)
                 return 0.85;
             }
             if (width > 1200) {
-                // between xxl and xl (1200px - 1400px)
-                // Interpolate between 0.6 and 0.7 based on screen size
                 const ratio = (width - 1200) / (1400 - 1200);
                 return 0.6 + ratio * 0.1;
             }
-            // xl and below
             return 0.8;
         };
 
@@ -42,13 +38,8 @@ const useResponsiveZoom = () => {
             setZoomFactor(zoom);
         };
 
-        // Set initial zoom
         handleResize();
-
-        // Add event listener
         window.addEventListener("resize", handleResize);
-
-        // Cleanup
         return () => window.removeEventListener("resize", handleResize);
     }, []);
 
@@ -80,14 +71,15 @@ export default function PerformanceChart({ filters, onFiltersChange }: Performan
     );
 
     // Derive provider from page-level filters.platforms
+    const filterPlatforms = (filters as any).platforms as string[] | undefined;
+    const isMultiPlatform = !filterPlatforms?.length || filterPlatforms.length > 1;
+
     const performanceChartProvider = useMemo(() => {
-        const platforms = (filters as any).platforms as string[] | undefined;
-        if (platforms && platforms.length === 1) {
-            return platforms[0] as Provider;
+        if (filterPlatforms && filterPlatforms.length === 1) {
+            return filterPlatforms[0] as Provider;
         }
-        // Default to Google when none or multiple selected
         return (filters.platform as Provider) || Provider.Google;
-    }, [(filters as any).platforms, filters.platform]);
+    }, [filterPlatforms, filters.platform]);
 
     const currentOfflineProviderNeedsSetup = useMemo(() => {
         const providerOption = offlineRoasProviderOptions.find((p) => p.key === performanceChartProvider);
@@ -98,7 +90,6 @@ export default function PerformanceChart({ filters, onFiltersChange }: Performan
     const hookPayload = useMemo(() => {
         const hasSelectedCampaigns = filters.campaigns && filters.campaigns.length > 0;
 
-        // Handle dateRange safely (could be string or object)
         const startDate = typeof filters.dateRange === 'string' ? new Date().toISOString() : formatDate(filters.dateRange.startDate);
         const endDate = typeof filters.dateRange === 'string' ? new Date().toISOString() : formatDate(filters.dateRange.endDate);
 
@@ -118,7 +109,6 @@ export default function PerformanceChart({ filters, onFiltersChange }: Performan
 
     // Determine if we should fetch data
     const shouldFetchData = useMemo(() => {
-        // If campaigns is explicitly empty (Deselect All state), don't fetch
         if (filters.isAllCampaignsSelected === false && (filters.campaigns?.length || 0) === 0) {
             return false;
         }
@@ -136,11 +126,20 @@ export default function PerformanceChart({ filters, onFiltersChange }: Performan
     });
 
     return (
-        <div className="vx-card">
+        <div className="vx-card overflow-visible">
             <div className="vx-card-header flex justify-between items-center">
                 <div>
-                    <h3 className="text-lg font-semibold text-foreground">{t("reports.performance_chart.title")}</h3>
-
+                    <div className="flex items-center gap-2">
+                        <h3 className="text-lg font-semibold text-foreground">{t("reports.performance_chart.title")}</h3>
+                        <div className="relative group">
+                            <Info className="w-3.5 h-3.5 text-gray-400 cursor-help" />
+                            <div className="absolute left-full top-1/2 -translate-y-1/2 ml-2 px-3 py-2 bg-gray-900 text-white text-xs rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 w-72 z-[9999]">
+                                {t("reports.performance_chart.tooltip") || "Visualizes the full conversion flow from ad impressions through to offline store purchases, showing how each platform contributes to the omnichannel funnel."}
+                                <div className="absolute right-full top-1/2 -translate-y-1/2 w-0 h-0 border-t-4 border-b-4 border-r-4 border-transparent border-r-gray-900" />
+                            </div>
+                        </div>
+                    </div>
+                    <p className="text-xs text-gray-400 mt-0.5">{t("reports.performance_chart.description") || "End-to-end attribution flow from ad click to in-store purchase"}</p>
                 </div>
             </div>
             <div className="vx-card-body vx-surface-muted">
@@ -154,7 +153,6 @@ export default function PerformanceChart({ filters, onFiltersChange }: Performan
                             overflow: "hidden",
                         }}
                     >
-                        {/* Using same component for both screen sizes for simplicity in MVP, but handling zoom */}
                         <Stack direction="column" alignItems="center" sx={{ px: 2, py: 4, gap: 4 }}>
                             <Box
                                 sx={{
@@ -164,7 +162,6 @@ export default function PerformanceChart({ filters, onFiltersChange }: Performan
                                     maxWidth: "100%",
                                     overflow: "visible",
                                     transition: "zoom 0.3s ease-in-out",
-                                    // Ensure x-scrolling if needed
                                     overflowX: 'auto',
                                 }}
                             >
@@ -173,6 +170,7 @@ export default function PerformanceChart({ filters, onFiltersChange }: Performan
                                     isLoadingProviderMetrics={isLoadingProviderMetrics}
                                     selectedProvider={performanceChartProvider}
                                     setupNeeded={currentOfflineProviderNeedsSetup}
+                                    isMultiPlatform={isMultiPlatform}
                                 />
                             </Box>
                         </Stack>

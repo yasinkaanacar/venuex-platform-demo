@@ -7,8 +7,6 @@ import { cn } from "@/lib/utils";
 import PlatformPushCard from "./PlatformPushCard";
 import PlatformSyncLog from "./PlatformSyncLog";
 import PushToPlatformDialog from "./PushToPlatformDialog";
-import LookalikeAudienceSection from "./LookalikeAudienceSection";
-import ABTestSection from "./ABTestSection";
 import type {
   Segment,
   PushLogEntry,
@@ -294,12 +292,6 @@ export default function PlatformPushDashboard() {
 
       {/* Sync Activity Log */}
       <PlatformSyncLog entries={pushLog} />
-
-      {/* Lookalike Audiences */}
-      <LookalikeAudienceSection />
-
-      {/* A/B Test Audiences */}
-      <ABTestSection />
 
       {/* Push to Platform dialog */}
       {pushTargetSegment && (

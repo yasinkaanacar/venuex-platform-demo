@@ -1,16 +1,23 @@
-import { useState, useRef, useEffect, useMemo } from "react";
+import { useState, useRef, useEffect, useMemo, useCallback } from "react";
 import { Input } from "@/components/ui/input";
 import { Filter, X, Search, ChevronDown, Check, Calendar, Info } from 'lucide-react';
 import { SiGoogle, SiMeta, SiTiktok } from 'react-icons/si';
-import WeeklySalesChart from '../components/offline-conversions/weekly-sales-chart';
 import OfflineSummary from '../components/offline-conversions/OfflineSummary';
 import PerformanceChart from '../components/offline-conversions/performance-chart';
-import AttributionBreakdown from '../components/offline-conversions/AttributionBreakdown';
-import CampaignPerformanceTable from '../components/offline-conversions/CampaignPerformanceTable';
 import CampaignTable from '../components/offline-conversions/CampaignTable';
-import OfflineActivityLog from '../components/offline-conversions/OfflineActivityLog';
 import DataPipelineStatus from '../components/offline-conversions/DataPipelineStatus';
-import ExecutiveMetrics from '../components/offline-conversions/ExecutiveMetrics';
+import PipelineHealthSummary from '../components/offline-conversions/PipelineHealthSummary';
+import UploadHistoryTable from '../components/offline-conversions/UploadHistoryTable';
+import ActiveIssuesPanel from '../components/offline-conversions/ActiveIssuesPanel';
+import { mockPipelineHealth, mockUploadBatches, mockIngestionJobs, mockActiveIssues } from '@/lib/mock-pipeline-data';
+import PerformanceKPISummary from '../components/offline-conversions/PerformanceKPISummary';
+import RevenueTrendChart from '../components/offline-conversions/RevenueTrendChart';
+import PlatformComparison from '../components/offline-conversions/PlatformComparison';
+
+import TopCampaignsQuickList from '../components/offline-conversions/TopCampaignsQuickList';
+import GeographicPerformance from '../components/offline-conversions/GeographicPerformance';
+import { useFilteredCampaigns } from '@/hooks/useFilteredCampaigns';
+import { mockCampaigns, googleAdsAccounts } from '@/lib/mock-campaign-data';
 import { useTranslation } from '@/contexts/LanguageContext';
 
 // --- Filter Options ---
@@ -24,25 +31,13 @@ const dateRangeOptions = [
   { value: "90d", label: { en: "Last 90 Days", tr: "Son 90 Gün" } },
 ];
 
-const campaignsByPlatform: Record<string, string[]> = {
-  google: [
-    "Holiday Sale Campaign",
-    "Brand Awareness Q4",
-    "Product Launch - Denim",
-    "Retargeting - Website"
-  ],
-  meta: [
-    "Social Commerce Push",
-    "Video Content Campaign",
-    "Lookalike Audiences",
-    "Dynamic Product Ads"
-  ],
-  tiktok: [
-    "Gen Z Fashion Trends",
-    "Influencer Collaborations",
-    "Short Video Ads"
-  ]
-};
+// Derive campaign lists and status from mockCampaigns (single source of truth)
+const campaignsByPlatform: Record<string, string[]> = {};
+const campaignStatusMap: Record<string, 'active' | 'paused'> = {};
+mockCampaigns.forEach(c => {
+  (campaignsByPlatform[c.platform] ??= []).push(c.name);
+  campaignStatusMap[c.name] = c.status as 'active' | 'paused';
+});
 
 // Campaign types per platform — real values from Google Ads, Meta Ads, TikTok Ads
 const campaignTypesByPlatform: Record<string, { value: string; label: string }[]> = {
@@ -83,8 +78,10 @@ export interface PageFilterState {
   platform?: string;
   campaigns: string[];
   campaignTypes: string[];
+  accounts: string[];
   isAllCampaignsSelected?: boolean;
   compareMode: boolean;
+  activeOnly: boolean;
 }
 
 type TabKey = 'ozet' | 'performans' | 'kampanyalar' | 'veri_baglantisi';
@@ -97,7 +94,9 @@ export default function OfflineConversionsMVP() {
     platforms: [],
     campaigns: [],
     campaignTypes: [],
-    compareMode: false
+    accounts: [],
+    compareMode: false,
+    activeOnly: false
   });
 
   const [mainTab, setMainTab] = useState<TabKey>('ozet');
@@ -107,16 +106,40 @@ export default function OfflineConversionsMVP() {
   const [campaignSearch, setCampaignSearch] = useState("");
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const [showDeduplicationTooltip, setShowDeduplicationTooltip] = useState(false);
+  const deduplicationTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const handleDeduplicationEnter = useCallback(() => {
+    if (deduplicationTimeoutRef.current) clearTimeout(deduplicationTimeoutRef.current);
+    setShowDeduplicationTooltip(true);
+  }, []);
+  const handleDeduplicationLeave = useCallback(() => {
+    deduplicationTimeoutRef.current = setTimeout(() => setShowDeduplicationTooltip(false), 500);
+  }, []);
+
+  // Data Connection tab state
+  const [activeIssues, setActiveIssues] = useState(mockActiveIssues);
+  const handleDismissIssue = (id: string) => setActiveIssues((prev) => prev.filter((i) => i.id !== id));
+  const handleRetryIssue = (id: string) => {
+    setActiveIssues((prev) =>
+      prev.map((i) => (i.id === id ? { ...i, title: 'Retrying...', description: 'Attempting to resolve...' } : i))
+    );
+    setTimeout(() => {
+      setActiveIssues((prev) => prev.filter((i) => i.id !== id));
+    }, 2000);
+  };
+
+  // Filtered campaign data for Performance tab components
+  const { campaigns: filteredCampaigns, totals, derived, byPlatform } = useFilteredCampaigns(filters);
 
   const dateRangeDropdownRef = useRef<HTMLDivElement>(null);
   const platformDropdownRef = useRef<HTMLDivElement>(null);
   const campaignDropdownRef = useRef<HTMLDivElement>(null);
   const campaignTypeDropdownRef = useRef<HTMLDivElement>(null);
+  const accountDropdownRef = useRef<HTMLDivElement>(null);
 
   // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      const refs = [dateRangeDropdownRef, platformDropdownRef, campaignDropdownRef, campaignTypeDropdownRef];
+      const refs = [dateRangeDropdownRef, platformDropdownRef, campaignDropdownRef, campaignTypeDropdownRef, accountDropdownRef];
       const clickedInside = refs.some(ref => ref.current?.contains(event.target as Node));
       if (!clickedInside) setOpenDropdown(null);
     };
@@ -152,7 +175,10 @@ export default function OfflineConversionsMVP() {
   };
 
   const getFilteredCampaigns = () => {
-    const available = getAvailableCampaigns();
+    let available = getAvailableCampaigns();
+    if (filters.activeOnly) {
+      available = available.filter(c => campaignStatusMap[c] === 'active');
+    }
     if (!campaignSearch) return available;
     return available.filter(c => c.toLowerCase().includes(campaignSearch.toLowerCase()));
   };
@@ -174,8 +200,20 @@ export default function OfflineConversionsMVP() {
           .map(t => t.value)
       );
       const newCampaignTypes = prev.campaignTypes.filter(ct => availableTypeValues.has(ct));
-      return { ...prev, platforms: newPlatforms, campaigns: newCampaigns, campaignTypes: newCampaignTypes };
+      // Clear accounts if Google is no longer selected
+      const googleSelected = newPlatforms.length === 0 || newPlatforms.includes('google');
+      const newAccounts = googleSelected ? prev.accounts : [];
+      return { ...prev, platforms: newPlatforms, campaigns: newCampaigns, campaignTypes: newCampaignTypes, accounts: newAccounts };
     });
+  };
+
+  const handleAccountToggle = (accountId: string) => {
+    setFilters(prev => ({
+      ...prev,
+      accounts: prev.accounts.includes(accountId)
+        ? prev.accounts.filter(a => a !== accountId)
+        : [...prev.accounts, accountId]
+    }));
   };
 
   const handleCampaignToggle = (campaign: string) => {
@@ -219,14 +257,15 @@ export default function OfflineConversionsMVP() {
   };
 
   const resetFilters = () => {
-    setFilters(prev => ({ ...prev, dateRange: "30d", platforms: [], campaigns: [], campaignTypes: [] }));
+    setFilters(prev => ({ ...prev, dateRange: "30d", platforms: [], campaigns: [], campaignTypes: [], accounts: [], activeOnly: false }));
     setCampaignSearch("");
     setOpenDropdown(null);
   };
 
-  const hasActiveFilters = filters.platforms.length > 0 || filters.campaignTypes.length > 0 || filters.campaigns.length > 0 || filters.dateRange !== "30d";
+  const hasActiveFilters = filters.platforms.length > 0 || filters.campaignTypes.length > 0 || filters.campaigns.length > 0 || filters.accounts.length > 0 || filters.dateRange !== "30d" || filters.activeOnly;
 
   const showFilterBar = mainTab !== 'veri_baglantisi';
+  const showAttributionNotice = showFilterBar && (filters.platforms.length === 0 || filters.platforms.length > 1);
 
   // --- Tab config ---
   const tabs: { key: TabKey; label: string; testId: string }[] = [
@@ -238,27 +277,28 @@ export default function OfflineConversionsMVP() {
 
   return (
     <div className="vx-page">
-      {/* Tab Navigation - Sticky */}
-      <div className="sticky top-16 z-40 bg-white border-b border-gray-200">
-        <div className="px-6 py-3">
-          <div className="vx-tabs">
-            {tabs.map(tab => (
-              <button
-                key={tab.key}
-                onClick={() => setMainTab(tab.key)}
-                className={`vx-tab ${mainTab === tab.key ? 'vx-tab-active' : ''}`}
-                data-testid={tab.testId}
-              >
-                {tab.label}
-              </button>
-            ))}
+      {/* Tab Navigation + Filter Bar + Attribution Strip — single sticky block */}
+      <div className="sticky top-0 z-40">
+        <div className="bg-white border-b border-gray-200">
+          <div className="px-6 py-3">
+            <div className="vx-tabs">
+              {tabs.map(tab => (
+                <button
+                  key={tab.key}
+                  onClick={() => setMainTab(tab.key)}
+                  className={`vx-tab ${mainTab === tab.key ? 'vx-tab-active' : ''}`}
+                  data-testid={tab.testId}
+                >
+                  {tab.label}
+                </button>
+              ))}
+            </div>
           </div>
         </div>
-      </div>
 
-      {/* Shared Filter Bar — Summary, Performance, Campaigns tabs */}
-      {showFilterBar && (
-        <div className="sticky top-[104px] z-30 bg-gray-50 border-b border-gray-200 px-6 py-3">
+        {/* Shared Filter Bar — Summary, Performance, Campaigns tabs */}
+        {showFilterBar && (
+          <div className="bg-gray-50 border-b border-gray-200 px-6 py-3">
           <div className="vx-filter-row">
             {/* Date Range Filter */}
             <div className="relative" ref={dateRangeDropdownRef}>
@@ -318,11 +358,15 @@ export default function OfflineConversionsMVP() {
                         <span className="text-[10px] font-bold text-gray-600">All</span>
                       </div>
                       <span className="text-gray-700">{lang === 'en' ? 'All Platforms' : 'Tüm Platformlar'}</span>
-                      <div className="relative group ml-auto">
-                        <button type="button" onClick={(e) => { e.stopPropagation(); setShowDeduplicationTooltip(!showDeduplicationTooltip); }} className="p-0.5 rounded hover:bg-gray-100">
+                      <div
+                        className="relative ml-auto"
+                        onMouseEnter={handleDeduplicationEnter}
+                        onMouseLeave={handleDeduplicationLeave}
+                      >
+                        <button type="button" onClick={(e) => e.stopPropagation()} className="p-0.5 rounded hover:bg-gray-100">
                           <Info className="w-3.5 h-3.5 text-amber-500 cursor-help" />
                         </button>
-                        <div className={`absolute right-0 top-full mt-1 px-3 py-2.5 bg-gray-900 text-white text-xs rounded-lg transition-all duration-200 w-64 z-[9999] ${showDeduplicationTooltip ? 'opacity-100 visible' : 'opacity-0 invisible group-hover:opacity-100 group-hover:visible'}`}>
+                        <div className={`absolute right-0 top-full mt-1 px-3 py-2.5 bg-gray-900 text-white text-xs rounded-lg transition-all duration-200 w-64 z-[9999] ${showDeduplicationTooltip ? 'opacity-100 visible' : 'opacity-0 invisible'}`}>
                           <div className="font-semibold text-amber-400 mb-1">Deduplication Notice</div>
                           <div className="leading-relaxed">When viewing all platforms, there may be duplications as platforms sometimes attribute the same sales at the same time. For accurate attribution, view individual platform data.</div>
                         </div>
@@ -350,6 +394,41 @@ export default function OfflineConversionsMVP() {
                 </div>
               )}
             </div>
+
+            {/* Account Filter — visible when Google is selected */}
+            {(filters.platforms.length === 0 || filters.platforms.includes('google')) && (
+              <div className="relative" ref={accountDropdownRef}>
+                <button
+                  onClick={() => setOpenDropdown(openDropdown === 'account' ? null : 'account')}
+                  className={`flex items-center gap-2 h-9 px-3 text-sm font-medium bg-white border rounded-md hover:border-gray-400 transition-colors ${filters.accounts.length > 0 ? 'border-gray-400 text-gray-900' : 'border-gray-200 text-gray-600'}`}
+                >
+                  <SiGoogle className="w-3.5 h-3.5 text-gray-400" />
+                  <span>{filters.accounts.length > 0 ? `${lang === 'en' ? 'Account' : 'Hesap'} (${filters.accounts.length})` : (lang === 'en' ? 'Account' : 'Hesap')}</span>
+                  <ChevronDown className="w-4 h-4 text-gray-400" />
+                </button>
+                {openDropdown === 'account' && (
+                  <div className="absolute top-full left-0 mt-2 w-64 bg-white border border-gray-200 rounded-lg shadow-lg z-50">
+                    <div className="py-1">
+                      {googleAdsAccounts.map(account => (
+                        <button
+                          key={account.id}
+                          onClick={() => handleAccountToggle(account.id)}
+                          className="w-full flex items-center gap-3 px-3 py-2.5 text-sm hover:bg-gray-50"
+                        >
+                          <div className={`w-4 h-4 border rounded flex items-center justify-center ${filters.accounts.includes(account.id) ? 'bg-gray-900 border-gray-900' : 'border-gray-300'}`}>
+                            {filters.accounts.includes(account.id) && <Check className="w-3 h-3 text-white" />}
+                          </div>
+                          <div className="flex flex-col items-start">
+                            <span className="text-gray-700">{account.name}</span>
+                            <span className="text-[10px] text-gray-400">{account.customerId}</span>
+                          </div>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
 
             {/* Campaign Type Filter — platform-aware */}
             <div className="relative" ref={campaignTypeDropdownRef}>
@@ -438,9 +517,19 @@ export default function OfflineConversionsMVP() {
                     </div>
                   </div>
                   <div className="p-2 border-b border-gray-100">
-                    <div className="flex gap-2">
-                      <button onClick={handleSelectAllCampaigns} className="flex-1 text-xs font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-50 px-2 py-1.5 rounded">{lang === 'en' ? 'Select All' : 'Tümünü Seç'}</button>
-                      <button onClick={handleDeselectAllCampaigns} className="flex-1 text-xs font-medium text-gray-400 hover:text-gray-600 hover:bg-gray-50 px-2 py-1.5 rounded">{lang === 'en' ? 'Clear' : 'Temizle'}</button>
+                    <div className="flex items-center gap-2">
+                      <div className="flex gap-2 flex-1">
+                        <button onClick={handleSelectAllCampaigns} className="flex-1 text-xs font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-50 px-2 py-1.5 rounded">{lang === 'en' ? 'Select All' : 'Tümünü Seç'}</button>
+                        <button onClick={handleDeselectAllCampaigns} className="flex-1 text-xs font-medium text-gray-400 hover:text-gray-600 hover:bg-gray-50 px-2 py-1.5 rounded">{lang === 'en' ? 'Clear' : 'Temizle'}</button>
+                      </div>
+                      <div className="border-l border-gray-200 pl-2">
+                        <button
+                          onClick={() => setFilters(f => ({ ...f, activeOnly: !f.activeOnly }))}
+                          className={`text-xs font-medium px-2 py-1.5 rounded transition-colors ${filters.activeOnly ? 'bg-green-50 text-green-700' : 'text-gray-400 hover:text-gray-600 hover:bg-gray-50'}`}
+                        >
+                          {lang === 'en' ? 'Active' : 'Aktif'}
+                        </button>
+                      </div>
                     </div>
                   </div>
                   <div className="max-h-56 overflow-y-auto py-1">
@@ -449,7 +538,12 @@ export default function OfflineConversionsMVP() {
                         <div className={`w-4 h-4 border rounded flex items-center justify-center flex-shrink-0 ${filters.campaigns.includes(campaign) ? 'bg-gray-900 border-gray-900' : 'border-gray-300'}`}>
                           {filters.campaigns.includes(campaign) && <Check className="w-3 h-3 text-white" />}
                         </div>
-                        <span className="text-gray-700 truncate">{campaign}</span>
+                        <span className="text-gray-700 truncate flex-1">{campaign}</span>
+                        {campaignStatusMap[campaign] === 'paused' && (
+                          <span className="text-[10px] font-medium text-amber-600 bg-amber-50 px-1.5 py-0.5 rounded flex-shrink-0">
+                            {lang === 'en' ? 'Paused' : 'Durduruldu'}
+                          </span>
+                        )}
                       </button>
                     ))}
                   </div>
@@ -466,45 +560,63 @@ export default function OfflineConversionsMVP() {
             )}
           </div>
         </div>
-      )}
+        )}
+
+        {/* Attribution overlap notice — shown when multiple platforms are in view */}
+        {showAttributionNotice && (
+          <div className="px-6 py-2 bg-blue-50 border-b border-blue-100 flex items-center gap-2">
+            <Info className="w-3.5 h-3.5 text-blue-500 flex-shrink-0" />
+            <p className="text-xs text-blue-700">
+              {(t.offlineConversions as any)?.attributionOverlapNotice || 'Cross-platform totals may include overlapping attribution — platforms can independently claim the same conversion.'}
+            </p>
+          </div>
+        )}
+      </div>
 
       {/* Main Content */}
       <div className="vx-page-body min-h-[calc(100vh-8rem)]">
 
         {/* Summary Tab */}
         {mainTab === 'ozet' && (
-          <>
+          <div className="vx-section-stack">
             <OfflineSummary filters={filters} />
-            <div className="vx-section-stack">
-              <WeeklySalesChart />
-            </div>
-            <div className="vx-section-stack">
-              <PerformanceChart filters={filters as any} onFiltersChange={setFilters as any} />
-            </div>
-          </>
+          </div>
         )}
 
         {/* Performance Tab */}
         {mainTab === 'performans' && (
           <>
-            {/* Executive Metrics Summary */}
+            {/* 1. KPI Summary Cards */}
             <div className="vx-section-stack">
-              <ExecutiveMetrics />
+              <PerformanceKPISummary totals={totals} derived={derived} />
             </div>
 
-            {/* Attribution Breakdown */}
-            <div className="vx-section-stack">
-              <AttributionBreakdown />
-            </div>
-
-            {/* Conversion Funnel */}
+            {/* 2. Omnichannel Funnel */}
             <div className="vx-section-stack">
               <PerformanceChart filters={filters as any} onFiltersChange={setFilters as any} />
             </div>
 
-            {/* Campaign List */}
+            {/* 3. Revenue Trend Chart */}
             <div className="vx-section-stack">
-              <CampaignPerformanceTable />
+              <RevenueTrendChart totals={totals} byPlatform={byPlatform} dateRange={filters.dateRange} />
+            </div>
+
+            {/* 4. Platform Comparison */}
+            <div className="vx-section-stack">
+              <PlatformComparison byPlatform={byPlatform} />
+            </div>
+
+            {/* 5. Geographic Performance */}
+            <div className="vx-section-stack">
+              <GeographicPerformance filters={filters as any} />
+            </div>
+
+            {/* 6. Top Campaigns Quick List */}
+            <div className="vx-section-stack">
+              <TopCampaignsQuickList
+                campaigns={filteredCampaigns}
+                onNavigateToTab={(tab) => setMainTab(tab as TabKey)}
+              />
             </div>
           </>
         )}
@@ -512,16 +624,32 @@ export default function OfflineConversionsMVP() {
         {/* Campaigns Tab */}
         {mainTab === 'kampanyalar' && (
           <div className="vx-section-stack">
-            <CampaignTable filters={filters} />
+            <CampaignTable filters={filters} onActiveOnlyChange={(v) => setFilters(f => ({ ...f, activeOnly: v }))} />
           </div>
         )}
 
         {/* Data Connection Tab */}
         {mainTab === 'veri_baglantisi' && (
-          <div className="vx-section-stack space-y-6">
-            <DataPipelineStatus />
-            <OfflineActivityLog />
-          </div>
+          <>
+            <div className="vx-section-stack">
+              <PipelineHealthSummary health={mockPipelineHealth} />
+            </div>
+            {activeIssues.length > 0 && (
+              <div className="vx-section-stack">
+                <ActiveIssuesPanel
+                  issues={activeIssues}
+                  onDismiss={handleDismissIssue}
+                  onRetry={handleRetryIssue}
+                />
+              </div>
+            )}
+            <div className="vx-section-stack">
+              <DataPipelineStatus />
+            </div>
+            <div className="vx-section-stack">
+              <UploadHistoryTable batches={mockUploadBatches} ingestionJobs={mockIngestionJobs} />
+            </div>
+          </>
         )}
       </div>
     </div>

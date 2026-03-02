@@ -63,7 +63,7 @@ export default function Sidebar({ collapsed, onToggle }: SidebarProps) {
       items: [
         { name: t('sidebar.menu.localInventory') || 'Local Inventory', href: '/catalog', icon: Package },
         { name: t('sidebar.menu.offlineConversions') || 'Offline Conversions', href: '/offline-conversions', icon: TrendingUp },
-        { name: t('sidebar.menu.segments') || 'Segments', href: '/segments', icon: Target }
+        { name: t('sidebar.menu.segments') || 'Segments', href: '/segmentsMVP', icon: Target }
       ]
     },
     {

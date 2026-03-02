@@ -4,6 +4,8 @@ import type {
   ThemeAnalysisItem,
   RatingDistribution,
   ReviewTrendWeek,
+  ReviewTrendDataPoint,
+  ReviewTrendGranularity,
   Review,
   LocationContext,
   ProductContext,
@@ -45,18 +47,145 @@ export const themeAnalysisData: ThemeAnalysisItem[] = [
   { name: 'Portion Size', reviews: 43, avgRating: 3.5, venueXScore: 62 },
 ];
 
-// ── Review Trend (NEW — weekly time series) ─────────────────────────────────
+// ── Review Trend — Daily granularity (90 days of data) ──────────────────────
 
-export const reviewTrendData: ReviewTrendWeek[] = [
-  { week: "Jan 6", period: "Jan 6 – Jan 12, 2026", positive: 98, neutral: 32, negative: 11, avgRating: 4.18, responseRate: 79, totalReviews: 141 },
-  { week: "Jan 13", period: "Jan 13 – Jan 19, 2026", positive: 105, neutral: 29, negative: 14, avgRating: 4.21, responseRate: 81, totalReviews: 148 },
-  { week: "Jan 20", period: "Jan 20 – Jan 26, 2026", positive: 112, neutral: 35, negative: 9, avgRating: 4.29, responseRate: 83, totalReviews: 156 },
-  { week: "Jan 27", period: "Jan 27 – Feb 2, 2026", positive: 118, neutral: 28, negative: 12, avgRating: 4.25, responseRate: 82, totalReviews: 158 },
-  { week: "Feb 3", period: "Feb 3 – Feb 9, 2026", positive: 124, neutral: 31, negative: 8, avgRating: 4.32, responseRate: 86, totalReviews: 163 },
-  { week: "Feb 10", period: "Feb 10 – Feb 16, 2026", positive: 119, neutral: 27, negative: 10, avgRating: 4.30, responseRate: 85, totalReviews: 156 },
-  { week: "Feb 17", period: "Feb 17 – Feb 23, 2026", positive: 131, neutral: 30, negative: 7, avgRating: 4.35, responseRate: 88, totalReviews: 168 },
-  { week: "Feb 24", period: "Feb 24 – Mar 2, 2026", positive: 127, neutral: 33, negative: 9, avgRating: 4.31, responseRate: 87, totalReviews: 169 },
-];
+function generateDailyReviewData(): ReviewTrendDataPoint[] {
+  const data: ReviewTrendDataPoint[] = [];
+  const startDate = new Date(2025, 11, 1); // Dec 1, 2025
+  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+  // Seeded pseudo-random for deterministic data
+  let seed = 42;
+  const rand = () => { seed = (seed * 16807 + 0) % 2147483647; return (seed - 1) / 2147483646; };
+
+  for (let i = 0; i < 90; i++) {
+    const d = new Date(startDate);
+    d.setDate(d.getDate() + i);
+
+    const dayOfWeek = d.getDay();
+    // Weekend bump
+    const weekendMultiplier = (dayOfWeek === 0 || dayOfWeek === 6) ? 1.25 : 1.0;
+    // Slight upward trend over 90 days
+    const trendMultiplier = 1 + (i / 90) * 0.15;
+
+    const basePositive = Math.round((14 + rand() * 6) * weekendMultiplier * trendMultiplier);
+    const baseNeutral = Math.round((4 + rand() * 3) * weekendMultiplier);
+    const baseNegative = Math.round((1 + rand() * 2) * weekendMultiplier);
+    const total = basePositive + baseNeutral + baseNegative;
+
+    const month = months[d.getMonth()];
+    const day = d.getDate();
+    const year = d.getFullYear();
+    const iso = d.toISOString().slice(0, 10);
+
+    data.push({
+      label: `${month} ${day}`,
+      period: `${month} ${day}, ${year}`,
+      date: iso,
+      positive: basePositive,
+      neutral: baseNeutral,
+      negative: baseNegative,
+      avgRating: parseFloat((4.0 + rand() * 0.5 + (i / 90) * 0.1).toFixed(2)),
+      responseRate: Math.round(75 + rand() * 15 + (i / 90) * 5),
+      totalReviews: total,
+    });
+  }
+  return data;
+}
+
+export const reviewDailyData: ReviewTrendDataPoint[] = generateDailyReviewData();
+
+// ── Aggregation helper ──────────────────────────────────────────────────────
+
+/**
+ * Determines granularity from number of days:
+ *  1-20 days  → daily
+ *  21-84 days → weekly
+ *  84+ days   → monthly
+ */
+export function getGranularity(days: number): ReviewTrendGranularity {
+  if (days <= 20) return 'daily';
+  if (days <= 84) return 'weekly';
+  return 'monthly';
+}
+
+/**
+ * Slice the last N days of daily data and aggregate into the appropriate granularity.
+ */
+export function aggregateReviewTrend(
+  dailyData: ReviewTrendDataPoint[],
+  days: number,
+): ReviewTrendDataPoint[] {
+  const granularity = getGranularity(days);
+  const sliced = dailyData.slice(-days);
+  if (sliced.length === 0) return [];
+
+  if (granularity === 'daily') return sliced;
+
+  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  const buckets = new Map<string, ReviewTrendDataPoint[]>();
+
+  for (const point of sliced) {
+    const d = new Date(point.date);
+    let key: string;
+
+    if (granularity === 'weekly') {
+      // ISO week: bucket by Monday of the week
+      const day = d.getDay();
+      const monday = new Date(d);
+      monday.setDate(d.getDate() - ((day + 6) % 7));
+      key = monday.toISOString().slice(0, 10);
+    } else {
+      // Monthly: bucket by YYYY-MM
+      key = point.date.slice(0, 7);
+    }
+
+    if (!buckets.has(key)) buckets.set(key, []);
+    buckets.get(key)!.push(point);
+  }
+
+  const result: ReviewTrendDataPoint[] = [];
+  buckets.forEach((points: ReviewTrendDataPoint[], _key: string) => {
+    const positive = points.reduce((s: number, p: ReviewTrendDataPoint) => s + p.positive, 0);
+    const neutral = points.reduce((s: number, p: ReviewTrendDataPoint) => s + p.neutral, 0);
+    const negative = points.reduce((s: number, p: ReviewTrendDataPoint) => s + p.negative, 0);
+    const total = positive + neutral + negative;
+    const avgRating = parseFloat((points.reduce((s: number, p: ReviewTrendDataPoint) => s + p.avgRating, 0) / points.length).toFixed(2));
+    const responseRate = Math.round(points.reduce((s: number, p: ReviewTrendDataPoint) => s + p.responseRate, 0) / points.length);
+
+    const first = points[0];
+    const last = points[points.length - 1];
+    const firstDate = new Date(first.date);
+    const lastDate = new Date(last.date);
+
+    let label: string;
+    let period: string;
+
+    if (granularity === 'weekly') {
+      label = `${months[firstDate.getMonth()]} ${firstDate.getDate()}`;
+      period = `${months[firstDate.getMonth()]} ${firstDate.getDate()} – ${months[lastDate.getMonth()]} ${lastDate.getDate()}, ${lastDate.getFullYear()}`;
+    } else {
+      label = `${months[firstDate.getMonth()]} ${firstDate.getFullYear()}`;
+      period = `${months[firstDate.getMonth()]} ${firstDate.getFullYear()}`;
+    }
+
+    result.push({ label, period, date: first.date, positive, neutral, negative, avgRating, responseRate, totalReviews: total });
+  });
+
+  return result;
+}
+
+/** Backward-compat: old weekly format for any consumer still using ReviewTrendWeek[] */
+export const reviewTrendData: ReviewTrendWeek[] = aggregateReviewTrend(reviewDailyData, 56).map(p => ({
+  week: p.label,
+  period: p.period,
+  positive: p.positive,
+  neutral: p.neutral,
+  negative: p.negative,
+  avgRating: p.avgRating,
+  responseRate: p.responseRate,
+  totalReviews: p.totalReviews,
+}));
 
 // ── Locations ───────────────────────────────────────────────────────────────
 

@@ -533,6 +533,8 @@ export default function SegmentListTable() {
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b bg-muted/50">
+                <th className="text-center px-2 py-3 font-medium text-muted-foreground w-10">
+                </th>
                 <th className="text-left px-4 py-3 font-medium text-muted-foreground">
                   {t("segments.list.name") || "Segment Name"}
                 </th>
@@ -556,9 +558,6 @@ export default function SegmentListTable() {
                 </th>
                 <th className="text-center px-4 py-3 font-medium text-muted-foreground">
                   {t("segments.performance.confidence") || "Confidence"}
-                </th>
-                <th className="text-left px-4 py-3 font-medium text-muted-foreground">
-                  {t("segments.list.status") || "Status"}
                 </th>
                 <th className="text-left px-4 py-3 font-medium text-muted-foreground">
                   {t("segments.list.lastUpdated") || "Last Updated"}
@@ -596,6 +595,19 @@ export default function SegmentListTable() {
                     onClick={() => handleRowClick(segment.id)}
                     className="border-b last:border-b-0 hover:bg-muted/30 cursor-pointer transition-colors"
                   >
+                    {/* Status dot */}
+                    <td className="px-2 py-3 text-center">
+                      <span
+                        className={cn(
+                          "inline-block w-2.5 h-2.5 rounded-full",
+                          segment.status === "active" ? "bg-green-500" :
+                          segment.status === "paused" ? "bg-yellow-500" :
+                          "bg-gray-400",
+                        )}
+                        title={t(`segments.status.${segment.status}`) || segment.status}
+                      />
+                    </td>
+
                     {/* Name */}
                     <td className="px-4 py-3">
                       <div>
@@ -661,11 +673,6 @@ export default function SegmentListTable() {
                       ) : (
                         <span className="text-xs text-muted-foreground">--</span>
                       )}
-                    </td>
-
-                    {/* Status */}
-                    <td className="px-4 py-3">
-                      {renderStatusBadge(segment.status)}
                     </td>
 
                     {/* Last Updated */}

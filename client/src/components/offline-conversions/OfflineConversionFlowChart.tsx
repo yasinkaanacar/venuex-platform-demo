@@ -18,6 +18,7 @@ interface OfflineConversionFlowChartProps {
     isLoadingProviderMetrics: boolean;
     selectedProvider: string;
     setupNeeded?: boolean;
+    isMultiPlatform?: boolean;
 }
 
 export default function OfflineConversionFlowChart({
@@ -25,6 +26,7 @@ export default function OfflineConversionFlowChart({
     isLoadingProviderMetrics,
     selectedProvider,
     setupNeeded,
+    isMultiPlatform,
 }: OfflineConversionFlowChartProps) {
     const { t, translate } = useLocales();
     const [, setLocation] = useLocation();
@@ -68,7 +70,7 @@ export default function OfflineConversionFlowChart({
                 mt: -4,
                 maxWidth: "100%",
                 overflowX: "auto",
-                flexWrap: "nowrap", // prevents wrapping so scrolling can occur
+                flexWrap: "nowrap",
             }}
         >
             <Stack gap={0.5}>
@@ -128,7 +130,6 @@ export default function OfflineConversionFlowChart({
                 <Stack
                     sx={{ backgroundColor: "#E8F6FF", pt: 0.5, pb: 0.5, position: "relative" }}
                     alignItems="center"
-                    // justifyContent="space-between"
                     direction="row"
                 >
                     <Typography
@@ -185,7 +186,7 @@ export default function OfflineConversionFlowChart({
                             sx={{
                                 position: "absolute",
                                 left: "-100px",
-                                top: "-60px",
+                                top: isMultiPlatform ? "-72px" : "-60px",
                             }}
                         >
                             <TextGroup
@@ -193,6 +194,14 @@ export default function OfflineConversionFlowChart({
                                 value={`${fShortenNumber(providerMetrics?.storeVisit.value ?? 0)}`}
                                 change={providerMetrics?.storeVisit?.change ?? 0}
                             />
+                            {isMultiPlatform && (
+                                <Typography
+                                    variant="caption"
+                                    sx={{ fontSize: "10px", color: "grey.500", mt: -0.5, pl: 0.5, display: "block" }}
+                                >
+                                    (Google Only)
+                                </Typography>
+                            )}
                         </Box>
                     )}
                     <Typography
@@ -254,21 +263,6 @@ export default function OfflineConversionFlowChart({
                 }}
                 alignItems="center"
             >
-                {/* <Stack
-                    direction="row"
-                    gap={1}
-                    sx={{position: "absolute", left: "24px", top: "-42px"}}
-                    alignItems="end"
-                >
-                    <_ArrowRight />
-                    <Box sx={{transform: "translateY(-28px)"}}>
-                        <Typography variant="subtitle2" color="success.dark">
-                            <span>%</span>
-                            <Typography variant="h6">100</Typography>
-                            <span>{` ${t("common.growth")}`}</span>
-                        </Typography>
-                    </Box>
-                </Stack> */}
                 <TextGroup
                     label={t("common.omni_AOV")}
                     value={`₺${fShortenNumber(providerMetrics ? (providerMetrics.onlineAOV.value + providerMetrics.offlineAOV.value) / 2 : 0)}`}
@@ -322,24 +316,12 @@ function Arrow() {
 function FlowPath() {
     return (
         <svg width="107" height="460" viewBox="0 0 107 306" fill="none" xmlns="http://www.w3.org/2000/svg">
-            {/* <path
-                fillRule="evenodd"
-                clipRule="evenodd"
-                d="M0 116V190C53.5 190 53.5 306 107 306V224C53.5 224 53.5 116 0 104Z"
-                fill="#FFF7E8"
-            /> */}
             <path
                 fillRule="evenodd"
                 clipRule="evenodd"
                 d="M0 116V200C53.5 200 53.5 306 107 330V224C53.5 224 53.5 116 0 104Z"
                 fill="#FFF7E8"
             />
-            {/* <path
-                fillRule="evenodd"
-                clipRule="evenodd"
-                d="M0 116V190C53.5 190 53.5 82 107 82V0C53.5 0 53.5 116 0 104Z"
-                fill="#E8F6FF"
-            /> */}
             <path
                 fillRule="evenodd"
                 clipRule="evenodd"

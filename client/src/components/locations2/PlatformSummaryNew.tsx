@@ -233,9 +233,6 @@ const DataQualityCard = () => {
             {overallScore}%
           </div>
         </div>
-        <button className="text-xs font-medium text-blue-600 hover:text-blue-700 flex items-center gap-1">
-          {t.common.viewAll} <ChevronRight className="w-3 h-3" />
-        </button>
       </div>
 
       {/* 3-Column Categories */}

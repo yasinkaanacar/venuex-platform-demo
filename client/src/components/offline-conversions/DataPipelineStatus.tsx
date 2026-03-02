@@ -1,424 +1,288 @@
 import { useState } from 'react';
 import {
-    CheckCircle,
-    AlertTriangle,
-    Clock,
-    ArrowRight,
-    RefreshCw,
-    FileText,
-    Calendar,
-    Server,
-    Globe,
-    Database,
-    HardDrive
+  Database, Send, Globe, Server,
+  RefreshCw, CheckCircle, AlertTriangle, Loader2,
+  Calendar, Clock, FileText, Info,
 } from 'lucide-react';
 import { SiGoogle, SiMeta, SiTiktok } from 'react-icons/si';
-import vxLogo from '@assets/vx-logo-1000x1000_1756824361260.png';
-import { useLocales } from '@/lib/formatters';
+import { useTranslation } from '@/contexts/LanguageContext';
+import { fNumber } from '@/lib/formatters';
+import {
+  mockIngestionSources,
+  mockDestinations,
+  type IngestionSource,
+  type PlatformDestination,
+  type SyncResult,
+} from '@/lib/mock-pipeline-data';
 
-interface DataSource {
-    id: string;
-    name: string;
-    type: 'gcs' | 'api' | 'sftp';
-    status: 'connected' | 'syncing' | 'warning' | 'error';
-    serverUrl: string;
-    filePath?: string;
-    fileRegex?: string;
-    schedule: string;
-    timezone: string;
-    lastSync: string;
-    fileSize: string;
-    recordCount: string;
+// --- Source helpers ---
+
+function getSourceTypeIcon(type: string) {
+  switch (type) {
+    case 'api': return <Globe className="w-4 h-4 text-purple-600" />;
+    case 'sftp': return <Server className="w-4 h-4 text-teal-600" />;
+    default: return <Database className="w-4 h-4 text-gray-500" />;
+  }
 }
 
-interface Destination {
-    id: string;
-    name: string;
-    type: 'google' | 'meta' | 'tiktok';
-    icon: any;
-    iconColor: string;
-    status: 'active' | 'syncing' | 'warning' | 'error';
-    lastUpload: string;
-    eventsUploaded: string;
-    matchRate: string;
-    nextScheduled: string;
+function getSourceTypeBadge(type: string) {
+  const styles: Record<string, string> = {
+    api: 'bg-purple-50 text-purple-700 border-purple-200',
+    sftp: 'bg-teal-50 text-teal-700 border-teal-200',
+  };
+  return (
+    <span className={`inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-bold uppercase border ${styles[type] || 'bg-gray-50 text-gray-600 border-gray-200'}`}>
+      {type}
+    </span>
+  );
 }
 
-const dataSources: DataSource[] = [
-    {
-        id: 'gcs-sales',
-        name: 'Sales Data (GCS)',
-        type: 'gcs',
-        status: 'connected',
-        serverUrl: 'gs://client-data-bucket',
-        filePath: '/exports/sales/',
-        fileRegex: 'store-sales-*.csv',
-        schedule: 'Daily @ 02:00',
-        timezone: 'GMT+03:00 Istanbul',
-        lastSync: '2 min ago',
-        fileSize: '847 MB',
-        recordCount: '1.2M rows'
-    },
-    {
-        id: 'api-crm',
-        name: 'CRM API Endpoint',
-        type: 'api',
-        status: 'syncing',
-        serverUrl: 'https://api.client-crm.com/v2',
-        filePath: '/exports/customers',
-        schedule: 'Every 15 min',
-        timezone: 'GMT+03:00 Istanbul',
-        lastSync: 'Syncing...',
-        fileSize: '234 MB',
-        recordCount: '458K records'
-    }
-];
+function getSourceStatusDot(status: string) {
+  const colors: Record<string, string> = {
+    connected: 'bg-emerald-500',
+    syncing: 'bg-blue-500',
+    warning: 'bg-amber-500',
+    error: 'bg-red-500',
+  };
+  return (
+    <span className="relative flex h-2.5 w-2.5">
+      {(status === 'syncing' || status === 'connected') && (
+        <span className={`animate-ping absolute inline-flex h-full w-full rounded-full opacity-50 ${status === 'syncing' ? 'bg-blue-400' : 'bg-emerald-400'}`} />
+      )}
+      <span className={`relative inline-flex rounded-full h-2.5 w-2.5 ${colors[status] || 'bg-gray-400'}`} />
+    </span>
+  );
+}
 
-const destinations: Destination[] = [
-    {
-        id: 'google',
-        name: 'Google Ads',
-        type: 'google',
-        icon: SiGoogle,
-        iconColor: 'text-red-500',
-        status: 'active',
-        lastUpload: '5 min ago',
-        eventsUploaded: '125,420',
-        matchRate: '78%',
-        nextScheduled: 'In 10 min'
-    },
-    {
-        id: 'meta',
-        name: 'Meta CAPI',
-        type: 'meta',
-        icon: SiMeta,
-        iconColor: 'text-blue-600',
-        status: 'active',
-        lastUpload: '8 min ago',
-        eventsUploaded: '98,350',
-        matchRate: '82%',
-        nextScheduled: 'In 7 min'
-    },
-    {
-        id: 'tiktok',
-        name: 'TikTok Events',
-        type: 'tiktok',
-        icon: SiTiktok,
-        iconColor: 'text-black',
-        status: 'warning',
-        lastUpload: '45 min ago',
-        eventsUploaded: '34,120',
-        matchRate: '65%',
-        nextScheduled: 'Paused'
-    }
-];
+function getSyncDotColor(result: SyncResult) {
+  switch (result) {
+    case 'success': return 'bg-emerald-500';
+    case 'warning': return 'bg-amber-500';
+    case 'error': return 'bg-red-500';
+    default: return 'bg-gray-300';
+  }
+}
 
-const venuexStats = {
-    totalEventsProcessed: '2.4M',
-    todayEventsProcessed: '127K',
-    avgProcessingTime: '1.2s',
-    uptime: '99.98%'
-};
+// --- Destination helpers ---
+
+function getPlatformIcon(platform: string) {
+  switch (platform) {
+    case 'google':
+      return <div className="w-8 h-8 bg-red-50 rounded-lg flex items-center justify-center"><SiGoogle className="w-4 h-4 text-red-500" /></div>;
+    case 'meta':
+      return <div className="w-8 h-8 bg-blue-50 rounded-lg flex items-center justify-center"><SiMeta className="w-4 h-4 text-blue-600" /></div>;
+    case 'tiktok':
+      return <div className="w-8 h-8 bg-gray-100 rounded-lg flex items-center justify-center"><SiTiktok className="w-4 h-4 text-gray-900" /></div>;
+    default:
+      return <div className="w-8 h-8 bg-gray-100 rounded-lg flex items-center justify-center"><Globe className="w-4 h-4 text-gray-500" /></div>;
+  }
+}
+
+function getDestStatusBadge(status: string, labels: Record<string, string>) {
+  const configs: Record<string, { bg: string; Icon: typeof CheckCircle; key: string; spin?: boolean }> = {
+    active: { bg: 'bg-emerald-50 text-emerald-700', Icon: CheckCircle, key: 'active' },
+    syncing: { bg: 'bg-blue-50 text-blue-700', Icon: Loader2, key: 'syncing', spin: true },
+    warning: { bg: 'bg-amber-50 text-amber-700', Icon: AlertTriangle, key: 'warning' },
+    error: { bg: 'bg-red-50 text-red-700', Icon: AlertTriangle, key: 'error' },
+    paused: { bg: 'bg-gray-100 text-gray-600', Icon: Clock, key: 'paused' },
+  };
+  const config = configs[status] || configs.active;
+  return (
+    <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold ${config.bg}`}>
+      <config.Icon className={`w-3 h-3 ${config.spin ? 'animate-spin' : ''}`} />
+      {labels[config.key] || config.key}
+    </span>
+  );
+}
+
+function getMatchRateBarColor(rate: number) {
+  if (rate >= 75) return 'bg-emerald-500';
+  if (rate >= 60) return 'bg-amber-500';
+  return 'bg-red-500';
+}
+
+function getMatchRateTextColor(rate: number) {
+  if (rate >= 75) return 'text-emerald-700';
+  if (rate >= 60) return 'text-amber-700';
+  return 'text-red-700';
+}
+
+// --- Sub-components ---
+
+function SourceCard({ source, dc }: { source: IngestionSource; dc?: Record<string, string> }) {
+  return (
+    <div className="p-4 bg-white rounded-lg border border-gray-100 shadow-sm">
+      <div className="flex items-center gap-3">
+        <div className="p-2 bg-gray-50 rounded-lg">
+          {getSourceTypeIcon(source.type)}
+        </div>
+        <div className="flex-1 min-w-0">
+          <div className="flex items-center gap-2">
+            <h4 className="text-sm font-semibold text-gray-900 truncate">{source.name}</h4>
+            {getSourceTypeBadge(source.type)}
+          </div>
+          <p className="text-xs text-gray-400 font-mono truncate mt-0.5">{source.serverUrl}</p>
+        </div>
+        {getSourceStatusDot(source.status)}
+      </div>
+
+      <div className="flex items-center flex-wrap gap-x-4 gap-y-1 mt-3 text-xs text-gray-500">
+        <span className="flex items-center gap-1">
+          <Calendar className="w-3 h-3" />
+          {source.schedule}
+        </span>
+        <span className="flex items-center gap-1">
+          <Clock className="w-3 h-3" />
+          {source.lastSync}
+        </span>
+        <span className="flex items-center gap-1">
+          <FileText className="w-3 h-3" />
+          {source.fileSize}
+        </span>
+        <span className="font-medium text-gray-700">{source.recordCount}</span>
+      </div>
+
+      <div className="flex items-center gap-1.5 mt-3">
+        {source.recentSyncs.map((result, i) => (
+          <div key={i} className={`w-2 h-2 rounded-full ${getSyncDotColor(result)}`} />
+        ))}
+        <span className="text-[10px] text-gray-400 ml-1">{dc?.lastSyncs || 'Last 7 syncs'}</span>
+      </div>
+    </div>
+  );
+}
+
+function DestinationCard({ dest, labels, dc }: { dest: PlatformDestination; labels: Record<string, string>; dc?: Record<string, string> }) {
+  return (
+    <div className="p-4 bg-white rounded-lg border border-gray-100 shadow-sm">
+      <div className="flex items-center gap-3">
+        {getPlatformIcon(dest.platform)}
+        <div className="flex-1 min-w-0">
+          <div className="flex items-center gap-2">
+            <h4 className="text-sm font-semibold text-gray-900">{dest.name}</h4>
+            {getDestStatusBadge(dest.status, labels)}
+          </div>
+        </div>
+        {dest.errorCount > 0 && (
+          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-red-50 text-red-600">
+            {dest.errorCount} {dc?.errors || 'errors'}
+          </span>
+        )}
+      </div>
+
+      <div className="mt-3">
+        <div className="flex items-center justify-between mb-1">
+          <span className="text-xs text-gray-500">{dc?.matchRateLabel || 'Match Rate'}</span>
+          <span className={`text-xs font-bold ${getMatchRateTextColor(dest.matchRate)}`}>
+            {dest.matchRate}%
+          </span>
+        </div>
+        <div className="h-1.5 bg-gray-100 rounded-full overflow-hidden">
+          <div
+            className={`h-full rounded-full transition-all ${getMatchRateBarColor(dest.matchRate)}`}
+            style={{ width: `${dest.matchRate}%` }}
+          />
+        </div>
+      </div>
+
+      <div className="flex items-center flex-wrap gap-x-4 gap-y-1 mt-3 text-xs text-gray-500">
+        <span className="font-medium text-gray-700">{fNumber(dest.eventsUploaded)} {dc?.eventsLabel || 'events'}</span>
+        <span className="flex items-center gap-1">
+          <Clock className="w-3 h-3" />
+          {dest.lastUpload}
+        </span>
+        <span className="flex items-center gap-1">
+          <Calendar className="w-3 h-3" />
+          {dc?.nextUpload || 'Next'}: {dest.nextScheduled}
+        </span>
+      </div>
+    </div>
+  );
+}
+
+// --- Main Component ---
 
 export default function DataPipelineStatus() {
-    const { t } = useLocales();
-    const oc = (key: string) => t(`offlineConversions.${key}`);
-    const [isRefreshing, setIsRefreshing] = useState(false);
-    const [sources, setSources] = useState(dataSources);
-    const [dests, setDests] = useState(destinations);
+  const { t } = useTranslation();
+  const dc = (t.offlineConversions as any)?.dataConnectionTab as Record<string, string> | undefined;
+  const oc = (t.offlineConversions as any) || {};
 
-    const handleRefresh = () => {
-        setIsRefreshing(true);
-        setTimeout(() => {
-            setSources(prev => prev.map(s => ({
-                ...s,
-                lastSync: s.status === 'syncing' ? 'Syncing...' : `${Math.floor(Math.random() * 5) + 1} min ago`
-            })));
-            setDests(prev => prev.map(d => ({
-                ...d,
-                lastUpload: d.status === 'warning' ? `${Math.floor(Math.random() * 30) + 30} min ago` : `${Math.floor(Math.random() * 10) + 1} min ago`
-            })));
-            setIsRefreshing(false);
-        }, 1500);
-    };
+  const statusLabels: Record<string, string> = {
+    active: oc?.active || 'Active',
+    syncing: oc?.syncing || 'Syncing',
+    warning: oc?.warning || 'Warning',
+    error: oc?.error || 'Error',
+    paused: dc?.paused || 'Paused',
+    connected: dc?.connected || 'Connected',
+  };
 
-    const getStatusColor = (status: string) => {
-        switch (status) {
-            case 'connected':
-            case 'active':
-                return 'bg-green-500';
-            case 'syncing':
-                return 'bg-blue-500 animate-pulse';
-            case 'warning':
-                return 'bg-yellow-500';
-            case 'error':
-                return 'bg-red-500';
-            default:
-                return 'bg-gray-400';
-        }
-    };
+  const [isRefreshing, setIsRefreshing] = useState(false);
 
-    const getStatusBadge = (status: string) => {
-        switch (status) {
-            case 'connected':
-            case 'active':
-                return (
-                    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-700">
-                        <CheckCircle className="w-3 h-3" /> {oc('active')}
-                    </span>
-                );
-            case 'syncing':
-                return (
-                    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-700">
-                        <RefreshCw className="w-3 h-3 animate-spin" /> {oc('syncing')}
-                    </span>
-                );
-            case 'warning':
-                return (
-                    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-700">
-                        <AlertTriangle className="w-3 h-3" /> {oc('warning')}
-                    </span>
-                );
-            case 'error':
-                return (
-                    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-700">
-                        <AlertTriangle className="w-3 h-3" /> {oc('error')}
-                    </span>
-                );
-            default:
-                return null;
-        }
-    };
+  const handleRefresh = () => {
+    setIsRefreshing(true);
+    setTimeout(() => setIsRefreshing(false), 1500);
+  };
 
-    const getSourceTypeIcon = (type: string) => {
-        switch (type) {
-            case 'gcs':
-                return <HardDrive className="w-4 h-4 text-gray-600" />;
-            case 'api':
-                return <Globe className="w-4 h-4 text-gray-600" />;
-            case 'sftp':
-                return <Server className="w-4 h-4 text-gray-600" />;
-            default:
-                return <Database className="w-4 h-4 text-gray-600" />;
-        }
-    };
-
-    const getSourceTypeBadge = (type: string) => {
-        switch (type) {
-            case 'gcs':
-                return <span className="px-1.5 py-0.5 bg-blue-100 text-blue-700 text-[10px] font-semibold rounded">GCS</span>;
-            case 'api':
-                return <span className="px-1.5 py-0.5 bg-purple-100 text-purple-700 text-[10px] font-semibold rounded">API</span>;
-            case 'sftp':
-                return <span className="px-1.5 py-0.5 bg-orange-100 text-orange-700 text-[10px] font-semibold rounded">SFTP</span>;
-            default:
-                return null;
-        }
-    };
-
-    return (
-        <div className="vx-card shadow-sm">
-            {/* Header */}
-            <div className="vx-card-header">
-                <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-3">
-                        <div className="p-2 bg-gray-200 rounded-lg">
-                            <Server className="w-5 h-5 text-gray-700" />
-                        </div>
-                        <div>
-                            <h3 className="text-lg font-semibold text-gray-900">{oc('dataPipelineStatus')}</h3>
-                            <p className="text-xs text-gray-500">{oc('dataConnectionStatus')}</p>
-                        </div>
-                    </div>
-                    <button
-                        onClick={handleRefresh}
-                        disabled={isRefreshing}
-                        className="flex items-center gap-2 px-3 py-1.5 text-sm font-medium text-gray-600 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors disabled:opacity-50"
-                    >
-                        <RefreshCw className={`w-4 h-4 ${isRefreshing ? 'animate-spin' : ''}`} />
-                        {oc('refresh')}
-                    </button>
+  return (
+    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      {/* Ingestion Sources */}
+      <div className="vx-card">
+        <div className="vx-card-header">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <Database className="w-4 h-4 text-gray-500" />
+              <h3 className="text-base font-semibold text-foreground">
+                {dc?.ingestionSources || 'Ingestion Sources'}
+              </h3>
+              <div className="relative group">
+                <Info className="w-3.5 h-3.5 text-gray-400 cursor-help" />
+                <div className="absolute left-full top-1/2 -translate-y-1/2 ml-2 px-3 py-2 bg-gray-900 text-white text-xs rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 w-72 z-[9999]">
+                  {dc?.ingestionSourcesTooltip || 'Your configured data sources for offline conversion events.'}
+                  <div className="absolute right-full top-1/2 -translate-y-1/2 w-0 h-0 border-t-4 border-b-4 border-r-4 border-transparent border-r-gray-900" />
                 </div>
+              </div>
             </div>
-
-            {/* Pipeline Visualization */}
-            <div className="vx-card-body">
-                <div className="flex items-stretch gap-4">
-                    {/* Sources Column */}
-                    <div className="flex-1">
-                        <div className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3 flex items-center gap-2">
-                            <Database className="w-3.5 h-3.5" />
-                            {oc('dataSources')}
-                        </div>
-                        <div className="space-y-3">
-                            {sources.map((source) => (
-                                <div
-                                    key={source.id}
-                                    className="relative p-4 bg-white rounded-xl border border-gray-200 hover:border-gray-300 hover:shadow-sm transition-all"
-                                >
-                                    {/* Status Indicator */}
-                                    <div className={`absolute top-3 right-3 w-2 h-2 rounded-full ${getStatusColor(source.status)}`} />
-
-                                    <div className="space-y-3">
-                                        {/* Header */}
-                                        <div className="flex items-start gap-3">
-                                            <div className="p-2 bg-gray-100 rounded-lg">
-                                                {getSourceTypeIcon(source.type)}
-                                            </div>
-                                            <div className="flex-1 min-w-0">
-                                                <div className="flex items-center gap-2 mb-1">
-                                                    <h4 className="font-semibold text-gray-900 text-sm">{source.name}</h4>
-                                                    {getSourceTypeBadge(source.type)}
-                                                </div>
-                                                <p className="text-xs text-gray-500 font-mono truncate">{source.serverUrl}</p>
-                                            </div>
-                                        </div>
-
-                                        {/* Details */}
-                                        <div className="pl-11 space-y-1">
-                                            {source.filePath && (
-                                                <div className="flex items-center gap-2 text-xs text-gray-500">
-                                                    <span className="text-gray-400">Path:</span>
-                                                    <span className="font-mono">{source.filePath}</span>
-                                                </div>
-                                            )}
-                                            {source.fileRegex && (
-                                                <div className="flex items-center gap-2 text-xs text-gray-500">
-                                                    <span className="text-gray-400">Pattern:</span>
-                                                    <span className="font-mono text-gray-600">{source.fileRegex}</span>
-                                                </div>
-                                            )}
-                                            <div className="flex items-center gap-2 text-xs text-gray-500">
-                                                <Calendar className="w-3 h-3 text-gray-400" />
-                                                <span>{source.schedule}</span>
-                                                <span className="text-gray-300">|</span>
-                                                <span>{source.timezone}</span>
-                                            </div>
-                                        </div>
-
-                                        {/* Stats Row */}
-                                        <div className="pl-11 flex items-center gap-4 pt-2 border-t border-gray-100">
-                                            <div className="flex items-center gap-1 text-xs text-gray-500">
-                                                <Clock className="w-3 h-3" />
-                                                {source.lastSync}
-                                            </div>
-                                            <div className="flex items-center gap-1 text-xs text-gray-500">
-                                                <FileText className="w-3 h-3" />
-                                                {source.fileSize}
-                                            </div>
-                                            <div className="text-xs font-medium text-gray-700">
-                                                {source.recordCount}
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-
-                    {/* Arrow */}
-                    <div className="flex flex-col items-center justify-center px-2">
-                        <div className="w-px h-8 bg-gray-200" />
-                        <ArrowRight className="w-5 h-5 text-gray-400 my-2" />
-                        <div className="w-px h-8 bg-gray-200" />
-                    </div>
-
-                    {/* VenueX Hub */}
-                    <div className="flex-1">
-                        <div className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3 flex items-center gap-2">
-                            <Server className="w-3.5 h-3.5" />
-                            {oc('processingHub')}
-                        </div>
-                        <div className="relative p-5 bg-white rounded-xl border-2 border-gray-300">
-                            <div className="flex flex-col items-center text-center">
-                                <div className="w-16 h-16 bg-gray-100 rounded-2xl flex items-center justify-center mb-3 border border-gray-200">
-                                    <img src={vxLogo} alt="VenueX" className="w-10 h-10" />
-                                </div>
-                                <h4 className="font-bold text-gray-900 text-lg mb-1">VenueX Engine</h4>
-                                <p className="text-xs text-gray-500 mb-4">Attribution & Processing</p>
-
-                                <div className="grid grid-cols-2 gap-3 w-full">
-                                    <div className="p-2 bg-gray-50 rounded-lg border border-gray-100">
-                                        <div className="text-lg font-bold text-gray-900">{venuexStats.todayEventsProcessed}</div>
-                                        <div className="text-[10px] text-gray-500">{oc('eventsToday')}</div>
-                                    </div>
-                                    <div className="p-2 bg-gray-50 rounded-lg border border-gray-100">
-                                        <div className="text-lg font-bold text-green-600">{venuexStats.avgProcessingTime}</div>
-                                        <div className="text-[10px] text-gray-500">{oc('avgLatency')}</div>
-                                    </div>
-                                    <div className="p-2 bg-gray-50 rounded-lg border border-gray-100">
-                                        <div className="text-lg font-bold text-gray-900">{venuexStats.totalEventsProcessed}</div>
-                                        <div className="text-[10px] text-gray-500">{oc('totalProcessed')}</div>
-                                    </div>
-                                    <div className="p-2 bg-gray-50 rounded-lg border border-gray-100">
-                                        <div className="text-lg font-bold text-green-600">{venuexStats.uptime}</div>
-                                        <div className="text-[10px] text-gray-500">{oc('uptime')}</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* Arrow */}
-                    <div className="flex flex-col items-center justify-center px-2">
-                        <div className="w-px h-8 bg-gray-200" />
-                        <ArrowRight className="w-5 h-5 text-gray-400 my-2" />
-                        <div className="w-px h-8 bg-gray-200" />
-                    </div>
-
-                    {/* Destinations Column */}
-                    <div className="flex-1">
-                        <div className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3 flex items-center gap-2">
-                            <Globe className="w-3.5 h-3.5" />
-                            {oc('destinations')}
-                        </div>
-                        <div className="space-y-3">
-                            {dests.map((dest) => {
-                                const Icon = dest.icon;
-                                return (
-                                    <div
-                                        key={dest.id}
-                                        className="relative p-4 bg-white rounded-xl border border-gray-200 hover:border-gray-300 hover:shadow-sm transition-all"
-                                    >
-                                        {/* Status Indicator */}
-                                        <div className={`absolute top-3 right-3 w-2 h-2 rounded-full ${getStatusColor(dest.status)}`} />
-
-                                        <div className="flex items-start gap-3">
-                                            <div className="p-2 bg-gray-100 rounded-lg">
-                                                <Icon className={`w-5 h-5 ${dest.iconColor}`} />
-                                            </div>
-                                            <div className="flex-1 min-w-0">
-                                                <div className="flex items-center justify-between mb-1">
-                                                    <h4 className="font-semibold text-gray-900 text-sm">{dest.name}</h4>
-                                                </div>
-                                                <div className="flex items-center gap-2 mb-2">
-                                                    {getStatusBadge(dest.status)}
-                                                </div>
-                                                <div className="grid grid-cols-2 gap-1 text-xs text-gray-500">
-                                                    <div className="flex items-center gap-1">
-                                                        <Clock className="w-3 h-3" />
-                                                        {dest.lastUpload}
-                                                    </div>
-                                                    <div className="flex items-center gap-1">
-                                                        <Calendar className="w-3 h-3" />
-                                                        {dest.nextScheduled}
-                                                    </div>
-                                                </div>
-                                                <div className="flex items-center justify-between mt-2">
-                                                    <span className="text-xs font-medium text-gray-700">{dest.eventsUploaded} events</span>
-                                                    <span className={`text-xs font-bold ${parseFloat(dest.matchRate) >= 75 ? 'text-green-600' : 'text-yellow-600'}`}>
-                                                        {dest.matchRate} match
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                );
-                            })}
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <button
+              onClick={handleRefresh}
+              className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-gray-600 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
+            >
+              <RefreshCw className={`w-3 h-3 ${isRefreshing ? 'animate-spin' : ''}`} />
+              {oc?.refresh || 'Refresh'}
+            </button>
+          </div>
+          <p className="text-xs text-gray-500 mt-1">{dc?.ingestionSourcesDesc || 'Data source connections and sync status'}</p>
         </div>
-    );
+        <div className="vx-card-body vx-surface-muted space-y-3">
+          {mockIngestionSources.map((source) => (
+            <SourceCard key={source.id} source={source} dc={dc} />
+          ))}
+        </div>
+      </div>
+
+      {/* Platform Destinations */}
+      <div className="vx-card">
+        <div className="vx-card-header">
+          <div className="flex items-center gap-2">
+            <Send className="w-4 h-4 text-gray-500" />
+            <h3 className="text-base font-semibold text-foreground">
+              {dc?.platformDestinations || 'Platform Destinations'}
+            </h3>
+            <div className="relative group">
+              <Info className="w-3.5 h-3.5 text-gray-400 cursor-help" />
+              <div className="absolute left-full top-1/2 -translate-y-1/2 ml-2 px-3 py-2 bg-gray-900 text-white text-xs rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 w-72 z-[9999]">
+                {dc?.platformDestinationsTooltip || 'Ad platform endpoints receiving your offline conversion data.'}
+                <div className="absolute right-full top-1/2 -translate-y-1/2 w-0 h-0 border-t-4 border-b-4 border-r-4 border-transparent border-r-gray-900" />
+              </div>
+            </div>
+          </div>
+          <p className="text-xs text-gray-500 mt-1">{dc?.platformDestinationsDesc || 'Ad platform upload status and match rates'}</p>
+        </div>
+        <div className="vx-card-body vx-surface-muted space-y-3">
+          {mockDestinations.map((dest) => (
+            <DestinationCard key={dest.id} dest={dest} labels={statusLabels} dc={dc} />
+          ))}
+        </div>
+      </div>
+    </div>
+  );
 }

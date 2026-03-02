@@ -159,7 +159,7 @@
   }
 
   .vx-card {
-    @apply bg-white rounded-lg border border-gray-200 overflow-hidden;
+    @apply bg-white rounded-lg border border-gray-200 overflow-visible;
   }
 
   .vx-card-header {

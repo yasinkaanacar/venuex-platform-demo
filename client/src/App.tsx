@@ -59,7 +59,7 @@ function Router() {
       <Route>
         <div className="flex min-h-screen bg-white dark:bg-gray-900">
           <Sidebar collapsed={sidebarCollapsed} onToggle={toggleSidebar} />
-          <main className={`flex-1 min-h-screen overflow-auto transition-all duration-300 bg-white dark:bg-gray-800 ${sidebarCollapsed ? 'ml-0' : ''}`}>
+          <main className={`flex-1 h-screen overflow-y-auto transition-all duration-300 bg-white dark:bg-gray-800 ${sidebarCollapsed ? 'ml-0' : ''}`}>
             <Header />
             <Switch>
               <Route path="/" component={Overview} />

@@ -24,6 +24,8 @@ interface GeographicMapProps {
     showMapTypeSelector?: boolean;
     mapType?: MapType;
     onMapTypeChange?: (type: MapType) => void;
+    /** When true, renders only map content without card wrapper/header */
+    embedded?: boolean;
 
     /**
      * When provided, shows a "View All" button that navigates to this path.
@@ -115,6 +117,7 @@ export default function GeographicMap({
     viewAllPath,
     mapType: propMapType,
     onMapTypeChange,
+    embedded = false,
 }: GeographicMapProps) {
     const { t, translate } = useLocales();
     const { brandId } = useBrandContext();
@@ -259,6 +262,13 @@ export default function GeographicMap({
 
     // TikTok only supports world level, not Turkey (city/province) level
     if (provider === Provider.TikTok && mapType === "turkey") {
+        if (embedded) {
+            return (
+                <div className="p-8 bg-white rounded-lg border border-gray-100 shadow-sm text-center">
+                    <p className="text-sm text-gray-500">{t("geographic_insights.feature_not_supported")}</p>
+                </div>
+            );
+        }
         return (
             <div id="geographic-map" className="vx-card mt-6">
                 {/* Header with Title and View All Button */}
@@ -348,6 +358,16 @@ export default function GeographicMap({
 
     // Loading state
     if (isLoading) {
+        if (embedded) {
+            return (
+                <div className="p-8 bg-white rounded-lg border border-gray-100 shadow-sm flex items-center justify-center">
+                    <div className="text-center">
+                        <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-blue-600 mx-auto mb-3" />
+                        <p className="text-sm text-gray-500">{t("geographic_insights.loading_map")}</p>
+                    </div>
+                </div>
+            );
+        }
         return (
             <div id="geographic-map" className="vx-card mt-6">
                 {/* Header with Title and View All Button */}
@@ -415,6 +435,13 @@ export default function GeographicMap({
 
     // Error state
     if (error) {
+        if (embedded) {
+            return (
+                <div className="p-8 bg-white rounded-lg border border-gray-100 shadow-sm">
+                    <p className="text-sm text-red-600">{t("geographic_insights.map_load_error")}</p>
+                </div>
+            );
+        }
         return (
             <div id="geographic-map" className="vx-card mt-6">
                 {/* Header with Title and View All Button */}
@@ -481,6 +508,13 @@ export default function GeographicMap({
 
     // No data
     if (!geoData) {
+        if (embedded) {
+            return (
+                <div className="p-8 bg-white rounded-lg border border-gray-100 shadow-sm">
+                    <p className="text-sm text-yellow-600">{t("geographic_insights.no_data_available")}</p>
+                </div>
+            );
+        }
         return (
             <div id="geographic-map" className="vx-card mt-6">
                 {/* Header with Title and View All Button */}
@@ -547,6 +581,33 @@ export default function GeographicMap({
 
     const regionType = mapType === "turkey" ? t("common.province") : t("common.country");
     const description = translate("geographic_insights.top_performing_regions", { regionType });
+
+    if (embedded) {
+        return (
+            <div className="p-4 bg-white rounded-lg border border-gray-100 shadow-sm">
+                <div className="grid grid-cols-2 gap-6">
+                    <SingleMap
+                        mapType={mapType}
+                        metricsData={metricsData}
+                        metricType="revenue"
+                        title={t("geographic_insights.offline_revenue_distribution")}
+                        geoData={geoData}
+                        provider={provider}
+                        tooltipDirection="auto"
+                    />
+                    <SingleMap
+                        mapType={mapType}
+                        metricsData={metricsData}
+                        metricType="roas"
+                        title={t("geographic_insights.offline_roas_distribution")}
+                        geoData={geoData}
+                        provider={provider}
+                        tooltipDirection="left"
+                    />
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div id="geographic-map" className="vx-card mt-6">

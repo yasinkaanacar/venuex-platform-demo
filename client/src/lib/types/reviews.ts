@@ -42,6 +42,24 @@ export interface ThemeAnalysisItem {
   venueXScore: number;
 }
 
+export type ReviewTrendGranularity = 'daily' | 'weekly' | 'monthly';
+
+export interface ReviewTrendDataPoint {
+  /** Date string: "Jan 6" for daily, "Jan 6" for weekly, "Jan 2026" for monthly */
+  label: string;
+  /** Full period description for tooltip: "Jan 6, 2026" or "Jan 6 – Jan 12, 2026" */
+  period: string;
+  /** ISO date string of the data point start (for sorting/grouping) */
+  date: string;
+  positive: number;
+  neutral: number;
+  negative: number;
+  avgRating: number;
+  responseRate: number;
+  totalReviews: number;
+}
+
+/** @deprecated Use ReviewTrendDataPoint instead */
 export interface ReviewTrendWeek {
   week: string;
   period: string;
