@@ -1,30 +1,14 @@
 import { useSearchParams } from 'wouter';
 import { useTranslation } from '@/contexts/LanguageContext';
 import CompletionSidebar from '@/components/settings/CompletionSidebar';
+import EditBusinessTab from '@/components/settings/EditBusinessTab';
 import ActivityFeedTab from '@/components/settings/ActivityFeedTab';
+import StoreSetsTab from '@/components/settings/StoreSetsTab';
 import DataSourceTab from '@/components/settings/DataSourceTab';
 import { cn } from '@/lib/utils';
 
 const TAB_VALUES = ['editBusiness', 'activityFeed', 'storeSets', 'dataSource'] as const;
 type SettingsTab = (typeof TAB_VALUES)[number];
-
-function PlaceholderTab({ name }: { name: string }) {
-  return (
-    <div className="vx-card">
-      <div className="vx-card-header">
-        <h3 className="text-base font-semibold text-foreground">{name}</h3>
-        <p className="text-xs text-gray-500 mt-1">
-          This tab will be implemented in a subsequent plan.
-        </p>
-      </div>
-      <div className="vx-card-body vx-surface-muted">
-        <div className="p-5 bg-white rounded-lg border border-gray-100 shadow-sm text-center text-gray-400 py-12">
-          Coming soon
-        </div>
-      </div>
-    </div>
-  );
-}
 
 export default function Settings() {
   const { t } = useTranslation();
@@ -62,13 +46,9 @@ export default function Settings() {
           </div>
 
           {/* Tab content */}
-          {activeTab === 'editBusiness' && (
-            <PlaceholderTab name={oc?.tabs?.editBusiness || 'Edit Business'} />
-          )}
+          {activeTab === 'editBusiness' && <EditBusinessTab />}
           {activeTab === 'activityFeed' && <ActivityFeedTab />}
-          {activeTab === 'storeSets' && (
-            <PlaceholderTab name={oc?.tabs?.storeSets || 'Store Sets'} />
-          )}
+          {activeTab === 'storeSets' && <StoreSetsTab />}
           {activeTab === 'dataSource' && <DataSourceTab />}
         </div>
       </div>
