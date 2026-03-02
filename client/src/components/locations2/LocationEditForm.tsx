@@ -15,6 +15,9 @@ import {
 import LocationProgressSidebar from './LocationProgressSidebar';
 import BasicInfoSection from './sections/BasicInfoSection';
 import SocialMediaSection from './sections/SocialMediaSection';
+import AddressMapSection from './sections/AddressMapSection';
+import WorkingHoursSection from './sections/WorkingHoursSection';
+import AmenitiesSection from './sections/AmenitiesSection';
 
 interface LocationEditFormProps {
   mode: 'add' | 'edit';
@@ -186,7 +189,9 @@ export default function LocationEditForm({ mode, locationId }: LocationEditFormP
         <div className="flex-1 min-w-0 space-y-6">
           <BasicInfoSection form={form} />
           <SocialMediaSection form={form} />
-          {/* AddressMapSection, WorkingHoursSection, AmenitiesSection — added in Plan 03-03 */}
+          <AddressMapSection form={form} />
+          <WorkingHoursSection form={form} />
+          <AmenitiesSection form={form} />
           {/* Photos sections — added in Plan 03-04 */}
         </div>
       </div>
