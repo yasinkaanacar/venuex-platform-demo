@@ -28,8 +28,8 @@
 - [x] **PRF-01**: Profile page with initials avatar, inline-editable personal info (name, email read-only, role badge)
 - [x] **PRF-02**: Password change section as placeholder stub
 - [x] **PRF-03**: Reuses SettingsSectionCard and SettingsFormRow shared components from Settings
-- [ ] **PRF-04**: Team invite section with multi-row invite form (name, email, role) in vx-card hierarchy
-- [ ] **PRF-05**: Team table with tabs (Team/Pending Invites), toggle switches, role badges, delete/edit actions
+- [x] **PRF-04**: Team invite section with multi-row invite form (name, email, role) in vx-card hierarchy
+- [x] **PRF-05**: Team table with tabs (Team/Pending Invites), toggle switches, role badges, delete/edit actions
 
 ### Onboarding
 
