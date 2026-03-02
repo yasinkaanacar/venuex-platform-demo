@@ -4,6 +4,7 @@ import { segmentDataService } from './mock-segments-data';
 import { notificationDataService } from './mock-notifications-data';
 import { settingsDataService } from './mock-settings-data';
 import { profileDataService } from './mock-profile-data';
+import { locationFormDataService } from './mock-location-form-data';
 
 // Mock API request function that simulates backend responses  
 export async function apiRequest(
@@ -159,6 +160,19 @@ async function handleMockRequest(method: string, url: string, data?: unknown) {
   }
   if (url.includes('/api/profile') && method.toUpperCase() === 'PATCH') {
     return await profileDataService.updateProfile(data as any);
+  }
+
+  // Location form endpoints (most specific first)
+  if (url.match(/\/api\/location-form\/[^/]+$/) && method.toUpperCase() === 'PATCH') {
+    const id = url.split('/').pop()!;
+    return await locationFormDataService.updateLocation(id, data as any);
+  }
+  if (url === '/api/location-form' && method.toUpperCase() === 'POST') {
+    return await locationFormDataService.createLocation(data as any);
+  }
+  if (url.match(/\/api\/location-form\/[^/]+$/)) {
+    const id = url.split('/').pop()!;
+    return await locationFormDataService.getLocation(id);
   }
 
   // Default response for unhandled endpoints

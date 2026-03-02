@@ -26,6 +26,8 @@ import NotFound from "@/pages/not-found";
 import Components from "@/pages/components";
 import Settings from "@/pages/settings";
 import Profile from "@/pages/profile";
+import LocationAdd from "@/pages/location-add";
+import LocationEdit from "@/pages/location-edit";
 import { useState, useEffect } from "react";
 import { useLocation } from "wouter";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
@@ -67,6 +69,8 @@ function Router() {
               <Route path="/offline-conversions" component={OfflineConversionsMVP} />
               <Route path="/locations" component={Locations2} />
               <Route path="/locations/posts" component={Locations2} />
+              <Route path="/locations/add" component={LocationAdd} />
+              <Route path="/locations/:id/edit" component={LocationEdit} />
               <Route path="/reviews" component={ReviewsMVP} />
               <Route path="/location-match" component={LocationMatch} />
               <Route path="/ai-recommendations" component={AIRecommendations} />

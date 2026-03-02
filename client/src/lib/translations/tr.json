@@ -1637,5 +1637,87 @@
         "invitesSent": "Davetiyeler başarıyla gönderildi",
         "memberRemoved": "Ekip üyesi kaldırıldı",
         "memberStatusChanged": "Üye durumu güncellendi"
+    },
+    "locationForms": {
+        "addTitle": "Konum Ekle",
+        "editTitle": "Konumu Düzenle",
+        "backToLocations": "Lokasyonlara Dön",
+        "save": "Kaydet",
+        "saving": "Kaydediliyor...",
+        "saveSuccess": "Konum başarıyla kaydedildi",
+        "saveError": "Konum kaydedilemedi",
+        "progress": {
+            "title": "Profil Tamamlama",
+            "completed": "Tamamlandı"
+        },
+        "sections": {
+            "basicInfo": "Temel Bilgiler",
+            "socialMedia": "Sosyal Medya",
+            "address": "Lokasyon",
+            "hours": "Çalışma Saatleri",
+            "amenities": "Olanaklar",
+            "photos": "Fotoğraflar",
+            "coverPhoto": "İşletme Kapak Fotoğrafı"
+        },
+        "basicInfo": {
+            "name": "Konum Adı",
+            "storeCode": "Mağaza Tanımlayıcısı",
+            "description": "Açıklama",
+            "metaCategory": "Meta Kategorisi",
+            "appleCategory": "Apple Kategorisi",
+            "yandexCategory": "Yandex Kategorisi",
+            "categoryTooltip": "Kategoriler her platforma otomatik olarak senkronize edilir",
+            "authority": "Otorite",
+            "phone": "Telefon",
+            "website": "İnternet Sitesi",
+            "addPhone": "Farklı Bir Telefon Numarası Ekle",
+            "addSameDate": "Aynı Tarihte Ekle",
+            "relatedGroup": "İlgili Konum Grubu"
+        },
+        "socialMedia": {
+            "facebook": "Facebook",
+            "instagram": "Instagram",
+            "twitter": "X (Twitter)",
+            "tiktok": "TikTok",
+            "youtube": "YouTube",
+            "pinterest": "Pinterest",
+            "linkedin": "LinkedIn"
+        },
+        "location": {
+            "latitude": "Enlem",
+            "longitude": "Boylam",
+            "country": "Ülke",
+            "city": "İl",
+            "address": "Adres",
+            "district": "İlçe",
+            "neighborhood": "Mahalle",
+            "postalCode": "Posta Kodu"
+        },
+        "hours": {
+            "locationStatus": "Konum Durumu",
+            "open": "Açık",
+            "temporarilyClosed": "Geçici olarak kapalı",
+            "permanentlyClosed": "Kalıcı olarak kapalı",
+            "normalHours": "Normal Saatler",
+            "specialHours": "Özel Saatler",
+            "openingTime": "Açılış Saati",
+            "closingTime": "Kapanış Saati",
+            "addBreak": "Arada Ekle",
+            "open24h": "24 Saat Açık"
+        },
+        "amenities": {
+            "title": "Olanaklar"
+        },
+        "photos": {
+            "title": "Fotoğraflar",
+            "dragDrop": "Dosyaları buraya sürükleyin veya göz atın",
+            "formats": "Kabul edilen formatlar: JPG, GIF, PNG, BMP",
+            "copy": "Kopyala"
+        },
+        "coverPhoto": {
+            "title": "İşletme Kapak Fotoğrafı",
+            "dragDrop": "Kapak fotoğrafını buraya sürükleyin veya göz atın",
+            "copy": "Kopyala"
+        }
     }
 }

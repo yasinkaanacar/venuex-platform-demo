@@ -1637,5 +1637,87 @@
         "invitesSent": "Invitations sent successfully",
         "memberRemoved": "Team member removed",
         "memberStatusChanged": "Member status updated"
+    },
+    "locationForms": {
+        "addTitle": "Add Location",
+        "editTitle": "Edit Location",
+        "backToLocations": "Back to Locations",
+        "save": "Save",
+        "saving": "Saving...",
+        "saveSuccess": "Location saved successfully",
+        "saveError": "Failed to save location",
+        "progress": {
+            "title": "Profile Completion",
+            "completed": "Completed"
+        },
+        "sections": {
+            "basicInfo": "Basic Info",
+            "socialMedia": "Social Media",
+            "address": "Location",
+            "hours": "Working Hours",
+            "amenities": "Amenities",
+            "photos": "Photos",
+            "coverPhoto": "Business Cover Photo"
+        },
+        "basicInfo": {
+            "name": "Location Name",
+            "storeCode": "Store Identifier",
+            "description": "Description",
+            "metaCategory": "Meta Category",
+            "appleCategory": "Apple Category",
+            "yandexCategory": "Yandex Category",
+            "categoryTooltip": "Categories are synced to each platform automatically",
+            "authority": "Authority",
+            "phone": "Phone",
+            "website": "Website",
+            "addPhone": "Add Another Phone Number",
+            "addSameDate": "Add on Same Date",
+            "relatedGroup": "Related Location Group"
+        },
+        "socialMedia": {
+            "facebook": "Facebook",
+            "instagram": "Instagram",
+            "twitter": "X (Twitter)",
+            "tiktok": "TikTok",
+            "youtube": "YouTube",
+            "pinterest": "Pinterest",
+            "linkedin": "LinkedIn"
+        },
+        "location": {
+            "latitude": "Latitude",
+            "longitude": "Longitude",
+            "country": "Country",
+            "city": "Province / City",
+            "address": "Address",
+            "district": "District",
+            "neighborhood": "Neighborhood",
+            "postalCode": "Postal Code"
+        },
+        "hours": {
+            "locationStatus": "Location Status",
+            "open": "Open",
+            "temporarilyClosed": "Temporarily Closed",
+            "permanentlyClosed": "Permanently Closed",
+            "normalHours": "Normal Hours",
+            "specialHours": "Special Hours",
+            "openingTime": "Opening Time",
+            "closingTime": "Closing Time",
+            "addBreak": "Add Break",
+            "open24h": "Open 24 Hours"
+        },
+        "amenities": {
+            "title": "Amenities"
+        },
+        "photos": {
+            "title": "Photos",
+            "dragDrop": "Drag and drop files here or click to browse",
+            "formats": "Accepted formats: JPG, GIF, PNG, BMP",
+            "copy": "Copy"
+        },
+        "coverPhoto": {
+            "title": "Business Cover Photo",
+            "dragDrop": "Drag and drop cover photo here or click to browse",
+            "copy": "Copy"
+        }
     }
 }

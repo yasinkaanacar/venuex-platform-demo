@@ -162,6 +162,16 @@ export const routes: Record<string, RouteConfig> = {
             { label: 'VenueX', href: '/' },
             { label: 'Profile', href: '/profile' }
         ]
+    },
+
+    // Location Forms
+    '/locations/add': {
+        title: 'Konum Ekle',
+        breadcrumbs: [
+            { label: 'VenueX', href: '/' },
+            { label: 'Lokasyonlar', href: '/locations' },
+            { label: 'Konum Ekle' }
+        ]
     }
 };
 
@@ -169,6 +179,18 @@ export function getRouteConfig(path: string): RouteConfig {
     // Exact match
     if (routes[path]) {
         return routes[path];
+    }
+
+    // Dynamic route: /locations/:id/edit
+    if (path.startsWith('/locations/') && path.endsWith('/edit')) {
+        return {
+            title: 'Konumu Düzenle',
+            breadcrumbs: [
+                { label: 'VenueX', href: '/' },
+                { label: 'Lokasyonlar', href: '/locations' },
+                { label: 'Konumu Düzenle' }
+            ]
+        };
     }
 
     // Default fallback
