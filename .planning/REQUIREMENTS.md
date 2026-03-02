@@ -7,13 +7,13 @@
 
 ### Settings
 
-- [ ] **SET-01**: Settings page has two-panel layout: left sidebar with brand completion tracker + right content area with tab navigation
+- [x] **SET-01**: Settings page has two-panel layout: left sidebar with brand completion tracker + right content area with tab navigation
 - [ ] **SET-02**: Edit Business tab displays brand info form (name, categories, description, contact, social links) in vx-card sections
 - [ ] **SET-03**: Activity Feed tab shows reverse-chronological event log with date grouping, type filters, and date range filter
 - [ ] **SET-04**: Store Sets tab provides CRUD list for store groups with name, location count, and inline edit/delete actions
 - [ ] **SET-05**: Data Source & Mapping tab displays connection cards (SFTP/API) with status indicators and field mapping configuration
 - [x] **SET-06**: All Settings tabs use vx-card hierarchy and useTranslation() pattern
-- [ ] **SET-07**: Active tab synced to URL query string to prevent state loss on navigation
+- [x] **SET-07**: Active tab synced to URL query string to prevent state loss on navigation
 
 ### Location Pages
 
