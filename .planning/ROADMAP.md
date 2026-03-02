@@ -14,8 +14,8 @@ Decimal phases appear between their surrounding integers in numeric order.
 
 - [x] **Phase 1: Settings** - Redesign Settings with two-panel layout, 4 tabs, shared primitives, and mock data infrastructure (completed 2026-03-02)
 - [x] **Phase 2: Profile** - Redesign Profile page reusing Settings primitives (completed 2026-03-02)
-- [ ] **Phase 3: Location Forms** - Edit Location and Add Location as shared Sheet-overlay form component
-- [ ] **Phase 4: Import Locations** - Import wizard with useReducer state machine and drag-drop upload
+- [ ] **Phase 3: Location Forms** - Add Location and Edit Location as full dedicated pages with progress sidebar, matching production design
+- [ ] **Phase 4: Import Locations** - Import page with template download, export, drag-drop upload, and file history table
 - [ ] **Phase 5: Onboarding** - Deprecate competing setup files and redesign onboarding-unified
 
 ## Phase Details
@@ -57,32 +57,36 @@ Plans:
 - [ ] 02-03-PLAN.md — TeamInviteSection (multi-row invite form) and TeamTableSection (tabbed roster with actions) (Wave 3)
 
 ### Phase 3: Location Forms
-**Goal**: Users can open Edit Location and Add Location as Sheet overlays from the locations list, with all form sections populated and functional
+**Goal**: Users can add and edit locations on full dedicated pages matching the production design, with progress sidebar, all form sections (basic info, social media, address+map, hours, amenities, photos), and validation
 **Depends on**: Phase 1
 **Requirements**: LOC-01, LOC-02, LOC-03
 **Success Criteria** (what must be TRUE):
-  1. Clicking edit on a location row opens a Sheet overlay with the location's data pre-populated across all sections (core info, address, hours, contact, platform links)
-  2. Clicking add location opens the same Sheet overlay with empty fields and the store code field prominent in the header
-  3. The same LocationEditForm component renders in both add and edit modes — no duplicate form components exist
-  4. No new routes are created; the Sheet overlays open from and close back to the locations list at `/locations`
-**Plans**: TBD
+  1. `/locations/add` renders a full page with left progress sidebar and scrollable form sections: Temel Bilgiler, Sosyal Medya, Lokasyon (with map), Çalışma Saatleri, Olanaklar
+  2. `/locations/:id/edit` renders the same form pre-populated with location data, plus Photos and Business Cover Photo sections
+  3. The same LocationEditForm component renders in both add and edit modes — Photos sections conditionally shown in edit only
+  4. Progress sidebar shows completion percentage and per-section field counts that update as user fills fields
+  5. Working hours section uses day pill buttons (Mon-Sun), time pickers, location status radio, and "Add break" support
+**Plans**: 4 plans in 4 waves
 
 Plans:
-- [ ] 03-01: LocationEditForm component (add/edit modes via locationId? prop), LocationFormData type extension, Sheet overlay wiring in locations list page
+- [ ] 03-01-PLAN.md — Infrastructure: TypeScript types + Zod schema, mock data service (3 records), queryClient endpoints, translations, route registration, placeholder pages (Wave 1)
+- [ ] 03-02-PLAN.md — Page shell + sidebar: LocationEditForm orchestrator, LocationProgressSidebar with useWatch(), BasicInfoSection, SocialMediaSection (Wave 2)
+- [ ] 03-03-PLAN.md — Complex sections: AddressMapSection with Leaflet, WorkingHoursSection with day pills, AmenitiesSection with chip toggles (Wave 3)
+- [ ] 03-04-PLAN.md — Edit mode + wiring: PhotosSection, CoverPhotoSection (edit-only), Add Location button in TopBar, Edit button in DetailsDrawer (Wave 4)
 
 ### Phase 4: Import Locations
-**Goal**: Users can import a CSV of locations through a guided wizard that validates data, shows row-level errors, and resolves conflicts before committing
+**Goal**: Users can import locations via a dedicated page with template download, bulk export, drag-drop file upload, and file history table matching production design
 **Depends on**: Phase 1
 **Requirements**: LOC-04, LOC-05
 **Success Criteria** (what must be TRUE):
-  1. Import wizard opens as a Dialog from the locations list and progresses through four named steps: upload, column mapping, validation preview, conflict resolution
-  2. Dragging a CSV file onto the upload zone or clicking to browse both trigger file selection; the file name appears as confirmation
-  3. Validation preview step shows a table of parsed rows with row-level error badges for invalid entries before any import is triggered
-  4. Conflict resolution step reuses the existing LocationConflictResolutionDialog pattern and allows step-back navigation
+  1. `/locations/import` renders a full page with warning banner, three action cards (download template, export locations, drag-drop upload), and file history table
+  2. Drag-drop upload zone accepts JSON, XLS, CSV files with visual feedback
+  3. File history table shows: file name, upload date, row count, file size, source type, status (new/updated counts), and download button per row
+  4. Download Template and Export Locations buttons trigger mock file download actions
 **Plans**: TBD
 
 Plans:
-- [ ] 04-01: ImportWizard Dialog — useReducer state machine, drag-drop upload zone, column mapping table, validation preview, conflict resolution step
+- (to be generated by /gsd:plan-phase 4)
 
 ### Phase 5: Onboarding
 **Goal**: Users encounter a single, canonical onboarding flow in the vx-card visual language with a step sidebar showing progress and resumable state
@@ -108,6 +112,6 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 |-------|----------------|--------|-----------|
 | 1. Settings | 7/7 | Complete   | 2026-03-02 |
 | 2. Profile | 3/3 | Complete   | 2026-03-02 |
-| 3. Location Forms | 0/1 | Not started | - |
+| 3. Location Forms | 0/4 | Not started | - |
 | 4. Import Locations | 0/1 | Not started | - |
 | 5. Onboarding | 0/2 | Not started | - |
