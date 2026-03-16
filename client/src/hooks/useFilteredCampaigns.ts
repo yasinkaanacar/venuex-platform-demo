@@ -10,7 +10,7 @@ import {
   calcOmniROAS,
   calcOnlineROAS,
   calcAvgBasketSize,
-} from '@/lib/mock-campaign-data';
+} from '@/lib/mock/campaigns';
 
 export interface PageFilterState {
   dateRange: string;

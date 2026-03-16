@@ -9,7 +9,7 @@ import DataPipelineStatus from '../components/offline-conversions/DataPipelineSt
 import PipelineHealthSummary from '../components/offline-conversions/PipelineHealthSummary';
 import UploadHistoryTable from '../components/offline-conversions/UploadHistoryTable';
 import ActiveIssuesPanel from '../components/offline-conversions/ActiveIssuesPanel';
-import { mockPipelineHealth, mockUploadBatches, mockIngestionJobs, mockActiveIssues } from '@/lib/mock-pipeline-data';
+import { mockPipelineHealth, mockUploadBatches, mockIngestionJobs, mockActiveIssues } from '@/lib/mock/pipeline';
 import PerformanceKPISummary from '../components/offline-conversions/PerformanceKPISummary';
 import RevenueTrendChart from '../components/offline-conversions/RevenueTrendChart';
 import PlatformComparison from '../components/offline-conversions/PlatformComparison';
@@ -17,7 +17,7 @@ import PlatformComparison from '../components/offline-conversions/PlatformCompar
 import TopCampaignsQuickList from '../components/offline-conversions/TopCampaignsQuickList';
 import GeographicPerformance from '../components/offline-conversions/GeographicPerformance';
 import { useFilteredCampaigns } from '@/hooks/useFilteredCampaigns';
-import { mockCampaigns, googleAdsAccounts } from '@/lib/mock-campaign-data';
+import { mockCampaigns, googleAdsAccounts } from '@/lib/mock/campaigns';
 import { useTranslation } from '@/contexts/LanguageContext';
 
 // --- Filter Options ---
@@ -88,7 +88,7 @@ type TabKey = 'ozet' | 'performans' | 'kampanyalar' | 'veri_baglantisi';
 
 // --- Component ---
 
-export default function OfflineConversionsMVP() {
+export default function OfflineConversions() {
   const [filters, setFilters] = useState<PageFilterState>({
     dateRange: "30d",
     platforms: [],

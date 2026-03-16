@@ -1,38 +1,30 @@
-
 import { Phone, Mail, MapPin, Image, ExternalLink, Clock, Layers } from 'lucide-react';
 
-export type WarningType = 'phone_missing' | 'email_missing' | 'address_error' | 'image_missing' | 'sync_error';
+// Re-export canonical types from types/locations.ts
+export type {
+    WarningType,
+    SyncErrorCode,
+    PlatformKey,
+    LocationWarning,
+    PlatformStatusType,
+    PlatformSyncData,
+} from '@/lib/types/locations';
 
-export type SyncErrorCode = 'auth_expired' | 'missing_coordinates' | 'validation_error' | 'rate_limit' | 'invalid_store_code' | 'unknown';
+import type {
+    PlatformSyncData,
+    PlatformKey,
+} from '@/lib/types/locations';
 
-export type PlatformKey = 'google' | 'meta' | 'apple' | 'yandex';
+// Backward compat alias — PlatformData is the old name for PlatformSyncData
+export type PlatformData = PlatformSyncData;
 
-export interface LocationWarning {
-    type: WarningType;
-    label: string;
-    errorLog?: string;
-    errorCode?: SyncErrorCode;
-    platform?: PlatformKey;
-}
+export type BusinessStatus = 'open' | 'closed_permanently' | 'closed_temporarily';
 
-export type PlatformStatusType =
-    | 'live'               // ✅ Yayında (was: verified)
-    | 'pending'            // 🟡 Bekliyor (was: unverified, pending_review, temporarily_passive)
-    | 'action_required'    // 🟠 Aksiyon Gerekli (was: action_required, disconnected)
-    | 'rejected'           // 🔴 Reddedildi
-    | 'suspended'          // 🔴 Askıya Alındı
-    | 'closed'             // ⚫ Kapalı (was: deleted)
-    | 'unclaimed'          // ⚪ Sahipsiz
-    | 'not_connected';     // ⚪ Bağlı Değil (was: fully_passive)
-
-export interface PlatformData {
-    status: PlatformStatusType;
-    lastSync: string | null;
-    warnings: LocationWarning[];
-}
-
-export type BusinessStatus = 'open' | 'closed' | 'temporarily_closed';
-
+/**
+ * LocationData — UI view model for the locations status table.
+ * Maps to LocationDto production fields with camelCase for UI convenience.
+ * Field mapping: storeCode → store_code, name → location_name, etc.
+ */
 export interface LocationData {
     id: number;
     storeCode: string;
@@ -49,10 +41,10 @@ export interface LocationData {
     description: string;
     storeSet: string;
     businessStatus: BusinessStatus;
-    google: PlatformData;
-    meta: PlatformData;
-    apple: PlatformData;
-    yandex: PlatformData;
+    google: PlatformSyncData;
+    meta: PlatformSyncData;
+    apple: PlatformSyncData;
+    yandex: PlatformSyncData;
 }
 
 export type MissingFieldKey = 'phone' | 'email' | 'address' | 'imageUrl' | 'website' | 'workingHours' | 'description';
@@ -194,7 +186,7 @@ export const mockLocations: LocationData[] = [
         workingHours: '9 AM - 10 PM',
         description: '',
         storeSet: 'Express',
-        businessStatus: 'temporarily_closed',
+        businessStatus: 'closed_temporarily',
         google: { status: 'live', lastSync: '30 min ago', warnings: [] },
         meta: {
             status: 'pending',
@@ -273,7 +265,7 @@ export const mockLocations: LocationData[] = [
         workingHours: '09:00 - 21:00',
         description: 'Bursa main branch',
         storeSet: 'Street',
-        businessStatus: 'closed',
+        businessStatus: 'closed_permanently',
         google: {
             status: 'suspended',
             lastSync: 'Suspended',
@@ -401,7 +393,7 @@ export const mockLocations: LocationData[] = [
         workingHours: '09:00 - 21:00',
         description: 'Trabzon branch',
         storeSet: 'Street',
-        businessStatus: 'temporarily_closed',
+        businessStatus: 'closed_temporarily',
         google: { status: 'live', lastSync: '5 min ago', warnings: [] },
         meta: {
             status: 'action_required',
@@ -436,7 +428,7 @@ export const mockLocations: LocationData[] = [
         workingHours: '10:00 - 22:00',
         description: 'Samsun coastal branch',
         storeSet: 'Seasonal',
-        businessStatus: 'closed',
+        businessStatus: 'closed_permanently',
         google: { status: 'live', lastSync: '3 min ago', warnings: [] },
         meta: {
             status: 'suspended',

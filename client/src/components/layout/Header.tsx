@@ -1,5 +1,5 @@
 import { useLocation } from "wouter";
-import { getRouteConfig } from "@/lib/route-config";
+import { getRouteConfig } from "@/routes";
 import { Globe, Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import {

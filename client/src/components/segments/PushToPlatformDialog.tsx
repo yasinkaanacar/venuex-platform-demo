@@ -9,11 +9,12 @@ import {
 import { X, Send, Loader2, Info } from "lucide-react";
 import { SiGoogle, SiMeta, SiTiktok } from "react-icons/si";
 import { useQueryClient, useQueries } from "@tanstack/react-query";
+import { QUERY_KEYS } from "@/hooks/query-keys";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useLocales, fNumber, fCurrency } from "@/lib/formatters";
 import { cn } from "@/lib/utils";
-import { segmentDataService } from "@/lib/mock-segments-data";
+import { segmentDataService } from "@/lib/mock/segments";
 import { showToast } from "@/lib/toast";
 import SegmentReachProjection from "./SegmentReachProjection";
 import type { Segment, AdPlatform, PushStatus, ReachProjection } from "@/lib/types/segments";
@@ -113,9 +114,9 @@ export default function PushToPlatformDialog({
       });
 
       // Refresh all segment-related queries
-      queryClient.invalidateQueries({ queryKey: ["/api/segments"] });
-      queryClient.invalidateQueries({ queryKey: ["/api/segments/push-log"] });
-      queryClient.invalidateQueries({ queryKey: ["/api/segments/summary"] });
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.SEGMENTS] });
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.SEGMENTS_PUSH_LOG] });
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.SEGMENTS_SUMMARY] });
 
       onOpenChange(false);
     } catch {
@@ -303,7 +304,7 @@ function TotalProjectedSpend({
 
   const projectionQueries = useQueries({
     queries: platforms.map((platform) => ({
-      queryKey: [`/api/segments/reach-projection/${segmentId}/${platform}`],
+      queryKey: [`${QUERY_KEYS.SEGMENTS_REACH_PROJECTION}/${segmentId}/${platform}`],
       enabled: !!segmentId,
     })),
   });

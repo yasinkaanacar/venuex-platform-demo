@@ -1,6 +1,7 @@
 import { useState, useEffect, useMemo } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { AlertTriangle, Loader2 } from "lucide-react";
+import { QUERY_KEYS } from "@/hooks/query-keys";
 import { useLocales } from "@/lib/formatters";
 import {
   Dialog,
@@ -17,7 +18,7 @@ import {
   SelectItem,
 } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
-import { segmentDataService } from "@/lib/mock-segments-data";
+import { segmentDataService } from "@/lib/mock/segments";
 import { showToast } from "@/lib/toast";
 import type { FeedLabel, FeedLabelType, FeedChannel } from "@/lib/types/segments";
 
@@ -60,7 +61,7 @@ export default function FeedLabelEditor({
 
   // Fetch all labels to check occupied GMC slots
   const { data: allLabels = [] } = useQuery<FeedLabel[]>({
-    queryKey: ["/api/segments/feed-labels"],
+    queryKey: [QUERY_KEYS.SEGMENTS_FEED_LABELS],
   });
 
   // --- Form state ---
@@ -138,7 +139,7 @@ export default function FeedLabelEditor({
       } else {
         await segmentDataService.createFeedLabel(payload);
       }
-      queryClient.invalidateQueries({ queryKey: ["/api/segments/feed-labels"] });
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.SEGMENTS_FEED_LABELS] });
       showToast({
         type: "success",
         title: isEditing

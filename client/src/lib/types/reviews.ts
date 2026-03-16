@@ -1,9 +1,39 @@
+import {
+  ReviewSourceEnum,
+  ReviewStatusEnum,
+  ReviewSentimentEnum,
+  type AnalysisResult,
+} from './common';
+
+// Re-export production enums for convenience
+export { ReviewSourceEnum, ReviewStatusEnum, ReviewSentimentEnum };
+export type { AnalysisResult };
+
 // ── Union Types ──────────────────────────────────────────────────────────────
 
-export type ReviewPlatform = 'Google' | 'Facebook' | 'Website' | 'Tripadvisor' | 'Yelp' | 'Apple' | 'Amazon';
-export type ReviewSentiment = 'Positive' | 'Neutral' | 'Negative';
+/**
+ * ReviewPlatform — aligned with production ReviewSourceEnum (4 values).
+ * Production sources: Google, Apple, Meta, Tiktok.
+ */
+export type ReviewPlatform = `${ReviewSourceEnum}`;
+
+/**
+ * ReviewSentiment — aligned with production ReviewSentimentEnum.
+ * UI components use the data-bearing values (positive/negative/neutral);
+ * NO_DATA and ALL are filter-only sentinels.
+ */
+export type ReviewSentiment = ReviewSentimentEnum.POSITIVE | ReviewSentimentEnum.NEGATIVE | ReviewSentimentEnum.NEUTRAL;
+
+/**
+ * ReplyStatusFilter — UI filter that includes 'all' option.
+ * Maps to production ReviewStatusEnum (ANSWERED / UNANSWERED) plus an 'all' sentinel.
+ */
+export type ReplyStatusFilter = `${ReviewStatusEnum}` | 'all';
+
+/** @deprecated Use ReplyStatusFilter — kept for backward compatibility */
+export type ReplyStatus = ReplyStatusFilter;
+
 export type ReviewSource = 'locations' | 'products';
-export type ReplyStatus = 'unreplied' | 'replied' | 'all';
 export type SortOrder = 'latest' | 'oldest';
 export type CommentFilter = 'all' | 'rating-only' | 'with-comment';
 export type ThemeSortBy = 'reviews' | 'venueXScore';
@@ -30,7 +60,7 @@ export interface ReviewLocationData {
   reviews: number;
   rating: number;
   replyRate: number;
-  sentiment: ReviewSentiment;
+  sentiment: ReviewSentiment | ReviewSentimentEnum;
   topPositive: string;
   topNegative: string;
 }
@@ -79,6 +109,7 @@ export interface RatingDistribution {
 
 export interface Review {
   id: number;
+  /** Aligned with production `source: ReviewSourceEnum` */
   platform: ReviewPlatform;
   rating: number;
   reviewer: string;
@@ -88,6 +119,10 @@ export interface Review {
   productSku: string;
   text: string;
   isNew: boolean;
+  /** Production: ReviewStatusEnum (ANSWERED / UNANSWERED) */
+  status?: ReviewStatusEnum;
+  /** Production: AnalysisResult from AI review analysis */
+  analyzeResult?: AnalysisResult;
 }
 
 export interface LocationContext {

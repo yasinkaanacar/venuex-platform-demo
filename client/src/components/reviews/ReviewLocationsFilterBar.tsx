@@ -81,9 +81,9 @@ export default function ReviewLocationsFilterBar({ filters, onFiltersChange }: R
 
   const sentimentOptions = useMemo(() => [
     { value: 'all', label: t.reviews.filters.allSentiments },
-    { value: 'positive', label: t.reviews.positive },
-    { value: 'neutral', label: t.reviews.neutral },
-    { value: 'negative', label: t.reviews.negative },
+    { value: 'positive_sentiment', label: t.reviews.positive },
+    { value: 'neutral_sentiment', label: t.reviews.neutral },
+    { value: 'negative_sentiment', label: t.reviews.negative },
   ], [t]);
 
   const avgRatingOptions = useMemo(() => [

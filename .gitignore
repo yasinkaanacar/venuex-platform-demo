@@ -39,3 +39,6 @@ npm-debug.log*
 
 # Archives
 *.tar.gz
+
+# GSD planning / roadmap files
+.planning/

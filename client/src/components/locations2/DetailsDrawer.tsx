@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Location, Channel } from "@/lib/types/locations";
+import { LocationDto, PlatformKey } from "@/lib/types/locations";
 import { HealthBadge, ChannelBadge } from "@/components/ui/badge-variants";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -19,20 +19,20 @@ import {
   Clock,
   Phone,
   ExternalLink,
-  Calendar,
   Activity,
   Link as LinkIcon,
   AlertCircle,
   CheckCircle,
 } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
+import { computeDataHealth, formatHoursLabel, platformToChannelInfo } from "@/lib/mock/locations";
 
 interface DetailsDrawerProps {
-  location: Location | null;
+  location: LocationDto | null;
   isOpen: boolean;
   onClose: () => void;
-  onConnect: (locationId: string, channel: Channel) => void;
-  onFix: (locationId: string, channel: Channel) => void;
+  onConnect: (locationId: string, channel: PlatformKey) => void;
+  onFix: (locationId: string, channel: PlatformKey) => void;
 }
 
 // Mock map placeholder component
@@ -53,7 +53,7 @@ const mockActivity = [
   {
     id: '1',
     type: 'sync',
-    channel: 'GBP' as Channel,
+    channel: 'google' as PlatformKey,
     status: 'success',
     message: 'Successfully synced location data',
     timestamp: '2024-09-05T10:30:00Z',
@@ -61,7 +61,7 @@ const mockActivity = [
   {
     id: '2',
     type: 'error',
-    channel: 'META' as Channel,
+    channel: 'meta' as PlatformKey,
     status: 'error',
     message: 'Photo needs update - policy violation',
     timestamp: '2024-09-04T14:22:00Z',
@@ -69,7 +69,7 @@ const mockActivity = [
   {
     id: '3',
     type: 'sync',
-    channel: 'APPLE' as Channel,
+    channel: 'apple' as PlatformKey,
     status: 'success',
     message: 'Hours updated successfully',
     timestamp: '2024-09-05T09:15:00Z',
@@ -77,7 +77,7 @@ const mockActivity = [
   {
     id: '4',
     type: 'warning',
-    channel: 'GMC' as Channel,
+    channel: 'yandex' as PlatformKey,
     status: 'warning',
     message: 'Category mismatch detected',
     timestamp: '2024-09-04T16:15:00Z',
@@ -110,24 +110,30 @@ export function DetailsDrawer({
 
   if (!location) return null;
 
+  const health = computeDataHealth(location);
+  const hoursLabel = formatHoursLabel(location.regular_hours);
+  const platformEntries = location.platforms
+    ? Object.entries(location.platforms) as [PlatformKey, NonNullable<typeof location.platforms>[PlatformKey]][]
+    : [];
+
   return (
     <Sheet open={isOpen} onOpenChange={onClose}>
-      <SheetContent 
-        side="right" 
+      <SheetContent
+        side="right"
         className="w-[600px] sm:w-[540px] overflow-y-auto"
-        data-testid={`drawer-${location.id}`}
+        data-testid={`drawer-${location._id}`}
       >
         <SheetHeader>
           <div className="flex items-center justify-between">
             <div className="flex-1">
               <SheetTitle className="text-xl font-semibold">
-                {location.name}
+                {location.location_name}
               </SheetTitle>
               <SheetDescription className="flex items-center gap-2 mt-2">
                 <code className="text-sm bg-gray-100  px-2 py-1 rounded">
-                  {location.code}
+                  {location.store_code}
                 </code>
-                <HealthBadge health={location.dataHealth} />
+                <HealthBadge health={health} />
               </SheetDescription>
             </div>
             <Button
@@ -152,7 +158,7 @@ export function DetailsDrawer({
 
             <TabsContent value="overview" className="mt-6 space-y-6">
               {/* Map Placeholder */}
-              <MapPlaceholder address={`${location.addressLine}, ${location.city}`} />
+              <MapPlaceholder address={location.address.fullAddress} />
 
               {/* Quick Info */}
               <div className="grid grid-cols-1 gap-4">
@@ -162,19 +168,22 @@ export function DetailsDrawer({
                       <div className="flex items-center gap-2">
                         <MapPin className="w-4 h-4 text-gray-500" />
                         <div className="text-sm">
-                          <div>{location.addressLine}</div>
-                          <div className="text-gray-500">{location.city}, {location.district}</div>
+                          <div>{location.address.addressLines.join(', ')}</div>
+                          <div className="text-gray-500">
+                            {location.address.locality ?? location.address.administrativeArea}
+                            {location.address.sublocality && `, ${location.address.sublocality}`}
+                          </div>
                         </div>
                       </div>
 
                       <div className="flex items-center gap-2">
                         <Clock className="w-4 h-4 text-gray-500" />
-                        <span className="text-sm">{location.hoursLabel}</span>
+                        <span className="text-sm">{hoursLabel}</span>
                       </div>
 
                       <div className="flex items-center gap-2">
                         <Phone className="w-4 h-4 text-gray-500" />
-                        <span className="text-sm">{location.phone}</span>
+                        <span className="text-sm">{location.primary_phone ?? 'No phone'}</span>
                       </div>
                     </div>
                   </CardContent>
@@ -201,7 +210,7 @@ export function DetailsDrawer({
                         Location Name
                       </label>
                       <div className="mt-1 p-2 bg-gray-50  rounded border text-sm">
-                        {location.name}
+                        {location.location_name}
                       </div>
                     </div>
 
@@ -210,7 +219,7 @@ export function DetailsDrawer({
                         Store Code
                       </label>
                       <div className="mt-1 p-2 bg-gray-50  rounded border text-sm">
-                        {location.code}
+                        {location.store_code}
                       </div>
                     </div>
 
@@ -219,7 +228,7 @@ export function DetailsDrawer({
                         Address
                       </label>
                       <div className="mt-1 p-2 bg-gray-50  rounded border text-sm">
-                        {location.addressLine}
+                        {location.address.fullAddress}
                       </div>
                     </div>
 
@@ -229,7 +238,7 @@ export function DetailsDrawer({
                           City
                         </label>
                         <div className="mt-1 p-2 bg-gray-50  rounded border text-sm">
-                          {location.city}
+                          {location.address.locality ?? location.address.administrativeArea}
                         </div>
                       </div>
                       <div>
@@ -237,7 +246,7 @@ export function DetailsDrawer({
                           District
                         </label>
                         <div className="mt-1 p-2 bg-gray-50  rounded border text-sm">
-                          {location.district}
+                          {location.address.sublocality ?? '—'}
                         </div>
                       </div>
                     </div>
@@ -247,7 +256,7 @@ export function DetailsDrawer({
                         Hours
                       </label>
                       <div className="mt-1 p-2 bg-gray-50  rounded border text-sm">
-                        {location.hoursLabel}
+                        {hoursLabel}
                       </div>
                     </div>
 
@@ -256,7 +265,7 @@ export function DetailsDrawer({
                         Phone
                       </label>
                       <div className="mt-1 p-2 bg-gray-50  rounded border text-sm">
-                        {location.phone}
+                        {location.primary_phone ?? '—'}
                       </div>
                     </div>
                   </div>
@@ -266,77 +275,81 @@ export function DetailsDrawer({
 
             <TabsContent value="channels" className="mt-6">
               <div className="space-y-4">
-                {Object.entries(location.channels).map(([channel, info]) => (
-                  <Card key={channel}>
-                    <CardHeader className="pb-3">
-                      <div className="flex items-center justify-between">
-                        <CardTitle className="text-base flex items-center gap-2">
-                          <LinkIcon className="w-4 h-4" />
-                          {channel}
-                        </CardTitle>
-                        <ChannelBadge channel={channel} status={info.status} />
-                      </div>
-                    </CardHeader>
-                    <CardContent>
-                      <div className="space-y-3">
-                        <div className="flex items-center justify-between text-sm">
-                          <span className="text-gray-600 ">Status:</span>
-                          <span className="font-medium">
-                            {info.status.replace('_', ' ')}
-                          </span>
+                {platformEntries.map(([platform, syncData]) => {
+                  if (!syncData) return null;
+                  const channelInfo = platformToChannelInfo(syncData);
+                  return (
+                    <Card key={platform}>
+                      <CardHeader className="pb-3">
+                        <div className="flex items-center justify-between">
+                          <CardTitle className="text-base flex items-center gap-2">
+                            <LinkIcon className="w-4 h-4" />
+                            {platform}
+                          </CardTitle>
+                          <ChannelBadge channel={platform} status={channelInfo.status} />
                         </div>
-                        
-                        {info.lastSync && (
+                      </CardHeader>
+                      <CardContent>
+                        <div className="space-y-3">
                           <div className="flex items-center justify-between text-sm">
-                            <span className="text-gray-600 ">Last Sync:</span>
-                            <span>{formatDistanceToNow(new Date(info.lastSync))} ago</span>
+                            <span className="text-gray-600 ">Status:</span>
+                            <span className="font-medium">
+                              {channelInfo.status.replace('_', ' ')}
+                            </span>
                           </div>
-                        )}
 
-                        {info.errorNote && (
-                          <div className="p-2 bg-red-50  rounded border border-red-200 ">
-                            <div className="flex items-start gap-2">
-                              <AlertCircle className="w-4 h-4 text-red-500 mt-0.5 flex-shrink-0" />
-                              <span className="text-sm text-red-700 ">
-                                {info.errorNote}
-                              </span>
+                          {channelInfo.lastSync && (
+                            <div className="flex items-center justify-between text-sm">
+                              <span className="text-gray-600 ">Last Sync:</span>
+                              <span>{formatDistanceToNow(new Date(channelInfo.lastSync))} ago</span>
                             </div>
-                          </div>
-                        )}
-
-                        <div className="pt-2">
-                          {info.status === 'NOT_CONNECTED' ? (
-                            <Button
-                              onClick={() => onConnect(location.id, channel as Channel)}
-                              className="vx-button w-full"
-                              data-testid={`btn-connect-${location.id}-${channel.toLowerCase()}`}
-                            >
-                              Connect {channel}
-                            </Button>
-                          ) : info.status === 'NEEDS_ATTENTION' ? (
-                            <Button
-                              variant="outline"
-                              onClick={() => onFix(location.id, channel as Channel)}
-                              className="vx-button w-full"
-                              data-testid={`btn-sync-now-${location.id}-${channel.toLowerCase()}`}
-                            >
-                              Fix Issues
-                            </Button>
-                          ) : (
-                            <Button
-                              variant="outline"
-                              onClick={() => onFix(location.id, channel as Channel)}
-                              className="vx-button w-full"
-                              data-testid={`btn-sync-now-${location.id}-${channel.toLowerCase()}`}
-                            >
-                              Sync Now
-                            </Button>
                           )}
+
+                          {channelInfo.errorNote && (
+                            <div className="p-2 bg-red-50  rounded border border-red-200 ">
+                              <div className="flex items-start gap-2">
+                                <AlertCircle className="w-4 h-4 text-red-500 mt-0.5 flex-shrink-0" />
+                                <span className="text-sm text-red-700 ">
+                                  {channelInfo.errorNote}
+                                </span>
+                              </div>
+                            </div>
+                          )}
+
+                          <div className="pt-2">
+                            {channelInfo.status === 'NOT_CONNECTED' ? (
+                              <Button
+                                onClick={() => onConnect(location._id, platform)}
+                                className="vx-button w-full"
+                                data-testid={`btn-connect-${location._id}-${platform}`}
+                              >
+                                Connect {platform}
+                              </Button>
+                            ) : channelInfo.status === 'NEEDS_ATTENTION' ? (
+                              <Button
+                                variant="outline"
+                                onClick={() => onFix(location._id, platform)}
+                                className="vx-button w-full"
+                                data-testid={`btn-sync-now-${location._id}-${platform}`}
+                              >
+                                Fix Issues
+                              </Button>
+                            ) : (
+                              <Button
+                                variant="outline"
+                                onClick={() => onFix(location._id, platform)}
+                                className="vx-button w-full"
+                                data-testid={`btn-sync-now-${location._id}-${platform}`}
+                              >
+                                Sync Now
+                              </Button>
+                            )}
+                          </div>
                         </div>
-                      </div>
-                    </CardContent>
-                  </Card>
-                ))}
+                      </CardContent>
+                    </Card>
+                  );
+                })}
               </div>
             </TabsContent>
 

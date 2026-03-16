@@ -5,7 +5,9 @@ import { Chip } from '@mui/material';
 import { MapPin, Star, FileText, Lightbulb, Info } from 'lucide-react';
 import { EnrichmentSuggestion } from '@shared/schema';
 import { apiRequest } from '@/lib/queryClient';
-import { useToast } from '@/hooks/use-toast';
+import { QUERY_KEYS } from '@/hooks/query-keys';
+import { showToast } from '@/lib/toast';
+import { CardSkeleton, DataErrorState } from '@/components/shared/data-states';
 
 type DataQualityContext = 'dashboard' | 'locations';
 
@@ -14,11 +16,10 @@ interface EnrichmentSuggestionsProps {
 }
 
 export default function EnrichmentSuggestions({ context = 'dashboard' }: EnrichmentSuggestionsProps) {
-  const { toast } = useToast();
   const queryClient = useQueryClient();
 
-  const { data: suggestions = [], isLoading } = useQuery<EnrichmentSuggestion[]>({
-    queryKey: ['/api/enrichment-suggestions'],
+  const { data: suggestions = [], isLoading, isError, refetch } = useQuery<EnrichmentSuggestion[]>({
+    queryKey: [QUERY_KEYS.ENRICHMENT_SUGGESTIONS],
   });
 
   const implementSuggestionMutation = useMutation({
@@ -27,18 +28,11 @@ export default function EnrichmentSuggestions({ context = 'dashboard' }: Enrichm
       return response.json();
     },
     onSuccess: () => {
-      toast({
-        title: "Success",
-        description: "Suggestion implemented successfully",
-      });
-      queryClient.invalidateQueries({ queryKey: ['/api/enrichment-suggestions'] });
+      showToast({ type: 'success', title: 'Success', description: 'Suggestion implemented successfully' });
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.ENRICHMENT_SUGGESTIONS] });
     },
     onError: () => {
-      toast({
-        title: "Error",
-        description: "Failed to implement suggestion",
-        variant: "destructive",
-      });
+      showToast({ type: 'error', title: 'Error', description: 'Failed to implement suggestion' });
     }
   });
 
@@ -157,6 +151,28 @@ export default function EnrichmentSuggestions({ context = 'dashboard' }: Enrichm
 
   // Select suggestions based on context
   const allSuggestions = context === 'locations' ? locationsSuggestions : dashboardSuggestions;
+
+  if (isLoading) {
+    return (
+      <div>
+        <div className="flex items-center justify-between mb-6">
+          <h3 className="text-lg font-semibold text-foreground">Data Enrichment Suggestions</h3>
+        </div>
+        <CardSkeleton lines={5} />
+      </div>
+    );
+  }
+
+  if (isError) {
+    return (
+      <div>
+        <div className="flex items-center justify-between mb-6">
+          <h3 className="text-lg font-semibold text-foreground">Data Enrichment Suggestions</h3>
+        </div>
+        <DataErrorState onRetry={refetch} />
+      </div>
+    );
+  }
 
   return (
     <div>

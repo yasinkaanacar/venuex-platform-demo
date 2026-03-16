@@ -2,8 +2,8 @@ import { ArrowRight, Info } from 'lucide-react';
 import { SiGoogle, SiMeta, SiTiktok } from 'react-icons/si';
 import { useTranslation } from '@/contexts/LanguageContext';
 import { fCurrency } from '@/lib/formatters';
-import { calcOfflineROAS, calcOmniROAS, CAMPAIGN_TYPE_LABELS } from '@/lib/mock-campaign-data';
-import type { Campaign } from '@/lib/mock-campaign-data';
+import { calcOfflineROAS, calcOmniROAS, CAMPAIGN_TYPE_LABELS } from '@/lib/mock/campaigns';
+import type { Campaign } from '@/lib/mock/campaigns';
 
 interface Props {
   campaigns: Campaign[];

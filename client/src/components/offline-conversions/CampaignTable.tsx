@@ -33,7 +33,7 @@ import {
     calcCPC,
     calcCPM,
     calcTotalRevenue
-} from '@/lib/mock-campaign-data';
+} from '@/lib/mock/campaigns';
 import { useTranslation } from '@/contexts/LanguageContext';
 import { cn } from '@/lib/utils';
 import { Switch } from '@/components/ui/switch';

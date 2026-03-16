@@ -1,12 +1,14 @@
 import { useState, useEffect, useRef } from 'react';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { Upload } from 'lucide-react';
+import { QUERY_KEYS } from '@/hooks/query-keys';
 import { useTranslation } from '@/contexts/LanguageContext';
 import SettingsSectionCard from '@/components/settings/SettingsSectionCard';
 import SettingsFormRow from '@/components/settings/SettingsFormRow';
 import SettingsFieldGroup from '@/components/settings/SettingsFieldGroup';
-import { settingsDataService } from '@/lib/mock-settings-data';
+import { settingsDataService } from '@/lib/mock/settings';
 import { showToast } from '@/lib/toast';
+import { CardSkeleton, DataErrorState } from '@/components/shared/data-states';
 import type { BusinessProfile } from '@/lib/types/settings';
 
 const INPUT_CLS =
@@ -29,8 +31,8 @@ export default function EditBusinessTab() {
   const eb = oc?.editBusiness;
   const queryClient = useQueryClient();
 
-  const { data: profile } = useQuery<BusinessProfile>({
-    queryKey: ['/api/settings/profile'],
+  const { data: profile, isLoading, isError } = useQuery<BusinessProfile>({
+    queryKey: [QUERY_KEYS.SETTINGS_PROFILE],
     queryFn: () => settingsDataService.getBusinessProfile(),
   });
 
@@ -43,6 +45,14 @@ export default function EditBusinessTab() {
   useEffect(() => {
     if (profile) setFormData(profile);
   }, [profile]);
+
+  if (isLoading) {
+    return <CardSkeleton lines={8} className="py-6" />;
+  }
+
+  if (isError) {
+    return <DataErrorState message="Failed to load business profile." />;
+  }
 
   const updateField = (field: string, value: any) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
@@ -65,7 +75,7 @@ export default function EditBusinessTab() {
     try {
       setSaving(true);
       await settingsDataService.updateBusinessProfile(formData);
-      await queryClient.invalidateQueries({ queryKey: ['/api/settings/profile'] });
+      await queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.SETTINGS_PROFILE] });
       showToast({ type: 'success', title: eb?.saveSuccess || 'Business profile updated successfully' });
     } catch {
       showToast({ type: 'error', title: eb?.saveError || 'Failed to update business profile' });
@@ -169,14 +179,16 @@ export default function EditBusinessTab() {
         description={eb?.contactInfo?.desc || 'Primary contact details for your business'}
       >
         <SettingsFieldGroup>
-          <SettingsFormRow label={eb?.contactInfo?.email || 'Email'} htmlFor="contactEmail" required>
-            <input id="contactEmail" type="email" className={INPUT_CLS} value={formData.contactEmail ?? ''} onChange={(e) => updateField('contactEmail', e.target.value)} />
-          </SettingsFormRow>
+          <div className="grid grid-cols-2 gap-x-6 gap-y-0">
+            <SettingsFormRow label={eb?.contactInfo?.email || 'Email'} htmlFor="contactEmail" required>
+              <input id="contactEmail" type="email" className={INPUT_CLS} value={formData.contactEmail ?? ''} onChange={(e) => updateField('contactEmail', e.target.value)} />
+            </SettingsFormRow>
+            <SettingsFormRow label={eb?.contactInfo?.website || 'Website'} htmlFor="website">
+              <input id="website" type="url" className={INPUT_CLS} value={formData.website ?? ''} onChange={(e) => updateField('website', e.target.value)} />
+            </SettingsFormRow>
+          </div>
           <SettingsFormRow label={eb?.contactInfo?.phone || 'Phone'} htmlFor="contactPhone">
             <input id="contactPhone" type="tel" className={INPUT_CLS} value={formData.contactPhone ?? ''} onChange={(e) => updateField('contactPhone', e.target.value)} />
-          </SettingsFormRow>
-          <SettingsFormRow label={eb?.contactInfo?.website || 'Website'} htmlFor="website">
-            <input id="website" type="url" className={INPUT_CLS} value={formData.website ?? ''} onChange={(e) => updateField('website', e.target.value)} />
           </SettingsFormRow>
         </SettingsFieldGroup>
       </SettingsSectionCard>

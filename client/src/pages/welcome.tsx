@@ -1,4 +1,5 @@
 import { useLocation } from 'wouter';
+import { PATHS } from '@/routes/paths';
 import { Zap, Play, Link2, ArrowRight } from 'lucide-react';
 
 export default function WelcomePage() {
@@ -41,7 +42,7 @@ export default function WelcomePage() {
 
           {/* Start Connecting Card */}
           <button
-            onClick={() => setLocation('/onboarding')}
+            onClick={() => setLocation(PATHS.ONBOARDING)}
             className="group p-6 bg-white rounded-2xl border-2 border-gray-200 hover:border-blue-400 hover:shadow-xl transition-all text-left"
             data-testid="card-start-connecting"
           >

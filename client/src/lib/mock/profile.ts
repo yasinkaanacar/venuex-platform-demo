@@ -1,4 +1,4 @@
-import type { ProfileUser, TeamMember, TeamInvite, InviteRow } from './types/profile';
+import type { ProfileUser, TeamMember, TeamInvite, InviteRow } from '../types/profile';
 
 // ---------------------------------------------------------------------------
 // Mock data

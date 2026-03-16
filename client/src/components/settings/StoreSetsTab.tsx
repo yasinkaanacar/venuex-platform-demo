@@ -5,14 +5,16 @@ import {
   DialogContent as MuiDialogContent,
   DialogActions as MuiDialogActions,
 } from '@mui/material';
-import { Pencil, Trash2 } from 'lucide-react';
+import { LayoutGrid, Pencil, Trash2 } from 'lucide-react';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { QUERY_KEYS } from '@/hooks/query-keys';
 import { useTranslation } from '@/contexts/LanguageContext';
 import { showToast } from '@/lib/toast';
 import SettingsSectionCard from '@/components/settings/SettingsSectionCard';
 import SettingsFieldGroup from '@/components/settings/SettingsFieldGroup';
 import StoreSetDialog from '@/components/settings/StoreSetDialog';
-import { settingsDataService } from '@/lib/mock-settings-data';
+import { CardSkeleton, DataErrorState } from '@/components/shared/data-states';
+import { settingsDataService } from '@/lib/mock/settings';
 import type { StoreSet } from '@/lib/types/settings';
 
 export default function StoreSetsTab() {
@@ -21,8 +23,8 @@ export default function StoreSetsTab() {
   const queryClient = useQueryClient();
 
   // Fetch store sets
-  const { data: storeSets = [], isLoading } = useQuery<StoreSet[]>({
-    queryKey: ['/api/settings/store-sets'],
+  const { data: storeSets = [], isLoading, isError, refetch } = useQuery<StoreSet[]>({
+    queryKey: [QUERY_KEYS.SETTINGS_STORE_SETS],
     queryFn: () => settingsDataService.getStoreSets(),
   });
 
@@ -62,7 +64,7 @@ export default function StoreSetsTab() {
         locationIds: data.locationIds,
         locationCount: data.locationIds.length,
       });
-      await queryClient.invalidateQueries({ queryKey: ['/api/settings/store-sets'] });
+      await queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.SETTINGS_STORE_SETS] });
       showToast({
         type: 'success',
         title: oc?.storeSets?.updateSuccess || 'Store set updated successfully',
@@ -70,7 +72,7 @@ export default function StoreSetsTab() {
     } else {
       // Create mode
       await settingsDataService.createStoreSet(data);
-      await queryClient.invalidateQueries({ queryKey: ['/api/settings/store-sets'] });
+      await queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.SETTINGS_STORE_SETS] });
       showToast({
         type: 'success',
         title: oc?.storeSets?.createSuccess || 'Store set created successfully',
@@ -83,7 +85,7 @@ export default function StoreSetsTab() {
     setDeleting(true);
     try {
       await settingsDataService.deleteStoreSet(deleteState.set.id);
-      await queryClient.invalidateQueries({ queryKey: ['/api/settings/store-sets'] });
+      await queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.SETTINGS_STORE_SETS] });
       showToast({
         type: 'success',
         title: oc?.storeSets?.deleteSuccess || 'Store set deleted successfully',
@@ -113,7 +115,9 @@ export default function StoreSetsTab() {
       >
         <SettingsFieldGroup>
           {isLoading ? (
-            <div className="py-8 text-center text-sm text-gray-400">Loading...</div>
+            <CardSkeleton lines={4} className="py-4" />
+          ) : isError ? (
+            <DataErrorState onRetry={refetch} message="Failed to load store sets." />
           ) : storeSets.length === 0 ? (
             <div className="py-8 text-center text-sm text-gray-400">
               {oc?.storeSets?.noSets || 'No store sets created yet'}
@@ -121,35 +125,37 @@ export default function StoreSetsTab() {
           ) : (
             <div className="divide-y divide-gray-100">
               {storeSets.map((set) => (
-                <div key={set.id} className="flex items-start justify-between py-3 px-1">
-                  {/* Left: name, description, location count */}
-                  <div className="flex-1 min-w-0 pr-4">
-                    <p className="text-sm font-medium text-gray-900">{set.name}</p>
-                    {set.description && (
-                      <p className="text-xs text-gray-500 mt-0.5">{set.description}</p>
-                    )}
-                    <span className="inline-block text-xs bg-blue-50 text-blue-700 px-2 py-0.5 rounded-full mt-1">
-                      {(oc?.storeSets?.locationCount || '{{count}} locations').replace(
-                        '{{count}}',
-                        String(set.locationCount)
-                      )}
-                    </span>
+                <div key={set.id} className="flex items-center justify-between py-3.5 px-1 group">
+                  {/* Left: icon + name + store count */}
+                  <div className="flex items-center gap-3 flex-1 min-w-0">
+                    <div className="w-8 h-8 rounded-lg bg-gray-100 flex items-center justify-center flex-shrink-0">
+                      <LayoutGrid className="w-4 h-4 text-gray-400" />
+                    </div>
+                    <div className="min-w-0">
+                      <p className="text-sm font-medium text-gray-900">{set.name}</p>
+                      <p className="text-xs text-gray-500">
+                        {(oc?.storeSets?.locationCount || '{{count}} store selected').replace(
+                          '{{count}}',
+                          String(set.locationCount),
+                        )}
+                      </p>
+                    </div>
                   </div>
 
-                  {/* Right: edit + delete buttons */}
-                  <div className="flex items-center gap-3 flex-shrink-0 pt-0.5">
+                  {/* Right: edit + delete */}
+                  <div className="flex items-center gap-4 flex-shrink-0">
                     <button
                       onClick={() => handleOpenEdit(set)}
-                      className="flex items-center gap-1 text-xs text-blue-600 hover:text-blue-700 font-medium transition-colors"
+                      className="flex items-center gap-1.5 text-sm text-blue-600 hover:text-blue-700 font-medium transition-colors"
                     >
-                      <Pencil size={12} />
+                      <Pencil size={14} />
                       {oc?.storeSets?.editAction || 'Edit'}
                     </button>
                     <button
                       onClick={() => handleOpenDelete(set)}
-                      className="flex items-center gap-1 text-xs text-red-500 hover:text-red-600 font-medium transition-colors"
+                      className="flex items-center gap-1.5 text-sm text-red-500 hover:text-red-600 font-medium transition-colors"
                     >
-                      <Trash2 size={12} />
+                      <Trash2 size={14} />
                       {oc?.storeSets?.deleteAction || 'Delete'}
                     </button>
                   </div>

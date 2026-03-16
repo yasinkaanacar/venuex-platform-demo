@@ -2,9 +2,11 @@ import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { SiGoogle, SiMeta, SiTiktok } from "react-icons/si";
 import { Plus, Users2 } from "lucide-react";
+import { QUERY_KEYS } from "@/hooks/query-keys";
 import { Button } from "@/components/ui/button";
 import { useLocales, fNumber } from "@/lib/formatters";
 import { cn } from "@/lib/utils";
+import { TableSkeletonRows, TableErrorState } from "@/components/shared/table-states";
 import CreateLookalikeDialog from "./CreateLookalikeDialog";
 import type { LookalikeAudience, LookalikeStatus, AdPlatform } from "@/lib/types/segments";
 
@@ -25,8 +27,8 @@ export default function LookalikeAudienceSection() {
   const { t } = useLocales();
   const [dialogOpen, setDialogOpen] = useState(false);
 
-  const { data: lookalikes = [] } = useQuery<LookalikeAudience[]>({
-    queryKey: ["/api/segments/lookalikes"],
+  const { data: lookalikes = [], isLoading, isError, refetch } = useQuery<LookalikeAudience[]>({
+    queryKey: [QUERY_KEYS.SEGMENTS_LOOKALIKES],
   });
 
   return (
@@ -51,7 +53,42 @@ export default function LookalikeAudienceSection() {
         </Button>
       </div>
 
-      {lookalikes.length === 0 ? (
+      {isLoading ? (
+        <div className="overflow-x-auto">
+          <table className="w-full">
+            <thead>
+              <tr className="border-b border-gray-200 bg-gray-50">
+                <th className="text-left text-xs font-medium text-gray-500 uppercase tracking-wider px-4 py-3">
+                  {t("segments.lookalike.sourceSegment") || "Source Segment"}
+                </th>
+                <th className="text-center text-xs font-medium text-gray-500 uppercase tracking-wider px-4 py-3">
+                  {t("segments.lookalike.platform") || "Platform"}
+                </th>
+                <th className="text-center text-xs font-medium text-gray-500 uppercase tracking-wider px-4 py-3">
+                  {t("segments.lookalike.expansion") || "Expansion %"}
+                </th>
+                <th className="text-right text-xs font-medium text-gray-500 uppercase tracking-wider px-4 py-3">
+                  {t("segments.lookalike.estimatedSize") || "Est. Size"}
+                </th>
+                <th className="text-center text-xs font-medium text-gray-500 uppercase tracking-wider px-4 py-3">
+                  Status
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <TableSkeletonRows columns={5} rows={3} />
+            </tbody>
+          </table>
+        </div>
+      ) : isError ? (
+        <div className="overflow-x-auto">
+          <table className="w-full">
+            <tbody>
+              <TableErrorState colSpan={5} onRetry={refetch} />
+            </tbody>
+          </table>
+        </div>
+      ) : lookalikes.length === 0 ? (
         <div className="text-center py-8 px-4">
           <Users2 className="w-6 h-6 text-gray-400 mx-auto mb-2" />
           <p className="text-sm text-muted-foreground">

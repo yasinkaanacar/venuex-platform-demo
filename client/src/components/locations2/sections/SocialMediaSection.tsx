@@ -16,7 +16,7 @@ export default function SocialMediaSection({ form }: SocialMediaSectionProps) {
   const sm = oc?.socialMedia;
 
   return (
-    <div className="vx-card">
+    <div id="section-social-media" className="vx-card scroll-mt-6">
       <div className="vx-card-header">
         <h3 className="text-base font-semibold text-foreground">
           {oc?.sections?.socialMedia || 'Social Media'}

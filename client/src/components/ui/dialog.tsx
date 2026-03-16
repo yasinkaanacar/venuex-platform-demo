@@ -7,7 +7,6 @@ const StyledDialog = styled(MuiDialog)(({ theme }) => ({
   '& .MuiDialog-paper': {
     borderRadius: 8,
     padding: theme.spacing(2),
-    maxWidth: 512,
     width: '100%',
   },
 }))
@@ -37,17 +36,31 @@ interface DialogProps {
   open?: boolean
   onOpenChange?: (open: boolean) => void
   children: React.ReactNode
+  /** MUI Dialog maxWidth breakpoint or pixel number. Defaults to 512. */
+  maxWidth?: false | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | number
 }
 
-const Dialog = ({ open, onOpenChange, children }: DialogProps) => {
+const Dialog = ({ open, onOpenChange, maxWidth = 512, children }: DialogProps) => {
   const handleClose = () => {
     if (onOpenChange) {
       onOpenChange(false)
     }
   }
 
+  // MUI accepts breakpoint strings natively; for numbers we use sx override
+  const isBreakpoint = typeof maxWidth === 'string' || maxWidth === false
+
   return (
-    <StyledDialog open={open || false} onClose={handleClose}>
+    <StyledDialog
+      open={open || false}
+      onClose={handleClose}
+      maxWidth={isBreakpoint ? (maxWidth as any) : false}
+      sx={
+        !isBreakpoint
+          ? { '& .MuiDialog-paper': { maxWidth } }
+          : undefined
+      }
+    >
       {children}
     </StyledDialog>
   )

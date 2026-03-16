@@ -4,6 +4,7 @@ import { X } from 'lucide-react';
 import { useTranslation } from '@/contexts/LanguageContext';
 import { cn } from '@/lib/utils';
 import type { LocationFormData, WorkingHoursDay } from '@/lib/types/location-form';
+import { DAY_LABELS, ORDERED_DAYS } from '@/lib/types/location-form';
 
 interface WorkingHoursSectionProps {
   form: UseFormReturn<LocationFormData>;
@@ -12,7 +13,7 @@ interface WorkingHoursSectionProps {
 type TabType = 'normal' | 'special';
 
 export default function WorkingHoursSection({ form }: WorkingHoursSectionProps) {
-  const { t } = useTranslation();
+  const { t, language } = useTranslation();
   const oc = t.locationForms as any;
   const hr = oc?.hours;
 
@@ -22,9 +23,10 @@ export default function WorkingHoursSection({ form }: WorkingHoursSectionProps) 
   const locationStatus = form.watch('locationStatus');
   const workingHours = form.watch('workingHours');
   const isDisabled =
-    locationStatus === 'permanently_closed' || locationStatus === 'temporarily_closed';
+    locationStatus === 'closed_permanently' || locationStatus === 'closed_temporarily';
 
   const selectedDayData = workingHours[selectedDay];
+  const lang = language === 'tr' ? 'tr' : 'en';
 
   // Update a single field on the selected day
   const updateDayField = <K extends keyof WorkingHoursDay>(
@@ -76,7 +78,7 @@ export default function WorkingHoursSection({ form }: WorkingHoursSectionProps) 
   const labelClass = 'block text-sm font-medium text-gray-700 mb-1.5';
 
   return (
-    <div className="vx-card">
+    <div id="section-hours" className="vx-card scroll-mt-6">
       <div className="vx-card-header">
         <h3 className="text-base font-semibold text-foreground">
           {oc?.sections?.hours || 'Working Hours'}
@@ -91,8 +93,8 @@ export default function WorkingHoursSection({ form }: WorkingHoursSectionProps) 
             <div className="flex items-center gap-6">
               {[
                 { value: 'open', label: hr?.open || 'Open' },
-                { value: 'temporarily_closed', label: hr?.temporarilyClosed || 'Temporarily Closed' },
-                { value: 'permanently_closed', label: hr?.permanentlyClosed || 'Permanently Closed' },
+                { value: 'closed_temporarily', label: hr?.temporarilyClosed || 'Temporarily Closed' },
+                { value: 'closed_permanently', label: hr?.permanentlyClosed || 'Permanently Closed' },
               ].map((opt) => (
                 <label key={opt.value} className="flex items-center gap-2 cursor-pointer">
                   <input
@@ -141,19 +143,19 @@ export default function WorkingHoursSection({ form }: WorkingHoursSectionProps) 
                 <div className="flex flex-wrap gap-2 mb-5">
                   {workingHours.map((day, idx) => (
                     <button
-                      key={day.day}
+                      key={day.openDay}
                       type="button"
                       onClick={() => setSelectedDay(idx)}
                       className={cn(
                         'px-3 py-1.5 rounded-full text-sm font-medium border transition-colors',
                         selectedDay === idx
                           ? 'bg-blue-500 text-white border-blue-500'
-                          : day.isOpen
+                          : day.active
                             ? 'bg-blue-50 text-blue-700 border-blue-200'
                             : 'bg-gray-100 text-gray-500 border-gray-200'
                       )}
                     >
-                      {day.dayLabel}
+                      {DAY_LABELS[day.openDay]?.[lang] || day.openDay}
                     </button>
                   ))}
                 </div>
@@ -164,20 +166,20 @@ export default function WorkingHoursSection({ form }: WorkingHoursSectionProps) 
                     {/* Open/closed toggle for the day */}
                     <div className="flex items-center justify-between">
                       <span className="text-sm font-medium text-gray-700">
-                        {selectedDayData.dayLabel}
+                        {DAY_LABELS[selectedDayData.openDay]?.[lang] || selectedDayData.openDay}
                       </span>
                       <label className="flex items-center gap-2 cursor-pointer">
                         <input
                           type="checkbox"
-                          checked={selectedDayData.isOpen}
-                          onChange={(e) => updateDayField(selectedDay, 'isOpen', e.target.checked)}
+                          checked={selectedDayData.active}
+                          onChange={(e) => updateDayField(selectedDay, 'active', e.target.checked)}
                           className="w-4 h-4 text-blue-500 border-gray-300 rounded focus:ring-blue-500"
                         />
                         <span className="text-sm text-gray-700">{hr?.open || 'Open'}</span>
                       </label>
                     </div>
 
-                    {selectedDayData.isOpen && (
+                    {selectedDayData.active && (
                       <>
                         {/* Time inputs */}
                         <div className="grid grid-cols-2 gap-4">

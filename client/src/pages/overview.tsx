@@ -1,16 +1,14 @@
-import { useQuery } from '@tanstack/react-query';
+import { useBrandContext } from '@/hooks/useAuth';
+import { useApiOverview } from '@/hooks/api';
 
 import PerformanceChart from '@/components/offline-conversions/performance-chart';
 import TopPerformingOverview from '@/components/overview/TopPerformingOverview';
 import DataPipelineStatus from '@/components/overview/DataPipelineStatus';
-import { OverviewData } from '@/lib/types';
 import { Skeleton } from '@mui/material';
 
 export default function Overview() {
-  const { data: overviewData, isLoading, error } = useQuery<OverviewData>({
-    queryKey: ['/api/overview'],
-    refetchInterval: 60000, // Refetch every minute for real-time updates
-  });
+  const { brandId } = useBrandContext();
+  const { data: overviewData, isLoading, error } = useApiOverview({ brandId });
 
   if (error) {
     return (

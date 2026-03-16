@@ -10,6 +10,7 @@ import {
   ChevronRight,
   CheckCheck,
 } from 'lucide-react';
+import { PATHS } from '@/routes/paths';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Separator } from '@/components/ui/separator';
@@ -17,7 +18,7 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { cn } from '@/lib/utils';
 import { useLocales } from '@/lib/formatters';
 import { useNotifications, useMarkAllAsRead } from '@/hooks/useNotifications';
-import { formatRelativeTime, getTimeGroup } from '@/lib/mock-notifications-data';
+import { formatRelativeTime, getTimeGroup } from '@/lib/mock/notifications';
 import type { Notification, NotificationCategory } from '@/lib/types/notifications';
 
 // --- Category config (no label — label comes from i18n) ---
@@ -158,7 +159,7 @@ export function NotificationCenter() {
   const [open, setOpen] = useState(false);
   const [, navigate] = useLocation();
   const { t } = useLocales();
-  const { data: notifications = [], isLoading } = useNotifications();
+  const { data: notifications = [], isLoading, isError } = useNotifications();
   const markAllAsRead = useMarkAllAsRead();
   const markAllTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -291,6 +292,10 @@ export function NotificationCenter() {
                 <div className="flex items-center justify-center py-16 text-sm text-muted-foreground">
                   {t('common.loading')}
                 </div>
+              ) : isError ? (
+                <div className="flex items-center justify-center py-16 text-sm text-red-500">
+                  {t('notifications.loadError') || 'Failed to load notifications'}
+                </div>
               ) : (
                 <NotificationList notifications={notifications} onNavigate={handleNavigate} />
               )}
@@ -300,7 +305,13 @@ export function NotificationCenter() {
           {/* Unread */}
           <TabsContent value="unread" className="m-0">
             <ScrollArea className="h-[440px]">
-              <NotificationList notifications={unreadNotifs} onNavigate={handleNavigate} emptyIcon={CheckCheck} />
+              {isLoading ? (
+                <div className="flex items-center justify-center py-16 text-sm text-muted-foreground">
+                  {t('common.loading')}
+                </div>
+              ) : (
+                <NotificationList notifications={unreadNotifs} onNavigate={handleNavigate} emptyIcon={CheckCheck} />
+              )}
             </ScrollArea>
           </TabsContent>
 
@@ -323,7 +334,7 @@ export function NotificationCenter() {
             className="flex items-center gap-1 text-xs text-blue-600 hover:text-blue-700 font-medium transition-colors"
             onClick={() => {
               setOpen(false);
-              navigate('/settings');
+              navigate(PATHS.SETTINGS);
             }}
           >
             {t('notifications.settings')}

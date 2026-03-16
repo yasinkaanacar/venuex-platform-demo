@@ -1,54 +1,81 @@
 import { useState } from 'react';
-
-import SummaryTab from '@/components/catalog/SummaryTab';
-import ActivityLog from '@/components/catalog/ActivityLog';
 import { useTranslation } from '@/contexts/LanguageContext';
 
+import CatalogQuickStats from '@/components/catalog/CatalogQuickStats';
+import SourceHealthCards from '@/components/catalog/SourceHealthCards';
+import PlatformSyncCards from '@/components/catalog/PlatformSyncCards';
+import FeedHygieneIssues from '@/components/catalog/FeedHygieneIssues';
+import ProductsTable from '@/components/catalog/ProductsTable';
+import ActivityLog from '@/components/catalog/ActivityLog';
+
+import {
+  mockCatalogQuickStats,
+  mockIngestionSources,
+  mockPlatformSyncStatuses,
+  mockFeedHygieneIssues,
+  mockCatalogProducts,
+} from '@/lib/mock/catalog';
+
+type TabId = 'dashboard' | 'products' | 'activity';
+
 export default function Catalog() {
-  const [mainTab, setMainTab] = useState<'ozet' | 'aktivite'>('ozet');
+  const [activeTab, setActiveTab] = useState<TabId>('dashboard');
   const { t } = useTranslation();
+
+  const tabs: { id: TabId; label: string }[] = [
+    { id: 'dashboard', label: t.common?.summary || 'Dashboard' },
+    { id: 'products', label: t.catalog?.product || 'Products' },
+    { id: 'activity', label: t.common?.activity || 'Feed Activity' },
+  ];
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Tab Navigation - Sticky below header */}
+      {/* Quick Stats — always visible above tabs */}
+      <div className="px-6 pt-5 pb-3 bg-white border-b border-gray-100">
+        <CatalogQuickStats data={mockCatalogQuickStats} />
+      </div>
+
+      {/* Tab Navigation — sticky below header */}
       <div className="sticky top-16 z-40 bg-white border-b border-gray-200">
         <div className="px-6 py-3">
           <div className="inline-flex items-center gap-1 p-1 bg-gray-100 rounded-lg">
-            <button
-              onClick={() => setMainTab('ozet')}
-              className={`px-4 py-2 text-sm font-medium rounded-md transition-all duration-200 ${mainTab === 'ozet'
-                ? 'bg-white text-gray-900 shadow-sm'
-                : 'text-gray-500 hover:text-gray-700 hover:bg-white/50'
+            {tabs.map((tab) => (
+              <button
+                key={tab.id}
+                onClick={() => setActiveTab(tab.id)}
+                className={`px-4 py-2 text-sm font-medium rounded-md transition-all duration-200 ${
+                  activeTab === tab.id
+                    ? 'bg-white text-gray-900 shadow-sm'
+                    : 'text-gray-500 hover:text-gray-700 hover:bg-white/50'
                 }`}
-            >
-              {t.common.summary}
-            </button>
-            <button
-              onClick={() => setMainTab('aktivite')}
-              className={`px-4 py-2 text-sm font-medium rounded-md transition-all duration-200 ${mainTab === 'aktivite'
-                ? 'bg-white text-gray-900 shadow-sm'
-                : 'text-gray-500 hover:text-gray-700 hover:bg-white/50'
-                }`}
-            >
-              {t.common.activity}
-            </button>
+              >
+                {tab.label}
+              </button>
+            ))}
           </div>
         </div>
       </div>
 
-      {/* Main Content - Responsive padding */}
-      <div className="p-4 sm:p-6 bg-white min-h-[calc(100vh-8rem)]">
-        {/* Summary Tab */}
-        {mainTab === 'ozet' && (
-          <SummaryTab />
+      {/* Tab Content */}
+      <div className="p-4 sm:p-6 bg-white min-h-[calc(100vh-12rem)]">
+        {activeTab === 'dashboard' && (
+          <div className="vx-section-stack space-y-6">
+            <SourceHealthCards sources={mockIngestionSources} />
+            <PlatformSyncCards statuses={mockPlatformSyncStatuses} />
+            <FeedHygieneIssues issues={mockFeedHygieneIssues} />
+          </div>
         )}
 
-        {/* Activity Tab */}
-        {mainTab === 'aktivite' && (
+        {activeTab === 'products' && (
+          <div className="vx-section-stack">
+            <ProductsTable products={mockCatalogProducts} />
+          </div>
+        )}
+
+        {activeTab === 'activity' && (
           <ActivityLog />
         )}
       </div>
     </div>
   );
 }
-

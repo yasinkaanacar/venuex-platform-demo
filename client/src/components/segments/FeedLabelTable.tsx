@@ -1,12 +1,14 @@
 import { SiGoogle, SiMeta } from "react-icons/si";
 import { Pencil } from "lucide-react";
 import { useQueryClient } from "@tanstack/react-query";
+import { QUERY_KEYS } from "@/hooks/query-keys";
 import { useLocales, fNumber } from "@/lib/formatters";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
-import { segmentDataService } from "@/lib/mock-segments-data";
+import { segmentDataService } from "@/lib/mock/segments";
 import { showToast } from "@/lib/toast";
+import { TableEmptyState } from "@/components/shared/table-states";
 import type { FeedLabel, FeedLabelType } from "@/lib/types/segments";
 
 interface FeedLabelTableProps {
@@ -62,7 +64,7 @@ export default function FeedLabelTable({ labels, onEdit }: FeedLabelTableProps) 
   async function handleToggle(label: FeedLabel) {
     try {
       await segmentDataService.updateFeedLabel(label.id, { isActive: !label.isActive });
-      queryClient.invalidateQueries({ queryKey: ["/api/segments/feed-labels"] });
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.SEGMENTS_FEED_LABELS] });
       showToast({
         type: "success",
         title: !label.isActive
@@ -107,15 +109,10 @@ export default function FeedLabelTable({ labels, onEdit }: FeedLabelTableProps) 
           </thead>
           <tbody className="divide-y divide-gray-100">
             {labels.length === 0 && (
-              <tr>
-                <td
-                  colSpan={7}
-                  className="vx-td text-center text-gray-400 py-12"
-                >
-                  {t("segments.labels.table.empty") ||
-                    "No feed labels created yet."}
-                </td>
-              </tr>
+              <TableEmptyState
+                colSpan={7}
+                title={t("segments.labels.table.empty") || "No feed labels created yet."}
+              />
             )}
             {labels.map((label) => {
               const typeConfig = LABEL_TYPE_CONFIG[label.type];

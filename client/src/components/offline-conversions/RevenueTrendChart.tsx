@@ -11,7 +11,7 @@ import {
 } from 'recharts';
 import { TrendingUp, TrendingDown, Info } from 'lucide-react';
 import { useTranslation } from '@/contexts/LanguageContext';
-import type { Platform } from '@/lib/mock-campaign-data';
+import type { Platform } from '@/lib/mock/campaigns';
 import type { AggregatedTotals, PlatformAggregation } from '@/hooks/useFilteredCampaigns';
 
 interface Props {

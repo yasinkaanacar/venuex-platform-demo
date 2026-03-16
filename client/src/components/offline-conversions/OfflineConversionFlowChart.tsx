@@ -11,7 +11,7 @@ import {
     NormalizedAdMetricsResponse
 } from "./mock-setup";
 
-const PATHS = { setup: { welcome: '/setup' } };
+import { PATHS } from '@/routes/paths';
 
 interface OfflineConversionFlowChartProps {
     providerMetrics?: NormalizedAdMetricsResponse;
@@ -45,7 +45,7 @@ export default function OfflineConversionFlowChart({
                         type="button"
                         className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
                         onClick={() => {
-                            setLocation(PATHS.setup.welcome);
+                            setLocation(PATHS.SETUP);
                         }}
                     >
                         {t("onboarding.complete_setup")}

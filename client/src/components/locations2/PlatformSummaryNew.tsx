@@ -12,7 +12,7 @@ import {
 } from "lucide-react";
 import { SiGoogle, SiMeta, SiApple } from 'react-icons/si';
 import { useTranslation } from "@/contexts/LanguageContext";
-import { mockLocations, calculateDataHealth } from "@/lib/mock-locations";
+import { mockLocations, calculateDataHealth } from "@/lib/mock/locations-platform";
 
 // --- Types ---
 
@@ -334,8 +334,8 @@ export function PlatformSummaryNew() {
   const stats = useMemo(() => {
     const businessStatus = {
       open: mockLocations.filter(l => l.businessStatus === 'open').length,
-      temporarilyClosed: mockLocations.filter(l => l.businessStatus === 'temporarily_closed').length,
-      closed: mockLocations.filter(l => l.businessStatus === 'closed').length
+      temporarilyClosed: mockLocations.filter(l => l.businessStatus === 'closed_temporarily').length,
+      closed: mockLocations.filter(l => l.businessStatus === 'closed_permanently').length
     };
 
     const totalHealth = mockLocations.reduce((sum, loc) => sum + calculateDataHealth(loc), 0);

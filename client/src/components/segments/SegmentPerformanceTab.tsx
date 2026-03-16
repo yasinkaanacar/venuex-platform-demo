@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
+import { QUERY_KEYS } from "@/hooks/query-keys";
 import {
   LineChart,
   Line,
@@ -373,10 +374,10 @@ export default function SegmentPerformanceTab({
   const { t } = useLocales();
   const [period, setPeriod] = useState<PerformancePeriod>("30d");
 
-  const { data: detail, isLoading } = useQuery<SegmentPerformanceDetail | null>(
+  const { data: detail, isLoading, isError } = useQuery<SegmentPerformanceDetail | null>(
     {
       queryKey: [
-        `/api/segments/performance/detail/${segmentId}/${period}`,
+        `${QUERY_KEYS.SEGMENTS_PERFORMANCE_DETAIL}/${segmentId}/${period}`,
       ],
       enabled: !!segmentId,
     },
@@ -386,6 +387,15 @@ export default function SegmentPerformanceTab({
     return (
       <div className="flex items-center justify-center py-16">
         <div className="w-5 h-5 border-2 border-blue-500 border-t-transparent rounded-full animate-spin" />
+      </div>
+    );
+  }
+
+  if (isError) {
+    return (
+      <div className="flex flex-col items-center justify-center py-16 text-center">
+        <AlertCircle className="w-10 h-10 text-red-400 mb-3" />
+        <p className="text-sm font-medium text-red-500">Failed to load performance data</p>
       </div>
     );
   }

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Location, Channel } from "@/lib/types/locations";
+import { LocationDto, PlatformKey } from "@/lib/types/locations";
 import { HealthBadge, ChannelBadge } from "@/components/ui/badge-variants";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -9,24 +9,25 @@ import {
   DropdownMenuTrigger,
   DropdownMenuItem,
 } from "@/components/ui/dropdown-menu";
-import { 
-  Table, 
-  TableBody, 
-  TableCell, 
-  TableHead, 
-  TableHeader, 
-  TableRow 
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow
 } from "@/components/ui/table";
 import { Tooltip, TooltipProvider } from "@/components/ui/tooltip";
 import { MoreHorizontal, Eye, RotateCw, Edit, Power, ArrowUpDown } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
+import { computeDataHealth, formatHoursLabel, getLatestSync, platformToChannelInfo } from "@/lib/mock/locations";
 
 interface LocationTableProps {
-  locations: Location[];
+  locations: LocationDto[];
   selectedIds: Set<string>;
   onSelectionChange: (ids: Set<string>) => void;
   onRowClick: (id: string) => void;
-  onSyncNow: (id: string, channel?: Channel) => void;
+  onSyncNow: (id: string, channel?: PlatformKey) => void;
   onEdit: (id: string) => void;
   onToggleStatus: (id: string) => void;
 }
@@ -61,27 +62,30 @@ export function LocationTable({
 
     switch (sortField) {
       case 'name':
-        aVal = a.name;
-        bVal = b.name;
+        aVal = a.location_name;
+        bVal = b.location_name;
         break;
       case 'code':
-        aVal = a.code;
-        bVal = b.code;
+        aVal = a.store_code;
+        bVal = b.store_code;
         break;
       case 'city':
-        aVal = a.city;
-        bVal = b.city;
+        aVal = a.address.locality ?? '';
+        bVal = b.address.locality ?? '';
         break;
-      case 'dataHealth':
-        // Sort by health priority: HEALTHY < WARNING < ERROR
+      case 'dataHealth': {
         const healthOrder = { HEALTHY: 1, WARNING: 2, ERROR: 3 };
-        aVal = healthOrder[a.dataHealth];
-        bVal = healthOrder[b.dataHealth];
+        aVal = healthOrder[computeDataHealth(a)];
+        bVal = healthOrder[computeDataHealth(b)];
         break;
-      case 'lastSync':
-        aVal = a.lastSync ? new Date(a.lastSync).getTime() : 0;
-        bVal = b.lastSync ? new Date(b.lastSync).getTime() : 0;
+      }
+      case 'lastSync': {
+        const aSync = getLatestSync(a);
+        const bSync = getLatestSync(b);
+        aVal = aSync ? new Date(aSync).getTime() : 0;
+        bVal = bSync ? new Date(bSync).getTime() : 0;
         break;
+      }
     }
 
     if (aVal < bVal) return sortDirection === 'asc' ? -1 : 1;
@@ -91,7 +95,7 @@ export function LocationTable({
 
   const handleSelectAll = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked) {
-      onSelectionChange(new Set(locations.map(loc => loc.id)));
+      onSelectionChange(new Set(locations.map(loc => loc._id)));
     } else {
       onSelectionChange(new Set());
     }
@@ -158,138 +162,150 @@ export function LocationTable({
             </TableRow>
           </TableHeader>
           <TableBody>
-            {sortedLocations.map((location, index) => (
-              <TableRow 
-                key={location.id}
-                className={`cursor-pointer hover:bg-gray-50  ${
-                  index % 2 === 0 ? 'bg-white ' : 'bg-gray-50/50 '
-                }`}
-                onClick={() => onRowClick(location.id)}
-                data-testid={`table-row-${location.id}`}
-              >
-                <TableCell onClick={(e) => e.stopPropagation()}>
-                  <Checkbox
-                    checked={selectedIds.has(location.id)}
-                    onChange={(event) => handleSelectRow(location.id, event)}
-                    data-testid={`select-location-${location.id}`}
-                  />
-                </TableCell>
-                <TableCell className="font-medium">
-                  <div className="max-w-48 truncate" title={location.name}>
-                    {location.name}
-                  </div>
-                </TableCell>
-                <TableCell>
-                  <code className="text-sm bg-gray-100  px-2 py-1 rounded">
-                    {location.code}
-                  </code>
-                </TableCell>
-                <TableCell>
-                  <Tooltip 
-                    title={
-                      <div>
-                        <div>{location.addressLine}</div>
-                        <div>{location.city}, {location.district}</div>
-                      </div>
-                    }
-                  >
-                    <div className="max-w-48 truncate cursor-help">
-                      {location.addressLine}
+            {sortedLocations.map((location, index) => {
+              const health = computeDataHealth(location);
+              const hoursLabel = formatHoursLabel(location.regular_hours);
+              const lastSync = getLatestSync(location);
+              const platformEntries = location.platforms
+                ? Object.entries(location.platforms) as [PlatformKey, typeof location.platforms[PlatformKey]][]
+                : [];
+
+              return (
+                <TableRow
+                  key={location._id}
+                  className={`cursor-pointer hover:bg-gray-50  ${
+                    index % 2 === 0 ? 'bg-white ' : 'bg-gray-50/50 '
+                  }`}
+                  onClick={() => onRowClick(location._id)}
+                  data-testid={`table-row-${location._id}`}
+                >
+                  <TableCell onClick={(e) => e.stopPropagation()}>
+                    <Checkbox
+                      checked={selectedIds.has(location._id)}
+                      onChange={(event) => handleSelectRow(location._id, event)}
+                      data-testid={`select-location-${location._id}`}
+                    />
+                  </TableCell>
+                  <TableCell className="font-medium">
+                    <div className="max-w-48 truncate" title={location.location_name}>
+                      {location.location_name}
                     </div>
-                  </Tooltip>
-                </TableCell>
-                <TableCell>
-                  <div className="text-sm">{location.city}</div>
-                  <div className="text-xs text-gray-500">{location.district}</div>
-                </TableCell>
-                <TableCell>
-                  <Tooltip title={location.hoursLabel}>
-                    <div className="max-w-32 truncate cursor-help text-sm">
-                      {location.hoursLabel}
-                    </div>
-                  </Tooltip>
-                </TableCell>
-                <TableCell className="text-sm">{location.phone}</TableCell>
-                <TableCell>
-                  <Tooltip title="Data health status for this location">
-                    <div>
-                      <HealthBadge health={location.dataHealth} />
-                    </div>
-                  </Tooltip>
-                </TableCell>
-                <TableCell>
-                  <div className="flex flex-wrap gap-1">
-                    {Object.entries(location.channels).map(([channel, info]) => (
-                      <Tooltip 
-                        key={channel}
-                        title={
-                          <div>
-                            <div className="font-medium">{channel}</div>
-                            <div>Status: {info.status.replace('_', ' ')}</div>
-                            {info.lastSync && (
-                              <div>Last sync: {formatDistanceToNow(new Date(info.lastSync))} ago</div>
-                            )}
-                            {info.errorNote && (
-                              <div className="text-red-400 mt-1">{info.errorNote}</div>
-                            )}
-                          </div>
-                        }
-                      >
+                  </TableCell>
+                  <TableCell>
+                    <code className="text-sm bg-gray-100  px-2 py-1 rounded">
+                      {location.store_code}
+                    </code>
+                  </TableCell>
+                  <TableCell>
+                    <Tooltip
+                      title={
                         <div>
-                          <ChannelBadge
-                            channel={channel}
-                            status={info.status}
-                            className="text-xs"
-                          />
+                          <div>{location.address.fullAddress}</div>
                         </div>
-                      </Tooltip>
-                    ))}
-                  </div>
-                </TableCell>
-                <TableCell>
-                  {location.lastSync ? (
-                    <Tooltip title={new Date(location.lastSync).toLocaleString()}>
-                      <div className="text-sm cursor-help">
-                        {formatDistanceToNow(new Date(location.lastSync))} ago
+                      }
+                    >
+                      <div className="max-w-48 truncate cursor-help">
+                        {location.address.addressLines[0] ?? location.address.fullAddress}
                       </div>
                     </Tooltip>
-                  ) : (
-                    <span className="text-gray-400 text-sm">Never</span>
-                  )}
-                </TableCell>
-                <TableCell onClick={(e) => e.stopPropagation()}>
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button
-                        variant="ghost"
-                        className="vx-icon-button"
-                        data-testid={`actions-menu-${location.id}`}
-                      >
-                        <MoreHorizontal className="h-4 w-4" />
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                      <DropdownMenuItem onClick={() => onRowClick(location.id)}>
-                        <Eye className="mr-2 h-4 w-4" />
-                        View Details
-                      </DropdownMenuItem>
-                      <DropdownMenuItem onClick={() => onSyncNow(location.id)}>
-                        <RotateCw className="mr-2 h-4 w-4" />
-                        Sync Now
-                      </DropdownMenuItem>
-                      <DropdownMenuItem onClick={() => onEdit(location.id)}>
-                        <Edit className="mr-2 h-4 w-4" />
-                        Edit
-                      </DropdownMenuItem>
-                      <DropdownMenuItem onClick={() => onToggleStatus(location.id)}>
-                        <Power className="mr-2 h-4 w-4" />
-                        Toggle Status
-                      </DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                </TableCell>
-              </TableRow>
-            ))}
+                  </TableCell>
+                  <TableCell>
+                    <div className="text-sm">{location.address.locality ?? location.address.administrativeArea}</div>
+                    <div className="text-xs text-gray-500">{location.address.sublocality}</div>
+                  </TableCell>
+                  <TableCell>
+                    <Tooltip title={hoursLabel}>
+                      <div className="max-w-32 truncate cursor-help text-sm">
+                        {hoursLabel}
+                      </div>
+                    </Tooltip>
+                  </TableCell>
+                  <TableCell className="text-sm">{location.primary_phone}</TableCell>
+                  <TableCell>
+                    <Tooltip title="Data health status for this location">
+                      <div>
+                        <HealthBadge health={health} />
+                      </div>
+                    </Tooltip>
+                  </TableCell>
+                  <TableCell>
+                    <div className="flex flex-wrap gap-1">
+                      {platformEntries.map(([platform, syncData]) => {
+                        if (!syncData) return null;
+                        const channelInfo = platformToChannelInfo(syncData);
+                        return (
+                          <Tooltip
+                            key={platform}
+                            title={
+                              <div>
+                                <div className="font-medium">{platform}</div>
+                                <div>Status: {channelInfo.status.replace('_', ' ')}</div>
+                                {channelInfo.lastSync && (
+                                  <div>Last sync: {formatDistanceToNow(new Date(channelInfo.lastSync))} ago</div>
+                                )}
+                                {channelInfo.errorNote && (
+                                  <div className="text-red-400 mt-1">{channelInfo.errorNote}</div>
+                                )}
+                              </div>
+                            }
+                          >
+                            <div>
+                              <ChannelBadge
+                                channel={platform}
+                                status={channelInfo.status}
+                                className="text-xs"
+                              />
+                            </div>
+                          </Tooltip>
+                        );
+                      })}
+                    </div>
+                  </TableCell>
+                  <TableCell>
+                    {lastSync ? (
+                      <Tooltip title={new Date(lastSync).toLocaleString()}>
+                        <div className="text-sm cursor-help">
+                          {formatDistanceToNow(new Date(lastSync))} ago
+                        </div>
+                      </Tooltip>
+                    ) : (
+                      <span className="text-gray-400 text-sm">Never</span>
+                    )}
+                  </TableCell>
+                  <TableCell onClick={(e) => e.stopPropagation()}>
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <Button
+                          variant="ghost"
+                          className="vx-icon-button"
+                          data-testid={`actions-menu-${location._id}`}
+                        >
+                          <MoreHorizontal className="h-4 w-4" />
+                        </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent align="end">
+                        <DropdownMenuItem onClick={() => onRowClick(location._id)}>
+                          <Eye className="mr-2 h-4 w-4" />
+                          View Details
+                        </DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => onSyncNow(location._id)}>
+                          <RotateCw className="mr-2 h-4 w-4" />
+                          Sync Now
+                        </DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => onEdit(location._id)}>
+                          <Edit className="mr-2 h-4 w-4" />
+                          Edit
+                        </DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => onToggleStatus(location._id)}>
+                          <Power className="mr-2 h-4 w-4" />
+                          Toggle Status
+                        </DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                  </TableCell>
+                </TableRow>
+              );
+            })}
           </TableBody>
         </Table>
       </div>

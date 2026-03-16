@@ -5,7 +5,7 @@ import { X, AlertTriangle, MapPin, Globe, ChevronRight, ChevronLeft, CheckCircle
 import { Button } from "@/components/ui/button";
 import { showToast } from "@/lib/toast";
 import { useTranslation } from "@/contexts/LanguageContext";
-import type { LocationConflict, ConflictAction, ConflictType } from "@/lib/mock-locations";
+import type { LocationConflict, ConflictAction, ConflictType } from "@/lib/mock/locations-platform";
 
 interface Props {
     open: boolean;

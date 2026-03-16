@@ -1,5 +1,6 @@
 import { useState, useMemo, useRef, useEffect } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { QUERY_KEYS } from "@/hooks/query-keys";
 import {
   Search,
   Plus,
@@ -22,8 +23,9 @@ import {
   SelectItem,
 } from "@/components/ui/select";
 import { useLocales, fNumber, fCurrency } from "@/lib/formatters";
+import { TableEmptyState, TableErrorState, TableLoadingRow } from "@/components/shared/table-states";
 import { cn } from "@/lib/utils";
-import { segmentDataService } from "@/lib/mock-segments-data";
+import { segmentDataService } from "@/lib/mock/segments";
 import { showToast } from "@/lib/toast";
 import SegmentBuilderDialog from "./SegmentBuilderDialog";
 import SegmentDetailDrawer from "./SegmentDetailDrawer";
@@ -105,12 +107,12 @@ export default function SegmentListTable() {
   const queryClient = useQueryClient();
 
   // Data
-  const { data: segments = [], isLoading } = useQuery<Segment[]>({
-    queryKey: ["/api/segments"],
+  const { data: segments = [], isLoading, isError, refetch } = useQuery<Segment[]>({
+    queryKey: [QUERY_KEYS.SEGMENTS],
   });
 
   const { data: perfSummaries = [] } = useQuery<SegmentPerformanceSummary[]>({
-    queryKey: ["/api/segments/performance/summaries"],
+    queryKey: [QUERY_KEYS.SEGMENTS_PERFORMANCE_SUMMARIES],
   });
 
   const perfMap = useMemo(() => {
@@ -177,8 +179,8 @@ export default function SegmentListTable() {
   }
 
   function invalidateSegmentQueries() {
-    queryClient.invalidateQueries({ queryKey: ["/api/segments"] });
-    queryClient.invalidateQueries({ queryKey: ["/api/segments/summary"] });
+    queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.SEGMENTS] });
+    queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.SEGMENTS_SUMMARY] });
   }
 
   // Mock: Shows info toast. Full edit mode requires builder refactor (out of scope).
@@ -569,25 +571,19 @@ export default function SegmentListTable() {
             </thead>
             <tbody>
               {isLoading ? (
-                <tr>
-                  <td colSpan={11} className="px-4 py-12 text-center">
-                    <div className="flex items-center justify-center gap-2 text-muted-foreground">
-                      <div className="w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin" />
-                      {t("common.loading") || "Loading..."}
-                    </div>
-                  </td>
-                </tr>
+                <TableLoadingRow colSpan={11} text={t("common.loading") || "Loading..."} />
+              ) : isError ? (
+                <TableErrorState colSpan={11} onRetry={refetch} />
               ) : filtered.length === 0 ? (
-                <tr>
-                  <td colSpan={11} className="px-4 py-12 text-center">
-                    <p className="text-sm text-muted-foreground">
-                      {search || typeFilter !== "all" || statusFilter !== "all"
-                        ? (t("segments.list.noSegmentsFiltered") || "No segments match your filters.")
-                        : (t("segments.list.noSegments") ||
-                          "No segments created yet. Create your first audience segment to get started.")}
-                    </p>
-                  </td>
-                </tr>
+                <TableEmptyState
+                  colSpan={11}
+                  title={
+                    search || typeFilter !== "all" || statusFilter !== "all"
+                      ? (t("segments.list.noSegmentsFiltered") || "No segments match your filters.")
+                      : (t("segments.list.noSegments") ||
+                        "No segments created yet. Create your first audience segment to get started.")
+                  }
+                />
               ) : (
                 filtered.map((segment) => (
                   <tr

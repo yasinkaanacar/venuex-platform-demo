@@ -20,10 +20,11 @@ import {
   Loader2,
 } from "lucide-react";
 import { useQueryClient } from "@tanstack/react-query";
+import { QUERY_KEYS } from "@/hooks/query-keys";
 import { Button } from "@/components/ui/button";
 import { useLocales } from "@/lib/formatters";
 import { cn } from "@/lib/utils";
-import { segmentDataService } from "@/lib/mock-segments-data";
+import { segmentDataService } from "@/lib/mock/segments";
 import { showToast } from "@/lib/toast";
 import type {
   AutomationTrigger,
@@ -131,7 +132,7 @@ export default function SegmentAutomationDialog({
       });
 
       queryClient.invalidateQueries({
-        queryKey: [`/api/segments/automation/${segmentId}`],
+        queryKey: [`${QUERY_KEYS.SEGMENTS_AUTOMATION}/${segmentId}`],
       });
 
       showToast({

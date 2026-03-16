@@ -1,7 +1,5 @@
 import { useTranslation } from '@/contexts/LanguageContext';
 import ProfileInfoSection from '@/components/profile/ProfileInfoSection';
-import PasswordStubSection from '@/components/profile/PasswordStubSection';
-import TeamInviteSection from '@/components/profile/TeamInviteSection';
 import TeamTableSection from '@/components/profile/TeamTableSection';
 
 export default function Profile() {
@@ -18,8 +16,6 @@ export default function Profile() {
 
       <div className="space-y-6">
         <ProfileInfoSection />
-        <PasswordStubSection />
-        <TeamInviteSection />
         <TeamTableSection />
       </div>
     </div>

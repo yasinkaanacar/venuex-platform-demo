@@ -1,5 +1,6 @@
 import { useState, useReducer } from 'react';
 import { useLocation } from 'wouter';
+import { PATHS } from '@/routes/paths';
 import { 
   Zap,
   Info,
@@ -343,7 +344,7 @@ export default function OnboardingUnifiedPage() {
   };
 
   const handleGoToDashboard = () => {
-    setLocation('/');
+    setLocation(PATHS.HOME);
   };
 
   const addTeamMember = () => {

@@ -6,7 +6,7 @@ import {
 import { TrendingUp, TrendingDown, Star } from 'lucide-react';
 import { useTranslation } from '@/contexts/LanguageContext';
 import type { ReviewTrendDataPoint } from '@/lib/types/reviews';
-import { reviewDailyData, aggregateReviewTrend, getGranularity } from '@/lib/mock-reviews-data';
+import { reviewDailyData, aggregateReviewTrend, getGranularity } from '@/lib/mock/reviews';
 
 interface ReviewTrendChartProps {
   /** Number of days for the date range (e.g. 7, 14, 30, 90) */

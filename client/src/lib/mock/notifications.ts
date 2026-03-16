@@ -1,4 +1,4 @@
-import type { Notification, NotificationCategory, NotificationSeverity } from './types/notifications';
+import type { Notification, NotificationCategory, NotificationSeverity } from '../types/notifications';
 
 const delay = (ms: number) => new Promise((r) => setTimeout(r, ms));
 

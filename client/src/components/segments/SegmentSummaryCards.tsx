@@ -1,13 +1,12 @@
-import { useQuery } from "@tanstack/react-query";
 import { Users, Radio, Tag, TrendingUp } from "lucide-react";
 import { useLocales, fNumber, fPercent } from "@/lib/formatters";
-import type { SegmentSummaryKPIs } from "@/lib/types/segments";
+import { useBrandContext } from "@/hooks/useAuth";
+import { useApiSegmentsSummary } from "@/hooks/api";
 
 export default function SegmentSummaryCards() {
   const { t } = useLocales();
-  const { data: summary } = useQuery<SegmentSummaryKPIs>({
-    queryKey: ["/api/segments/summary"],
-  });
+  const { brandId } = useBrandContext();
+  const { data: summary } = useApiSegmentsSummary({ brandId });
 
   const cards = [
     {
@@ -53,7 +52,7 @@ export default function SegmentSummaryCards() {
         {cards.map((card) => (
           <div
             key={card.title}
-            className="vx-card shadow-none hover:shadow-sm transition-all duration-200"
+            className="vx-card overflow-hidden shadow-none hover:shadow-sm transition-all duration-200"
           >
             <div className="vx-card-body pt-3 vx-surface-muted">
               <div className="flex items-center space-x-2 mb-4">

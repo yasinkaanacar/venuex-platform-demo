@@ -1,8 +1,10 @@
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { ArrowRight } from "lucide-react";
+import { QUERY_KEYS } from "@/hooks/query-keys";
 import { useLocales, fNumber, fCurrency, fPercent } from "@/lib/formatters";
 import { cn } from "@/lib/utils";
+import { TableSkeletonRows, TableErrorState } from "@/components/shared/table-states";
 import type { SegmentOverlapResult } from "@/lib/types/segments";
 import ExcludeSegmentDialog from "./ExcludeSegmentDialog";
 import MergeSegmentsDialog from "./MergeSegmentsDialog";
@@ -23,8 +25,8 @@ export default function SegmentOverlapTable() {
   const [mergeOverlap, setMergeOverlap] =
     useState<SegmentOverlapResult | null>(null);
 
-  const { data: overlaps = [] } = useQuery<SegmentOverlapResult[]>({
-    queryKey: ["/api/segments/overlap"],
+  const { data: overlaps = [], isLoading, isError, refetch } = useQuery<SegmentOverlapResult[]>({
+    queryKey: [QUERY_KEYS.SEGMENTS_OVERLAP],
   });
 
   function handleAction(overlap: SegmentOverlapResult) {
@@ -35,7 +37,7 @@ export default function SegmentOverlapTable() {
     }
   }
 
-  if (overlaps.length === 0) return null;
+  if (!isLoading && !isError && overlaps.length === 0) return null;
 
   // Sort by wasted spend descending
   const sorted = [...overlaps].sort(
@@ -73,7 +75,11 @@ export default function SegmentOverlapTable() {
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-100">
-            {sorted.map((overlap, i) => {
+            {isLoading ? (
+              <TableSkeletonRows columns={4} rows={3} />
+            ) : isError ? (
+              <TableErrorState colSpan={4} onRetry={refetch} />
+            ) : sorted.map((overlap, i) => {
               const rec =
                 recConfig[overlap.recommendation] ?? recConfig.ok;
               return (

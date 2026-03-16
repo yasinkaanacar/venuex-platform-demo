@@ -1,11 +1,13 @@
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useQuery } from '@tanstack/react-query';
 import { useLocation } from 'wouter';
-import { ArrowLeft, Save } from 'lucide-react';
+import { ArrowLeft, Save, AlertCircle } from 'lucide-react';
 import { useTranslation } from '@/contexts/LanguageContext';
+import { useBrandContext } from '@/hooks/useAuth';
+import { useApiLocationForm } from '@/hooks/api';
 import { apiRequest } from '@/lib/queryClient';
 import { showToast } from '@/lib/toast';
+import { PATHS } from '@/routes/paths';
 import {
   locationFormSchema,
   type LocationFormData,
@@ -18,6 +20,8 @@ import SocialMediaSection from './sections/SocialMediaSection';
 import AddressMapSection from './sections/AddressMapSection';
 import WorkingHoursSection from './sections/WorkingHoursSection';
 import AmenitiesSection from './sections/AmenitiesSection';
+import PhotosSection from './sections/PhotosSection';
+import CoverPhotoSection from './sections/CoverPhotoSection';
 
 interface LocationEditFormProps {
   mode: 'add' | 'edit';
@@ -30,6 +34,7 @@ function mapRecordToFormData(record: LocationFormRecord): LocationFormData {
     name: record.name,
     storeCode: record.storeCode,
     description: record.description,
+    googleCategory: record.googleCategory,
     metaCategory: record.metaCategory,
     appleCategory: record.appleCategory,
     yandexCategory: record.yandexCategory,
@@ -45,14 +50,15 @@ function mapRecordToFormData(record: LocationFormRecord): LocationFormData {
     youtube: record.youtube,
     pinterest: record.pinterest,
     linkedin: record.linkedin,
-    latitude: record.latitude,
-    longitude: record.longitude,
-    country: record.country,
-    city: record.city,
-    address: record.address,
-    district: record.district,
-    neighborhood: record.neighborhood,
+    lat: record.lat,
+    lng: record.lng,
+    countryCode: record.countryCode,
+    administrativeArea: record.administrativeArea,
+    fullAddress: record.fullAddress,
+    locality: record.locality,
+    sublocality: record.sublocality,
     postalCode: record.postalCode,
+    addressLines: record.addressLines,
     locationStatus: record.locationStatus,
     workingHours: record.workingHours,
     amenities: record.amenities,
@@ -65,8 +71,10 @@ export default function LocationEditForm({ mode, locationId }: LocationEditFormP
   const [, setLocation] = useLocation();
 
   // Fetch existing record in edit mode
-  const { data: locationData, isLoading } = useQuery<LocationFormRecord | null>({
-    queryKey: ['/api/location-form', locationId],
+  const { brandId } = useBrandContext();
+  const { data: locationData, isLoading, isError } = useApiLocationForm({
+    brandId,
+    locationId,
     enabled: mode === 'edit' && !!locationId,
   });
 
@@ -92,7 +100,7 @@ export default function LocationEditForm({ mode, locationId }: LocationEditFormP
         await apiRequest('PATCH', `/api/location-form/${locationId}`, data);
       }
       showToast({ type: 'success', title: oc?.saveSuccess || 'Location saved successfully' });
-      setLocation('/locations');
+      setLocation(PATHS.LOCATIONS);
     } catch {
       showToast({ type: 'error', title: oc?.saveError || 'Failed to save location' });
     }
@@ -154,6 +162,29 @@ export default function LocationEditForm({ mode, locationId }: LocationEditFormP
     );
   }
 
+  // Error state for edit mode
+  if (mode === 'edit' && isError) {
+    return (
+      <div className="vx-section-stack">
+        <div className="flex flex-col items-center justify-center py-16 text-center">
+          <div className="w-12 h-12 rounded-full bg-red-100 flex items-center justify-center mb-4">
+            <AlertCircle className="w-6 h-6 text-red-500" />
+          </div>
+          <p className="text-sm font-medium text-red-500 mb-1">
+            {oc?.loadError || 'Failed to load location data'}
+          </p>
+          <button
+            type="button"
+            onClick={() => setLocation(PATHS.LOCATIONS)}
+            className="mt-3 text-xs text-blue-600 hover:text-blue-700 underline underline-offset-2"
+          >
+            {oc?.backToLocations || 'Back to Locations'}
+          </button>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="vx-section-stack">
       {/* Header bar: back arrow + title + save button */}
@@ -161,7 +192,7 @@ export default function LocationEditForm({ mode, locationId }: LocationEditFormP
         <div className="flex items-center gap-3">
           <button
             type="button"
-            onClick={() => setLocation('/locations')}
+            onClick={() => setLocation(PATHS.LOCATIONS)}
             className="p-1.5 rounded-lg hover:bg-gray-100 transition-colors"
           >
             <ArrowLeft className="w-5 h-5 text-gray-600" />
@@ -192,7 +223,12 @@ export default function LocationEditForm({ mode, locationId }: LocationEditFormP
           <AddressMapSection form={form} />
           <WorkingHoursSection form={form} />
           <AmenitiesSection form={form} />
-          {/* Photos sections — added in Plan 03-04 */}
+          {mode === 'edit' && (
+            <>
+              <PhotosSection />
+              <CoverPhotoSection />
+            </>
+          )}
         </div>
       </div>
     </div>

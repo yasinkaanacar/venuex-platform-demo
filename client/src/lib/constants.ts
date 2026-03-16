@@ -1,9 +1,3 @@
-// Constants file to replace @libs/constants
-
-export enum Provider {
-    Google = "google",
-    Meta = "meta",
-    TikTok = "tiktok",
-    Apple = "apple",
-    Yandex = "yandex"
-}
+// Re-export Provider from the canonical source in common.ts
+// All new code should import directly from '@/lib/types/common'.
+export { Provider } from '@/lib/types/common';

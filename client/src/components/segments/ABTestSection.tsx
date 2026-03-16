@@ -2,9 +2,11 @@ import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { SiGoogle, SiMeta, SiTiktok } from "react-icons/si";
 import { Plus, FlaskConical } from "lucide-react";
+import { QUERY_KEYS } from "@/hooks/query-keys";
 import { Button } from "@/components/ui/button";
 import { useLocales, fNumber } from "@/lib/formatters";
 import { cn } from "@/lib/utils";
+import { DataLoadingState, DataErrorState } from "@/components/shared/data-states";
 import CreateABTestDialog from "./CreateABTestDialog";
 import type { ABTestConfig, AdPlatform } from "@/lib/types/segments";
 
@@ -24,8 +26,8 @@ export default function ABTestSection() {
   const { t } = useLocales();
   const [dialogOpen, setDialogOpen] = useState(false);
 
-  const { data: tests = [] } = useQuery<ABTestConfig[]>({
-    queryKey: ["/api/segments/ab-tests"],
+  const { data: tests = [], isLoading, isError, refetch } = useQuery<ABTestConfig[]>({
+    queryKey: [QUERY_KEYS.SEGMENTS_AB_TESTS],
   });
 
   return (
@@ -50,7 +52,11 @@ export default function ABTestSection() {
         </Button>
       </div>
 
-      {tests.length === 0 ? (
+      {isLoading ? (
+        <DataLoadingState />
+      ) : isError ? (
+        <DataErrorState onRetry={refetch} />
+      ) : tests.length === 0 ? (
         <div className="text-center py-8 px-4">
           <FlaskConical className="w-6 h-6 text-gray-400 mx-auto mb-2" />
           <p className="text-sm text-muted-foreground">

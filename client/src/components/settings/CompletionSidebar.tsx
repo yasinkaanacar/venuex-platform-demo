@@ -1,18 +1,20 @@
 import { useQuery } from '@tanstack/react-query';
 import { CheckCircle2, Circle } from 'lucide-react';
+import { QUERY_KEYS } from '@/hooks/query-keys';
 import { useTranslation } from '@/contexts/LanguageContext';
+import { CardSkeleton } from '@/components/shared/data-states';
 import type { BusinessProfile, CompletionChecklistItem } from '@/lib/types/settings';
 
 export default function CompletionSidebar() {
   const { t } = useTranslation();
   const oc = t.settings as any;
 
-  const { data: profile } = useQuery<BusinessProfile>({
-    queryKey: ['/api/settings/profile'],
+  const { data: profile, isLoading: profileLoading } = useQuery<BusinessProfile>({
+    queryKey: [QUERY_KEYS.SETTINGS_PROFILE],
   });
 
-  const { data: checklist = [] } = useQuery<CompletionChecklistItem[]>({
-    queryKey: ['/api/settings/completion'],
+  const { data: checklist = [], isLoading: checklistLoading } = useQuery<CompletionChecklistItem[]>({
+    queryKey: [QUERY_KEYS.SETTINGS_COMPLETION],
   });
 
   // Compute completion percentage from checklist items
@@ -22,6 +24,18 @@ export default function CompletionSidebar() {
 
   const brandName = profile?.brandName ?? '...';
   const locationCount = profile?.locationCount ?? 0;
+
+  if (profileLoading || checklistLoading) {
+    return (
+      <div className="w-72 flex-shrink-0">
+        <div className="vx-card">
+          <div className="vx-card-body space-y-4">
+            <CardSkeleton lines={4} />
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="w-72 flex-shrink-0">

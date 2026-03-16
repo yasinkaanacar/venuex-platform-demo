@@ -1,14 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { ArrowRight, ArrowUp, ArrowDown, Minus } from 'lucide-react';
+import { Provider } from '@/lib/types/common';
+import type { Metric, NormalizedAdMetricsResponse } from '@/lib/types/common';
 
-// Enums and Constants
-export enum Provider {
-    Google = 'google',
-    Meta = 'meta',
-    TikTok = 'tiktok',
-    Apple = 'apple',
-    Yandex = 'yandex',
-}
+// Re-export so existing imports from mock-setup still work
+export { Provider };
+export type { Metric, NormalizedAdMetricsResponse };
 
 export const ALL_CAMPAIGNS_ID = 'all_campaigns';
 
@@ -20,27 +17,6 @@ export interface FilterState {
     campaigns: string[];
     campaignTypes: string[];
     isAllCampaignsSelected?: boolean;
-}
-
-export interface Metric {
-    value: number;
-    change: number;
-    past_value?: number;
-}
-
-export interface NormalizedAdMetricsResponse {
-    cost: Metric;
-    impressions: Metric;
-    clicks: Metric;
-    onlineOrders: Metric;
-    onlineRevenue: Metric;
-    onlineROI: Metric;
-    onlineAOV: Metric;
-    storeVisit: Metric;
-    offlineOrders: Metric;
-    offlineRevenue: Metric;
-    offlineROAS: Metric;
-    offlineAOV: Metric;
 }
 
 // Real translation hook integration
@@ -67,22 +43,9 @@ export function useLocales() {
     };
 }
 
-export function useBrandContext() {
-    return { brandId: 'mock-brand-id' };
-}
-
-export function useAuthContext() {
-    return { isSuperUser: false };
-}
-
-export function useSetup() {
-    return {
-        isGoogleAdsEnabled: true,
-        isMetaConversionsConnected: true,
-        isMetaAdAccountEnabled: true,
-        isTiktokEventsConnected: true,
-    };
-}
+// useBrandContext, useAuthContext, useSetup moved to @/hooks/useAuth
+// Re-export so existing imports from mock-setup still work.
+export { useBrandContext, useAuthContext, useSetup } from '@/hooks/useAuth';
 
 // Mock Data Hook
 export function useApiProviderMetrics(params: any) {

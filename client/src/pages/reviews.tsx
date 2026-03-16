@@ -13,7 +13,7 @@ import {
   reviewKpiData, ratingDistribution, themeAnalysisData,
   reviewLocationsData, recentReviews,
   locationContextData, productContextData,
-} from '@/lib/mock-reviews-data';
+} from '@/lib/mock/reviews';
 
 // Components
 import ReviewKpiCards from '@/components/reviews/ReviewKpiCards';
@@ -30,7 +30,7 @@ import AiSettingsDialog from '@/components/reviews/AiSettingsDialog';
 
 type ActiveTab = 'overview' | 'inbox' | 'locations';
 
-export default function ReviewsMVP() {
+export default function Reviews() {
   const { t } = useTranslation();
 
   // ── Tab State ───────────────────────────────────────────────────────────
@@ -117,7 +117,7 @@ export default function ReviewsMVP() {
   const [reviewSource, setReviewSource] = useState<ReviewSource>('locations');
   const [locationFilter, setLocationFilter] = useState('BOY007');
   const [productFilter, setProductFilter] = useState('all');
-  const [replyStatusFilter, setReplyStatusFilter] = useState<ReplyStatus>('unreplied');
+  const [replyStatusFilter, setReplyStatusFilter] = useState<ReplyStatus>('UNANSWERED');
   const [ratingFilter, setRatingFilter] = useState('all');
   const [sortOrder, setSortOrder] = useState<SortOrder>('latest');
   const [commentFilter, setCommentFilter] = useState<CommentFilter>('all');

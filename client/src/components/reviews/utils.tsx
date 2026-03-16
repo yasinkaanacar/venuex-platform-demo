@@ -1,22 +1,20 @@
-import { SiGoogle, SiFacebook, SiTripadvisor, SiYelp, SiApple, SiAmazon } from 'react-icons/si';
+import { SiGoogle, SiMeta, SiTiktok, SiApple } from 'react-icons/si';
 import { Globe, Star } from 'lucide-react';
 
+/**
+ * Returns a platform icon for the given ReviewSourceEnum value.
+ * Aligned with production ReviewSourceEnum: Google, Apple, Meta, Tiktok.
+ */
 export const getPlatformIcon = (platform: string) => {
   switch (platform.toLowerCase()) {
     case 'google':
       return <SiGoogle className="w-4 h-4 text-blue-600" />;
-    case 'facebook':
-      return <SiFacebook className="w-4 h-4 text-blue-700" />;
-    case 'website':
-      return <Globe className="w-4 h-4 text-gray-600" />;
-    case 'tripadvisor':
-      return <SiTripadvisor className="w-4 h-4 text-green-600" />;
-    case 'yelp':
-      return <SiYelp className="w-4 h-4 text-red-600" />;
+    case 'meta':
+      return <SiMeta className="w-4 h-4 text-blue-700" />;
     case 'apple':
       return <SiApple className="w-4 h-4 text-gray-800" />;
-    case 'amazon':
-      return <SiAmazon className="w-4 h-4 text-orange-500" />;
+    case 'tiktok':
+      return <SiTiktok className="w-4 h-4 text-gray-900" />;
     default:
       return <Globe className="w-4 h-4 text-gray-600" />;
   }

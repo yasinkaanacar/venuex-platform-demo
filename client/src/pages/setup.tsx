@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useLocation } from 'wouter';
+import { PATHS } from '@/routes/paths';
 import {
   Building2,
   MapPin,
@@ -316,7 +317,7 @@ export default function Setup() {
   const completedCount = activeStep;
 
   const handleGoToDashboard = () => {
-    navigate('/');
+    navigate(PATHS.HOME);
   };
 
   return (

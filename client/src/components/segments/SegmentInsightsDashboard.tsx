@@ -1,8 +1,10 @@
 import { useState, useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { AlertTriangle, DollarSign, Users, GitMerge } from "lucide-react";
+import { QUERY_KEYS } from "@/hooks/query-keys";
 import { useLocales, fNumber, fCurrency, fPercent } from "@/lib/formatters";
 import { cn } from "@/lib/utils";
+import { DataLoadingState, DataErrorState } from "@/components/shared/data-states";
 import SegmentOverlapVenn from "./SegmentOverlapVenn";
 import SegmentOverlapTable from "./SegmentOverlapTable";
 import ExcludeSegmentDialog from "./ExcludeSegmentDialog";
@@ -18,12 +20,12 @@ const recBadge: Record<string, { label: string; color: string; bg: string; icon:
 export default function SegmentInsightsDashboard() {
   const { t } = useLocales();
 
-  const { data: segments = [] } = useQuery<Segment[]>({
-    queryKey: ["/api/segments"],
+  const { data: segments = [], isLoading: segmentsLoading, isError: segmentsError, refetch: refetchSegments } = useQuery<Segment[]>({
+    queryKey: [QUERY_KEYS.SEGMENTS],
   });
 
-  const { data: allOverlaps = [] } = useQuery<SegmentOverlapResult[]>({
-    queryKey: ["/api/segments/overlap"],
+  const { data: allOverlaps = [], isLoading: overlapsLoading } = useQuery<SegmentOverlapResult[]>({
+    queryKey: [QUERY_KEYS.SEGMENTS_OVERLAP],
   });
 
   const activeSegments = useMemo(
@@ -49,6 +51,13 @@ export default function SegmentInsightsDashboard() {
       ) ?? null
     );
   }, [segmentAId, segmentBId, allOverlaps]);
+
+  if (segmentsLoading || overlapsLoading) {
+    return <div className="space-y-6 px-6 py-6"><DataLoadingState text="Loading insights..." /></div>;
+  }
+  if (segmentsError) {
+    return <div className="space-y-6 px-6 py-6"><DataErrorState onRetry={refetchSegments} /></div>;
+  }
 
   return (
     <div className="space-y-6 px-6 py-6">

@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import { useLocation } from 'wouter';
+import { createPostPath } from '@/routes/paths';
 import {
   Plus, Calendar, Globe, Smartphone, Eye, Trash2, Edit, ChevronDown,
   Store, MapPin, Map, ChevronLeft, ChevronRight, List, LayoutGrid,
@@ -108,8 +109,7 @@ export default function ManagePosts() {
   const handleCreatePost = (type: string, date?: Date) => {
     setDropdownOpen(false);
     setSelectedDay(null);
-    const dateParam = date ? `&date=${format(date, 'yyyy-MM-dd')}` : '';
-    setLocation(`/create-post?scope=${type}${dateParam}`);
+    setLocation(createPostPath(type, date ? format(date, 'yyyy-MM-dd') : undefined));
   };
 
   const handleDayClick = (day: Date) => {

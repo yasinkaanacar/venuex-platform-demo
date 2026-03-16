@@ -25,7 +25,7 @@ import type {
   PerformanceTimeseriesPoint,
   PerformancePeriod,
   AttributionConfidence,
-} from './types/segments';
+} from '../types/segments';
 
 // ------------------------------------------------------------------
 // Helper

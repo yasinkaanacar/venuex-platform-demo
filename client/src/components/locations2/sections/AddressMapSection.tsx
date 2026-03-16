@@ -42,15 +42,13 @@ export default function AddressMapSection({ form }: AddressMapSectionProps) {
   const oc = t.locationForms as any;
   const loc = oc?.location;
 
-  const latStr = form.watch('latitude');
-  const lngStr = form.watch('longitude');
-  const lat = parseFloat(latStr);
-  const lng = parseFloat(lngStr);
+  const lat = form.watch('lat');
+  const lng = form.watch('lng');
   const isValidCoords = !isNaN(lat) && !isNaN(lng) && lat !== 0 && lng !== 0;
   const center: [number, number] = isValidCoords ? [lat, lng] : [41.0082, 28.9784];
 
   return (
-    <div className="vx-card">
+    <div id="section-address" className="vx-card scroll-mt-6">
       <div className="vx-card-header">
         <h3 className="text-base font-semibold text-foreground">
           {oc?.sections?.address || 'Location'}
@@ -66,7 +64,9 @@ export default function AddressMapSection({ form }: AddressMapSectionProps) {
               <div>
                 <label className={labelClass}>{loc?.latitude || 'Latitude'}</label>
                 <input
-                  {...form.register('latitude')}
+                  {...form.register('lat', { valueAsNumber: true })}
+                  type="number"
+                  step="any"
                   className={inputClass}
                   placeholder="41.0082"
                 />
@@ -75,7 +75,9 @@ export default function AddressMapSection({ form }: AddressMapSectionProps) {
               <div>
                 <label className={labelClass}>{loc?.longitude || 'Longitude'}</label>
                 <input
-                  {...form.register('longitude')}
+                  {...form.register('lng', { valueAsNumber: true })}
+                  type="number"
+                  step="any"
                   className={inputClass}
                   placeholder="28.9784"
                 />
@@ -100,19 +102,19 @@ export default function AddressMapSection({ form }: AddressMapSectionProps) {
             </div>
           </div>
 
-          {/* Row 2: Country dropdown */}
+          {/* Row 2: Country code */}
           <div>
             <label className={labelClass}>{loc?.country || 'Country'}</label>
-            <select {...form.register('country')} className={inputClass}>
-              <option value="Türkiye">Türkiye</option>
-              <option value="Other">Other</option>
+            <select {...form.register('countryCode')} className={inputClass}>
+              <option value="TR">Türkiye</option>
+              <option value="OTHER">Other</option>
             </select>
           </div>
 
-          {/* Row 3: City dropdown */}
+          {/* Row 3: Administrative area (province/city) */}
           <div>
             <label className={labelClass}>{loc?.city || 'Province / City'}</label>
-            <select {...form.register('city')} className={inputClass}>
+            <select {...form.register('administrativeArea')} className={inputClass}>
               <option value="">— Select —</option>
               {TURKISH_CITIES.map((city) => (
                 <option key={city} value={city}>
@@ -122,22 +124,22 @@ export default function AddressMapSection({ form }: AddressMapSectionProps) {
             </select>
           </div>
 
-          {/* Row 4: Address full width */}
+          {/* Row 4: Full address */}
           <div>
             <label className={labelClass}>{loc?.address || 'Address'}</label>
             <input
-              {...form.register('address')}
+              {...form.register('fullAddress')}
               className={inputClass}
               placeholder="Abdi İpekçi Cad. No: 20"
             />
           </div>
 
-          {/* Row 5: District + Neighborhood side by side */}
+          {/* Row 5: Locality (district) + Sublocality (neighborhood) */}
           <div className="grid grid-cols-2 gap-4">
             <div>
               <label className={labelClass}>{loc?.district || 'District'}</label>
               <input
-                {...form.register('district')}
+                {...form.register('locality')}
                 className={inputClass}
                 placeholder="Şişli"
               />
@@ -145,7 +147,7 @@ export default function AddressMapSection({ form }: AddressMapSectionProps) {
             <div>
               <label className={labelClass}>{loc?.neighborhood || 'Neighborhood'}</label>
               <input
-                {...form.register('neighborhood')}
+                {...form.register('sublocality')}
                 className={inputClass}
                 placeholder="Nişantaşı"
               />

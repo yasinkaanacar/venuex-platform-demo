@@ -1,7 +1,9 @@
 import { useState, useMemo } from 'react';
-import { Star, ChevronUp, ChevronDown } from 'lucide-react';
+import { Star, ChevronUp, ChevronDown, Search } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
+import { Input } from '@/components/ui/input';
 import { useTranslation } from '@/contexts/LanguageContext';
+import { TableEmptyState } from '@/components/shared/table-states';
 import type { ReviewLocationData, SortDirection } from '@/lib/types/reviews';
 
 interface ReviewLocationsTableProps {
@@ -11,6 +13,7 @@ interface ReviewLocationsTableProps {
 
 export default function ReviewLocationsTable({ locations, onLocationClick }: ReviewLocationsTableProps) {
   const { t } = useTranslation();
+  const [searchQuery, setSearchQuery] = useState('');
   const [sortField, setSortField] = useState<string | null>(null);
   const [sortDirection, setSortDirection] = useState<SortDirection>('asc');
 
@@ -23,9 +26,20 @@ export default function ReviewLocationsTable({ locations, onLocationClick }: Rev
     }
   };
 
+  const filteredLocations = useMemo(() => {
+    if (!searchQuery.trim()) return locations;
+    const q = searchQuery.toLowerCase();
+    return locations.filter((loc) =>
+      loc.code.toLowerCase().includes(q) ||
+      loc.name.toLowerCase().includes(q) ||
+      loc.city.toLowerCase().includes(q) ||
+      loc.sublocation.toLowerCase().includes(q)
+    );
+  }, [locations, searchQuery]);
+
   const sortedLocations = useMemo(() => {
-    if (!sortField) return locations;
-    return [...locations].sort((a, b) => {
+    if (!sortField) return filteredLocations;
+    return [...filteredLocations].sort((a, b) => {
       const aValue = (a as any)[sortField];
       const bValue = (b as any)[sortField];
       if (typeof aValue === 'string' && typeof bValue === 'string') {
@@ -35,7 +49,7 @@ export default function ReviewLocationsTable({ locations, onLocationClick }: Rev
       const cmp = aValue < bValue ? -1 : aValue > bValue ? 1 : 0;
       return sortDirection === 'asc' ? cmp : -cmp;
     });
-  }, [locations, sortField, sortDirection]);
+  }, [filteredLocations, sortField, sortDirection]);
 
   const SortIcon = ({ field }: { field: string }) => {
     if (sortField !== field) return null;
@@ -53,6 +67,18 @@ export default function ReviewLocationsTable({ locations, onLocationClick }: Rev
 
   return (
     <div className="vx-card">
+      <div className="px-4 py-3 border-b border-gray-100">
+        <div className="relative w-72">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+          <Input
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            placeholder={t.reviews?.locations?.searchPlaceholder || 'Search locations...'}
+            aria-label={t.reviews?.locations?.searchPlaceholder || 'Search locations'}
+            className="pl-10"
+          />
+        </div>
+      </div>
       <div className="p-0">
         <div className="overflow-x-auto">
           <table className="w-full">
@@ -74,6 +100,13 @@ export default function ReviewLocationsTable({ locations, onLocationClick }: Rev
               </tr>
             </thead>
             <tbody>
+              {sortedLocations.length === 0 && searchQuery.trim() && (
+                <TableEmptyState
+                  colSpan={columns.length + 1}
+                  title={t.reviews?.locations?.noResults || 'No locations match your search.'}
+                  className="py-8"
+                />
+              )}
               {sortedLocations.map((location) => (
                 <tr
                   key={location.code}
@@ -102,12 +135,14 @@ export default function ReviewLocationsTable({ locations, onLocationClick }: Rev
                   <td className="vx-td">
                     <Badge
                       variant={
-                        location.sentiment === 'Positive' ? 'default' :
-                        location.sentiment === 'Negative' ? 'destructive' : 'secondary'
+                        location.sentiment === 'positive_sentiment' ? 'default' :
+                        location.sentiment === 'negative_sentiment' ? 'destructive' : 'secondary'
                       }
                       className="text-xs"
                     >
-                      {location.sentiment}
+                      {location.sentiment === 'positive_sentiment' ? 'Positive' :
+                       location.sentiment === 'negative_sentiment' ? 'Negative' :
+                       location.sentiment === 'neutral_sentiment' ? 'Neutral' : location.sentiment}
                     </Badge>
                   </td>
                   <td className="vx-td">

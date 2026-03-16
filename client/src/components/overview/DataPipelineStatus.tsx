@@ -31,12 +31,14 @@ interface Pipeline {
     platforms: PlatformSync[];
 }
 
+import type { Metric } from '@/lib/types/common';
+import { fNumber, fPercent } from '@/lib/formatters';
+
 interface KpiMetric {
     id: string;
     title: string;
-    value: string;
-    trend: string;
-    previousValue: string;
+    metric: Metric;
+    format: 'multiplier' | 'number' | 'percent' | 'rating';
     icon: React.ReactNode;
     iconBg: string;
     platforms: string[];
@@ -92,13 +94,39 @@ const mockPipelines: Pipeline[] = [
     }
 ];
 
+const formatKpiValue = (metric: Metric, format: KpiMetric['format']): string => {
+    switch (format) {
+        case 'multiplier':
+            return `${metric.value.toFixed(1)}x`;
+        case 'number':
+            return fNumber(metric.value);
+        case 'percent':
+            return fPercent(metric.value);
+        case 'rating':
+            return metric.value.toFixed(1);
+    }
+};
+
+const formatKpiPastValue = (metric: Metric, format: KpiMetric['format']): string => {
+    const pv = metric.past_value ?? 0;
+    switch (format) {
+        case 'multiplier':
+            return `${pv.toFixed(1)}x`;
+        case 'number':
+            return fNumber(pv);
+        case 'percent':
+            return fPercent(pv);
+        case 'rating':
+            return pv.toFixed(1);
+    }
+};
+
 const kpiMetrics: KpiMetric[] = [
     {
         id: 'offline-roas',
         title: 'Omni-ROAS',
-        value: '4.2x',
-        trend: '+12.5%',
-        previousValue: '3.7x',
+        metric: { value: 4.2, change: 12.5, past_value: 3.7 },
+        format: 'multiplier',
         icon: <DollarSign className="w-4 h-4 text-green-600" />,
         iconBg: 'bg-green-100',
         platforms: ['Google', 'Meta', 'TikTok']
@@ -106,9 +134,8 @@ const kpiMetrics: KpiMetric[] = [
     {
         id: 'location-interactions',
         title: 'Location Interactions',
-        value: '23,847',
-        trend: '+10.7%',
-        previousValue: '20,634',
+        metric: { value: 23847, change: 10.7, past_value: 20634 },
+        format: 'number',
         icon: <MapPin className="w-4 h-4 text-red-600" />,
         iconBg: 'bg-red-100',
         platforms: ['Google', 'Apple']
@@ -116,9 +143,8 @@ const kpiMetrics: KpiMetric[] = [
     {
         id: 'local-inventory',
         title: 'Local Product Impressions',
-        value: '142,847',
-        trend: '+18.3%',
-        previousValue: '120,654',
+        metric: { value: 142847, change: 18.3, past_value: 120654 },
+        format: 'number',
         icon: <Eye className="w-4 h-4 text-blue-600" />,
         iconBg: 'bg-blue-100',
         platforms: ['Google', 'Meta']
@@ -126,9 +152,8 @@ const kpiMetrics: KpiMetric[] = [
     {
         id: 'average-rating',
         title: 'Average Rating',
-        value: '4.3',
-        trend: '+0.2',
-        previousValue: '4.1',
+        metric: { value: 4.3, change: 4.9, past_value: 4.1 },
+        format: 'rating',
         icon: <Star className="w-4 h-4 text-amber-500" />,
         iconBg: 'bg-amber-100',
         platforms: ['Google']
@@ -359,21 +384,21 @@ export default function DataPipelineStatus() {
                             {/* Value and Trend */}
                             <div className="flex items-center justify-between">
                                 <span className="text-xl font-bold text-gray-900">
-                                    {kpi.value}
+                                    {formatKpiValue(kpi.metric, kpi.format)}
                                     {kpi.id === 'average-rating' && <span className="text-amber-500 ml-1">⭐</span>}
                                 </span>
                                 <div className="flex items-center gap-1">
-                                    {kpi.trend.startsWith('+') ? (
+                                    {kpi.metric.change >= 0 ? (
                                         <TrendingUp className="w-3.5 h-3.5 text-emerald-500" />
                                     ) : (
                                         <TrendingDown className="w-3.5 h-3.5 text-red-500" />
                                     )}
-                                    <span className={`text-xs font-medium ${kpi.trend.startsWith('+') ? 'text-emerald-600' : 'text-red-600'}`}>
-                                        {kpi.trend}
+                                    <span className={`text-xs font-medium ${kpi.metric.change >= 0 ? 'text-emerald-600' : 'text-red-600'}`}>
+                                        {kpi.metric.change >= 0 ? '+' : ''}{fPercent(Math.abs(kpi.metric.change))}
                                     </span>
                                 </div>
                             </div>
-                            <div className="text-xs text-gray-400 mt-1">vs {kpi.previousValue}</div>
+                            <div className="text-xs text-gray-400 mt-1">vs {formatKpiPastValue(kpi.metric, kpi.format)}</div>
                         </div>
                     ))}
                 </div>

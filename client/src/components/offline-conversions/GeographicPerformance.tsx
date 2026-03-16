@@ -2,9 +2,10 @@
 import { useState } from "react";
 import GeographicMap from "./GeographicMap";
 import GeographicDataTable from "./GeographicDataTable";
-import { FilterState } from "@/lib/types";
+import { FilterState } from "@/lib/types/common";
 import { useApiInsightsByGeographySummary } from "@/hooks/useDashboard";
-import { useBrandContext, useLocales } from "@/lib/formatters";
+import { useLocales } from "@/lib/formatters";
+import { useBrandContext } from "@/hooks/useAuth";
 import { formatDate } from "@/lib/formatDate";
 import { Provider } from "@/lib/constants";
 import { Info } from "lucide-react";

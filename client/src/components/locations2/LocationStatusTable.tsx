@@ -1,6 +1,7 @@
 import { useState, useMemo, useEffect } from 'react';
 import { useTranslation } from '@/contexts/LanguageContext';
 import { Link } from 'wouter';
+import { PATHS } from '@/routes/paths';
 import { SiGoogle, SiMeta, SiApple } from 'react-icons/si';
 import { Clock, AlertTriangle, AlertCircle, CheckCircle2, Phone, Mail, MapPin, Image, ShieldCheck, ShieldAlert, XCircle, PauseCircle, ChevronRight, MoreHorizontal, RefreshCw, Link2, Unlink, ExternalLink, Download, X, Save, Upload, Layers, Search, Filter, Building2, Ban, Unplug, Clock3, Trash2, XOctagon, Plus, Pencil, Info, Edit } from 'lucide-react';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
@@ -13,6 +14,7 @@ import { Label } from '@/components/ui/label';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription } from '@/components/ui/sheet';
 import { Select, SelectContent, SelectItem } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
+import { TableEmptyState } from '@/components/shared/table-states';
 import {
   mockLocations,
   LocationData,
@@ -27,7 +29,7 @@ import {
   PlatformKey,
   calculateDataHealth,
   allFieldsInfo
-} from '@/lib/mock-locations';
+} from '@/lib/mock/locations-platform';
 
 
 
@@ -228,14 +230,14 @@ const useStatusConfig = () => {
           bgColor: 'bg-emerald-50',
           dotColor: 'bg-emerald-500'
         };
-      case 'closed':
+      case 'closed_permanently':
         return {
           label: t.businessStatus.closed,
           color: 'text-slate-500',
           bgColor: 'bg-slate-100',
           dotColor: 'bg-slate-400'
         };
-      case 'temporarily_closed':
+      case 'closed_temporarily':
         return {
           label: t.businessStatus.temporarilyClosed,
           color: 'text-amber-600',
@@ -378,8 +380,8 @@ function FilterToolbar({
     if (filters.businessStatus === 'all') return t.common.status;
     const labels: Record<string, string> = {
       open: t.businessStatus.open,
-      closed: t.businessStatus.closed,
-      temporarily_closed: t.businessStatus.temporarilyClosed
+      closed_permanently: t.businessStatus.closed,
+      closed_temporarily: t.businessStatus.temporarilyClosed
     };
     return labels[filters.businessStatus] || t.common.status;
   };
@@ -423,8 +425,8 @@ function FilterToolbar({
             <SelectContent>
               <SelectItem value="all">{t.common.allStatuses}</SelectItem>
               <SelectItem value="open">{t.businessStatus.open}</SelectItem>
-              <SelectItem value="closed">{t.businessStatus.closed}</SelectItem>
-              <SelectItem value="temporarily_closed">{t.businessStatus.temporarilyClosed}</SelectItem>
+              <SelectItem value="closed_permanently">{t.businessStatus.closed}</SelectItem>
+              <SelectItem value="closed_temporarily">{t.businessStatus.temporarilyClosed}</SelectItem>
             </SelectContent>
           </Select>
 
@@ -753,7 +755,7 @@ function InlineFieldEditorPopover({
           </div>
 
           <div className="pt-2 border-t border-gray-100">
-            <Link href="/locations">
+            <Link href={PATHS.LOCATIONS}>
               <Button variant="ghost" size="sm" className="vx-button w-full gap-1.5 text-xs text-gray-600">
                 <Layers className="w-3.5 h-3.5" />
                 {t.common.bulkOperations}
@@ -1605,33 +1607,31 @@ export default function LocationStatusTable({ onAddNewLocation, onUploadLocation
             );
           })}
           {filteredLocations.length === 0 && (
-            <tr>
-              <td colSpan={8} className="px-4 py-12 text-center">
-                <div className="text-gray-500">
-                  {filters.showProblemsOnly && filters.search === '' && filters.platform === 'all' && filters.storeSet === 'all' ? (
-                    <>
-                      <CheckCircle2 className="w-10 h-10 mx-auto mb-3 text-emerald-500" />
-                      <p className="text-base font-medium text-emerald-600 mb-1">{t.locations.allLocationsOk}</p>
-                      <p className="text-sm text-gray-400">{t.locations.noActionsRequired}</p>
-                    </>
-                  ) : (
-                    <>
-                      <Search className="w-8 h-8 mx-auto mb-2 opacity-50" />
-                      <p className="text-sm mb-3">{t.locations.noLocationsFound}</p>
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => setFilters(initialFilters)}
-                        className="gap-1.5"
-                      >
-                        <X className="w-3.5 h-3.5" />
-                        {t.locations.clearFilters}
-                      </Button>
-                    </>
-                  )}
-                </div>
-              </td>
-            </tr>
+            filters.showProblemsOnly && filters.search === '' && filters.platform === 'all' && filters.storeSet === 'all' ? (
+              <TableEmptyState
+                colSpan={8}
+                icon={<CheckCircle2 className="w-10 h-10 text-emerald-500" />}
+                title={t.locations.allLocationsOk}
+                description={t.locations.noActionsRequired}
+              />
+            ) : (
+              <TableEmptyState
+                colSpan={8}
+                icon={<Search className="w-8 h-8 opacity-50" />}
+                title={t.locations.noLocationsFound}
+                action={
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => setFilters(initialFilters)}
+                    className="gap-1.5"
+                  >
+                    <X className="w-3.5 h-3.5" />
+                    {t.locations.clearFilters}
+                  </Button>
+                }
+              />
+            )
           )}
         </tbody>
       </table>
@@ -1681,7 +1681,7 @@ function PlatformCell({
   const { getStatusConfig } = useStatusConfig();
 
   // If business is closed, show passive status for all platforms
-  const isBusinessClosed = location.businessStatus === 'closed' || location.businessStatus === 'temporarily_closed';
+  const isBusinessClosed = location.businessStatus === 'closed_permanently' || location.businessStatus === 'closed_temporarily';
   const effectiveStatus = isBusinessClosed ? 'not_connected' : platform.status;
   const statusConfig = getStatusConfig(effectiveStatus);
   const isPassive = effectiveStatus === 'not_connected' || effectiveStatus === 'closed';
@@ -1690,7 +1690,7 @@ function PlatformCell({
   if (isSetupRequired) {
     return (
       <div className="flex flex-col items-center justify-center h-20 text-center">
-        <Link href="/setup3B#locations">
+        <Link href={`${PATHS.SETUP}#locations`}>
           <span className="inline-flex items-center gap-1.5 px-3 py-1.5 text-[11px] font-medium rounded-md bg-blue-50 text-blue-600 hover:bg-blue-100 transition-colors border border-blue-200 cursor-pointer">
             <Plus className="w-3.5 h-3.5" />
             {t.common.setupRequired}

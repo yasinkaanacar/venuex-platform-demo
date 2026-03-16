@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 import { Info, Crown } from 'lucide-react';
 import { useTranslation } from '@/contexts/LanguageContext';
 import { fCurrency, fPercent } from '@/lib/formatters';
-import type { Platform } from '@/lib/mock-campaign-data';
+import type { Platform } from '@/lib/mock/campaigns';
 import type { PlatformAggregation } from '@/hooks/useFilteredCampaigns';
 
 interface Props {

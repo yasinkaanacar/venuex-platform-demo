@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { TrendingUp, Target, DollarSign } from "lucide-react";
+import { QUERY_KEYS } from "@/hooks/query-keys";
 import { useLocales, fCurrency, fNumber, fPercent } from "@/lib/formatters";
 import { cn } from "@/lib/utils";
 import type { ReachProjection, AdPlatform } from "@/lib/types/segments";
@@ -21,8 +22,8 @@ export default function SegmentReachProjection({
 }: SegmentReachProjectionProps) {
   const { t } = useLocales();
 
-  const { data: projection, isLoading } = useQuery<ReachProjection>({
-    queryKey: [`/api/segments/reach-projection/${segmentId}/${platform}`],
+  const { data: projection, isLoading, isError } = useQuery<ReachProjection>({
+    queryKey: [`${QUERY_KEYS.SEGMENTS_REACH_PROJECTION}/${segmentId}/${platform}`],
     enabled: !!segmentId && !!platform,
   });
 
@@ -31,6 +32,14 @@ export default function SegmentReachProjection({
       <div className="mt-1.5 px-3 py-2 bg-gray-50 rounded-lg animate-pulse">
         <div className="h-3 w-24 bg-gray-200 rounded" />
         <div className="h-3 w-32 bg-gray-200 rounded mt-1.5" />
+      </div>
+    );
+  }
+
+  if (isError) {
+    return (
+      <div className="mt-1.5 px-3 py-2 bg-red-50 rounded-lg">
+        <p className="text-xs text-red-500">Failed to load projection</p>
       </div>
     );
   }

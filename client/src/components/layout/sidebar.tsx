@@ -21,6 +21,7 @@ import {
   UserPlus
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { PATHS } from '@/routes/paths';
 import venueXLogo from '@assets/vx-logo-1000x1000_1756566252817.png';
 import venueXLogoSmall from '@assets/vx-logo-1000x1000_1764141281095.png';
 import venueXFavicon from '@assets/favicon_1765178591266.png';
@@ -46,45 +47,44 @@ export default function Sidebar({ collapsed, onToggle }: SidebarProps) {
   const { t } = useLocales();
 
   const ungroupedItems = useMemo(() => [
-    { name: t('sidebar.menu.dashboard') || 'Dashboard', href: '/', icon: BarChart3 },
-    { name: t('sidebar.menu.enhance') || 'Enhance', href: '/ai-recommendations', icon: Brain }
+    { name: t('sidebar.menu.dashboard') || 'Dashboard', href: PATHS.HOME, icon: BarChart3 },
+    { name: t('sidebar.menu.enhance') || 'Enhance', href: PATHS.AI_RECOMMENDATIONS, icon: Brain }
   ], [t]);
 
   const navigationGroups = useMemo(() => [
     {
       title: t('sidebar.categories.location') || "LOCATION",
       items: [
-        { name: t('sidebar.menu.locations') || 'Locations', href: '/locations', icon: MapPin },
-        { name: t('sidebar.menu.reviews') || 'Reviews', href: '/reviews', icon: MessageSquare }
+        { name: t('sidebar.menu.locations') || 'Locations', href: PATHS.LOCATIONS, icon: MapPin },
+        { name: t('sidebar.menu.reviews') || 'Reviews', href: PATHS.REVIEWS, icon: MessageSquare }
       ]
     },
     {
       title: t('sidebar.categories.sales') || "SALES",
       items: [
-        { name: t('sidebar.menu.localInventory') || 'Local Inventory', href: '/catalog', icon: Package },
-        { name: t('sidebar.menu.offlineConversions') || 'Offline Conversions', href: '/offline-conversions', icon: TrendingUp },
-        { name: t('sidebar.menu.segments') || 'Segments', href: '/segmentsMVP', icon: Target }
+        { name: t('sidebar.menu.localInventory') || 'Local Inventory', href: PATHS.CATALOG, icon: Package },
+        { name: t('sidebar.menu.offlineConversions') || 'Offline Conversions', href: PATHS.OFFLINE_CONVERSIONS, icon: TrendingUp },
+        { name: t('sidebar.menu.segments') || 'Segments', href: PATHS.SEGMENTS, icon: Target }
       ]
     },
     {
       title: t('sidebar.categories.ai') || "AI",
       items: [
-        { name: t('sidebar.menu.venuexAI') || 'VenueX AI', href: '/venuex-ai', icon: Brain }
+        { name: t('sidebar.menu.venuexAI') || 'VenueX AI', href: PATHS.VENUEX_AI, icon: Brain }
       ]
     },
     {
       title: t('sidebar.categories.management') || "MANAGEMENT",
       items: [
-        { name: t('sidebar.menu.setup3B') || 'Setup 3B', href: '/setup3B', icon: Settings },
-        { name: t('sidebar.menu.settings') || 'Ayarlar', href: '/settings', icon: Settings }
+        { name: t('sidebar.menu.settings') || 'Ayarlar', href: PATHS.SETTINGS, icon: Settings }
       ]
     },
     {
       title: t('sidebar.categories.dev') || "DEV",
       items: [
-        { name: t('sidebar.menu.onboarding') || 'Onboarding', href: '/onboarding', icon: Rocket },
-        { name: t('sidebar.menu.signup') || 'Signup', href: '/signup', icon: UserPlus },
-        { name: t('sidebar.menu.components') || 'Components', href: '/components', icon: Code }
+        { name: t('sidebar.menu.onboarding') || 'Onboarding', href: PATHS.ONBOARDING, icon: Rocket },
+        { name: t('sidebar.menu.signup') || 'Signup', href: PATHS.SIGNUP, icon: UserPlus },
+        { name: t('sidebar.menu.components') || 'Components', href: PATHS.COMPONENTS, icon: Code }
       ]
     }
   ], [t]);
@@ -96,7 +96,7 @@ export default function Sidebar({ collapsed, onToggle }: SidebarProps) {
     )}>
       {/* Logo and Brand */}
       <div className="h-20">
-        <Link href="/">
+        <Link href={PATHS.HOME}>
           <div className="flex items-center justify-center h-full cursor-pointer">
             {!collapsed && (
               <img
@@ -185,7 +185,7 @@ export default function Sidebar({ collapsed, onToggle }: SidebarProps) {
               <ul className="space-y-1">
                 {group.items.map((item) => {
                   const isActive = location === item.href;
-                  const isVenueXAI = item.href === '/venuex-ai'; // Check by href instead of name since name is now translated
+                  const isVenueXAI = item.href === PATHS.VENUEX_AI; // Check by href instead of name since name is now translated
 
                   return (
                     <li key={item.name}>
@@ -222,7 +222,7 @@ export default function Sidebar({ collapsed, onToggle }: SidebarProps) {
                             <ul className="mt-1 ml-6 space-y-0.5">
                               {recentChats.map((chat) => (
                                 <li key={chat.id}>
-                                  <Link href="/venuex-ai">
+                                  <Link href={PATHS.VENUEX_AI}>
                                     <div
                                       className="px-3 py-1.5 text-xs text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded cursor-pointer truncate"
                                       data-testid={`chat-link-${chat.id}`}

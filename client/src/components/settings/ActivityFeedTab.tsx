@@ -1,6 +1,7 @@
 import { useState } from 'react';
-import { useQuery } from '@tanstack/react-query';
 import { useTranslation } from '@/contexts/LanguageContext';
+import { useBrandContext } from '@/hooks/useAuth';
+import { useApiSettingsActivityFeed } from '@/hooks/api';
 import SettingsSectionCard from '@/components/settings/SettingsSectionCard';
 import ActivityFeedItem from '@/components/settings/ActivityFeedItem';
 import type { ActivityFeedEntry, ActivityEventType } from '@/lib/types/settings';
@@ -42,9 +43,8 @@ export default function ActivityFeedTab() {
   const [visibleCount, setVisibleCount] = useState(10);
 
   // Fetch all events
-  const { data: allEvents = [] } = useQuery<ActivityFeedEntry[]>({
-    queryKey: ['/api/settings/activity-feed'],
-  });
+  const { brandId } = useBrandContext();
+  const { data: allEvents = [] } = useApiSettingsActivityFeed({ brandId });
 
   // ── Filtering logic ──────────────────────────────────────────────────────
   let filtered = [...allEvents];

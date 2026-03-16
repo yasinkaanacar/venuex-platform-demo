@@ -1,28 +1,27 @@
 import { useState } from "react";
-import { useQuery } from "@tanstack/react-query";
 import { BarChart3 } from "lucide-react";
 import { useLocales } from "@/lib/formatters";
 import { cn } from "@/lib/utils";
+import { useBrandContext } from "@/hooks/useAuth";
+import { useApiSegmentAttribution } from "@/hooks/api";
 import SegmentAttributionKPIs from "./SegmentAttributionKPIs";
 import SegmentAttributionChart from "./SegmentAttributionChart";
 import SegmentAttributionTable from "./SegmentAttributionTable";
 import SegmentAttributionBreakdown from "./SegmentAttributionBreakdown";
 import SegmentAttributionTimeseries from "./SegmentAttributionTimeseries";
-import type { SegmentAttribution } from "@/lib/types/segments";
 
 type Period = "7d" | "30d" | "90d";
 
 export default function SegmentAttributionDashboard() {
   const { t } = useLocales();
+  const { brandId } = useBrandContext();
   const [period, setPeriod] = useState<Period>("30d");
   const [expandedSegmentId, setExpandedSegmentId] = useState<string | null>(
     null,
   );
 
-  const { data: attributions = [], isLoading } = useQuery<
-    SegmentAttribution[]
-  >({
-    queryKey: ["/api/segments/attribution"],
+  const { data: attributions = [], isLoading } = useApiSegmentAttribution({
+    brandId,
   });
 
   const expandedAttr = expandedSegmentId

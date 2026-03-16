@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useLocation } from 'wouter';
+import { PATHS } from '@/routes/paths';
 import { 
   Mail, 
   Lock, 
@@ -38,7 +39,7 @@ export default function SignupPage() {
     
     setTimeout(() => {
       setIsLoading(false);
-      setLocation('/welcome');
+      setLocation(PATHS.WELCOME);
     }, 1500);
   };
 
@@ -268,7 +269,7 @@ export default function SignupPage() {
           <p className="mt-8 text-center text-gray-600">
             Already have an account?{' '}
             <button
-              onClick={() => setLocation('/login')}
+              onClick={() => setLocation('/login')} // TODO: add PATHS.LOGIN when login page exists
               className="text-blue-600 hover:text-blue-700 font-semibold"
               data-testid="link-login"
             >

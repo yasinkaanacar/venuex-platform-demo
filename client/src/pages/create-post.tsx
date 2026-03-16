@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Calendar, Image as ImageIcon, Globe, CheckCircle, Smartphone, Layout, ListFilter, Store, MapPin, Map, Check, Search } from 'lucide-react';
 import { Link, useSearch } from 'wouter';
+import { PATHS } from '@/routes/paths';
 
 const mockStoreSets = [
   { id: 1, name: 'Marmara Region', locationCount: 12 },
@@ -68,7 +69,7 @@ export default function CreatePost() {
       <div className="p-6">
         <div className="max-w-4xl mx-auto space-y-6">
           <div className="flex justify-end">
-            <Link href="/manage-posts">
+            <Link href={PATHS.MANAGE_POSTS}>
               <button className="flex items-center gap-2 px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium rounded-lg transition-colors">
                 <ListFilter size={18} />
                 Manage Posts

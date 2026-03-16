@@ -64,8 +64,8 @@ const InboxFilterBar = forwardRef<HTMLDivElement, InboxFilterBarProps>(({
   ], [t]);
 
   const statusOptions = useMemo(() => [
-    { value: 'unreplied', label: t.reviews.filters.unreplied },
-    { value: 'replied', label: t.reviews.filters.replied },
+    { value: 'UNANSWERED', label: t.reviews.filters.unreplied },
+    { value: 'ANSWERED', label: t.reviews.filters.replied },
     { value: 'all', label: t.reviews.filters.all },
   ], [t]);
 

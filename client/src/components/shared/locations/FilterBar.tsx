@@ -16,7 +16,7 @@ import { Plus, Upload, Settings, Search, Filter, X, CalendarIcon, GitCompare } f
 import { useState } from "react";
 import { format, addDays, subDays } from "date-fns";
 import { DateRange } from "react-day-picker";
-import { LocationsFilterState } from "@/lib/types";
+import { LocationsFilterState } from "@/lib/types/locations";
 
 interface FilterBarProps {
   onManageFields: () => void;
@@ -35,8 +35,8 @@ export function FilterBar({
 }: FilterBarProps) {
   const businessStatuses = [
     { value: "open", label: "Açık" },
-    { value: "temporarily_closed", label: "Geçici Kapalı" },
-    { value: "closed", label: "Kalıcı Kapalı" }
+    { value: "closed_temporarily", label: "Geçici Kapalı" },
+    { value: "closed_permanently", label: "Kalıcı Kapalı" }
   ];
   const platformStatuses = [
     { value: "live", label: "Yayında" },

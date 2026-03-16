@@ -2,8 +2,10 @@ import { useState, useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { SiGoogle, SiMeta, SiTiktok } from "react-icons/si";
 import { RefreshCw, Send } from "lucide-react";
+import { QUERY_KEYS } from "@/hooks/query-keys";
 import { useLocales, fPercent, fNumber } from "@/lib/formatters";
 import { cn } from "@/lib/utils";
+import { TableEmptyState, TableSkeletonRows, TableErrorState } from "@/components/shared/table-states";
 import PlatformPushCard from "./PlatformPushCard";
 import PlatformSyncLog from "./PlatformSyncLog";
 import PushToPlatformDialog from "./PushToPlatformDialog";
@@ -85,13 +87,15 @@ export default function PlatformPushDashboard() {
   const [pushTargetSegment, setPushTargetSegment] = useState<Segment | null>(null);
   const [pushPreSelectedPlatform, setPushPreSelectedPlatform] = useState<AdPlatform[]>([]);
 
-  const { data: segments = [] } = useQuery<Segment[]>({
-    queryKey: ["/api/segments"],
+  const { data: segments = [], isLoading: segmentsLoading, isError: segmentsError, refetch: refetchSegments } = useQuery<Segment[]>({
+    queryKey: [QUERY_KEYS.SEGMENTS],
   });
 
-  const { data: pushLog = [] } = useQuery<PushLogEntry[]>({
-    queryKey: ["/api/segments/push-log"],
+  const { data: pushLog = [], isLoading: pushLogLoading } = useQuery<PushLogEntry[]>({
+    queryKey: [QUERY_KEYS.SEGMENTS_PUSH_LOG],
   });
+
+  const isLoading = segmentsLoading || pushLogLoading;
 
   const platformStats = useMemo(
     () => computePlatformStats(segments),
@@ -174,7 +178,11 @@ export default function PlatformPushDashboard() {
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-100">
-              {activeSegments.map((segment) => {
+              {isLoading ? (
+                <TableSkeletonRows columns={6} rows={4} />
+              ) : segmentsError ? (
+                <TableErrorState colSpan={6} onRetry={refetchSegments} />
+              ) : activeSegments.map((segment) => {
                 const hasAutoSync = segment.platformPushes.some(
                   (p) => p.autoSync
                 );
@@ -274,16 +282,12 @@ export default function PlatformPushDashboard() {
                     </td>
                   </tr>
                 );
-              })}
-              {activeSegments.length === 0 && (
-                <tr>
-                  <td
-                    colSpan={6}
-                    className="px-4 py-8 text-center text-sm text-muted-foreground"
-                  >
-                    {t("segments.push.noActiveSegments") || "No active segments to display."}
-                  </td>
-                </tr>
+              })}{!isLoading && !segmentsError && activeSegments.length === 0 && (
+                <TableEmptyState
+                  colSpan={6}
+                  title={t("segments.push.noActiveSegments") || "No active segments to display."}
+                  className="py-8"
+                />
               )}
             </tbody>
           </table>

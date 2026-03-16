@@ -13,7 +13,7 @@ import {
   type IngestionSource,
   type PlatformDestination,
   type SyncResult,
-} from '@/lib/mock-pipeline-data';
+} from '@/lib/mock/pipeline';
 
 // --- Source helpers ---
 

@@ -4,7 +4,7 @@ import {
   Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle,
 } from '@/components/ui/dialog';
 import { useTranslation } from '@/contexts/LanguageContext';
-import { replyTemplates } from '@/lib/mock-reviews-data';
+import { replyTemplates } from '@/lib/mock/reviews';
 
 interface ReplyTemplatesDialogProps {
   open: boolean;

@@ -1,7 +1,7 @@
 import { AlertTriangle, XCircle, Info, Zap, RefreshCw, X } from 'lucide-react';
 import { SiGoogle, SiMeta, SiTiktok } from 'react-icons/si';
 import { useTranslation } from '@/contexts/LanguageContext';
-import type { ActiveIssue } from '@/lib/mock-pipeline-data';
+import type { ActiveIssue } from '@/lib/mock/pipeline';
 
 interface ActiveIssuesPanelProps {
   issues: ActiveIssue[];

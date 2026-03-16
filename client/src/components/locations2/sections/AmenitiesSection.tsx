@@ -25,7 +25,7 @@ export default function AmenitiesSection({ form }: AmenitiesSectionProps) {
   };
 
   return (
-    <div className="vx-card">
+    <div id="section-amenities" className="vx-card scroll-mt-6">
       <div className="vx-card-header">
         <h3 className="text-base font-semibold text-foreground">
           {oc?.sections?.amenities || 'Amenities'}

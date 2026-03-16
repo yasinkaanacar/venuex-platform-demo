@@ -1,4 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
+import { QUERY_KEYS } from "@/hooks/query-keys";
 import {
   AreaChart,
   Area,
@@ -10,6 +11,7 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { useLocales, fCurrency } from "@/lib/formatters";
+import { DataErrorState } from "@/components/shared/data-states";
 import type { AttributionTimeseriesPoint } from "@/lib/types/segments";
 
 interface SegmentAttributionTimeseriesProps {
@@ -23,10 +25,10 @@ export default function SegmentAttributionTimeseries({
 }: SegmentAttributionTimeseriesProps) {
   const { t } = useLocales();
 
-  const { data: timeseries = [], isLoading } = useQuery<
+  const { data: timeseries = [], isLoading, isError } = useQuery<
     AttributionTimeseriesPoint[]
   >({
-    queryKey: [`/api/segments/attribution/timeseries/${segmentId}`],
+    queryKey: [`${QUERY_KEYS.SEGMENTS_ATTRIBUTION_TIMESERIES}/${segmentId}`],
     enabled: !!segmentId,
   });
 
@@ -37,6 +39,14 @@ export default function SegmentAttributionTimeseries({
           <div className="h-4 w-48 bg-gray-200 rounded" />
           <div className="h-[200px] bg-gray-100 rounded" />
         </div>
+      </div>
+    );
+  }
+
+  if (isError) {
+    return (
+      <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-5">
+        <DataErrorState message="Failed to load attribution data." />
       </div>
     );
   }

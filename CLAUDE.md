@@ -45,6 +45,7 @@ When adding anything new, check existing naming patterns first. Consistency acro
 - Use realistic Turkish market data: real brand names (Boyner, Koçtaş, Karaca), real city names (Istanbul districts), TRY currency
 - Match rates, conversion values, and metrics should be plausible, not random
 - Every mock dataset should include edge cases (empty states, error states, partial data)
+- **No explicit brand naming in data connection / pipeline mock data.** Ingestion sources should be labeled generically as "SFTP" or "API" — never as "Boyner POS Exports", "CRM API", "Loyalty Feed", etc. No POS/CRM/loyalty domain references.
 
 ## Product Modules
 
@@ -189,6 +190,64 @@ Frontend fetches are intercepted by the mock data service in `queryClient.ts`.
 - **Notifications:** notistack snackbars via `toast` utility
 - **Forms:** React Hook Form + Zod validation
 
+### Default Card Structure
+
+Every card/section component follows a three-layer visual hierarchy. **Use this by default for all new components unless explicitly told otherwise.**
+
+**Layers (outside → inside):**
+1. **`vx-card`** — outer white container with rounded border (`bg-white rounded-lg border border-gray-200`)
+2. **`vx-card-header`** — gray-50 header bar with border-bottom (`px-6 py-4 border-b border-gray-100 bg-gray-50`)
+3. **`vx-card-body vx-surface-muted`** — gray-50 body area (`p-6 bg-gray-50`)
+4. **Inner white sections** — content cards sitting on the muted body (`p-5 bg-white rounded-lg border border-gray-100 shadow-sm`)
+
+**Page placement:** Always wrap in `<div className="vx-section-stack">` for correct horizontal padding (`px-6`) and vertical spacing (`mt-6`).
+
+**Complete template:**
+
+```tsx
+import { Info } from 'lucide-react';
+import { useTranslation } from '@/contexts/LanguageContext';
+
+export default function MyComponent() {
+  const { t } = useTranslation();
+  const oc = t.myModule as any; // direct object access, NOT useLocales()
+
+  return (
+    <div className="vx-card">
+      {/* Header */}
+      <div className="vx-card-header">
+        <div className="flex items-center gap-1.5">
+          <h3 className="text-base font-semibold text-foreground">{oc?.title || 'Fallback Title'}</h3>
+          <div className="relative group">
+            <Info className="w-3.5 h-3.5 text-gray-400 cursor-help" />
+            <div className="absolute left-full top-1/2 -translate-y-1/2 ml-2 px-3 py-2 bg-gray-900 text-white text-xs rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 w-72 z-[9999]">
+              {oc?.tooltip || 'Fallback tooltip text'}
+              <div className="absolute right-full top-1/2 -translate-y-1/2 w-0 h-0 border-t-4 border-b-4 border-r-4 border-transparent border-r-gray-900" />
+            </div>
+          </div>
+        </div>
+        <p className="text-xs text-gray-500 mt-1">{oc?.desc || 'Fallback description'}</p>
+      </div>
+
+      {/* Body — gray muted background */}
+      <div className="vx-card-body vx-surface-muted space-y-4">
+        {/* Inner white section(s) */}
+        <div className="p-5 bg-white rounded-lg border border-gray-100 shadow-sm">
+          {/* Content here */}
+        </div>
+      </div>
+    </div>
+  );
+}
+```
+
+**Translation access:** Use `useTranslation()` with direct object access (`t.module as any` → `oc?.key`). Do NOT use `useLocales()` for component-level translations — its `getNestedValue` path resolver is unreliable for dynamically added keys.
+
+**Key rules:**
+- All tooltip/description strings must exist in both `en.json` and `tr.json`
+- Key naming: `{componentTooltip}` and `{componentDesc}` under the relevant module section
+- Always provide `|| 'Fallback'` for every translation access
+
 ## Production API Contract Patterns
 
 These patterns are derived from production code. When building any new feature in this prototype, follow them exactly so engineering can plug in real backends with minimal changes.
@@ -255,3 +314,17 @@ interface NormalizedAdMetricsResponse {
 ```
 
 This signals to engineering that the backend must unify platform-specific response formats before returning.
+
+## Commit Discipline
+
+This repo has a `demo` branch that stays live as a clean showcase. Changes are cherry-picked from `main` → `demo`, so **commit hygiene is critical**.
+
+### Rules
+- **One commit = one logical change.** A feature, a fix, a refactor — never mixed together.
+- **Never bundle unrelated work.** "LocationEditForm + A/B test page + random fix" in one commit is forbidden. Split them.
+- **Experimental/WIP work gets its own commits.** A/B pages, test variants, throwaway explorations — separate commits so they can be excluded from demo cherry-picks.
+- **Commit messages must be descriptive.** Use the pattern: `type(scope): what changed`. Examples:
+  - `feat(locations): add WorkingHoursSection to edit form`
+  - `fix(reviews): correct sentiment chart tooltip alignment`
+  - `wip(catalog): A/B test for grid vs list layout` (WIP prefix = never goes to demo)
+- **Keep commits small and self-contained.** If a cherry-pick requires pulling in 3 other commits to work, the commits were too tangled.

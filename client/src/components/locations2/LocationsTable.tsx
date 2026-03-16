@@ -12,7 +12,7 @@ import {
 } from "lucide-react";
 import { FilterBar } from "@/components/shared/locations/FilterBar";
 import { LocationDataTable } from "@/components/locations2/LocationDataTable";
-import { LocationsFilterState } from "@/lib/types";
+import { LocationsFilterState } from "@/lib/types/locations";
 import {
   LineChart,
   Line,

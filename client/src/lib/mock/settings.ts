@@ -80,18 +80,18 @@ export const mockActivityFeed: ActivityFeedEntry[] = [
       newValue: '09:00 - 22:00',
     },
   },
+  // February 27, 2026
   {
     id: 'af-004',
     type: 'review_response',
     actor: 'Mehmet Kaya',
-    action: 'Yoruma yanıt verildi',
-    timestamp: '2026-02-28T09:45:00Z',
+    action: 'Olumsuz yoruma yanıt verildi',
+    timestamp: '2026-02-27T10:05:00Z',
     details: {
-      locationName: 'Karaca Cevahir AVM',
-      additionalInfo: '4/5 yıldızlı yorum',
+      locationName: 'Karaca Çamlıca Emaar',
+      additionalInfo: '2/5 yıldızlı yorum — SLA içinde yanıtlandı',
     },
   },
-  // February 27, 2026
   {
     id: 'af-005',
     type: 'store_set_change',
@@ -110,136 +110,6 @@ export const mockActivityFeed: ActivityFeedEntry[] = [
     timestamp: '2026-02-27T15:00:00Z',
     details: {
       additionalInfo: 'elif.demir@karaca.com.tr',
-    },
-  },
-  {
-    id: 'af-007',
-    type: 'location_update',
-    actor: 'Elif Demir',
-    action: 'Mağaza fotoğrafları güncellendi',
-    timestamp: '2026-02-27T13:30:00Z',
-    details: {
-      locationName: 'Karaca Bağcılar Marmara Forum',
-      additionalInfo: '5 yeni fotoğraf yüklendi',
-    },
-  },
-  {
-    id: 'af-008',
-    type: 'data_sync',
-    actor: 'Sistem',
-    action: 'Envanter verisi senkronizasyonu başarısız',
-    timestamp: '2026-02-27T12:00:00Z',
-    details: {
-      additionalInfo: 'Bağlantı zaman aşımı — SFTP sunucusuna ulaşılamadı',
-    },
-  },
-  {
-    id: 'af-009',
-    type: 'review_response',
-    actor: 'Mehmet Kaya',
-    action: 'Olumsuz yoruma yanıt verildi',
-    timestamp: '2026-02-27T10:05:00Z',
-    details: {
-      locationName: 'Karaca Çamlıca Emaar',
-      additionalInfo: '2/5 yıldızlı yorum — SLA içinde yanıtlandı',
-    },
-  },
-  {
-    id: 'af-010',
-    type: 'settings_change',
-    actor: 'Zeynep Arslan',
-    action: 'Bildirim tercihleri güncellendi',
-    timestamp: '2026-02-27T09:00:00Z',
-    details: {
-      field: 'reviewAlerts',
-      oldValue: 'Kapalı',
-      newValue: 'Anlık',
-    },
-  },
-  // February 25, 2026
-  {
-    id: 'af-011',
-    type: 'store_set_change',
-    actor: 'Ahmet Yılmaz',
-    action: '"İstanbul Avrupa" seti güncellendi',
-    timestamp: '2026-02-25T17:00:00Z',
-    details: {
-      additionalInfo: '2 yeni mağaza eklendi (Karaca Akmerkez, Karaca Capitol)',
-    },
-  },
-  {
-    id: 'af-012',
-    type: 'location_update',
-    actor: 'Sistem',
-    action: 'Toplu lokasyon güncellemesi tamamlandı',
-    timestamp: '2026-02-25T14:45:00Z',
-    details: {
-      additionalInfo: '23 mağazanın çalışma saatleri Ramazan programına göre güncellendi',
-    },
-  },
-  {
-    id: 'af-013',
-    type: 'data_sync',
-    actor: 'Sistem',
-    action: 'Satış verisi senkronizasyonu tamamlandı',
-    timestamp: '2026-02-25T12:00:00Z',
-    details: {
-      additionalInfo: '18,200 kayıt işlendi',
-    },
-  },
-  {
-    id: 'af-014',
-    type: 'user_action',
-    actor: 'Zeynep Arslan',
-    action: 'API anahtarı yenilendi',
-    timestamp: '2026-02-25T10:30:00Z',
-    details: {
-      additionalInfo: 'Meta Dönüşüm API anahtarı yenilendi',
-    },
-  },
-  {
-    id: 'af-015',
-    type: 'settings_change',
-    actor: 'Ahmet Yılmaz',
-    action: 'Platform kategorileri güncellendi',
-    timestamp: '2026-02-25T09:15:00Z',
-    details: {
-      field: 'categories.google',
-      oldValue: 'Home & Garden, Kitchenware',
-      newValue: 'Home & Garden, Kitchenware, Tableware',
-    },
-  },
-  {
-    id: 'af-016',
-    type: 'review_response',
-    actor: 'Elif Demir',
-    action: '5 yoruma toplu yanıt verildi',
-    timestamp: '2026-02-25T08:30:00Z',
-    details: {
-      additionalInfo: 'AI destekli yanıt şablonu kullanıldı',
-    },
-  },
-  {
-    id: 'af-017',
-    type: 'store_set_change',
-    actor: 'Mehmet Kaya',
-    action: '"Ankara Mağazaları" seti oluşturuldu',
-    timestamp: '2026-02-24T16:00:00Z',
-    details: {
-      additionalInfo: '12 Ankara mağazası eklendi',
-    },
-  },
-  {
-    id: 'af-018',
-    type: 'location_update',
-    actor: 'Elif Demir',
-    action: 'Mağaza açıklaması güncellendi',
-    timestamp: '2026-02-24T14:20:00Z',
-    details: {
-      locationName: 'Karaca Nişantaşı',
-      field: 'description',
-      oldValue: 'Nişantaşı şubesi',
-      newValue: 'Nişantaşı\'nın kalbinde, 3 katlı mağazamızda ev ve yaşam ürünleri',
     },
   },
 ];

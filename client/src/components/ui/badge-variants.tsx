@@ -52,7 +52,18 @@ interface ChannelBadgeProps {
   showText?: boolean;
 }
 
+// Maps lowercase channel identifiers to display labels
+const CHANNEL_LABELS: Record<string, string> = {
+  google: 'GBP',
+  apple: 'Apple',
+  meta: 'Meta',
+  gmc: 'GMC',
+  yandex: 'Yandex',
+};
+
 export function ChannelBadge({ channel, status, className, showText = false }: ChannelBadgeProps) {
+  const label = CHANNEL_LABELS[channel] ?? channel.toUpperCase();
+
   const statusConfigs = {
     CONNECTED: {
       className: "bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400 border-green-200 dark:border-green-800",
@@ -81,7 +92,7 @@ export function ChannelBadge({ channel, status, className, showText = false }: C
       data-testid={`channel-badge-${channel.toLowerCase()}-${status.toLowerCase().replace('_', '-')}`}
     >
       <IconComponent className="w-3 h-3" />
-      <span className="font-medium">{channel}</span>
+      <span className="font-medium">{label}</span>
       {showText && <span className="ml-1">{statusConfig.text}</span>}
     </Badge>
   );

@@ -1,16 +1,17 @@
 import { useQuery, useMutation } from '@tanstack/react-query';
 import { queryClient, apiRequest } from '@/lib/queryClient';
+import { QUERY_KEYS } from '@/hooks/query-keys';
 import type { Notification } from '@/lib/types/notifications';
 
 export function useNotifications() {
   return useQuery<Notification[]>({
-    queryKey: ['/api/notifications'],
+    queryKey: [QUERY_KEYS.NOTIFICATIONS],
   });
 }
 
 export function useUnreadCount() {
   return useQuery<{ count: number }>({
-    queryKey: ['/api/notifications/unread-count'],
+    queryKey: [QUERY_KEYS.NOTIFICATIONS_UNREAD_COUNT],
   });
 }
 
@@ -21,8 +22,8 @@ export function useMarkAsRead() {
       return res.json();
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['/api/notifications'] });
-      queryClient.invalidateQueries({ queryKey: ['/api/notifications/unread-count'] });
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.NOTIFICATIONS] });
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.NOTIFICATIONS_UNREAD_COUNT] });
     },
   });
 }
@@ -34,8 +35,8 @@ export function useMarkAllAsRead() {
       return res.json();
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['/api/notifications'] });
-      queryClient.invalidateQueries({ queryKey: ['/api/notifications/unread-count'] });
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.NOTIFICATIONS] });
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.NOTIFICATIONS_UNREAD_COUNT] });
     },
   });
 }

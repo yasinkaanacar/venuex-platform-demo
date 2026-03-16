@@ -10,11 +10,12 @@ import {
 import { X, Loader2 } from "lucide-react";
 import { SiGoogle, SiMeta, SiTiktok } from "react-icons/si";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { QUERY_KEYS } from "@/hooks/query-keys";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useLocales } from "@/lib/formatters";
 import { cn } from "@/lib/utils";
-import { segmentDataService } from "@/lib/mock-segments-data";
+import { segmentDataService } from "@/lib/mock/segments";
 import { showToast } from "@/lib/toast";
 import type { Segment, AdPlatform } from "@/lib/types/segments";
 
@@ -37,7 +38,7 @@ export default function CreateABTestDialog({
   const queryClient = useQueryClient();
 
   const { data: segments = [] } = useQuery<Segment[]>({
-    queryKey: ["/api/segments"],
+    queryKey: [QUERY_KEYS.SEGMENTS],
   });
 
   const activeSegments = segments.filter(
@@ -86,7 +87,7 @@ export default function CreateABTestDialog({
       });
 
       queryClient.invalidateQueries({
-        queryKey: ["/api/segments/ab-tests"],
+        queryKey: [QUERY_KEYS.SEGMENTS_AB_TESTS],
       });
 
       showToast({

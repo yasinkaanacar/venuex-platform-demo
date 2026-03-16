@@ -1,9 +1,10 @@
 import { useState, useRef, useEffect, useMemo } from "react";
 import { useLocation } from 'wouter';
+import { createPostPath } from '@/routes/paths';
 import { showToast } from "@/lib/toast";
-import { LocationsFilterState } from "@/lib/types";
+import { LocationsFilterState } from "@/lib/types/locations";
 import { format, addDays, startOfWeek, isSameDay, addWeeks, subWeeks } from 'date-fns';
-import { mockLocations } from "@/lib/mock-locations";
+import { mockLocations } from "@/lib/mock/locations-platform";
 import { MultiSelectCombobox } from "@/components/ui/multi-select-combobox";
 import { PopoverSelect } from "@/components/ui/popover-select";
 
@@ -13,7 +14,7 @@ import { FieldManagementDialog } from "@/components/locations2/FieldManagementDi
 import PlatformSummaryNew from "@/components/locations2/PlatformSummaryNew";
 import LocationStatusTable from "@/components/locations2/LocationStatusTable";
 import LocationConflictResolutionDialog from "@/components/locations2/LocationConflictResolutionDialog";
-import { mockLocationConflicts } from "@/lib/mock-locations";
+import { mockLocationConflicts } from "@/lib/mock/locations-platform";
 import DataQualityEnrichment from "@/components/overview/data-quality-enrichment";
 import LocationsDataHealthAlerts from "@/components/locations2/locations-data-health-alerts";
 import { Button } from "@/components/ui/button";
@@ -220,7 +221,7 @@ const mockCalendarPosts = [
   },
 ];
 
-export default function Locations2Page() {
+export default function LocationsPage() {
   const { t, language } = useTranslation();
   // State management
   const [selectedLocationId, setSelectedLocationId] = useState<string | null>(null);
@@ -397,8 +398,7 @@ export default function Locations2Page() {
 
   const handleCreatePost = (type: string, date?: Date) => {
     setSelectedDay(null);
-    const dateParam = date ? `&date=${format(date, 'yyyy-MM-dd')}` : '';
-    setLocationPath(`/create-post?scope=${type}${dateParam}`);
+    setLocationPath(createPostPath(type, date ? format(date, 'yyyy-MM-dd') : undefined));
   };
 
   const weekDays = Array.from({ length: 7 }, (_, i) => addDays(currentWeekStart, i));

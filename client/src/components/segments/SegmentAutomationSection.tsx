@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { QUERY_KEYS } from "@/hooks/query-keys";
 import {
   Zap,
   Plus,
@@ -15,7 +16,8 @@ import { Switch } from "@mui/material";
 import { Button } from "@/components/ui/button";
 import { useLocales } from "@/lib/formatters";
 import { cn } from "@/lib/utils";
-import { segmentDataService } from "@/lib/mock-segments-data";
+import { DataLoadingState, DataErrorState } from "@/components/shared/data-states";
+import { segmentDataService } from "@/lib/mock/segments";
 import { showToast } from "@/lib/toast";
 import SegmentAutomationDialog from "./SegmentAutomationDialog";
 import type {
@@ -48,8 +50,8 @@ export default function SegmentAutomationSection({
   const queryClient = useQueryClient();
   const [dialogOpen, setDialogOpen] = useState(false);
 
-  const { data: rules = [] } = useQuery<SegmentAutomationRule[]>({
-    queryKey: [`/api/segments/automation/${segmentId}`],
+  const { data: rules = [], isLoading, isError, refetch } = useQuery<SegmentAutomationRule[]>({
+    queryKey: [`${QUERY_KEYS.SEGMENTS_AUTOMATION}/${segmentId}`],
     enabled: !!segmentId,
   });
 
@@ -100,7 +102,7 @@ export default function SegmentAutomationSection({
         isActive,
       );
       queryClient.invalidateQueries({
-        queryKey: [`/api/segments/automation/${segmentId}`],
+        queryKey: [`${QUERY_KEYS.SEGMENTS_AUTOMATION}/${segmentId}`],
       });
       showToast({
         type: "success",
@@ -129,7 +131,11 @@ export default function SegmentAutomationSection({
         </Button>
       </div>
 
-      {rules.length === 0 ? (
+      {isLoading ? (
+        <DataLoadingState className="py-6" />
+      ) : isError ? (
+        <DataErrorState className="py-6" onRetry={refetch} />
+      ) : rules.length === 0 ? (
         <div className="text-center py-6 px-4 bg-gray-50 rounded-lg border border-dashed border-gray-200">
           <Zap className="w-5 h-5 text-gray-400 mx-auto mb-2" />
           <p className="text-xs text-muted-foreground">

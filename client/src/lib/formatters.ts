@@ -48,14 +48,6 @@ export const useLocales = () => {
     };
 };
 
-export const useSetup = () => ({
-    isLoading: false,
-    isGoogleAdsEnabled: true,
-    isMetaConversionsConnected: true,
-    isMetaAdAccountEnabled: true,
-    isTiktokEventsConnected: true
-});
-
-export const useBrandContext = () => ({
-    brandId: "demo-brand-123"
-});
+// useBrandContext and useSetup moved to @/hooks/useAuth
+// Import from there instead of this file.
+export { useBrandContext, useSetup } from '@/hooks/useAuth';

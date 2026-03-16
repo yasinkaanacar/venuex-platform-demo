@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 import { Info } from 'lucide-react';
 import { useTranslation } from '@/contexts/LanguageContext';
 import { fCurrency } from '@/lib/formatters';
-import { CAMPAIGN_TYPE_LABELS } from '@/lib/mock-campaign-data';
+import { CAMPAIGN_TYPE_LABELS } from '@/lib/mock/campaigns';
 import type { CampaignTypeAggregation } from '@/hooks/useFilteredCampaigns';
 
 interface Props {

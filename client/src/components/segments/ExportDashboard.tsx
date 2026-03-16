@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { QUERY_KEYS } from "@/hooks/query-keys";
 import {
   Download,
   Clock,
@@ -17,6 +18,8 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
+import { TableEmptyState, TableSkeletonRows, TableErrorState } from "@/components/shared/table-states";
+import { DataLoadingState, DataErrorState } from "@/components/shared/data-states";
 import {
   Dialog,
   DialogContent,
@@ -31,7 +34,7 @@ import {
 } from "@/components/ui/select";
 import { useLocales, fNumber } from "@/lib/formatters";
 import { cn } from "@/lib/utils";
-import { mockSegments, segmentDataService } from "@/lib/mock-segments-data";
+import { mockSegments, segmentDataService } from "@/lib/mock/segments";
 import { showToast } from "@/lib/toast";
 import type {
   SegmentExport,
@@ -47,12 +50,12 @@ export default function ExportDashboard() {
   const [scheduledDialogOpen, setScheduledDialogOpen] = useState(false);
   const [editingScheduledExport, setEditingScheduledExport] = useState<ScheduledExport | null>(null);
 
-  const { data: exports } = useQuery<SegmentExport[]>({
-    queryKey: ["/api/segments/exports"],
+  const { data: exports, isLoading: exportsLoading, isError: exportsError, refetch: refetchExports } = useQuery<SegmentExport[]>({
+    queryKey: [QUERY_KEYS.SEGMENTS_EXPORTS],
   });
 
-  const { data: scheduled } = useQuery<ScheduledExport[]>({
-    queryKey: ["/api/segments/exports/scheduled"],
+  const { data: scheduled, isLoading: scheduledLoading, isError: scheduledError, refetch: refetchScheduled } = useQuery<ScheduledExport[]>({
+    queryKey: [QUERY_KEYS.SEGMENTS_EXPORTS_SCHEDULED],
   });
 
   const statusConfig: Record<string, { color: string; icon: React.ReactNode }> =
@@ -84,7 +87,7 @@ export default function ExportDashboard() {
     try {
       await segmentDataService.deleteScheduledExport(sexp.id);
       queryClient.invalidateQueries({
-        queryKey: ["/api/segments/exports/scheduled"],
+        queryKey: [QUERY_KEYS.SEGMENTS_EXPORTS_SCHEDULED],
       });
       showToast({
         type: "success",
@@ -169,7 +172,11 @@ export default function ExportDashboard() {
               </tr>
             </thead>
             <tbody>
-              {exports && exports.length > 0 ? (
+              {exportsLoading ? (
+                <TableSkeletonRows columns={8} rows={3} />
+              ) : exportsError ? (
+                <TableErrorState colSpan={8} onRetry={refetchExports} />
+              ) : exports && exports.length > 0 ? (
                 exports.map((exp) => {
                   const sc = statusConfig[exp.status] ?? statusConfig.completed;
                   return (
@@ -228,11 +235,11 @@ export default function ExportDashboard() {
                   );
                 })
               ) : (
-                <tr>
-                  <td colSpan={8} className="vx-td text-center text-gray-500 py-8">
-                    {t("segments.exports.noExports") || "No exports yet"}
-                  </td>
-                </tr>
+                <TableEmptyState
+                  colSpan={8}
+                  title={t("segments.exports.noExports") || "No exports yet"}
+                  className="py-8"
+                />
               )}
             </tbody>
           </table>
@@ -247,7 +254,11 @@ export default function ExportDashboard() {
           </h3>
         </div>
         <div className="p-6">
-          {scheduled && scheduled.length > 0 ? (
+          {scheduledLoading ? (
+            <DataLoadingState />
+          ) : scheduledError ? (
+            <DataErrorState onRetry={refetchScheduled} />
+          ) : scheduled && scheduled.length > 0 ? (
             <div className="space-y-4">
               {scheduled.map((sexp) => (
                 <div
@@ -411,7 +422,7 @@ function ExportDialog({
         fileSize: `${(totalRecords * 0.0001).toFixed(1)} MB`,
       });
 
-      queryClient.invalidateQueries({ queryKey: ["/api/segments/exports"] });
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.SEGMENTS_EXPORTS] });
 
       showToast({
         type: "success",
@@ -623,7 +634,7 @@ function ScheduledExportDialog({
       }
 
       queryClient.invalidateQueries({
-        queryKey: ["/api/segments/exports/scheduled"],
+        queryKey: [QUERY_KEYS.SEGMENTS_EXPORTS_SCHEDULED],
       });
 
       showToast({

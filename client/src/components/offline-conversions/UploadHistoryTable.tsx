@@ -7,7 +7,7 @@ import { SiGoogle, SiMeta, SiTiktok } from 'react-icons/si';
 import { useTranslation } from '@/contexts/LanguageContext';
 import { fNumber } from '@/lib/formatters';
 import OfflineBatchReportSheet from './OfflineBatchReportSheet';
-import type { UploadBatch, IngestionJob, BatchStatus } from '@/lib/mock-pipeline-data';
+import type { UploadBatch, IngestionJob, BatchStatus } from '@/lib/mock/pipeline';
 
 interface UploadHistoryTableProps {
   batches: UploadBatch[];

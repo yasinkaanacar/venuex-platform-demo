@@ -18,6 +18,7 @@ import {
   ArrowLeft,
   ArrowRight,
 } from "lucide-react";
+import { QUERY_KEYS } from "@/hooks/query-keys";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -209,7 +210,7 @@ export default function SegmentBuilderDialog({
   }
 
   // TODO [Delivery]: Wire to segmentDataService.createSegment() with loading state,
-  // toast notification, and queryClient.invalidateQueries(["/api/segments"]).
+  // toast notification, and queryClient.invalidateQueries([QUERY_KEYS.SEGMENTS]).
   function handleCreate() {
     handleClose();
   }

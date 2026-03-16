@@ -1,10 +1,13 @@
 import { z } from 'zod';
+import { DaysEnum } from './common';
 
-// Working hours per day
+// Working hours per day — extends RegularHoursDto with UI-specific fields
+// Production shape: { openDay, closeDay, openTime, closeTime, active }
+// UI extensions: dayLabel (derived), is24Hours (helper), breaks (multi-period)
 export const workingHoursDaySchema = z.object({
-  day: z.enum(['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']),
-  dayLabel: z.string(),
-  isOpen: z.boolean(),
+  openDay: z.nativeEnum(DaysEnum),
+  closeDay: z.nativeEnum(DaysEnum),
+  active: z.boolean(),
   openTime: z.string(),  // 'HH:MM'
   closeTime: z.string(), // 'HH:MM'
   is24Hours: z.boolean(),
@@ -22,11 +25,16 @@ export interface AmenityCategory {
 }
 
 // Main location form schema (flat — one RHF form instance)
+// Address fields align with production AddressDto:
+//   lat, lng (numbers), countryCode, administrativeArea, locality, sublocality, fullAddress, postalCode
+// Working hours align with production RegularHoursDto:
+//   openDay/closeDay (DaysEnum), openTime, closeTime, active
 export const locationFormSchema = z.object({
   // Section 1: Basic Info (Temel Bilgiler)
   name: z.string().min(1, 'Konum adı zorunludur'),
   storeCode: z.string(),
   description: z.string(),
+  googleCategory: z.string(),
   metaCategory: z.string(),
   appleCategory: z.string(),
   yandexCategory: z.string(),
@@ -45,18 +53,19 @@ export const locationFormSchema = z.object({
   pinterest: z.string(),
   linkedin: z.string(),
 
-  // Section 3: Address + Map (Lokasyon)
-  latitude: z.string(),
-  longitude: z.string(),
-  country: z.string().default('Türkiye'),
-  city: z.string(),
-  address: z.string(),
-  district: z.string(),
-  neighborhood: z.string(),
+  // Section 3: Address + Map (Lokasyon) — mirrors AddressDto
+  lat: z.coerce.number(),
+  lng: z.coerce.number(),
+  countryCode: z.string().default('TR'),
+  administrativeArea: z.string(), // province/city (e.g. Istanbul)
+  fullAddress: z.string(),        // street address line
+  locality: z.string(),           // district (e.g. Şişli)
+  sublocality: z.string(),        // neighborhood (e.g. Nişantaşı)
   postalCode: z.string(),
+  addressLines: z.array(z.string()).default([]),
 
   // Section 4: Working Hours (Çalışma Saatleri)
-  locationStatus: z.enum(['open', 'temporarily_closed', 'permanently_closed']).default('open'),
+  locationStatus: z.enum(['open', 'closed_temporarily', 'closed_permanently']).default('open'),
   workingHours: z.array(workingHoursDaySchema),
 
   // Section 5: Amenities (Olanaklar)
@@ -75,11 +84,50 @@ export interface LocationFormRecord extends LocationFormData {
   coverPhotos: Record<string, string | null>; // platform -> url
 }
 
+// Day label lookup for UI display (Turkish)
+export const DAY_LABELS: Record<DaysEnum, { en: string; tr: string }> = {
+  [DaysEnum.MONDAY]: { en: 'Monday', tr: 'Pazartesi' },
+  [DaysEnum.TUESDAY]: { en: 'Tuesday', tr: 'Salı' },
+  [DaysEnum.WEDNESDAY]: { en: 'Wednesday', tr: 'Çarşamba' },
+  [DaysEnum.THURSDAY]: { en: 'Thursday', tr: 'Perşembe' },
+  [DaysEnum.FRIDAY]: { en: 'Friday', tr: 'Cuma' },
+  [DaysEnum.SATURDAY]: { en: 'Saturday', tr: 'Cumartesi' },
+  [DaysEnum.SUNDAY]: { en: 'Sunday', tr: 'Pazar' },
+};
+
+// Short day labels for pill buttons
+export const DAY_SHORT_LABELS: Record<DaysEnum, { en: string; tr: string }> = {
+  [DaysEnum.MONDAY]: { en: 'Mon', tr: 'Pzt' },
+  [DaysEnum.TUESDAY]: { en: 'Tue', tr: 'Sal' },
+  [DaysEnum.WEDNESDAY]: { en: 'Wed', tr: 'Çar' },
+  [DaysEnum.THURSDAY]: { en: 'Thu', tr: 'Per' },
+  [DaysEnum.FRIDAY]: { en: 'Fri', tr: 'Cum' },
+  [DaysEnum.SATURDAY]: { en: 'Sat', tr: 'Cmt' },
+  [DaysEnum.SUNDAY]: { en: 'Sun', tr: 'Paz' },
+};
+
+// Ordered days for iteration
+export const ORDERED_DAYS: DaysEnum[] = [
+  DaysEnum.MONDAY,
+  DaysEnum.TUESDAY,
+  DaysEnum.WEDNESDAY,
+  DaysEnum.THURSDAY,
+  DaysEnum.FRIDAY,
+  DaysEnum.SATURDAY,
+  DaysEnum.SUNDAY,
+];
+
+// Helper to create a default working hours entry
+function defaultDay(day: DaysEnum, active: boolean, openTime = '09:00', closeTime = '18:00'): WorkingHoursDay {
+  return { openDay: day, closeDay: day, active, openTime, closeTime, is24Hours: false, breaks: [] };
+}
+
 // Empty form defaults for Add mode
 export const emptyLocationFormData: LocationFormData = {
   name: '',
   storeCode: '',
   description: '',
+  googleCategory: '',
   metaCategory: '',
   appleCategory: '',
   yandexCategory: '',
@@ -95,23 +143,24 @@ export const emptyLocationFormData: LocationFormData = {
   youtube: '',
   pinterest: '',
   linkedin: '',
-  latitude: '',
-  longitude: '',
-  country: 'Türkiye',
-  city: '',
-  address: '',
-  district: '',
-  neighborhood: '',
+  lat: 0,
+  lng: 0,
+  countryCode: 'TR',
+  administrativeArea: '',
+  fullAddress: '',
+  locality: '',
+  sublocality: '',
   postalCode: '',
+  addressLines: [],
   locationStatus: 'open',
   workingHours: [
-    { day: 'Mon', dayLabel: 'Pazartesi', isOpen: true, openTime: '09:00', closeTime: '18:00', is24Hours: false, breaks: [] },
-    { day: 'Tue', dayLabel: 'Salı', isOpen: true, openTime: '09:00', closeTime: '18:00', is24Hours: false, breaks: [] },
-    { day: 'Wed', dayLabel: 'Çarşamba', isOpen: true, openTime: '09:00', closeTime: '18:00', is24Hours: false, breaks: [] },
-    { day: 'Thu', dayLabel: 'Perşembe', isOpen: true, openTime: '09:00', closeTime: '18:00', is24Hours: false, breaks: [] },
-    { day: 'Fri', dayLabel: 'Cuma', isOpen: true, openTime: '09:00', closeTime: '18:00', is24Hours: false, breaks: [] },
-    { day: 'Sat', dayLabel: 'Cumartesi', isOpen: true, openTime: '10:00', closeTime: '17:00', is24Hours: false, breaks: [] },
-    { day: 'Sun', dayLabel: 'Pazar', isOpen: false, openTime: '', closeTime: '', is24Hours: false, breaks: [] },
+    defaultDay(DaysEnum.MONDAY, true),
+    defaultDay(DaysEnum.TUESDAY, true),
+    defaultDay(DaysEnum.WEDNESDAY, true),
+    defaultDay(DaysEnum.THURSDAY, true),
+    defaultDay(DaysEnum.FRIDAY, true),
+    defaultDay(DaysEnum.SATURDAY, true, '10:00', '17:00'),
+    defaultDay(DaysEnum.SUNDAY, false),
   ],
   amenities: [],
 };
@@ -228,6 +277,7 @@ export const AMENITY_CATEGORIES: AmenityCategory[] = [
 
 // Platform category options for dropdowns
 export const PLATFORM_CATEGORIES = {
+  google: ['Department Store', 'Clothing Store', 'Shopping Mall', 'Electronics Store', 'Home Goods Store', 'Sports Store', 'Jewelry Store', 'Cosmetics Store', 'Furniture Store', 'Shoe Store'],
   meta: ['Department Store', 'Clothing Store', 'Shopping Mall', 'Electronics Store', 'Home Goods Store', 'Sports Store', 'Jewelry Store', 'Cosmetics Store'],
   apple: ['Department Store', 'Clothing Store', 'Shopping Center', 'Electronics Store', 'Homeware Store', 'Sporting Goods', 'Jewelry Store', 'Beauty Store'],
   yandex: ['Büyük mağazalar', 'Giyim mağazası', 'Alışveriş merkezi', 'Elektronik mağazası', 'Ev eşyaları', 'Spor mağazası', 'Mücevherat', 'Kozmetik'],

@@ -1,5 +1,6 @@
 import { useState, useMemo } from "react";
 import { useQueryClient } from "@tanstack/react-query";
+import { QUERY_KEYS } from "@/hooks/query-keys";
 import {
   Users,
   Calendar,
@@ -24,7 +25,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useLocales, fNumber, fPercent } from "@/lib/formatters";
 import { cn } from "@/lib/utils";
-import { mockSegments, segmentDataService } from "@/lib/mock-segments-data";
+import { mockSegments, segmentDataService } from "@/lib/mock/segments";
 import { showToast } from "@/lib/toast";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import PushToPlatformDialog from "./PushToPlatformDialog";
@@ -174,8 +175,8 @@ export default function SegmentDetailDrawer({
   }, [segmentId]);
 
   function invalidateSegmentQueries() {
-    queryClient.invalidateQueries({ queryKey: ["/api/segments"] });
-    queryClient.invalidateQueries({ queryKey: ["/api/segments/summary"] });
+    queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.SEGMENTS] });
+    queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.SEGMENTS_SUMMARY] });
   }
 
   // Mock: Updates segment status in memory. Wire to PATCH /api/segments/:id in production.

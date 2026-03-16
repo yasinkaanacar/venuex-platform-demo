@@ -1,9 +1,11 @@
 import { useState, useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { AlertTriangle, Tag, Package, Radio, Plus } from "lucide-react";
+import { QUERY_KEYS } from "@/hooks/query-keys";
 import { useLocales, fNumber } from "@/lib/formatters";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+import { CardSkeleton, DataErrorState } from "@/components/shared/data-states";
 import type { FeedLabel } from "@/lib/types/segments";
 import FeedLabelTable from "./FeedLabelTable";
 import FeedLabelEditor from "./FeedLabelEditor";
@@ -13,8 +15,8 @@ export default function FeedLabelDashboard() {
   const [editorOpen, setEditorOpen] = useState(false);
   const [editingLabel, setEditingLabel] = useState<FeedLabel | null>(null);
 
-  const { data: labels = [] } = useQuery<FeedLabel[]>({
-    queryKey: ["/api/segments/feed-labels"],
+  const { data: labels = [], isLoading, isError, refetch } = useQuery<FeedLabel[]>({
+    queryKey: [QUERY_KEYS.SEGMENTS_FEED_LABELS],
   });
 
   // --- Derived stats ---
@@ -90,6 +92,21 @@ export default function FeedLabelDashboard() {
       iconBg: "bg-green-100",
     },
   ];
+
+  if (isLoading) {
+    return (
+      <div className="px-6 pt-6">
+        <CardSkeleton lines={5} />
+      </div>
+    );
+  }
+  if (isError) {
+    return (
+      <div className="px-6 pt-6">
+        <DataErrorState onRetry={refetch} />
+      </div>
+    );
+  }
 
   return (
     <div>

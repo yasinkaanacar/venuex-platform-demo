@@ -1,7 +1,7 @@
 import { Activity, CheckCircle, AlertTriangle, XCircle, TrendingUp, TrendingDown, Info } from 'lucide-react';
 import { useTranslation } from '@/contexts/LanguageContext';
 import { fNumber } from '@/lib/formatters';
-import type { PipelineHealthData } from '@/lib/mock-pipeline-data';
+import type { PipelineHealthData } from '@/lib/mock/pipeline';
 
 interface PipelineHealthSummaryProps {
   health: PipelineHealthData;

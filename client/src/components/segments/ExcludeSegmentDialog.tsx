@@ -12,8 +12,9 @@ import { Button } from "@/components/ui/button";
 import { useLocales, fNumber, fCurrency } from "@/lib/formatters";
 import { cn } from "@/lib/utils";
 import { showToast } from "@/lib/toast";
-import { segmentDataService } from "@/lib/mock-segments-data";
+import { segmentDataService } from "@/lib/mock/segments";
 import { useQueryClient } from "@tanstack/react-query";
+import { QUERY_KEYS } from "@/hooks/query-keys";
 import SegmentOverlapVenn from "./SegmentOverlapVenn";
 import type { SegmentOverlapResult, AdPlatform } from "@/lib/types/segments";
 
@@ -72,9 +73,9 @@ export default function ExcludeSegmentDialog({
         estimatedSavings: overlap.wastedSpendEstimate,
       });
 
-      await queryClient.invalidateQueries({ queryKey: ["/api/segments"] });
+      await queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.SEGMENTS] });
       await queryClient.invalidateQueries({
-        queryKey: ["/api/segments/overlap"],
+        queryKey: [QUERY_KEYS.SEGMENTS_OVERLAP],
       });
 
       showToast({
