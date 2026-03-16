@@ -51,7 +51,7 @@ let locationFormRecords: LocationFormRecord[] = [
       wh(DaysEnum.SATURDAY, true, '10:00', '21:00'),
       wh(DaysEnum.SUNDAY, true, '11:00', '20:00'),
     ],
-    amenities: ['visa', 'mastercard', 'troy', 'installment', 'nfc', 'wifi', 'wheelchair', 'elevator', 'free-parking', 'gift-wrapping', 'returns', 'cctv'],
+    amenities: { visa: 'available', mastercard: 'available', troy: 'available', installment: 'available', nfc: 'available', wifi: 'available', wheelchair: 'available', elevator: 'available', 'free-parking': 'available', 'gift-wrapping': 'available', returns: 'available', cctv: 'available', amex: 'not_available' },
     createdAt: '2024-01-15T09:00:00Z',
     updatedAt: '2025-11-20T14:30:00Z',
     photos: [
@@ -107,7 +107,7 @@ let locationFormRecords: LocationFormRecord[] = [
       wh(DaysEnum.SATURDAY, true, '10:00', '20:00'),
       wh(DaysEnum.SUNDAY, false),
     ],
-    amenities: ['visa', 'mastercard', 'troy', 'cash', 'wifi', 'returns', 'in-store-pickup'],
+    amenities: { visa: 'available', mastercard: 'available', troy: 'available', cash: 'available', wifi: 'available', returns: 'available', 'in-store-pickup': 'available', nfc: 'not_available' },
     createdAt: '2024-02-20T10:00:00Z',
     updatedAt: '2025-10-05T16:00:00Z',
     photos: [
@@ -162,7 +162,7 @@ let locationFormRecords: LocationFormRecord[] = [
       wh(DaysEnum.SATURDAY, true, '10:00', '21:00'),
       wh(DaysEnum.SUNDAY, true, '11:00', '19:00'),
     ],
-    amenities: ['visa', 'mastercard', 'amex', 'troy', 'installment', 'nfc', 'apple-pay', 'google-pay', 'cash', 'wifi', 'wheelchair', 'elevator', 'accessible-parking', 'free-parking', 'gift-wrapping', 'returns', 'delivery', 'cctv', 'security-guard'],
+    amenities: { visa: 'available', mastercard: 'available', amex: 'available', troy: 'available', installment: 'available', nfc: 'available', 'apple-pay': 'available', 'google-pay': 'available', cash: 'available', wifi: 'available', wheelchair: 'available', elevator: 'available', 'accessible-parking': 'available', 'free-parking': 'available', 'gift-wrapping': 'available', returns: 'available', delivery: 'available', cctv: 'available', 'security-guard': 'available' },
     createdAt: '2024-03-10T08:00:00Z',
     updatedAt: '2025-12-01T11:00:00Z',
     photos: [],

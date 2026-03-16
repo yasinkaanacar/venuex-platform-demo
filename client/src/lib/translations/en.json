@@ -106,7 +106,19 @@
         "businessStatus": "Business Status",
         "platformSync": "Platform Sync",
         "uploaded": "uploaded",
-        "view_all": "View All"
+        "view_all": "View All",
+        "alerts": "Alerts & Issues",
+        "alertsDesc": "Active issues requiring attention",
+        "dismissAlert": "Alert dismissed",
+        "noAlerts": "No active alerts",
+        "filterDateRange": "Date Range",
+        "filterPlatform": "Platform",
+        "last7d": "Last 7 Days",
+        "last30d": "Last 30 Days",
+        "last90d": "Last 90 Days",
+        "thisMonth": "This Month",
+        "lastMonth": "Last Month",
+        "allPlatforms": "All Platforms"
     },
     "reports": {
         "performance_chart": {
@@ -1733,11 +1745,18 @@
             "googleDestination": "Google Business Profile Destination",
             "metaDestination": "Meta Connected Destination",
             "appleDestination": "Apple Connected Destination",
-            "authority": "Authority",
+            "authority": "Description",
             "phone": "Phone",
             "website": "Website",
             "addPhone": "Add Another Phone Number",
-            "addOpeningDate": "Add Opening Date"
+            "addOpeningDate": "Add Opening Date",
+            "openingDateYear": "Year",
+            "openingDateMonth": "Month",
+            "openingDateDay": "Day",
+            "openingDateUnknown": "Unknown",
+            "openingDateOptionalBadge": "Optional Missing Info",
+            "openingDateReset": "Reset",
+            "openingDateRemove": "Remove"
         },
         "socialMedia": {
             "facebook": "Facebook",

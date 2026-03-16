@@ -38,6 +38,11 @@ export default function BasicInfoSection({ form }: BasicInfoSectionProps) {
   const bi = oc?.basicInfo;
 
   const [showTooltip, setShowTooltip] = useState(false);
+  const [showOpeningDate, setShowOpeningDate] = useState(false);
+  const currentYear = new Date().getFullYear();
+  const [odYear, setOdYear] = useState(String(currentYear));
+  const [odMonth, setOdMonth] = useState(String(new Date().getMonth() + 1));
+  const [odDay, setOdDay] = useState('');
 
   const { fields: additionalPhones, append, remove } = useFieldArray({
     control: form.control,
@@ -201,7 +206,7 @@ export default function BasicInfoSection({ form }: BasicInfoSectionProps) {
 
           {/* 6. Authority */}
           <div>
-            <label className={labelClass}>{bi?.authority || 'Authority'}</label>
+            <label className={labelClass}>{bi?.authority || 'Description'}</label>
             <textarea
               {...form.register('authority')}
               rows={3}
@@ -212,12 +217,90 @@ export default function BasicInfoSection({ form }: BasicInfoSectionProps) {
 
           {/* 7. Add Opening Date */}
           <div>
-            <button
-              type="button"
-              className="px-3 py-1.5 bg-green-500 text-white text-xs font-medium rounded-lg hover:bg-green-600 transition-colors"
-            >
-              {bi?.addOpeningDate || 'Add Opening Date'}
-            </button>
+            {!showOpeningDate ? (
+              <button
+                type="button"
+                onClick={() => setShowOpeningDate(true)}
+                className="px-3 py-1.5 bg-green-500 text-white text-xs font-medium rounded-lg hover:bg-green-600 transition-colors"
+              >
+                {bi?.addOpeningDate || 'Add Opening Date'}
+              </button>
+            ) : (
+              <div className="flex items-end gap-3">
+                {/* Year */}
+                <div className="flex-1">
+                  <label className="block text-xs text-gray-500 mb-1">{bi?.openingDateYear || 'Year'}</label>
+                  <select
+                    value={odYear}
+                    onChange={(e) => setOdYear(e.target.value)}
+                    className={inputClass}
+                  >
+                    {Array.from({ length: 50 }, (_, i) => currentYear - i).map((y) => (
+                      <option key={y} value={String(y)}>{y}</option>
+                    ))}
+                  </select>
+                </div>
+                {/* Month */}
+                <div className="flex-1">
+                  <label className="block text-xs text-gray-500 mb-1">{bi?.openingDateMonth || 'Month'}</label>
+                  <select
+                    value={odMonth}
+                    onChange={(e) => setOdMonth(e.target.value)}
+                    className={inputClass}
+                  >
+                    {Array.from({ length: 12 }, (_, i) => i + 1).map((m) => (
+                      <option key={m} value={String(m)}>{m}</option>
+                    ))}
+                  </select>
+                </div>
+                {/* Day */}
+                <div className="flex-1">
+                  <label className="block text-xs text-gray-500 mb-1">{bi?.openingDateDay || 'Day'}</label>
+                  <select
+                    value={odDay}
+                    onChange={(e) => setOdDay(e.target.value)}
+                    className={inputClass}
+                  >
+                    <option value="">{bi?.openingDateUnknown || 'Unknown'}</option>
+                    {Array.from({ length: 31 }, (_, i) => i + 1).map((d) => (
+                      <option key={d} value={String(d)}>{d}</option>
+                    ))}
+                  </select>
+                </div>
+                {/* Optional badge */}
+                <div className="flex items-center gap-1 px-2.5 py-2 border border-amber-400 rounded-lg whitespace-nowrap">
+                  <AlertCircle className="w-3.5 h-3.5 text-amber-500 flex-shrink-0" />
+                  <span className="text-xs font-medium text-amber-700">
+                    {bi?.openingDateOptionalBadge || 'Optional Missing Info'}
+                  </span>
+                </div>
+                {/* Reset */}
+                <button
+                  type="button"
+                  onClick={() => {
+                    setOdYear(String(currentYear));
+                    setOdMonth(String(new Date().getMonth() + 1));
+                    setOdDay('');
+                  }}
+                  className="px-4 py-2 bg-blue-500 text-white text-sm font-medium rounded-lg hover:bg-blue-600 transition-colors whitespace-nowrap"
+                >
+                  {bi?.openingDateReset || 'Reset'}
+                </button>
+                {/* Remove */}
+                <button
+                  type="button"
+                  onClick={() => {
+                    setShowOpeningDate(false);
+                    setOdYear(String(currentYear));
+                    setOdMonth(String(new Date().getMonth() + 1));
+                    setOdDay('');
+                  }}
+                  className="px-4 py-2 bg-blue-500 text-white text-sm font-medium rounded-lg hover:bg-blue-600 transition-colors whitespace-nowrap"
+                >
+                  {bi?.openingDateRemove || 'Remove'}
+                </button>
+              </div>
+            )}
           </div>
 
           {/* 8 + 9. Phone + Website side by side */}

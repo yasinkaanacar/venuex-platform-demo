@@ -120,7 +120,19 @@
         "businessStatus": "İşletme Durumu",
         "platformSync": "Platform Senkronizasyonu",
         "uploaded": "yüklendi",
-        "view_all": "Tümünü Gör"
+        "view_all": "Tümünü Gör",
+        "alerts": "Uyarılar & Sorunlar",
+        "alertsDesc": "Dikkat gerektiren aktif sorunlar",
+        "dismissAlert": "Uyarı kapatıldı",
+        "noAlerts": "Aktif uyarı yok",
+        "filterDateRange": "Tarih Aralığı",
+        "filterPlatform": "Platform",
+        "last7d": "Son 7 Gün",
+        "last30d": "Son 30 Gün",
+        "last90d": "Son 90 Gün",
+        "thisMonth": "Bu Ay",
+        "lastMonth": "Geçen Ay",
+        "allPlatforms": "Tüm Platformlar"
     },
     "locations": {
         "title": "Lokasyonlar",
@@ -1733,11 +1745,18 @@
             "googleDestination": "Google Business Profile Destinasyonu",
             "metaDestination": "Meta Connected Destinasyonu",
             "appleDestination": "Apple Connected Destinasyonu",
-            "authority": "Otorite",
+            "authority": "Açıklama",
             "phone": "Telefon",
             "website": "İnternet Sitesi",
             "addPhone": "Farklı Bir Telefon Numarası Ekle",
-            "addOpeningDate": "Açılış Tarihi Ekle"
+            "addOpeningDate": "Açılış Tarihi Ekle",
+            "openingDateYear": "Yıl",
+            "openingDateMonth": "Ay",
+            "openingDateDay": "Gün",
+            "openingDateUnknown": "Bilinmiyor",
+            "openingDateOptionalBadge": "İsteğe Bağlı Eksik Bilgi",
+            "openingDateReset": "Sıfırla",
+            "openingDateRemove": "Kaldır"
         },
         "socialMedia": {
             "facebook": "Facebook",

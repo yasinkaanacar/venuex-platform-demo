@@ -69,7 +69,8 @@ export const locationFormSchema = z.object({
   workingHours: z.array(workingHoursDaySchema),
 
   // Section 5: Amenities (Olanaklar)
-  amenities: z.array(z.string()),
+  // Keys are amenity IDs, values are 'available' or 'not_available'. Absent = neutral.
+  amenities: z.record(z.string(), z.enum(['available', 'not_available'])),
 });
 
 export type LocationFormData = z.infer<typeof locationFormSchema>;
@@ -162,7 +163,7 @@ export const emptyLocationFormData: LocationFormData = {
     defaultDay(DaysEnum.SATURDAY, true, '10:00', '17:00'),
     defaultDay(DaysEnum.SUNDAY, false),
   ],
-  amenities: [],
+  amenities: {},
 };
 
 // Amenity categories with realistic Turkish market data

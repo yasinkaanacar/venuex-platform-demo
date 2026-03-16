@@ -47,7 +47,7 @@ const SECTION_CONFIGS = {
   amenities: {
     total: 1,
     countFn: (values: LocationFormData) =>
-      values.amenities.length > 0 ? 1 : 0,
+      Object.keys(values.amenities).length > 0 ? 1 : 0,
   },
 };
 
