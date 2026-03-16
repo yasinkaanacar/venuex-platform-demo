@@ -55,6 +55,26 @@ export interface ChartDataPoint {
   apple: number;
 }
 
+export interface TopLocation {
+  id: string;
+  name: string;
+  address: string;
+  impressions: number;
+  directionRequests: number;
+  calls: number;
+  trend: 'up' | 'down';
+}
+
+export interface TopCampaign {
+  id: string;
+  name: string;
+  platform: 'google' | 'meta' | 'tiktok';
+  spend: number;
+  impressions: number;
+  cr: number;
+  omniRoas: number;
+}
+
 export interface OverviewData {
   kpis: {
     o2oAttribution: Metric;
@@ -66,5 +86,7 @@ export interface OverviewData {
   locations: LocationSummary[];
   campaigns: CampaignSummary[];
   alerts: AlertItem[];
+  topLocations: TopLocation[];
+  topCampaigns: TopCampaign[];
   lastSync: string;
 }

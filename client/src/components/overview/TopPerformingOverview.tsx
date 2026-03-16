@@ -1,8 +1,37 @@
 import { TrendingUp, TrendingDown, ArrowUpDown, MapPin, Megaphone } from 'lucide-react';
-import { SiGoogle, SiTiktok } from 'react-icons/si';
-import { useState } from 'react';
+import { SiGoogle, SiMeta, SiTiktok } from 'react-icons/si';
+import { useState, useMemo } from 'react';
+import type { TopLocation, TopCampaign } from '@/lib/types/overview';
+import { useTranslation } from '@/contexts/LanguageContext';
+import { fNumber } from '@/lib/formatters';
 
-export default function TopPerformingOverview() {
+interface TopPerformingOverviewProps {
+    topLocations?: TopLocation[];
+    topCampaigns?: TopCampaign[];
+}
+
+const platformConfig: Record<string, { icon: React.ReactNode; bg: string; label: string }> = {
+    google: {
+        icon: <SiGoogle className="w-3 h-3 text-white" />,
+        bg: 'bg-[#EA4335]',
+        label: 'google-ads'
+    },
+    meta: {
+        icon: <span className="text-xs text-white font-bold">f</span>,
+        bg: 'bg-blue-600',
+        label: 'meta-ads'
+    },
+    tiktok: {
+        icon: <SiTiktok className="w-3 h-3 text-white" />,
+        bg: 'bg-black',
+        label: 'tiktok-ads'
+    }
+};
+
+export default function TopPerformingOverview({ topLocations = [], topCampaigns = [] }: TopPerformingOverviewProps) {
+    const { t } = useTranslation();
+    const db = t.dashboard as any;
+
     const [locationSortColumn, setLocationSortColumn] = useState<string | null>(null);
     const [locationSortDirection, setLocationSortDirection] = useState<'asc' | 'desc'>('desc');
     const [campaignSortColumn, setCampaignSortColumn] = useState<string | null>(null);
@@ -26,6 +55,38 @@ export default function TopPerformingOverview() {
         }
     };
 
+    const sortedLocations = useMemo(() => {
+        if (!locationSortColumn) return topLocations;
+        const sorted = [...topLocations].sort((a, b) => {
+            const key = locationSortColumn as keyof TopLocation;
+            const aVal = a[key];
+            const bVal = b[key];
+            if (typeof aVal === 'number' && typeof bVal === 'number') {
+                return locationSortDirection === 'asc' ? aVal - bVal : bVal - aVal;
+            }
+            return locationSortDirection === 'asc'
+                ? String(aVal).localeCompare(String(bVal))
+                : String(bVal).localeCompare(String(aVal));
+        });
+        return sorted;
+    }, [topLocations, locationSortColumn, locationSortDirection]);
+
+    const sortedCampaigns = useMemo(() => {
+        if (!campaignSortColumn) return topCampaigns;
+        const sorted = [...topCampaigns].sort((a, b) => {
+            const key = campaignSortColumn as keyof TopCampaign;
+            const aVal = a[key];
+            const bVal = b[key];
+            if (typeof aVal === 'number' && typeof bVal === 'number') {
+                return campaignSortDirection === 'asc' ? aVal - bVal : bVal - aVal;
+            }
+            return campaignSortDirection === 'asc'
+                ? String(aVal).localeCompare(String(bVal))
+                : String(bVal).localeCompare(String(aVal));
+        });
+        return sorted;
+    }, [topCampaigns, campaignSortColumn, campaignSortDirection]);
+
     return (
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             {/* Top Performing Locations */}
@@ -33,10 +94,10 @@ export default function TopPerformingOverview() {
                 <div className="vx-card-header flex items-center justify-between">
                     <div className="flex items-center gap-2">
                         <MapPin className="w-5 h-5 text-blue-600" />
-                        <h3 className="text-base font-semibold text-gray-900">Top Performing Locations</h3>
+                        <h3 className="text-base font-semibold text-gray-900">{db?.topPerformingLocations || 'Top Performing Locations'}</h3>
                     </div>
                     <button className="text-sm text-gray-500 hover:text-gray-700 font-medium">
-                        View All →
+                        {db?.view_all || 'View All'} →
                     </button>
                 </div>
                 <div className="vx-card-body overflow-x-auto">
@@ -44,86 +105,41 @@ export default function TopPerformingOverview() {
                         <thead>
                             <tr className="border-b border-gray-200">
                                 <th className="vx-th text-left">
-                                    <button onClick={() => handleLocationSort('location')} className="flex items-center gap-1 hover:text-gray-700">
+                                    <button onClick={() => handleLocationSort('name')} className="flex items-center gap-1 hover:text-gray-700">
                                         Location <ArrowUpDown className="w-3 h-3" />
                                     </button>
                                 </th>
-                                <th className="vx-th text-right">Impressions</th>
-                                <th className="vx-th text-right">Direction Requests</th>
-                                <th className="vx-th text-right">Calls</th>
+                                <th className="vx-th text-right">{db?.impressions || 'Impressions'}</th>
+                                <th className="vx-th text-right">{db?.directionRequests || 'Direction Requests'}</th>
+                                <th className="vx-th text-right">{db?.calls || 'Calls'}</th>
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-gray-100">
-                            <tr className="hover:bg-gray-50">
-                                <td className="vx-td">
-                                    <div className="font-medium text-gray-900">Istanbul - Beyoğlu</div>
-                                    <div className="text-xs text-gray-500">İstiklal Caddesi 125</div>
-                                </td>
-                                <td className="vx-td text-right text-gray-900 font-medium">89,420</td>
-                                <td className="vx-td text-right text-gray-900 font-medium">549</td>
-                                <td className="vx-td text-right">
-                                    <div className="flex items-center justify-end gap-1">
-                                        <span className="font-medium text-gray-900">276</span>
-                                        <TrendingUp className="w-3 h-3 text-green-600" />
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr className="hover:bg-gray-50">
-                                <td className="vx-td">
-                                    <div className="font-medium text-gray-900">Antalya - Muratpaşa</div>
-                                    <div className="text-xs text-gray-500">Lara Caddesi 112</div>
-                                </td>
-                                <td className="vx-td text-right text-gray-900 font-medium">94,672</td>
-                                <td className="vx-td text-right text-gray-900 font-medium">627</td>
-                                <td className="vx-td text-right">
-                                    <div className="flex items-center justify-end gap-1">
-                                        <span className="font-medium text-gray-900">298</span>
-                                        <TrendingUp className="w-3 h-3 text-green-600" />
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr className="hover:bg-gray-50">
-                                <td className="vx-td">
-                                    <div className="font-medium text-gray-900">İzmir - Alsancak</div>
-                                    <div className="text-xs text-gray-500">Kordon Caddesi 67</div>
-                                </td>
-                                <td className="vx-td text-right text-gray-900 font-medium">82,155</td>
-                                <td className="vx-td text-right text-gray-900 font-medium">559</td>
-                                <td className="vx-td text-right">
-                                    <div className="flex items-center justify-end gap-1">
-                                        <span className="font-medium text-gray-900">267</span>
-                                        <TrendingUp className="w-3 h-3 text-green-600" />
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr className="hover:bg-gray-50">
-                                <td className="vx-td">
-                                    <div className="font-medium text-gray-900">Ankara - Çankaya</div>
-                                    <div className="text-xs text-gray-500">Tunalı Hilmi Caddesi 89</div>
-                                </td>
-                                <td className="vx-td text-right text-gray-900 font-medium">76,230</td>
-                                <td className="vx-td text-right text-gray-900 font-medium">514</td>
-                                <td className="vx-td text-right">
-                                    <div className="flex items-center justify-end gap-1">
-                                        <span className="font-medium text-gray-900">242</span>
-                                        <TrendingDown className="w-3 h-3 text-red-500" />
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr className="hover:bg-gray-50">
-                                <td className="vx-td">
-                                    <div className="font-medium text-gray-900">Bursa - Nilüfer</div>
-                                    <div className="text-xs text-gray-500">Görükle Mahallesi 45</div>
-                                </td>
-                                <td className="vx-td text-right text-gray-900 font-medium">71,845</td>
-                                <td className="vx-td text-right text-gray-900 font-medium">486</td>
-                                <td className="vx-td text-right">
-                                    <div className="flex items-center justify-end gap-1">
-                                        <span className="font-medium text-gray-900">231</span>
-                                        <TrendingUp className="w-3 h-3 text-green-600" />
-                                    </div>
-                                </td>
-                            </tr>
+                            {sortedLocations.map((loc) => (
+                                <tr key={loc.id} className="hover:bg-gray-50">
+                                    <td className="vx-td">
+                                        <div className="font-medium text-gray-900">{loc.name}</div>
+                                        <div className="text-xs text-gray-500">{loc.address}</div>
+                                    </td>
+                                    <td className="vx-td text-right text-gray-900 font-medium">{fNumber(loc.impressions)}</td>
+                                    <td className="vx-td text-right text-gray-900 font-medium">{fNumber(loc.directionRequests)}</td>
+                                    <td className="vx-td text-right">
+                                        <div className="flex items-center justify-end gap-1">
+                                            <span className="font-medium text-gray-900">{fNumber(loc.calls)}</span>
+                                            {loc.trend === 'up' ? (
+                                                <TrendingUp className="w-3 h-3 text-green-600" />
+                                            ) : (
+                                                <TrendingDown className="w-3 h-3 text-red-500" />
+                                            )}
+                                        </div>
+                                    </td>
+                                </tr>
+                            ))}
+                            {sortedLocations.length === 0 && (
+                                <tr>
+                                    <td colSpan={4} className="vx-td text-center text-gray-400 py-8">No location data</td>
+                                </tr>
+                            )}
                         </tbody>
                     </table>
                 </div>
@@ -134,10 +150,10 @@ export default function TopPerformingOverview() {
                 <div className="vx-card-header flex items-center justify-between">
                     <div className="flex items-center gap-2">
                         <Megaphone className="w-5 h-5 text-purple-600" />
-                        <h3 className="text-base font-semibold text-gray-900">Top Performing Campaigns</h3>
+                        <h3 className="text-base font-semibold text-gray-900">{db?.topPerformingCampaigns || 'Top Performing Campaigns'}</h3>
                     </div>
                     <button className="text-sm text-gray-500 hover:text-gray-700 font-medium">
-                        View All →
+                        {db?.view_all || 'View All'} →
                     </button>
                 </div>
                 <div className="vx-card-body overflow-x-auto">
@@ -145,102 +161,45 @@ export default function TopPerformingOverview() {
                         <thead>
                             <tr className="border-b border-gray-200">
                                 <th className="vx-th text-left">
-                                    <button onClick={() => handleCampaignSort('campaign')} className="flex items-center gap-1 hover:text-gray-700">
+                                    <button onClick={() => handleCampaignSort('name')} className="flex items-center gap-1 hover:text-gray-700">
                                         Campaign <ArrowUpDown className="w-3 h-3" />
                                     </button>
                                 </th>
-                                <th className="vx-th text-right">Spend</th>
-                                <th className="vx-th text-right">Impressions</th>
-                                <th className="vx-th text-right">CR</th>
+                                <th className="vx-th text-right">{db?.spend || 'Spend'}</th>
+                                <th className="vx-th text-right">{db?.impressions || 'Impressions'}</th>
+                                <th className="vx-th text-right">{db?.conversionRate || 'CR'}</th>
                                 <th className="vx-th text-right">Omni-ROAS</th>
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-gray-100">
-                            <tr className="hover:bg-gray-50">
-                                <td className="vx-td">
-                                    <div className="flex items-center gap-2">
-                                        <div className="w-5 h-5 bg-[#EA4335] rounded flex items-center justify-center flex-shrink-0">
-                                            <SiGoogle className="w-3 h-3 text-white" />
-                                        </div>
-                                        <div>
-                                            <div className="font-medium text-gray-900">Summer Sale 2024</div>
-                                            <div className="text-xs text-gray-500">google-ads</div>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td className="vx-td text-right text-gray-900 font-medium">$16,350</td>
-                                <td className="vx-td text-right text-gray-900 font-medium">142,580</td>
-                                <td className="vx-td text-right text-gray-600">3.4%</td>
-                                <td className="vx-td text-right text-green-600 font-medium">4.2x</td>
-                            </tr>
-                            <tr className="hover:bg-gray-50">
-                                <td className="vx-td">
-                                    <div className="flex items-center gap-2">
-                                        <div className="w-5 h-5 bg-blue-600 rounded flex items-center justify-center flex-shrink-0">
-                                            <span className="text-xs text-white font-bold">f</span>
-                                        </div>
-                                        <div>
-                                            <div className="font-medium text-gray-900">Local Store Promo</div>
-                                            <div className="text-xs text-gray-500">meta-ads</div>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td className="vx-td text-right text-gray-900 font-medium">$12,840</td>
-                                <td className="vx-td text-right text-gray-900 font-medium">89,670</td>
-                                <td className="vx-td text-right text-gray-600">4.1%</td>
-                                <td className="vx-td text-right text-green-600 font-medium">5.1x</td>
-                            </tr>
-                            <tr className="hover:bg-gray-50">
-                                <td className="vx-td">
-                                    <div className="flex items-center gap-2">
-                                        <div className="w-5 h-5 bg-blue-600 rounded flex items-center justify-center flex-shrink-0">
-                                            <span className="text-xs text-white font-bold">f</span>
-                                        </div>
-                                        <div>
-                                            <div className="font-medium text-gray-900">Store Visit Drive</div>
-                                            <div className="text-xs text-gray-500">meta-ads</div>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td className="vx-td text-right text-gray-900 font-medium">$18,960</td>
-                                <td className="vx-td text-right text-gray-900 font-medium">135,240</td>
-                                <td className="vx-td text-right text-gray-600">3.7%</td>
-                                <td className="vx-td text-right text-amber-600 font-medium">3.6x</td>
-                            </tr>
-                            <tr className="hover:bg-gray-50">
-                                <td className="vx-td">
-                                    <div className="flex items-center gap-2">
-                                        <div className="w-5 h-5 bg-[#EA4335] rounded flex items-center justify-center flex-shrink-0">
-                                            <SiGoogle className="w-3 h-3 text-white" />
-                                        </div>
-                                        <div>
-                                            <div className="font-medium text-gray-900">Local Shopping Campaign</div>
-                                            <div className="text-xs text-gray-500">google-ads</div>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td className="vx-td text-right text-gray-900 font-medium">$15,420</td>
-                                <td className="vx-td text-right text-gray-900 font-medium">118,420</td>
-                                <td className="vx-td text-right text-gray-600">2.9%</td>
-                                <td className="vx-td text-right text-amber-600 font-medium">3.8x</td>
-                            </tr>
-                            <tr className="hover:bg-gray-50">
-                                <td className="vx-td">
-                                    <div className="flex items-center gap-2">
-                                        <div className="w-5 h-5 bg-black rounded flex items-center justify-center flex-shrink-0">
-                                            <SiTiktok className="w-3 h-3 text-white" />
-                                        </div>
-                                        <div>
-                                            <div className="font-medium text-gray-900">Gen Z Store Discovery</div>
-                                            <div className="text-xs text-gray-500">tiktok-ads</div>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td className="vx-td text-right text-gray-900 font-medium">$8,920</td>
-                                <td className="vx-td text-right text-gray-900 font-medium">78,950</td>
-                                <td className="vx-td text-right text-gray-600">2.8%</td>
-                                <td className="vx-td text-right text-amber-600 font-medium">2.9x</td>
-                            </tr>
+                            {sortedCampaigns.map((camp) => {
+                                const pConfig = platformConfig[camp.platform] || platformConfig.google;
+                                const roasColor = camp.omniRoas >= 4.0 ? 'text-green-600' : 'text-amber-600';
+                                return (
+                                    <tr key={camp.id} className="hover:bg-gray-50">
+                                        <td className="vx-td">
+                                            <div className="flex items-center gap-2">
+                                                <div className={`w-5 h-5 ${pConfig.bg} rounded flex items-center justify-center flex-shrink-0`}>
+                                                    {pConfig.icon}
+                                                </div>
+                                                <div>
+                                                    <div className="font-medium text-gray-900">{camp.name}</div>
+                                                    <div className="text-xs text-gray-500">{pConfig.label}</div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td className="vx-td text-right text-gray-900 font-medium">${fNumber(camp.spend)}</td>
+                                        <td className="vx-td text-right text-gray-900 font-medium">{fNumber(camp.impressions)}</td>
+                                        <td className="vx-td text-right text-gray-600">{camp.cr.toFixed(1)}%</td>
+                                        <td className={`vx-td text-right font-medium ${roasColor}`}>{camp.omniRoas.toFixed(1)}x</td>
+                                    </tr>
+                                );
+                            })}
+                            {sortedCampaigns.length === 0 && (
+                                <tr>
+                                    <td colSpan={5} className="vx-td text-center text-gray-400 py-8">No campaign data</td>
+                                </tr>
+                            )}
                         </tbody>
                     </table>
                 </div>

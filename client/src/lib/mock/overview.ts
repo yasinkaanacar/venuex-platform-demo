@@ -112,6 +112,100 @@ export const mockOverviewData: OverviewData = {
       isActive: true
     }
   ],
+  topLocations: [
+    {
+      id: 'top-loc-1',
+      name: 'Istanbul - Beyoğlu',
+      address: 'İstiklal Caddesi 125',
+      impressions: 89420,
+      directionRequests: 549,
+      calls: 276,
+      trend: 'up'
+    },
+    {
+      id: 'top-loc-2',
+      name: 'Antalya - Muratpaşa',
+      address: 'Lara Caddesi 112',
+      impressions: 94672,
+      directionRequests: 627,
+      calls: 298,
+      trend: 'up'
+    },
+    {
+      id: 'top-loc-3',
+      name: 'İzmir - Alsancak',
+      address: 'Kordon Caddesi 67',
+      impressions: 82155,
+      directionRequests: 559,
+      calls: 267,
+      trend: 'up'
+    },
+    {
+      id: 'top-loc-4',
+      name: 'Ankara - Çankaya',
+      address: 'Tunalı Hilmi Caddesi 89',
+      impressions: 76230,
+      directionRequests: 514,
+      calls: 242,
+      trend: 'down'
+    },
+    {
+      id: 'top-loc-5',
+      name: 'Bursa - Nilüfer',
+      address: 'Görükle Mahallesi 45',
+      impressions: 71845,
+      directionRequests: 486,
+      calls: 231,
+      trend: 'up'
+    }
+  ],
+  topCampaigns: [
+    {
+      id: 'top-camp-1',
+      name: 'Summer Sale 2024',
+      platform: 'google',
+      spend: 16350,
+      impressions: 142580,
+      cr: 3.4,
+      omniRoas: 4.2
+    },
+    {
+      id: 'top-camp-2',
+      name: 'Local Store Promo',
+      platform: 'meta',
+      spend: 12840,
+      impressions: 89670,
+      cr: 4.1,
+      omniRoas: 5.1
+    },
+    {
+      id: 'top-camp-3',
+      name: 'Store Visit Drive',
+      platform: 'meta',
+      spend: 18960,
+      impressions: 135240,
+      cr: 3.7,
+      omniRoas: 3.6
+    },
+    {
+      id: 'top-camp-4',
+      name: 'Local Shopping Campaign',
+      platform: 'google',
+      spend: 15420,
+      impressions: 118420,
+      cr: 2.9,
+      omniRoas: 3.8
+    },
+    {
+      id: 'top-camp-5',
+      name: 'Gen Z Store Discovery',
+      platform: 'tiktok',
+      spend: 8920,
+      impressions: 78950,
+      cr: 2.8,
+      omniRoas: 2.9
+    }
+  ],
   alerts: [
     {
       id: 'alert-1',
