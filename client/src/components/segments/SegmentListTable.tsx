@@ -693,6 +693,10 @@ export default function SegmentListTable() {
         <SegmentBuilderDialog
           open={builderOpen}
           onOpenChange={setBuilderOpen}
+          onCreated={(segment) => {
+            setPushTargetSegment(segment);
+            setPushDialogOpen(true);
+          }}
         />
       )}
 

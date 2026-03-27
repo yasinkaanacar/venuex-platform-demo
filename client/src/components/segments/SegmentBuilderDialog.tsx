@@ -18,7 +18,10 @@ import {
   ArrowLeft,
   ArrowRight,
 } from "lucide-react";
+import { useQueryClient } from "@tanstack/react-query";
 import { QUERY_KEYS } from "@/hooks/query-keys";
+import { segmentDataService } from "@/lib/mock/segments";
+import { showToast } from "@/lib/toast";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -28,6 +31,7 @@ import { cn } from "@/lib/utils";
 import SegmentRuleEditor from "./SegmentRuleEditor";
 import SegmentPreviewPanel from "./SegmentPreviewPanel";
 import type {
+  Segment,
   SegmentType,
   SegmentRuleGroup,
   RuleDimension,
@@ -36,6 +40,7 @@ import type {
 interface SegmentBuilderDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
+  onCreated?: (segment: Segment) => void;
 }
 
 // ------------------------------------------------------------------
@@ -159,8 +164,10 @@ const STEPS = ["step1", "step2", "step3"] as const;
 export default function SegmentBuilderDialog({
   open,
   onOpenChange,
+  onCreated,
 }: SegmentBuilderDialogProps) {
   const { t } = useLocales();
+  const queryClient = useQueryClient();
 
   // Wizard step
   const [step, setStep] = useState(0);
@@ -174,6 +181,9 @@ export default function SegmentBuilderDialog({
   const [ruleGroups, setRuleGroups] = useState<SegmentRuleGroup[]>([
     makeInitialGroup("value"),
   ]);
+
+  // Create state
+  const [isCreating, setIsCreating] = useState(false);
 
   // Derived
   const estimatedSize = useMemo(
@@ -209,10 +219,36 @@ export default function SegmentBuilderDialog({
     if (step > 0) setStep(step - 1);
   }
 
-  // TODO [Delivery]: Wire to segmentDataService.createSegment() with loading state,
-  // toast notification, and queryClient.invalidateQueries([QUERY_KEYS.SEGMENTS]).
-  function handleCreate() {
-    handleClose();
+  async function handleCreate() {
+    setIsCreating(true);
+    try {
+      const newSegment = await segmentDataService.createSegment({
+        name: name.trim(),
+        description: description.trim(),
+        type: segmentType,
+        ruleGroups,
+        estimatedSize,
+      });
+
+      await queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.SEGMENTS] });
+      await queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.SEGMENTS_SUMMARY] });
+
+      showToast({
+        type: "success",
+        title: t("segments.builder.createSuccess") || "Segment created",
+        description: name.trim(),
+      });
+
+      handleClose();
+      onCreated?.(newSegment);
+    } catch {
+      showToast({
+        type: "error",
+        title: t("segments.builder.createError") || "Failed to create segment",
+      });
+    } finally {
+      setIsCreating(false);
+    }
   }
 
   // Readability helper for rules
@@ -540,8 +576,11 @@ export default function SegmentBuilderDialog({
                 variant="default"
                 size="sm"
                 onClick={handleCreate}
+                disabled={isCreating}
               >
-                {t("segments.builder.create") || "Create Segment"}
+                {isCreating
+                  ? (t("segments.builder.creating") || "Creating…")
+                  : (t("segments.builder.create") || "Create Segment")}
               </Button>
             )}
           </div>

@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect } from "react";
 import {
   Dialog as MuiDialog,
   DialogTitle as MuiDialogTitle,
@@ -8,16 +8,15 @@ import {
 } from "@mui/material";
 import { X, Send, Loader2, Info } from "lucide-react";
 import { SiGoogle, SiMeta, SiTiktok } from "react-icons/si";
-import { useQueryClient, useQueries } from "@tanstack/react-query";
+import { useQueryClient } from "@tanstack/react-query";
 import { QUERY_KEYS } from "@/hooks/query-keys";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
-import { useLocales, fNumber, fCurrency } from "@/lib/formatters";
+import { useLocales, fNumber } from "@/lib/formatters";
 import { cn } from "@/lib/utils";
 import { segmentDataService } from "@/lib/mock/segments";
 import { showToast } from "@/lib/toast";
-import SegmentReachProjection from "./SegmentReachProjection";
-import type { Segment, AdPlatform, PushStatus, ReachProjection } from "@/lib/types/segments";
+import type { Segment, AdPlatform, PushStatus } from "@/lib/types/segments";
 
 interface PushToPlatformDialogProps {
   open: boolean;
@@ -35,11 +34,10 @@ const PLATFORMS: {
   name: string;
   icon: React.ElementType;
   iconColor: string;
-  estMatchRate: number;
 }[] = [
-  { key: "google", name: "Google Ads", icon: SiGoogle, iconColor: "text-[#4285F4]", estMatchRate: 76 },
-  { key: "meta", name: "Meta Ads", icon: SiMeta, iconColor: "text-[#0081FB]", estMatchRate: 81 },
-  { key: "tiktok", name: "TikTok Ads", icon: SiTiktok, iconColor: "text-gray-900", estMatchRate: 61 },
+  { key: "google", name: "Google Ads", icon: SiGoogle, iconColor: "text-[#4285F4]" },
+  { key: "meta", name: "Meta Ads", icon: SiMeta, iconColor: "text-[#0081FB]" },
+  { key: "tiktok", name: "TikTok Ads", icon: SiTiktok, iconColor: "text-gray-900" },
 ];
 
 const pushStatusDisplay: Record<PushStatus, { label: string; color: string; bg: string }> = {
@@ -194,61 +192,43 @@ export default function PushToPlatformDialog({
             const Icon = platform.icon;
 
             return (
-              <div key={platform.key}>
-                <label
+              <label
+                key={platform.key}
+                className={cn(
+                  "flex items-center gap-3 rounded-lg border-2 px-3 py-2.5 cursor-pointer transition-all",
+                  isChecked
+                    ? "border-blue-500 bg-blue-50/50"
+                    : "border-gray-200 hover:border-gray-300 hover:bg-gray-50/50",
+                )}
+              >
+                <Checkbox
+                  checked={isChecked}
+                  onChange={() => togglePlatform(platform.key)}
+                  disabled={isPushing}
+                />
+
+                {/* Platform icon + name */}
+                <div className="flex items-center gap-2 min-w-0 flex-1">
+                  <Icon className={cn("w-5 h-5 shrink-0", platform.iconColor)} />
+                  <span className="text-sm font-medium text-foreground">
+                    {platform.name}
+                  </span>
+                </div>
+
+                {/* Status */}
+                <span
                   className={cn(
-                    "flex items-center gap-3 rounded-lg border-2 px-3 py-2.5 cursor-pointer transition-all",
-                    isChecked
-                      ? "border-blue-500 bg-blue-50/50"
-                      : "border-gray-200 hover:border-gray-300 hover:bg-gray-50/50",
+                    "inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-medium shrink-0",
+                    statusCfg.bg,
+                    statusCfg.color,
                   )}
                 >
-                  <Checkbox
-                    checked={isChecked}
-                    onChange={() => togglePlatform(platform.key)}
-                    disabled={isPushing}
-                  />
-
-                  {/* Platform icon + name */}
-                  <div className="flex items-center gap-2 min-w-0 flex-1">
-                    <Icon className={cn("w-5 h-5 shrink-0", platform.iconColor)} />
-                    <span className="text-sm font-medium text-foreground">
-                      {platform.name}
-                    </span>
-                  </div>
-
-                  {/* Status + match rate */}
-                  <div className="flex items-center gap-2 shrink-0">
-                    <span
-                      className={cn(
-                        "inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-medium",
-                        statusCfg.bg,
-                        statusCfg.color,
-                      )}
-                    >
-                      {t(`segments.push.${status === "not_pushed" ? "notPushed" : status}`) || statusCfg.label}
-                    </span>
-                    <span className="text-[10px] text-muted-foreground tabular-nums">
-                      ~{existingPush?.matchRate || platform.estMatchRate}%
-                    </span>
-                  </div>
-                </label>
-                {/* Reach projection inline below checked platform */}
-                {isChecked && (
-                  <SegmentReachProjection
-                    segmentId={segment.id}
-                    platform={platform.key}
-                  />
-                )}
-              </div>
+                  {t(`segments.push.${status === "not_pushed" ? "notPushed" : status}`) || statusCfg.label}
+                </span>
+              </label>
             );
           })}
         </div>
-
-        {/* Total projected spend */}
-        {selected.size > 0 && (
-          <TotalProjectedSpend segmentId={segment.id} platforms={Array.from(selected)} />
-        )}
 
         {/* Re-push note */}
         {hasAlreadySynced && (
@@ -286,58 +266,5 @@ export default function PushToPlatformDialog({
         </Button>
       </MuiDialogActions>
     </MuiDialog>
-  );
-}
-
-// ---------------------------------------------------------------------------
-// Total Projected Spend summary
-// ---------------------------------------------------------------------------
-
-function TotalProjectedSpend({
-  segmentId,
-  platforms,
-}: {
-  segmentId: string;
-  platforms: AdPlatform[];
-}) {
-  const { t } = useLocales();
-
-  const projectionQueries = useQueries({
-    queries: platforms.map((platform) => ({
-      queryKey: [`${QUERY_KEYS.SEGMENTS_REACH_PROJECTION}/${segmentId}/${platform}`],
-      enabled: !!segmentId,
-    })),
-  });
-
-  const totalSpend = useMemo(() => {
-    let sum = 0;
-    for (const q of projectionQueries) {
-      const data = q.data as ReachProjection | undefined;
-      if (data) sum += data.estimatedMonthlySpend;
-    }
-    return sum;
-  }, [projectionQueries]);
-
-  const allLoaded = projectionQueries.every((q) => !q.isLoading);
-
-  if (!allLoaded || totalSpend === 0) return null;
-
-  return (
-    <div className="mt-3 px-3 py-2 bg-blue-50 rounded-lg border border-blue-200/60">
-      <div className="flex items-center justify-between">
-        <div>
-          <p className="text-xs font-medium text-blue-900">
-            {t("segments.reach.totalProjectedSpend") || "Total Projected Monthly Spend"}
-          </p>
-          <p className="text-[10px] text-blue-700/70 mt-0.5">
-            {t("segments.reach.basedOnHistorical") ||
-              "Based on historical match rates and platform benchmarks"}
-          </p>
-        </div>
-        <span className="text-base font-bold text-blue-900 tabular-nums">
-          {fCurrency(totalSpend)}
-        </span>
-      </div>
-    </div>
   );
 }

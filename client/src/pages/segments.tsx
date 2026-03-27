@@ -14,7 +14,7 @@ export default function Segments() {
   return (
     <div className="vx-page">
       {/* Tab Navigation - Sticky */}
-      <div className="sticky top-16 z-40 bg-white border-b border-gray-200">
+      <div className="sticky top-0 z-40 bg-white border-b border-gray-200">
         <div className="px-6 py-3">
           <div className="vx-tabs">
             <button
