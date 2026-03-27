@@ -239,7 +239,7 @@ export default function DataPipelineStatus({ kpis, platforms, filters }: DataPip
                 <div>
                     <button
                         onClick={() => setConnectionsExpanded(prev => !prev)}
-                        className="flex items-center gap-1.5 text-xs font-medium text-gray-500 hover:text-gray-700 mb-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 rounded"
+                        className="flex items-center gap-1.5 text-xs font-medium text-gray-500 hover:text-gray-700 hover:bg-gray-100 py-1 px-2 -ml-2 rounded-md mb-2 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
                     >
                         {connectionsExpanded ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
                         {en ? 'Data Pipelines' : 'Veri Hatları'} ({connections.length})
@@ -267,7 +267,7 @@ export default function DataPipelineStatus({ kpis, platforms, filters }: DataPip
                                     <div key={ps.name} className="flex items-center gap-2 text-xs">
                                         {getPlatformIcon(ps.name)}
                                         <span className="text-gray-600 w-12 flex-shrink-0">{ps.name}</span>
-                                        <span className="text-gray-500 flex-1 truncate">{ps.detail}</span>
+                                        <span className="text-gray-500 flex-1 truncate" title={ps.detail}>{ps.detail}</span>
                                         {getStatusIcon(ps.status)}
                                     </div>
                                 ))}

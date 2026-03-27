@@ -197,9 +197,8 @@ export default function TopPerformingOverview({ topLocations = [], topCampaigns 
                                     </button>
                                 </th>
                                 <th className="vx-th text-right">{db?.spend || 'Spend'}</th>
-                                <th className="vx-th text-right">{db?.impressions || 'Impressions'}</th>
                                 <th className="vx-th text-right">{db?.conversionRate || 'CR'}</th>
-                                <th className="vx-th text-right">{db?.omniRoas || 'Omni-ROAS'}</th>
+                                <th className="vx-th text-right whitespace-nowrap">{db?.omniRoas || 'Omni-ROAS'}</th>
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-gray-100">
@@ -208,19 +207,18 @@ export default function TopPerformingOverview({ topLocations = [], topCampaigns 
                                 const roasColor = camp.omniRoas >= 4.0 ? 'text-green-600' : 'text-amber-600';
                                 return (
                                     <tr key={camp.id} onClick={() => navigate(PATHS.OFFLINE_CONVERSIONS)} className="hover:bg-gray-50 cursor-pointer transition-colors">
-                                        <td className="vx-td">
+                                        <td className="vx-td max-w-[140px]">
                                             <div className="flex items-center gap-2">
                                                 <div className={`w-5 h-5 ${pConfig.bg} rounded flex items-center justify-center flex-shrink-0`}>
                                                     {pConfig.icon}
                                                 </div>
-                                                <div>
-                                                    <div className="font-medium text-gray-900">{camp.name}</div>
+                                                <div className="min-w-0">
+                                                    <div className="font-medium text-gray-900 truncate" title={camp.name}>{camp.name}</div>
                                                     <div className="text-xs text-gray-500">{pConfig.label}</div>
                                                 </div>
                                             </div>
                                         </td>
                                         <td className="vx-td text-right text-gray-900 font-medium">{fCurrency(camp.spend)}</td>
-                                        <td className="vx-td text-right text-gray-900 font-medium">{fNumber(camp.impressions)}</td>
                                         <td className="vx-td text-right text-gray-600">{camp.cr.toFixed(1)}%</td>
                                         <td className={`vx-td text-right font-medium ${roasColor}`}>{camp.omniRoas.toFixed(1)}x</td>
                                     </tr>
@@ -228,7 +226,7 @@ export default function TopPerformingOverview({ topLocations = [], topCampaigns 
                             })}
                             {sortedCampaigns.length === 0 && (
                                 <tr>
-                                    <td colSpan={5} className="vx-td text-center text-gray-400 py-8">No campaign data</td>
+                                    <td colSpan={4} className="vx-td text-center text-gray-400 py-8">No campaign data</td>
                                 </tr>
                             )}
                         </tbody>
