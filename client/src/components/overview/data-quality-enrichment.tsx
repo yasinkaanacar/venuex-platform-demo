@@ -1,11 +1,15 @@
 import { ShieldCheck, Info } from 'lucide-react';
+import { useLocation } from 'wouter';
 import { useTranslation } from '@/contexts/LanguageContext';
 import EnrichmentSuggestions from './enrichment-suggestions';
+import type { OverviewFilterState } from '@/pages/overview';
+import { PATHS } from '@/routes/paths';
 
 type DataQualityContext = 'dashboard' | 'locations';
 
 interface DataQualityEnrichmentProps {
   context?: DataQualityContext;
+  filters?: OverviewFilterState;
 }
 
 interface QualityField {
@@ -45,9 +49,10 @@ function QualityBar({ label, value }: QualityField) {
   );
 }
 
-export default function DataQualityEnrichment({ context = 'dashboard' }: DataQualityEnrichmentProps) {
+export default function DataQualityEnrichment({ context = 'dashboard', filters }: DataQualityEnrichmentProps) {
   const { t, language } = useTranslation();
   const en = language === 'en';
+  const [, navigate] = useLocation();
 
   const dashboardCategories: QualityCategory[] = [
     {
@@ -146,7 +151,7 @@ export default function DataQualityEnrichment({ context = 'dashboard' }: DataQua
             <span className={`text-sm font-semibold ${getScoreColor(overallScore)}`}>
               {en ? 'Overall' : 'Genel'}: {overallScore}%
             </span>
-            <button className="text-xs text-gray-500 hover:text-gray-700 font-medium">
+            <button onClick={() => navigate(context === 'locations' ? PATHS.LOCATIONS : PATHS.CATALOG)} className="text-xs text-gray-500 hover:text-gray-700 font-medium">
               {en ? 'View All' : 'Tümünü Gör'} →
             </button>
           </div>

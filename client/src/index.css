@@ -8,7 +8,7 @@
   --card: #fcfcfc;
   --card-foreground: hsl(0, 0%, 0%);
   --popover: hsl(45, 25%, 97%);
-  --popover-foreground: hsl(0, 0%, 100%);
+  --popover-foreground: hsl(0, 0%, 10%);
   --primary: #eb1a4e;
   --primary-foreground: #ffffff;
   --secondary: #c4c4c4;
@@ -212,6 +212,12 @@
 
   .vx-filter-row {
     @apply flex items-center gap-3 flex-wrap;
+  }
+
+  /* Normalize PerformanceChart title when used inside the dashboard */
+  .dashboard-chart-override .vx-card-header h3 {
+    font-size: 0.875rem;
+    line-height: 1.25rem;
   }
 
   .vx-tabs {

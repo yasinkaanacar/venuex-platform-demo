@@ -1,20 +1,28 @@
+import { useState } from 'react';
 import {
     CheckCircle, AlertTriangle, XCircle, RefreshCw, Clock,
     MapPin, ShoppingBag, Upload,
     TrendingUp, TrendingDown, Star, DollarSign, Eye,
-    Activity
+    Activity, Info, X
 } from 'lucide-react';
 import { SiGoogle, SiMeta, SiTiktok } from 'react-icons/si';
 import { FaApple } from 'react-icons/fa';
+import { useQueryClient } from '@tanstack/react-query';
 import { useTranslation } from '@/contexts/LanguageContext';
+import { QUERY_KEYS } from '@/hooks/query-keys';
+import { showToast } from '@/lib/toast';
+import { apiRequest } from '@/lib/queryClient';
 import type { Metric } from '@/lib/types/common';
-import type { OverviewData, PlatformConnection } from '@/lib/types/overview';
+import type { OverviewData, PlatformConnection, AlertItem } from '@/lib/types/overview';
+import type { OverviewFilterState } from '@/pages/overview';
 import { fNumber, fPercent } from '@/lib/formatters';
 
 // ─── Props ──────────────────────────────────────────────────
 interface DataPipelineStatusProps {
     kpis?: OverviewData['kpis'];
     platforms?: PlatformConnection[];
+    alerts?: AlertItem[];
+    filters?: OverviewFilterState;
 }
 
 // ─── Types ──────────────────────────────────────────────────
@@ -95,36 +103,74 @@ const getPlatformIcon = (name: string) => {
 const defaultKpis: KpiCard[] = [
     { id: 'roas',        title: 'Omni-ROAS',                metric: { value: 4.2, change: 12.5, past_value: 3.7 },      format: 'multiplier', icon: <DollarSign className="w-3.5 h-3.5 text-white" />, gradient: 'bg-gradient-to-br from-emerald-50 to-teal-50', border: 'border-emerald-100', iconBadge: 'bg-emerald-500' },
     { id: 'interactions', title: 'Location Interactions',    metric: { value: 23847, change: 10.7, past_value: 20634 },   format: 'number',     icon: <MapPin className="w-3.5 h-3.5 text-white" />,     gradient: 'bg-gradient-to-br from-rose-50 to-pink-50',    border: 'border-rose-100',    iconBadge: 'bg-rose-500' },
-    { id: 'impressions',  title: 'Local Product Impressions', metric: { value: 142847, change: 18.3, past_value: 120654 }, format: 'number',     icon: <Eye className="w-3.5 h-3.5 text-white" />,        gradient: 'bg-gradient-to-br from-blue-50 to-indigo-50',  border: 'border-blue-100',    iconBadge: 'bg-blue-500' },
+    { id: 'catalog',      title: 'Catalog Coverage',           metric: { value: 87.5, change: 5.3, past_value: 82.2 },     format: 'percent',    icon: <Eye className="w-3.5 h-3.5 text-white" />,        gradient: 'bg-gradient-to-br from-blue-50 to-indigo-50',  border: 'border-blue-100',    iconBadge: 'bg-blue-500' },
     { id: 'rating',       title: 'Average Rating',           metric: { value: 4.3, change: 4.9, past_value: 4.1 },        format: 'rating',     icon: <Star className="w-3.5 h-3.5 text-white" />,       gradient: 'bg-gradient-to-br from-amber-50 to-yellow-50', border: 'border-amber-100',   iconBadge: 'bg-amber-500' },
 ];
 
 // ─── Component ──────────────────────────────────────────────
-export default function DataPipelineStatus({ kpis, platforms }: DataPipelineStatusProps = {}) {
+const alertSeverityConfig: Record<string, { icon: React.ReactNode; bg: string; border: string; text: string }> = {
+    error:   { icon: <XCircle className="w-3.5 h-3.5 text-red-500" />,   bg: 'bg-red-50',   border: 'border-red-100',   text: 'text-red-800' },
+    warning: { icon: <AlertTriangle className="w-3.5 h-3.5 text-amber-500" />, bg: 'bg-amber-50', border: 'border-amber-100', text: 'text-amber-800' },
+    info:    { icon: <Info className="w-3.5 h-3.5 text-blue-500" />,    bg: 'bg-blue-50',  border: 'border-blue-100',  text: 'text-blue-800' },
+};
+
+function formatRelativeTime(timestamp: Date, en: boolean): string {
+    const now = new Date();
+    const diffMs = now.getTime() - new Date(timestamp).getTime();
+    const diffMins = Math.floor(diffMs / 60000);
+    const diffHours = Math.floor(diffMins / 60);
+    const diffDays = Math.floor(diffHours / 24);
+    if (diffMins < 1) return en ? 'Just now' : 'Az önce';
+    if (diffMins < 60) return en ? `${diffMins}m ago` : `${diffMins}dk önce`;
+    if (diffHours < 24) return en ? `${diffHours}h ago` : `${diffHours}sa önce`;
+    return en ? `${diffDays}d ago` : `${diffDays}g önce`;
+}
+
+export default function DataPipelineStatus({ kpis, platforms, alerts = [], filters }: DataPipelineStatusProps = {}) {
     const { t, language } = useTranslation();
     const db = t.dashboard as any;
     const en = language === 'en';
+    const queryClient = useQueryClient();
+    const [dismissedIds, setDismissedIds] = useState<Set<string>>(new Set());
+
+    const visibleAlerts = alerts.filter(a => !a.isRead && !dismissedIds.has(a.id));
+
+    const handleDismiss = async (alertId: string) => {
+        setDismissedIds(prev => new Set(prev).add(alertId));
+        try {
+            await apiRequest('DELETE', `/api/alerts/${alertId}`);
+            queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.OVERVIEW] });
+        } catch {
+            setDismissedIds(prev => {
+                const next = new Set(prev);
+                next.delete(alertId);
+                return next;
+            });
+            showToast({ type: 'error', title: en ? 'Failed to dismiss' : 'Kapatılamadı' });
+        }
+    };
 
     // Resolve KPI cards
     const kpiCards: KpiCard[] = kpis ? [
         { id: 'roas',        title: db?.omniRoas || 'Omni-ROAS',                                metric: kpis.o2oAttribution,   format: 'multiplier', icon: <DollarSign className="w-3.5 h-3.5 text-white" />, gradient: 'bg-gradient-to-br from-emerald-50 to-teal-50', border: 'border-emerald-100', iconBadge: 'bg-emerald-500' },
         { id: 'interactions', title: db?.locationInteractions || 'Location Interactions',        metric: kpis.locationListings, format: 'number',     icon: <MapPin className="w-3.5 h-3.5 text-white" />,     gradient: 'bg-gradient-to-br from-rose-50 to-pink-50',    border: 'border-rose-100',    iconBadge: 'bg-rose-500' },
-        { id: 'impressions',  title: db?.localProductImpressions || 'Local Product Impressions', metric: kpis.localInventory,   format: 'number',     icon: <Eye className="w-3.5 h-3.5 text-white" />,        gradient: 'bg-gradient-to-br from-blue-50 to-indigo-50',  border: 'border-blue-100',    iconBadge: 'bg-blue-500' },
+        { id: 'catalog',      title: db?.catalogCoverage || 'Catalog Coverage',                 metric: kpis.localInventory,   format: 'percent',    icon: <Eye className="w-3.5 h-3.5 text-white" />,        gradient: 'bg-gradient-to-br from-blue-50 to-indigo-50',  border: 'border-blue-100',    iconBadge: 'bg-blue-500' },
         { id: 'rating',       title: db?.averageRating || 'Average Rating',                     metric: kpis.reviewManagement, format: 'rating',     icon: <Star className="w-3.5 h-3.5 text-white" />,       gradient: 'bg-gradient-to-br from-amber-50 to-yellow-50', border: 'border-amber-100',   iconBadge: 'bg-amber-500' },
     ] : defaultKpis;
 
     // Module connections — each reflects how the actual module page works
+    const pl = db?.pipeline as any;
     const connections: ModuleConnection[] = [
         {
             id: 'catalog',
             name: db?.catalog || 'Catalog',
             icon: <ShoppingBag className="w-4 h-4 text-gray-600" />,
             status: 'healthy',
-            primaryStat: en ? '124,880 SKUs' : '124.880 SKU',
-            secondaryStat: en ? '52 stores covered' : '52 mağaza',
+            primaryStat: pl?.catalogSkus || '124,880 SKUs',
+            secondaryStat: pl?.catalogStores || '52 stores covered',
             platformSync: [
-                { name: 'Google', status: 'healthy', detail: en ? '124,760 published' : '124.760 yayında' },
-                { name: 'Meta',   status: 'warning', detail: en ? '124,500 published · 380 rejected' : '124.500 yayında · 380 reddedildi' },
+                { name: 'Google', status: 'healthy', detail: pl?.catalogGoogleDetail || '124,760 published' },
+                { name: 'Meta',   status: 'warning', detail: pl?.catalogMetaDetail || '124,500 published · 380 rejected' },
             ],
         },
         {
@@ -132,12 +178,12 @@ export default function DataPipelineStatus({ kpis, platforms }: DataPipelineStat
             name: db?.offlineConversions || 'Offline Conversions',
             icon: <Upload className="w-4 h-4 text-gray-600" />,
             status: 'healthy',
-            primaryStat: en ? '9,847 transactions' : '9.847 işlem',
-            secondaryStat: en ? 'Batch #9921 · 5 min ago' : 'Batch #9921 · 5 dk önce',
+            primaryStat: pl?.ocTransactions || '9,847 transactions',
+            secondaryStat: pl?.ocBatch || 'Batch #9921 · 5 min ago',
             platformSync: [
-                { name: 'Google', status: 'healthy', detail: en ? 'Delivered · 5 min ago' : 'Teslim · 5 dk önce' },
-                { name: 'Meta',   status: 'syncing', detail: en ? 'Syncing...' : 'Senkronize ediliyor...' },
-                { name: 'TikTok', status: 'healthy', detail: en ? 'Delivered · 12 min ago' : 'Teslim · 12 dk önce' },
+                { name: 'Google', status: 'healthy', detail: pl?.ocGoogleDetail || 'Delivered · 5 min ago' },
+                { name: 'Meta',   status: 'syncing', detail: pl?.ocMetaDetail || 'Syncing...' },
+                { name: 'TikTok', status: 'healthy', detail: pl?.ocTiktokDetail || 'Delivered · 12 min ago' },
             ],
         },
         {
@@ -145,12 +191,12 @@ export default function DataPipelineStatus({ kpis, platforms }: DataPipelineStat
             name: db?.locations || 'Locations',
             icon: <MapPin className="w-4 h-4 text-gray-600" />,
             status: 'warning',
-            primaryStat: en ? '30 locations' : '30 lokasyon',
-            secondaryStat: en ? '28 live · 2 pending verification' : '28 yayında · 2 doğrulama bekliyor',
+            primaryStat: pl?.locCount || '30 locations',
+            secondaryStat: pl?.locStatus || '28 live · 2 pending verification',
             platformSync: [
-                { name: 'Google', status: 'healthy', detail: en ? '28/30 live' : '28/30 yayında' },
-                { name: 'Meta',   status: 'healthy', detail: en ? '26/30 published' : '26/30 yayında' },
-                { name: 'Apple',  status: 'healthy', detail: en ? '24/30 published' : '24/30 yayında' },
+                { name: 'Google', status: 'healthy', detail: pl?.locGoogleDetail || '28/30 live' },
+                { name: 'Meta',   status: 'healthy', detail: pl?.locMetaDetail || '26/30 published' },
+                { name: 'Apple',  status: 'healthy', detail: pl?.locAppleDetail || '24/30 published' },
             ],
         },
     ];
@@ -171,7 +217,7 @@ export default function DataPipelineStatus({ kpis, platforms }: DataPipelineStat
                             healthyCount === connections.length ? 'bg-emerald-50 text-emerald-700' : 'bg-amber-50 text-amber-700'
                         }`}>
                             {getStatusIcon(healthyCount === connections.length ? 'healthy' : 'warning')}
-                            {healthyCount}/{connections.length} {en ? 'healthy' : 'sağlıklı'}
+                            {healthyCount}/{connections.length} {db?.healthy || 'healthy'}
                         </span>
                     </div>
                     <div className="flex items-center gap-1.5 text-[11px] text-gray-400">
@@ -240,6 +286,31 @@ export default function DataPipelineStatus({ kpis, platforms }: DataPipelineStat
                         </div>
                     ))}
                 </div>
+
+                {/* Inline alerts */}
+                {visibleAlerts.length > 0 && (
+                    <div className="space-y-2">
+                        {visibleAlerts.map((alert) => {
+                            const cfg = alertSeverityConfig[alert.type] || alertSeverityConfig.info;
+                            return (
+                                <div key={alert.id} className={`flex items-center gap-3 px-3.5 py-2.5 rounded-lg border ${cfg.border} ${cfg.bg}`}>
+                                    {cfg.icon}
+                                    <div className="flex-1 min-w-0">
+                                        <span className={`text-xs font-medium ${cfg.text}`}>{alert.title}</span>
+                                        <span className="text-xs text-gray-500 ml-2">{alert.message}</span>
+                                    </div>
+                                    <span className="text-[10px] text-gray-400 flex-shrink-0">{formatRelativeTime(alert.timestamp, en)}</span>
+                                    <button
+                                        onClick={() => handleDismiss(alert.id)}
+                                        className="p-0.5 hover:bg-white/60 rounded transition-colors flex-shrink-0"
+                                    >
+                                        <X className="w-3.5 h-3.5 text-gray-400" />
+                                    </button>
+                                </div>
+                            );
+                        })}
+                    </div>
+                )}
             </div>
         </div>
     );

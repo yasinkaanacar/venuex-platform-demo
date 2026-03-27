@@ -212,7 +212,7 @@ export const mockOverviewData: OverviewData = {
       type: 'error',
       title: 'Inventory Sync Failed',
       message: 'Last inventory sync failed 2 hours ago. Store data may be outdated.',
-      timestamp: new Date('2024-03-15T08:30:00Z'),
+      timestamp: new Date(Date.now() - 2 * 60 * 60 * 1000),
       isRead: false,
       severity: 'high'
     },
@@ -221,7 +221,7 @@ export const mockOverviewData: OverviewData = {
       type: 'warning',
       title: 'Campaign Budget Alert',
       message: 'Summer Sale campaign is 85% through daily budget with 6 hours remaining.',
-      timestamp: new Date('2024-03-15T09:45:00Z'),
+      timestamp: new Date(Date.now() - 35 * 60 * 1000),
       isRead: false,
       severity: 'medium'
     },
@@ -230,7 +230,7 @@ export const mockOverviewData: OverviewData = {
       type: 'info',
       title: 'New Review Received',
       message: 'Your İzmir location received a 5-star review mentioning excellent customer service.',
-      timestamp: new Date('2024-03-15T10:15:00Z'),
+      timestamp: new Date(Date.now() - 8 * 60 * 1000),
       isRead: false,
       severity: 'low'
     }

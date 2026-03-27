@@ -1,13 +1,17 @@
-import { TrendingUp, TrendingDown, ArrowUpDown, MapPin, Megaphone } from 'lucide-react';
+import { TrendingUp, TrendingDown, ArrowUpDown, ArrowUp, ArrowDown, MapPin, Megaphone } from 'lucide-react';
 import { SiGoogle, SiMeta, SiTiktok } from 'react-icons/si';
 import { useState, useMemo } from 'react';
+import { useLocation } from 'wouter';
 import type { TopLocation, TopCampaign } from '@/lib/types/overview';
+import type { OverviewFilterState } from '@/pages/overview';
 import { useTranslation } from '@/contexts/LanguageContext';
-import { fNumber } from '@/lib/formatters';
+import { fNumber, fCurrency } from '@/lib/formatters';
+import { PATHS } from '@/routes/paths';
 
 interface TopPerformingOverviewProps {
     topLocations?: TopLocation[];
     topCampaigns?: TopCampaign[];
+    filters?: OverviewFilterState;
 }
 
 const platformConfig: Record<string, { icon: React.ReactNode; bg: string; label: string }> = {
@@ -17,8 +21,8 @@ const platformConfig: Record<string, { icon: React.ReactNode; bg: string; label:
         label: 'google-ads'
     },
     meta: {
-        icon: <span className="text-xs text-white font-bold">f</span>,
-        bg: 'bg-blue-600',
+        icon: <SiMeta className="w-3 h-3 text-white" />,
+        bg: 'bg-[#0081FB]',
         label: 'meta-ads'
     },
     tiktok: {
@@ -28,9 +32,17 @@ const platformConfig: Record<string, { icon: React.ReactNode; bg: string; label:
     }
 };
 
-export default function TopPerformingOverview({ topLocations = [], topCampaigns = [] }: TopPerformingOverviewProps) {
+export default function TopPerformingOverview({ topLocations = [], topCampaigns = [], filters }: TopPerformingOverviewProps) {
     const { t } = useTranslation();
     const db = t.dashboard as any;
+    const [, navigate] = useLocation();
+
+    const getSortIcon = (column: string, activeColumn: string | null, direction: 'asc' | 'desc') => {
+        if (activeColumn !== column) return <ArrowUpDown className="w-3 h-3 text-gray-400" />;
+        return direction === 'asc'
+            ? <ArrowUp className="w-3 h-3 text-blue-600" />
+            : <ArrowDown className="w-3 h-3 text-blue-600" />;
+    };
 
     const [locationSortColumn, setLocationSortColumn] = useState<string | null>(null);
     const [locationSortDirection, setLocationSortDirection] = useState<'asc' | 'desc'>('desc');
@@ -93,20 +105,20 @@ export default function TopPerformingOverview({ topLocations = [], topCampaigns 
             <div className="vx-card">
                 <div className="vx-card-header flex items-center justify-between">
                     <div className="flex items-center gap-2">
-                        <MapPin className="w-5 h-5 text-blue-600" />
-                        <h3 className="text-base font-semibold text-gray-900">{db?.topPerformingLocations || 'Top Performing Locations'}</h3>
+                        <MapPin className="w-4 h-4 text-blue-600" />
+                        <h3 className="text-sm font-semibold text-gray-900">{db?.topPerformingLocations || 'Top Performing Locations'}</h3>
                     </div>
-                    <button className="text-sm text-gray-500 hover:text-gray-700 font-medium">
+                    <button onClick={() => navigate(PATHS.LOCATIONS)} className="text-xs text-gray-500 hover:text-gray-700 font-medium focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 rounded">
                         {db?.view_all || 'View All'} →
                     </button>
                 </div>
-                <div className="vx-card-body overflow-x-auto">
+                <div className="vx-card-body vx-surface-muted overflow-x-auto">
                     <table className="w-full text-sm">
                         <thead>
                             <tr className="border-b border-gray-200">
                                 <th className="vx-th text-left">
-                                    <button onClick={() => handleLocationSort('name')} className="flex items-center gap-1 hover:text-gray-700">
-                                        Location <ArrowUpDown className="w-3 h-3" />
+                                    <button onClick={() => handleLocationSort('name')} className="flex items-center gap-1 hover:text-gray-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 rounded">
+                                        {db?.location || 'Location'} {getSortIcon('name', locationSortColumn, locationSortDirection)}
                                     </button>
                                 </th>
                                 <th className="vx-th text-right">{db?.impressions || 'Impressions'}</th>
@@ -149,26 +161,26 @@ export default function TopPerformingOverview({ topLocations = [], topCampaigns 
             <div className="vx-card">
                 <div className="vx-card-header flex items-center justify-between">
                     <div className="flex items-center gap-2">
-                        <Megaphone className="w-5 h-5 text-purple-600" />
-                        <h3 className="text-base font-semibold text-gray-900">{db?.topPerformingCampaigns || 'Top Performing Campaigns'}</h3>
+                        <Megaphone className="w-4 h-4 text-purple-600" />
+                        <h3 className="text-sm font-semibold text-gray-900">{db?.topPerformingCampaigns || 'Top Performing Campaigns'}</h3>
                     </div>
-                    <button className="text-sm text-gray-500 hover:text-gray-700 font-medium">
+                    <button onClick={() => navigate(PATHS.OFFLINE_CONVERSIONS)} className="text-xs text-gray-500 hover:text-gray-700 font-medium focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 rounded">
                         {db?.view_all || 'View All'} →
                     </button>
                 </div>
-                <div className="vx-card-body overflow-x-auto">
+                <div className="vx-card-body vx-surface-muted overflow-x-auto">
                     <table className="w-full text-sm">
                         <thead>
                             <tr className="border-b border-gray-200">
                                 <th className="vx-th text-left">
-                                    <button onClick={() => handleCampaignSort('name')} className="flex items-center gap-1 hover:text-gray-700">
-                                        Campaign <ArrowUpDown className="w-3 h-3" />
+                                    <button onClick={() => handleCampaignSort('name')} className="flex items-center gap-1 hover:text-gray-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 rounded">
+                                        {db?.campaign || 'Campaign'} {getSortIcon('name', campaignSortColumn, campaignSortDirection)}
                                     </button>
                                 </th>
                                 <th className="vx-th text-right">{db?.spend || 'Spend'}</th>
                                 <th className="vx-th text-right">{db?.impressions || 'Impressions'}</th>
                                 <th className="vx-th text-right">{db?.conversionRate || 'CR'}</th>
-                                <th className="vx-th text-right">Omni-ROAS</th>
+                                <th className="vx-th text-right">{db?.omniRoas || 'Omni-ROAS'}</th>
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-gray-100">
@@ -188,7 +200,7 @@ export default function TopPerformingOverview({ topLocations = [], topCampaigns 
                                                 </div>
                                             </div>
                                         </td>
-                                        <td className="vx-td text-right text-gray-900 font-medium">${fNumber(camp.spend)}</td>
+                                        <td className="vx-td text-right text-gray-900 font-medium">{fCurrency(camp.spend)}</td>
                                         <td className="vx-td text-right text-gray-900 font-medium">{fNumber(camp.impressions)}</td>
                                         <td className="vx-td text-right text-gray-600">{camp.cr.toFixed(1)}%</td>
                                         <td className={`vx-td text-right font-medium ${roasColor}`}>{camp.omniRoas.toFixed(1)}x</td>

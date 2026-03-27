@@ -3,16 +3,14 @@ import { useBrandContext } from '@/hooks/useAuth';
 import { useApiOverview } from '@/hooks/api';
 import { useTranslation } from '@/contexts/LanguageContext';
 
-import PerformanceChart from '@/components/offline-conversions/performance-chart';
+import DashboardPerformanceChart from '@/components/overview/DashboardPerformanceChart';
 import TopPerformingOverview from '@/components/overview/TopPerformingOverview';
 import DataPipelineStatus from '@/components/overview/DataPipelineStatus';
-import AlertsPanel from '@/components/overview/AlertsPanel';
-import DataQualityEnrichment from '@/components/overview/data-quality-enrichment';
 import { Select, SelectItem } from '@/components/ui/select';
 import { Skeleton } from '@mui/material';
-import { Calendar, Monitor } from 'lucide-react';
+import { Calendar, Monitor, LayoutDashboard } from 'lucide-react';
 
-interface OverviewFilterState {
+export interface OverviewFilterState {
   dateRange: string;
   platform: string;
 }
@@ -62,81 +60,82 @@ export default function Overview() {
       {/* Main Content */}
       <div className="vx-page-body min-h-[calc(100vh-4rem)]">
         {isLoading ? (
-          <div className="vx-section-stack space-y-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-              {Array.from({ length: 4 }).map((_, i) => (
-                <Skeleton key={i} variant="rectangular" height={128} sx={{ borderRadius: 2 }} data-testid={`skeleton-kpi-${i}`} />
-              ))}
+          <>
+            <div className="vx-section-stack">
+              <Skeleton variant="rectangular" height={40} width={280} sx={{ borderRadius: 1 }} />
             </div>
-            <Skeleton variant="rectangular" height={120} sx={{ borderRadius: 2 }} data-testid="skeleton-alerts" />
-            <Skeleton variant="rectangular" height={384} sx={{ borderRadius: 2 }} data-testid="skeleton-chart" />
-            <Skeleton variant="rectangular" height={280} sx={{ borderRadius: 2 }} data-testid="skeleton-quality" />
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              <Skeleton variant="rectangular" height={320} sx={{ borderRadius: 2 }} data-testid="skeleton-locations" />
-              <Skeleton variant="rectangular" height={320} sx={{ borderRadius: 2 }} data-testid="skeleton-campaigns" />
+            <div className="vx-section-stack">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
+                {Array.from({ length: 4 }).map((_, i) => (
+                  <Skeleton key={i} variant="rectangular" height={128} sx={{ borderRadius: 2 }} data-testid={`skeleton-kpi-${i}`} />
+                ))}
+              </div>
             </div>
-          </div>
+            <div className="vx-section-stack">
+              <Skeleton variant="rectangular" height={384} sx={{ borderRadius: 2 }} data-testid="skeleton-chart" />
+            </div>
+            <div className="vx-section-stack">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <Skeleton variant="rectangular" height={320} sx={{ borderRadius: 2 }} data-testid="skeleton-locations" />
+                <Skeleton variant="rectangular" height={320} sx={{ borderRadius: 2 }} data-testid="skeleton-campaigns" />
+              </div>
+            </div>
+          </>
         ) : (
           <>
-            {/* Filter Bar */}
+            {/* Page Title + Filter Bar */}
             <div className="vx-section-stack">
-              <div className="flex items-center gap-3">
-                <div className="flex items-center gap-1.5">
-                  <Calendar className="w-4 h-4 text-gray-400" />
-                  <Select
-                    value={filters.dateRange}
-                    onValueChange={(value) => setFilters(prev => ({ ...prev, dateRange: value }))}
-                    displayLabel={selectedDateLabel}
-                    width={160}
-                  >
-                    {dateRangeOptions.map(opt => (
-                      <SelectItem key={opt.value} value={opt.value}>{opt.label}</SelectItem>
-                    ))}
-                  </Select>
+              <div className="flex items-center justify-between flex-wrap gap-4">
+                <div className="flex items-center gap-2.5">
+                  <LayoutDashboard className="w-5 h-5 text-gray-500" />
+                  <div>
+                    <h1 className="text-lg font-semibold text-gray-900">
+                      {db?.title || 'Dashboard'}
+                    </h1>
+                    <p className="text-xs text-gray-500">
+                      {db?.subtitle || 'Cross-platform performance overview'}
+                    </p>
+                  </div>
                 </div>
-                <div className="flex items-center gap-1.5">
-                  <Monitor className="w-4 h-4 text-gray-400" />
-                  <Select
-                    value={filters.platform}
-                    onValueChange={(value) => setFilters(prev => ({ ...prev, platform: value }))}
-                    displayLabel={selectedPlatformLabel}
-                    width={160}
-                  >
-                    {platformOptions.map(opt => (
-                      <SelectItem key={opt.value} value={opt.value}>{opt.label}</SelectItem>
-                    ))}
-                  </Select>
+                <div className="flex items-center gap-3">
+                  <div className="flex items-center gap-1.5">
+                    <Calendar className="w-4 h-4 text-gray-400" />
+                    <Select
+                      value={filters.dateRange}
+                      onValueChange={(value) => setFilters(prev => ({ ...prev, dateRange: value }))}
+                      displayLabel={selectedDateLabel}
+                      width={160}
+                    >
+                      {dateRangeOptions.map(opt => (
+                        <SelectItem key={opt.value} value={opt.value}>{opt.label}</SelectItem>
+                      ))}
+                    </Select>
+                  </div>
+                  <div className="flex items-center gap-1.5">
+                    <Monitor className="w-4 h-4 text-gray-400" />
+                    <Select
+                      value={filters.platform}
+                      onValueChange={(value) => setFilters(prev => ({ ...prev, platform: value }))}
+                      displayLabel={selectedPlatformLabel}
+                      width={160}
+                    >
+                      {platformOptions.map(opt => (
+                        <SelectItem key={opt.value} value={opt.value}>{opt.label}</SelectItem>
+                      ))}
+                    </Select>
+                  </div>
                 </div>
               </div>
             </div>
 
             {/* Data Pipeline Status with KPIs */}
             <div className="vx-section-stack">
-              <DataPipelineStatus kpis={overviewData?.kpis} platforms={overviewData?.platforms} />
-            </div>
-
-            {/* Alerts & Issues */}
-            <div className="vx-section-stack">
-              <AlertsPanel alerts={overviewData?.alerts ?? []} />
+              <DataPipelineStatus kpis={overviewData?.kpis} platforms={overviewData?.platforms} alerts={overviewData?.alerts ?? []} filters={filters} />
             </div>
 
             {/* Online-to-Offline Conversion Funnel */}
             <div className="vx-section-stack">
-              <PerformanceChart
-                filters={{
-                  dateRange: filters.dateRange,
-                  platforms: filters.platform === 'all' ? [] : [filters.platform],
-                  platform: filters.platform === 'all' ? 'google' : filters.platform,
-                  campaigns: [],
-                  campaignTypes: [],
-                }}
-                onFiltersChange={() => {}}
-              />
-            </div>
-
-            {/* Data Quality & Enrichment */}
-            <div className="vx-section-stack">
-              <DataQualityEnrichment context="dashboard" />
+              <DashboardPerformanceChart filters={filters} />
             </div>
 
             {/* Top Performing Locations & Campaigns Side by Side */}
@@ -144,6 +143,7 @@ export default function Overview() {
               <TopPerformingOverview
                 topLocations={overviewData?.topLocations}
                 topCampaigns={overviewData?.topCampaigns}
+                filters={filters}
               />
             </div>
           </>

@@ -6,9 +6,11 @@ import { QUERY_KEYS } from '@/hooks/query-keys';
 import { showToast } from '@/lib/toast';
 import { apiRequest } from '@/lib/queryClient';
 import type { AlertItem } from '@/lib/types/overview';
+import type { OverviewFilterState } from '@/pages/overview';
 
 interface AlertsPanelProps {
     alerts: AlertItem[];
+    filters?: OverviewFilterState;
 }
 
 const severityConfig: Record<string, { icon: React.ReactNode; bg: string; border: string }> = {
@@ -29,22 +31,23 @@ const severityConfig: Record<string, { icon: React.ReactNode; bg: string; border
     }
 };
 
-function formatRelativeTime(timestamp: Date): string {
+function formatRelativeTime(timestamp: Date, en: boolean): string {
     const now = new Date();
     const diffMs = now.getTime() - new Date(timestamp).getTime();
     const diffMins = Math.floor(diffMs / 60000);
     const diffHours = Math.floor(diffMins / 60);
     const diffDays = Math.floor(diffHours / 24);
 
-    if (diffMins < 1) return 'Just now';
-    if (diffMins < 60) return `${diffMins}m ago`;
-    if (diffHours < 24) return `${diffHours}h ago`;
-    return `${diffDays}d ago`;
+    if (diffMins < 1) return en ? 'Just now' : 'Az önce';
+    if (diffMins < 60) return en ? `${diffMins}m ago` : `${diffMins}dk önce`;
+    if (diffHours < 24) return en ? `${diffHours}h ago` : `${diffHours}sa önce`;
+    return en ? `${diffDays}d ago` : `${diffDays}g önce`;
 }
 
-export default function AlertsPanel({ alerts }: AlertsPanelProps) {
-    const { t } = useTranslation();
+export default function AlertsPanel({ alerts, filters }: AlertsPanelProps) {
+    const { t, language } = useTranslation();
     const db = t.dashboard as any;
+    const en = language === 'en';
     const queryClient = useQueryClient();
     const [dismissedIds, setDismissedIds] = useState<Set<string>>(new Set());
 
@@ -71,8 +74,8 @@ export default function AlertsPanel({ alerts }: AlertsPanelProps) {
             <div className="vx-card-header">
                 <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
-                        <Bell className="w-5 h-5 text-gray-500" />
-                        <h3 className="text-base font-semibold text-gray-900">{db?.alerts || 'Alerts & Issues'}</h3>
+                        <Bell className="w-4 h-4 text-gray-500" />
+                        <h3 className="text-sm font-semibold text-gray-900">{db?.alerts || 'Alerts & Issues'}</h3>
                         {visibleAlerts.length > 0 && (
                             <span className="inline-flex items-center justify-center w-5 h-5 text-xs font-medium text-white bg-red-500 rounded-full">
                                 {visibleAlerts.length}
@@ -101,7 +104,7 @@ export default function AlertsPanel({ alerts }: AlertsPanelProps) {
                                         <div className="flex-1 min-w-0">
                                             <div className="font-medium text-gray-900 text-sm">{alert.title}</div>
                                             <p className="text-sm text-gray-500 mt-0.5">{alert.message}</p>
-                                            <span className="text-xs text-gray-400 mt-1 block">{formatRelativeTime(alert.timestamp)}</span>
+                                            <span className="text-xs text-gray-400 mt-1 block">{formatRelativeTime(alert.timestamp, en)}</span>
                                         </div>
                                         <button
                                             onClick={() => handleDismiss(alert.id)}
