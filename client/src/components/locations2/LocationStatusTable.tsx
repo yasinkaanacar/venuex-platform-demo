@@ -1,9 +1,9 @@
 import { useState, useMemo, useEffect } from 'react';
 import { useTranslation } from '@/contexts/LanguageContext';
-import { Link } from 'wouter';
+import { Link, useLocation } from 'wouter';
 import { PATHS } from '@/routes/paths';
 import { SiGoogle, SiMeta, SiApple } from 'react-icons/si';
-import { Clock, AlertTriangle, AlertCircle, CheckCircle2, Phone, Mail, MapPin, Image, ShieldCheck, ShieldAlert, XCircle, PauseCircle, ChevronRight, MoreHorizontal, RefreshCw, Link2, Unlink, ExternalLink, Download, X, Save, Upload, Layers, Search, Filter, Building2, Ban, Unplug, Clock3, Trash2, XOctagon, Plus, Pencil, Info, Edit } from 'lucide-react';
+import { Clock, AlertTriangle, AlertCircle, CheckCircle2, Phone, Mail, MapPin, Image, ShieldCheck, ShieldAlert, XCircle, PauseCircle, ChevronRight, ChevronDown, MoreHorizontal, RefreshCw, Link2, Unlink, ExternalLink, Download, X, Save, Upload, Layers, Search, Filter, Building2, Ban, Unplug, Clock3, Trash2, XOctagon, Plus, Pencil, Info, Edit } from 'lucide-react';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
@@ -15,6 +15,7 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription } from '
 import { Select, SelectContent, SelectItem } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
 import { TableEmptyState } from '@/components/shared/table-states';
+import { showToast } from '@/lib/toast';
 import {
   mockLocations,
   LocationData,
@@ -1330,6 +1331,8 @@ export default function LocationStatusTable({ onAddNewLocation, onUploadLocation
     location: null
   });
 
+  const [, navigate] = useLocation();
+
   // Get translated status config functions
   const { getStatusConfig, getBusinessStatusConfig } = useStatusConfig();
   const { t } = useTranslation();
@@ -1434,7 +1437,50 @@ export default function LocationStatusTable({ onAddNewLocation, onUploadLocation
           <p className="text-xs text-gray-500 mt-1">{t.locations.platformStatuses}</p>
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => navigate(PATHS.LOCATIONS_IMPORT)}
+            className="vx-button bg-white hover:bg-gray-50 text-gray-700 border-gray-300 shadow-sm whitespace-nowrap"
+            data-testid="btn-import-locations"
+          >
+            <Upload className="w-3.5 h-3.5 mr-1.5" />
+            {t.locations.importLocations}
+          </Button>
+
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button
+                variant="outline"
+                size="sm"
+                className="vx-button bg-white hover:bg-gray-50 text-gray-700 border-gray-300 shadow-sm whitespace-nowrap"
+                data-testid="btn-export-locations"
+              >
+                <Download className="w-3.5 h-3.5 mr-1.5" />
+                {t.locations.exportLocations}
+                <ChevronDown className="w-3.5 h-3.5 ml-1.5" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuItem onClick={() => {
+                showToast({ type: 'success', title: t.locations.exportAll, description: `${mockLocations.length} locations` });
+              }}>
+                <Download className="w-3.5 h-3.5 mr-2" />
+                {t.locations.exportAll}
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                disabled={selectedIds.size === 0}
+                onClick={() => {
+                  showToast({ type: 'success', title: t.locations.exportSelected, description: `${selectedIds.size} locations` });
+                }}
+              >
+                <Download className="w-3.5 h-3.5 mr-2" />
+                {t.locations.exportSelected} {selectedIds.size > 0 && `(${selectedIds.size})`}
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+
           <Button
             variant="outline"
             size="sm"
@@ -1444,17 +1490,6 @@ export default function LocationStatusTable({ onAddNewLocation, onUploadLocation
           >
             <Plus className="w-3.5 h-3.5 mr-1.5" />
             {t.locations.addNewLocation}
-          </Button>
-
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={onUploadLocations}
-            className="vx-button bg-white hover:bg-gray-50 text-gray-700 border-gray-300 shadow-sm whitespace-nowrap"
-            data-testid="btn-bulk-updates"
-          >
-            <Edit className="w-3.5 h-3.5 mr-1.5" />
-            {t.common.bulkOperations}
           </Button>
         </div>
       </div>

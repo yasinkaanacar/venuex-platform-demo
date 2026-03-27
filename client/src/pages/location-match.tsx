@@ -19,7 +19,6 @@ import {
 } from "@/components/ui/collapsible";
 import { AuditAccordion } from "@/components/ui/audit-accordion";
 import { RichLocationCard } from "@/components/ui/rich-location-card";
-import Header from '@/components/overview/header';
 import { 
   Target,
   Loader2,
@@ -1891,7 +1890,9 @@ export default function LocationMatch() {
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
-      <Header title="Location Sync" />
+      <header className="bg-white border-b border-gray-200 h-14 flex items-center px-6">
+        <h1 className="text-lg font-semibold text-gray-900">Location Sync</h1>
+      </header>
       
       <div className="p-6">
         {/* Progress Indicator */}

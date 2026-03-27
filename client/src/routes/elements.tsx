@@ -6,6 +6,8 @@ export { default as Overview } from '@/pages/overview';
 export { default as OfflineConversions } from '@/pages/offline-conversions';
 export { default as Locations } from '@/pages/locations';
 export { default as LocationAdd } from '@/pages/location-add';
+export { default as LocationImport } from '@/pages/location-import';
+export { default as LocationImportAnalysis } from '@/pages/location-import-analysis';
 export { default as LocationEdit } from '@/pages/location-edit';
 export { default as Reviews } from '@/pages/reviews';
 export { default as LocationMatch } from '@/pages/location-match';

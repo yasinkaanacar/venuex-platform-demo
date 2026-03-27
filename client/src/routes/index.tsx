@@ -5,6 +5,8 @@ import {
   OfflineConversions,
   Locations,
   LocationAdd,
+  LocationImport,
+  LocationImportAnalysis,
   LocationEdit,
   Reviews,
   LocationMatch,
@@ -99,6 +101,27 @@ export const appRoutes: RouteConfig[] = [
     breadcrumbs: [
       { label: 'VenueX', href: PATHS.HOME },
       { label: 'Locations', href: PATHS.LOCATIONS },
+    ],
+  },
+  {
+    path: PATHS.LOCATIONS_IMPORT_ANALYSIS,
+    component: LocationImportAnalysis,
+    title: 'Import Analysis',
+    breadcrumbs: [
+      { label: 'VenueX', href: PATHS.HOME },
+      { label: 'Locations', href: PATHS.LOCATIONS },
+      { label: 'Import', href: PATHS.LOCATIONS_IMPORT },
+      { label: 'Analysis' },
+    ],
+  },
+  {
+    path: PATHS.LOCATIONS_IMPORT,
+    component: LocationImport,
+    title: 'Import Locations',
+    breadcrumbs: [
+      { label: 'VenueX', href: PATHS.HOME },
+      { label: 'Locations', href: PATHS.LOCATIONS },
+      { label: 'Import Locations' },
     ],
   },
   {

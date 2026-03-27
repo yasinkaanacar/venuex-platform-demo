@@ -10,6 +10,8 @@ export const PATHS = {
   // Location Management
   LOCATIONS: '/locations',
   LOCATIONS_POSTS: '/locations/posts',
+  LOCATIONS_IMPORT: '/locations/import',
+  LOCATIONS_IMPORT_ANALYSIS: '/locations/import/analysis',
   LOCATIONS_ADD: '/locations/add',
   LOCATIONS_EDIT: '/locations/:id/edit',
   LOCATION_MATCH: '/location-match',

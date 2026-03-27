@@ -421,8 +421,8 @@ export default function LocationsPage() {
 
 
       {/* Tab Navigation - Sticky */}
-      <div className="sticky top-16 z-40 bg-white border-b border-gray-200">
-        <div className="px-6 py-3">
+      <div className="sticky top-0 z-40 bg-white border-b border-gray-200">
+        <div className="px-6 py-2">
           <div className="vx-tabs">
             <button
               onClick={() => setMainTab('locations')}
