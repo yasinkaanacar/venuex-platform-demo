@@ -2,8 +2,7 @@ import { useState } from 'react';
 import { useTranslation } from '@/contexts/LanguageContext';
 
 import CatalogQuickStats from '@/components/catalog/CatalogQuickStats';
-import SourceHealthCards from '@/components/catalog/SourceHealthCards';
-import PlatformSyncCards from '@/components/catalog/PlatformSyncCards';
+import DataPipelineCard from '@/components/catalog/DataPipelineCard';
 import FeedHygieneIssues from '@/components/catalog/FeedHygieneIssues';
 import ProductsTable from '@/components/catalog/ProductsTable';
 import ActivityLog from '@/components/catalog/ActivityLog';
@@ -60,8 +59,7 @@ export default function Catalog() {
       <div className="p-4 sm:p-6 bg-white min-h-[calc(100vh-12rem)]">
         {activeTab === 'dashboard' && (
           <div className="vx-section-stack space-y-6">
-            <SourceHealthCards sources={mockIngestionSources} />
-            <PlatformSyncCards statuses={mockPlatformSyncStatuses} />
+            <DataPipelineCard sources={mockIngestionSources} statuses={mockPlatformSyncStatuses} />
             <FeedHygieneIssues issues={mockFeedHygieneIssues} />
           </div>
         )}
