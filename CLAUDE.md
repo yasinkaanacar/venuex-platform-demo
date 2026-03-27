@@ -202,6 +202,16 @@ Every card/section component follows a three-layer visual hierarchy. **Use this 
 
 **Page placement:** Always wrap in `<div className="vx-section-stack">` for correct horizontal padding (`px-6`) and vertical spacing (`mt-6`).
 
+**Sticky tab bars:** Pages with tab navigation (e.g. Locations, Catalog) use a sticky bar that pins to the top of the scroll container. The header is **not** sticky — it scrolls away with the page. Therefore tab bars must always use `sticky top-0`, never `sticky top-16`. Use `py-2` for compact vertical padding inside the tab wrapper. Pattern:
+
+```html
+<div className="sticky top-0 z-40 bg-white border-b border-gray-200">
+  <div className="px-6 py-2">
+    <div className="vx-tabs">...</div>
+  </div>
+</div>
+```
+
 **Complete template:**
 
 ```tsx

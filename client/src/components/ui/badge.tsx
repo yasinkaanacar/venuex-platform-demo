@@ -11,6 +11,17 @@ const StyledChip = styled(Chip)(({ theme }) => ({
   paddingBottom: theme.spacing(0.5),
   paddingLeft: theme.spacing(1.25),
   paddingRight: theme.spacing(1.25),
+  '& .MuiChip-label': {
+    display: 'inline-flex',
+    alignItems: 'center',
+    whiteSpace: 'nowrap',
+    padding: 0,
+    gap: 0,
+  },
+  // Prevent MUI hover/focus overrides when custom bg colors are set via className
+  '&:hover': {
+    backgroundColor: 'inherit',
+  },
 }))
 
 export interface BadgeProps extends Omit<ChipProps, 'variant' | 'children'> {
