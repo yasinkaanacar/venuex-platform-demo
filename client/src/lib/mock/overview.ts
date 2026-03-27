@@ -15,9 +15,9 @@ export const mockOverviewData: OverviewData = {
       past_value: 20634
     },
     localInventory: {
-      value: 87.5,
-      change: 5.3,
-      past_value: 82.2
+      value: 142847,
+      change: 18.3,
+      past_value: 120654
     },
     reviewManagement: {
       value: 4.3,

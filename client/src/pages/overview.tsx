@@ -8,7 +8,7 @@ import TopPerformingOverview from '@/components/overview/TopPerformingOverview';
 import DataPipelineStatus from '@/components/overview/DataPipelineStatus';
 import { Select, SelectItem } from '@/components/ui/select';
 import { Skeleton } from '@mui/material';
-import { Calendar, Monitor, LayoutDashboard } from 'lucide-react';
+import { Calendar, Monitor, LayoutDashboard, RefreshCw, AlertCircle } from 'lucide-react';
 
 export interface OverviewFilterState {
   dateRange: string;
@@ -17,7 +17,7 @@ export interface OverviewFilterState {
 
 export default function Overview() {
   const { brandId } = useBrandContext();
-  const { data: overviewData, isLoading, error } = useApiOverview({ brandId });
+  const { data: overviewData, isLoading, error, refetch } = useApiOverview({ brandId });
   const { t } = useTranslation();
   const db = t.dashboard as any;
 
@@ -46,10 +46,26 @@ export default function Overview() {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-background flex items-center justify-center">
-        <div className="text-center">
-          <h1 className="text-2xl font-bold text-destructive mb-2">Failed to load dashboard</h1>
-          <p className="text-muted-foreground">Please check your connection and try again</p>
+      <div className="vx-page">
+        <div className="vx-page-body">
+          <div className="vx-section-stack">
+            <div className="vx-card">
+              <div className="vx-card-body vx-surface-muted">
+                <div className="flex flex-col items-center justify-center py-12 text-center">
+                  <AlertCircle className="w-10 h-10 text-red-400 mb-3" />
+                  <h3 className="text-sm font-semibold text-gray-900 mb-1">{db?.errorTitle || 'Failed to load dashboard'}</h3>
+                  <p className="text-xs text-gray-500 mb-4">{db?.errorDesc || 'Please check your connection and try again'}</p>
+                  <button
+                    onClick={() => refetch()}
+                    className="inline-flex items-center gap-1.5 px-4 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors"
+                  >
+                    <RefreshCw className="w-3.5 h-3.5" />
+                    {db?.retry || 'Retry'}
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     );
@@ -130,7 +146,7 @@ export default function Overview() {
 
             {/* Data Pipeline Status with KPIs */}
             <div className="vx-section-stack">
-              <DataPipelineStatus kpis={overviewData?.kpis} platforms={overviewData?.platforms} alerts={overviewData?.alerts ?? []} filters={filters} />
+              <DataPipelineStatus kpis={overviewData?.kpis} platforms={overviewData?.platforms} filters={filters} />
             </div>
 
             {/* Online-to-Offline Conversion Funnel */}

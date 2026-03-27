@@ -3,17 +3,13 @@ import {
     CheckCircle, AlertTriangle, XCircle, RefreshCw, Clock,
     MapPin, ShoppingBag, Upload,
     TrendingUp, TrendingDown, Star, DollarSign, Eye,
-    Activity, Info, X
+    Activity, Info, ChevronDown, ChevronUp
 } from 'lucide-react';
 import { SiGoogle, SiMeta, SiTiktok } from 'react-icons/si';
 import { FaApple } from 'react-icons/fa';
-import { useQueryClient } from '@tanstack/react-query';
 import { useTranslation } from '@/contexts/LanguageContext';
-import { QUERY_KEYS } from '@/hooks/query-keys';
-import { showToast } from '@/lib/toast';
-import { apiRequest } from '@/lib/queryClient';
 import type { Metric } from '@/lib/types/common';
-import type { OverviewData, PlatformConnection, AlertItem } from '@/lib/types/overview';
+import type { OverviewData, PlatformConnection } from '@/lib/types/overview';
 import type { OverviewFilterState } from '@/pages/overview';
 import { fNumber, fPercent } from '@/lib/formatters';
 
@@ -21,7 +17,6 @@ import { fNumber, fPercent } from '@/lib/formatters';
 interface DataPipelineStatusProps {
     kpis?: OverviewData['kpis'];
     platforms?: PlatformConnection[];
-    alerts?: AlertItem[];
     filters?: OverviewFilterState;
 }
 
@@ -31,14 +26,12 @@ type PipelineStatus = 'healthy' | 'warning' | 'error' | 'syncing';
 interface KpiCard {
     id: string;
     title: string;
+    tooltip: string;
     metric: Metric;
     format: 'multiplier' | 'number' | 'percent' | 'rating';
     icon: React.ReactNode;
-    /** Gradient bg for the card itself */
     gradient: string;
-    /** Border color matching the gradient */
     border: string;
-    /** Solid bg for the icon badge */
     iconBadge: string;
 }
 
@@ -47,11 +40,8 @@ interface ModuleConnection {
     name: string;
     icon: React.ReactNode;
     status: PipelineStatus;
-    /** Primary count line, e.g. "124,880 SKUs" */
     primaryStat: string;
-    /** Secondary info, e.g. "52 stores" or "28/30 active" */
     secondaryStat: string;
-    /** Per-platform sync rows */
     platformSync: { name: string; status: PipelineStatus; detail: string }[];
 }
 
@@ -101,64 +91,35 @@ const getPlatformIcon = (name: string) => {
 
 // ─── Fallback KPIs ──────────────────────────────────────────
 const defaultKpis: KpiCard[] = [
-    { id: 'roas',        title: 'Omni-ROAS',                metric: { value: 4.2, change: 12.5, past_value: 3.7 },      format: 'multiplier', icon: <DollarSign className="w-3.5 h-3.5 text-white" />, gradient: 'bg-gradient-to-br from-emerald-50 to-teal-50', border: 'border-emerald-100', iconBadge: 'bg-emerald-500' },
-    { id: 'interactions', title: 'Location Interactions',    metric: { value: 23847, change: 10.7, past_value: 20634 },   format: 'number',     icon: <MapPin className="w-3.5 h-3.5 text-white" />,     gradient: 'bg-gradient-to-br from-rose-50 to-pink-50',    border: 'border-rose-100',    iconBadge: 'bg-rose-500' },
-    { id: 'catalog',      title: 'Catalog Coverage',           metric: { value: 87.5, change: 5.3, past_value: 82.2 },     format: 'percent',    icon: <Eye className="w-3.5 h-3.5 text-white" />,        gradient: 'bg-gradient-to-br from-blue-50 to-indigo-50',  border: 'border-blue-100',    iconBadge: 'bg-blue-500' },
-    { id: 'rating',       title: 'Average Rating',           metric: { value: 4.3, change: 4.9, past_value: 4.1 },        format: 'rating',     icon: <Star className="w-3.5 h-3.5 text-white" />,       gradient: 'bg-gradient-to-br from-amber-50 to-yellow-50', border: 'border-amber-100',   iconBadge: 'bg-amber-500' },
+    { id: 'roas',        title: 'Omni-ROAS',             tooltip: 'Combined online + offline return on ad spend across all platforms.',            metric: { value: 4.2, change: 12.5, past_value: 3.7 },      format: 'multiplier', icon: <DollarSign className="w-3.5 h-3.5 text-white" />, gradient: 'bg-gradient-to-br from-emerald-50 to-teal-50', border: 'border-emerald-100', iconBadge: 'bg-emerald-500' },
+    { id: 'interactions', title: 'Location Interactions', tooltip: 'Total GBP interactions — search views, direction requests, calls, and clicks.', metric: { value: 23847, change: 10.7, past_value: 20634 },   format: 'number',     icon: <MapPin className="w-3.5 h-3.5 text-white" />,     gradient: 'bg-gradient-to-br from-rose-50 to-pink-50',    border: 'border-rose-100',    iconBadge: 'bg-rose-500' },
+    { id: 'inventory',    title: 'Local Product Impressions', tooltip: 'Total impressions on local product listings across Google Merchant Center.', metric: { value: 142847, change: 18.3, past_value: 120654 }, format: 'number',     icon: <Eye className="w-3.5 h-3.5 text-white" />,        gradient: 'bg-gradient-to-br from-blue-50 to-indigo-50',  border: 'border-blue-100',    iconBadge: 'bg-blue-500' },
+    { id: 'rating',       title: 'Average Rating',        tooltip: 'Weighted average star rating across all locations on Google Business Profile.',  metric: { value: 4.3, change: 4.9, past_value: 4.1 },        format: 'rating',     icon: <Star className="w-3.5 h-3.5 text-white" />,       gradient: 'bg-gradient-to-br from-amber-50 to-yellow-50', border: 'border-amber-100',   iconBadge: 'bg-amber-500' },
 ];
 
 // ─── Component ──────────────────────────────────────────────
-const alertSeverityConfig: Record<string, { icon: React.ReactNode; bg: string; border: string; text: string }> = {
-    error:   { icon: <XCircle className="w-3.5 h-3.5 text-red-500" />,   bg: 'bg-red-50',   border: 'border-red-100',   text: 'text-red-800' },
-    warning: { icon: <AlertTriangle className="w-3.5 h-3.5 text-amber-500" />, bg: 'bg-amber-50', border: 'border-amber-100', text: 'text-amber-800' },
-    info:    { icon: <Info className="w-3.5 h-3.5 text-blue-500" />,    bg: 'bg-blue-50',  border: 'border-blue-100',  text: 'text-blue-800' },
-};
-
-function formatRelativeTime(timestamp: Date, en: boolean): string {
-    const now = new Date();
-    const diffMs = now.getTime() - new Date(timestamp).getTime();
-    const diffMins = Math.floor(diffMs / 60000);
-    const diffHours = Math.floor(diffMins / 60);
-    const diffDays = Math.floor(diffHours / 24);
-    if (diffMins < 1) return en ? 'Just now' : 'Az önce';
-    if (diffMins < 60) return en ? `${diffMins}m ago` : `${diffMins}dk önce`;
-    if (diffHours < 24) return en ? `${diffHours}h ago` : `${diffHours}sa önce`;
-    return en ? `${diffDays}d ago` : `${diffDays}g önce`;
-}
-
-export default function DataPipelineStatus({ kpis, platforms, alerts = [], filters }: DataPipelineStatusProps = {}) {
+export default function DataPipelineStatus({ kpis, platforms, filters }: DataPipelineStatusProps = {}) {
     const { t, language } = useTranslation();
     const db = t.dashboard as any;
     const en = language === 'en';
-    const queryClient = useQueryClient();
-    const [dismissedIds, setDismissedIds] = useState<Set<string>>(new Set());
-
-    const visibleAlerts = alerts.filter(a => !a.isRead && !dismissedIds.has(a.id));
-
-    const handleDismiss = async (alertId: string) => {
-        setDismissedIds(prev => new Set(prev).add(alertId));
-        try {
-            await apiRequest('DELETE', `/api/alerts/${alertId}`);
-            queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.OVERVIEW] });
-        } catch {
-            setDismissedIds(prev => {
-                const next = new Set(prev);
-                next.delete(alertId);
-                return next;
-            });
-            showToast({ type: 'error', title: en ? 'Failed to dismiss' : 'Kapatılamadı' });
-        }
-    };
+    const [connectionsExpanded, setConnectionsExpanded] = useState(true);
 
     // Resolve KPI cards
+    const kpiTooltips = {
+        roas:         db?.kpiRoasTooltip || (en ? 'Combined online + offline return on ad spend across all platforms.' : 'Tüm platformlarda online + offline reklam harcaması getirisi.'),
+        interactions: db?.kpiInteractionsTooltip || (en ? 'Total GBP interactions — search views, direction requests, calls, and clicks.' : 'Toplam GBP etkileşimleri — arama görünümleri, yol tarifleri, aramalar ve tıklamalar.'),
+        inventory:    db?.kpiInventoryTooltip || (en ? 'Total impressions on local product listings across Google Merchant Center.' : 'Google Merchant Center\'deki yerel ürün listelemelerinin toplam gösterimi.'),
+        rating:       db?.kpiRatingTooltip || (en ? 'Weighted average star rating across all locations on Google Business Profile.' : 'Google İşletme Profili\'ndeki tüm lokasyonların ağırlıklı ortalama yıldız puanı.'),
+    };
+
     const kpiCards: KpiCard[] = kpis ? [
-        { id: 'roas',        title: db?.omniRoas || 'Omni-ROAS',                                metric: kpis.o2oAttribution,   format: 'multiplier', icon: <DollarSign className="w-3.5 h-3.5 text-white" />, gradient: 'bg-gradient-to-br from-emerald-50 to-teal-50', border: 'border-emerald-100', iconBadge: 'bg-emerald-500' },
-        { id: 'interactions', title: db?.locationInteractions || 'Location Interactions',        metric: kpis.locationListings, format: 'number',     icon: <MapPin className="w-3.5 h-3.5 text-white" />,     gradient: 'bg-gradient-to-br from-rose-50 to-pink-50',    border: 'border-rose-100',    iconBadge: 'bg-rose-500' },
-        { id: 'catalog',      title: db?.catalogCoverage || 'Catalog Coverage',                 metric: kpis.localInventory,   format: 'percent',    icon: <Eye className="w-3.5 h-3.5 text-white" />,        gradient: 'bg-gradient-to-br from-blue-50 to-indigo-50',  border: 'border-blue-100',    iconBadge: 'bg-blue-500' },
-        { id: 'rating',       title: db?.averageRating || 'Average Rating',                     metric: kpis.reviewManagement, format: 'rating',     icon: <Star className="w-3.5 h-3.5 text-white" />,       gradient: 'bg-gradient-to-br from-amber-50 to-yellow-50', border: 'border-amber-100',   iconBadge: 'bg-amber-500' },
+        { id: 'roas',        title: db?.omniRoas || 'Omni-ROAS',                                tooltip: kpiTooltips.roas,         metric: kpis.o2oAttribution,   format: 'multiplier', icon: <DollarSign className="w-3.5 h-3.5 text-white" />, gradient: 'bg-gradient-to-br from-emerald-50 to-teal-50', border: 'border-emerald-100', iconBadge: 'bg-emerald-500' },
+        { id: 'interactions', title: db?.locationInteractions || 'Location Interactions',        tooltip: kpiTooltips.interactions,  metric: kpis.locationListings, format: 'number',     icon: <MapPin className="w-3.5 h-3.5 text-white" />,     gradient: 'bg-gradient-to-br from-rose-50 to-pink-50',    border: 'border-rose-100',    iconBadge: 'bg-rose-500' },
+        { id: 'inventory',    title: db?.localProductImpressions || 'Local Product Impressions', tooltip: kpiTooltips.inventory,     metric: kpis.localInventory,   format: 'number',     icon: <Eye className="w-3.5 h-3.5 text-white" />,        gradient: 'bg-gradient-to-br from-blue-50 to-indigo-50',  border: 'border-blue-100',    iconBadge: 'bg-blue-500' },
+        { id: 'rating',       title: db?.averageRating || 'Average Rating',                     tooltip: kpiTooltips.rating,        metric: kpis.reviewManagement, format: 'rating',     icon: <Star className="w-3.5 h-3.5 text-white" />,       gradient: 'bg-gradient-to-br from-amber-50 to-yellow-50', border: 'border-amber-100',   iconBadge: 'bg-amber-500' },
     ] : defaultKpis;
 
-    // Module connections — each reflects how the actual module page works
+    // Module connections
     const pl = db?.pipeline as any;
     const connections: ModuleConnection[] = [
         {
@@ -213,6 +174,15 @@ export default function DataPipelineStatus({ kpis, platforms, alerts = [], filte
                         <h3 className="text-sm font-semibold text-gray-900">
                             {db?.dataStreams || 'Data Streams & Performance'}
                         </h3>
+                        <div className="relative group">
+                            <Info className="w-3.5 h-3.5 text-gray-400 cursor-help" />
+                            <div className="absolute left-full top-1/2 -translate-y-1/2 ml-2 px-3 py-2 bg-gray-900 text-white text-xs rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 w-72 z-[9999]">
+                                {db?.dataStreamsTooltip || (en
+                                    ? 'Real-time status of all data pipelines. KPIs show period-over-period changes across connected platforms.'
+                                    : 'Tüm veri hatlarının anlık durumu. KPI\'lar bağlı platformlardaki dönemsel değişimleri gösterir.')}
+                                <div className="absolute right-full top-1/2 -translate-y-1/2 w-0 h-0 border-t-4 border-b-4 border-r-4 border-transparent border-r-gray-900" />
+                            </div>
+                        </div>
                         <span className={`inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[11px] font-medium ${
                             healthyCount === connections.length ? 'bg-emerald-50 text-emerald-700' : 'bg-amber-50 text-amber-700'
                         }`}>
@@ -238,8 +208,17 @@ export default function DataPipelineStatus({ kpis, platforms, alerts = [], filte
                                 <div className={`w-7 h-7 ${kpi.iconBadge} rounded-md flex items-center justify-center mb-2`}>
                                     {kpi.icon}
                                 </div>
-                                <div className="text-[10px] font-medium uppercase tracking-wider text-gray-400 mb-0.5">
-                                    {kpi.title}
+                                <div className="flex items-center gap-1 mb-0.5">
+                                    <span className="text-[10px] font-medium uppercase tracking-wider text-gray-400">
+                                        {kpi.title}
+                                    </span>
+                                    <div className="relative group/kpi">
+                                        <Info className="w-3 h-3 text-gray-300 cursor-help" />
+                                        <div className="absolute left-1/2 -translate-x-1/2 bottom-full mb-1.5 px-3 py-2 bg-gray-900 text-white text-[11px] leading-relaxed rounded-lg opacity-0 invisible group-hover/kpi:opacity-100 group-hover/kpi:visible transition-all duration-200 w-56 z-[9999]">
+                                            {kpi.tooltip}
+                                            <div className="absolute left-1/2 -translate-x-1/2 top-full w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-gray-900" />
+                                        </div>
+                                    </div>
                                 </div>
                                 <div className="flex items-baseline gap-2">
                                     <span className="text-xl font-bold text-gray-900">
@@ -256,7 +235,17 @@ export default function DataPipelineStatus({ kpis, platforms, alerts = [], filte
                     })}
                 </div>
 
-                {/* Data connection cards */}
+                {/* Data connection cards — collapsible */}
+                <div>
+                    <button
+                        onClick={() => setConnectionsExpanded(prev => !prev)}
+                        className="flex items-center gap-1.5 text-xs font-medium text-gray-500 hover:text-gray-700 mb-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 rounded"
+                    >
+                        {connectionsExpanded ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
+                        {en ? 'Data Pipelines' : 'Veri Hatları'} ({connections.length})
+                    </button>
+                </div>
+                {connectionsExpanded && (
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-3">
                     {connections.map((conn) => (
                         <div key={conn.id} className="bg-white rounded-lg border border-gray-100 shadow-sm p-4">
@@ -286,30 +275,6 @@ export default function DataPipelineStatus({ kpis, platforms, alerts = [], filte
                         </div>
                     ))}
                 </div>
-
-                {/* Inline alerts */}
-                {visibleAlerts.length > 0 && (
-                    <div className="space-y-2">
-                        {visibleAlerts.map((alert) => {
-                            const cfg = alertSeverityConfig[alert.type] || alertSeverityConfig.info;
-                            return (
-                                <div key={alert.id} className={`flex items-center gap-3 px-3.5 py-2.5 rounded-lg border ${cfg.border} ${cfg.bg}`}>
-                                    {cfg.icon}
-                                    <div className="flex-1 min-w-0">
-                                        <span className={`text-xs font-medium ${cfg.text}`}>{alert.title}</span>
-                                        <span className="text-xs text-gray-500 ml-2">{alert.message}</span>
-                                    </div>
-                                    <span className="text-[10px] text-gray-400 flex-shrink-0">{formatRelativeTime(alert.timestamp, en)}</span>
-                                    <button
-                                        onClick={() => handleDismiss(alert.id)}
-                                        className="p-0.5 hover:bg-white/60 rounded transition-colors flex-shrink-0"
-                                    >
-                                        <X className="w-3.5 h-3.5 text-gray-400" />
-                                    </button>
-                                </div>
-                            );
-                        })}
-                    </div>
                 )}
             </div>
         </div>

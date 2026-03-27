@@ -142,6 +142,10 @@
             "locAppleDetail": "24/30 published"
         },
         "dataStreamsTooltip": "Real-time status of all data pipelines. KPIs show period-over-period changes across connected platforms.",
+        "kpiRoasTooltip": "Combined online + offline return on ad spend across all platforms.",
+        "kpiInteractionsTooltip": "Total GBP interactions — search views, direction requests, calls, and clicks.",
+        "kpiInventoryTooltip": "Total impressions on local product listings across Google Merchant Center.",
+        "kpiRatingTooltip": "Weighted average star rating across all locations on Google Business Profile.",
         "topLocationsTooltip": "Locations ranked by total GBP interactions — impressions, direction requests, and phone calls.",
         "topCampaignsTooltip": "Ad campaigns ranked by Omni-ROAS — combining online and offline revenue attribution."
     },

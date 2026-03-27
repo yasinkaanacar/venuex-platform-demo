@@ -156,6 +156,10 @@
             "locAppleDetail": "24/30 yayında"
         },
         "dataStreamsTooltip": "Tüm veri hatlarının anlık durumu. KPI'lar bağlı platformlardaki dönemsel değişimleri gösterir.",
+        "kpiRoasTooltip": "Tüm platformlarda online + offline reklam harcaması getirisi.",
+        "kpiInteractionsTooltip": "Toplam GBP etkileşimleri — arama görünümleri, yol tarifleri, aramalar ve tıklamalar.",
+        "kpiInventoryTooltip": "Google Merchant Center'deki yerel ürün listelemelerinin toplam gösterimi.",
+        "kpiRatingTooltip": "Google İşletme Profili'ndeki tüm lokasyonların ağırlıklı ortalama yıldız puanı.",
         "topLocationsTooltip": "GBP etkileşimlerine göre sıralanan lokasyonlar — gösterimler, yol tarifleri ve aramalar.",
         "topCampaignsTooltip": "Omni-ROAS'a göre sıralanan reklam kampanyaları — online ve offline gelir atribüsyonunu birleştirir."
     },
