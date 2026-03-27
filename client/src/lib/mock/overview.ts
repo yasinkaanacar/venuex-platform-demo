@@ -214,7 +214,8 @@ export const mockOverviewData: OverviewData = {
       message: 'Last inventory sync failed 2 hours ago. Store data may be outdated.',
       timestamp: new Date(Date.now() - 2 * 60 * 60 * 1000),
       isRead: false,
-      severity: 'high'
+      severity: 'high',
+      module: '/catalog'
     },
     {
       id: 'alert-2',
@@ -223,7 +224,8 @@ export const mockOverviewData: OverviewData = {
       message: 'Summer Sale campaign is 85% through daily budget with 6 hours remaining.',
       timestamp: new Date(Date.now() - 35 * 60 * 1000),
       isRead: false,
-      severity: 'medium'
+      severity: 'medium',
+      module: '/offline-conversions'
     },
     {
       id: 'alert-3',
@@ -232,7 +234,8 @@ export const mockOverviewData: OverviewData = {
       message: 'Your İzmir location received a 5-star review mentioning excellent customer service.',
       timestamp: new Date(Date.now() - 8 * 60 * 1000),
       isRead: false,
-      severity: 'low'
+      severity: 'low',
+      module: '/reviews'
     }
   ],
   lastSync: new Date().toISOString()

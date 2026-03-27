@@ -45,6 +45,8 @@ export interface AlertItem {
   timestamp: Date;
   isRead: boolean;
   severity: string;
+  /** Module route for "View" action, e.g. '/catalog', '/locations' */
+  module?: string;
 }
 
 export interface ChartDataPoint {
