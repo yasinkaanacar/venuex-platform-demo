@@ -140,7 +140,10 @@
             "locGoogleDetail": "28/30 live",
             "locMetaDetail": "26/30 published",
             "locAppleDetail": "24/30 published"
-        }
+        },
+        "dataStreamsTooltip": "Real-time status of all data pipelines. KPIs show period-over-period changes across connected platforms.",
+        "topLocationsTooltip": "Locations ranked by total GBP interactions — impressions, direction requests, and phone calls.",
+        "topCampaignsTooltip": "Ad campaigns ranked by Omni-ROAS — combining online and offline revenue attribution."
     },
     "reports": {
         "performance_chart": {
@@ -763,9 +766,17 @@
             "star": "Star"
         },
         "kpi": {
+            "title": "Review Performance Summary",
+            "tooltip": "Key review metrics across all connected platforms. Trends compare to the previous period based on your selected date range.",
+            "desc": "Monitor review volume, ratings, and response performance at a glance.",
             "totalReviews": "Total Reviews",
+            "totalReviewsTooltip": "Total number of reviews received across all connected platforms in the selected period.",
             "averageRating": "Average Rating",
+            "averageRatingTooltip": "Average star rating across all reviews in the selected period.",
             "responseRate": "Response Rate",
+            "responseRateTooltip": "Percentage of reviews that have received a reply within SLA. Pending responses are reviews still awaiting a reply.",
+            "ratingDistributionTooltip": "Breakdown of reviews by star rating. Bar width is relative to the most common rating.",
+            "sentimentTooltip": "AI-analyzed sentiment classification of review text. A review can be positive, neutral, or negative regardless of its star rating.",
             "newReviews": "New Reviews",
             "pendingResponses": "Pending Responses",
             "slaBreach": "SLA Breach",

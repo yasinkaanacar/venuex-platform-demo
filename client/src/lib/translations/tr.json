@@ -154,7 +154,10 @@
             "locGoogleDetail": "28/30 yayında",
             "locMetaDetail": "26/30 yayında",
             "locAppleDetail": "24/30 yayında"
-        }
+        },
+        "dataStreamsTooltip": "Tüm veri hatlarının anlık durumu. KPI'lar bağlı platformlardaki dönemsel değişimleri gösterir.",
+        "topLocationsTooltip": "GBP etkileşimlerine göre sıralanan lokasyonlar — gösterimler, yol tarifleri ve aramalar.",
+        "topCampaignsTooltip": "Omni-ROAS'a göre sıralanan reklam kampanyaları — online ve offline gelir atribüsyonunu birleştirir."
     },
     "locations": {
         "title": "Lokasyonlar",
@@ -402,9 +405,17 @@
             "star": "Yıldız"
         },
         "kpi": {
+            "title": "Yorum Performans Özeti",
+            "tooltip": "Bağlı tüm platformlardaki temel yorum metrikleri. Trendler, seçili tarih aralığına göre önceki dönemle karşılaştırılır.",
+            "desc": "Yorum hacmi, puanlar ve yanıt performansını tek bakışta izleyin.",
             "totalReviews": "Toplam Yorum",
+            "totalReviewsTooltip": "Seçili dönemde bağlı tüm platformlardan alınan toplam yorum sayısı.",
             "averageRating": "Ortalama Puan",
+            "averageRatingTooltip": "Seçili dönemdeki tüm yorumların ortalama yıldız puanı.",
             "responseRate": "Yanıt Oranı",
+            "responseRateTooltip": "SLA süresi içinde yanıtlanan yorumların yüzdesi. Bekleyen yanıtlar henüz cevaplanmamış yorumlardır.",
+            "ratingDistributionTooltip": "Yıldız puanına göre yorum dağılımı. Çubuk genişliği en yaygın puana göre oranlanır.",
+            "sentimentTooltip": "Yorum metninin yapay zeka ile analiz edilen duygu sınıflandırması. Bir yorum yıldız puanından bağımsız olarak olumlu, nötr veya olumsuz olabilir.",
             "newReviews": "Yeni Yorumlar",
             "pendingResponses": "Bekleyen Yanıtlar",
             "slaBreach": "SLA İhlali",
