@@ -6,7 +6,7 @@ export interface KPI {
 
 export interface OverviewData {
   kpis: {
-    o2oAttribution: KPI;
+    offlineRoas: KPI;
     locationListings: KPI;
     localInventory: KPI;
     reviewManagement: KPI;

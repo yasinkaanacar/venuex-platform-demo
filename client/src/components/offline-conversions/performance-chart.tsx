@@ -49,9 +49,10 @@ const useResponsiveZoom = () => {
 interface PerformanceChartProps {
     filters: FilterState;
     onFiltersChange: Dispatch<SetStateAction<FilterState>>;
+    providerSelector?: React.ReactNode;
 }
 
-export default function PerformanceChart({ filters, onFiltersChange }: PerformanceChartProps) {
+export default function PerformanceChart({ filters, onFiltersChange, providerSelector }: PerformanceChartProps) {
     const { t } = useLocales();
     const theme = useTheme();
     const { brandId: selectedBrandId } = useBrandContext();
@@ -154,6 +155,11 @@ export default function PerformanceChart({ filters, onFiltersChange }: Performan
                         }}
                     >
                         <Stack direction="column" alignItems="center" sx={{ px: 2, py: 4, gap: 4 }}>
+                            {providerSelector && (
+                                <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
+                                    {providerSelector}
+                                </Box>
+                            )}
                             <Box
                                 sx={{
                                     zoom: isSmallScreen ? 1 : zoomFactor,

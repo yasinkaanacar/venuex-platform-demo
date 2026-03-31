@@ -5,7 +5,7 @@ import { segmentDataService } from './mock-segments-data';
 // Mock overview data
 export const mockOverviewData: OverviewData = {
   kpis: {
-    o2oAttribution: {
+    offlineRoas: {
       value: '4.2x',
       trend: '+12.5%',
       previousValue: '3.7x'

@@ -8,11 +8,10 @@ import TopPerformingOverview from '@/components/overview/TopPerformingOverview';
 import DataPipelineStatus from '@/components/overview/DataPipelineStatus';
 import { Select, SelectItem } from '@/components/ui/select';
 import { Skeleton } from '@mui/material';
-import { Calendar, Monitor, LayoutDashboard, RefreshCw, AlertCircle } from 'lucide-react';
+import { Calendar, LayoutDashboard, RefreshCw, AlertCircle } from 'lucide-react';
 
 export interface OverviewFilterState {
   dateRange: string;
-  platform: string;
 }
 
 export default function Overview() {
@@ -23,7 +22,6 @@ export default function Overview() {
 
   const [filters, setFilters] = useState<OverviewFilterState>({
     dateRange: 'last30d',
-    platform: 'all',
   });
 
   const dateRangeOptions = [
@@ -34,15 +32,7 @@ export default function Overview() {
     { value: 'lastMonth', label: db?.lastMonth || 'Last Month' },
   ];
 
-  const platformOptions = [
-    { value: 'all', label: db?.allPlatforms || 'All Platforms' },
-    { value: 'google', label: 'Google' },
-    { value: 'meta', label: 'Meta' },
-    { value: 'tiktok', label: 'TikTok' },
-  ];
-
   const selectedDateLabel = dateRangeOptions.find(o => o.value === filters.dateRange)?.label || db?.last30d || 'Last 30 Days';
-  const selectedPlatformLabel = platformOptions.find(o => o.value === filters.platform)?.label || db?.allPlatforms || 'All Platforms';
 
   if (error) {
     return (
@@ -123,19 +113,6 @@ export default function Overview() {
                       width={160}
                     >
                       {dateRangeOptions.map(opt => (
-                        <SelectItem key={opt.value} value={opt.value}>{opt.label}</SelectItem>
-                      ))}
-                    </Select>
-                  </div>
-                  <div className="flex items-center gap-1.5">
-                    <Monitor className="w-4 h-4 text-gray-400" />
-                    <Select
-                      value={filters.platform}
-                      onValueChange={(value) => setFilters(prev => ({ ...prev, platform: value }))}
-                      displayLabel={selectedPlatformLabel}
-                      width={160}
-                    >
-                      {platformOptions.map(opt => (
                         <SelectItem key={opt.value} value={opt.value}>{opt.label}</SelectItem>
                       ))}
                     </Select>
