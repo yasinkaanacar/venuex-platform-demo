@@ -4,7 +4,7 @@ import { EnrichmentSuggestion } from '@/../../shared/schema';
 // Mock overview data
 export const mockOverviewData: OverviewData = {
   kpis: {
-    o2oAttribution: {
+    offlineRoas: {
       value: 4.2,
       change: 12.5,
       past_value: 3.7
@@ -118,8 +118,10 @@ export const mockOverviewData: OverviewData = {
       name: 'Istanbul - Beyoğlu',
       address: 'İstiklal Caddesi 125',
       impressions: 89420,
+      websiteClicks: 1842,
       directionRequests: 549,
       calls: 276,
+      avgRating: 4.6,
       trend: 'up'
     },
     {
@@ -127,8 +129,10 @@ export const mockOverviewData: OverviewData = {
       name: 'Antalya - Muratpaşa',
       address: 'Lara Caddesi 112',
       impressions: 94672,
+      websiteClicks: 2105,
       directionRequests: 627,
       calls: 298,
+      avgRating: 4.8,
       trend: 'up'
     },
     {
@@ -136,8 +140,10 @@ export const mockOverviewData: OverviewData = {
       name: 'İzmir - Alsancak',
       address: 'Kordon Caddesi 67',
       impressions: 82155,
+      websiteClicks: 1654,
       directionRequests: 559,
       calls: 267,
+      avgRating: 4.4,
       trend: 'up'
     },
     {
@@ -145,8 +151,10 @@ export const mockOverviewData: OverviewData = {
       name: 'Ankara - Çankaya',
       address: 'Tunalı Hilmi Caddesi 89',
       impressions: 76230,
+      websiteClicks: 1390,
       directionRequests: 514,
       calls: 242,
+      avgRating: 4.1,
       trend: 'down'
     },
     {
@@ -154,8 +162,10 @@ export const mockOverviewData: OverviewData = {
       name: 'Bursa - Nilüfer',
       address: 'Görükle Mahallesi 45',
       impressions: 71845,
+      websiteClicks: 1278,
       directionRequests: 486,
       calls: 231,
+      avgRating: 4.3,
       trend: 'up'
     }
   ],
@@ -166,8 +176,10 @@ export const mockOverviewData: OverviewData = {
       platform: 'google',
       spend: 16350,
       impressions: 142580,
+      clicks: 4852,
       cr: 3.4,
-      omniRoas: 4.2
+      offlineRoas: 4.2,
+      onlineRoas: 3.1
     },
     {
       id: 'top-camp-2',
@@ -175,8 +187,10 @@ export const mockOverviewData: OverviewData = {
       platform: 'meta',
       spend: 12840,
       impressions: 89670,
+      clicks: 3678,
       cr: 4.1,
-      omniRoas: 5.1
+      offlineRoas: 5.1,
+      onlineRoas: 2.8
     },
     {
       id: 'top-camp-3',
@@ -184,8 +198,10 @@ export const mockOverviewData: OverviewData = {
       platform: 'meta',
       spend: 18960,
       impressions: 135240,
+      clicks: 5130,
       cr: 3.7,
-      omniRoas: 3.6
+      offlineRoas: 3.6,
+      onlineRoas: 4.2
     },
     {
       id: 'top-camp-4',
@@ -193,8 +209,10 @@ export const mockOverviewData: OverviewData = {
       platform: 'google',
       spend: 15420,
       impressions: 118420,
+      clicks: 3910,
       cr: 2.9,
-      omniRoas: 3.8
+      offlineRoas: 3.8,
+      onlineRoas: 3.5
     },
     {
       id: 'top-camp-5',
@@ -202,8 +220,10 @@ export const mockOverviewData: OverviewData = {
       platform: 'tiktok',
       spend: 8920,
       impressions: 78950,
+      clicks: 2845,
       cr: 2.8,
-      omniRoas: 2.9
+      offlineRoas: 2.9,
+      onlineRoas: 1.7
     }
   ],
   alerts: [

@@ -62,8 +62,10 @@ export interface TopLocation {
   name: string;
   address: string;
   impressions: number;
+  websiteClicks: number;
   directionRequests: number;
   calls: number;
+  avgRating: number;
   trend: 'up' | 'down';
 }
 
@@ -73,13 +75,15 @@ export interface TopCampaign {
   platform: 'google' | 'meta' | 'tiktok';
   spend: number;
   impressions: number;
+  clicks: number;
   cr: number;
-  omniRoas: number;
+  offlineRoas: number;
+  onlineRoas: number;
 }
 
 export interface OverviewData {
   kpis: {
-    o2oAttribution: Metric;
+    offlineRoas: Metric;
     locationListings: Metric;
     localInventory: Metric;
     reviewManagement: Metric;

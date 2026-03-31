@@ -45,9 +45,9 @@ export default function TopPerformingOverview({ topLocations = [], topCampaigns 
             : <ArrowDown className="w-3 h-3 text-blue-600" />;
     };
 
-    const [locationSortColumn, setLocationSortColumn] = useState<string | null>(null);
+    const [locationSortColumn, setLocationSortColumn] = useState<string | null>('impressions');
     const [locationSortDirection, setLocationSortDirection] = useState<'asc' | 'desc'>('desc');
-    const [campaignSortColumn, setCampaignSortColumn] = useState<string | null>(null);
+    const [campaignSortColumn, setCampaignSortColumn] = useState<string | null>('offlineRoas');
     const [campaignSortDirection, setCampaignSortDirection] = useState<'asc' | 'desc'>('desc');
 
     const handleLocationSort = (column: string) => {
@@ -101,7 +101,7 @@ export default function TopPerformingOverview({ topLocations = [], topCampaigns 
     }, [topCampaigns, campaignSortColumn, campaignSortDirection]);
 
     return (
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="space-y-6">
             {/* Top Performing Locations */}
             <div className="vx-card">
                 <div className="vx-card-header flex items-center justify-between">
@@ -131,9 +131,31 @@ export default function TopPerformingOverview({ topLocations = [], topCampaigns 
                                         {db?.location || 'Location'} {getSortIcon('name', locationSortColumn, locationSortDirection)}
                                     </button>
                                 </th>
-                                <th className="vx-th text-right">{db?.impressions || 'Impressions'}</th>
-                                <th className="vx-th text-right">{db?.directionRequests || 'Direction Requests'}</th>
-                                <th className="vx-th text-right">{db?.calls || 'Calls'}</th>
+                                <th className="vx-th text-right">
+                                    <button onClick={() => handleLocationSort('impressions')} className="flex items-center gap-1 justify-end hover:text-gray-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 rounded ml-auto">
+                                        {db?.impressions || 'Impressions'} {getSortIcon('impressions', locationSortColumn, locationSortDirection)}
+                                    </button>
+                                </th>
+                                <th className="vx-th text-right">
+                                    <button onClick={() => handleLocationSort('websiteClicks')} className="flex items-center gap-1 justify-end hover:text-gray-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 rounded ml-auto">
+                                        {db?.websiteClicks || 'Website Clicks'} {getSortIcon('websiteClicks', locationSortColumn, locationSortDirection)}
+                                    </button>
+                                </th>
+                                <th className="vx-th text-right">
+                                    <button onClick={() => handleLocationSort('directionRequests')} className="flex items-center gap-1 justify-end hover:text-gray-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 rounded ml-auto">
+                                        {db?.directionRequests || 'Directions'} {getSortIcon('directionRequests', locationSortColumn, locationSortDirection)}
+                                    </button>
+                                </th>
+                                <th className="vx-th text-right">
+                                    <button onClick={() => handleLocationSort('calls')} className="flex items-center gap-1 justify-end hover:text-gray-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 rounded ml-auto">
+                                        {db?.calls || 'Calls'} {getSortIcon('calls', locationSortColumn, locationSortDirection)}
+                                    </button>
+                                </th>
+                                <th className="vx-th text-right">
+                                    <button onClick={() => handleLocationSort('avgRating')} className="flex items-center gap-1 justify-end hover:text-gray-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 rounded ml-auto">
+                                        {db?.avgRating || 'Avg. Rating'} {getSortIcon('avgRating', locationSortColumn, locationSortDirection)}
+                                    </button>
+                                </th>
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-gray-100">
@@ -144,6 +166,7 @@ export default function TopPerformingOverview({ topLocations = [], topCampaigns 
                                         <div className="text-xs text-gray-500">{loc.address}</div>
                                     </td>
                                     <td className="vx-td text-right text-gray-900 font-medium">{fNumber(loc.impressions)}</td>
+                                    <td className="vx-td text-right text-gray-900 font-medium">{fNumber(loc.websiteClicks)}</td>
                                     <td className="vx-td text-right text-gray-900 font-medium">{fNumber(loc.directionRequests)}</td>
                                     <td className="vx-td text-right">
                                         <div className="flex items-center justify-end gap-1">
@@ -155,11 +178,15 @@ export default function TopPerformingOverview({ topLocations = [], topCampaigns 
                                             )}
                                         </div>
                                     </td>
+                                    <td className="vx-td text-right">
+                                        <span className="font-medium text-gray-900">{loc.avgRating.toFixed(1)}</span>
+                                        <span className="text-amber-400 ml-0.5">★</span>
+                                    </td>
                                 </tr>
                             ))}
                             {sortedLocations.length === 0 && (
                                 <tr>
-                                    <td colSpan={4} className="vx-td text-center text-gray-400 py-8">No location data</td>
+                                    <td colSpan={6} className="vx-td text-center text-gray-400 py-8">No location data</td>
                                 </tr>
                             )}
                         </tbody>
@@ -177,8 +204,8 @@ export default function TopPerformingOverview({ topLocations = [], topCampaigns 
                             <Info className="w-3.5 h-3.5 text-gray-400 cursor-help" />
                             <div className="absolute left-full top-1/2 -translate-y-1/2 ml-2 px-3 py-2 bg-gray-900 text-white text-xs rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 w-64 z-[9999]">
                                 {db?.topCampaignsTooltip || (en
-                                    ? 'Ad campaigns ranked by Omni-ROAS — combining online and offline revenue attribution.'
-                                    : 'Omni-ROAS\'a göre sıralanan reklam kampanyaları — online ve offline gelir atribüsyonunu birleştirir.')}
+                                    ? 'Ad campaigns ranked by Offline ROAS — return on ad spend measured through POS/CRM conversion data.'
+                                    : 'Offline ROAS\'a göre sıralanan reklam kampanyaları — POS/CRM dönüşüm verileriyle ölçülen reklam getirisi.')}
                                 <div className="absolute right-full top-1/2 -translate-y-1/2 w-0 h-0 border-t-4 border-b-4 border-r-4 border-transparent border-r-gray-900" />
                             </div>
                         </div>
@@ -196,18 +223,41 @@ export default function TopPerformingOverview({ topLocations = [], topCampaigns 
                                         {db?.campaign || 'Campaign'} {getSortIcon('name', campaignSortColumn, campaignSortDirection)}
                                     </button>
                                 </th>
-                                <th className="vx-th text-right">{db?.spend || 'Spend'}</th>
-                                <th className="vx-th text-right">{db?.conversionRate || 'CR'}</th>
-                                <th className="vx-th text-right whitespace-nowrap">{db?.omniRoas || 'Omni-ROAS'}</th>
+                                <th className="vx-th text-right">
+                                    <button onClick={() => handleCampaignSort('spend')} className="flex items-center gap-1 justify-end hover:text-gray-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 rounded ml-auto">
+                                        {db?.spend || 'Spend'} {getSortIcon('spend', campaignSortColumn, campaignSortDirection)}
+                                    </button>
+                                </th>
+                                <th className="vx-th text-right">
+                                    <button onClick={() => handleCampaignSort('impressions')} className="flex items-center gap-1 justify-end hover:text-gray-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 rounded ml-auto">
+                                        {db?.impressions || 'Impressions'} {getSortIcon('impressions', campaignSortColumn, campaignSortDirection)}
+                                    </button>
+                                </th>
+                                <th className="vx-th text-right">
+                                    <button onClick={() => handleCampaignSort('clicks')} className="flex items-center gap-1 justify-end hover:text-gray-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 rounded ml-auto">
+                                        {db?.clicks || 'Clicks'} {getSortIcon('clicks', campaignSortColumn, campaignSortDirection)}
+                                    </button>
+                                </th>
+                                <th className="vx-th text-right whitespace-nowrap">
+                                    <button onClick={() => handleCampaignSort('offlineRoas')} className="flex items-center gap-1 justify-end hover:text-gray-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 rounded ml-auto">
+                                        {db?.offlineRoas || 'Offline ROAS'} {getSortIcon('offlineRoas', campaignSortColumn, campaignSortDirection)}
+                                    </button>
+                                </th>
+                                <th className="vx-th text-right whitespace-nowrap">
+                                    <button onClick={() => handleCampaignSort('onlineRoas')} className="flex items-center gap-1 justify-end hover:text-gray-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 rounded ml-auto">
+                                        {db?.onlineRoas || 'Online ROAS'} {getSortIcon('onlineRoas', campaignSortColumn, campaignSortDirection)}
+                                    </button>
+                                </th>
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-gray-100">
                             {sortedCampaigns.map((camp) => {
                                 const pConfig = platformConfig[camp.platform] || platformConfig.google;
-                                const roasColor = camp.omniRoas >= 4.0 ? 'text-green-600' : 'text-amber-600';
+                                const offlineRoasColor = camp.offlineRoas >= 4.0 ? 'text-green-600' : 'text-amber-600';
+                                const onlineRoasColor = camp.onlineRoas >= 4.0 ? 'text-green-600' : 'text-amber-600';
                                 return (
                                     <tr key={camp.id} onClick={() => navigate(PATHS.OFFLINE_CONVERSIONS)} className="hover:bg-gray-50 cursor-pointer transition-colors">
-                                        <td className="vx-td max-w-[140px]">
+                                        <td className="vx-td max-w-[240px]">
                                             <div className="flex items-center gap-2">
                                                 <div className={`w-5 h-5 ${pConfig.bg} rounded flex items-center justify-center flex-shrink-0`}>
                                                     {pConfig.icon}
@@ -219,14 +269,16 @@ export default function TopPerformingOverview({ topLocations = [], topCampaigns 
                                             </div>
                                         </td>
                                         <td className="vx-td text-right text-gray-900 font-medium">{fCurrency(camp.spend)}</td>
-                                        <td className="vx-td text-right text-gray-600">{camp.cr.toFixed(1)}%</td>
-                                        <td className={`vx-td text-right font-medium ${roasColor}`}>{camp.omniRoas.toFixed(1)}x</td>
+                                        <td className="vx-td text-right text-gray-900 font-medium">{fNumber(camp.impressions)}</td>
+                                        <td className="vx-td text-right text-gray-900 font-medium">{fNumber(camp.clicks)}</td>
+                                        <td className={`vx-td text-right font-medium ${offlineRoasColor}`}>{camp.offlineRoas.toFixed(1)}x</td>
+                                        <td className={`vx-td text-right font-medium ${onlineRoasColor}`}>{camp.onlineRoas.toFixed(1)}x</td>
                                     </tr>
                                 );
                             })}
                             {sortedCampaigns.length === 0 && (
                                 <tr>
-                                    <td colSpan={4} className="vx-td text-center text-gray-400 py-8">No campaign data</td>
+                                    <td colSpan={7} className="vx-td text-center text-gray-400 py-8">No campaign data</td>
                                 </tr>
                             )}
                         </tbody>
