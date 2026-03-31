@@ -73,7 +73,7 @@ export default function BatchReportSheet({ isOpen, onClose, event }: BatchReport
           {/* Title Row */}
           <div className="flex items-start justify-between mb-4">
             <div>
-              <h2 className="text-xl font-bold text-slate-800">Batch #{event.batchId} Report</h2>
+              <h2 className="text-xl font-bold text-gray-900">Batch #{event.batchId} Report</h2>
               <span className="inline-flex items-center mt-2 px-3 py-1 rounded-full bg-amber-100 text-amber-700 text-sm font-medium">
                 Completed with Issues
               </span>
@@ -82,22 +82,22 @@ export default function BatchReportSheet({ isOpen, onClose, event }: BatchReport
               onClick={onClose}
               className="p-2 hover:bg-gray-100 rounded-lg transition-colors -mr-2 -mt-1"
             >
-              <X className="w-5 h-5 text-slate-500" />
+              <X className="w-5 h-5 text-gray-500" />
             </button>
           </div>
 
           {/* Summary Metrics */}
           <div className="flex items-center gap-6 text-sm">
             <div>
-              <span className="text-slate-500">Total: </span>
-              <span className="font-medium text-slate-700">125k</span>
+              <span className="text-gray-500">Total: </span>
+              <span className="font-medium text-gray-700">{totalCount.toLocaleString('tr-TR')}</span>
             </div>
             <div>
-              <span className="text-slate-500">Success: </span>
+              <span className="text-gray-500">Success: </span>
               <span className="font-medium text-green-600">{successCount.toLocaleString()}</span>
             </div>
             <div>
-              <span className="text-slate-500">Issues: </span>
+              <span className="text-gray-500">Issues: </span>
               <span className="font-bold text-red-600">{issueCount}</span>
             </div>
           </div>
@@ -105,7 +105,7 @@ export default function BatchReportSheet({ isOpen, onClose, event }: BatchReport
 
         {/* Body Section (Scrollable) */}
         <div className="flex-1 overflow-y-auto px-6 py-5">
-          <p className="text-sm text-slate-500 mb-4">
+          <p className="text-sm text-gray-500 mb-4">
             We found {issueCount} items that failed to sync. Grouped by error type:
           </p>
 
@@ -119,28 +119,32 @@ export default function BatchReportSheet({ isOpen, onClose, event }: BatchReport
                 {/* Platform Icon */}
                 <div className="w-8 h-8 bg-gray-100 rounded-lg flex items-center justify-center flex-shrink-0">
                   {error.platform === 'google' ? (
-                    <SiGoogle className="w-4 h-4 text-slate-600" />
+                    <SiGoogle className="w-4 h-4 text-gray-600" />
                   ) : (
-                    <SiMeta className="w-4 h-4 text-slate-600" />
+                    <SiMeta className="w-4 h-4 text-gray-600" />
                   )}
                 </div>
 
                 {/* Error Type */}
                 <div className="flex-1 min-w-0">
-                  <p className="text-sm font-semibold text-slate-800">{error.errorType}</p>
-                  <p className="text-xs font-mono text-slate-400">Error code: {error.errorCode}</p>
+                  <p className="text-sm font-semibold text-gray-900">{error.errorType}</p>
+                  <p className="text-xs font-mono text-gray-400">Error code: {error.errorCode}</p>
                 </div>
 
                 {/* Count Badge */}
                 <div className="flex-shrink-0">
-                  <span className="inline-block px-2.5 py-1 bg-gray-100 text-slate-700 text-xs font-medium rounded-full">
+                  <span className="inline-block px-2.5 py-1 bg-gray-100 text-gray-700 text-xs font-medium rounded-full">
                     {error.count} items
                   </span>
                 </div>
 
-                {/* Action */}
-                <button className="flex items-center gap-1 text-sm text-blue-600 hover:text-blue-700 font-medium flex-shrink-0">
-                  Preview <ChevronRight className="w-4 h-4" />
+                {/* Action — disabled, coming soon */}
+                <button
+                  disabled
+                  title="Coming soon"
+                  className="flex items-center gap-1 text-sm text-gray-400 cursor-not-allowed font-medium flex-shrink-0"
+                >
+                  Preview <ChevronRight className="w-4 h-4 text-gray-300" />
                 </button>
               </div>
             ))}
@@ -149,7 +153,7 @@ export default function BatchReportSheet({ isOpen, onClose, event }: BatchReport
 
         {/* Footer Section (Sticky) */}
         <div className="px-6 py-4 border-t border-gray-200 bg-white">
-          <button className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-white border border-gray-300 text-slate-700 font-medium rounded-lg hover:bg-gray-50 shadow-sm transition-colors">
+          <button className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-white border border-gray-300 text-gray-700 font-medium rounded-lg hover:bg-gray-50 shadow-sm transition-colors">
             <Download className="w-4 h-4" />
             Download Error Report (.CSV)
           </button>
