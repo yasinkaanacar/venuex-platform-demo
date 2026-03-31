@@ -164,21 +164,21 @@ export default function ActivityLog() {
         switch (platform) {
             case 'google': return <SiGoogle className="w-3.5 h-3.5" />;
             case 'meta': return <SiMeta className="w-3.5 h-3.5" />;
-            default: return <span className="text-[10px] font-bold">ERP</span>;
+            default: return <span className="text-xs font-bold">ERP</span>;
         }
     };
 
     return (
         <>
-            <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden min-h-[600px]">
+            <div className="vx-card">
                 {/* Header */}
-                <div className="px-6 py-4 border-b border-gray-100 bg-gradient-to-b from-white to-gray-50/50">
+                <div className="vx-card-header">
                     <div className="flex items-center gap-2">
                         <div className="relative">
                             <div className="w-2 h-2 bg-green-500 rounded-full"></div>
                             <div className="absolute inset-0 w-2 h-2 bg-green-500 rounded-full animate-ping opacity-50"></div>
                         </div>
-                        <h3 className="text-base font-semibold text-gray-900">Activity Feed</h3>
+                        <h3 className="text-base font-semibold text-foreground">Activity Feed</h3>
                         <div className="relative group">
                             <Info className="w-3.5 h-3.5 text-gray-400 cursor-help" />
                             <div className="absolute left-full top-1/2 -translate-y-1/2 ml-2 px-3 py-2 bg-gray-900 text-white text-xs rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 whitespace-nowrap z-[9999]">
@@ -191,75 +191,87 @@ export default function ActivityLog() {
                 </div>
 
                 {/* Timeline Events */}
-                <div className="p-6">
-                    <div className="relative">
-                        {/* Vertical Timeline Line */}
-                        <div className="absolute left-4 top-0 bottom-0 w-0.5 bg-gray-200"></div>
-
-                        {/* Events */}
-                        <div className="space-y-4">
-                            {events.map((event) => (
-                                <div key={event.id} className="relative pl-12 group">
-                                    {/* Timeline Dot */}
-                                    <div className={`absolute left-[10px] top-4 w-3 h-3 rounded-full ${getStatusBg(event.status)} ring-4 ring-white`}></div>
-
-                                    {/* Event Card */}
-                                    <div
-                                        className={`rounded-lg border p-4 ${getCardBg(event.status)} transition-colors relative`}
-                                        onClick={() => handleEventClick(event)}
-                                    >
-                                        {/* Header Row */}
-                                        <div className="flex items-center justify-between mb-2">
-                                            <div className="flex items-center gap-3">
-                                                <span className="text-xs font-mono text-gray-500">{event.timestamp}</span>
-                                                <div className="text-gray-500">
-                                                    {getPlatformIcon(event.platform)}
-                                                </div>
-                                            </div>
-                                            <span className="text-xs text-gray-500">#{event.batchId}</span>
-                                        </div>
-
-                                        {/* Content */}
-                                        <div className="flex items-start gap-3">
-                                            {getStatusIcon(event.status)}
-                                            <div className="flex-1 min-w-0">
-                                                <h4 className="text-sm font-medium text-gray-900 flex items-center gap-2">
-                                                    {event.title}
-                                                    {event.progress !== undefined && (
-                                                        <span className="text-blue-600 ml-2">({event.progress}%)</span>
-                                                    )}
-                                                    {event.status !== 'processing' && (
-                                                        <ChevronRight className="w-4 h-4 text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity ml-auto" />
-                                                    )}
-                                                </h4>
-                                                <p className="text-sm text-gray-600 mt-0.5">{event.subtitle}</p>
-                                            </div>
-                                        </div>
-
-                                        {/* Progress Bar for Processing */}
-                                        {event.status === 'processing' && event.progress !== undefined && (
-                                            <div className="mt-3 h-1.5 bg-blue-200 rounded-full overflow-hidden">
-                                                <div
-                                                    className="h-full bg-blue-500 transition-all duration-500"
-                                                    style={{ width: `${event.progress}%` }}
-                                                ></div>
-                                            </div>
-                                        )}
-
-                                        {/* Action Buttons */}
-                                        {event.status === 'error' && (
-                                            <button
-                                                onClick={(e) => handleRetry(e, event)}
-                                                className="mt-3 w-full flex items-center justify-center gap-1.5 text-xs font-medium text-red-700 bg-red-100 hover:bg-red-200 border border-red-300 py-2 rounded-lg transition-colors z-10 relative"
-                                            >
-                                                <RefreshCw className="w-3.5 h-3.5" />
-                                                Retry
-                                            </button>
-                                        )}
-                                    </div>
+                <div className="vx-card-body vx-surface-muted">
+                    <div className="p-6">
+                        {events.length === 0 ? (
+                            <div className="flex flex-col items-center justify-center py-16 text-center">
+                                <div className="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center mb-3">
+                                    <Info className="w-5 h-5 text-gray-400" />
                                 </div>
-                            ))}
-                        </div>
+                                <p className="text-sm font-medium text-gray-700">No activity in the last 24 hours</p>
+                                <p className="text-xs text-gray-500 mt-1">Sync events will appear here when they occur</p>
+                            </div>
+                        ) : (
+                            <div className="relative">
+                                {/* Vertical Timeline Line */}
+                                <div className="absolute left-4 top-0 bottom-0 w-0.5 bg-gray-200"></div>
+
+                                {/* Events */}
+                                <div className="space-y-4">
+                                    {events.map((event) => (
+                                        <div key={event.id} className="relative pl-12 group">
+                                            {/* Timeline Dot */}
+                                            <div className={`absolute left-3.5 top-4 w-3 h-3 rounded-full ${getStatusBg(event.status)} ring-4 ring-white`}></div>
+
+                                            {/* Event Card */}
+                                            <div
+                                                className={`rounded-lg border p-4 ${getCardBg(event.status)} transition-colors relative`}
+                                                onClick={() => handleEventClick(event)}
+                                            >
+                                                {/* Header Row */}
+                                                <div className="flex items-center justify-between mb-2">
+                                                    <div className="flex items-center gap-3">
+                                                        <span className="text-xs font-mono text-gray-500">{event.timestamp}</span>
+                                                        <div className="text-gray-500">
+                                                            {getPlatformIcon(event.platform)}
+                                                        </div>
+                                                    </div>
+                                                    <span className="text-xs text-gray-500">#{event.batchId}</span>
+                                                </div>
+
+                                                {/* Content */}
+                                                <div className="flex items-start gap-3">
+                                                    {getStatusIcon(event.status)}
+                                                    <div className="flex-1 min-w-0">
+                                                        <h4 className="text-sm font-medium text-gray-900 flex items-center gap-2">
+                                                            {event.title}
+                                                            {event.progress !== undefined && (
+                                                                <span className="text-blue-600 ml-2">({event.progress}%)</span>
+                                                            )}
+                                                            {event.status !== 'processing' && (
+                                                                <ChevronRight className="w-4 h-4 text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity ml-auto" />
+                                                            )}
+                                                        </h4>
+                                                        <p className="text-sm text-gray-600 mt-0.5">{event.subtitle}</p>
+                                                    </div>
+                                                </div>
+
+                                                {/* Progress Bar for Processing */}
+                                                {event.status === 'processing' && event.progress !== undefined && (
+                                                    <div className="mt-3 h-1.5 bg-blue-200 rounded-full overflow-hidden">
+                                                        <div
+                                                            className="h-full bg-blue-500 transition-all duration-500"
+                                                            style={{ width: `${event.progress}%` }}
+                                                        ></div>
+                                                    </div>
+                                                )}
+
+                                                {/* Action Buttons */}
+                                                {event.status === 'error' && (
+                                                    <button
+                                                        onClick={(e) => handleRetry(e, event)}
+                                                        className="mt-3 w-full flex items-center justify-center gap-1.5 text-xs font-medium text-red-700 bg-red-100 hover:bg-red-200 border border-red-300 py-2 rounded-lg transition-colors z-10 relative"
+                                                    >
+                                                        <RefreshCw className="w-3.5 h-3.5" />
+                                                        Retry
+                                                    </button>
+                                                )}
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>
