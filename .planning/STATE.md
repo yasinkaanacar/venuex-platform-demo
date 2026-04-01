@@ -105,8 +105,14 @@ None yet.
 
 None yet.
 
+### Quick Tasks Completed
+
+| # | Description | Date | Commit | Directory |
+|---|-------------|------|--------|-----------|
+| 260331-o0k | fix catalog UI audit findings | 2026-03-31 | ce0d9c0 | [260331-o0k-fix-catalog-ui-audit-findings](./quick/260331-o0k-fix-catalog-ui-audit-findings/) |
+
 ## Session Continuity
 
-Last session: 2026-03-02
-Stopped at: Completed 03-03-PLAN.md — AddressMapSection (Leaflet map + dynamic marker), WorkingHoursSection (location status radios, day pills, time pickers, breaks), AmenitiesSection (chip toggles for 10 categories). All 5 core form sections now render in LocationEditForm.
+Last session: 2026-03-31
+Stopped at: Completed quick task 260331-o0k — fix catalog UI audit findings (BatchReportSheet slate→gray tokens, ActivityLog vx-card migration, DataPipelineCard typography cleanup)
 Resume file: None
