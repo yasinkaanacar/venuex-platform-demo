@@ -43,6 +43,9 @@ export const QUERY_KEYS = {
   SETTINGS_ACTIVITY_FEED: '/api/settings/activity-feed',
   SETTINGS_DATA_SOURCES: '/api/settings/data-sources',
 
+  // ── Catalog ──────────────────────────────────────────────
+  CATALOG_PIPELINE: '/api/catalog/pipeline',
+
   // ── Profile ───────────────────────────────────────────────
   PROFILE: '/api/profile',
   PROFILE_TEAM: '/api/profile/team',

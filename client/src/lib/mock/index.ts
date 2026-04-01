@@ -7,7 +7,7 @@ export { profileDataService, mockCurrentUser, mockTeamMembers, mockPendingInvite
 export { locationFormDataService } from './location-form';
 
 // Re-export catalog and locations
-export * from './catalog';
+export { mockPlatformSyncStatuses, catalogDataService } from './catalog';
 export { mockLocations, getUniqueValues, filterLocations, paginateLocations } from './locations';
 
 // Assembled mockDataService — backwards-compatible facade used by queryClient.ts

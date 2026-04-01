@@ -19,6 +19,7 @@ import {
   settingsDataService,
   profileDataService,
   locationFormDataService,
+  catalogDataService,
 } from './mock';
 
 import type {
@@ -96,6 +97,14 @@ export const API_REGISTRY: EndpointDefinition[] = [
     method: 'GET',
     pattern: '/api/overview',
     handler: () => mockDataService.getOverviewData(),
+  },
+
+  // ── Catalog ─────────────────────────────────────────────────────────
+  {
+    description: 'Get catalog pipeline data (ingestion + platform sync statuses)',
+    method: 'GET',
+    pattern: '/api/catalog/pipeline',
+    handler: () => catalogDataService.getPipelineData(),
   },
 
   // ── Enrichment Suggestions ─────────────────────────────────────────

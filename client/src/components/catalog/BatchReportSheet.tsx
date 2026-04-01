@@ -1,6 +1,6 @@
-import { useState } from 'react';
 import { X, Download, ChevronRight } from 'lucide-react';
 import { SiGoogle, SiMeta } from 'react-icons/si';
+import { useTranslation } from '@/contexts/LanguageContext';
 
 interface ErrorItem {
   id: string;
@@ -23,37 +23,40 @@ const mockErrors: ErrorItem[] = [
   {
     id: 'e1',
     platform: 'google',
-    errorType: 'Store Code Mismatch',
+    errorType: 'Invalid store code',
     errorCode: 'invalid_store_code',
     count: 45
   },
   {
     id: 'e2',
-    platform: 'meta',
-    errorType: 'Price Mismatch',
-    errorCode: 'price_mismatch',
+    platform: 'google',
+    errorType: 'Offer does not exist',
+    errorCode: 'offer_does_not_exist',
     count: 32
   },
   {
     id: 'e3',
     platform: 'google',
-    errorType: 'Missing GTIN',
-    errorCode: 'missing_gtin',
+    errorType: 'Stale inventory data',
+    errorCode: 'stale_inventory_data',
     count: 28
   },
   {
     id: 'e4',
-    platform: 'meta',
-    errorType: 'Invalid Image URL',
-    errorCode: 'invalid_image_url',
+    platform: 'google',
+    errorType: 'Missing product availability',
+    errorCode: 'missing_availability',
     count: 15
   }
 ];
 
 export default function BatchReportSheet({ isOpen, onClose, event }: BatchReportSheetProps) {
+  const { t } = useTranslation();
+  const oc = t.catalog as any;
+
   if (!isOpen || !event) return null;
 
-  const totalCount = 125000;
+  const totalCount = 124_880;
   const issueCount = mockErrors.reduce((sum, e) => sum + e.count, 0);
   const successCount = totalCount - issueCount;
 
@@ -73,9 +76,11 @@ export default function BatchReportSheet({ isOpen, onClose, event }: BatchReport
           {/* Title Row */}
           <div className="flex items-start justify-between mb-4">
             <div>
-              <h2 className="text-xl font-bold text-gray-900">Batch #{event.batchId} Report</h2>
+              <h2 className="text-xl font-bold text-gray-900">
+                {(oc?.batchReport || 'Batch #{{batchId}} Report').replace('{{batchId}}', event.batchId)}
+              </h2>
               <span className="inline-flex items-center mt-2 px-3 py-1 rounded-full bg-amber-100 text-amber-700 text-sm font-medium">
-                Completed with Issues
+                {oc?.completedWithIssues || 'Completed with Issues'}
               </span>
             </div>
             <button
@@ -89,15 +94,15 @@ export default function BatchReportSheet({ isOpen, onClose, event }: BatchReport
           {/* Summary Metrics */}
           <div className="flex items-center gap-6 text-sm">
             <div>
-              <span className="text-gray-500">Total: </span>
+              <span className="text-gray-500">{oc?.total || 'Total'}: </span>
               <span className="font-medium text-gray-700">{totalCount.toLocaleString('tr-TR')}</span>
             </div>
             <div>
-              <span className="text-gray-500">Success: </span>
-              <span className="font-medium text-green-600">{successCount.toLocaleString()}</span>
+              <span className="text-gray-500">{oc?.success || 'Success'}: </span>
+              <span className="font-medium text-green-600">{successCount.toLocaleString('tr-TR')}</span>
             </div>
             <div>
-              <span className="text-gray-500">Issues: </span>
+              <span className="text-gray-500">{oc?.issues || 'Issues'}: </span>
               <span className="font-bold text-red-600">{issueCount}</span>
             </div>
           </div>
@@ -106,7 +111,7 @@ export default function BatchReportSheet({ isOpen, onClose, event }: BatchReport
         {/* Body Section (Scrollable) */}
         <div className="flex-1 overflow-y-auto px-6 py-5">
           <p className="text-sm text-gray-500 mb-4">
-            We found {issueCount} items that failed to sync. Grouped by error type:
+            {(oc?.errorReportIntro || 'We found {{count}} items that failed to sync. Grouped by error type:').replace('{{count}}', String(issueCount))}
           </p>
 
           {/* Error Table */}
@@ -128,23 +133,23 @@ export default function BatchReportSheet({ isOpen, onClose, event }: BatchReport
                 {/* Error Type */}
                 <div className="flex-1 min-w-0">
                   <p className="text-sm font-semibold text-gray-900">{error.errorType}</p>
-                  <p className="text-xs font-mono text-gray-400">Error code: {error.errorCode}</p>
+                  <p className="text-xs font-mono text-gray-400">{oc?.errorCode || 'Error code'}: {error.errorCode}</p>
                 </div>
 
                 {/* Count Badge */}
                 <div className="flex-shrink-0">
                   <span className="inline-block px-2.5 py-1 bg-gray-100 text-gray-700 text-xs font-medium rounded-full">
-                    {error.count} items
+                    {error.count} {oc?.items || 'items'}
                   </span>
                 </div>
 
                 {/* Action — disabled, coming soon */}
                 <button
                   disabled
-                  title="Coming soon"
+                  title={oc?.comingSoon || 'Coming soon'}
                   className="flex items-center gap-1 text-sm text-gray-400 cursor-not-allowed font-medium flex-shrink-0"
                 >
-                  Preview <ChevronRight className="w-4 h-4 text-gray-300" />
+                  {oc?.preview || 'Preview'} <ChevronRight className="w-4 h-4 text-gray-300" />
                 </button>
               </div>
             ))}
@@ -155,7 +160,7 @@ export default function BatchReportSheet({ isOpen, onClose, event }: BatchReport
         <div className="px-6 py-4 border-t border-gray-200 bg-white">
           <button className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-white border border-gray-300 text-gray-700 font-medium rounded-lg hover:bg-gray-50 shadow-sm transition-colors">
             <Download className="w-4 h-4" />
-            Download Error Report (.CSV)
+            {oc?.downloadErrorReport || 'Download Error Report (.CSV)'}
           </button>
         </div>
       </div>

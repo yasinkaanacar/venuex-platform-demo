@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { SiGoogle, SiMeta } from 'react-icons/si';
 import { CheckCircle, AlertTriangle, XCircle, Loader2, RefreshCw, Info, ChevronRight } from 'lucide-react';
+import { useTranslation } from '@/contexts/LanguageContext';
 import BatchReportSheet from './BatchReportSheet';
 
 type EventStatus = 'processing' | 'success' | 'warning' | 'error';
@@ -21,8 +22,8 @@ const initialEvents: TimelineEvent[] = [
         id: 1,
         timestamp: '14:45:12',
         batchId: '9921',
-        title: 'Ingesting from ERP...',
-        subtitle: 'Processing batch data',
+        title: 'Ingesting store availability...',
+        subtitle: 'Processing 42 store inventory files',
         status: 'processing',
         platform: 'erp',
         progress: 45
@@ -31,8 +32,8 @@ const initialEvents: TimelineEvent[] = [
         id: 2,
         timestamp: '14:42:30',
         batchId: '9920',
-        title: 'Google Sync Finished',
-        subtitle: '120 Issues found',
+        title: 'Google Merchant Center Sync Finished',
+        subtitle: '120 store-SKU pairs rejected',
         status: 'warning',
         platform: 'google'
     },
@@ -40,17 +41,17 @@ const initialEvents: TimelineEvent[] = [
         id: 3,
         timestamp: '14:38:15',
         batchId: '9920',
-        title: 'Meta Sync Complete',
-        subtitle: '5k items updated',
+        title: 'Google Merchant Center Feed Uploaded',
+        subtitle: '124.7k store-SKU pairs across 42 stores',
         status: 'success',
-        platform: 'meta'
+        platform: 'google'
     },
     {
         id: 4,
         timestamp: '14:35:02',
         batchId: '9919',
-        title: 'Connection Failed',
-        subtitle: 'Invalid Token',
+        title: 'Google Merchant Center Auth Failed',
+        subtitle: 'Content API token expired',
         status: 'error',
         platform: 'google'
     },
@@ -58,17 +59,17 @@ const initialEvents: TimelineEvent[] = [
         id: 5,
         timestamp: '14:30:45',
         batchId: '9918',
-        title: 'Meta Catalog Synced',
-        subtitle: '12.4k products updated',
+        title: 'Store Stock Data Received',
+        subtitle: '14.8k availability records from SFTP',
         status: 'success',
-        platform: 'meta'
+        platform: 'erp'
     },
     {
         id: 6,
         timestamp: '14:25:10',
         batchId: '9917',
-        title: 'Google Merchant Sync',
-        subtitle: '8.2k products updated',
+        title: 'Google Merchant Center Feed Uploaded',
+        subtitle: '8.2k store-SKU pairs across 42 stores',
         status: 'success',
         platform: 'google'
     },
@@ -76,8 +77,8 @@ const initialEvents: TimelineEvent[] = [
         id: 7,
         timestamp: '14:20:33',
         batchId: '9916',
-        title: 'ERP Data Received',
-        subtitle: '15k items processed',
+        title: 'Store Stock Data Received',
+        subtitle: '15k availability records from SFTP',
         status: 'success',
         platform: 'erp'
     },
@@ -87,6 +88,8 @@ export default function ActivityLog() {
     const [events, setEvents] = useState<TimelineEvent[]>(initialEvents);
     const [drawerOpen, setDrawerOpen] = useState(false);
     const [selectedEvent, setSelectedEvent] = useState<TimelineEvent | null>(null);
+    const { t } = useTranslation();
+    const oc = t.catalog as any;
 
     useEffect(() => {
         const interval = setInterval(() => {
@@ -98,8 +101,8 @@ export default function ActivityLog() {
                             return {
                                 ...event,
                                 status: 'success' as EventStatus,
-                                title: 'ERP Ingestion Complete',
-                                subtitle: '125k items processed',
+                                title: 'Store Availability Ingested',
+                                subtitle: '42 store inventory files processed',
                                 progress: undefined
                             };
                         }
@@ -114,7 +117,7 @@ export default function ActivityLog() {
     }, []);
 
     const handleEventClick = (event: TimelineEvent) => {
-        if (event.status === 'processing') return; // Don't open for processing events unless needed
+        if (event.status === 'processing') return;
         setSelectedEvent(event);
         setDrawerOpen(true);
     };
@@ -178,16 +181,16 @@ export default function ActivityLog() {
                             <div className="w-2 h-2 bg-green-500 rounded-full"></div>
                             <div className="absolute inset-0 w-2 h-2 bg-green-500 rounded-full animate-ping opacity-50"></div>
                         </div>
-                        <h3 className="text-base font-semibold text-foreground">Activity Feed</h3>
+                        <h3 className="text-base font-semibold text-foreground">{oc?.activityFeed || 'Activity Feed'}</h3>
                         <div className="relative group">
                             <Info className="w-3.5 h-3.5 text-gray-400 cursor-help" />
                             <div className="absolute left-full top-1/2 -translate-y-1/2 ml-2 px-3 py-2 bg-gray-900 text-white text-xs rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 whitespace-nowrap z-[9999]">
-                                Real-time ERP, Google, and Meta sync activities.
+                                {oc?.activityFeedTooltip || 'Real-time local inventory sync events across all connected platforms.'}
                                 <div className="absolute right-full top-1/2 -translate-y-1/2 w-0 h-0 border-t-4 border-b-4 border-r-4 border-transparent border-r-gray-900"></div>
                             </div>
                         </div>
                     </div>
-                    <p className="text-xs text-gray-500 mt-1">ERP, Google Merchant, and Meta Commerce sync operations</p>
+                    <p className="text-xs text-gray-500 mt-1">{oc?.activityFeedDesc || 'Ingestion and platform sync operations'}</p>
                 </div>
 
                 {/* Timeline Events */}
@@ -198,8 +201,8 @@ export default function ActivityLog() {
                                 <div className="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center mb-3">
                                     <Info className="w-5 h-5 text-gray-400" />
                                 </div>
-                                <p className="text-sm font-medium text-gray-700">No activity in the last 24 hours</p>
-                                <p className="text-xs text-gray-500 mt-1">Sync events will appear here when they occur</p>
+                                <p className="text-sm font-medium text-gray-700">{oc?.noActivity || 'No activity in the last 24 hours'}</p>
+                                <p className="text-xs text-gray-500 mt-1">{oc?.noActivityDesc || 'Sync events will appear here when they occur'}</p>
                             </div>
                         ) : (
                             <div className="relative">
@@ -263,7 +266,7 @@ export default function ActivityLog() {
                                                         className="mt-3 w-full flex items-center justify-center gap-1.5 text-xs font-medium text-red-700 bg-red-100 hover:bg-red-200 border border-red-300 py-2 rounded-lg transition-colors z-10 relative"
                                                     >
                                                         <RefreshCw className="w-3.5 h-3.5" />
-                                                        Retry
+                                                        {oc?.retry || 'Retry'}
                                                     </button>
                                                 )}
                                             </div>
