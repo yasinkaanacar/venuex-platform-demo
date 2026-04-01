@@ -45,3 +45,6 @@ npm-debug.log*
 
 # Internal monorepo documents
 venuex-monorepo-documents/
+
+# Playwright MCP
+.playwright-mcp/
