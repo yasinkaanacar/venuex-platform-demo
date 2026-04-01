@@ -42,3 +42,6 @@ npm-debug.log*
 
 # GSD planning / roadmap files
 .planning/
+
+# Internal monorepo documents
+venuex-monorepo-documents/
