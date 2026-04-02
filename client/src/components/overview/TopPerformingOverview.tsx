@@ -186,7 +186,7 @@ export default function TopPerformingOverview({ topLocations = [], topCampaigns 
                             ))}
                             {sortedLocations.length === 0 && (
                                 <tr>
-                                    <td colSpan={6} className="vx-td text-center text-gray-400 py-8">No location data</td>
+                                    <td colSpan={6} className="vx-td text-center text-gray-400 py-8">Lokasyon verisi yok</td>
                                 </tr>
                             )}
                         </tbody>
@@ -278,7 +278,7 @@ export default function TopPerformingOverview({ topLocations = [], topCampaigns 
                             })}
                             {sortedCampaigns.length === 0 && (
                                 <tr>
-                                    <td colSpan={7} className="vx-td text-center text-gray-400 py-8">No campaign data</td>
+                                    <td colSpan={7} className="vx-td text-center text-gray-400 py-8">Kampanya verisi yok</td>
                                 </tr>
                             )}
                         </tbody>

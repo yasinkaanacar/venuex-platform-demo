@@ -108,19 +108,19 @@ export function LocationDataTable({ data, onRowClick, onEdit }: LocationDataTabl
               </TableHead>
               <TableHead className="vx-th text-gray-700 font-medium">
                 <div className="flex items-center space-x-1">
-                  <span>Store Code</span>
+                  <span>Mağaza Kodu</span>
                   <ChevronDown className="w-3 h-3" />
                 </div>
               </TableHead>
-              <TableHead className="vx-th text-gray-700 font-medium">Location Name</TableHead>
-              <TableHead className="vx-th text-gray-700 font-medium">Business Status</TableHead>
+              <TableHead className="vx-th text-gray-700 font-medium">Lokasyon Adı</TableHead>
+              <TableHead className="vx-th text-gray-700 font-medium">İşletme Durumu</TableHead>
               <TableHead className="vx-th text-gray-700 font-medium">
                 <div className="flex items-center space-x-1">
-                  <span>Data Quality Index</span>
+                  <span>Veri Kalite Endeksi</span>
                   <Info className="w-3 h-3" />
                 </div>
               </TableHead>
-              <TableHead className="vx-th text-gray-700 font-medium">Platform Status</TableHead>
+              <TableHead className="vx-th text-gray-700 font-medium">Platform Durumu</TableHead>
               <TableHead className="w-20 vx-th text-gray-700"></TableHead>
             </TableRow>
           </TableHeader>
@@ -154,7 +154,7 @@ export function LocationDataTable({ data, onRowClick, onEdit }: LocationDataTabl
                        location.locationName.includes('Adapazarı Serdivan') ? 'Sakarya\nSerdivan' :
                        location.locationName.includes('Antalya') ? 'Antalya\nAlanya' :
                        location.locationName.includes('Şanlıurfa') ? 'Şanlıurfa\nMerkez' :
-                       location.locationName.includes('Tekirdağ') ? 'Tekirdağ\nCorlu' : 'Location Details'}
+                       location.locationName.includes('Tekirdağ') ? 'Tekirdağ\nCorlu' : 'Lokasyon Detayları'}
                     </div>
                   </div>
                 </TableCell>
@@ -205,11 +205,11 @@ export function LocationDataTable({ data, onRowClick, onEdit }: LocationDataTabl
                       <DropdownMenuContent align="end">
                         <DropdownMenuItem onClick={() => onRowClick(location.id)}>
                           <Eye className="mr-2 h-4 w-4" />
-                          View Details
+                          Detayları Görüntüle
                         </DropdownMenuItem>
                         <DropdownMenuItem onClick={() => onEdit(location.id)}>
                           <Edit className="mr-2 h-4 w-4" />
-                          Edit
+                          Düzenle
                         </DropdownMenuItem>
                       </DropdownMenuContent>
                     </DropdownMenu>
@@ -226,26 +226,26 @@ export function LocationDataTable({ data, onRowClick, onEdit }: LocationDataTabl
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="outline" className="vx-button flex items-center space-x-2">
-                <span>Bulk Actions</span>
+                <span>Toplu İşlemler</span>
                 <ChevronDown className="w-4 h-4" />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent>
-              <DropdownMenuItem>Export Selected</DropdownMenuItem>
-              <DropdownMenuItem>Delete Selected</DropdownMenuItem>
-              <DropdownMenuItem>Update Status</DropdownMenuItem>
+              <DropdownMenuItem>Seçilenleri Dışa Aktar</DropdownMenuItem>
+              <DropdownMenuItem>Seçilenleri Sil</DropdownMenuItem>
+              <DropdownMenuItem>Durumu Güncelle</DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
           
           <Button variant="outline" className="vx-button flex items-center space-x-2">
             <Download className="w-4 h-4" />
-            <span>Export</span>
+            <span>Dışa Aktar</span>
           </Button>
         </div>
         
         <div className="flex items-center space-x-4">
           <div className="flex items-center space-x-2">
-            <span className="text-sm text-gray-600 whitespace-nowrap">Rows per page:</span>
+            <span className="text-sm text-gray-600 whitespace-nowrap">Satır sayısı:</span>
             <Select value={rowsPerPage.toString()} onValueChange={(value) => setRowsPerPage(Number(value))}>
             <SelectTrigger className="vx-select w-16">
               <SelectValue />

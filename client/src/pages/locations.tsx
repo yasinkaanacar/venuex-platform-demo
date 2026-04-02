@@ -62,10 +62,10 @@ const chartData = [
 ];
 
 const tabs = [
-  { label: "Total", value: "62006", active: true },
-  { label: "Calls Made", value: "23499", active: false },
-  { label: "Website Clicks", value: "3875", active: false },
-  { label: "Direction Requests", value: "34632", active: false },
+  { label: "Toplam", value: "62006", active: true },
+  { label: "Gelen Aramalar", value: "23499", active: false },
+  { label: "Web Sitesi Tıklamaları", value: "3875", active: false },
+  { label: "Yol Tarifi İstekleri", value: "34632", active: false },
 ];
 
 const platformData = [
@@ -91,7 +91,7 @@ const mockLocationData = [
     storeCode: "CB06",
     locationName: "Demo Eskişehir Kanatlı",
     businessStatus: "Open" as const,
-    platformStatus: "Looks Good!",
+    platformStatus: "İyi görünüyor!",
     poiStatus: "92%",
     platforms: ["facebook", "google", "instagram", "yelp"],
   },
@@ -100,7 +100,7 @@ const mockLocationData = [
     storeCode: "CB08",
     locationName: "Demo Denizli Forum",
     businessStatus: "Open" as const,
-    platformStatus: "Looks Good!",
+    platformStatus: "İyi görünüyor!",
     poiStatus: "68%",
     platforms: ["facebook", "google", "instagram", "yelp"],
   },
@@ -109,7 +109,7 @@ const mockLocationData = [
     storeCode: "CB13",
     locationName: "Demo Çanakkale 17 Burda",
     businessStatus: "Open" as const,
-    platformStatus: "Looks Good!",
+    platformStatus: "İyi görünüyor!",
     poiStatus: "45%",
     platforms: ["facebook", "google", "instagram", "yelp"],
   },
@@ -118,7 +118,7 @@ const mockLocationData = [
     storeCode: "CB14",
     locationName: "Demo Adapazarı Agora",
     businessStatus: "Open" as const,
-    platformStatus: "Looks Good!",
+    platformStatus: "İyi görünüyor!",
     poiStatus: "87%",
     platforms: ["facebook", "google", "instagram", "yelp"],
   },
@@ -127,7 +127,7 @@ const mockLocationData = [
     storeCode: "CB15",
     locationName: "Demo Forum Diyarbakır",
     businessStatus: "Open" as const,
-    platformStatus: "Looks Good!",
+    platformStatus: "İyi görünüyor!",
     poiStatus: "75%",
     platforms: ["facebook", "google", "instagram", "yelp"],
   },
@@ -136,7 +136,7 @@ const mockLocationData = [
     storeCode: "CB21",
     locationName: "Demo Van",
     businessStatus: "Open" as const,
-    platformStatus: "Looks Good!",
+    platformStatus: "İyi görünüyor!",
     poiStatus: "33%",
     platforms: ["facebook", "google", "instagram", "yelp"],
   },
@@ -145,7 +145,7 @@ const mockLocationData = [
     storeCode: "CB22",
     locationName: "Demo Adapazarı Serdivan",
     businessStatus: "Open" as const,
-    platformStatus: "Looks Good!",
+    platformStatus: "İyi görünüyor!",
     poiStatus: "95%",
     platforms: ["facebook", "google", "instagram", "yelp"],
   },
@@ -154,7 +154,7 @@ const mockLocationData = [
     storeCode: "CB23",
     locationName: "Demo Antalya Alanyum",
     businessStatus: "Open" as const,
-    platformStatus: "Looks Good!",
+    platformStatus: "İyi görünüyor!",
     poiStatus: "62%",
     platforms: ["facebook", "google", "instagram", "yelp"],
   },
@@ -163,7 +163,7 @@ const mockLocationData = [
     storeCode: "CB27",
     locationName: "Demo Şanlıurfa Piazza",
     businessStatus: "Open" as const,
-    platformStatus: "Looks Good!",
+    platformStatus: "İyi görünüyor!",
     poiStatus: "81%",
     platforms: ["facebook", "google", "instagram", "yelp"],
   },
@@ -172,7 +172,7 @@ const mockLocationData = [
     storeCode: "CB28",
     locationName: "Demo Tekirdağ Orion",
     businessStatus: "Open" as const,
-    platformStatus: "Looks Good!",
+    platformStatus: "İyi görünüyor!",
     poiStatus: "52%",
     platforms: ["facebook", "google", "instagram", "yelp"],
   },
@@ -181,7 +181,7 @@ const mockLocationData = [
 const mockCalendarPosts = [
   {
     id: 1,
-    title: 'Summer Collection Launch',
+    title: 'Yaz Koleksiyonu Lansmanı',
     platforms: ['google', 'apple'],
     status: 'published',
     startDate: new Date(),
@@ -191,7 +191,7 @@ const mockCalendarPosts = [
   },
   {
     id: 2,
-    title: 'Weekend Flash Sale',
+    title: 'Hafta Sonu Flash İndirim',
     platforms: ['google'],
     status: 'scheduled',
     startDate: addDays(new Date(), 1),
@@ -201,7 +201,7 @@ const mockCalendarPosts = [
   },
   {
     id: 3,
-    title: 'New Store Opening',
+    title: 'Yeni Mağaza Açılışı',
     platforms: ['google', 'apple'],
     status: 'scheduled',
     startDate: addDays(new Date(), 2),
@@ -211,7 +211,7 @@ const mockCalendarPosts = [
   },
   {
     id: 4,
-    title: 'Holiday Special Promo',
+    title: 'Tatil Dönemi Kampanyası',
     platforms: ['apple'],
     status: 'scheduled',
     startDate: addDays(new Date(), 2),
@@ -232,7 +232,7 @@ export default function LocationsPage() {
   const [currentWeekStart, setCurrentWeekStart] = useState(() => startOfWeek(new Date(), { weekStartsOn: 1 }));
   const [selectedDay, setSelectedDay] = useState<Date | null>(null);
   const [contentTypeOpen, setContentTypeOpen] = useState(false);
-  const [contentType, setContentType] = useState('All Content');
+  const [contentType, setContentType] = useState('Tüm İçerik');
   const [, setLocationPath] = useLocation();
   const contentTypeRef = useRef<HTMLDivElement>(null);
   const dayMenuRef = useRef<HTMLDivElement>(null);
@@ -541,7 +541,7 @@ export default function LocationsPage() {
                           className="px-3 py-1.5 text-sm font-medium text-gray-600 hover:bg-gray-100 rounded-lg transition-colors"
                           data-testid="button-today"
                         >
-                          Today
+                          Bugün
                         </button>
                         <button
                           onClick={goToNextWeek}
@@ -567,7 +567,7 @@ export default function LocationsPage() {
                         </button>
                         {contentTypeOpen && (
                           <div className="absolute right-0 mt-2 w-40 bg-white rounded-lg shadow-lg border border-gray-200 py-1 z-50">
-                            {['All Content', 'Published', 'Scheduled', 'Draft'].map((type) => (
+                            {['Tüm İçerik', 'Yayınlandı', 'Zamanlandı', 'Taslak'].map((type) => (
                               <button
                                 key={type}
                                 onClick={() => { setContentType(type); setContentTypeOpen(false); }}
@@ -634,21 +634,21 @@ export default function LocationsPage() {
                                 className="w-full flex items-center gap-2 px-3 py-2 text-left text-sm text-gray-700 hover:bg-gray-50 transition-colors"
                               >
                                 <Store size={14} className="text-gray-500" />
-                                Store Set
+                                Mağaza Grubu
                               </button>
                               <button
                                 onClick={() => handleCreatePost('select-locations', day)}
                                 className="w-full flex items-center gap-2 px-3 py-2 text-left text-sm text-gray-700 hover:bg-gray-50 transition-colors"
                               >
                                 <MapPin size={14} className="text-gray-500" />
-                                Select Location(s)
+                                Lokasyon Seç
                               </button>
                               <button
                                 onClick={() => handleCreatePost('all-locations', day)}
                                 className="w-full flex items-center gap-2 px-3 py-2 text-left text-sm text-gray-700 hover:bg-gray-50 transition-colors"
                               >
                                 <Map size={14} className="text-gray-500" />
-                                All Locations
+                                Tüm Lokasyonlar
                               </button>
                             </div>
                           )}
@@ -700,13 +700,13 @@ export default function LocationsPage() {
                                 <Sparkles size={12} className="text-blue-500" />
                               </div>
                               <p className="text-xs text-gray-500 mb-1">
-                                Best time to post
+                                Gönderi için en iyi zaman
                               </p>
                               <button
                                 onClick={() => handleDayClick(day)}
                                 className="flex items-center justify-center gap-1 w-full text-xs font-medium text-blue-600 hover:text-blue-700"
                               >
-                                Schedule
+                                Zamanla
                                 <ChevronDown size={10} />
                               </button>
                             </div>
@@ -827,7 +827,7 @@ export default function LocationsPage() {
                   {/* Business Profile Interaction Content */}
                   <div className="vx-card-body vx-surface-muted">
                     <h4 className="text-gray-900  mb-4 font-medium text-[16px]">
-                      Business Profile Interaction
+                      İşletme Profili Etkileşimi
                     </h4>
 
                     {/* Tabs */}
@@ -857,7 +857,7 @@ export default function LocationsPage() {
                             62,006
                           </span>
                           <span className="text-sm text-gray-600 ">
-                            Current
+                            Güncel
                           </span>
                         </div>
                         <div className="flex items-center space-x-2">
@@ -866,7 +866,7 @@ export default function LocationsPage() {
                             63,615
                           </span>
                           <span className="text-sm text-gray-600 ">
-                            Previous
+                            Önceki
                           </span>
                         </div>
                         <Badge
@@ -877,7 +877,7 @@ export default function LocationsPage() {
                         </Badge>
                       </div>
                       <div className="text-sm text-gray-500 mb-4">
-                        July 2025 vs August 2025
+                        Temmuz 2025 - Ağustos 2025
                       </div>
                     </div>
 
@@ -925,7 +925,7 @@ export default function LocationsPage() {
                       <div className="space-y-4 lg:pr-8">
                         <div className="flex items-center justify-between">
                           <h4 className="font-medium text-gray-900 ">
-                            Profile views
+                            Profil Görüntülenmeleri
                           </h4>
                           <div className="flex items-center space-x-2">
                             <span className="text-lg font-semibold">
@@ -938,7 +938,7 @@ export default function LocationsPage() {
                           </div>
                         </div>
                         <div className="text-sm text-gray-600  mb-4">
-                          July 2025 vs August 2025
+                          Temmuz 2025 - Ağustos 2025
                         </div>
 
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -970,8 +970,7 @@ export default function LocationsPage() {
                           {/* Platform Breakdown */}
                           <div className="space-y-2">
                             <h5 className="text-sm font-medium text-gray-900  mb-3">
-                              Platform and device breakdown that people used
-                              to find your profile
+                              Profilinizi bulmak için kullanılan platform ve cihaz dağılımı
                             </h5>
                             {platformData.map((item, index) => (
                               <div
@@ -1005,7 +1004,7 @@ export default function LocationsPage() {
                       <div className="space-y-4 lg:pl-8">
                         <div className="flex items-center justify-between">
                           <h4 className="font-medium text-gray-900 ">
-                            Total searches
+                            Toplam Aramalar
                           </h4>
                           <div className="flex items-center space-x-2">
                             <span className="text-lg font-semibold">
@@ -1018,13 +1017,12 @@ export default function LocationsPage() {
                           </div>
                         </div>
                         <div className="text-sm text-gray-600  mb-4">
-                          July 2025 vs August 2025
+                          Temmuz 2025 - Ağustos 2025
                         </div>
 
                         <div className="space-y-4">
                           <h5 className="text-sm font-medium text-gray-900 ">
-                            Search terms breakdown that showed your Business
-                            Profile in the search results
+                            İşletme Profilinizi arama sonuçlarında gösteren arama terimleri dağılımı
                           </h5>
 
                           <div className="space-y-3">
@@ -1049,7 +1047,7 @@ export default function LocationsPage() {
                           </div>
 
                           <Button variant="outline" className="w-full mt-4">
-                            See More
+                            Daha Fazla Gör
                           </Button>
                         </div>
                       </div>

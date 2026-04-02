@@ -230,8 +230,8 @@ export const mockOverviewData: OverviewData = {
     {
       id: 'alert-1',
       type: 'error',
-      title: 'Inventory Sync Failed',
-      message: 'Last inventory sync failed 2 hours ago. Store data may be outdated.',
+      title: 'Envanter Senkronizasyonu Başarısız',
+      message: 'Son envanter senkronizasyonu 2 saat önce başarısız oldu. Mağaza verisi güncel olmayabilir.',
       timestamp: new Date(Date.now() - 2 * 60 * 60 * 1000),
       isRead: false,
       severity: 'high',
@@ -240,8 +240,8 @@ export const mockOverviewData: OverviewData = {
     {
       id: 'alert-2',
       type: 'warning',
-      title: 'Campaign Budget Alert',
-      message: 'Summer Sale campaign is 85% through daily budget with 6 hours remaining.',
+      title: 'Kampanya Bütçe Uyarısı',
+      message: 'Yaz İndirimi kampanyası günlük bütçesinin %85\'ini harcadı, 6 saat kaldı.',
       timestamp: new Date(Date.now() - 35 * 60 * 1000),
       isRead: false,
       severity: 'medium',
@@ -250,8 +250,8 @@ export const mockOverviewData: OverviewData = {
     {
       id: 'alert-3',
       type: 'info',
-      title: 'New Review Received',
-      message: 'Your İzmir location received a 5-star review mentioning excellent customer service.',
+      title: 'Yeni Değerlendirme Alındı',
+      message: 'İzmir lokasyonunuz mükemmel müşteri hizmetinden bahseden 5 yıldızlı bir değerlendirme aldı.',
       timestamp: new Date(Date.now() - 8 * 60 * 1000),
       isRead: false,
       severity: 'low',

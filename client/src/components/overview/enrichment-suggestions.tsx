@@ -31,9 +31,9 @@ const typeConfig: Record<string, { icon: typeof MapPin; bg: string }> = {
 };
 
 const impactConfig: Record<string, { bg: string; text: string; label: string }> = {
-  high:   { bg: 'bg-red-50', text: 'text-red-700', label: 'High' },
-  medium: { bg: 'bg-amber-50', text: 'text-amber-700', label: 'Medium' },
-  low:    { bg: 'bg-gray-50', text: 'text-gray-600', label: 'Low' },
+  high:   { bg: 'bg-red-50', text: 'text-red-700', label: 'Yüksek' },
+  medium: { bg: 'bg-amber-50', text: 'text-amber-700', label: 'Orta' },
+  low:    { bg: 'bg-gray-50', text: 'text-gray-600', label: 'Düşük' },
 };
 
 export default function EnrichmentSuggestions({ context = 'dashboard' }: EnrichmentSuggestionsProps) {

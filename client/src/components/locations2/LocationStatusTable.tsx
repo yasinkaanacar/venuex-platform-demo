@@ -1247,11 +1247,11 @@ function BulkActionBar({ selectedCount, onClear }: { selectedCount: number; onCl
       <div className="h-4 w-px bg-gray-600" />
       <Button size="sm" variant="secondary" className="vx-button gap-1.5">
         <RefreshCw className="w-3.5 h-3.5" />
-        Retry Sync
+        Yeniden Senkronize Et
       </Button>
       <Button size="sm" variant="secondary" className="vx-button gap-1.5">
         <Download className="w-3.5 h-3.5" />
-        Export
+        Dışa Aktar
       </Button>
       <Button size="sm" variant="ghost" className="vx-icon-button text-gray-400 hover:text-white" onClick={onClear}>
         <X className="w-4 h-4" />
@@ -1277,31 +1277,31 @@ function ActionsMenu({ location, platform }: { location: LocationData; platform:
         {!isPassive && (
           <DropdownMenuItem className="gap-2 text-xs cursor-pointer">
             <RefreshCw className="w-3.5 h-3.5" />
-            Sync Now
+            Şimdi Senkronize Et
           </DropdownMenuItem>
         )}
         {hasSyncError && (
           <DropdownMenuItem className="gap-2 text-xs cursor-pointer">
             <RefreshCw className="w-3.5 h-3.5" />
-            Retry Sync
+            Yeniden Senkronize Et
           </DropdownMenuItem>
         )}
         {isPending && (
           <DropdownMenuItem className="gap-2 text-xs cursor-pointer">
             <Link2 className="w-3.5 h-3.5" />
-            Connect
+            Bağlan
           </DropdownMenuItem>
         )}
         {isPassive && (
           <DropdownMenuItem className="gap-2 text-xs cursor-pointer">
             <Link2 className="w-3.5 h-3.5" />
-            Activate
+            Etkinleştir
           </DropdownMenuItem>
         )}
         {!isPassive && (
           <DropdownMenuItem className="gap-2 text-xs cursor-pointer text-gray-500">
             <Unlink className="w-3.5 h-3.5" />
-            Deactivate
+            Devre Dışı Bırak
           </DropdownMenuItem>
         )}
       </DropdownMenuContent>
