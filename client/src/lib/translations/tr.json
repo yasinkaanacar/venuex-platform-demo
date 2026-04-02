@@ -1013,31 +1013,24 @@
         "locationsSelected": "lokasyon seçili"
     },
     "sidebar": {
-        "categories": {
-            "location": "LOKASYON",
-            "sales": "SATIŞ",
-            "ai": "AI",
-            "management": "YÖNETİM",
-            "dev": "GELİŞTİRME"
-        },
         "menu": {
             "dashboard": "Dashboard",
             "locations": "Lokasyonlar",
             "reviews": "Yorumlar",
             "localInventory": "Yerel Envanter",
             "offlineConversions": "Offline Dönüşümler",
-            "enhance": "Geliştir",
-            "ratingDropAnalysis": "Puan düşüş analizi",
-            "negativeReviewPatterns": "Olumsuz yorum kalıpları",
             "venuexAI": "VenueX AI",
             "posts": "Gönderiler",
             "createPost": "Gönderi Oluştur",
             "managePosts": "Gönderileri Yönet",
-            "components": "Bileşenler",
             "settings": "Ayarlar",
-            "onboarding": "Karşılama",
-            "signup": "Kayıt Ol",
-            "segments": "Segmentler"
+            "segments": "Segmentler",
+            "ratingDropAnalysis": "Puan düşüş analizi",
+            "negativeReviewPatterns": "Olumsuz yorum kalıpları",
+            "collapseTooltipExpanded": "Kenar çubuğunu daralt",
+            "collapseTooltipCollapsed": "Kenar çubuğunu genişlet",
+            "brandSwitcherTooltip": "Markayı değiştir",
+            "profile": "Profil"
         }
     },
     "segments": {

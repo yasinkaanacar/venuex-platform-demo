@@ -1013,31 +1013,24 @@
         "locationsSelected": "locations selected"
     },
     "sidebar": {
-        "categories": {
-            "location": "LOCATION",
-            "sales": "SALES",
-            "ai": "AI",
-            "management": "MANAGEMENT",
-            "dev": "DEV"
-        },
         "menu": {
             "dashboard": "Dashboard",
             "locations": "Locations",
             "reviews": "Reviews",
             "localInventory": "Local Inventory",
             "offlineConversions": "Offline Conversions",
-            "enhance": "Enhance",
-            "ratingDropAnalysis": "Rating drop analysis",
-            "negativeReviewPatterns": "Negative review patterns",
             "venuexAI": "VenueX AI",
             "posts": "Posts",
             "createPost": "Create Post",
             "managePosts": "Manage Posts",
-            "components": "Components",
             "settings": "Settings",
-            "onboarding": "Onboarding",
-            "signup": "Sign Up",
-            "segments": "Segments"
+            "segments": "Segments",
+            "ratingDropAnalysis": "Rating drop analysis",
+            "negativeReviewPatterns": "Negative review patterns",
+            "collapseTooltipExpanded": "Collapse sidebar",
+            "collapseTooltipCollapsed": "Expand sidebar",
+            "brandSwitcherTooltip": "Switch brand",
+            "profile": "Profile"
         }
     },
     "segments": {
