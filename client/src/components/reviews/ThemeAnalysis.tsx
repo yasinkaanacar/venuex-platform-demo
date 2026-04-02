@@ -24,9 +24,9 @@ const ChartTooltip = ({ active, payload }: any) => {
   return (
     <div className="bg-white p-3 rounded-lg shadow-lg border border-gray-200">
       <p className="font-semibold text-sm text-gray-900">{d.name}</p>
-      <p className="text-xs text-gray-600">Reviews: {d.reviews}</p>
-      <p className="text-xs text-gray-600">Avg Rating: {d.avgRating}★</p>
-      <p className="text-xs text-gray-600">VenueX Score: {d.venueXScore}</p>
+      <p className="text-xs text-gray-600">Değerlendirme: {d.reviews}</p>
+      <p className="text-xs text-gray-600">Ort. Puan: {d.avgRating}★</p>
+      <p className="text-xs text-gray-600">VenueX Skoru: {d.venueXScore}</p>
     </div>
   );
 };
@@ -157,14 +157,14 @@ export default function ThemeAnalysis({ data }: ThemeAnalysisProps) {
                   <ScatterChart margin={{ top: 20, right: 100, bottom: 60, left: 60 }}>
                     <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
                     <XAxis
-                      type="number" dataKey="venueXScore" name="VenueX Score"
+                      type="number" dataKey="venueXScore" name="VenueX Skoru"
                       domain={[0, 100]} tick={{ fontSize: 11, fill: '#64748b' }}
-                      label={{ value: 'VenueX Score', position: 'bottom', offset: 40, style: { fontSize: '12px', fill: '#475569' } }}
+                      label={{ value: 'VenueX Skoru', position: 'bottom', offset: 40, style: { fontSize: '12px', fill: '#475569' } }}
                     />
                     <YAxis
-                      type="number" dataKey="reviews" name="Review Count"
+                      type="number" dataKey="reviews" name="Değerlendirme Sayısı"
                       domain={[0, 180]} tick={{ fontSize: 11, fill: '#64748b' }}
-                      label={{ value: 'Review Count', angle: -90, position: 'left', offset: 40, style: { fontSize: '12px', fill: '#475569' } }}
+                      label={{ value: 'Değerlendirme Sayısı', angle: -90, position: 'left', offset: 40, style: { fontSize: '12px', fill: '#475569' } }}
                     />
                     <RechartsTooltip cursor={{ strokeDasharray: '3 3' }} content={<ChartTooltip />} />
                     <ReferenceLine x={50} stroke="#94a3b8" strokeDasharray="5 5" strokeWidth={2} />
@@ -180,16 +180,16 @@ export default function ThemeAnalysis({ data }: ThemeAnalysisProps) {
                   <ScatterChart margin={{ top: 20, right: 100, bottom: 60, left: 60 }}>
                     <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
                     <XAxis
-                      type="number" dataKey="avgRating" name="Average Rating"
+                      type="number" dataKey="avgRating" name="Ortalama Puan"
                       domain={[0, 5]} tick={{ fontSize: 11, fill: '#64748b' }}
-                      label={{ value: 'Average Rating', position: 'bottom', offset: 40, style: { fontSize: '12px', fill: '#475569' } }}
+                      label={{ value: 'Ortalama Puan', position: 'bottom', offset: 40, style: { fontSize: '12px', fill: '#475569' } }}
                     />
                     <YAxis
-                      type="number" dataKey="reviews" name="Review Count"
+                      type="number" dataKey="reviews" name="Değerlendirme Sayısı"
                       domain={[0, 180]} tick={{ fontSize: 11, fill: '#64748b' }}
-                      label={{ value: 'Review Count', angle: -90, position: 'left', offset: 40, style: { fontSize: '12px', fill: '#475569' } }}
+                      label={{ value: 'Değerlendirme Sayısı', angle: -90, position: 'left', offset: 40, style: { fontSize: '12px', fill: '#475569' } }}
                     />
-                    <ZAxis type="number" dataKey="venueXScore" range={[100, 1000]} name="VenueX Score" />
+                    <ZAxis type="number" dataKey="venueXScore" range={[100, 1000]} name="VenueX Skoru" />
                     <RechartsTooltip cursor={{ strokeDasharray: '3 3' }} content={<ChartTooltip />} />
                     <Scatter data={data}>
                       {data.map((entry, index) => (
@@ -203,35 +203,35 @@ export default function ThemeAnalysis({ data }: ThemeAnalysisProps) {
 
               {/* Quadrant Labels */}
               <div className="group absolute top-0 right-0">
-                <div className="text-xs font-semibold text-green-600 cursor-help">High Reviews / High Rating</div>
+                <div className="text-xs font-semibold text-green-600 cursor-help">Yüksek Değerlendirme / Yüksek Puan</div>
                 <div className="hidden group-hover:block absolute top-full right-0 mt-1 bg-white border border-gray-200 rounded-lg shadow-lg p-3 max-w-xs z-10">
-                  <p className="font-semibold mb-1">Core Strengths</p>
-                  <p className="text-xs text-gray-600 mb-2">These are your Core Strengths. Many people notice them, and they love them.</p>
-                  <p className="text-xs font-medium">Action: Maintain and leverage. Feature these in your marketing.</p>
+                  <p className="font-semibold mb-1">Temel Güçlü Yönler</p>
+                  <p className="text-xs text-gray-600 mb-2">Bunlar temel güçlü yönlerinizdir. Pek çok kişi bunları fark eder ve sever.</p>
+                  <p className="text-xs font-medium">Eylem: Koruyun ve kullanın. Bunları pazarlamanızda öne çıkarın.</p>
                 </div>
               </div>
               <div className="group absolute top-0 left-0">
-                <div className="text-xs font-semibold text-orange-600 cursor-help">High Reviews / Low Rating</div>
+                <div className="text-xs font-semibold text-orange-600 cursor-help">Yüksek Değerlendirme / Düşük Puan</div>
                 <div className="hidden group-hover:block absolute top-full left-0 mt-1 bg-white border border-gray-200 rounded-lg shadow-lg p-3 max-w-xs z-10">
-                  <p className="font-semibold mb-1">Urgent Issues</p>
-                  <p className="text-xs text-gray-600 mb-2">Frequently mentioned problems that negatively impact customer experience.</p>
-                  <p className="text-xs font-medium">Action: Priority attention needed. Address these issues immediately.</p>
+                  <p className="font-semibold mb-1">Acil Sorunlar</p>
+                  <p className="text-xs text-gray-600 mb-2">Müşteri deneyimini olumsuz etkileyen sık dile getirilen sorunlar.</p>
+                  <p className="text-xs font-medium">Eylem: Öncelikli dikkat gereklidir. Bu sorunları hemen ele alın.</p>
                 </div>
               </div>
               <div className="group absolute bottom-0 right-0">
-                <div className="text-xs font-semibold text-blue-600 cursor-help">Low Reviews / High Rating</div>
+                <div className="text-xs font-semibold text-blue-600 cursor-help">Düşük Değerlendirme / Yüksek Puan</div>
                 <div className="hidden group-hover:block absolute bottom-full right-0 mb-1 bg-white border border-gray-200 rounded-lg shadow-lg p-3 max-w-xs z-10">
-                  <p className="font-semibold mb-1">Hidden Gems</p>
-                  <p className="text-xs text-gray-600 mb-2">High-quality aspects that few customers mention. These could become strengths with visibility.</p>
-                  <p className="text-xs font-medium">Action: Increase awareness. Highlight these features to customers.</p>
+                  <p className="font-semibold mb-1">Gizli Değerler</p>
+                  <p className="text-xs text-gray-600 mb-2">Az müşterinin bahsettiği yüksek kaliteli yönler. Görünürlük kazanırsa güçlü yönlere dönüşebilir.</p>
+                  <p className="text-xs font-medium">Eylem: Farkındalığı artırın. Bu özellikleri müşterilere öne çıkarın.</p>
                 </div>
               </div>
               <div className="group absolute bottom-0 left-0">
-                <div className="text-xs font-semibold text-red-600 cursor-help">Low Reviews / Low Rating</div>
+                <div className="text-xs font-semibold text-red-600 cursor-help">Düşük Değerlendirme / Düşük Puan</div>
                 <div className="hidden group-hover:block absolute bottom-full left-0 mb-1 bg-white border border-gray-200 rounded-lg shadow-lg p-3 max-w-xs z-10">
-                  <p className="font-semibold mb-1">Minor Concerns</p>
-                  <p className="text-xs text-gray-600 mb-2">Issues that are rarely mentioned and have low satisfaction scores.</p>
-                  <p className="text-xs font-medium">Action: Monitor and improve when resources allow.</p>
+                  <p className="font-semibold mb-1">Küçük Endişeler</p>
+                  <p className="text-xs text-gray-600 mb-2">Nadiren dile getirilen ve düşük memnuniyet puanlarına sahip sorunlar.</p>
+                  <p className="text-xs font-medium">Eylem: İzleyin ve kaynaklar elverdiğinde iyileştirin.</p>
                 </div>
               </div>
             </div>

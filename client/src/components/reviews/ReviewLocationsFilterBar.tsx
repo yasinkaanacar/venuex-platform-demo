@@ -55,12 +55,12 @@ export default function ReviewLocationsFilterBar({ filters, onFiltersChange }: R
   const regionOptions = useMemo(() => [
     { value: 'all', label: t.reviews.filters.allRegions },
     { value: 'marmara', label: 'Marmara' },
-    { value: 'aegean', label: 'Aegean' },
-    { value: 'central', label: 'Central Anatolia' },
-    { value: 'mediterranean', label: 'Mediterranean' },
-    { value: 'blacksea', label: 'Black Sea' },
-    { value: 'eastern', label: 'Eastern Anatolia' },
-    { value: 'southeastern', label: 'Southeastern Anatolia' },
+    { value: 'aegean', label: 'Ege' },
+    { value: 'central', label: 'İç Anadolu' },
+    { value: 'mediterranean', label: 'Akdeniz' },
+    { value: 'blacksea', label: 'Karadeniz' },
+    { value: 'eastern', label: 'Doğu Anadolu' },
+    { value: 'southeastern', label: 'Güneydoğu Anadolu' },
   ], [t]);
 
   const cityOptions = useMemo(() => {
@@ -88,17 +88,17 @@ export default function ReviewLocationsFilterBar({ filters, onFiltersChange }: R
 
   const avgRatingOptions = useMemo(() => [
     { value: 'all', label: t.reviews.filters.allRatings },
-    { value: 'excellent', label: 'Excellent (4.5+ ★)' },
-    { value: 'good', label: 'Good (4.0 - 4.4 ★)' },
-    { value: 'average', label: 'Average (3.5 - 3.9 ★)' },
-    { value: 'poor', label: 'Poor (< 3.5 ★)' },
+    { value: 'excellent', label: 'Mükemmel (4,5+ ★)' },
+    { value: 'good', label: 'İyi (4,0 - 4,4 ★)' },
+    { value: 'average', label: 'Orta (3,5 - 3,9 ★)' },
+    { value: 'poor', label: 'Zayıf (< 3,5 ★)' },
   ], [t]);
 
   const replyRateOptions = useMemo(() => [
     { value: 'all', label: t.reviews.filters.allReplyRates },
-    { value: 'excellent', label: 'Excellent (> 95%)' },
-    { value: 'good', label: 'Good (80-94%)' },
-    { value: 'needs-improvement', label: 'Needs Improvement (< 80%)' },
+    { value: 'excellent', label: 'Mükemmel (> %95)' },
+    { value: 'good', label: 'İyi (%80-94)' },
+    { value: 'needs-improvement', label: 'Geliştirilmeli (< %80)' },
   ], [t]);
 
   return (

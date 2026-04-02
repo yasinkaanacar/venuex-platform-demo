@@ -51,16 +51,16 @@ const InboxFilterBar = forwardRef<HTMLDivElement, InboxFilterBarProps>(({
 
   const productOptions = useMemo(() => [
     { value: 'all', label: t.reviews.filters.allProducts },
-    { value: 'running-shoes', label: 'Running Shoes' },
-    { value: 'winter-coat', label: 'Winter Coat' },
-    { value: 'coffee-maker', label: 'Coffee Maker' },
-    { value: 'wireless-headphones', label: 'Wireless Headphones' },
-    { value: 'smartphone-case', label: 'Smartphone Case' },
-    { value: 'laptop-bag', label: 'Laptop Bag' },
-    { value: 'yoga-mat', label: 'Yoga Mat' },
-    { value: 'kitchen-knife', label: 'Kitchen Knife' },
-    { value: 'desk-lamp', label: 'Desk Lamp' },
-    { value: 'bluetooth-speaker', label: 'Bluetooth Speaker' },
+    { value: 'running-shoes', label: 'Koşu Ayakkabısı' },
+    { value: 'winter-coat', label: 'Kış Montu' },
+    { value: 'coffee-maker', label: 'Kahve Makinesi' },
+    { value: 'wireless-headphones', label: 'Kablosuz Kulaklık' },
+    { value: 'smartphone-case', label: 'Telefon Kılıfı' },
+    { value: 'laptop-bag', label: 'Laptop Çantası' },
+    { value: 'yoga-mat', label: 'Yoga Matı' },
+    { value: 'kitchen-knife', label: 'Mutfak Bıçağı' },
+    { value: 'desk-lamp', label: 'Masa Lambası' },
+    { value: 'bluetooth-speaker', label: 'Bluetooth Hoparlör' },
   ], [t]);
 
   const statusOptions = useMemo(() => [
@@ -91,13 +91,13 @@ const InboxFilterBar = forwardRef<HTMLDivElement, InboxFilterBarProps>(({
 
   const themeOptions = useMemo(() => [
     { value: 'all', label: t.reviews.filters.allThemes },
-    { value: 'staff-service', label: 'Staff Service' },
-    { value: 'product-quality', label: 'Product Quality' },
-    { value: 'store-design', label: 'Store Design' },
-    { value: 'cleanliness', label: 'Cleanliness' },
-    { value: 'pricing', label: 'Pricing' },
-    { value: 'wait-time', label: 'Wait Time' },
-    { value: 'parking', label: 'Parking' },
+    { value: 'staff-service', label: 'Personel Hizmeti' },
+    { value: 'product-quality', label: 'Ürün Kalitesi' },
+    { value: 'store-design', label: 'Mağaza Tasarımı' },
+    { value: 'cleanliness', label: 'Temizlik' },
+    { value: 'pricing', label: 'Fiyatlandırma' },
+    { value: 'wait-time', label: 'Bekleme Süresi' },
+    { value: 'parking', label: 'Otopark' },
   ], [t]);
 
   const storeSetOptions = useMemo(() => [

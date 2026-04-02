@@ -17,7 +17,6 @@ import {
 
 // Components
 import ReviewKpiCards from '@/components/reviews/ReviewKpiCards';
-import ReviewTrendChart from '@/components/reviews/ReviewTrendChart';
 import ThemeAnalysis from '@/components/reviews/ThemeAnalysis';
 import InboxFilterBar from '@/components/reviews/InboxFilterBar';
 import ReviewList from '@/components/reviews/ReviewList';
@@ -49,10 +48,10 @@ export default function Reviews() {
 
   const storeSetOptions = useMemo(() => [
     { value: 'all', label: t.reviews.filters.allStoreSets },
-    { value: 'marmara', label: 'Marmara Region' },
+    { value: 'marmara', label: 'Marmara Bölgesi' },
     { value: 'BOY', label: 'BOY' },
     { value: 'premium', label: 'Premium' },
-    { value: 'standard', label: 'Standard' },
+    { value: 'standard', label: 'Standart' },
   ], [t]);
 
   const cityOptions = useMemo(() => [
@@ -324,11 +323,7 @@ export default function Reviews() {
               <ReviewKpiCards kpiData={reviewKpiData} ratingDistribution={ratingDistribution} />
             </div>
 
-            <div className="vx-section-stack">
-              <ReviewTrendChart dateRange={Number(overviewDateRange)} />
-            </div>
-
-            <div className="vx-section-stack">
+<div className="vx-section-stack">
               <ThemeAnalysis data={themeAnalysisData} />
             </div>
           </>

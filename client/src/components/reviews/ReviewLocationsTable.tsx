@@ -73,8 +73,8 @@ export default function ReviewLocationsTable({ locations, onLocationClick }: Rev
           <Input
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder={t.reviews?.locations?.searchPlaceholder || 'Search locations...'}
-            aria-label={t.reviews?.locations?.searchPlaceholder || 'Search locations'}
+            placeholder={t.reviews?.locations?.searchPlaceholder || 'Mağaza ara...'}
+            aria-label={t.reviews?.locations?.searchPlaceholder || 'Mağaza ara'}
             className="pl-10"
           />
         </div>
@@ -103,7 +103,7 @@ export default function ReviewLocationsTable({ locations, onLocationClick }: Rev
               {sortedLocations.length === 0 && searchQuery.trim() && (
                 <TableEmptyState
                   colSpan={columns.length + 1}
-                  title={t.reviews?.locations?.noResults || 'No locations match your search.'}
+                  title={t.reviews?.locations?.noResults || 'Aramanızla eşleşen mağaza bulunamadı.'}
                   className="py-8"
                 />
               )}
@@ -140,9 +140,9 @@ export default function ReviewLocationsTable({ locations, onLocationClick }: Rev
                       }
                       className="text-xs"
                     >
-                      {location.sentiment === 'positive_sentiment' ? 'Positive' :
-                       location.sentiment === 'negative_sentiment' ? 'Negative' :
-                       location.sentiment === 'neutral_sentiment' ? 'Neutral' : location.sentiment}
+                      {location.sentiment === 'positive_sentiment' ? 'Olumlu' :
+                       location.sentiment === 'negative_sentiment' ? 'Olumsuz' :
+                       location.sentiment === 'neutral_sentiment' ? 'Nötr' : location.sentiment}
                     </Badge>
                   </td>
                   <td className="vx-td">
