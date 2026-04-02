@@ -8,6 +8,7 @@ import {
   Target,
   Brain,
   Settings,
+  Users,
   MessageSquare,
   ChevronDown,
   ChevronRight,
@@ -20,10 +21,10 @@ import venueXLogo from '@assets/vx-logo-1000x1000_1756566252817.png';
 import venueXLogoSmall from '@assets/vx-logo-1000x1000_1764141281095.png';
 import venueXFavicon from '@assets/favicon_1765178591266.png';
 
-const recentChats = [
-  { id: '1', title: 'Rating drop analysis' },
-  { id: '2', title: 'Negative review patterns' },
-  { id: '3', title: 'Staff service sentiment' }
+const recentChatKeys = [
+  { id: '1', key: 'ratingDropAnalysis' },
+  { id: '2', key: 'negativeReviewPatterns' },
+  { id: '3', key: 'staffServiceSentiment' },
 ];
 
 interface SidebarProps {
@@ -31,7 +32,7 @@ interface SidebarProps {
   onToggle: () => void;
 }
 
-type NavItem = { type: 'item'; name: string; href: string; icon: any } | { type: 'gap' };
+type NavItem = { type: 'item'; name: string; href: string; icon: any } | { type: 'gap' } | { type: 'label'; text: string };
 
 export default function Sidebar({ collapsed, onToggle }: SidebarProps) {
   const [location] = useLocation();
@@ -47,19 +48,22 @@ export default function Sidebar({ collapsed, onToggle }: SidebarProps) {
 
   const navItems = useMemo((): NavItem[] => [
     { type: 'item', name: t('sidebar.menu.dashboard') || 'Dashboard', href: PATHS.HOME, icon: BarChart3 },
-    { type: 'gap' },
+    { type: 'label', text: t('sidebar.menu.groupModules') || 'MODULES' },
     { type: 'item', name: t('sidebar.menu.locations') || 'Locations', href: PATHS.LOCATIONS, icon: MapPin },
     { type: 'item', name: t('sidebar.menu.reviews') || 'Reviews', href: PATHS.REVIEWS, icon: MessageSquare },
     { type: 'item', name: t('sidebar.menu.localInventory') || 'Local Inventory', href: PATHS.CATALOG, icon: Package },
     { type: 'item', name: t('sidebar.menu.offlineConversions') || 'Offline Conversions', href: PATHS.OFFLINE_CONVERSIONS, icon: TrendingUp },
     { type: 'item', name: t('sidebar.menu.segments') || 'Segments', href: PATHS.SEGMENTS, icon: Target },
-    { type: 'gap' },
+    { type: 'label', text: t('sidebar.menu.groupAI') || 'AI' },
     { type: 'item', name: t('sidebar.menu.venuexAI') || 'VenueX AI', href: PATHS.VENUEX_AI, icon: Brain },
+    { type: 'label', text: t('sidebar.menu.groupAccount') || 'ACCOUNT' },
+    { type: 'item', name: t('sidebar.menu.settings') || 'Settings', href: PATHS.SETTINGS, icon: Settings },
+    { type: 'item', name: t('sidebar.menu.team') || 'Team', href: PATHS.PROFILE, icon: Users },
   ], [t]);
 
   return (
     <div className={cn(
-      "border-r border-gray-200 flex flex-col min-h-screen sticky top-0 max-h-screen overflow-hidden shadow-sm transition-all duration-300 bg-[#f9fafb]",
+      "border-r border-gray-200 flex flex-col min-h-screen sticky top-0 max-h-screen overflow-hidden shadow-sm transition-all duration-300 bg-white",
       collapsed ? "w-16" : "w-64"
     )}>
       {/* Logo Area */}
@@ -113,6 +117,14 @@ export default function Sidebar({ collapsed, onToggle }: SidebarProps) {
             if (item.type === 'gap') {
               return <li key={`gap-${index}`} className="pt-4" />;
             }
+            if (item.type === 'label') {
+              if (collapsed) return null;
+              return (
+                <li key={`label-${index}`} className="pt-5 pb-1 px-3">
+                  <span className="text-[10px] font-semibold tracking-widest text-gray-400 uppercase">{item.text}</span>
+                </li>
+              );
+            }
 
             const isActive = location === item.href;
             const isVenueXAI = item.href === PATHS.VENUEX_AI;
@@ -126,7 +138,7 @@ export default function Sidebar({ collapsed, onToggle }: SidebarProps) {
                         <div
                           className={cn(
                             "flex items-center gap-3 rounded-md text-sm transition-colors cursor-pointer px-3 py-2",
-                            isActive ? "bg-blue-600 text-white" : "text-gray-600 hover:bg-gray-100"
+                            isActive ? "bg-blue-50 text-blue-600 font-medium" : "text-gray-600 hover:bg-gray-50"
                           )}
                           data-testid={`nav-${item.name.toLowerCase().replace(/\s+/g, '-')}`}
                         >
@@ -148,19 +160,22 @@ export default function Sidebar({ collapsed, onToggle }: SidebarProps) {
                     </div>
                     {aiChatsExpanded && (
                       <ul className="mt-1 ml-6 space-y-0.5">
-                        {recentChats.map((chat) => (
+                        {recentChatKeys.map((chat) => {
+                          const chatTitle = t(`sidebar.menu.${chat.key}`) || chat.key;
+                          return (
                           <li key={chat.id}>
                             <Link href={PATHS.VENUEX_AI}>
                               <div
                                 className="px-3 py-2 text-xs text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded cursor-pointer truncate"
                                 data-testid={`chat-link-${chat.id}`}
-                                title={chat.title}
+                                title={chatTitle}
                               >
-                                {chat.title}
+                                {chatTitle}
                               </div>
                             </Link>
                           </li>
-                        ))}
+                          );
+                        })}
                       </ul>
                     )}
                   </div>
@@ -176,7 +191,7 @@ export default function Sidebar({ collapsed, onToggle }: SidebarProps) {
                     className={cn(
                       "flex items-center rounded-md text-sm transition-colors cursor-pointer",
                       collapsed ? "px-3 py-2 justify-center" : "gap-3 px-3 py-2",
-                      isActive ? "bg-blue-600 text-white" : "text-gray-600 hover:bg-gray-100"
+                      isActive ? "bg-blue-50 text-blue-600 font-medium" : "text-gray-600 hover:bg-gray-50"
                     )}
                     data-testid={`nav-${item.name.toLowerCase().replace(/\s+/g, '-')}`}
                     title={collapsed ? item.name : undefined}
@@ -193,7 +208,7 @@ export default function Sidebar({ collapsed, onToggle }: SidebarProps) {
 
       {/* Bottom Footer Strip */}
       {collapsed ? (
-        <div className="border-t border-gray-200 p-2 flex flex-col items-center gap-1">
+        <div className="border-t border-gray-200 bg-gray-50/70 p-2 flex flex-col items-center gap-1">
           <button
             onClick={onToggle}
             className="p-2 rounded-md hover:bg-gray-100 transition-colors"
@@ -206,7 +221,7 @@ export default function Sidebar({ collapsed, onToggle }: SidebarProps) {
             <div
               className={cn(
                 "p-2 rounded-md transition-colors cursor-pointer",
-                location === PATHS.SETTINGS ? "bg-blue-600 text-white" : "text-gray-500 hover:text-gray-700 hover:bg-gray-100"
+                location === PATHS.SETTINGS ? "bg-blue-50 text-blue-600" : "text-gray-500 hover:text-gray-700 hover:bg-gray-50"
               )}
               title={t('sidebar.menu.settings') || 'Settings'}
             >
@@ -225,7 +240,7 @@ export default function Sidebar({ collapsed, onToggle }: SidebarProps) {
           </Link>
         </div>
       ) : (
-        <div className="border-t border-gray-200 px-4 py-3">
+        <div className="border-t border-gray-200 bg-gray-50/70 px-4 py-3">
           <div className="flex items-center gap-1">
             <button
               onClick={onToggle}
@@ -240,7 +255,7 @@ export default function Sidebar({ collapsed, onToggle }: SidebarProps) {
               <div
                 className={cn(
                   "p-2 rounded-md transition-colors cursor-pointer",
-                  location === PATHS.SETTINGS ? "bg-blue-600 text-white" : "text-gray-500 hover:text-gray-700 hover:bg-gray-100"
+                  location === PATHS.SETTINGS ? "bg-blue-50 text-blue-600" : "text-gray-500 hover:text-gray-700 hover:bg-gray-50"
                 )}
                 title={t('sidebar.menu.settings') || 'Settings'}
               >

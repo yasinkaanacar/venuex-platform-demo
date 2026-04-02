@@ -1030,7 +1030,12 @@
             "collapseTooltipExpanded": "Kenar çubuğunu daralt",
             "collapseTooltipCollapsed": "Kenar çubuğunu genişlet",
             "brandSwitcherTooltip": "Markayı değiştir",
-            "profile": "Profil"
+            "profile": "Profil",
+            "team": "Takım",
+            "groupModules": "Modüller",
+            "groupAI": "AI",
+            "groupAccount": "Hesap",
+            "staffServiceSentiment": "Personel hizmet duyarlılığı"
         }
     },
     "segments": {

@@ -139,7 +139,7 @@
 
 @layer components {
   .vx-page {
-    @apply min-h-screen bg-gray-50;
+    @apply min-h-screen bg-white;
   }
 
   .vx-page-body {
@@ -159,7 +159,7 @@
   }
 
   .vx-card {
-    @apply bg-white rounded-lg border border-gray-200 overflow-visible;
+    @apply bg-white rounded-lg border border-gray-200 overflow-hidden;
   }
 
   .vx-card-header {

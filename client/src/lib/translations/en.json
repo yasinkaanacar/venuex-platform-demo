@@ -1030,7 +1030,12 @@
             "collapseTooltipExpanded": "Collapse sidebar",
             "collapseTooltipCollapsed": "Expand sidebar",
             "brandSwitcherTooltip": "Switch brand",
-            "profile": "Profile"
+            "profile": "Profile",
+            "team": "Team",
+            "groupModules": "Modules",
+            "groupAI": "AI",
+            "groupAccount": "Account",
+            "staffServiceSentiment": "Staff service sentiment"
         }
     },
     "segments": {
