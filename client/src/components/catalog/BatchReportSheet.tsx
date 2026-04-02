@@ -23,28 +23,28 @@ const mockErrors: ErrorItem[] = [
   {
     id: 'e1',
     platform: 'google',
-    errorType: 'Invalid store code',
+    errorType: 'Geçersiz mağaza kodu',
     errorCode: 'invalid_store_code',
     count: 45
   },
   {
     id: 'e2',
     platform: 'google',
-    errorType: 'Offer does not exist',
+    errorType: 'Teklif mevcut değil',
     errorCode: 'offer_does_not_exist',
     count: 32
   },
   {
     id: 'e3',
     platform: 'google',
-    errorType: 'Stale inventory data',
+    errorType: 'Güncel olmayan envanter verisi',
     errorCode: 'stale_inventory_data',
     count: 28
   },
   {
     id: 'e4',
     platform: 'google',
-    errorType: 'Missing product availability',
+    errorType: 'Ürün stok durumu eksik',
     errorCode: 'missing_availability',
     count: 15
   }

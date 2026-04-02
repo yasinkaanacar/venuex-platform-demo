@@ -22,8 +22,8 @@ const initialEvents: TimelineEvent[] = [
         id: 1,
         timestamp: '14:45:12',
         batchId: '9921',
-        title: 'Ingesting store availability...',
-        subtitle: 'Processing 42 store inventory files',
+        title: 'Mağaza stok durumu alınıyor...',
+        subtitle: '42 mağaza envanter dosyası işleniyor',
         status: 'processing',
         platform: 'erp',
         progress: 45
@@ -32,8 +32,8 @@ const initialEvents: TimelineEvent[] = [
         id: 2,
         timestamp: '14:42:30',
         batchId: '9920',
-        title: 'Google Merchant Center Sync Finished',
-        subtitle: '120 store-SKU pairs rejected',
+        title: 'Google Merchant Center Senkronizasyonu Tamamlandı',
+        subtitle: '120 mağaza-SKU çifti reddedildi',
         status: 'warning',
         platform: 'google'
     },
@@ -41,8 +41,8 @@ const initialEvents: TimelineEvent[] = [
         id: 3,
         timestamp: '14:38:15',
         batchId: '9920',
-        title: 'Google Merchant Center Feed Uploaded',
-        subtitle: '124.7k store-SKU pairs across 42 stores',
+        title: 'Google Merchant Center Feed Yüklendi',
+        subtitle: '42 mağazada 124,7B mağaza-SKU çifti',
         status: 'success',
         platform: 'google'
     },
@@ -50,8 +50,8 @@ const initialEvents: TimelineEvent[] = [
         id: 4,
         timestamp: '14:35:02',
         batchId: '9919',
-        title: 'Google Merchant Center Auth Failed',
-        subtitle: 'Content API token expired',
+        title: 'Google Merchant Center Kimlik Doğrulaması Başarısız',
+        subtitle: 'Content API jetonu süresi doldu',
         status: 'error',
         platform: 'google'
     },
@@ -59,8 +59,8 @@ const initialEvents: TimelineEvent[] = [
         id: 5,
         timestamp: '14:30:45',
         batchId: '9918',
-        title: 'Store Stock Data Received',
-        subtitle: '14.8k availability records from SFTP',
+        title: 'Mağaza Stok Verisi Alındı',
+        subtitle: 'SFTP üzerinden 14,8B stok kaydı',
         status: 'success',
         platform: 'erp'
     },
@@ -68,8 +68,8 @@ const initialEvents: TimelineEvent[] = [
         id: 6,
         timestamp: '14:25:10',
         batchId: '9917',
-        title: 'Google Merchant Center Feed Uploaded',
-        subtitle: '8.2k store-SKU pairs across 42 stores',
+        title: 'Google Merchant Center Feed Yüklendi',
+        subtitle: '42 mağazada 8,2B mağaza-SKU çifti',
         status: 'success',
         platform: 'google'
     },
@@ -77,8 +77,8 @@ const initialEvents: TimelineEvent[] = [
         id: 7,
         timestamp: '14:20:33',
         batchId: '9916',
-        title: 'Store Stock Data Received',
-        subtitle: '15k availability records from SFTP',
+        title: 'Mağaza Stok Verisi Alındı',
+        subtitle: 'SFTP üzerinden 15B stok kaydı',
         status: 'success',
         platform: 'erp'
     },
@@ -101,8 +101,8 @@ export default function ActivityLog() {
                             return {
                                 ...event,
                                 status: 'success' as EventStatus,
-                                title: 'Store Availability Ingested',
-                                subtitle: '42 store inventory files processed',
+                                title: 'Mağaza Stok Durumu Alındı',
+                                subtitle: '42 mağaza envanter dosyası işlendi',
                                 progress: undefined
                             };
                         }
@@ -126,7 +126,7 @@ export default function ActivityLog() {
         e.stopPropagation();
         setEvents(prev => prev.map(e =>
             e.id === event.id
-                ? { ...e, status: 'processing' as EventStatus, title: 'Retrying connection...', subtitle: 'Attempting reconnect', progress: 0 }
+                ? { ...e, status: 'processing' as EventStatus, title: 'Bağlantı yeniden deneniyor...', subtitle: 'Yeniden bağlanılmaya çalışılıyor', progress: 0 }
                 : e
         ));
     };

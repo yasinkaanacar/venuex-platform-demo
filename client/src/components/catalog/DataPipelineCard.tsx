@@ -18,11 +18,11 @@ interface DataPipelineCardProps {
 function formatTimeAgo(isoDate: string): string {
   const diff = Date.now() - new Date(isoDate).getTime();
   const minutes = Math.floor(diff / 60000);
-  if (minutes < 1) return 'just now';
-  if (minutes < 60) return `${minutes}m ago`;
+  if (minutes < 1) return 'az önce';
+  if (minutes < 60) return `${minutes}dk önce`;
   const hours = Math.floor(minutes / 60);
-  if (hours < 24) return `${hours}h ${minutes % 60}m ago`;
-  return `${Math.floor(hours / 24)}d ago`;
+  if (hours < 24) return `${hours}sa ${minutes % 60}dk önce`;
+  return `${Math.floor(hours / 24)}g önce`;
 }
 
 function getStatusColor(status: 'connected' | 'warning' | 'disconnected' | 'inactive') {
@@ -75,7 +75,7 @@ function RejectionReasonRow({ reason }: { reason: RejectionReason }) {
             <span className="text-xs font-medium text-gray-900">{reason.errorType}</span>
             <span className="text-xs font-mono text-gray-400 hidden sm:inline">{reason.errorCode}</span>
           </div>
-          <span className="text-xs font-semibold text-red-600 flex-shrink-0">{reason.count} items</span>
+          <span className="text-xs font-semibold text-red-600 flex-shrink-0">{reason.count} öğe</span>
         </div>
         <p className="text-xs text-gray-500 mt-0.5 line-clamp-1">{reason.description}</p>
       </div>
