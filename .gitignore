@@ -26,6 +26,15 @@ plans/
 
 # Attached assets (presentations, PDFs, screenshots)
 attached_assets/
+# Exception: assets actually used in the app
+!attached_assets/image_1764932445923.png
+!attached_assets/vx-logo-1000x1000_1756566252817.png
+!attached_assets/vx-logo-1000x1000_1764141281095.png
+!attached_assets/favicon_1765178591266.png
+!attached_assets/vx-logo-1000x1000_1756824361260.png
+!attached_assets/image_1756736100487.png
+!attached_assets/Screenshot 2025-08-29 at 18.31.46_1756481891401.png
+!attached_assets/tr-02_1758876643793.jpg
 
 # Docs / PRDs (internal reference docs, not for version control)
 docs/
