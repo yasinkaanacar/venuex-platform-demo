@@ -44,7 +44,7 @@ export default function Reviews() {
   // ── Overview Filters ────────────────────────────────────────────────────
   const [overviewStoreSet, setOverviewStoreSet] = useState('marmara');
   const [overviewCity, setOverviewCity] = useState('Istanbul');
-  const [overviewLocation, setOverviewLocation] = useState('BOY007');
+  const [overviewLocation, setOverviewLocation] = useState('STR007');
   const [overviewDateRange, setOverviewDateRange] = useState('30');
 
   const storeSetOptions = useMemo(() => [
@@ -110,12 +110,12 @@ export default function Reviews() {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  const hasActiveFilters = overviewStoreSet !== 'marmara' || overviewCity !== 'Istanbul' || overviewLocation !== 'BOY007' || overviewDateRange !== '30';
-  const resetFilters = () => { setOverviewStoreSet('marmara'); setOverviewCity('Istanbul'); setOverviewLocation('BOY007'); setOverviewDateRange('30'); setOpenDropdown(null); };
+  const hasActiveFilters = overviewStoreSet !== 'marmara' || overviewCity !== 'Istanbul' || overviewLocation !== 'STR007' || overviewDateRange !== '30';
+  const resetFilters = () => { setOverviewStoreSet('marmara'); setOverviewCity('Istanbul'); setOverviewLocation('STR007'); setOverviewDateRange('30'); setOpenDropdown(null); };
 
   // ── Inbox State (shared across FilterBar + ReviewList + ReviewDetail) ──
   const [reviewSource, setReviewSource] = useState<ReviewSource>('locations');
-  const [locationFilter, setLocationFilter] = useState('BOY007');
+  const [locationFilter, setLocationFilter] = useState('STR007');
   const [productFilter, setProductFilter] = useState('all');
   const [replyStatusFilter, setReplyStatusFilter] = useState<ReplyStatus>('UNANSWERED');
   const [ratingFilter, setRatingFilter] = useState('all');
@@ -277,7 +277,7 @@ export default function Reviews() {
               <div className="relative" ref={locationDropdownRef}>
                 <button
                   onClick={() => setOpenDropdown(openDropdown === 'location' ? null : 'location')}
-                  className={`flex items-center gap-2 h-9 px-3 text-sm font-medium bg-white border rounded-md hover:border-gray-400 transition-colors ${overviewLocation !== 'BOY007' ? 'border-gray-400 text-gray-900' : 'border-gray-200 text-gray-600'}`}
+                  className={`flex items-center gap-2 h-9 px-3 text-sm font-medium bg-white border rounded-md hover:border-gray-400 transition-colors ${overviewLocation !== 'STR007' ? 'border-gray-400 text-gray-900' : 'border-gray-200 text-gray-600'}`}
                 >
                   <span>{locationOptions.find(o => o.value === overviewLocation)?.label || t.reviews.filters.location}</span>
                   <ChevronDown className="w-4 h-4 text-gray-400" />

@@ -15,7 +15,7 @@ import {
   Target,
   BarChart3
 } from 'lucide-react';
-import koctasLogo from '@assets/image_1764932445923.png';
+import clientLogo from '@assets/image_1764932445923.png';
 
 export default function SignupPage() {
   const [, setLocation] = useLocation();
@@ -92,11 +92,11 @@ export default function SignupPage() {
           <p className="text-white/90 italic mb-4">"By linking our 1st-party store data with digital channels, we measured the true conversions of our campaigns and carried our advertising performance to the peak."</p>
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center overflow-hidden">
-              <img src={koctasLogo} alt="Koçtaş" className="w-8 h-8 object-contain" />
+              <img src={clientLogo} alt="Client" className="w-8 h-8 object-contain" />
             </div>
             <div>
-              <p className="text-white font-medium">Mehmet Emre</p>
-              <p className="text-white/60 text-sm">Senior Marketing & Corporate Communications Manager, Koçtaş</p>
+              <p className="text-white font-medium">Marketing Director</p>
+              <p className="text-white/60 text-sm">Leading Multi-Location Retail Brand, Turkey</p>
             </div>
           </div>
         </div>

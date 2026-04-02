@@ -42,10 +42,11 @@ Every referenceable entity follows a consistent, traceable naming convention:
 When adding anything new, check existing naming patterns first. Consistency across the token index is non-negotiable — the engineering team needs to `Ctrl+F` any reference and find it everywhere.
 
 ### Mock Data Standards
-- Use realistic Turkish market data: real brand names (Boyner, Koçtaş, Karaca), real city names (Istanbul districts), TRY currency
+- Use fictional brand names (e.g. "Nova Living", "Acme Home") — **never use real brand names** anywhere in mock data, as this environment doubles as a demo
+- Use realistic Turkish market data: real city names (Istanbul districts), TRY currency
 - Match rates, conversion values, and metrics should be plausible, not random
 - Every mock dataset should include edge cases (empty states, error states, partial data)
-- **No explicit brand naming in data connection / pipeline mock data.** Ingestion sources should be labeled generically as "SFTP" or "API" — never as "Boyner POS Exports", "CRM API", "Loyalty Feed", etc. No POS/CRM/loyalty domain references.
+- **No explicit brand naming in data connection / pipeline mock data.** Ingestion sources should be labeled generically as "SFTP" or "API". No POS/CRM/loyalty domain references.
 
 ## Product Modules
 

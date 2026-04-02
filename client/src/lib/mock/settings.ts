@@ -13,8 +13,8 @@ const delay = (ms: number) => new Promise((r) => setTimeout(r, ms));
 // ─── Business Profile ───────────────────────────────────────────────────────
 
 export const mockBusinessProfile: BusinessProfile = {
-  id: 'bp-karaca-001',
-  brandName: 'Karaca',
+  id: 'bp-novaliving-001',
+  brandName: 'Nova Living',
   businessType: 'Ev ve Yaşam',
   description:
     'Türkiye\'nin önde gelen ev ve yaşam markası olarak 1973\'ten bu yana kaliteli ürünler sunuyoruz. 145 mağaza ile Türkiye\'nin her köşesinde hizmet veriyoruz.',
@@ -25,17 +25,17 @@ export const mockBusinessProfile: BusinessProfile = {
     apple: ['Home & Garden', 'Kitchen & Dining'],
     yandex: ['Ev & Bahçe', 'Mutfak Eşyaları'],
   },
-  contactEmail: 'kurumsal@karaca.com.tr',
+  contactEmail: 'kurumsal@novaliving.com.tr',
   contactPhone: '+90 212 444 5 272',
-  website: 'https://www.karaca.com.tr',
+  website: 'https://www.novaliving.com.tr',
   socialMedia: {
-    facebook: 'https://www.facebook.com/KaracaTurkiye',
-    instagram: 'https://www.instagram.com/karacaturkiye',
-    x: 'https://twitter.com/KaracaTurkiye',
-    tiktok: 'https://www.tiktok.com/@karacaturkiye',
-    youtube: 'https://www.youtube.com/@KaracaTurkiye',
-    pinterest: 'https://tr.pinterest.com/karacaturkiye',
-    linkedin: 'https://www.linkedin.com/company/karacaturkiye',
+    facebook: 'https://www.facebook.com/NovaLivingTR',
+    instagram: 'https://www.instagram.com/novalivingtr',
+    x: 'https://twitter.com/NovaLivingTR',
+    tiktok: 'https://www.tiktok.com/@novalivingtr',
+    youtube: 'https://www.youtube.com/@NovaLivingTR',
+    pinterest: 'https://tr.pinterest.com/novalivingtr',
+    linkedin: 'https://www.linkedin.com/company/novalivingtr',
   },
   locationCount: 145,
   updatedAt: '2026-02-28T14:30:00Z',
@@ -74,7 +74,7 @@ export const mockActivityFeed: ActivityFeedEntry[] = [
     action: 'Mağaza bilgisi güncellendi',
     timestamp: '2026-02-28T10:15:00Z',
     details: {
-      locationName: 'Karaca İstinye Park',
+      locationName: 'Nova Living İstinye Park',
       field: 'workingHours',
       oldValue: '10:00 - 22:00',
       newValue: '09:00 - 22:00',
@@ -88,7 +88,7 @@ export const mockActivityFeed: ActivityFeedEntry[] = [
     action: 'Olumsuz yoruma yanıt verildi',
     timestamp: '2026-02-27T10:05:00Z',
     details: {
-      locationName: 'Karaca Çamlıca Emaar',
+      locationName: 'Nova Living Çamlıca Emaar',
       additionalInfo: '2/5 yıldızlı yorum — SLA içinde yanıtlandı',
     },
   },
@@ -109,7 +109,7 @@ export const mockActivityFeed: ActivityFeedEntry[] = [
     action: 'Yeni kullanıcı davet edildi',
     timestamp: '2026-02-27T15:00:00Z',
     details: {
-      additionalInfo: 'elif.demir@karaca.com.tr',
+      additionalInfo: 'elif.demir@novaliving.com.tr',
     },
   },
 ];
@@ -171,7 +171,7 @@ const salesSftpMappings: FieldMapping[] = [
   { id: 'fm-s1-02', sourceColumn: 'store_code', venueXField: 'Store Code', sampleValue: 'IST-AVRP-031', mapped: true },
   { id: 'fm-s1-03', sourceColumn: 'sale_amount', venueXField: 'Sale Amount', sampleValue: '1250.00', mapped: true },
   { id: 'fm-s1-04', sourceColumn: 'sale_date', venueXField: 'Transaction Date', sampleValue: '2026-02-28', mapped: true },
-  { id: 'fm-s1-05', sourceColumn: 'product_sku', venueXField: 'Product SKU', sampleValue: 'KRC-CHF-042', mapped: true },
+  { id: 'fm-s1-05', sourceColumn: 'product_sku', venueXField: 'Product SKU', sampleValue: 'NVL-CHF-042', mapped: true },
   { id: 'fm-s1-06', sourceColumn: 'quantity', venueXField: 'Quantity', sampleValue: '2', mapped: true },
 ];
 
@@ -180,7 +180,7 @@ const salesApiMappings: FieldMapping[] = [
   { id: 'fm-s2-02', sourceColumn: 'branch_id', venueXField: 'Store Code', sampleValue: 'ANK-CANK-005', mapped: true },
   { id: 'fm-s2-03', sourceColumn: 'total_price', venueXField: 'Sale Amount', sampleValue: '3400.00', mapped: true },
   { id: 'fm-s2-04', sourceColumn: 'order_datetime', venueXField: 'Transaction Date', sampleValue: '2026-02-27T18:22:00Z', mapped: true },
-  { id: 'fm-s2-05', sourceColumn: 'item_code', venueXField: 'Product SKU', sampleValue: 'KRC-PLT-118', mapped: false },
+  { id: 'fm-s2-05', sourceColumn: 'item_code', venueXField: 'Product SKU', sampleValue: 'NVL-PLT-118', mapped: false },
 ];
 
 const inventorySftpMappings: FieldMapping[] = [

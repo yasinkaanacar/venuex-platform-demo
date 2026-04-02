@@ -133,10 +133,10 @@ export default function LocationProgressSidebar({ control, mode }: LocationProgr
           {/* Brand identity */}
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-lg bg-gray-100 flex items-center justify-center flex-shrink-0">
-              <span className="text-sm font-semibold text-gray-400">K</span>
+              <span className="text-sm font-semibold text-gray-400">N</span>
             </div>
             <div className="min-w-0">
-              <p className="text-sm font-semibold text-foreground">Karaca</p>
+              <p className="text-sm font-semibold text-foreground">Nova Living</p>
               <p className="text-[11px] text-gray-500">
                 {percentage}% {oc?.progress?.completed || 'Completed'}
               </p>

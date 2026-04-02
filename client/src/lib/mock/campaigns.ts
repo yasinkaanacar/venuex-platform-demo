@@ -149,7 +149,7 @@ export const CAMPAIGN_TYPE_LABELS: Record<string, string> = {
     PRODUCT_SALES: 'Product Sales',
 };
 
-// Mock data with nested Ad Sets and Ads — Turkish market (Boyner retail brand context)
+// Mock data with nested Ad Sets and Ads — Turkish market (multi-location retail brand context)
 export const mockCampaigns: Campaign[] = [
     {
         id: 'c1',

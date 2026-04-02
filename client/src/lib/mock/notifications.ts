@@ -35,7 +35,7 @@ export const mockNotifications: Notification[] = [
     'reviews',
     'error',
     'Olumsuz yorum alındı (1★)',
-    "Kadıköy Boyner lokasyonuna 1 yıldızlı bir yorum bırakıldı: \"Müşteri hizmetleri çok kötü, 20 dk beklettiler.\" Hemen yanıtlayın.",
+    "Kadıköy Lumen lokasyonuna 1 yıldızlı bir yorum bırakıldı: \"Müşteri hizmetleri çok kötü, 20 dk beklettiler.\" Hemen yanıtlayın.",
     hoursAgo(1),
     false,
     '/reviews'
@@ -65,7 +65,7 @@ export const mockNotifications: Notification[] = [
     'locations',
     'error',
     'Lokasyon askıya alındı',
-    "Levent Koçtaş lokasyonu Google Business Profile tarafından askıya alındı. Doğrulama gerekiyor.",
+    "Levent Merkez lokasyonu Google Business Profile tarafından askıya alındı. Doğrulama gerekiyor.",
     hoursAgo(4),
     false,
     '/locations'
@@ -108,7 +108,7 @@ export const mockNotifications: Notification[] = [
     'reviews',
     'warning',
     'SLA aşıldı: 18 yanıtsız yorum',
-    "18 yorum 48 saattir yanıt bekliyor. 24 saat SLA hedefiniz aşıldı. En eski yorum: Ankara Forum Karaca.",
+    "18 yorum 48 saattir yanıt bekliyor. 24 saat SLA hedefiniz aşıldı. En eski yorum: Ankara Forum.",
     daysAgo(1),
     false,
     '/reviews'
@@ -128,7 +128,7 @@ export const mockNotifications: Notification[] = [
     'reviews',
     'warning',
     'Lokasyon puanı eşik altına düştü',
-    "Bakırköy Capacity Boyner lokasyonunun Google puanı 3.9'a düştü (eşik: 4.0). Son 30 günde 8 olumsuz yorum.",
+    "Bakırköy Capacity Lumen lokasyonunun Google puanı 3.9'a düştü (eşik: 4.0). Son 30 günde 8 olumsuz yorum.",
     daysAgo(1),
     false,
     '/reviews'
@@ -233,7 +233,7 @@ export const mockNotifications: Notification[] = [
     'reviews',
     'info',
     'Google politika ihlali — yorum kaldırıldı',
-    "Bir yorum Google politikalarını ihlal ettiği gerekçesiyle Bakırköy Boyner profilinden kaldırıldı.",
+    "Bir yorum Google politikalarını ihlal ettiği gerekçesiyle Bakırköy lokasyonu profilinden kaldırıldı.",
     daysAgo(10),
     true,
     '/reviews'
@@ -243,7 +243,7 @@ export const mockNotifications: Notification[] = [
     'locations',
     'warning',
     'Doğrulama gerekiyor',
-    "Beşiktaş Karaca lokasyonu Google tarafından doğrulanmadı. 14 gün içinde doğrulama yapılmazsa profil yayından kaldırılacak.",
+    "Beşiktaş lokasyonu Google tarafından doğrulanmadı. 14 gün içinde doğrulama yapılmazsa profil yayından kaldırılacak.",
     daysAgo(12),
     true,
     '/locations'

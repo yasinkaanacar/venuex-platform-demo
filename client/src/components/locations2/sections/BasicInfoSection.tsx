@@ -20,15 +20,15 @@ const COUNTRY_CODES = [
 // Mock destination data — in production this comes from connected platform accounts
 const MOCK_DESTINATIONS = {
   google: [
-    { id: 'gbp-1', label: 'Karaca TR - Mağazalar' },
-    { id: 'gbp-2', label: 'Karaca TR - Outlet' },
+    { id: 'gbp-1', label: 'Nova Living TR - Mağazalar' },
+    { id: 'gbp-2', label: 'Nova Living TR - Outlet' },
   ],
   meta: [
-    { id: 'meta-1', label: 'Karaca' },
-    { id: 'meta-2', label: 'Karaca Outlet' },
+    { id: 'meta-1', label: 'Nova Living' },
+    { id: 'meta-2', label: 'Nova Living Outlet' },
   ],
   apple: [
-    { id: 'apple-1', label: 'KARACA' },
+    { id: 'apple-1', label: 'NOVA LIVING' },
   ],
 };
 
@@ -69,7 +69,7 @@ export default function BasicInfoSection({ form }: BasicInfoSectionProps) {
             <input
               {...form.register('name')}
               className={inputClass}
-              placeholder="Karaca Nişantaşı"
+              placeholder="Nova Living Nişantaşı"
             />
             {form.formState.errors.name && (
               <p className="text-xs text-red-500 mt-1">{form.formState.errors.name.message}</p>
@@ -83,7 +83,7 @@ export default function BasicInfoSection({ form }: BasicInfoSectionProps) {
               <input
                 {...form.register('storeCode')}
                 className={inputClass}
-                placeholder="KRC-IST-001"
+                placeholder="NVL-IST-001"
               />
             </div>
             <div>
@@ -331,7 +331,7 @@ export default function BasicInfoSection({ form }: BasicInfoSectionProps) {
               <input
                 {...form.register('website')}
                 className={inputClass}
-                placeholder="https://www.karaca.com"
+                placeholder="https://www.example.com"
                 type="url"
               />
               {form.formState.errors.website && (

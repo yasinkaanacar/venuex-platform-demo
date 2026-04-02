@@ -11,18 +11,18 @@ import { useTranslation } from '@/contexts/LanguageContext';
 import SettingsFormRow from '@/components/settings/SettingsFormRow';
 import type { StoreSet } from '@/lib/types/settings';
 
-// Hardcoded Istanbul Karaca location names for multi-select
+// Hardcoded Istanbul location names for multi-select
 const MOCK_LOCATIONS = [
-  { id: 'loc-cevahir', name: 'Karaca Cevahir AVM' },
-  { id: 'loc-kanyon', name: 'Karaca Kanyon AVM' },
-  { id: 'loc-zorlu', name: 'Karaca Zorlu Center' },
-  { id: 'loc-istinye', name: 'Karaca Istinye Park' },
-  { id: 'loc-akasya', name: 'Karaca Akasya AVM' },
-  { id: 'loc-marmara', name: 'Karaca Marmara Forum' },
-  { id: 'loc-mall', name: 'Karaca Mall of Istanbul' },
-  { id: 'loc-bagdat', name: 'Karaca Bağdat Caddesi' },
-  { id: 'loc-nisantasi', name: 'Karaca Nişantaşı' },
-  { id: 'loc-kadikoy', name: 'Karaca Kadıköy' },
+  { id: 'loc-cevahir', name: 'Nova Living Cevahir AVM' },
+  { id: 'loc-kanyon', name: 'Nova Living Kanyon AVM' },
+  { id: 'loc-zorlu', name: 'Nova Living Zorlu Center' },
+  { id: 'loc-istinye', name: 'Nova Living Istinye Park' },
+  { id: 'loc-akasya', name: 'Nova Living Akasya AVM' },
+  { id: 'loc-marmara', name: 'Nova Living Marmara Forum' },
+  { id: 'loc-mall', name: 'Nova Living Mall of Istanbul' },
+  { id: 'loc-bagdat', name: 'Nova Living Bağdat Caddesi' },
+  { id: 'loc-nisantasi', name: 'Nova Living Nişantaşı' },
+  { id: 'loc-kadikoy', name: 'Nova Living Kadıköy' },
 ];
 
 interface StoreSetDialogProps {
