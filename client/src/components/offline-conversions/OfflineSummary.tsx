@@ -29,31 +29,31 @@ interface OfflineSummaryProps {
 // --- Mock Data ---
 
 const GOOGLE_METRICS: EngagementMetric[] = [
-  { label: 'Attributed Revenue', value: '2.847.500 ₺', change: 27.5, icon: <DollarSign className="w-4 h-4" />, color: 'blue' },
+  { label: 'İlişkilendirilen Gelir', value: '2.847.500 ₺', change: 27.5, icon: <DollarSign className="w-4 h-4" />, color: 'blue' },
   { label: 'Offline ROAS', value: '4.23:1', change: 9.3, icon: <Target className="w-4 h-4" />, color: 'green' },
-  { label: 'Store Conversions', value: '1.847', change: 13.8, icon: <Store className="w-4 h-4" />, color: 'purple' },
-  { label: 'Avg Order Value', value: '1.542 ₺', change: 12.0, icon: <TrendingUp className="w-4 h-4" />, color: 'orange' }
+  { label: 'Mağaza Dönüşümleri', value: '1.847', change: 13.8, icon: <Store className="w-4 h-4" />, color: 'purple' },
+  { label: 'Ort. Sipariş Değeri', value: '1.542 ₺', change: 12.0, icon: <TrendingUp className="w-4 h-4" />, color: 'orange' }
 ];
 
 const META_METRICS: EngagementMetric[] = [
-  { label: 'Attributed Revenue', value: '1.450.200 ₺', change: -5.2, icon: <DollarSign className="w-4 h-4" />, color: 'blue' },
+  { label: 'İlişkilendirilen Gelir', value: '1.450.200 ₺', change: -5.2, icon: <DollarSign className="w-4 h-4" />, color: 'blue' },
   { label: 'Offline ROAS', value: '3.10:1', change: 2.1, icon: <Target className="w-4 h-4" />, color: 'green' },
-  { label: 'Store Conversions', value: '890', change: 4.5, icon: <Store className="w-4 h-4" />, color: 'purple' },
-  { label: 'Avg Order Value', value: '1.240 ₺', change: -1.5, icon: <TrendingUp className="w-4 h-4" />, color: 'orange' }
+  { label: 'Mağaza Dönüşümleri', value: '890', change: 4.5, icon: <Store className="w-4 h-4" />, color: 'purple' },
+  { label: 'Ort. Sipariş Değeri', value: '1.240 ₺', change: -1.5, icon: <TrendingUp className="w-4 h-4" />, color: 'orange' }
 ];
 
 const TIKTOK_METRICS: EngagementMetric[] = [
-  { label: 'Attributed Revenue', value: '980.000 ₺', change: 45.8, icon: <DollarSign className="w-4 h-4" />, color: 'blue' },
+  { label: 'İlişkilendirilen Gelir', value: '980.000 ₺', change: 45.8, icon: <DollarSign className="w-4 h-4" />, color: 'blue' },
   { label: 'Offline ROAS', value: '2.85:1', change: 15.4, icon: <Target className="w-4 h-4" />, color: 'green' },
-  { label: 'Store Conversions', value: '1.100', change: 32.0, icon: <Store className="w-4 h-4" />, color: 'purple' },
-  { label: 'Avg Order Value', value: '890 ₺', change: 8.5, icon: <TrendingUp className="w-4 h-4" />, color: 'orange' }
+  { label: 'Mağaza Dönüşümleri', value: '1.100', change: 32.0, icon: <Store className="w-4 h-4" />, color: 'purple' },
+  { label: 'Ort. Sipariş Değeri', value: '890 ₺', change: 8.5, icon: <TrendingUp className="w-4 h-4" />, color: 'orange' }
 ];
 
 const ALL_METRICS: EngagementMetric[] = [
-  { label: 'Attributed Revenue', value: '5.277.700 ₺', change: 18.4, icon: <DollarSign className="w-4 h-4" />, color: 'blue' },
+  { label: 'İlişkilendirilen Gelir', value: '5.277.700 ₺', change: 18.4, icon: <DollarSign className="w-4 h-4" />, color: 'blue' },
   { label: 'Offline ROAS', value: '3.62:1', change: 7.8, icon: <Target className="w-4 h-4" />, color: 'green' },
-  { label: 'Store Conversions', value: '3.837', change: 15.2, icon: <Store className="w-4 h-4" />, color: 'purple' },
-  { label: 'Avg Order Value', value: '1.375 ₺', change: 6.5, icon: <TrendingUp className="w-4 h-4" />, color: 'orange' }
+  { label: 'Mağaza Dönüşümleri', value: '3.837', change: 15.2, icon: <Store className="w-4 h-4" />, color: 'purple' },
+  { label: 'Ort. Sipariş Değeri', value: '1.375 ₺', change: 6.5, icon: <TrendingUp className="w-4 h-4" />, color: 'orange' }
 ];
 
 const METRICS_BY_PLATFORM: Record<string, EngagementMetric[]> = {
@@ -147,7 +147,7 @@ export function OfflineSummary({ filters }: OfflineSummaryProps) {
   const { currentMetrics, platformLabel } = useMemo(() => {
     const selected = filters.platforms;
     if (selected.length === 0) {
-      return { currentMetrics: ALL_METRICS, platformLabel: 'All Platforms' };
+      return { currentMetrics: ALL_METRICS, platformLabel: 'Tüm Platformlar' };
     }
     if (selected.length === 1) {
       return {
@@ -217,12 +217,12 @@ export function OfflineSummary({ filters }: OfflineSummaryProps) {
               </h5>
               <div className="space-y-2">
                 {[
-                  { label: 'Country', status: 100 },
-                  { label: 'Conversion Name', status: 100 },
-                  { label: 'Conversion Time', status: 100 },
-                  { label: 'Conversion Value', status: 98 },
-                  { label: 'Conversion Currency', status: 100 },
-                  { label: 'Order ID', status: 94 }
+                  { label: 'Ülke', status: 100 },
+                  { label: 'Dönüşüm Adı', status: 100 },
+                  { label: 'Dönüşüm Zamanı', status: 100 },
+                  { label: 'Dönüşüm Değeri', status: 98 },
+                  { label: 'Dönüşüm Para Birimi', status: 100 },
+                  { label: 'Sipariş Kimliği', status: 94 }
                 ].map(field => {
                   const colors = getSeverityColor(field.status);
                   return (
@@ -248,10 +248,10 @@ export function OfflineSummary({ filters }: OfflineSummaryProps) {
               </h5>
               <div className="space-y-2">
                 {[
-                  { label: 'Email (SHA-256)', status: 95 },
-                  { label: 'Phone (SHA-256)', status: 92 },
-                  { label: 'First Name', status: 88 },
-                  { label: 'Last Name', status: 88 }
+                  { label: 'E-posta (SHA-256)', status: 95 },
+                  { label: 'Telefon (SHA-256)', status: 92 },
+                  { label: 'Ad', status: 88 },
+                  { label: 'Soyad', status: 88 }
                 ].map(field => {
                   const colors = getSeverityColor(field.status);
                   return (
@@ -277,9 +277,9 @@ export function OfflineSummary({ filters }: OfflineSummaryProps) {
               </h5>
               <div className="space-y-2">
                 {[
-                  { label: 'City', status: 85 },
-                  { label: 'Zip / Postal Code', status: 78 },
-                  { label: 'Store Code', status: 100 }
+                  { label: 'Şehir', status: 85 },
+                  { label: 'Posta Kodu', status: 78 },
+                  { label: 'Mağaza Kodu', status: 100 }
                 ].map(field => {
                   const colors = getSeverityColor(field.status);
                   return (
@@ -305,10 +305,10 @@ export function OfflineSummary({ filters }: OfflineSummaryProps) {
               </h5>
               <div className="space-y-2">
                 {[
-                  { label: 'Contents ID', status: 65 },
-                  { label: 'Quantity', status: 65 },
-                  { label: 'Price', status: 65 },
-                  { label: 'Brand / Category', status: 42 }
+                  { label: 'İçerik Kimliği', status: 65 },
+                  { label: 'Miktar', status: 65 },
+                  { label: 'Fiyat', status: 65 },
+                  { label: 'Marka / Kategori', status: 42 }
                 ].map(field => {
                   const colors = getSeverityColor(field.status);
                   return (
@@ -331,13 +331,13 @@ export function OfflineSummary({ filters }: OfflineSummaryProps) {
           <div className="pt-4 border-t border-gray-100 flex flex-wrap gap-2">
             <div className="flex items-center gap-2 px-3 py-1.5 bg-rose-50 border border-rose-100 rounded-lg text-xs">
               <span className="w-1.5 h-1.5 rounded-full bg-rose-500"></span>
-              <span className="text-gray-700">Product category info missing (affects ROAS)</span>
-              <button className="text-blue-600 hover:underline font-medium ml-1">Edit</button>
+              <span className="text-gray-700">Ürün kategori bilgisi eksik (ROAS'ı etkiler)</span>
+              <button className="text-blue-600 hover:underline font-medium ml-1">Düzenle</button>
             </div>
             <div className="flex items-center gap-2 px-3 py-1.5 bg-blue-50 border border-blue-100 rounded-lg text-xs">
               <span className="w-1.5 h-1.5 rounded-full bg-blue-500"></span>
-              <span className="text-gray-700">Email hash format should be verified</span>
-              <button className="text-blue-600 hover:underline font-medium ml-1">Verify</button>
+              <span className="text-gray-700">E-posta hash formatı doğrulanmalı</span>
+              <button className="text-blue-600 hover:underline font-medium ml-1">Doğrula</button>
             </div>
           </div>
         </div>

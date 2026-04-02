@@ -355,7 +355,7 @@ export default function OfflineConversions() {
                         {filters.platforms.length === 0 && <div className="w-2 h-2 bg-white rounded-full" />}
                       </div>
                       <div className="w-6 h-6 bg-gray-200 rounded flex items-center justify-center">
-                        <span className="text-[10px] font-bold text-gray-600">All</span>
+                        <span className="text-[10px] font-bold text-gray-600">Tüm</span>
                       </div>
                       <span className="text-gray-700">{lang === 'en' ? 'All Platforms' : 'Tüm Platformlar'}</span>
                       <div

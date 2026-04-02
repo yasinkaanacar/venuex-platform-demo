@@ -31,18 +31,18 @@ function getErrorsForBatch(batchId: string, platform?: Platform): ErrorItem[] {
 
     const errorsByPlatform: Record<string, ErrorItem[]> = {
         google: [
-            { id: 'e1', platform: 'google', errorType: 'GCLID Missing', errorCode: 'missing_gclid', count: 20 + (seed % 40) },
-            { id: 'e2', platform: 'google', errorType: 'Invalid Conversion Time', errorCode: 'invalid_timestamp', count: 10 + (seed % 25) },
-            { id: 'e3', platform: 'google', errorType: 'Duplicate Entry', errorCode: 'duplicate_conversion', count: 5 + (seed % 15) },
+            { id: 'e1', platform: 'google', errorType: 'GCLID Eksik', errorCode: 'missing_gclid', count: 20 + (seed % 40) },
+            { id: 'e2', platform: 'google', errorType: 'Geçersiz Dönüşüm Zamanı', errorCode: 'invalid_timestamp', count: 10 + (seed % 25) },
+            { id: 'e3', platform: 'google', errorType: 'Yinelenen Giriş', errorCode: 'duplicate_conversion', count: 5 + (seed % 15) },
         ],
         meta: [
-            { id: 'e1', platform: 'meta', errorType: 'User Data Missing', errorCode: 'missing_user_data', count: 15 + (seed % 30) },
-            { id: 'e2', platform: 'meta', errorType: 'Deduplication ID Conflict', errorCode: 'duplicate_event_id', count: 8 + (seed % 20) },
-            { id: 'e3', platform: 'meta', errorType: 'Invalid Event Name', errorCode: 'invalid_event', count: 3 + (seed % 10) },
+            { id: 'e1', platform: 'meta', errorType: 'Kullanıcı Verisi Eksik', errorCode: 'missing_user_data', count: 15 + (seed % 30) },
+            { id: 'e2', platform: 'meta', errorType: 'Tekilleştirme Kimliği Çakışması', errorCode: 'duplicate_event_id', count: 8 + (seed % 20) },
+            { id: 'e3', platform: 'meta', errorType: 'Geçersiz Etkinlik Adı', errorCode: 'invalid_event', count: 3 + (seed % 10) },
         ],
         tiktok: [
-            { id: 'e1', platform: 'tiktok', errorType: 'Access Token Expired', errorCode: 'invalid_token', count: 25 + (seed % 35) },
-            { id: 'e2', platform: 'tiktok', errorType: 'Conversion Time Format', errorCode: 'invalid_timestamp', count: 12 + (seed % 20) },
+            { id: 'e1', platform: 'tiktok', errorType: 'Erişim Jetonu Süresi Doldu', errorCode: 'invalid_token', count: 25 + (seed % 35) },
+            { id: 'e2', platform: 'tiktok', errorType: 'Dönüşüm Zamanı Formatı', errorCode: 'invalid_timestamp', count: 12 + (seed % 20) },
         ],
     };
 
@@ -52,9 +52,9 @@ function getErrorsForBatch(batchId: string, platform?: Platform): ErrorItem[] {
 
     // Mixed errors for non-platform-specific batches
     return [
-        { id: 'e1', platform: 'google', errorType: 'GCLID Missing', errorCode: 'missing_gclid', count: 20 + (seed % 40) },
-        { id: 'e2', platform: 'meta', errorType: 'User Data Missing', errorCode: 'missing_user_data', count: 15 + (seed % 25) },
-        { id: 'e3', platform: 'tiktok', errorType: 'Conversion Time Format', errorCode: 'invalid_timestamp', count: 8 + (seed % 15) },
+        { id: 'e1', platform: 'google', errorType: 'GCLID Eksik', errorCode: 'missing_gclid', count: 20 + (seed % 40) },
+        { id: 'e2', platform: 'meta', errorType: 'Kullanıcı Verisi Eksik', errorCode: 'missing_user_data', count: 15 + (seed % 25) },
+        { id: 'e3', platform: 'tiktok', errorType: 'Dönüşüm Zamanı Formatı', errorCode: 'invalid_timestamp', count: 8 + (seed % 15) },
     ];
 }
 
@@ -94,7 +94,7 @@ export default function OfflineBatchReportSheet({ isOpen, onClose, event }: Batc
                 <div className="vx-card-header py-5">
                     <div className="flex items-start justify-between mb-4">
                         <div>
-                            <h2 className="text-xl font-bold text-slate-800">Upload Batch #{event.batchId}</h2>
+                            <h2 className="text-xl font-bold text-slate-800">Yükleme Paketi #{event.batchId}</h2>
                             <span className={`inline-flex items-center mt-2 px-3 py-1 rounded-full text-sm font-medium ${
                                 isSuccess
                                     ? 'bg-green-100 text-green-700'
@@ -102,7 +102,7 @@ export default function OfflineBatchReportSheet({ isOpen, onClose, event }: Batc
                                         ? 'bg-red-100 text-red-700'
                                         : 'bg-amber-100 text-amber-700'
                             }`}>
-                                {isSuccess ? 'Completed Successfully' : event.status === 'error' ? 'Failed' : oc('completedWithIssues')}
+                                {isSuccess ? 'Başarıyla Tamamlandı' : event.status === 'error' ? 'Başarısız' : oc('completedWithIssues')}
                             </span>
                         </div>
                         <button onClick={onClose} className="p-2 hover:bg-gray-100 rounded-lg transition-colors -mr-2 -mt-1">
@@ -113,15 +113,15 @@ export default function OfflineBatchReportSheet({ isOpen, onClose, event }: Batc
                     {/* Summary Metrics */}
                     <div className="flex items-center gap-6 text-sm">
                         <div>
-                            <span className="text-slate-500">Total: </span>
+                            <span className="text-slate-500">Toplam: </span>
                             <span className="font-medium text-slate-700">{totalCount.toLocaleString('tr-TR')}</span>
                         </div>
                         <div>
-                            <span className="text-slate-500">Success: </span>
+                            <span className="text-slate-500">Başarılı: </span>
                             <span className="font-medium text-green-600">{successCount.toLocaleString('tr-TR')}</span>
                         </div>
                         <div>
-                            <span className="text-slate-500">Issues: </span>
+                            <span className="text-slate-500">Sorunlar: </span>
                             <span className="font-bold text-red-600">{issueCount.toLocaleString('tr-TR')}</span>
                         </div>
                     </div>
@@ -132,7 +132,7 @@ export default function OfflineBatchReportSheet({ isOpen, onClose, event }: Batc
                     {issueCount > 0 ? (
                         <>
                             <p className="text-sm text-slate-500 mb-4">
-                                {issueCount} items failed to upload. Grouped by error type:
+                                {issueCount} öğe yüklenemedi. Hata türüne göre gruplandırıldı:
                             </p>
                             <div className="space-y-0">
                                 {errors.map((error) => (
@@ -142,15 +142,15 @@ export default function OfflineBatchReportSheet({ isOpen, onClose, event }: Batc
                                         </div>
                                         <div className="flex-1 min-w-0">
                                             <p className="text-sm font-semibold text-slate-800">{error.errorType}</p>
-                                            <p className="text-xs font-mono text-slate-400">Error: {error.errorCode}</p>
+                                            <p className="text-xs font-mono text-slate-400">Hata: {error.errorCode}</p>
                                         </div>
                                         <div className="flex-shrink-0">
                                             <span className="inline-block px-2.5 py-1 bg-gray-100 text-slate-700 text-xs font-medium rounded-full">
-                                                {error.count} conversions
+                                                {error.count} dönüşüm
                                             </span>
                                         </div>
                                         <button className="flex items-center gap-1 text-sm text-blue-600 hover:text-blue-700 font-medium flex-shrink-0">
-                                            Preview <ChevronRight className="w-4 h-4" />
+                                            Önizleme <ChevronRight className="w-4 h-4" />
                                         </button>
                                     </div>
                                 ))}
@@ -161,8 +161,8 @@ export default function OfflineBatchReportSheet({ isOpen, onClose, event }: Batc
                             <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mb-4">
                                 <Store className="w-6 h-6 text-green-600" />
                             </div>
-                            <p className="text-sm font-medium text-slate-700">All conversions uploaded successfully</p>
-                            <p className="text-xs text-slate-500 mt-1">{totalCount.toLocaleString('tr-TR')} conversions processed</p>
+                            <p className="text-sm font-medium text-slate-700">Tüm dönüşümler başarıyla yüklendi</p>
+                            <p className="text-xs text-slate-500 mt-1">{totalCount.toLocaleString('tr-TR')} dönüşüm işlendi</p>
                         </div>
                     )}
                 </div>

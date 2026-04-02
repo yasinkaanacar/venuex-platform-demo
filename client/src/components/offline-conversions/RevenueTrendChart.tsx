@@ -192,11 +192,11 @@ function ChartTooltip({ active, payload }: any) {
             <span className="text-xs font-bold text-blue-600">{formatAxis(totalOnline)}</span>
           </div>
           <div className="flex justify-between">
-            <span className="text-xs font-medium text-emerald-500">Total</span>
+            <span className="text-xs font-medium text-emerald-500">Toplam</span>
             <span className="text-xs font-bold text-emerald-600">{formatAxis(totalOffline + totalOnline)}</span>
           </div>
           <div className="flex justify-between">
-            <span className="text-xs font-medium text-gray-400">Spend</span>
+            <span className="text-xs font-medium text-gray-400">Harcama</span>
             <span className="text-xs font-bold text-rose-500">{formatAxis(d.spend)}</span>
           </div>
           <div className="flex justify-between">
