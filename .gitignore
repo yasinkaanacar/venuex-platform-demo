@@ -48,3 +48,6 @@ venuex-monorepo-documents/
 
 # Playwright MCP
 .playwright-mcp/
+
+# Screenshots (Playwright, demo reviews, etc.)
+/*.png
