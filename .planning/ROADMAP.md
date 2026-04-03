@@ -28,7 +28,10 @@ Decimal phases appear between their surrounding integers in numeric order.
   2. Opening PostHog Activity feed and navigating between modules shows `$pageview` firing exactly once per route change (not zero, not twice)
   3. Deliberately throwing an error inside a capture wrapper does not break the page — the app continues normally
   4. Running `grep -r "posthog.capture" client/src` returns only DemoGate.tsx — no other component calls posthog directly
-**Plans**: TBD
+**Plans:** 1 plan
+
+Plans:
+- [ ] 01-01-PLAN.md — Create analytics.ts helper with typed events + validate pageview strategy
 
 ### Phase 2: Navigation
 **Goal**: Every sidebar click and every tab switch across all five modules is captured in PostHog
@@ -73,7 +76,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Foundation | 0/? | Not started | - |
+| 1. Foundation | 0/1 | Planning complete | - |
 | 2. Navigation | 0/? | Not started | - |
 | 3. Feature Depth | 0/? | Not started | - |
 | 4. Global & AI | 0/? | Not started | - |
