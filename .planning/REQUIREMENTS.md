@@ -7,10 +7,10 @@
 
 ### Foundation
 
-- [ ] **FOUND-01**: Centralized analytics.ts helper exists at client/src/lib/analytics.ts with typed event names and property interfaces
-- [ ] **FOUND-02**: All PostHog capture calls go through the analytics helper — no direct posthog.capture() in components (except existing DemoGate)
-- [ ] **FOUND-03**: Analytics helper wraps all calls in try/catch so tracking failures never break the app
-- [ ] **FOUND-04**: Pageview strategy resolved — auto-capture validated with Wouter or replaced with manual tracking
+- [x] **FOUND-01**: Centralized analytics.ts helper exists at client/src/lib/analytics.ts with typed event names and property interfaces
+- [x] **FOUND-02**: All PostHog capture calls go through the analytics helper — no direct posthog.capture() in components (except existing DemoGate)
+- [x] **FOUND-03**: Analytics helper wraps all calls in try/catch so tracking failures never break the app
+- [x] **FOUND-04**: Pageview strategy resolved — auto-capture validated with Wouter or replaced with manual tracking
 
 ### Navigation
 
@@ -62,10 +62,10 @@
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| FOUND-01 | Phase 1 | Pending |
-| FOUND-02 | Phase 1 | Pending |
-| FOUND-03 | Phase 1 | Pending |
-| FOUND-04 | Phase 1 | Pending |
+| FOUND-01 | Phase 1 | Complete |
+| FOUND-02 | Phase 1 | Complete |
+| FOUND-03 | Phase 1 | Complete |
+| FOUND-04 | Phase 1 | Complete |
 | NAV-01 | Phase 2 | Pending |
 | NAV-02 | Phase 2 | Pending |
 | NAV-03 | Phase 2 | Pending |
