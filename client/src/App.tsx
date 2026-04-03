@@ -12,6 +12,8 @@ import { LanguageProvider } from "@/contexts/LanguageContext";
 import { BrandProvider } from "@/contexts/BrandContext";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { PATHS, standaloneRoutes, appRoutes, NotFound } from "@/routes";
+import DemoGate from "@/components/shared/DemoGate";
+
 
 function Router() {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
@@ -98,7 +100,9 @@ function App() {
           <AuthProvider>
             <BrandProvider>
               <LanguageProvider>
-                <Router />
+                <DemoGate>
+                  <Router />
+                </DemoGate>
               </LanguageProvider>
             </BrandProvider>
           </AuthProvider>
