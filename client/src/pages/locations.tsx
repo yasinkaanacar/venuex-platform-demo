@@ -42,6 +42,7 @@ import {
 import { Store, User, Check, Search, GitCompare, X, TrendingUp, ChevronLeft, ChevronRight, ChevronDown, Clock, Globe, Smartphone, ThumbsUp, Plus, Sparkles, MapPin, Map, Info, AlertTriangle } from 'lucide-react';
 import { Tooltip } from '@mui/material';
 import { useTranslation } from '@/contexts/LanguageContext';
+import { trackTabSwitch } from '@/lib/analytics';
 
 // Chart data for Business Profile Interaction
 const chartData = [
@@ -425,21 +426,21 @@ export default function LocationsPage() {
         <div className="px-6 py-2">
           <div className="vx-tabs">
             <button
-              onClick={() => setMainTab('locations')}
+              onClick={() => { setMainTab('locations'); trackTabSwitch({ module: 'locations', tab_name: 'store-profiles' }); }}
               className={`vx-tab ${mainTab === 'locations' ? 'vx-tab-active' : ''}`}
               data-testid="tab-locations"
             >
               {t.dashboard.locations}
             </button>
             <button
-              onClick={() => setMainTab('performance')}
+              onClick={() => { setMainTab('performance'); trackTabSwitch({ module: 'locations', tab_name: 'performance' }); }}
               className={`vx-tab ${mainTab === 'performance' ? 'vx-tab-active' : ''}`}
               data-testid="tab-performance"
             >
               {t.common.performance}
             </button>
             <button
-              onClick={() => setMainTab('posts')}
+              onClick={() => { setMainTab('posts'); trackTabSwitch({ module: 'locations', tab_name: 'posts' }); }}
               className={`vx-tab ${mainTab === 'posts' ? 'vx-tab-active' : ''}`}
               data-testid="tab-posts"
             >

@@ -26,6 +26,7 @@ import ReviewLocationsTable from '@/components/reviews/ReviewLocationsTable';
 import AlertSettingsDialog from '@/components/reviews/AlertSettingsDialog';
 import ReplyTemplatesDialog from '@/components/reviews/ReplyTemplatesDialog';
 import AiSettingsDialog from '@/components/reviews/AiSettingsDialog';
+import { trackTabSwitch } from '@/lib/analytics';
 
 type ActiveTab = 'overview' | 'inbox' | 'locations';
 
@@ -134,6 +135,7 @@ export default function Reviews() {
 
   // ── Handlers ────────────────────────────────────────────────────────────
   const handleTabChange = (tab: ActiveTab) => {
+    trackTabSwitch({ module: 'reviews', tab_name: tab });
     setActiveTab(tab);
     if (tab === 'inbox') {
       setTimeout(() => {
