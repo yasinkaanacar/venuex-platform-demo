@@ -19,6 +19,7 @@ import GeographicPerformance from '../components/offline-conversions/GeographicP
 import { useFilteredCampaigns } from '@/hooks/useFilteredCampaigns';
 import { mockCampaigns, googleAdsAccounts } from '@/lib/mock/campaigns';
 import { useTranslation } from '@/contexts/LanguageContext';
+import { trackTabSwitch } from '@/lib/analytics';
 
 // --- Filter Options ---
 
@@ -86,6 +87,13 @@ export interface PageFilterState {
 
 type TabKey = 'ozet' | 'performans' | 'kampanyalar' | 'veri_baglantisi';
 
+const OC_TAB_NAMES: Record<TabKey, string> = {
+  ozet: 'summary',
+  performans: 'performance',
+  kampanyalar: 'campaigns',
+  veri_baglantisi: 'data-connection',
+};
+
 // --- Component ---
 
 export default function OfflineConversions() {
@@ -101,6 +109,11 @@ export default function OfflineConversions() {
 
   const [mainTab, setMainTab] = useState<TabKey>('ozet');
   const { t, language } = useTranslation();
+
+  const handleMainTabChange = (tab: TabKey) => {
+    setMainTab(tab);
+    trackTabSwitch({ module: 'offline-conversions', tab_name: OC_TAB_NAMES[tab] });
+  };
   const lang = language as 'en' | 'tr';
 
   const [campaignSearch, setCampaignSearch] = useState("");
@@ -285,7 +298,7 @@ export default function OfflineConversions() {
               {tabs.map(tab => (
                 <button
                   key={tab.key}
-                  onClick={() => setMainTab(tab.key)}
+                  onClick={() => handleMainTabChange(tab.key)}
                   className={`vx-tab ${mainTab === tab.key ? 'vx-tab-active' : ''}`}
                   data-testid={tab.testId}
                 >
@@ -615,7 +628,7 @@ export default function OfflineConversions() {
             <div className="vx-section-stack">
               <TopCampaignsQuickList
                 campaigns={filteredCampaigns}
-                onNavigateToTab={(tab) => setMainTab(tab as TabKey)}
+                onNavigateToTab={(tab) => handleMainTabChange(tab as TabKey)}
               />
             </div>
           </>

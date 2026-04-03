@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { trackTabSwitch } from '@/lib/analytics';
 import { useLocales } from "@/lib/formatters";
 import SegmentSummaryCards from "@/components/segments/SegmentSummaryCards";
 import SegmentListTable from "@/components/segments/SegmentListTable";
@@ -17,14 +18,14 @@ export default function Segments() {
         <div className="px-6 py-3">
           <div className="vx-tabs">
             <button
-              onClick={() => setMainTab("audiences")}
+              onClick={() => { setMainTab("audiences"); trackTabSwitch({ module: 'segments', tab_name: 'audiences' }); }}
               className={`vx-tab ${mainTab === "audiences" ? "vx-tab-active" : ""}`}
               data-testid="tab-audiences"
             >
               {t("segments.tabs.audiences") || "Audiences"}
             </button>
             <button
-              onClick={() => setMainTab("platform_push")}
+              onClick={() => { setMainTab("platform_push"); trackTabSwitch({ module: 'segments', tab_name: 'platform-push' }); }}
               className={`vx-tab ${mainTab === "platform_push" ? "vx-tab-active" : ""}`}
               data-testid="tab-platform-push"
             >

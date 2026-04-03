@@ -8,6 +8,7 @@ import ActivityLog from '@/components/catalog/ActivityLog';
 
 import { Skeleton } from '@mui/material';
 import { RefreshCw, AlertCircle } from 'lucide-react';
+import { trackTabSwitch } from '@/lib/analytics';
 
 type TabId = 'dashboard' | 'activity';
 
@@ -57,7 +58,7 @@ export default function Catalog() {
             {tabs.map((tab) => (
               <button
                 key={tab.id}
-                onClick={() => setActiveTab(tab.id)}
+                onClick={() => { setActiveTab(tab.id); trackTabSwitch({ module: 'catalog', tab_name: tab.id }); }}
                 className={`px-4 py-2 text-sm font-medium rounded-md transition-all duration-200 ${
                   activeTab === tab.id
                     ? 'bg-white text-gray-900 shadow-sm'
