@@ -2,7 +2,7 @@ import { useState, useMemo } from "react";
 import { ChevronRight, Info, Phone, Navigation, Eye, MousePointer, AlertTriangle, CheckCircle2 } from "lucide-react";
 import { SiGoogle, SiMeta, SiApple } from 'react-icons/si';
 import { Tooltip } from "@/components/ui/tooltip";
-import { mockLocations, calculateDataHealth, LocationData } from "@/lib/mock-locations";
+import { mockLocations, calculateDataHealth, LocationData } from "@/lib/mock/locations-platform";
 
 // --- Types & Interfaces ---
 
@@ -217,8 +217,8 @@ export function PlatformSummaryNew() {
         // 1. Business Status Counts
         const businessStatus = {
             open: mockLocations.filter(l => l.businessStatus === 'open').length,
-            temporarilyClosed: mockLocations.filter(l => l.businessStatus === 'temporarily_closed').length,
-            closed: mockLocations.filter(l => l.businessStatus === 'closed').length
+            temporarilyClosed: mockLocations.filter(l => l.businessStatus === 'closed_temporarily').length,
+            closed: mockLocations.filter(l => l.businessStatus === 'closed_permanently').length
         };
 
         // 2. Data Quality

@@ -26,7 +26,7 @@ import {
   PlatformKey,
   calculateDataHealth,
   allFieldsInfo
-} from '@/lib/mock-locations';
+} from '@/lib/mock/locations-platform';
 
 
 
@@ -223,19 +223,26 @@ const getBusinessStatusConfig = (status: BusinessStatus) => {
         bgColor: 'bg-emerald-50',
         dotColor: 'bg-emerald-500'
       };
-    case 'closed':
+    case 'closed_permanently':
       return {
         label: 'Kapalı',
         color: 'text-slate-500',
         bgColor: 'bg-slate-100',
         dotColor: 'bg-slate-400'
       };
-    case 'temporarily_closed':
+    case 'closed_temporarily':
       return {
         label: 'Geçici Kapalı',
         color: 'text-amber-600',
         bgColor: 'bg-amber-50',
         dotColor: 'bg-amber-500'
+      };
+    default:
+      return {
+        label: status,
+        color: 'text-slate-500',
+        bgColor: 'bg-slate-100',
+        dotColor: 'bg-slate-400'
       };
   }
 };
@@ -1607,7 +1614,7 @@ function PlatformCell({
   const [isOpen, setIsOpen] = useState(false);
 
   // If business is closed, show passive status for all platforms
-  const isBusinessClosed = location.businessStatus === 'closed' || location.businessStatus === 'temporarily_closed';
+  const isBusinessClosed = location.businessStatus === 'closed_permanently' || location.businessStatus === 'closed_temporarily';
   const effectiveStatus = isBusinessClosed ? 'not_connected' : platform.status;
   const statusConfig = getStatusConfig(effectiveStatus);
   const isPassive = effectiveStatus === 'not_connected' || effectiveStatus === 'closed';

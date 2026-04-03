@@ -151,3 +151,25 @@ export interface LocationsFilterState {
   compareEndDate?: Date;
   showProblemsOnly?: boolean;
 }
+
+/**
+ * Legacy view-model used by older LocationTable & DetailsDrawer components.
+ * Maps flat fields that those components expect. New code should use LocationDto.
+ */
+export interface Location {
+  id: string;
+  name: string;
+  code: string;
+  city: string;
+  district: string;
+  addressLine: string;
+  phone: string;
+  hoursLabel: string;
+  dataHealth: DataHealth;
+  channels: Record<Channel, ChannelInfo>;
+  lastSync: string | null;
+  status: LocationStatusEnum;
+  website?: string;
+  email?: string;
+  imageUrl?: string;
+}

@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, Typography } from '@mui/material';
 import { Button } from '@mui/material';
 import { Accordion, AccordionSummary, AccordionDetails } from '@mui/material';
 import { Alert as AlertType } from '@shared/schema';
-import { CheckCircle, AlertTriangle, AlertCircle, X, ChevronDown, ChevronUp, ExpandMore } from 'lucide-react';
+import { CheckCircle, AlertTriangle, AlertCircle, X, ChevronDown, ChevronUp } from 'lucide-react';
 
 interface AlertsNotificationsProps {
   alerts?: AlertType[];

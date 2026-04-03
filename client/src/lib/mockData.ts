@@ -1,6 +1,6 @@
 import { OverviewData } from '@/lib/types';
 import { EnrichmentSuggestion } from '@/../../shared/schema';
-import { segmentDataService } from './mock-segments-data';
+import { segmentDataService } from './mock/segments';
 
 // Mock overview data
 export const mockOverviewData: OverviewData = {
