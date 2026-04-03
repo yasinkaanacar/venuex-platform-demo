@@ -15,17 +15,17 @@ import posthog from 'posthog-js';
 
 export const ANALYTICS_EVENTS = {
   // Phase 2: Navigation
-  SIDEBAR_NAV_CLICKED: 'sidebar_nav_clicked',
-  TAB_SWITCHED: 'tab_switched',
+  SIDEBAR_NAV_CLICKED: 'demo_sidebar_nav_clicked',
+  TAB_SWITCHED: 'demo_tab_switched',
 
   // Phase 3: Feature Depth
-  LOCATION_VIEWED: 'location_viewed',
-  LOCATION_ACTION: 'location_action',
+  LOCATION_VIEWED: 'demo_location_viewed',
+  LOCATION_ACTION: 'demo_location_action',
 
   // Phase 4: Global & AI
-  FILTER_CHANGED: 'filter_changed',
-  AI_CHAT_MESSAGE_SENT: 'ai_chat_message_sent',
-  AI_EXAMPLE_QUESTION_CLICKED: 'ai_example_question_clicked',
+  FILTER_CHANGED: 'demo_filter_changed',
+  AI_CHAT_MESSAGE_SENT: 'demo_ai_chat_message_sent',
+  AI_EXAMPLE_QUESTION_CLICKED: 'demo_ai_example_question_clicked',
 } as const;
 
 export type AnalyticsEvent = (typeof ANALYTICS_EVENTS)[keyof typeof ANALYTICS_EVENTS];
@@ -64,7 +64,7 @@ export interface AiChatMessageSentProps {
 
 export const trackSidebarNav = (props: SidebarNavClickedProps) => {
   try {
-    posthog.capture(ANALYTICS_EVENTS.SIDEBAR_NAV_CLICKED, props);
+    posthog.capture(ANALYTICS_EVENTS.SIDEBAR_NAV_CLICKED, { ...props, source: 'demo' });
   } catch (e) {
     console.warn('[analytics]', e);
   }
@@ -72,7 +72,7 @@ export const trackSidebarNav = (props: SidebarNavClickedProps) => {
 
 export const trackTabSwitch = (props: TabSwitchedProps) => {
   try {
-    posthog.capture(ANALYTICS_EVENTS.TAB_SWITCHED, props);
+    posthog.capture(ANALYTICS_EVENTS.TAB_SWITCHED, { ...props, source: 'demo' });
   } catch (e) {
     console.warn('[analytics]', e);
   }
@@ -80,7 +80,7 @@ export const trackTabSwitch = (props: TabSwitchedProps) => {
 
 export const trackLocationViewed = (props: LocationViewedProps) => {
   try {
-    posthog.capture(ANALYTICS_EVENTS.LOCATION_VIEWED, props);
+    posthog.capture(ANALYTICS_EVENTS.LOCATION_VIEWED, { ...props, source: 'demo' });
   } catch (e) {
     console.warn('[analytics]', e);
   }
@@ -88,7 +88,7 @@ export const trackLocationViewed = (props: LocationViewedProps) => {
 
 export const trackLocationAction = (props: LocationActionProps) => {
   try {
-    posthog.capture(ANALYTICS_EVENTS.LOCATION_ACTION, props);
+    posthog.capture(ANALYTICS_EVENTS.LOCATION_ACTION, { ...props, source: 'demo' });
   } catch (e) {
     console.warn('[analytics]', e);
   }
@@ -96,7 +96,7 @@ export const trackLocationAction = (props: LocationActionProps) => {
 
 export const trackFilterChanged = (props: FilterChangedProps) => {
   try {
-    posthog.capture(ANALYTICS_EVENTS.FILTER_CHANGED, props);
+    posthog.capture(ANALYTICS_EVENTS.FILTER_CHANGED, { ...props, source: 'demo' });
   } catch (e) {
     console.warn('[analytics]', e);
   }
@@ -104,7 +104,7 @@ export const trackFilterChanged = (props: FilterChangedProps) => {
 
 export const trackAiChatMessageSent = (props: AiChatMessageSentProps) => {
   try {
-    posthog.capture(ANALYTICS_EVENTS.AI_CHAT_MESSAGE_SENT, props);
+    posthog.capture(ANALYTICS_EVENTS.AI_CHAT_MESSAGE_SENT, { ...props, source: 'demo' });
   } catch (e) {
     console.warn('[analytics]', e);
   }
@@ -112,7 +112,7 @@ export const trackAiChatMessageSent = (props: AiChatMessageSentProps) => {
 
 export const trackAiExampleQuestionClicked = () => {
   try {
-    posthog.capture(ANALYTICS_EVENTS.AI_EXAMPLE_QUESTION_CLICKED);
+    posthog.capture(ANALYTICS_EVENTS.AI_EXAMPLE_QUESTION_CLICKED, { source: 'demo' });
   } catch (e) {
     console.warn('[analytics]', e);
   }
