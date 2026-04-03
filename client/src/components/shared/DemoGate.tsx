@@ -1,4 +1,5 @@
 import { useState, useCallback, type ReactNode, type FormEvent } from "react";
+import posthog from "posthog-js";
 import venueXLogo from "@assets/vx-logo-1000x1000_1756566252817.png";
 
 const STORAGE_KEY = "venuex_demo_lead";
@@ -52,15 +53,12 @@ export default function DemoGate({ children }: { children: ReactNode }) {
 
       localStorage.setItem(STORAGE_KEY, JSON.stringify(lead));
 
-      const ph = (window as any).posthog;
-      if (ph) {
-        ph.identify(lead.email, {
-          email: lead.email,
-          company_name: lead.company,
-          demo_accessed_at: lead.timestamp,
-        });
-        ph.capture("demo_gate_submitted", { company_name: lead.company });
-      }
+      posthog.identify(lead.email, {
+        email: lead.email,
+        company_name: lead.company,
+        demo_accessed_at: lead.timestamp,
+      });
+      posthog.capture("demo_gate_submitted", { company_name: lead.company });
 
       setGated(false);
     },
