@@ -16,10 +16,23 @@ import {
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { PATHS } from '@/routes/paths';
+import { trackSidebarNav } from '@/lib/analytics';
 import { useLocales } from '@/lib/formatters';
 import venueXLogo from '@assets/vx-logo-1000x1000_1756566252817.png';
 import venueXLogoSmall from '@assets/vx-logo-1000x1000_1764141281095.png';
 import venueXFavicon from '@assets/favicon_1765178591266.png';
+
+const MODULE_NAMES: Record<string, string> = {
+  [PATHS.HOME]: 'overview',
+  [PATHS.LOCATIONS]: 'locations',
+  [PATHS.REVIEWS]: 'reviews',
+  [PATHS.CATALOG]: 'catalog',
+  [PATHS.OFFLINE_CONVERSIONS]: 'offline-conversions',
+  [PATHS.SEGMENTS]: 'segments',
+  [PATHS.VENUEX_AI]: 'venuex-ai',
+  [PATHS.SETTINGS]: 'settings',
+  [PATHS.PROFILE]: 'team',
+};
 
 const recentChatKeys = [
   { id: '1', key: 'ratingDropAnalysis' },
@@ -68,7 +81,7 @@ export default function Sidebar({ collapsed, onToggle }: SidebarProps) {
     )}>
       {/* Logo Area */}
       <div className="h-20">
-        <Link href={PATHS.HOME}>
+        <Link href={PATHS.HOME} onClick={() => trackSidebarNav({ to: PATHS.HOME, from: location, module: MODULE_NAMES[PATHS.HOME] ?? PATHS.HOME })}>
           <div className="flex items-center justify-center h-full cursor-pointer">
             {!collapsed && (
               <img
@@ -134,7 +147,7 @@ export default function Sidebar({ collapsed, onToggle }: SidebarProps) {
                 <li key={item.href}>
                   <div>
                     <div className="flex items-center">
-                      <Link href={item.href} className="flex-1">
+                      <Link href={item.href} className="flex-1" onClick={() => trackSidebarNav({ to: item.href, from: location, module: MODULE_NAMES[item.href] ?? item.href })}>
                         <div
                           className={cn(
                             "flex items-center gap-3 rounded-md text-sm transition-colors cursor-pointer px-3 py-2",
@@ -164,7 +177,7 @@ export default function Sidebar({ collapsed, onToggle }: SidebarProps) {
                           const chatTitle = t(`sidebar.menu.${chat.key}`) || chat.key;
                           return (
                           <li key={chat.id}>
-                            <Link href={PATHS.VENUEX_AI}>
+                            <Link href={PATHS.VENUEX_AI} onClick={() => trackSidebarNav({ to: PATHS.VENUEX_AI, from: location, module: MODULE_NAMES[PATHS.VENUEX_AI] ?? PATHS.VENUEX_AI })}>
                               <div
                                 className="px-3 py-2 text-xs text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded cursor-pointer truncate"
                                 data-testid={`chat-link-${chat.id}`}
@@ -186,7 +199,7 @@ export default function Sidebar({ collapsed, onToggle }: SidebarProps) {
             // Standard nav item
             return (
               <li key={item.href}>
-                <Link href={item.href}>
+                <Link href={item.href} onClick={() => trackSidebarNav({ to: item.href, from: location, module: MODULE_NAMES[item.href] ?? item.href })}>
                   <div
                     className={cn(
                       "flex items-center rounded-md text-sm transition-colors cursor-pointer",
@@ -217,7 +230,7 @@ export default function Sidebar({ collapsed, onToggle }: SidebarProps) {
           >
             <ChevronRight className="w-5 h-5 text-gray-500" />
           </button>
-          <Link href={PATHS.SETTINGS}>
+          <Link href={PATHS.SETTINGS} onClick={() => trackSidebarNav({ to: PATHS.SETTINGS, from: location, module: MODULE_NAMES[PATHS.SETTINGS] ?? PATHS.SETTINGS })}>
             <div
               className={cn(
                 "p-2 rounded-md transition-colors cursor-pointer",
@@ -228,7 +241,7 @@ export default function Sidebar({ collapsed, onToggle }: SidebarProps) {
               <Settings className="w-5 h-5" />
             </div>
           </Link>
-          <Link href={PATHS.PROFILE}>
+          <Link href={PATHS.PROFILE} onClick={() => trackSidebarNav({ to: PATHS.PROFILE, from: location, module: MODULE_NAMES[PATHS.PROFILE] ?? PATHS.PROFILE })}>
             <div
               className="p-1 rounded-md hover:bg-gray-100 transition-colors cursor-pointer"
               title={mockUserName}
@@ -251,7 +264,7 @@ export default function Sidebar({ collapsed, onToggle }: SidebarProps) {
               <ChevronLeft className="w-5 h-5 text-gray-500" />
             </button>
             <div className="flex-1" />
-            <Link href={PATHS.SETTINGS}>
+            <Link href={PATHS.SETTINGS} onClick={() => trackSidebarNav({ to: PATHS.SETTINGS, from: location, module: MODULE_NAMES[PATHS.SETTINGS] ?? PATHS.SETTINGS })}>
               <div
                 className={cn(
                   "p-2 rounded-md transition-colors cursor-pointer",
@@ -262,7 +275,7 @@ export default function Sidebar({ collapsed, onToggle }: SidebarProps) {
                 <Settings className="w-5 h-5" />
               </div>
             </Link>
-            <Link href={PATHS.PROFILE}>
+            <Link href={PATHS.PROFILE} onClick={() => trackSidebarNav({ to: PATHS.PROFILE, from: location, module: MODULE_NAMES[PATHS.PROFILE] ?? PATHS.PROFILE })}>
               <div
                 className="p-1 rounded-md hover:bg-gray-100 transition-colors cursor-pointer"
                 title={mockUserName}
