@@ -19,8 +19,7 @@ Thumbs.db
 .idea
 
 # AI agent local config
-.claude/*
-!.claude/settings.json
+.claude/
 .codex/
 .agent/
 plans/
@@ -51,7 +50,7 @@ npm-debug.log*
 *.tar.gz
 
 # GSD planning / roadmap files
-# .planning/ — tracked per project config
+.planning/
 
 # Internal monorepo documents
 venuex-monorepo-documents/
