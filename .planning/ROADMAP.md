@@ -42,7 +42,11 @@ Plans:
   2. Switching tabs in the Locations module fires `tab_switched` with `module: "locations"` and the correct `tab_name`
   3. Switching tabs in Reviews, Catalog, Offline Conversions, and Segments each fire `tab_switched` with their respective module names
   4. PostHog shows a navigable funnel: which module visitors land on first and where they go next
-**Plans**: TBD
+**Plans:** 2 plans
+
+Plans:
+- [ ] 02-01-PLAN.md — Namespace analytics.ts events with demo_ prefix + instrument sidebar navigation clicks
+- [ ] 02-02-PLAN.md — Instrument tab switch tracking across all five tabbed modules
 **UI hint**: yes
 
 ### Phase 3: Feature Depth
@@ -77,6 +81,6 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Foundation | 1/1 | Complete   | 2026-04-03 |
-| 2. Navigation | 0/? | Not started | - |
+| 2. Navigation | 0/2 | Not started | - |
 | 3. Feature Depth | 0/? | Not started | - |
 | 4. Global & AI | 0/? | Not started | - |
