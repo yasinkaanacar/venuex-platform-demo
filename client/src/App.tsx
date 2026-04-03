@@ -5,6 +5,7 @@ import Sidebar from "@/components/layout/sidebar";
 import Header from "@/components/layout/Header";
 import { useState, useEffect } from "react";
 import { useLocation } from "wouter";
+import { usePostHog } from "posthog-js/react";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { CssBaseline } from "@mui/material";
 import { SnackbarProvider } from 'notistack';
@@ -18,6 +19,7 @@ import DemoGate from "@/components/shared/DemoGate";
 function Router() {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [location] = useLocation();
+  const posthogInstance = usePostHog();
 
   const toggleSidebar = () => {
     setSidebarCollapsed(!sidebarCollapsed);
@@ -28,6 +30,10 @@ function Router() {
       setSidebarCollapsed(true);
     }
   }, [location]);
+
+  useEffect(() => {
+    posthogInstance?.capture('$pageview');
+  }, [location, posthogInstance]);
 
   return (
     <Switch>

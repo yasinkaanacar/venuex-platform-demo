@@ -6,6 +6,7 @@ import "./index.css";
 
 posthog.init("phc_4zYXhobdCe3U5MtVSkgGgBFYbl8gBCO4TtCt20YgoBC", {
   api_host: "https://eu.i.posthog.com",
+  capture_pageview: false,
   defaults: "2025-01-01",
 });
 
