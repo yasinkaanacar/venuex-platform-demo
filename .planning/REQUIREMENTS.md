@@ -14,12 +14,12 @@
 
 ### Navigation
 
-- [ ] **NAV-01**: Sidebar navigation clicks fire sidebar_nav_clicked event with destination and source page
-- [ ] **NAV-02**: Tab switches in Locations module fire tab_switched event with module and tab_name
-- [ ] **NAV-03**: Tab switches in Reviews module fire tab_switched event with module and tab_name
-- [ ] **NAV-04**: Tab switches in Catalog module fire tab_switched event with module and tab_name
-- [ ] **NAV-05**: Tab switches in Offline Conversions module fire tab_switched event with module and tab_name
-- [ ] **NAV-06**: Tab switches in Segments module fire tab_switched event with module and tab_name
+- [x] **NAV-01**: Sidebar navigation clicks fire sidebar_nav_clicked event with destination and source page
+- [x] **NAV-02**: Tab switches in Locations module fire tab_switched event with module and tab_name
+- [x] **NAV-03**: Tab switches in Reviews module fire tab_switched event with module and tab_name
+- [x] **NAV-04**: Tab switches in Catalog module fire tab_switched event with module and tab_name
+- [x] **NAV-05**: Tab switches in Offline Conversions module fire tab_switched event with module and tab_name
+- [x] **NAV-06**: Tab switches in Segments module fire tab_switched event with module and tab_name
 
 ### Feature Depth
 
@@ -66,12 +66,12 @@
 | FOUND-02 | Phase 1 | Complete |
 | FOUND-03 | Phase 1 | Complete |
 | FOUND-04 | Phase 1 | Complete |
-| NAV-01 | Phase 2 | Pending |
-| NAV-02 | Phase 2 | Pending |
-| NAV-03 | Phase 2 | Pending |
-| NAV-04 | Phase 2 | Pending |
-| NAV-05 | Phase 2 | Pending |
-| NAV-06 | Phase 2 | Pending |
+| NAV-01 | Phase 2 | Complete |
+| NAV-02 | Phase 2 | Complete |
+| NAV-03 | Phase 2 | Complete |
+| NAV-04 | Phase 2 | Complete |
+| NAV-05 | Phase 2 | Complete |
+| NAV-06 | Phase 2 | Complete |
 | FEAT-01 | Phase 3 | Pending |
 | FEAT-02 | Phase 3 | Pending |
 | FEAT-03 | Phase 3 | Pending |

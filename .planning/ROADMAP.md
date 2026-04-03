@@ -46,7 +46,7 @@ Plans:
 
 Plans:
 - [x] 02-01-PLAN.md — Namespace analytics.ts events with demo_ prefix + instrument sidebar navigation clicks
-- [ ] 02-02-PLAN.md — Instrument tab switch tracking across all five tabbed modules
+- [x] 02-02-PLAN.md — Instrument tab switch tracking across all five tabbed modules
 **UI hint**: yes
 
 ### Phase 3: Feature Depth
