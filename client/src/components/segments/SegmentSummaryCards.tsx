@@ -1,4 +1,4 @@
-import { Users, Radio, Tag, TrendingUp } from "lucide-react";
+import { Users, Radio, TrendingUp } from "lucide-react";
 import { useLocales, fNumber, fPercent } from "@/lib/formatters";
 import { useBrandContext } from "@/hooks/useAuth";
 import { useApiSegmentsSummary } from "@/hooks/api";
@@ -31,13 +31,6 @@ export default function SegmentSummaryCards() {
       iconBg: "bg-green-100",
     },
     {
-      title: t("segments.summary.activeLabels") || "Active Labels",
-      value: summary ? String(summary.activeLabels) : "—",
-      icon: Tag,
-      iconColor: "text-teal-600",
-      iconBg: "bg-teal-100",
-    },
-    {
       title: t("segments.summary.avgMatchRate") || "Avg. Match Rate",
       value: summary ? fPercent(summary.avgMatchRate) : "—",
       icon: TrendingUp,
@@ -48,7 +41,7 @@ export default function SegmentSummaryCards() {
 
   return (
     <div className="px-6 pt-6">
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {cards.map((card) => (
           <div
             key={card.title}

@@ -3,9 +3,8 @@ import { useLocales } from "@/lib/formatters";
 import SegmentSummaryCards from "@/components/segments/SegmentSummaryCards";
 import SegmentListTable from "@/components/segments/SegmentListTable";
 import PlatformPushDashboard from "@/components/segments/PlatformPushDashboard";
-import FeedLabelDashboard from "@/components/segments/FeedLabelDashboard";
 
-type Tab = "audiences" | "platform_push" | "feed_labels";
+type Tab = "audiences" | "platform_push";
 
 export default function Segments() {
   const [mainTab, setMainTab] = useState<Tab>("audiences");
@@ -31,13 +30,6 @@ export default function Segments() {
             >
               {t("segments.tabs.platformPush") || "Platform Push"}
             </button>
-            <button
-              onClick={() => setMainTab("feed_labels")}
-              className={`vx-tab ${mainTab === "feed_labels" ? "vx-tab-active" : ""}`}
-              data-testid="tab-feed-labels"
-            >
-              {t("segments.tabs.feedLabels") || "Feed Labels"}
-            </button>
           </div>
         </div>
       </div>
@@ -54,7 +46,6 @@ export default function Segments() {
         )}
 
         {mainTab === "platform_push" && <PlatformPushDashboard />}
-        {mainTab === "feed_labels" && <FeedLabelDashboard />}
       </div>
     </div>
   );
